@@ -81,8 +81,8 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
 
 #pragma mark - actions
 - (IBAction)nextBtnPressed:(id)sender {
-    SignInViewController * SignInVC = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-    [self.navigationController pushViewController:SignInVC animated:YES];
+    SignInViewController * signInVC = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+    [self.navigationController pushViewController:signInVC animated:YES];
 }
 
 #pragma mark - DropDownList delegate

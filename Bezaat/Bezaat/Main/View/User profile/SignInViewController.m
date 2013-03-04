@@ -46,19 +46,21 @@
     userSignedIn = YES;
     if (userSignedIn)
     {
-        ChooseActionViewController * ChooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+        ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
         
-        [self.navigationController pushViewController:ChooseActionVC animated:YES];
+        [self.navigationController pushViewController:chooseActionVC animated:YES];
     }
 }
 
 - (IBAction)signUpBtnPressed:(id)sender {
+    SignUpViewController * signUpVC = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    [self.navigationController pushViewController:signUpVC animated:YES];
 }
 
 - (IBAction)skipBtnPressed:(id)sender {
     
-    ChooseActionViewController * ChooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     
-    [self.navigationController pushViewController:ChooseActionVC animated:YES];
+    [self.navigationController pushViewController:chooseActionVC animated:YES];
 }
 @end
