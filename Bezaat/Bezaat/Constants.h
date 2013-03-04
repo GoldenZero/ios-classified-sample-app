@@ -85,4 +85,6 @@
 #define MUSCAT_CITY_NAME    @"مسقط"
 #define JERUSALEM_CITY_NAME @"القدس"
 
+#define BRAND_THUMB_SIZE    90.0f
+#define BRANDS_COUNT        10
 #endif

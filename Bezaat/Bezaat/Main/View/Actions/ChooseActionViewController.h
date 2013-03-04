@@ -13,11 +13,16 @@
 
 
 #import <UIKit/UIKit.h>
+#import "ChooseBrandViewController.h"
 
 @interface ChooseActionViewController : UIViewController
 
 #pragma mark - properties
 
 #pragma mark - actions
+- (IBAction)AddNewCarAdBtnPressed:(id)sender;
+- (IBAction)BuyCarBtnPressed:(id)sender;
+
+- (IBAction)AddNewStoreBtnPressed:(id)sender;
 
 @end

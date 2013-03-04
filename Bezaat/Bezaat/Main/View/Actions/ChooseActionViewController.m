@@ -34,4 +34,16 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - actions
+- (IBAction)AddNewCarAdBtnPressed:(id)sender {
+}
+
+- (IBAction)BuyCarBtnPressed:(id)sender {
+    ChooseBrandViewController * chooseBrandVC = [[ChooseBrandViewController alloc] initWithNibName:@"ChooseBrandViewController" bundle:nil];
+    [self.navigationController pushViewController:chooseBrandVC animated:YES];
+}
+
+- (IBAction)AddNewStoreBtnPressed:(id)sender {
+}
 @end

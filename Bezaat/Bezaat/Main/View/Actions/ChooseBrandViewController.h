@@ -8,10 +8,12 @@
 // This UI is displayed to choose a car brand and sub brand before browsing cars.
 
 #import <UIKit/UIKit.h>
+#import "BrandCell.h"
 
-@interface ChooseBrandViewController : UIViewController
+@interface ChooseBrandViewController : UIViewController <PSUICollectionViewDelegate, PSUICollectionViewDataSource>
 
 #pragma mark - properties
+@property (weak, nonatomic) IBOutlet PSUICollectionView *collectionView;
 
 #pragma mark - actions
 
