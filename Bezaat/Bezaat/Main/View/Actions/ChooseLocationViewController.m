@@ -79,6 +79,12 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - actions
+- (IBAction)nextBtnPressed:(id)sender {
+    SignInViewController * SignInVC = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+    [self.navigationController pushViewController:SignInVC animated:YES];
+}
+
 #pragma mark - DropDownList delegate
 
 - (void) dropDownListItemDidSelected:(DropDownList*) theDropDownList WithNumber:(int) k
@@ -427,4 +433,5 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     //[citiesLst.theTransparentOverlay.table reloadData];
     
 }
+
 @end

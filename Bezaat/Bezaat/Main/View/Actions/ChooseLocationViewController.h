@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DropDownList.h"
+#import "SignInViewController.h"
 
 @interface ChooseLocationViewController : UIViewController <DropDownListDelegate>
 
@@ -17,5 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 
 #pragma mark - actions
+- (IBAction)nextBtnPressed:(id)sender;
 
 @end
