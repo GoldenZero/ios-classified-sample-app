@@ -9,7 +9,7 @@
 #ifndef Bezaat_Brands_h
 #define Bezaat_Brands_h
 
-enum CarBrand       {};
+enum CarBrand       {Brand1};
 
 //add sub brands here as enums
 //...

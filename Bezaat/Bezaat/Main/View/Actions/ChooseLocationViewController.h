@@ -9,10 +9,12 @@
 // It is responsible for displaying countries and cities with map images as background to let the user choose from.
 
 #import <UIKit/UIKit.h>
+#import "DropDownList.h"
 
-@interface ChooseLocationViewController : UIViewController
+@interface ChooseLocationViewController : UIViewController <DropDownListDelegate>
 
 #pragma mark - properties
+@property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 
 #pragma mark - methods
 

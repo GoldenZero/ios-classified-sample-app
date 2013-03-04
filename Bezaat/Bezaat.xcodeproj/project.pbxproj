@@ -50,6 +50,20 @@
 		9E78A84C16E363FC000CA790 /* CarAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A84B16E363FC000CA790 /* CarAd.m */; };
 		9E78A84F16E36425000CA790 /* StoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A84E16E36425000CA790 /* StoreManager.m */; };
 		9E78A85216E3643B000CA790 /* Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A85116E3643B000CA790 /* Store.m */; };
+		9E78A86816E49A52000CA790 /* BaseDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A85916E49A52000CA790 /* BaseDataObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9E78A86916E49A52000CA790 /* BaseItemObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A85B16E49A52000CA790 /* BaseItemObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9E78A86A16E49A52000CA790 /* Configuration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A85D16E49A52000CA790 /* Configuration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9E78A86C16E49A52000CA790 /* DropDownList.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A86116E49A52000CA790 /* DropDownList.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9E78A86E16E49A52000CA790 /* TransparentOverlay+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A86516E49A52000CA790 /* TransparentOverlay+Private.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9E78A86F16E49A52000CA790 /* TransparentOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A86716E49A52000CA790 /* TransparentOverlay.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9E78A87316E4A1E0000CA790 /* GenericMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A87216E4A1E0000CA790 /* GenericMethods.m */; };
+		9E9F08D116E4DC3A000E8471 /* but-bg-active.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08CA16E4DC3A000E8471 /* but-bg-active.png */; };
+		9E9F08D216E4DC3A000E8471 /* but-bg-no-active.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08CB16E4DC3A000E8471 /* but-bg-no-active.png */; };
+		9E9F08D316E4DC3A000E8471 /* dropdown-item-bg-hover.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08CC16E4DC3A000E8471 /* dropdown-item-bg-hover.png */; };
+		9E9F08D416E4DC3A000E8471 /* dropdown-item-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08CD16E4DC3A000E8471 /* dropdown-item-bg.png */; };
+		9E9F08D516E4DC3A000E8471 /* open-dropdown-bg-bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08CE16E4DC3A000E8471 /* open-dropdown-bg-bottom.png */; };
+		9E9F08D616E4DC3A000E8471 /* open-dropdown-bg-inner.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08CF16E4DC3A000E8471 /* open-dropdown-bg-inner.png */; };
+		9E9F08D716E4DC3A000E8471 /* open-dropdown-bg-top.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08D016E4DC3A000E8471 /* open-dropdown-bg-top.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -122,6 +136,28 @@
 		9E78A84E16E36425000CA790 /* StoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreManager.m; sourceTree = "<group>"; };
 		9E78A85016E3643A000CA790 /* Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Store.h; sourceTree = "<group>"; };
 		9E78A85116E3643B000CA790 /* Store.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Store.m; sourceTree = "<group>"; };
+		9E78A85816E49A52000CA790 /* BaseDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseDataObject.h; sourceTree = "<group>"; };
+		9E78A85916E49A52000CA790 /* BaseDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseDataObject.m; sourceTree = "<group>"; };
+		9E78A85A16E49A52000CA790 /* BaseItemObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseItemObject.h; sourceTree = "<group>"; };
+		9E78A85B16E49A52000CA790 /* BaseItemObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseItemObject.m; sourceTree = "<group>"; };
+		9E78A85C16E49A52000CA790 /* Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Configuration.h; sourceTree = "<group>"; };
+		9E78A85D16E49A52000CA790 /* Configuration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Configuration.m; sourceTree = "<group>"; };
+		9E78A86016E49A52000CA790 /* DropDownList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownList.h; sourceTree = "<group>"; };
+		9E78A86116E49A52000CA790 /* DropDownList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownList.m; sourceTree = "<group>"; };
+		9E78A86416E49A52000CA790 /* TransparentOverlay+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TransparentOverlay+Private.h"; sourceTree = "<group>"; };
+		9E78A86516E49A52000CA790 /* TransparentOverlay+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TransparentOverlay+Private.m"; sourceTree = "<group>"; };
+		9E78A86616E49A52000CA790 /* TransparentOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentOverlay.h; sourceTree = "<group>"; };
+		9E78A86716E49A52000CA790 /* TransparentOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentOverlay.m; sourceTree = "<group>"; };
+		9E78A87016E49EE1000CA790 /* Countries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Countries.h; sourceTree = "<group>"; };
+		9E78A87116E4A1E0000CA790 /* GenericMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericMethods.h; sourceTree = "<group>"; };
+		9E78A87216E4A1E0000CA790 /* GenericMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericMethods.m; sourceTree = "<group>"; };
+		9E9F08CA16E4DC3A000E8471 /* but-bg-active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "but-bg-active.png"; sourceTree = "<group>"; };
+		9E9F08CB16E4DC3A000E8471 /* but-bg-no-active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "but-bg-no-active.png"; sourceTree = "<group>"; };
+		9E9F08CC16E4DC3A000E8471 /* dropdown-item-bg-hover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropdown-item-bg-hover.png"; sourceTree = "<group>"; };
+		9E9F08CD16E4DC3A000E8471 /* dropdown-item-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropdown-item-bg.png"; sourceTree = "<group>"; };
+		9E9F08CE16E4DC3A000E8471 /* open-dropdown-bg-bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "open-dropdown-bg-bottom.png"; sourceTree = "<group>"; };
+		9E9F08CF16E4DC3A000E8471 /* open-dropdown-bg-inner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "open-dropdown-bg-inner.png"; sourceTree = "<group>"; };
+		9E9F08D016E4DC3A000E8471 /* open-dropdown-bg-top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "open-dropdown-bg-top.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				9E78A7BC16E34BA2000CA790 /* Bezaat */,
+				9E9F082F16E4AFCF000E8471 /* Resources */,
 				9E78A7B516E34BA2000CA790 /* Frameworks */,
 				9E78A7B416E34BA2000CA790 /* Products */,
 			);
@@ -243,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				9E78A83F16E361F8000CA790 /* Brands.h */,
+				9E78A87016E49EE1000CA790 /* Countries.h */,
 				9E78A84016E36256000CA790 /* ProfileManager.h */,
 				9E78A84116E36256000CA790 /* ProfileManager.m */,
 				9E78A84716E363E3000CA790 /* UserProfile.h */,
@@ -338,6 +376,8 @@
 			isa = PBXGroup;
 			children = (
 				9E78A85616E4930F000CA790 /* Custom Controls */,
+				9E78A87116E4A1E0000CA790 /* GenericMethods.h */,
+				9E78A87216E4A1E0000CA790 /* GenericMethods.m */,
 			);
 			path = "Supporting classes";
 			sourceTree = "<group>";
@@ -345,8 +385,51 @@
 		9E78A85616E4930F000CA790 /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
+				9E78A85716E49A52000CA790 /* CustomDropDownList */,
 			);
 			path = "Custom Controls";
+			sourceTree = "<group>";
+		};
+		9E78A85716E49A52000CA790 /* CustomDropDownList */ = {
+			isa = PBXGroup;
+			children = (
+				9E78A85816E49A52000CA790 /* BaseDataObject.h */,
+				9E78A85916E49A52000CA790 /* BaseDataObject.m */,
+				9E78A85A16E49A52000CA790 /* BaseItemObject.h */,
+				9E78A85B16E49A52000CA790 /* BaseItemObject.m */,
+				9E78A85C16E49A52000CA790 /* Configuration.h */,
+				9E78A85D16E49A52000CA790 /* Configuration.m */,
+				9E78A86016E49A52000CA790 /* DropDownList.h */,
+				9E78A86116E49A52000CA790 /* DropDownList.m */,
+				9E78A86416E49A52000CA790 /* TransparentOverlay+Private.h */,
+				9E78A86516E49A52000CA790 /* TransparentOverlay+Private.m */,
+				9E78A86616E49A52000CA790 /* TransparentOverlay.h */,
+				9E78A86716E49A52000CA790 /* TransparentOverlay.m */,
+			);
+			path = CustomDropDownList;
+			sourceTree = "<group>";
+		};
+		9E9F082F16E4AFCF000E8471 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9E9F08C916E4DC3A000E8471 /* CustomDropDownList resources */,
+			);
+			name = Resources;
+			path = Bezaat/Resources;
+			sourceTree = "<group>";
+		};
+		9E9F08C916E4DC3A000E8471 /* CustomDropDownList resources */ = {
+			isa = PBXGroup;
+			children = (
+				9E9F08CA16E4DC3A000E8471 /* but-bg-active.png */,
+				9E9F08CB16E4DC3A000E8471 /* but-bg-no-active.png */,
+				9E9F08CC16E4DC3A000E8471 /* dropdown-item-bg-hover.png */,
+				9E9F08CD16E4DC3A000E8471 /* dropdown-item-bg.png */,
+				9E9F08CE16E4DC3A000E8471 /* open-dropdown-bg-bottom.png */,
+				9E9F08CF16E4DC3A000E8471 /* open-dropdown-bg-inner.png */,
+				9E9F08D016E4DC3A000E8471 /* open-dropdown-bg-top.png */,
+			);
+			path = "CustomDropDownList resources";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -418,6 +501,13 @@
 				9E78A83316E35DAC000CA790 /* BrowseUserStoresViewController.xib in Resources */,
 				9E78A83816E35E21000CA790 /* StoreAdsViewController.xib in Resources */,
 				9E78A83D16E35EF6000CA790 /* PublishViewController.xib in Resources */,
+				9E9F08D116E4DC3A000E8471 /* but-bg-active.png in Resources */,
+				9E9F08D216E4DC3A000E8471 /* but-bg-no-active.png in Resources */,
+				9E9F08D316E4DC3A000E8471 /* dropdown-item-bg-hover.png in Resources */,
+				9E9F08D416E4DC3A000E8471 /* dropdown-item-bg.png in Resources */,
+				9E9F08D516E4DC3A000E8471 /* open-dropdown-bg-bottom.png in Resources */,
+				9E9F08D616E4DC3A000E8471 /* open-dropdown-bg-inner.png in Resources */,
+				9E9F08D716E4DC3A000E8471 /* open-dropdown-bg-top.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +540,13 @@
 				9E78A84C16E363FC000CA790 /* CarAd.m in Sources */,
 				9E78A84F16E36425000CA790 /* StoreManager.m in Sources */,
 				9E78A85216E3643B000CA790 /* Store.m in Sources */,
+				9E78A86816E49A52000CA790 /* BaseDataObject.m in Sources */,
+				9E78A86916E49A52000CA790 /* BaseItemObject.m in Sources */,
+				9E78A86A16E49A52000CA790 /* Configuration.m in Sources */,
+				9E78A86C16E49A52000CA790 /* DropDownList.m in Sources */,
+				9E78A86E16E49A52000CA790 /* TransparentOverlay+Private.m in Sources */,
+				9E78A86F16E49A52000CA790 /* TransparentOverlay.m in Sources */,
+				9E78A87316E4A1E0000CA790 /* GenericMethods.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
