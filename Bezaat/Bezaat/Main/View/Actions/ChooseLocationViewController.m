@@ -45,17 +45,21 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     NSMutableArray * citiesLstItems;
     enum Country chosenCountry;
     enum City chosenCity;
-    
+    BOOL countryChosen;
+    BOOL cityChosen;
 }
 @end
 
 @implementation ChooseLocationViewController
+@synthesize nextBtn;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        countryChosen = NO;
+        cityChosen = NO;
     }
     return self;
 }
@@ -84,9 +88,23 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     if (theDropDownList == countriesLst)
     {
         chosenCountry = k;
-        NSLog(@"k = %i, chosen country = %@", k, [GenericMethods countryName:k]);
+        //NSLog(@"k = %i, chosen country = %@", k, [GenericMethods countryName:k]);
+        citiesLst.name = CITIES_DROPDOWNLIST_NAME;
+        
         [self initCitiesListContentOfCountry:k];
+        
+        [citiesLst setUserInteractionEnabled:YES];
+        countryChosen = YES;
+        
     }
+    else if (theDropDownList == citiesLst)
+    {
+        cityChosen = YES;
+    }
+    
+    if (countryChosen && cityChosen)
+        [nextBtn setEnabled:YES];
+        
 }
 
 - (void) dropDownListDidShown:(DropDownList*) theDropDownList
@@ -103,7 +121,6 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
 	//2- set countries DropDownList delegate
 	countriesLst.delegate = self;
     
-	
     //1- init cities DropDownList
 	[self initCitiesDropDownList];
 	
@@ -119,7 +136,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
 	
 	//4- make active (because it's inactive by default)
 	[countriesLst setUserInteractionEnabled:YES];
-    [citiesLst setUserInteractionEnabled:YES];
+    [citiesLst setUserInteractionEnabled:NO];
 }
 
 - (void) initCountriesDropDownList {
@@ -213,7 +230,10 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
 
 - (void) initCitiesListContentOfCountry:(int) theCountry {//if theCountry == -1 --> empty list!
     
-    citiesLstItems = [[NSMutableArray alloc] init];
+    if (!citiesLstItems)
+        citiesLstItems = [[NSMutableArray alloc] init];
+    [citiesLstItems removeAllObjects];
+    
     int numOfCities = -1;
     
     switch (theCountry) {
@@ -283,8 +303,10 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
         case Palestine: numOfCities = PALESTINE_CITY_COUNT;
             break;
     }
+    
     if (numOfCities == -1)
     {
+        /*
         for (NSUInteger i = 0; i < 2; i++)//fake 2 lines if country not set yet
         {
             BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
@@ -297,10 +319,11 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
             tempBaseItemObject.dataObject = tempBaseDataObject;
             [citiesLstItems addObject:tempBaseItemObject];
         }
+         */
     }
     else
     {
-        for (NSUInteger i = 0; i <= numOfCities; i++)
+        for (NSUInteger i = 0; i < numOfCities; i++)
         {
             BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
             
@@ -386,7 +409,22 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
             
         }
     }
+    
     citiesLst.objects = citiesLstItems;
+    [citiesLst reloadInputViews];
+    /*
+    if (citiesLst.objects)
+    {
+        [citiesLst.objects removeAllObjects];
+        [citiesLst.objects addObjectsFromArray:citiesLstItems];
+    }
+    else
+    {
+        //citiesLst.objects = citiesLstItems;
+        citiesLst.objects = [[NSMutableArray alloc] initWithArray:citiesLstItems];
+    }
+     */
+    //[citiesLst.theTransparentOverlay.table reloadData];
     
 }
 @end

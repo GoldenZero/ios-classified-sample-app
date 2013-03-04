@@ -9,7 +9,9 @@
 #import "SignInViewController.h"
 
 @interface SignInViewController ()
-
+{
+    BOOL userSignedIn;
+}
 @end
 
 @implementation SignInViewController
@@ -35,4 +37,28 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - actions
+
+- (IBAction)signInBtnPressed:(id)sender {
+    
+    //perform sign in operation
+    //...
+    userSignedIn = YES;
+    if (userSignedIn)
+    {
+        ChooseActionViewController * ChooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+        
+        [self.navigationController pushViewController:ChooseActionVC animated:YES];
+    }
+}
+
+- (IBAction)signUpBtnPressed:(id)sender {
+}
+
+- (IBAction)skipBtnPressed:(id)sender {
+    
+    ChooseActionViewController * ChooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    
+    [self.navigationController pushViewController:ChooseActionVC animated:YES];
+}
 @end

@@ -16,6 +16,6 @@
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 
-#pragma mark - methods
+#pragma mark - actions
 
 @end

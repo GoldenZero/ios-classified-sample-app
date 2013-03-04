@@ -13,6 +13,6 @@
 
 #pragma mark - properties
 
-#pragma mark - methods
+#pragma mark - actions
 
 @end

@@ -12,11 +12,17 @@
 // or to sign up. The user may choose none by tapping (skip).
 
 #import <UIKit/UIKit.h>
+#import "ChooseActionViewController.h"
+#import "SignUpViewController.h"
 
 @interface SignInViewController : UIViewController
 
 #pragma mark - properties
 
-#pragma mark - methods
+#pragma mark - actions
+
+- (IBAction)signInBtnPressed:(id)sender;
+- (IBAction)signUpBtnPressed:(id)sender;
+- (IBAction)skipBtnPressed:(id)sender;
 
 @end
