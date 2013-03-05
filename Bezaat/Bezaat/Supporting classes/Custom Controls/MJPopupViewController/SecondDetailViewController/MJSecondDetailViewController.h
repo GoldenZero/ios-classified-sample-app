@@ -23,5 +23,6 @@
 
 @protocol MJSecondPopupDelegate<NSObject>
 @optional
+//- (void)didSelectsubBrandOfNumber:(int) subBrandNumber;
 - (void)cancelButtonClicked:(MJSecondDetailViewController*)secondDetailViewController;
 @end

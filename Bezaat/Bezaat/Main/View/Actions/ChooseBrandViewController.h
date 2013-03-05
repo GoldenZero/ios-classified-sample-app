@@ -12,12 +12,14 @@
 #import "UIViewController+MJPopupViewController.h"
 #import "MJDetailViewController.h"
 #import "MJSecondDetailViewController.h"
+#import "BrowseCarAdsViewController.h"
 
 @interface ChooseBrandViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, MJSecondPopupDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-
+@property (strong, nonatomic) UIBarButtonItem * okBtn;
 #pragma mark - actions
+
 
 @end

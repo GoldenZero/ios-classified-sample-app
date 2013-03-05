@@ -13,7 +13,7 @@
 @end
 
 @implementation ChooseBrandViewController
-@synthesize collectionView;
+@synthesize collectionView, okBtn;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,6 +32,12 @@
     //collection view
     [self.collectionView registerClass:[BrandCell class] forCellWithReuseIdentifier:@"BrandCell"];
     [self.collectionView reloadData];
+    
+    //okBtn
+    self.okBtn = [[UIBarButtonItem alloc] initWithTitle:@"OK" style:UIBarButtonItemStyleBordered target:self action:@selector(okBtnPressed)];
+    [self.okBtn setTitle:@"OK"];
+    self.navigationItem.rightBarButtonItem = okBtn;
+    [self.okBtn setEnabled:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,16 +67,26 @@
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    [self.okBtn setEnabled:YES];
     MJSecondDetailViewController *secondDetailViewController = [[MJSecondDetailViewController alloc] initWithNibName:@"MJSecondDetailViewController" bundle:nil];
     secondDetailViewController.delegate = self;
     [self presentPopupViewController:secondDetailViewController animationType:MJPopupViewAnimationFade];
 }
 
 
-#pragma mark - MJSecondPopup delegate
+//- (void)didSelectsubBrandOfNumber:(int) subBrandNumber {
 
-- (void)cancelButtonClicked:(MJSecondDetailViewController *)aSecondDetailViewController {
+#pragma mark - MJSecondPopup delegate
+- (void) cancelButtonClicked:(MJSecondDetailViewController *)aSecondDetailViewController {
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
+}
+
+#pragma mark - actions
+- (void) okBtnPressed {
+    
+    BrowseCarAdsViewController * browseCarAdsVC = [[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
+    
+    [self.navigationController pushViewController:browseCarAdsVC animated:YES];
 }
 
 @end

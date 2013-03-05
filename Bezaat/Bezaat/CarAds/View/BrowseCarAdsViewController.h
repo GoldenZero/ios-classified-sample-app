@@ -8,11 +8,14 @@
 // This UI is displayed to browse all ads of cars of a certain brand.
 
 #import <UIKit/UIKit.h>
+#import "CarAdCell.h"
 
-@interface BrowseCarAdsViewController : UIViewController
+@interface BrowseCarAdsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 #pragma mark - properties
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 #pragma mark - actions
+
 
 @end

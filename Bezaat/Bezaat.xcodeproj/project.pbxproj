@@ -75,6 +75,10 @@
 		9E9F09EC16E63669000E8471 /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09E316E63669000E8471 /* UIViewController+MJPopupViewController.m */; };
 		9E9F09ED16E63669000E8471 /* RFQuiltLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09E616E63669000E8471 /* RFQuiltLayout.m */; };
 		9E9F09F016E636BA000E8471 /* SubBrandCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09EF16E636B9000E8471 /* SubBrandCell.m */; };
+		9E9F09F216E63DFC000E8471 /* favourite.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F09F116E63DFC000E8471 /* favourite.png */; };
+		9E9F09F516E63E22000E8471 /* CarAdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09F416E63E22000E8471 /* CarAdCell.m */; };
+		9E9F09F716E63E39000E8471 /* CarAdCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F09F616E63E38000E8471 /* CarAdCell.xib */; };
+		9E9F09F916E63EBB000E8471 /* sampleCar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F09F816E63EBB000E8471 /* sampleCar.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -187,6 +191,11 @@
 		9E9F09E616E63669000E8471 /* RFQuiltLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFQuiltLayout.m; sourceTree = "<group>"; };
 		9E9F09EE16E636B9000E8471 /* SubBrandCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubBrandCell.h; sourceTree = "<group>"; };
 		9E9F09EF16E636B9000E8471 /* SubBrandCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubBrandCell.m; sourceTree = "<group>"; };
+		9E9F09F116E63DFC000E8471 /* favourite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favourite.png; sourceTree = "<group>"; };
+		9E9F09F316E63E21000E8471 /* CarAdCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarAdCell.h; sourceTree = "<group>"; };
+		9E9F09F416E63E22000E8471 /* CarAdCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarAdCell.m; sourceTree = "<group>"; };
+		9E9F09F616E63E38000E8471 /* CarAdCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarAdCell.xib; sourceTree = "<group>"; };
+		9E9F09F816E63EBB000E8471 /* sampleCar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sampleCar.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,6 +300,9 @@
 				9E78A81B16E357F4000CA790 /* BrowseCarAdsViewController.h */,
 				9E78A81C16E357F4000CA790 /* BrowseCarAdsViewController.m */,
 				9E78A81D16E357F4000CA790 /* BrowseCarAdsViewController.xib */,
+				9E9F09F316E63E21000E8471 /* CarAdCell.h */,
+				9E9F09F416E63E22000E8471 /* CarAdCell.m */,
+				9E9F09F616E63E38000E8471 /* CarAdCell.xib */,
 				9E78A82016E35838000CA790 /* CarAdDetailsViewController.h */,
 				9E78A82116E35838000CA790 /* CarAdDetailsViewController.m */,
 				9E78A82216E35838000CA790 /* CarAdDetailsViewController.xib */,
@@ -449,6 +461,8 @@
 		9E9F082F16E4AFCF000E8471 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9E9F09F116E63DFC000E8471 /* favourite.png */,
+				9E9F09F816E63EBB000E8471 /* sampleCar.png */,
 				9E9F090B16E55548000E8471 /* Toyota.png */,
 				9E9F08C916E4DC3A000E8471 /* CustomDropDownList resources */,
 			);
@@ -599,6 +613,9 @@
 				9E9F090C16E55548000E8471 /* Toyota.png in Resources */,
 				9E9F09E816E63669000E8471 /* MJDetailViewController.xib in Resources */,
 				9E9F09EA16E63669000E8471 /* MJSecondDetailViewController.xib in Resources */,
+				9E9F09F216E63DFC000E8471 /* favourite.png in Resources */,
+				9E9F09F716E63E39000E8471 /* CarAdCell.xib in Resources */,
+				9E9F09F916E63EBB000E8471 /* sampleCar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,6 +662,7 @@
 				9E9F09EC16E63669000E8471 /* UIViewController+MJPopupViewController.m in Sources */,
 				9E9F09ED16E63669000E8471 /* RFQuiltLayout.m in Sources */,
 				9E9F09F016E636BA000E8471 /* SubBrandCell.m in Sources */,
+				9E9F09F516E63E22000E8471 /* CarAdCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
