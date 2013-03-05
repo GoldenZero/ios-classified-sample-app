@@ -9,8 +9,11 @@
 
 #import <UIKit/UIKit.h>
 #import "BrandCell.h"
+#import "UIViewController+MJPopupViewController.h"
+#import "MJDetailViewController.h"
+#import "MJSecondDetailViewController.h"
 
-@interface ChooseBrandViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface ChooseBrandViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, MJSecondPopupDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;

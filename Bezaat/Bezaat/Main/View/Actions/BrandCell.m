@@ -15,7 +15,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        UIImageView * imgV = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f,  frame.size.width, frame.size.width)];
+        UIImageView * imgV = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f,  frame.size.width, frame.size.height)];
         
         imgV.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         

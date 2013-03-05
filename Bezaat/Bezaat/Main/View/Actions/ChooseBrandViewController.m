@@ -52,9 +52,7 @@
     
     cell.brandImageView.image = [UIImage imageNamed:@"Toyota.png"];
     return cell;
-    
-    
-    return [UICollectionViewCell new];
+
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -63,7 +61,16 @@
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    
+    MJSecondDetailViewController *secondDetailViewController = [[MJSecondDetailViewController alloc] initWithNibName:@"MJSecondDetailViewController" bundle:nil];
+    secondDetailViewController.delegate = self;
+    [self presentPopupViewController:secondDetailViewController animationType:MJPopupViewAnimationFade];
+}
+
+
+#pragma mark - MJSecondPopup delegate
+
+- (void)cancelButtonClicked:(MJSecondDetailViewController *)aSecondDetailViewController {
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationFade];
 }
 
 @end
