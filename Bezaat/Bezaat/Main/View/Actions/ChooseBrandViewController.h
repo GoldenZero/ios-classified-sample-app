@@ -10,10 +10,10 @@
 #import <UIKit/UIKit.h>
 #import "BrandCell.h"
 
-@interface ChooseBrandViewController : UIViewController <PSUICollectionViewDelegate, PSUICollectionViewDataSource>
+@interface ChooseBrandViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource>
 
 #pragma mark - properties
-@property (weak, nonatomic) IBOutlet PSUICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 #pragma mark - actions
 

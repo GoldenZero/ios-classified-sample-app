@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BrandCell : PSUICollectionViewCell
+@interface BrandCell : UICollectionViewCell
 @property (weak, nonatomic) UIImageView * brandImageView;
 
 @end
