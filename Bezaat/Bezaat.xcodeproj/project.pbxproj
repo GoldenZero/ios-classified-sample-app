@@ -56,7 +56,7 @@
 		9E9F08D516E4DC3A000E8471 /* open-dropdown-bg-bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08CE16E4DC3A000E8471 /* open-dropdown-bg-bottom.png */; };
 		9E9F08D616E4DC3A000E8471 /* open-dropdown-bg-inner.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08CF16E4DC3A000E8471 /* open-dropdown-bg-inner.png */; };
 		9E9F08D716E4DC3A000E8471 /* open-dropdown-bg-top.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08D016E4DC3A000E8471 /* open-dropdown-bg-top.png */; };
-		9E9F090A16E553D4000E8471 /* BrandCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F090916E553D2000E8471 /* BrandCell.m */; };
+		9E9F090A16E553D4000E8471 /* ModelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F090916E553D2000E8471 /* ModelCell.m */; };
 		9E9F090E16E55695000E8471 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F090D16E55695000E8471 /* QuartzCore.framework */; };
 		9E9F09E716E63669000E8471 /* MJDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09D916E63669000E8471 /* MJDetailViewController.m */; };
 		9E9F09E816E63669000E8471 /* MJDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F09DA16E63669000E8471 /* MJDetailViewController.xib */; };
@@ -65,7 +65,7 @@
 		9E9F09EB16E63669000E8471 /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09E116E63669000E8471 /* MJPopupBackgroundView.m */; };
 		9E9F09EC16E63669000E8471 /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09E316E63669000E8471 /* UIViewController+MJPopupViewController.m */; };
 		9E9F09ED16E63669000E8471 /* RFQuiltLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09E616E63669000E8471 /* RFQuiltLayout.m */; };
-		9E9F09F016E636BA000E8471 /* SubBrandCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09EF16E636B9000E8471 /* SubBrandCell.m */; };
+		9E9F09F016E636BA000E8471 /* ModelBrandCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09EF16E636B9000E8471 /* ModelBrandCell.m */; };
 		9E9F09F216E63DFC000E8471 /* favourite.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F09F116E63DFC000E8471 /* favourite.png */; };
 		9E9F09F516E63E22000E8471 /* CarAdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09F416E63E22000E8471 /* CarAdCell.m */; };
 		9E9F09F716E63E39000E8471 /* CarAdCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F09F616E63E38000E8471 /* CarAdCell.xib */; };
@@ -77,6 +77,9 @@
 		9E9F0A1716E75E86000E8471 /* Toyota.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A1516E75E86000E8471 /* Toyota.png */; };
 		9E9F0A1A16E75EBB000E8471 /* CarModelLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F0A1916E75EBA000E8471 /* CarModelLoader.m */; };
 		9E9F0A1C16E76B3F000E8471 /* CarModels.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A1B16E76B3F000E8471 /* CarModels.plist */; };
+		9E9F0A2416E782A3000E8471 /* BMW.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A2116E782A3000E8471 /* BMW.png */; };
+		9E9F0A2516E782A3000E8471 /* Mazda.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A2216E782A3000E8471 /* Mazda.png */; };
+		9E9F0A2616E782A3000E8471 /* Nissan.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A2316E782A3000E8471 /* Nissan.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -157,8 +160,8 @@
 		9E9F08CE16E4DC3A000E8471 /* open-dropdown-bg-bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "open-dropdown-bg-bottom.png"; sourceTree = "<group>"; };
 		9E9F08CF16E4DC3A000E8471 /* open-dropdown-bg-inner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "open-dropdown-bg-inner.png"; sourceTree = "<group>"; };
 		9E9F08D016E4DC3A000E8471 /* open-dropdown-bg-top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "open-dropdown-bg-top.png"; sourceTree = "<group>"; };
-		9E9F090816E553D1000E8471 /* BrandCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrandCell.h; sourceTree = "<group>"; };
-		9E9F090916E553D2000E8471 /* BrandCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrandCell.m; sourceTree = "<group>"; };
+		9E9F090816E553D1000E8471 /* ModelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelCell.h; sourceTree = "<group>"; };
+		9E9F090916E553D2000E8471 /* ModelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelCell.m; sourceTree = "<group>"; };
 		9E9F090D16E55695000E8471 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9E9F09D816E63669000E8471 /* MJDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJDetailViewController.h; sourceTree = "<group>"; };
 		9E9F09D916E63669000E8471 /* MJDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJDetailViewController.m; sourceTree = "<group>"; };
@@ -172,8 +175,8 @@
 		9E9F09E316E63669000E8471 /* UIViewController+MJPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MJPopupViewController.m"; sourceTree = "<group>"; };
 		9E9F09E516E63669000E8471 /* RFQuiltLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFQuiltLayout.h; sourceTree = "<group>"; };
 		9E9F09E616E63669000E8471 /* RFQuiltLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFQuiltLayout.m; sourceTree = "<group>"; };
-		9E9F09EE16E636B9000E8471 /* SubBrandCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubBrandCell.h; sourceTree = "<group>"; };
-		9E9F09EF16E636B9000E8471 /* SubBrandCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubBrandCell.m; sourceTree = "<group>"; };
+		9E9F09EE16E636B9000E8471 /* ModelBrandCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelBrandCell.h; sourceTree = "<group>"; };
+		9E9F09EF16E636B9000E8471 /* ModelBrandCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelBrandCell.m; sourceTree = "<group>"; };
 		9E9F09F116E63DFC000E8471 /* favourite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favourite.png; sourceTree = "<group>"; };
 		9E9F09F316E63E21000E8471 /* CarAdCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarAdCell.h; sourceTree = "<group>"; };
 		9E9F09F416E63E22000E8471 /* CarAdCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarAdCell.m; sourceTree = "<group>"; };
@@ -191,6 +194,9 @@
 		9E9F0A1816E75EBA000E8471 /* CarModelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarModelLoader.h; sourceTree = "<group>"; };
 		9E9F0A1916E75EBA000E8471 /* CarModelLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarModelLoader.m; sourceTree = "<group>"; };
 		9E9F0A1B16E76B3F000E8471 /* CarModels.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CarModels.plist; sourceTree = "<group>"; };
+		9E9F0A2116E782A3000E8471 /* BMW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BMW.png; sourceTree = "<group>"; };
+		9E9F0A2216E782A3000E8471 /* Mazda.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mazda.png; sourceTree = "<group>"; };
+		9E9F0A2316E782A3000E8471 /* Nissan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Nissan.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,10 +372,10 @@
 				9E78A81616E35773000CA790 /* ChooseBrandViewController.h */,
 				9E78A81716E35774000CA790 /* ChooseBrandViewController.m */,
 				9E78A81816E35774000CA790 /* ChooseBrandViewController.xib */,
-				9E9F090816E553D1000E8471 /* BrandCell.h */,
-				9E9F090916E553D2000E8471 /* BrandCell.m */,
-				9E9F09EE16E636B9000E8471 /* SubBrandCell.h */,
-				9E9F09EF16E636B9000E8471 /* SubBrandCell.m */,
+				9E9F090816E553D1000E8471 /* ModelCell.h */,
+				9E9F090916E553D2000E8471 /* ModelCell.m */,
+				9E9F09EE16E636B9000E8471 /* ModelBrandCell.h */,
+				9E9F09EF16E636B9000E8471 /* ModelBrandCell.m */,
 				9E78A82A16E35D07000CA790 /* ChoosePaymentViewController.h */,
 				9E78A82B16E35D07000CA790 /* ChoosePaymentViewController.m */,
 				9E78A82C16E35D08000CA790 /* ChoosePaymentViewController.xib */,
@@ -554,6 +560,9 @@
 			isa = PBXGroup;
 			children = (
 				9E9F0A1516E75E86000E8471 /* Toyota.png */,
+				9E9F0A2116E782A3000E8471 /* BMW.png */,
+				9E9F0A2216E782A3000E8471 /* Mazda.png */,
+				9E9F0A2316E782A3000E8471 /* Nissan.png */,
 				9E9F0A1B16E76B3F000E8471 /* CarModels.plist */,
 			);
 			path = "Car Models";
@@ -646,6 +655,9 @@
 				9E9F09F916E63EBB000E8471 /* sampleCar.png in Resources */,
 				9E9F0A1716E75E86000E8471 /* Toyota.png in Resources */,
 				9E9F0A1C16E76B3F000E8471 /* CarModels.plist in Resources */,
+				9E9F0A2416E782A3000E8471 /* BMW.png in Resources */,
+				9E9F0A2516E782A3000E8471 /* Mazda.png in Resources */,
+				9E9F0A2616E782A3000E8471 /* Nissan.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,13 +692,13 @@
 				9E78A86E16E49A52000CA790 /* TransparentOverlay+Private.m in Sources */,
 				9E78A86F16E49A52000CA790 /* TransparentOverlay.m in Sources */,
 				9E78A87316E4A1E0000CA790 /* GenericMethods.m in Sources */,
-				9E9F090A16E553D4000E8471 /* BrandCell.m in Sources */,
+				9E9F090A16E553D4000E8471 /* ModelCell.m in Sources */,
 				9E9F09E716E63669000E8471 /* MJDetailViewController.m in Sources */,
 				9E9F09E916E63669000E8471 /* MJSecondDetailViewController.m in Sources */,
 				9E9F09EB16E63669000E8471 /* MJPopupBackgroundView.m in Sources */,
 				9E9F09EC16E63669000E8471 /* UIViewController+MJPopupViewController.m in Sources */,
 				9E9F09ED16E63669000E8471 /* RFQuiltLayout.m in Sources */,
-				9E9F09F016E636BA000E8471 /* SubBrandCell.m in Sources */,
+				9E9F09F016E636BA000E8471 /* ModelBrandCell.m in Sources */,
 				9E9F09F516E63E22000E8471 /* CarAdCell.m in Sources */,
 				9E9F0A1016E75E3B000E8471 /* CarModel.m in Sources */,
 				9E9F0A1116E75E3B000E8471 /* ModelBrand.m in Sources */,

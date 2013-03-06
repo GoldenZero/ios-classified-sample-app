@@ -1,15 +1,15 @@
 //
-//  SubBrandCell.m
+//  ModelBrandCell.m
 //  TryBrandBubble
 //
 //  Created by Roula Misrabi on 3/5/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-#import "SubBrandCell.h"
+#import "ModelBrandCell.h"
 
 
-@implementation SubBrandCell
+@implementation ModelBrandCell
 @synthesize brandBtn;
 
 - (id)initWithFrame:(CGRect)frame

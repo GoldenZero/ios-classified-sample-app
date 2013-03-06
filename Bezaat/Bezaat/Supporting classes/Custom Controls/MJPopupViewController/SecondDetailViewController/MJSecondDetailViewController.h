@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SubBrandCell.h"
+#import "ModelBrandCell.h"
 #import "RFQuiltLayout.h"
 
 @protocol MJSecondPopupDelegate;

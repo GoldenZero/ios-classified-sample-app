@@ -35,7 +35,7 @@
      @"جميع الأنواع",
      nil];
      */
-    [self.collectionView registerClass:[SubBrandCell class] forCellWithReuseIdentifier:@"SubBrandCell"];
+    [self.collectionView registerClass:[ModelBrandCell class] forCellWithReuseIdentifier:@"ModelBrandCell"];
     
     RFQuiltLayout* layout = (id)[self.collectionView collectionViewLayout];
     layout.direction = UICollectionViewScrollDirectionVertical;
@@ -57,21 +57,21 @@
     
     if (self.sourceArray)
     {
-        SubBrandCell * subBrandCell = [cv dequeueReusableCellWithReuseIdentifier:@"SubBrandCell" forIndexPath:indexPath];
+        ModelBrandCell * ModelBrandCell = [cv dequeueReusableCellWithReuseIdentifier:@"ModelBrandCell" forIndexPath:indexPath];
         //brand button title
         NSString * brandName = [self.sourceArray objectAtIndex:indexPath.row];
-        [subBrandCell.brandBtn setTitle:brandName forState:UIControlStateNormal ];
+        [ModelBrandCell.brandBtn setTitle:brandName forState:UIControlStateNormal ];
         
         //brand button title font
         if ([brandName isEqualToString:@"جميع الأنواع"] )
-            [subBrandCell.brandBtn.titleLabel setFont:BRAND_NAME_FONT_BOLD];
+            [ModelBrandCell.brandBtn.titleLabel setFont:BRAND_NAME_FONT_BOLD];
         else
-            [subBrandCell.brandBtn.titleLabel setFont:BRAND_NAME_FONT];
+            [ModelBrandCell.brandBtn.titleLabel setFont:BRAND_NAME_FONT];
         
         //brand button action
-        [subBrandCell.brandBtn addTarget:self action:@selector(selectBrand) forControlEvents:UIControlEventTouchUpInside];
+        [ModelBrandCell.brandBtn addTarget:self action:@selector(selectBrand) forControlEvents:UIControlEventTouchUpInside];
         
-        return subBrandCell;
+        return ModelBrandCell;
     }
     return [UICollectionViewCell new];
 }

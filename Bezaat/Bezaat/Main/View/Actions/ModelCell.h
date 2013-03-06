@@ -1,5 +1,5 @@
 //
-//  BrandCell.h
+//  ModelCell.h
 //  Bezaat
 //
 //  Created by Roula Misrabi on 3/5/13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BrandCell : UICollectionViewCell
+@interface ModelCell : UICollectionViewCell
 @property (weak, nonatomic) UIImageView * brandImageView;
 
 @end

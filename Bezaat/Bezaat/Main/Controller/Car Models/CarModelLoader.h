@@ -16,6 +16,6 @@
 @interface CarModelLoader : NSObject
 
 //The plistFileName should relate to a file added to application resources
-- (NSDictionary *) loadCarModelsFromPlistFileWithName:(NSString *)plistFileName;
+- (NSArray *) loadCarModelsFromPlistFileWithName:(NSString *)plistFileName;
 
 @end

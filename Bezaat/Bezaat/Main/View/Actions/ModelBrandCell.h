@@ -1,5 +1,5 @@
 //
-//  SubBrandCell.h
+//  ModelBrandCell.h
 //  TryBrandBubble
 //
 //  Created by Roula Misrabi on 3/5/13.
@@ -12,7 +12,7 @@
 #define BRAND_NAME_FONT         [UIFont systemFontOfSize:12.0]
 #define BRAND_NAME_FONT_BOLD    [UIFont boldSystemFontOfSize:12.0]
 
-@interface SubBrandCell : UICollectionViewCell
+@interface ModelBrandCell : UICollectionViewCell
 
 #pragma mark - properties
 @property (weak, nonatomic) UIButton * brandBtn;

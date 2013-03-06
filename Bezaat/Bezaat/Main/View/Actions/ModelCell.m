@@ -1,14 +1,14 @@
 //
-//  BrandCell.m
+//  ModelCell.m
 //  Bezaat
 //
 //  Created by Roula Misrabi on 3/5/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-#import "BrandCell.h"
+#import "ModelCell.h"
 
-@implementation BrandCell
+@implementation ModelCell
 @synthesize brandImageView;
 
 - (id)initWithFrame:(CGRect)frame
