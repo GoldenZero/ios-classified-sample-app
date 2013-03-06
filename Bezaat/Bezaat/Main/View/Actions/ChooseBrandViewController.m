@@ -9,7 +9,10 @@
 #import "ChooseBrandViewController.h"
 
 @interface ChooseBrandViewController ()
-
+{
+    CarModelLoader * carModelLoader;
+    NSArray * modelsArray;
+}
 @end
 
 @implementation ChooseBrandViewController
@@ -30,7 +33,7 @@
     [super viewDidLoad];
     
     //collection view
-    [self.collectionView registerClass:[BrandCell class] forCellWithReuseIdentifier:@"BrandCell"];
+    [self.collectionView registerClass:[ModelCell class] forCellWithReuseIdentifier:@"ModelCell"];
     [self.collectionView reloadData];
     
     //okBtn
@@ -38,6 +41,10 @@
     [self.okBtn setTitle:@"OK"];
     self.navigationItem.rightBarButtonItem = okBtn;
     [self.okBtn setEnabled:NO];
+    
+    //carModelLoader
+    carModelLoader = [[CarModelLoader alloc] init];
+    modelsArray = [carModelLoader loadCarModelsFromPlistFileWithName:CAR_MODELS_PLIST_FILE_NAME];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,16 +55,22 @@
 
 #pragma mark - collectionView handling
 
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {    
-    return BRANDS_COUNT;
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
+    if (modelsArray)
+        return modelsArray.count;
+    return 0;
 }
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    BrandCell * cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"BrandCell" forIndexPath:indexPath];
-    
-    cell.brandImageView.image = [UIImage imageNamed:@"Toyota.png"];
-    return cell;
+    if (modelsArray)
+    {
+        ModelCell * cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"ModelCell" forIndexPath:indexPath];
+        
+        CarModel * aCarModel = [modelsArray objectAtIndex:indexPath.row];
+        cell.brandImageView.image = [UIImage imageNamed:aCarModel.imageFileName];
+        return cell;
+    }
+    return [UICollectionViewCell new];
 
 }
 
@@ -67,10 +80,22 @@
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self.okBtn setEnabled:YES];
-    MJSecondDetailViewController *secondDetailViewController = [[MJSecondDetailViewController alloc] initWithNibName:@"MJSecondDetailViewController" bundle:nil];
-    secondDetailViewController.delegate = self;
-    [self presentPopupViewController:secondDetailViewController animationType:MJPopupViewAnimationFade];
+    if (modelsArray)
+    {
+        CarModel * aCarModel = [modelsArray objectAtIndex:indexPath.row];
+        NSMutableArray * brandNames = [NSMutableArray new];
+        for (ModelBrand * brand in aCarModel.brandsArray)
+            [brandNames addObject:brand.name];
+        
+        //add an entry for "all brands"
+        [brandNames addObject:@"جميع الأنواع"];
+        
+        [self.okBtn setEnabled:YES];
+        MJSecondDetailViewController *secondDetailViewController = [[MJSecondDetailViewController alloc] initWithNibName:@"MJSecondDetailViewController" bundle:nil];
+        secondDetailViewController.delegate = self;
+        secondDetailViewController.sourceArray = brandNames;
+        [self presentPopupViewController:secondDetailViewController animationType:MJPopupViewAnimationFade];
+    }
 }
 
 

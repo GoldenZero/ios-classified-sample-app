@@ -12,6 +12,8 @@
 #pragma mark - countries and cities
 
 //names
+#define CAR_MODELS_PLIST_FILE_NAME @"CarModels"
+
 #define SAUDI_ARABIA_NAME   @"السعودية"
 #define EMIRATES_NAME       @"الإمارات"
 #define KUWAIT_NAME         @"الكويت"
@@ -86,5 +88,4 @@
 #define JERUSALEM_CITY_NAME @"القدس"
 
 #define BRAND_THUMB_SIZE    90.0f
-#define BRANDS_COUNT        10
 #endif
