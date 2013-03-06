@@ -11,30 +11,30 @@
 #define BLOCK_PIXELS_HEIGHT  50
 
 @interface MJSecondDetailViewController ()
-{
-    NSArray * brandsArray;
-}
+
 @end
 
 @implementation MJSecondDetailViewController
 
-@synthesize delegate, collectionView;
+@synthesize delegate, collectionView, sourceArray;
 
 - (void)viewDidLoad {
- 
-    brandsArray = [[NSArray alloc] initWithObjects: @"كامري",
-                                                    @"كروان",
-                                                    @"سليسيا",
-                                                    @"كوستر",
-                                                    @"كورولا",
-                                                    @"كريسيدا",
-                                                    @"ايكو",
-                                                    @"اف جيه كروزر",
-                                                    @"هايس",
-                                                    @"هايلوكس",
-                                                    @"جراند لوكس",
-                                                    @"جميع الأنواع",                   
-                                                    nil];
+    
+    /*
+     self.sourceArray = [[NSArray alloc] initWithObjects: @"كامري",
+     @"كروان",
+     @"سليسيا",
+     @"كوستر",
+     @"كورولا",
+     @"كريسيدا",
+     @"ايكو",
+     @"اف جيه كروزر",
+     @"هايس",
+     @"هايلوكس",
+     @"جراند لوكس",
+     @"جميع الأنواع",
+     nil];
+     */
     [self.collectionView registerClass:[SubBrandCell class] forCellWithReuseIdentifier:@"SubBrandCell"];
     
     RFQuiltLayout* layout = (id)[self.collectionView collectionViewLayout];
@@ -47,42 +47,52 @@
 #pragma mark - UICollectionView Datasource
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    return brandsArray.count;
+    if (self.sourceArray)
+        return self.sourceArray.count;
+    else
+        return 0;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-
-    SubBrandCell * subBrandCell = [cv dequeueReusableCellWithReuseIdentifier:@"SubBrandCell" forIndexPath:indexPath];
-    //brand button title
-    NSString * brandName = [brandsArray objectAtIndex:indexPath.row];
-    [subBrandCell.brandBtn setTitle:brandName forState:UIControlStateNormal ];
     
-    //brand button title font
-    if ([brandName isEqualToString:@"جميع الأنواع"] )
-        [subBrandCell.brandBtn.titleLabel setFont:BRAND_NAME_FONT_BOLD];
-    else
-        [subBrandCell.brandBtn.titleLabel setFont:BRAND_NAME_FONT];
+    if (self.sourceArray)
+    {
+        SubBrandCell * subBrandCell = [cv dequeueReusableCellWithReuseIdentifier:@"SubBrandCell" forIndexPath:indexPath];
+        //brand button title
+        NSString * brandName = [self.sourceArray objectAtIndex:indexPath.row];
+        [subBrandCell.brandBtn setTitle:brandName forState:UIControlStateNormal ];
         
-    //brand button action
-    [subBrandCell.brandBtn addTarget:self action:@selector(selectBrand) forControlEvents:UIControlEventTouchUpInside];
-
-    return subBrandCell;
+        //brand button title font
+        if ([brandName isEqualToString:@"جميع الأنواع"] )
+            [subBrandCell.brandBtn.titleLabel setFont:BRAND_NAME_FONT_BOLD];
+        else
+            [subBrandCell.brandBtn.titleLabel setFont:BRAND_NAME_FONT];
+        
+        //brand button action
+        [subBrandCell.brandBtn addTarget:self action:@selector(selectBrand) forControlEvents:UIControlEventTouchUpInside];
+        
+        return subBrandCell;
+    }
+    return [UICollectionViewCell new];
 }
 
 #pragma mark – RFQuiltLayoutDelegate
 
 - (CGSize) blockSizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    //calculate the desired cell size according to brand name text length
-    NSString * brandName = [brandsArray objectAtIndex:indexPath.row];
-    CGSize expectedLabelSize = [brandName sizeWithFont:BRAND_NAME_FONT];
-    
-    int div = expectedLabelSize.width / BLOCK_PIXELS_WIDTH;
-    
-    if (div < 6)
-        return CGSizeMake(div + 1, 1);
-    return CGSizeMake(6, 1);    
-    
+    if (self.sourceArray)
+    {
+        //calculate the desired cell size according to brand name text length
+        NSString * brandName = [self.sourceArray objectAtIndex:indexPath.row];
+        CGSize expectedLabelSize = [brandName sizeWithFont:BRAND_NAME_FONT];
+        
+        int div = expectedLabelSize.width / BLOCK_PIXELS_WIDTH;
+        
+        if (div < 6)
+            return CGSizeMake(div + 1, 1);
+        return CGSizeMake(6, 1);
+    }
+    return CGSizeZero;
 }
 
 - (UIEdgeInsets)insetsForItemAtIndexPath:(NSIndexPath *)indexPath {

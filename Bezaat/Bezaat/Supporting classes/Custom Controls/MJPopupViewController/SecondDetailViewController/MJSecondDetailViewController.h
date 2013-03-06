@@ -17,6 +17,7 @@
 
 @property (assign, nonatomic) id <MJSecondPopupDelegate>delegate;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) NSArray * sourceArray;
 @end
 
 

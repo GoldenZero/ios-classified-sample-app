@@ -38,9 +38,7 @@
 		9E78A82E16E35D08000CA790 /* ChoosePaymentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E78A82C16E35D08000CA790 /* ChoosePaymentViewController.xib */; };
 		9E78A83C16E35EF6000CA790 /* PublishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A83A16E35EF6000CA790 /* PublishViewController.m */; };
 		9E78A83D16E35EF6000CA790 /* PublishViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E78A83B16E35EF6000CA790 /* PublishViewController.xib */; };
-		9E78A84216E36256000CA790 /* ProfileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A84116E36256000CA790 /* ProfileManager.m */; };
 		9E78A84616E363C8000CA790 /* CarAdManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A84516E363C8000CA790 /* CarAdManager.m */; };
-		9E78A84916E363E3000CA790 /* UserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A84816E363E3000CA790 /* UserProfile.m */; };
 		9E78A84C16E363FC000CA790 /* CarAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A84B16E363FC000CA790 /* CarAd.m */; };
 		9E78A84F16E36425000CA790 /* StoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A84E16E36425000CA790 /* StoreManager.m */; };
 		9E78A85216E3643B000CA790 /* Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A85116E3643B000CA790 /* Store.m */; };
@@ -59,7 +57,6 @@
 		9E9F08D616E4DC3A000E8471 /* open-dropdown-bg-inner.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08CF16E4DC3A000E8471 /* open-dropdown-bg-inner.png */; };
 		9E9F08D716E4DC3A000E8471 /* open-dropdown-bg-top.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F08D016E4DC3A000E8471 /* open-dropdown-bg-top.png */; };
 		9E9F090A16E553D4000E8471 /* BrandCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F090916E553D2000E8471 /* BrandCell.m */; };
-		9E9F090C16E55548000E8471 /* Toyota.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F090B16E55548000E8471 /* Toyota.png */; };
 		9E9F090E16E55695000E8471 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F090D16E55695000E8471 /* QuartzCore.framework */; };
 		9E9F09E716E63669000E8471 /* MJDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09D916E63669000E8471 /* MJDetailViewController.m */; };
 		9E9F09E816E63669000E8471 /* MJDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F09DA16E63669000E8471 /* MJDetailViewController.xib */; };
@@ -73,6 +70,13 @@
 		9E9F09F516E63E22000E8471 /* CarAdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F09F416E63E22000E8471 /* CarAdCell.m */; };
 		9E9F09F716E63E39000E8471 /* CarAdCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F09F616E63E38000E8471 /* CarAdCell.xib */; };
 		9E9F09F916E63EBB000E8471 /* sampleCar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F09F816E63EBB000E8471 /* sampleCar.png */; };
+		9E9F0A1016E75E3B000E8471 /* CarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F0A0716E75E3B000E8471 /* CarModel.m */; };
+		9E9F0A1116E75E3B000E8471 /* ModelBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F0A0916E75E3B000E8471 /* ModelBrand.m */; };
+		9E9F0A1216E75E3B000E8471 /* ProfileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F0A0D16E75E3B000E8471 /* ProfileManager.m */; };
+		9E9F0A1316E75E3B000E8471 /* UserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F0A0F16E75E3B000E8471 /* UserProfile.m */; };
+		9E9F0A1716E75E86000E8471 /* Toyota.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A1516E75E86000E8471 /* Toyota.png */; };
+		9E9F0A1A16E75EBB000E8471 /* CarModelLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F0A1916E75EBA000E8471 /* CarModelLoader.m */; };
+		9E9F0A1C16E76B3F000E8471 /* CarModels.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A1B16E76B3F000E8471 /* CarModels.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -122,14 +126,9 @@
 		9E78A83916E35EF5000CA790 /* PublishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishViewController.h; sourceTree = "<group>"; };
 		9E78A83A16E35EF6000CA790 /* PublishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishViewController.m; sourceTree = "<group>"; };
 		9E78A83B16E35EF6000CA790 /* PublishViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PublishViewController.xib; sourceTree = "<group>"; };
-		9E78A83F16E361F8000CA790 /* Brands.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Brands.h; sourceTree = "<group>"; };
-		9E78A84016E36256000CA790 /* ProfileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileManager.h; sourceTree = "<group>"; };
-		9E78A84116E36256000CA790 /* ProfileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileManager.m; sourceTree = "<group>"; };
 		9E78A84316E362A5000CA790 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		9E78A84416E363C8000CA790 /* CarAdManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarAdManager.h; sourceTree = "<group>"; };
 		9E78A84516E363C8000CA790 /* CarAdManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarAdManager.m; sourceTree = "<group>"; };
-		9E78A84716E363E3000CA790 /* UserProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfile.h; sourceTree = "<group>"; };
-		9E78A84816E363E3000CA790 /* UserProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfile.m; sourceTree = "<group>"; };
 		9E78A84A16E363FB000CA790 /* CarAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarAd.h; sourceTree = "<group>"; };
 		9E78A84B16E363FC000CA790 /* CarAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarAd.m; sourceTree = "<group>"; };
 		9E78A84D16E36425000CA790 /* StoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreManager.h; sourceTree = "<group>"; };
@@ -160,7 +159,6 @@
 		9E9F08D016E4DC3A000E8471 /* open-dropdown-bg-top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "open-dropdown-bg-top.png"; sourceTree = "<group>"; };
 		9E9F090816E553D1000E8471 /* BrandCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrandCell.h; sourceTree = "<group>"; };
 		9E9F090916E553D2000E8471 /* BrandCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrandCell.m; sourceTree = "<group>"; };
-		9E9F090B16E55548000E8471 /* Toyota.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Toyota.png; sourceTree = "<group>"; };
 		9E9F090D16E55695000E8471 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9E9F09D816E63669000E8471 /* MJDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJDetailViewController.h; sourceTree = "<group>"; };
 		9E9F09D916E63669000E8471 /* MJDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJDetailViewController.m; sourceTree = "<group>"; };
@@ -181,6 +179,18 @@
 		9E9F09F416E63E22000E8471 /* CarAdCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarAdCell.m; sourceTree = "<group>"; };
 		9E9F09F616E63E38000E8471 /* CarAdCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarAdCell.xib; sourceTree = "<group>"; };
 		9E9F09F816E63EBB000E8471 /* sampleCar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sampleCar.png; sourceTree = "<group>"; };
+		9E9F0A0616E75E3B000E8471 /* CarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarModel.h; sourceTree = "<group>"; };
+		9E9F0A0716E75E3B000E8471 /* CarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarModel.m; sourceTree = "<group>"; };
+		9E9F0A0816E75E3B000E8471 /* ModelBrand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelBrand.h; sourceTree = "<group>"; };
+		9E9F0A0916E75E3B000E8471 /* ModelBrand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelBrand.m; sourceTree = "<group>"; };
+		9E9F0A0C16E75E3B000E8471 /* ProfileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileManager.h; sourceTree = "<group>"; };
+		9E9F0A0D16E75E3B000E8471 /* ProfileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileManager.m; sourceTree = "<group>"; };
+		9E9F0A0E16E75E3B000E8471 /* UserProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserProfile.h; sourceTree = "<group>"; };
+		9E9F0A0F16E75E3B000E8471 /* UserProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserProfile.m; sourceTree = "<group>"; };
+		9E9F0A1516E75E86000E8471 /* Toyota.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Toyota.png; sourceTree = "<group>"; };
+		9E9F0A1816E75EBA000E8471 /* CarModelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarModelLoader.h; sourceTree = "<group>"; };
+		9E9F0A1916E75EBA000E8471 /* CarModelLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarModelLoader.m; sourceTree = "<group>"; };
+		9E9F0A1B16E76B3F000E8471 /* CarModels.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CarModels.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,7 +211,6 @@
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
-				9E9F090D16E55695000E8471 /* QuartzCore.framework */,
 				9E78A7BC16E34BA2000CA790 /* Bezaat */,
 				9E9F082F16E4AFCF000E8471 /* Resources */,
 				9E78A7B516E34BA2000CA790 /* Frameworks */,
@@ -220,6 +229,7 @@
 		9E78A7B516E34BA2000CA790 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9E9F090D16E55695000E8471 /* QuartzCore.framework */,
 				9E78A7B616E34BA2000CA790 /* UIKit.framework */,
 				9E78A7B816E34BA2000CA790 /* Foundation.framework */,
 				9E78A7BA16E34BA2000CA790 /* CoreGraphics.framework */,
@@ -307,12 +317,10 @@
 		9E78A7DD16E34CE9000CA790 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				9E78A83F16E361F8000CA790 /* Brands.h */,
 				9E78A87016E49EE1000CA790 /* Countries.h */,
-				9E78A84016E36256000CA790 /* ProfileManager.h */,
-				9E78A84116E36256000CA790 /* ProfileManager.m */,
-				9E78A84716E363E3000CA790 /* UserProfile.h */,
-				9E78A84816E363E3000CA790 /* UserProfile.m */,
+				9E9F0A0516E75E3B000E8471 /* Car Models */,
+				9E9F0A0A16E75E3B000E8471 /* Locations */,
+				9E9F0A0B16E75E3B000E8471 /* User Profile */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -430,9 +438,10 @@
 		9E9F082F16E4AFCF000E8471 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9E9F0A1416E75E86000E8471 /* Car Models */,
+				9E9F0A1616E75E86000E8471 /* Locations */,
 				9E9F09F116E63DFC000E8471 /* favourite.png */,
 				9E9F09F816E63EBB000E8471 /* sampleCar.png */,
-				9E9F090B16E55548000E8471 /* Toyota.png */,
 				9E9F08C916E4DC3A000E8471 /* CustomDropDownList resources */,
 			);
 			name = Resources;
@@ -510,6 +519,53 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		9E9F0A0516E75E3B000E8471 /* Car Models */ = {
+			isa = PBXGroup;
+			children = (
+				9E9F0A0616E75E3B000E8471 /* CarModel.h */,
+				9E9F0A0716E75E3B000E8471 /* CarModel.m */,
+				9E9F0A0816E75E3B000E8471 /* ModelBrand.h */,
+				9E9F0A0916E75E3B000E8471 /* ModelBrand.m */,
+				9E9F0A1816E75EBA000E8471 /* CarModelLoader.h */,
+				9E9F0A1916E75EBA000E8471 /* CarModelLoader.m */,
+			);
+			path = "Car Models";
+			sourceTree = "<group>";
+		};
+		9E9F0A0A16E75E3B000E8471 /* Locations */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Locations;
+			sourceTree = "<group>";
+		};
+		9E9F0A0B16E75E3B000E8471 /* User Profile */ = {
+			isa = PBXGroup;
+			children = (
+				9E9F0A0C16E75E3B000E8471 /* ProfileManager.h */,
+				9E9F0A0D16E75E3B000E8471 /* ProfileManager.m */,
+				9E9F0A0E16E75E3B000E8471 /* UserProfile.h */,
+				9E9F0A0F16E75E3B000E8471 /* UserProfile.m */,
+			);
+			path = "User Profile";
+			sourceTree = "<group>";
+		};
+		9E9F0A1416E75E86000E8471 /* Car Models */ = {
+			isa = PBXGroup;
+			children = (
+				9E9F0A1516E75E86000E8471 /* Toyota.png */,
+				9E9F0A1B16E76B3F000E8471 /* CarModels.plist */,
+			);
+			path = "Car Models";
+			sourceTree = "<group>";
+		};
+		9E9F0A1616E75E86000E8471 /* Locations */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Locations;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -583,12 +639,13 @@
 				9E9F08D516E4DC3A000E8471 /* open-dropdown-bg-bottom.png in Resources */,
 				9E9F08D616E4DC3A000E8471 /* open-dropdown-bg-inner.png in Resources */,
 				9E9F08D716E4DC3A000E8471 /* open-dropdown-bg-top.png in Resources */,
-				9E9F090C16E55548000E8471 /* Toyota.png in Resources */,
 				9E9F09E816E63669000E8471 /* MJDetailViewController.xib in Resources */,
 				9E9F09EA16E63669000E8471 /* MJSecondDetailViewController.xib in Resources */,
 				9E9F09F216E63DFC000E8471 /* favourite.png in Resources */,
 				9E9F09F716E63E39000E8471 /* CarAdCell.xib in Resources */,
 				9E9F09F916E63EBB000E8471 /* sampleCar.png in Resources */,
+				9E9F0A1716E75E86000E8471 /* Toyota.png in Resources */,
+				9E9F0A1C16E76B3F000E8471 /* CarModels.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,9 +669,7 @@
 				9E78A82816E35ABD000CA790 /* EditProfileViewController.m in Sources */,
 				9E78A82D16E35D08000CA790 /* ChoosePaymentViewController.m in Sources */,
 				9E78A83C16E35EF6000CA790 /* PublishViewController.m in Sources */,
-				9E78A84216E36256000CA790 /* ProfileManager.m in Sources */,
 				9E78A84616E363C8000CA790 /* CarAdManager.m in Sources */,
-				9E78A84916E363E3000CA790 /* UserProfile.m in Sources */,
 				9E78A84C16E363FC000CA790 /* CarAd.m in Sources */,
 				9E78A84F16E36425000CA790 /* StoreManager.m in Sources */,
 				9E78A85216E3643B000CA790 /* Store.m in Sources */,
@@ -633,6 +688,11 @@
 				9E9F09ED16E63669000E8471 /* RFQuiltLayout.m in Sources */,
 				9E9F09F016E636BA000E8471 /* SubBrandCell.m in Sources */,
 				9E9F09F516E63E22000E8471 /* CarAdCell.m in Sources */,
+				9E9F0A1016E75E3B000E8471 /* CarModel.m in Sources */,
+				9E9F0A1116E75E3B000E8471 /* ModelBrand.m in Sources */,
+				9E9F0A1216E75E3B000E8471 /* ProfileManager.m in Sources */,
+				9E9F0A1316E75E3B000E8471 /* UserProfile.m in Sources */,
+				9E9F0A1A16E75EBB000E8471 /* CarModelLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
