@@ -10,4 +10,12 @@
 
 @interface City : NSObject
 
+#pragma mark - properties
+@property (strong, nonatomic) NSString * name;
+@property (strong, nonatomic) NSString * imageFileName;
+@property (strong, nonatomic) UIImage * image;
+
+#pragma mark - methods
+- (id) initWithName:(NSString *) aName imageFileName:(NSString *) aImageFileName;
+
 @end

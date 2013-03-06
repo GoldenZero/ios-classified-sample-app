@@ -67,7 +67,7 @@
         ModelCell * cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"ModelCell" forIndexPath:indexPath];
         
         CarModel * aCarModel = [modelsArray objectAtIndex:indexPath.row];
-        cell.brandImageView.image = [UIImage imageNamed:aCarModel.imageFileName];
+        cell.brandImageView.image = aCarModel.image;
         return cell;
     }
     return [UICollectionViewCell new];

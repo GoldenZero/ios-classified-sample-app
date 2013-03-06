@@ -11,11 +11,13 @@
 #import <UIKit/UIKit.h>
 #import "DropDownList.h"
 #import "SignInViewController.h"
+#import "CountryLoader.h"
 
 @interface ChooseLocationViewController : UIViewController <DropDownListDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroungImageView;
 
 #pragma mark - actions
 - (IBAction)nextBtnPressed:(id)sender;

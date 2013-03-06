@@ -9,7 +9,6 @@
 #import "ChooseLocationViewController.h"
 #import "Configuration.h"
 #import "BaseDataObject.h"
-#import "Countries.h"
 
 #pragma mark - drop down lists parameters
 
@@ -43,15 +42,18 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     DropDownList * citiesLst;
     NSMutableArray * countriesLstItems;
     NSMutableArray * citiesLstItems;
-    enum Country chosenCountry;
-    enum City chosenCity;
+    NSArray * countriesArray;
+    NSArray * citiesArray;
+    Country * chosenCountry;
+    City * chosenCity;
     BOOL countryChosen;
     BOOL cityChosen;
+    CountryLoader * countryLoader;
 }
 @end
 
 @implementation ChooseLocationViewController
-@synthesize nextBtn;
+@synthesize nextBtn, backgroungImageView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -67,6 +69,10 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //countryLoader
+    countryLoader = [[CountryLoader alloc] init];
+    countriesArray = [countryLoader loadCountriesFromPlistFileWithName:LOCATIONS_PLIST_FILE_NAME];
     
     //self initialize drop down lists
     [self initLocationLists];
@@ -93,11 +99,12 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     
     if (theDropDownList == countriesLst)
     {
-        chosenCountry = k;
-        //NSLog(@"k = %i, chosen country = %@", k, [GenericMethods countryName:k]);
+        chosenCountry =  [countriesArray objectAtIndex:k];
+        citiesArray = chosenCountry.citiesArray;
+        
         citiesLst.name = CITIES_DROPDOWNLIST_NAME;
         
-        [self initCitiesListContentOfCountry:k];
+        [self initCitiesListContentOfCurrentCountry];
         
         [citiesLst setUserInteractionEnabled:YES];
         countryChosen = YES;
@@ -105,6 +112,10 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     }
     else if (theDropDownList == citiesLst)
     {
+        chosenCity = (City *) [citiesArray objectAtIndex:k];
+        if ((chosenCity) && (chosenCity.image))
+            [self.backgroungImageView setImage:chosenCity.image];
+        
         cityChosen = YES;
     }
     
@@ -184,18 +195,22 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
 - (void) initCountriesListContent {
     
 	countriesLstItems = [[NSMutableArray alloc] init];
-	for (NSUInteger i = 0; i <= COUNTRY_COUNT; i++)
-	{
-		BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
-		
-        BaseDataObject * tempBaseDataObject = [[BaseDataObject alloc] init];
-		tempBaseDataObject.name = [GenericMethods countryName:i];
-		tempBaseDataObject.description = @"";
-		tempBaseDataObject.image = nil;
-        
-		tempBaseItemObject.dataObject = tempBaseDataObject;
-		[countriesLstItems addObject:tempBaseItemObject];
-	}
+    
+    if (countriesArray)
+    {
+        for (NSUInteger i = 0; i < countriesArray.count; i++)
+        {
+            BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
+            
+            BaseDataObject * tempBaseDataObject = [[BaseDataObject alloc] init];
+            tempBaseDataObject.name = [(Country *) [countriesArray objectAtIndex:i] name];
+            tempBaseDataObject.description = @"";
+            tempBaseDataObject.image = nil;
+            
+            tempBaseItemObject.dataObject = tempBaseDataObject;
+            [countriesLstItems addObject:tempBaseItemObject];
+        }
+    }
     countriesLst.objects = countriesLstItems;
 }
 
@@ -231,182 +246,26 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
 	citiesLst.parentViewController = self;
     
     //2- create the content
-    [self initCitiesListContentOfCountry:-1];
+    [self initCitiesListContentOfCurrentCountry];
 }
 
-- (void) initCitiesListContentOfCountry:(int) theCountry {//if theCountry == -1 --> empty list!
+- (void) initCitiesListContentOfCurrentCountry {
+    
     
     if (!citiesLstItems)
         citiesLstItems = [[NSMutableArray alloc] init];
     [citiesLstItems removeAllObjects];
     
-    int numOfCities = -1;
-    
-    switch (theCountry) {
-        case SaudiArabia: numOfCities = SAUDI_ARABIA_CITY_COUNT;
-            break;
-            
-        case Emirates: numOfCities = EMIRATES_CITY_COUNT;
-            break;
-            
-        case Kuwait: numOfCities = KUWAIT_CITY_COUNT;
-            break;
-            
-        case Qatar: numOfCities = QATAR_CITY_COUNT;
-            break;
-            
-        case Bahrain: numOfCities = BAHRAIN_CITY_COUNT;
-            break;
-            
-        case Yemen: numOfCities = YEMEN_CITY_COUNT;
-            break;
-            
-        case Iraq: numOfCities = IRAQ_CITY_COUNT;
-            break;
-            
-        case Syria: numOfCities = SYRIA_CITY_COUNT;
-            break;
-            
-        case Jordan: numOfCities = JORDAN_CITY_COUNT;
-            break;
-            
-        case Lebanon: numOfCities = LEBANON_CITY_COUNT;
-            break;
-            
-        case Egypt: numOfCities = EGYPT_CITY_COUNT;
-            break;
-            
-        case Algeria: numOfCities = ALGERIA_CITY_COUNT;
-            break;
-            
-        case Tunisia: numOfCities = TUNISIA_CITY_COUNT;
-            break;
-            
-        case Sudan: numOfCities = SUDAN_CITY_COUNT;
-            break;
-            
-        case Morocco: numOfCities = MOROCCO_CITY_COUNT;
-            break;
-            
-        case Libya: numOfCities = LIBYA_CITY_COUNT;
-            break;
-            
-        case Somalia: numOfCities = SOMALIA_CITY_COUNT;
-            break;
-            
-        case Mauritania: numOfCities = MAURITANIA_CITY_COUNT;
-            break;
-            
-        case Djibouti: numOfCities = DJIBOUTI_CITY_COUNT;
-            break;
-            
-        case Comoros: numOfCities = COMOROS_CITY_COUNT;
-            break;
-            
-        case Oman: numOfCities = OMAN_CITY_COUNT;
-            break;
-            
-        case Palestine: numOfCities = PALESTINE_CITY_COUNT;
-            break;
-    }
-    
-    if (numOfCities == -1)
+    if (chosenCountry)
     {
-        /*
-        for (NSUInteger i = 0; i < 2; i++)//fake 2 lines if country not set yet
+        citiesArray = chosenCountry.citiesArray;
+        for (NSUInteger i = 0; i < citiesArray.count; i++)
         {
             BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
             
             BaseDataObject * tempBaseDataObject = [[BaseDataObject alloc] init];
-            tempBaseDataObject.name = @"...";
-            tempBaseDataObject.description = @"";
-            tempBaseDataObject.image = nil;
+            tempBaseDataObject.name = [(City *)[citiesArray objectAtIndex:i] name];
             
-            tempBaseItemObject.dataObject = tempBaseDataObject;
-            [citiesLstItems addObject:tempBaseItemObject];
-        }
-         */
-    }
-    else
-    {
-        for (NSUInteger i = 0; i < numOfCities; i++)
-        {
-            BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
-            
-            BaseDataObject * tempBaseDataObject = [[BaseDataObject alloc] init];
-            
-            switch (theCountry) {
-                case SaudiArabia:
-                    tempBaseDataObject.name = [GenericMethods SaudiArabiaCityName:i];
-                    break;
-                    
-                case Emirates: tempBaseDataObject.name = [GenericMethods EmiratesCityName:i];
-                    break;
-                    
-                case Kuwait: tempBaseDataObject.name = [GenericMethods KuwaitCityName:i];
-                    break;
-                /*
-                case Qatar:
-                     break;
-                     
-                case Bahrain:
-                     break;
-                     
-                case Yemen:
-                     break;
-                     
-                case Iraq:
-                     break;
-                     
-                case Syria:
-                     break;
-                     
-                case Jordan:
-                     break;
-                     
-                case Lebanon:
-                     break;
-                     
-                case Egypt:
-                     break;
-                     
-                case Algeria:
-                     break;
-                     
-                case Tunisia:
-                     break;
-                     
-                case Sudan:
-                     break;
-                     
-                case Morocco:
-                     break;
-                     
-                case Libya:
-                     break;
-                     
-                case Somalia:
-                     break;
-                     
-                case Mauritania:
-                     break;
-                     
-                case Djibouti:
-                     break;
-                     
-                case Comoros:
-                     break;
-                     
-                case Oman:
-                     break;
-                     
-                case Palestine:
-                     break;
-                */
-                
-                default: tempBaseDataObject.name = @"";
-                    break;
-            }
             tempBaseDataObject.description = @"";
             tempBaseDataObject.image = nil;
             
@@ -414,24 +273,10 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
             [citiesLstItems addObject:tempBaseItemObject];
             
         }
+        
+        citiesLst.objects = citiesLstItems;
+        [citiesLst reloadInputViews];
     }
-    
-    citiesLst.objects = citiesLstItems;
-    [citiesLst reloadInputViews];
-    /*
-    if (citiesLst.objects)
-    {
-        [citiesLst.objects removeAllObjects];
-        [citiesLst.objects addObjectsFromArray:citiesLstItems];
-    }
-    else
-    {
-        //citiesLst.objects = citiesLstItems;
-        citiesLst.objects = [[NSMutableArray alloc] initWithArray:citiesLstItems];
-    }
-     */
-    //[citiesLst.theTransparentOverlay.table reloadData];
-    
 }
 
 @end

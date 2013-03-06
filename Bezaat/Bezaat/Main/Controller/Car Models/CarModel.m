@@ -15,10 +15,10 @@
 
     self = [super init];
     if (self) {
-        //init name
+        //name
         self.name = aName;
         
-        //init imageFileName
+        //imageFileName
         self.imageFileName = aImageFileName;
         
         //load image

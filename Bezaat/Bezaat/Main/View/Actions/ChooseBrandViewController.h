@@ -20,6 +20,7 @@
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) UIBarButtonItem * okBtn;
+
 #pragma mark - actions
 
 
