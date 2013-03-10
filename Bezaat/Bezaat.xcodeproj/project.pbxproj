@@ -86,6 +86,12 @@
 		9E9F0A3516E7CF16000E8471 /* Damascus.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A3216E7CF16000E8471 /* Damascus.png */; };
 		9E9F0A3616E7CF16000E8471 /* Locations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A3316E7CF16000E8471 /* Locations.plist */; };
 		9E9F0A3716E7CF16000E8471 /* Riyadh.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A3416E7CF16000E8471 /* Riyadh.png */; };
+		9E9F0A7416EC8248000E8471 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F0A7316EC8248000E8471 /* Accounts.framework */; };
+		9E9F0A7616EC824E000E8471 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F0A7516EC824E000E8471 /* Social.framework */; };
+		9E9F0A8816ECA939000E8471 /* TWAccountsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F0A8316ECA939000E8471 /* TWAccountsViewController.m */; };
+		9E9F0A8916ECA939000E8471 /* TWAccountsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A8416ECA939000E8471 /* TWAccountsViewController.xib */; };
+		9E9F0A8A16ECA939000E8471 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F0A8616ECA939000E8471 /* ViewController.m */; };
+		9E9F0A8B16ECA939000E8471 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A8716ECA939000E8471 /* ViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -211,6 +217,14 @@
 		9E9F0A3216E7CF16000E8471 /* Damascus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Damascus.png; sourceTree = "<group>"; };
 		9E9F0A3316E7CF16000E8471 /* Locations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Locations.plist; sourceTree = "<group>"; };
 		9E9F0A3416E7CF16000E8471 /* Riyadh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Riyadh.png; sourceTree = "<group>"; };
+		9E9F0A7316EC8248000E8471 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		9E9F0A7516EC824E000E8471 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		9E9F0A8216ECA939000E8471 /* TWAccountsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWAccountsViewController.h; sourceTree = "<group>"; };
+		9E9F0A8316ECA939000E8471 /* TWAccountsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWAccountsViewController.m; sourceTree = "<group>"; };
+		9E9F0A8416ECA939000E8471 /* TWAccountsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TWAccountsViewController.xib; sourceTree = "<group>"; };
+		9E9F0A8516ECA939000E8471 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		9E9F0A8616ECA939000E8471 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		9E9F0A8716ECA939000E8471 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +232,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E9F0A7616EC824E000E8471 /* Social.framework in Frameworks */,
+				9E9F0A7416EC8248000E8471 /* Accounts.framework in Frameworks */,
 				9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */,
 				9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */,
 				9E78A7BB16E34BA2000CA790 /* CoreGraphics.framework in Frameworks */,
@@ -231,6 +247,8 @@
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
+				9E9F0A7516EC824E000E8471 /* Social.framework */,
+				9E9F0A7316EC8248000E8471 /* Accounts.framework */,
 				9E78A7BC16E34BA2000CA790 /* Bezaat */,
 				9E9F082F16E4AFCF000E8471 /* Resources */,
 				9E78A7B516E34BA2000CA790 /* Frameworks */,
@@ -571,6 +589,7 @@
 				9E9F0A0D16E75E3B000E8471 /* ProfileManager.m */,
 				9E9F0A0E16E75E3B000E8471 /* UserProfile.h */,
 				9E9F0A0F16E75E3B000E8471 /* UserProfile.m */,
+				9E9F0A8116ECA939000E8471 /* Temp for social Login */,
 			);
 			path = "User Profile";
 			sourceTree = "<group>";
@@ -595,6 +614,19 @@
 				9E9F0A3416E7CF16000E8471 /* Riyadh.png */,
 			);
 			path = Locations;
+			sourceTree = "<group>";
+		};
+		9E9F0A8116ECA939000E8471 /* Temp for social Login */ = {
+			isa = PBXGroup;
+			children = (
+				9E9F0A8216ECA939000E8471 /* TWAccountsViewController.h */,
+				9E9F0A8316ECA939000E8471 /* TWAccountsViewController.m */,
+				9E9F0A8416ECA939000E8471 /* TWAccountsViewController.xib */,
+				9E9F0A8516ECA939000E8471 /* ViewController.h */,
+				9E9F0A8616ECA939000E8471 /* ViewController.m */,
+				9E9F0A8716ECA939000E8471 /* ViewController.xib */,
+			);
+			path = "Temp for social Login";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -683,6 +715,8 @@
 				9E9F0A3516E7CF16000E8471 /* Damascus.png in Resources */,
 				9E9F0A3616E7CF16000E8471 /* Locations.plist in Resources */,
 				9E9F0A3716E7CF16000E8471 /* Riyadh.png in Resources */,
+				9E9F0A8916ECA939000E8471 /* TWAccountsViewController.xib in Resources */,
+				9E9F0A8B16ECA939000E8471 /* ViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -733,6 +767,8 @@
 				9E9F0A2916E78B31000E8471 /* Country.m in Sources */,
 				9E9F0A2C16E78C5C000E8471 /* City.m in Sources */,
 				9E9F0A3116E7927F000E8471 /* CountryLoader.m in Sources */,
+				9E9F0A8816ECA939000E8471 /* TWAccountsViewController.m in Sources */,
+				9E9F0A8A16ECA939000E8471 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
