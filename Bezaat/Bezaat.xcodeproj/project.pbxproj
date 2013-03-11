@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
 		9E78A7BB16E34BA2000CA790 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7BA16E34BA2000CA790 /* CoreGraphics.framework */; };
@@ -92,20 +93,19 @@
 		9E9F0A8916ECA939000E8471 /* TWAccountsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A8416ECA939000E8471 /* TWAccountsViewController.xib */; };
 		9E9F0A8A16ECA939000E8471 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9F0A8616ECA939000E8471 /* ViewController.m */; };
 		9E9F0A8B16ECA939000E8471 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A8716ECA939000E8471 /* ViewController.xib */; };
-		9E9F0A9416ECAE89000E8471 /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F0A9116ECAE34000E8471 /* libAubadaLibrary.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9E9F0A9016ECAE34000E8471 /* PBXContainerItemProxy */ = {
+		9E4315B616EDFEE30040359E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9E9F0A8C16ECAE34000E8471 /* AubadaLibrary.xcodeproj */;
+			containerPortal = 9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = B6C66934164D58CD00FADEBC;
 			remoteInfo = AubadaLibrary;
 		};
-		9E9F0A9216ECAE81000E8471 /* PBXContainerItemProxy */ = {
+		9E4315B816EDFEEC0040359E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9E9F0A8C16ECAE34000E8471 /* AubadaLibrary.xcodeproj */;
+			containerPortal = 9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = B6C66933164D58CD00FADEBC;
 			remoteInfo = AubadaLibrary;
@@ -113,6 +113,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9E78A7B816E34BA2000CA790 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -243,7 +244,6 @@
 		9E9F0A8516ECA939000E8471 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		9E9F0A8616ECA939000E8471 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9E9F0A8716ECA939000E8471 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
-		9E9F0A8C16ECAE34000E8471 /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,13 +257,21 @@
 				9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */,
 				9E78A7BB16E34BA2000CA790 /* CoreGraphics.framework in Frameworks */,
 				9E9F090E16E55695000E8471 /* QuartzCore.framework in Frameworks */,
-				9E9F0A9416ECAE89000E8471 /* libAubadaLibrary.a in Frameworks */,
+				9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9E4315B316EDFEE30040359E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9E4315B716EDFEE30040359E /* libAubadaLibrary.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
@@ -285,7 +293,7 @@
 		9E78A7B516E34BA2000CA790 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9E9F0A8C16ECAE34000E8471 /* AubadaLibrary.xcodeproj */,
+				9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */,
 				9E9F0A7516EC824E000E8471 /* Social.framework */,
 				9E9F0A7316EC8248000E8471 /* Accounts.framework */,
 				9E9F090D16E55695000E8471 /* QuartzCore.framework */,
@@ -650,14 +658,6 @@
 			path = "Temp for social Login";
 			sourceTree = "<group>";
 		};
-		9E9F0A8D16ECAE34000E8471 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9E9F0A9116ECAE34000E8471 /* libAubadaLibrary.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -672,7 +672,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				9E9F0A9316ECAE81000E8471 /* PBXTargetDependency */,
+				9E4315B916EDFEEC0040359E /* PBXTargetDependency */,
 			);
 			name = Bezaat;
 			productName = Bezaat;
@@ -700,8 +700,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 9E9F0A8D16ECAE34000E8471 /* Products */;
-					ProjectRef = 9E9F0A8C16ECAE34000E8471 /* AubadaLibrary.xcodeproj */;
+					ProductGroup = 9E4315B316EDFEE30040359E /* Products */;
+					ProjectRef = 9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -712,11 +712,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		9E9F0A9116ECAE34000E8471 /* libAubadaLibrary.a */ = {
+		9E4315B716EDFEE30040359E /* libAubadaLibrary.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libAubadaLibrary.a;
-			remoteRef = 9E9F0A9016ECAE34000E8471 /* PBXContainerItemProxy */;
+			remoteRef = 9E4315B616EDFEE30040359E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -821,10 +821,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9E9F0A9316ECAE81000E8471 /* PBXTargetDependency */ = {
+		9E4315B916EDFEEC0040359E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AubadaLibrary;
-			targetProxy = 9E9F0A9216ECAE81000E8471 /* PBXContainerItemProxy */;
+			targetProxy = 9E4315B816EDFEEC0040359E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -902,6 +902,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bezaat/Bezaat-Prefix.pch";
 				INFOPLIST_FILE = "Bezaat/Bezaat-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -913,6 +914,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bezaat/Bezaat-Prefix.pch";
 				INFOPLIST_FILE = "Bezaat/Bezaat-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

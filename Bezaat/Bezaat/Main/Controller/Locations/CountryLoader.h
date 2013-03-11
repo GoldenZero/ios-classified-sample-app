@@ -7,15 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AubadaLibrary/JSONParser.h>
+#import <AubadaLibrary/InternetManager.h>
 #import "Country.h"
 
-#define CITY_NAME_PLIST_KEY         @"name"
-#define IMAGE_FILE_NAME_PLIST_KEY   @"imageFileName"
-#define CITIES_PLIST_KEY            @"cities"
+@protocol CountryLoaderDelegate <NSObject>
+@required
+- (void) countriesDidFailLoadingWithError:(NSError*) error;
+- (void) countriesDidSucceedLoadingWithData:(NSArray*) resultArray;
+@end
 
-@interface CountryLoader : NSObject
 
-//The plistFileName should relate to a file added to application resources
-- (NSArray *) loadCountriesFromPlistFileWithName:(NSString *)plistFileName;
+@interface CountryLoader : NSObject <DataDelegate>
+
+#pragma mark - properties
+@property (strong, nonatomic) id <CountryLoaderDelegate> delegate;
+
+#pragma mark - methods
+- (id) initWithDelegate:(id <CountryLoaderDelegate>) del;
+- (void) loadCountries;
+//- (void) loadCitiesOfCountry:(NSUInteger) countryID;
 
 @end

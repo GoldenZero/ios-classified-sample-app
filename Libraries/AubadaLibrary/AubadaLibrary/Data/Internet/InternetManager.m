@@ -107,12 +107,71 @@
     // Get the temp file path
     NSString* tempFilePath = [[FileManager sharedInstance] filePathInTemp:_tempFileName];
     
+
     // If the data is JSON, parse it to PLIST first before writing it to the temp file
     if ([_responseType compare:@"JSON"] == NSOrderedSame) {
         NSError* error;
+        
+        /*
         [[NSJSONSerialization JSONObjectWithData:dataSoFar
                                         options:0
                                            error:&error] writeToFile:tempFilePath atomically:YES];
+        */
+        
+        //................................................................................
+        //get the serialized json object
+        id jsonData = [NSJSONSerialization JSONObjectWithData:dataSoFar
+                                                      options:0
+                                                        error:&error];
+        //check for null values to be replaced by empty strings
+        //try array
+        if ([jsonData isKindOfClass:[NSArray class]])
+        {
+            NSMutableArray * toBeWritten = [NSMutableArray new];
+            if (jsonData)
+            {
+                for (NSDictionary * dict in jsonData)
+                {
+                    if (dict)
+                    {
+                        NSMutableDictionary * clonedDict = [NSMutableDictionary new];
+                        for (NSString * key in [dict allKeys])
+                        {
+                            if ([[dict objectForKey:key] isKindOfClass:[NSNull class]])
+                                [clonedDict setValue:@"" forKey:key];
+                            else
+                                [clonedDict setValue:[dict objectForKey:key] forKey:key];
+                        }
+                        [toBeWritten addObject:clonedDict];
+                    }
+                }
+            }
+            [toBeWritten writeToFile:tempFilePath atomically:YES];
+            
+        }
+        //try dictionary
+        else if ([jsonData isKindOfClass:[NSDictionary class]])
+        {
+            if (jsonData)
+            {
+                NSMutableDictionary * toBeWritten = [NSMutableDictionary new];
+                
+                for (NSString * key in [jsonData allKeys])
+                {
+                    if ([[jsonData objectForKey:key] isKindOfClass:[NSNull class]])
+                        [toBeWritten setValue:@"" forKey:key];
+                    else
+                        [toBeWritten setValue:[jsonData objectForKey:key] forKey:key];
+                }
+                
+                [toBeWritten writeToFile:tempFilePath atomically:YES];
+            }
+        }
+        else if (![jsonData isKindOfClass:[NSNull class]])
+            [jsonData writeToFile:tempFilePath atomically:YES];
+        
+        //................................................................................
+        
         if (error) {
             [self.delegate manager:self connectionDidSucceedWithObjects:nil];
             dataSoFar = nil;

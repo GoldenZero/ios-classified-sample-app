@@ -13,7 +13,7 @@
 #import "SignInViewController.h"
 #import "CountryLoader.h"
 
-@interface ChooseLocationViewController : UIViewController <DropDownListDelegate>
+@interface ChooseLocationViewController : UIViewController <DropDownListDelegate, CountryLoaderDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UIButton *nextBtn;

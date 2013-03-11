@@ -49,6 +49,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     BOOL countryChosen;
     BOOL cityChosen;
     CountryLoader * countryLoader;
+    MBProgressHUD2 * loadingHUD;
 }
 @end
 
@@ -71,11 +72,12 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     [super viewDidLoad];
     
     //countryLoader
-    countryLoader = [[CountryLoader alloc] init];
-    countriesArray = [countryLoader loadCountriesFromPlistFileWithName:LOCATIONS_PLIST_FILE_NAME];
+    countryLoader = [[CountryLoader alloc] initWithDelegate:self];
+    [self showLoadingIndicator];
+    [countryLoader loadCountries];
     
     //self initialize drop down lists
-    [self initLocationLists];
+    //[self initLocationLists];
     
 }
 
@@ -100,7 +102,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     if (theDropDownList == countriesLst)
     {
         chosenCountry =  [countriesArray objectAtIndex:k];
-        citiesArray = chosenCountry.citiesArray;
+        citiesArray = chosenCountry.cities;
         
         citiesLst.name = CITIES_DROPDOWNLIST_NAME;
         
@@ -203,7 +205,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
             BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
             
             BaseDataObject * tempBaseDataObject = [[BaseDataObject alloc] init];
-            tempBaseDataObject.name = [(Country *) [countriesArray objectAtIndex:i] name];
+            tempBaseDataObject.name = [(Country *) [countriesArray objectAtIndex:i] countryName];
             tempBaseDataObject.description = @"";
             tempBaseDataObject.image = nil;
             
@@ -258,7 +260,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
     
     if (chosenCountry)
     {
-        citiesArray = chosenCountry.citiesArray;
+        citiesArray = chosenCountry.cities;
         for (NSUInteger i = 0; i < citiesArray.count; i++)
         {
             BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
@@ -278,5 +280,47 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
         [citiesLst reloadInputViews];
     }
 }
+
+
+- (void) showLoadingIndicator {
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.navigationController.view animated:YES];
+    
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    
+    loadingHUD.labelText = @"جاري تحميل البيانات";
+    
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = YES;
+}
+
+
+- (void) hideLoadingIndicator {
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.navigationController.view  animated:YES];
+    loadingHUD = nil;
+}
+
+
+#pragma mark - CountryLoader Delegate
+
+- (void) countriesDidFailLoadingWithError:(NSError *)error {
+    [self hideLoadingIndicator];
+    countriesArray = nil;
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل تحميل بيانات المكان" delegateVC:nil];
+}
+
+- (void) countriesDidSucceedLoadingWithData:(NSArray *)resultArray {
+ 
+    countriesArray = resultArray;
+    
+    //change loading message
+    //loadingHUD.labelText = @"جاري اتحميل بيانات االمدن"
+    
+    //self initialize drop down lists
+    [self initLocationLists];
+    
+    [self hideLoadingIndicator];
+}
+
 
 @end
