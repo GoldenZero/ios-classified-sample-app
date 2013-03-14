@@ -222,7 +222,7 @@
 		202955B915949B8500F1A26B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = 202955BC15949B8500F1A26B /* Build configuration list for PBXProject "AURosetteView" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -310,6 +310,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -335,6 +339,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -352,7 +360,6 @@
 		202955E115949B8500F1A26B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AURosetteView/AURosetteView-Prefix.pch";
 				INFOPLIST_FILE = "AURosetteView/AURosetteView-Info.plist";
@@ -364,7 +371,6 @@
 		202955E215949B8500F1A26B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AURosetteView/AURosetteView-Prefix.pch";
 				INFOPLIST_FILE = "AURosetteView/AURosetteView-Info.plist";
@@ -376,7 +382,6 @@
 		2029565B1594AB1400F1A26B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				DSTROOT = /tmp/AURosetteViewLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AURosetteViewLib/AURosetteViewLib-Prefix.pch";
@@ -392,7 +397,6 @@
 		2029565C1594AB1400F1A26B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_WARN_OBJCPP_ARC_ABI = YES;
 				DSTROOT = /tmp/AURosetteViewLib.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AURosetteViewLib/AURosetteViewLib-Prefix.pch";

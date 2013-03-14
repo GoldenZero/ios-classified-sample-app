@@ -3,10 +3,12 @@
 //  Bezaat
 //
 //  Created by Roula Misrabi on 3/3/13.
+//  Edited by Noor Alssarraj on 14/3/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
 #import "BrowseCarAdsViewController.h"
+#import "CarAdDetailsViewController.h"
 
 @interface BrowseCarAdsViewController ()
 
@@ -57,6 +59,11 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CarAdDetailsViewController *vc=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    //vc.carPhotos;
+    //vc.carDetails;
+    [self presentViewController:vc animated:YES completion:nil];
+
     
 }
 
