@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
+/*
 #import "Country.h"
 
 @implementation Country
@@ -48,13 +49,6 @@
         self.displayOrder = [aDisplayOrderString integerValue];
         
         //jsonBigFlagFN
-        /*
-        if ([GenericMethods validateUrl:aJsonBigFlagFNString])
-            self.jsonBigFlagFN = [NSURL URLWithString:aJsonBigFlagFNString];
-        else
-            //The object is set to nil if any field is wrong after parsing
-            return nil;
-        */
         self.jsonBigFlagFN = [NSURL URLWithString:aJsonBigFlagFNString];
         if (!self.jsonBigFlagFN)
             //The object is set to nil if any field is wrong after parsing
@@ -65,17 +59,11 @@
         self.jsonDisplayMe = [aJsonDisplayMeString boolValue];
         
         //jsonSmallFlagFN
-        /*
-        if ([GenericMethods validateUrl:aJsonSmallFlagFNString])
-            self.jsonSmallFlagFN = [NSURL URLWithString:aJsonSmallFlagFNString];
-        else
-            //The object is set to nil if any field is wrong after parsing
-            return nil;
-        */
         self.jsonSmallFlagFN = [NSURL URLWithString:aJsonSmallFlagFNString];
         if (!self.jsonSmallFlagFN)
             //The object is set to nil if any field is wrong after parsing
             return nil;
+ 
         //currencyID
         self.currencyID = [aCurrencyIDString integerValue];
         
@@ -85,6 +73,27 @@
         //currency
         self.currency = aCurrency;
         
+    }
+    return self;
+}
+
+@end
+*/
+
+
+#import "Country.h"
+
+@implementation Country
+@synthesize name, citiesArray;
+
+- (id) initWithName:(NSString *) aName citiesArray:(NSArray *)aCitiesArray {
+    self = [super init];
+    if (self) {
+        //name
+        self.name = aName;
+        
+        //citiesArray
+        self.citiesArray = [NSArray arrayWithArray:aCitiesArray];
     }
     return self;
 }
