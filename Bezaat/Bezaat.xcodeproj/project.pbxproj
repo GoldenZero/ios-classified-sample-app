@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24B2136D16F1EB2200E20893 /* AURosetteView-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 24B2135316F1EB2200E20893 /* AURosetteView-Info.plist */; };
+		24B2136E16F1EB2200E20893 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 24B2135516F1EB2200E20893 /* InfoPlist.strings */; };
+		24B2137116F1EB2200E20893 /* AURosetteItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2135C16F1EB2200E20893 /* AURosetteItem.m */; };
+		24B2137216F1EB2200E20893 /* AURosetteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2135E16F1EB2200E20893 /* AURosetteView.m */; };
+		24B2137416F1EB2200E20893 /* AURosetteViewLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2136716F1EB2200E20893 /* AURosetteViewLib.m */; };
+		24B2137516F1EB2200E20893 /* Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 24B2136916F1EB2200E20893 /* Bundle.bundle */; };
+		24B2137616F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command in Resources */ = {isa = PBXBuildFile; fileRef = 24B2136B16F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command */; };
+		24B2138016F1EB9200E20893 /* libAURosetteViewLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24B2137C16F1EB2200E20893 /* libAURosetteViewLib.a */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
@@ -96,6 +104,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		24B2137916F1EB2200E20893 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 202955C215949B8500F1A26B;
+			remoteInfo = AURosetteView;
+		};
+		24B2137B16F1EB2200E20893 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 202956531594AB1400F1A26B;
+			remoteInfo = AURosetteViewLib;
+		};
+		24B2137E16F1EB8900E20893 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 202956521594AB1400F1A26B;
+			remoteInfo = AURosetteViewLib;
+		};
 		9E4315B616EDFEE30040359E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */;
@@ -113,6 +142,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		24B2135316F1EB2200E20893 /* AURosetteView-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AURosetteView-Info.plist"; sourceTree = "<group>"; };
+		24B2135416F1EB2200E20893 /* AURosetteView-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AURosetteView-Prefix.pch"; sourceTree = "<group>"; };
+		24B2135616F1EB2200E20893 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		24B2135B16F1EB2200E20893 /* AURosetteItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AURosetteItem.h; sourceTree = "<group>"; };
+		24B2135C16F1EB2200E20893 /* AURosetteItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AURosetteItem.m; sourceTree = "<group>"; };
+		24B2135D16F1EB2200E20893 /* AURosetteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AURosetteView.h; sourceTree = "<group>"; };
+		24B2135E16F1EB2200E20893 /* AURosetteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AURosetteView.m; sourceTree = "<group>"; };
+		24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AURosetteView.xcodeproj; sourceTree = "<group>"; };
+		24B2136516F1EB2200E20893 /* AURosetteViewLib-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AURosetteViewLib-Prefix.pch"; sourceTree = "<group>"; };
+		24B2136616F1EB2200E20893 /* AURosetteViewLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AURosetteViewLib.h; sourceTree = "<group>"; };
+		24B2136716F1EB2200E20893 /* AURosetteViewLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AURosetteViewLib.m; sourceTree = "<group>"; };
+		24B2136916F1EB2200E20893 /* Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Bundle.bundle; sourceTree = "<group>"; };
+		24B2136B16F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CopyHeadersToLegacyBuildDir.command; sourceTree = "<group>"; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -251,6 +293,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24B2138016F1EB9200E20893 /* libAURosetteViewLib.a in Frameworks */,
 				9EDF783616F1E57600FB3BDD /* Social.framework in Frameworks */,
 				9EDF783716F1E57B00FB3BDD /* Accounts.framework in Frameworks */,
 				9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */,
@@ -264,6 +307,75 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24B2135016F1EB2200E20893 /* AURosetteView */ = {
+			isa = PBXGroup;
+			children = (
+				24B2135316F1EB2200E20893 /* AURosetteView-Info.plist */,
+				24B2135416F1EB2200E20893 /* AURosetteView-Prefix.pch */,
+				24B2135516F1EB2200E20893 /* InfoPlist.strings */,
+				24B2135A16F1EB2200E20893 /* RosetteView */,
+			);
+			path = AURosetteView;
+			sourceTree = "<group>";
+		};
+		24B2135A16F1EB2200E20893 /* RosetteView */ = {
+			isa = PBXGroup;
+			children = (
+				24B2135B16F1EB2200E20893 /* AURosetteItem.h */,
+				24B2135C16F1EB2200E20893 /* AURosetteItem.m */,
+				24B2135D16F1EB2200E20893 /* AURosetteView.h */,
+				24B2135E16F1EB2200E20893 /* AURosetteView.m */,
+			);
+			path = RosetteView;
+			sourceTree = "<group>";
+		};
+		24B2136216F1EB2200E20893 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				24B2137A16F1EB2200E20893 /* AURosetteView.app */,
+				24B2137C16F1EB2200E20893 /* libAURosetteViewLib.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		24B2136416F1EB2200E20893 /* AURosetteViewLib */ = {
+			isa = PBXGroup;
+			children = (
+				24B2136516F1EB2200E20893 /* AURosetteViewLib-Prefix.pch */,
+				24B2136616F1EB2200E20893 /* AURosetteViewLib.h */,
+				24B2136716F1EB2200E20893 /* AURosetteViewLib.m */,
+			);
+			path = AURosetteViewLib;
+			sourceTree = "<group>";
+		};
+		24B2136816F1EB2200E20893 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				24B2136916F1EB2200E20893 /* Bundle.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		24B2136A16F1EB2200E20893 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				24B2136B16F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
+		24B2137D16F1EB3900E20893 /* ShareButtonLib */ = {
+			isa = PBXGroup;
+			children = (
+				24B2135016F1EB2200E20893 /* AURosetteView */,
+				24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */,
+				24B2136416F1EB2200E20893 /* AURosetteViewLib */,
+				24B2136816F1EB2200E20893 /* Resources */,
+				24B2136A16F1EB2200E20893 /* Scripts */,
+			);
+			name = ShareButtonLib;
+			sourceTree = "<group>";
+		};
 		9E4315B316EDFEE30040359E /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,6 +387,7 @@
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
+				24B2137D16F1EB3900E20893 /* ShareButtonLib */,
 				9E78A7BC16E34BA2000CA790 /* Bezaat */,
 				9E9F082F16E4AFCF000E8471 /* Resources */,
 				9E78A7B516E34BA2000CA790 /* Frameworks */,
@@ -672,6 +785,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				24B2137F16F1EB8900E20893 /* PBXTargetDependency */,
 				9E4315B916EDFEEC0040359E /* PBXTargetDependency */,
 			);
 			name = Bezaat;
@@ -703,6 +817,10 @@
 					ProductGroup = 9E4315B316EDFEE30040359E /* Products */;
 					ProjectRef = 9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */;
 				},
+				{
+					ProductGroup = 24B2136216F1EB2200E20893 /* Products */;
+					ProjectRef = 24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -712,6 +830,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		24B2137A16F1EB2200E20893 /* AURosetteView.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = AURosetteView.app;
+			remoteRef = 24B2137916F1EB2200E20893 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		24B2137C16F1EB2200E20893 /* libAURosetteViewLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAURosetteViewLib.a;
+			remoteRef = 24B2137B16F1EB2200E20893 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9E4315B716EDFEE30040359E /* libAubadaLibrary.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -763,6 +895,10 @@
 				9E9F0A3716E7CF16000E8471 /* Riyadh.png in Resources */,
 				9E9F0A8916ECA939000E8471 /* TWAccountsViewController.xib in Resources */,
 				9E9F0A8B16ECA939000E8471 /* ViewController.xib in Resources */,
+				24B2136D16F1EB2200E20893 /* AURosetteView-Info.plist in Resources */,
+				24B2136E16F1EB2200E20893 /* InfoPlist.strings in Resources */,
+				24B2137516F1EB2200E20893 /* Bundle.bundle in Resources */,
+				24B2137616F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,12 +951,20 @@
 				9E9F0A3116E7927F000E8471 /* CountryLoader.m in Sources */,
 				9E9F0A8816ECA939000E8471 /* TWAccountsViewController.m in Sources */,
 				9E9F0A8A16ECA939000E8471 /* ViewController.m in Sources */,
+				24B2137116F1EB2200E20893 /* AURosetteItem.m in Sources */,
+				24B2137216F1EB2200E20893 /* AURosetteView.m in Sources */,
+				24B2137416F1EB2200E20893 /* AURosetteViewLib.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		24B2137F16F1EB8900E20893 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AURosetteViewLib;
+			targetProxy = 24B2137E16F1EB8900E20893 /* PBXContainerItemProxy */;
+		};
 		9E4315B916EDFEEC0040359E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AubadaLibrary;
@@ -829,6 +973,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		24B2135516F1EB2200E20893 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				24B2135616F1EB2200E20893 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		9E78A7BF16E34BA3000CA790 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
