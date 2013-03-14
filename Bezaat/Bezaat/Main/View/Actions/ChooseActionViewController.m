@@ -7,6 +7,7 @@
 //
 
 #import "ChooseActionViewController.h"
+#import "BHCollectionViewController.h"
 
 @interface ChooseActionViewController ()
 
@@ -37,9 +38,12 @@
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender {
+    
 }
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
+    BHCollectionViewController *vc=[[BHCollectionViewController alloc] initWithNibName:@"BHCollectionViewController" bundle:nil];
+    [self.navigationController pushViewController:vc animated:YES];
         
 }
 

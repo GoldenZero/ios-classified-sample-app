@@ -21,6 +21,8 @@
 		24B213A016F2040200E20893 /* BHEmblemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139816F2040200E20893 /* BHEmblemView.m */; };
 		24B213A116F2040200E20893 /* BHPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139A16F2040200E20893 /* BHPhoto.m */; };
 		24B213A216F2040200E20893 /* BHPhotoAlbumLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139C16F2040200E20893 /* BHPhotoAlbumLayout.m */; };
+		24B213BE16F214A000E20893 /* BHCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B213BA16F2130200E20893 /* BHCollectionViewController.m */; };
+		24B213C016F2191E00E20893 /* BHCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24B213BB16F2130200E20893 /* BHCollectionViewController.xib */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
@@ -171,6 +173,9 @@
 		24B2139A16F2040200E20893 /* BHPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHPhoto.m; sourceTree = "<group>"; };
 		24B2139B16F2040200E20893 /* BHPhotoAlbumLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHPhotoAlbumLayout.h; sourceTree = "<group>"; };
 		24B2139C16F2040200E20893 /* BHPhotoAlbumLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHPhotoAlbumLayout.m; sourceTree = "<group>"; };
+		24B213B916F2130200E20893 /* BHCollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BHCollectionViewController.h; sourceTree = "<group>"; };
+		24B213BA16F2130200E20893 /* BHCollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BHCollectionViewController.m; sourceTree = "<group>"; };
+		24B213BB16F2130200E20893 /* BHCollectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BHCollectionViewController.xib; sourceTree = "<group>"; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -568,6 +573,9 @@
 		9E78A7F116E35556000CA790 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				24B213B916F2130200E20893 /* BHCollectionViewController.h */,
+				24B213BA16F2130200E20893 /* BHCollectionViewController.m */,
+				24B213BB16F2130200E20893 /* BHCollectionViewController.xib */,
 				9E78A7F516E35556000CA790 /* ChooseLocationViewController.h */,
 				9E78A7F616E35556000CA790 /* ChooseLocationViewController.m */,
 				9E78A7F716E35556000CA790 /* ChooseLocationViewController.xib */,
@@ -888,6 +896,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24B213C016F2191E00E20893 /* BHCollectionViewController.xib in Resources */,
 				9E78A7C116E34BA3000CA790 /* InfoPlist.strings in Resources */,
 				9E78A7C916E34BA3000CA790 /* Default.png in Resources */,
 				9E78A7CB16E34BA3000CA790 /* Default@2x.png in Resources */,
@@ -938,6 +947,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24B213BE16F214A000E20893 /* BHCollectionViewController.m in Sources */,
 				9E78A7C316E34BA3000CA790 /* main.m in Sources */,
 				9E78A7C716E34BA3000CA790 /* AppDelegate.m in Sources */,
 				9E78A7FC16E35556000CA790 /* ChooseActionViewController.m in Sources */,
