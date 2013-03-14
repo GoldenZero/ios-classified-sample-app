@@ -40,8 +40,7 @@
 }
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
-    ChooseBrandViewController * chooseBrandVC = [[ChooseBrandViewController alloc] initWithNibName:@"ChooseBrandViewController" bundle:nil];
-    [self.navigationController pushViewController:chooseBrandVC animated:YES];
+        
 }
 
 - (IBAction)AddNewStoreBtnPressed:(id)sender {

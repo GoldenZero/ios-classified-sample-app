@@ -15,6 +15,12 @@
 		24B2137516F1EB2200E20893 /* Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 24B2136916F1EB2200E20893 /* Bundle.bundle */; };
 		24B2137616F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command in Resources */ = {isa = PBXBuildFile; fileRef = 24B2136B16F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command */; };
 		24B2138016F1EB9200E20893 /* libAURosetteViewLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24B2137C16F1EB2200E20893 /* libAURosetteViewLib.a */; };
+		24B2139D16F2040200E20893 /* BHAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139216F2040200E20893 /* BHAlbum.m */; };
+		24B2139E16F2040200E20893 /* BHAlbumPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139416F2040200E20893 /* BHAlbumPhotoCell.m */; };
+		24B2139F16F2040200E20893 /* BHAlbumTitleReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139616F2040200E20893 /* BHAlbumTitleReusableView.m */; };
+		24B213A016F2040200E20893 /* BHEmblemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139816F2040200E20893 /* BHEmblemView.m */; };
+		24B213A116F2040200E20893 /* BHPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139A16F2040200E20893 /* BHPhoto.m */; };
+		24B213A216F2040200E20893 /* BHPhotoAlbumLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139C16F2040200E20893 /* BHPhotoAlbumLayout.m */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
@@ -35,8 +41,6 @@
 		9E78A80616E35573000CA790 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E78A80416E35573000CA790 /* SignUpViewController.xib */; };
 		9E78A80F16E356A0000CA790 /* AddNewCarAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A80D16E356A0000CA790 /* AddNewCarAdViewController.m */; };
 		9E78A81016E356A0000CA790 /* AddNewCarAdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E78A80E16E356A0000CA790 /* AddNewCarAdViewController.xib */; };
-		9E78A81916E35774000CA790 /* ChooseBrandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A81716E35774000CA790 /* ChooseBrandViewController.m */; };
-		9E78A81A16E35774000CA790 /* ChooseBrandViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E78A81816E35774000CA790 /* ChooseBrandViewController.xib */; };
 		9E78A81E16E357F4000CA790 /* BrowseCarAdsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A81C16E357F4000CA790 /* BrowseCarAdsViewController.m */; };
 		9E78A81F16E357F4000CA790 /* BrowseCarAdsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E78A81D16E357F4000CA790 /* BrowseCarAdsViewController.xib */; };
 		9E78A82316E35838000CA790 /* CarAdDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E78A82116E35838000CA790 /* CarAdDetailsViewController.m */; };
@@ -155,6 +159,18 @@
 		24B2136716F1EB2200E20893 /* AURosetteViewLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AURosetteViewLib.m; sourceTree = "<group>"; };
 		24B2136916F1EB2200E20893 /* Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Bundle.bundle; sourceTree = "<group>"; };
 		24B2136B16F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CopyHeadersToLegacyBuildDir.command; sourceTree = "<group>"; };
+		24B2139116F2040200E20893 /* BHAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHAlbum.h; sourceTree = "<group>"; };
+		24B2139216F2040200E20893 /* BHAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHAlbum.m; sourceTree = "<group>"; };
+		24B2139316F2040200E20893 /* BHAlbumPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHAlbumPhotoCell.h; sourceTree = "<group>"; };
+		24B2139416F2040200E20893 /* BHAlbumPhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHAlbumPhotoCell.m; sourceTree = "<group>"; };
+		24B2139516F2040200E20893 /* BHAlbumTitleReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHAlbumTitleReusableView.h; sourceTree = "<group>"; };
+		24B2139616F2040200E20893 /* BHAlbumTitleReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHAlbumTitleReusableView.m; sourceTree = "<group>"; };
+		24B2139716F2040200E20893 /* BHEmblemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHEmblemView.h; sourceTree = "<group>"; };
+		24B2139816F2040200E20893 /* BHEmblemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHEmblemView.m; sourceTree = "<group>"; };
+		24B2139916F2040200E20893 /* BHPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHPhoto.h; sourceTree = "<group>"; };
+		24B2139A16F2040200E20893 /* BHPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHPhoto.m; sourceTree = "<group>"; };
+		24B2139B16F2040200E20893 /* BHPhotoAlbumLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHPhotoAlbumLayout.h; sourceTree = "<group>"; };
+		24B2139C16F2040200E20893 /* BHPhotoAlbumLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHPhotoAlbumLayout.m; sourceTree = "<group>"; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -184,9 +200,6 @@
 		9E78A80C16E356A0000CA790 /* AddNewCarAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewCarAdViewController.h; sourceTree = "<group>"; };
 		9E78A80D16E356A0000CA790 /* AddNewCarAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewCarAdViewController.m; sourceTree = "<group>"; };
 		9E78A80E16E356A0000CA790 /* AddNewCarAdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddNewCarAdViewController.xib; sourceTree = "<group>"; };
-		9E78A81616E35773000CA790 /* ChooseBrandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseBrandViewController.h; sourceTree = "<group>"; };
-		9E78A81716E35774000CA790 /* ChooseBrandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseBrandViewController.m; sourceTree = "<group>"; };
-		9E78A81816E35774000CA790 /* ChooseBrandViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseBrandViewController.xib; sourceTree = "<group>"; };
 		9E78A81B16E357F4000CA790 /* BrowseCarAdsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseCarAdsViewController.h; sourceTree = "<group>"; };
 		9E78A81C16E357F4000CA790 /* BrowseCarAdsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseCarAdsViewController.m; sourceTree = "<group>"; };
 		9E78A81D16E357F4000CA790 /* BrowseCarAdsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrowseCarAdsViewController.xib; sourceTree = "<group>"; };
@@ -376,6 +389,25 @@
 			name = ShareButtonLib;
 			sourceTree = "<group>";
 		};
+		24B2138F16F203B200E20893 /* StackedPhotoCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				24B2139116F2040200E20893 /* BHAlbum.h */,
+				24B2139216F2040200E20893 /* BHAlbum.m */,
+				24B2139316F2040200E20893 /* BHAlbumPhotoCell.h */,
+				24B2139416F2040200E20893 /* BHAlbumPhotoCell.m */,
+				24B2139516F2040200E20893 /* BHAlbumTitleReusableView.h */,
+				24B2139616F2040200E20893 /* BHAlbumTitleReusableView.m */,
+				24B2139716F2040200E20893 /* BHEmblemView.h */,
+				24B2139816F2040200E20893 /* BHEmblemView.m */,
+				24B2139916F2040200E20893 /* BHPhoto.h */,
+				24B2139A16F2040200E20893 /* BHPhoto.m */,
+				24B2139B16F2040200E20893 /* BHPhotoAlbumLayout.h */,
+				24B2139C16F2040200E20893 /* BHPhotoAlbumLayout.m */,
+			);
+			name = StackedPhotoCollectionView;
+			sourceTree = "<group>";
+		};
 		9E4315B316EDFEE30040359E /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -542,9 +574,6 @@
 				9E78A7F216E35556000CA790 /* ChooseActionViewController.h */,
 				9E78A7F316E35556000CA790 /* ChooseActionViewController.m */,
 				9E78A7F416E35556000CA790 /* ChooseActionViewController.xib */,
-				9E78A81616E35773000CA790 /* ChooseBrandViewController.h */,
-				9E78A81716E35774000CA790 /* ChooseBrandViewController.m */,
-				9E78A81816E35774000CA790 /* ChooseBrandViewController.xib */,
 				9E9F090816E553D1000E8471 /* ModelCell.h */,
 				9E9F090916E553D2000E8471 /* ModelCell.m */,
 				9E9F09EE16E636B9000E8471 /* ModelBrandCell.h */,
@@ -588,6 +617,7 @@
 		9E78A85616E4930F000CA790 /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
+				24B2138F16F203B200E20893 /* StackedPhotoCollectionView */,
 				9E78A85716E49A52000CA790 /* CustomDropDownList */,
 				9E9F09D616E63669000E8471 /* MJPopupViewController */,
 				9E9F09E416E63669000E8471 /* RFQuiltLayout */,
@@ -867,7 +897,6 @@
 				9E78A80116E35556000CA790 /* SignInViewController.xib in Resources */,
 				9E78A80616E35573000CA790 /* SignUpViewController.xib in Resources */,
 				9E78A81016E356A0000CA790 /* AddNewCarAdViewController.xib in Resources */,
-				9E78A81A16E35774000CA790 /* ChooseBrandViewController.xib in Resources */,
 				9E78A81F16E357F4000CA790 /* BrowseCarAdsViewController.xib in Resources */,
 				9E78A82416E35838000CA790 /* CarAdDetailsViewController.xib in Resources */,
 				9E78A82916E35ABD000CA790 /* EditProfileViewController.xib in Resources */,
@@ -916,7 +945,6 @@
 				9E78A80016E35556000CA790 /* SignInViewController.m in Sources */,
 				9E78A80516E35573000CA790 /* SignUpViewController.m in Sources */,
 				9E78A80F16E356A0000CA790 /* AddNewCarAdViewController.m in Sources */,
-				9E78A81916E35774000CA790 /* ChooseBrandViewController.m in Sources */,
 				9E78A81E16E357F4000CA790 /* BrowseCarAdsViewController.m in Sources */,
 				9E78A82316E35838000CA790 /* CarAdDetailsViewController.m in Sources */,
 				9E78A82816E35ABD000CA790 /* EditProfileViewController.m in Sources */,
@@ -954,6 +982,12 @@
 				24B2137116F1EB2200E20893 /* AURosetteItem.m in Sources */,
 				24B2137216F1EB2200E20893 /* AURosetteView.m in Sources */,
 				24B2137416F1EB2200E20893 /* AURosetteViewLib.m in Sources */,
+				24B2139D16F2040200E20893 /* BHAlbum.m in Sources */,
+				24B2139E16F2040200E20893 /* BHAlbumPhotoCell.m in Sources */,
+				24B2139F16F2040200E20893 /* BHAlbumTitleReusableView.m in Sources */,
+				24B213A016F2040200E20893 /* BHEmblemView.m in Sources */,
+				24B213A116F2040200E20893 /* BHPhoto.m in Sources */,
+				24B213A216F2040200E20893 /* BHPhotoAlbumLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
