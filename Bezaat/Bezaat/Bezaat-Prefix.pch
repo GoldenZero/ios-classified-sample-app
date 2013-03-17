@@ -14,4 +14,20 @@
     #import <AubadaLibrary/AubadaLibrary.h>
     #import "Constants.h"
     #import "GenericMethods.h"
+
+    // Should be defined while using SheenFigureFT
+    //#define USE_FREETYPE
+
+    #ifdef USE_FREETYPE
+
+    #define T2_BUILD_LIBRARY
+    #define DARWIN_NO_CARBON
+    #define SF_IOS
+
+    #else
+
+    #define SF_IOS_CG
+
+    #endif
+
 #endif

@@ -331,6 +331,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
 #import "ChooseLocationViewController.h"
 #import "Configuration.h"
 #import "BaseDataObject.h"
+#import "GenericFonts.h"
 
 #pragma mark - drop down lists parameters
 

@@ -14,8 +14,6 @@
 		243084B816F60B200050CDFF /* friend.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B316F60B200050CDFF /* friend.png */; };
 		243084B916F60B200050CDFF /* select_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B416F60B200050CDFF /* select_32.png */; };
 		243084BA16F60B200050CDFF /* unselect_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B516F60B200050CDFF /* unselect_32.png */; };
-		24B2137616F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command in Resources */ = {isa = PBXBuildFile; fileRef = 24B2136B16F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command */; };
-		24B2138016F1EB9200E20893 /* libAURosetteViewLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24B2137C16F1EB2200E20893 /* libAURosetteViewLib.a */; };
 		24B2139D16F2040200E20893 /* BHAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139216F2040200E20893 /* BHAlbum.m */; };
 		24B2139E16F2040200E20893 /* BHAlbumPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139416F2040200E20893 /* BHAlbumPhotoCell.m */; };
 		24B2139F16F2040200E20893 /* BHAlbumTitleReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139616F2040200E20893 /* BHAlbumTitleReusableView.m */; };
@@ -30,6 +28,15 @@
 		9E1CA1F716F54EE6001A7DA1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */; };
 		9E1CA25816F61D34001A7DA1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA25716F61D34001A7DA1 /* CoreLocation.framework */; };
 		9E1CA25B16F61D3C001A7DA1 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA25A16F61D3C001A7DA1 /* MessageUI.framework */; };
+		9E1CA26816F623CA001A7DA1 /* GenericFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA26716F623CA001A7DA1 /* GenericFonts.m */; };
+		9E1CA27716F625B9001A7DA1 /* SFLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA27416F625B9001A7DA1 /* SFLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9E1CA27816F625B9001A7DA1 /* SFLabelSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA27616F625B9001A7DA1 /* SFLabelSegment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9E1CA27F16F62607001A7DA1 /* WinSoftPro-BItal.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA27B16F62607001A7DA1 /* WinSoftPro-BItal.otf */; };
+		9E1CA28016F62607001A7DA1 /* WinSoftPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA27C16F62607001A7DA1 /* WinSoftPro-Bold.otf */; };
+		9E1CA28116F62607001A7DA1 /* WinSoftPro-Med.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA27D16F62607001A7DA1 /* WinSoftPro-Med.otf */; };
+		9E1CA28216F62607001A7DA1 /* WinSoftPro-MItal.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA27E16F62607001A7DA1 /* WinSoftPro-MItal.otf */; };
+		9E1CA28516F62660001A7DA1 /* libsheenfigure.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA26516F62384001A7DA1 /* libsheenfigure.a */; };
+		9E1CA2DA16F62AC0001A7DA1 /* libAURosetteViewLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA2D716F62A96001A7DA1 /* libAURosetteViewLib.a */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
@@ -117,23 +124,30 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		24B2137916F1EB2200E20893 /* PBXContainerItemProxy */ = {
+		9E1CA26416F62384001A7DA1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */;
+			containerPortal = 9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 202955C215949B8500F1A26B;
-			remoteInfo = AURosetteView;
+			remoteGlobalIDString = 6EC20319157AD40B002666E9;
+			remoteInfo = sheenfigure;
 		};
-		24B2137B16F1EB2200E20893 /* PBXContainerItemProxy */ = {
+		9E1CA28316F6265A001A7DA1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */;
+			containerPortal = 9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6EC20318157AD40B002666E9;
+			remoteInfo = sheenfigure;
+		};
+		9E1CA2D616F62A96001A7DA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 202956531594AB1400F1A26B;
 			remoteInfo = AURosetteViewLib;
 		};
-		24B2137E16F1EB8900E20893 /* PBXContainerItemProxy */ = {
+		9E1CA2D816F62ABC001A7DA1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */;
+			containerPortal = 9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 202956521594AB1400F1A26B;
 			remoteInfo = AURosetteViewLib;
@@ -163,8 +177,6 @@
 		243084B316F60B200050CDFF /* friend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friend.png; sourceTree = "<group>"; };
 		243084B416F60B200050CDFF /* select_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = select_32.png; sourceTree = "<group>"; };
 		243084B516F60B200050CDFF /* unselect_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unselect_32.png; sourceTree = "<group>"; };
-		24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AURosetteView.xcodeproj; sourceTree = "<group>"; };
-		24B2136B16F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CopyHeadersToLegacyBuildDir.command; sourceTree = "<group>"; };
 		24B2139116F2040200E20893 /* BHAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHAlbum.h; sourceTree = "<group>"; };
 		24B2139216F2040200E20893 /* BHAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHAlbum.m; sourceTree = "<group>"; };
 		24B2139316F2040200E20893 /* BHAlbumPhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHAlbumPhotoCell.h; sourceTree = "<group>"; };
@@ -186,6 +198,18 @@
 		9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		9E1CA25716F61D34001A7DA1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9E1CA25A16F61D3C001A7DA1 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SheenFigureCG.xcodeproj; path = ../Libraries/SheenFigure/SheenFigureCG.xcodeproj; sourceTree = "<group>"; };
+		9E1CA26616F623CA001A7DA1 /* GenericFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericFonts.h; sourceTree = "<group>"; };
+		9E1CA26716F623CA001A7DA1 /* GenericFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericFonts.m; sourceTree = "<group>"; };
+		9E1CA27316F625B9001A7DA1 /* SFLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLabel.h; sourceTree = "<group>"; };
+		9E1CA27416F625B9001A7DA1 /* SFLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLabel.m; sourceTree = "<group>"; };
+		9E1CA27516F625B9001A7DA1 /* SFLabelSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLabelSegment.h; sourceTree = "<group>"; };
+		9E1CA27616F625B9001A7DA1 /* SFLabelSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLabelSegment.m; sourceTree = "<group>"; };
+		9E1CA27B16F62607001A7DA1 /* WinSoftPro-BItal.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WinSoftPro-BItal.otf"; sourceTree = "<group>"; };
+		9E1CA27C16F62607001A7DA1 /* WinSoftPro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WinSoftPro-Bold.otf"; sourceTree = "<group>"; };
+		9E1CA27D16F62607001A7DA1 /* WinSoftPro-Med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WinSoftPro-Med.otf"; sourceTree = "<group>"; };
+		9E1CA27E16F62607001A7DA1 /* WinSoftPro-MItal.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WinSoftPro-MItal.otf"; sourceTree = "<group>"; };
+		9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AURosetteView.xcodeproj; path = ../Libraries/shareButtonLib/AURosetteView.xcodeproj; sourceTree = "<group>"; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -332,7 +356,8 @@
 				9E1CA1F716F54EE6001A7DA1 /* AdSupport.framework in Frameworks */,
 				9E1CA1F016F54E4F001A7DA1 /* FacebookSDK.framework in Frameworks */,
 				9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */,
-				24B2138016F1EB9200E20893 /* libAURosetteViewLib.a in Frameworks */,
+				9E1CA28516F62660001A7DA1 /* libsheenfigure.a in Frameworks */,
+				9E1CA2DA16F62AC0001A7DA1 /* libAURosetteViewLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,32 +374,6 @@
 				243084B516F60B200050CDFF /* unselect_32.png */,
 			);
 			name = "Temproy images";
-			sourceTree = "<group>";
-		};
-		24B2136216F1EB2200E20893 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				24B2137A16F1EB2200E20893 /* AURosetteView.app */,
-				24B2137C16F1EB2200E20893 /* libAURosetteViewLib.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		24B2136A16F1EB2200E20893 /* Scripts */ = {
-			isa = PBXGroup;
-			children = (
-				24B2136B16F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command */,
-			);
-			path = Scripts;
-			sourceTree = "<group>";
-		};
-		24B2137D16F1EB3900E20893 /* ShareButtonLib */ = {
-			isa = PBXGroup;
-			children = (
-				24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */,
-				24B2136A16F1EB2200E20893 /* Scripts */,
-			);
-			name = ShareButtonLib;
 			sourceTree = "<group>";
 		};
 		24B2138F16F203B200E20893 /* StackedPhotoCollectionView */ = {
@@ -394,6 +393,52 @@
 				24B2139C16F2040200E20893 /* BHPhotoAlbumLayout.m */,
 			);
 			name = StackedPhotoCollectionView;
+			sourceTree = "<group>";
+		};
+		9E1CA26016F62384001A7DA1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9E1CA26516F62384001A7DA1 /* libsheenfigure.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9E1CA27216F625B9001A7DA1 /* SFLabel */ = {
+			isa = PBXGroup;
+			children = (
+				9E1CA27316F625B9001A7DA1 /* SFLabel.h */,
+				9E1CA27416F625B9001A7DA1 /* SFLabel.m */,
+				9E1CA27516F625B9001A7DA1 /* SFLabelSegment.h */,
+				9E1CA27616F625B9001A7DA1 /* SFLabelSegment.m */,
+			);
+			path = SFLabel;
+			sourceTree = "<group>";
+		};
+		9E1CA27916F62607001A7DA1 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9E1CA27A16F62607001A7DA1 /* Winsoft Pro */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		9E1CA27A16F62607001A7DA1 /* Winsoft Pro */ = {
+			isa = PBXGroup;
+			children = (
+				9E1CA27B16F62607001A7DA1 /* WinSoftPro-BItal.otf */,
+				9E1CA27C16F62607001A7DA1 /* WinSoftPro-Bold.otf */,
+				9E1CA27D16F62607001A7DA1 /* WinSoftPro-Med.otf */,
+				9E1CA27E16F62607001A7DA1 /* WinSoftPro-MItal.otf */,
+			);
+			path = "Winsoft Pro";
+			sourceTree = "<group>";
+		};
+		9E1CA2D016F62A95001A7DA1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9E1CA2D716F62A96001A7DA1 /* libAURosetteViewLib.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		9E4315B316EDFEE30040359E /* Products */ = {
@@ -425,7 +470,8 @@
 		9E78A7B516E34BA2000CA790 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				24B2137D16F1EB3900E20893 /* ShareButtonLib */,
+				9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */,
+				9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */,
 				9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */,
 				9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */,
 				9E1CA1F416F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle */,
@@ -610,6 +656,8 @@
 				9E78A85616E4930F000CA790 /* Custom Controls */,
 				9E78A87116E4A1E0000CA790 /* GenericMethods.h */,
 				9E78A87216E4A1E0000CA790 /* GenericMethods.m */,
+				9E1CA26616F623CA001A7DA1 /* GenericFonts.h */,
+				9E1CA26716F623CA001A7DA1 /* GenericFonts.m */,
 			);
 			path = "Supporting classes";
 			sourceTree = "<group>";
@@ -617,6 +665,7 @@
 		9E78A85616E4930F000CA790 /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
+				9E1CA27216F625B9001A7DA1 /* SFLabel */,
 				24B2138F16F203B200E20893 /* StackedPhotoCollectionView */,
 				9E78A85716E49A52000CA790 /* CustomDropDownList */,
 				9E9F09D616E63669000E8471 /* MJPopupViewController */,
@@ -647,6 +696,7 @@
 		9E9F082F16E4AFCF000E8471 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9E1CA27916F62607001A7DA1 /* Fonts */,
 				243084B016F60AF00050CDFF /* Temproy images */,
 				9E9F0A1416E75E86000E8471 /* Car Models */,
 				9E9F0A1616E75E86000E8471 /* Locations */,
@@ -816,7 +866,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				24B2137F16F1EB8900E20893 /* PBXTargetDependency */,
+				9E1CA2D916F62ABC001A7DA1 /* PBXTargetDependency */,
+				9E1CA28416F6265A001A7DA1 /* PBXTargetDependency */,
 				9E4315B916EDFEEC0040359E /* PBXTargetDependency */,
 			);
 			name = Bezaat;
@@ -849,8 +900,12 @@
 					ProjectRef = 9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */;
 				},
 				{
-					ProductGroup = 24B2136216F1EB2200E20893 /* Products */;
-					ProjectRef = 24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */;
+					ProductGroup = 9E1CA2D016F62A95001A7DA1 /* Products */;
+					ProjectRef = 9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */;
+				},
+				{
+					ProductGroup = 9E1CA26016F62384001A7DA1 /* Products */;
+					ProjectRef = 9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -861,18 +916,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		24B2137A16F1EB2200E20893 /* AURosetteView.app */ = {
+		9E1CA26516F62384001A7DA1 /* libsheenfigure.a */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = AURosetteView.app;
-			remoteRef = 24B2137916F1EB2200E20893 /* PBXContainerItemProxy */;
+			fileType = archive.ar;
+			path = libsheenfigure.a;
+			remoteRef = 9E1CA26416F62384001A7DA1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		24B2137C16F1EB2200E20893 /* libAURosetteViewLib.a */ = {
+		9E1CA2D716F62A96001A7DA1 /* libAURosetteViewLib.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libAURosetteViewLib.a;
-			remoteRef = 24B2137B16F1EB2200E20893 /* PBXContainerItemProxy */;
+			remoteRef = 9E1CA2D616F62A96001A7DA1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9E4315B716EDFEE30040359E /* libAubadaLibrary.a */ = {
@@ -926,7 +981,6 @@
 				9E9F0A3716E7CF16000E8471 /* Riyadh.png in Resources */,
 				9E9F0A8916ECA939000E8471 /* TWAccountsViewController.xib in Resources */,
 				9E9F0A8B16ECA939000E8471 /* ViewController.xib in Resources */,
-				24B2137616F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command in Resources */,
 				9E1CA1F316F54E8D001A7DA1 /* FacebookSDKResources.bundle in Resources */,
 				9E1CA1F516F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle in Resources */,
 				243084AE16F609750050CDFF /* FriendsListViewController.xib in Resources */,
@@ -935,6 +989,10 @@
 				243084B816F60B200050CDFF /* friend.png in Resources */,
 				243084B916F60B200050CDFF /* select_32.png in Resources */,
 				243084BA16F60B200050CDFF /* unselect_32.png in Resources */,
+				9E1CA27F16F62607001A7DA1 /* WinSoftPro-BItal.otf in Resources */,
+				9E1CA28016F62607001A7DA1 /* WinSoftPro-Bold.otf in Resources */,
+				9E1CA28116F62607001A7DA1 /* WinSoftPro-Med.otf in Resources */,
+				9E1CA28216F62607001A7DA1 /* WinSoftPro-MItal.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -994,16 +1052,24 @@
 				24B213A116F2040200E20893 /* BHPhoto.m in Sources */,
 				24B213A216F2040200E20893 /* BHPhotoAlbumLayout.m in Sources */,
 				243084AD16F609750050CDFF /* FriendsListViewController.m in Sources */,
+				9E1CA26816F623CA001A7DA1 /* GenericFonts.m in Sources */,
+				9E1CA27716F625B9001A7DA1 /* SFLabel.m in Sources */,
+				9E1CA27816F625B9001A7DA1 /* SFLabelSegment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		24B2137F16F1EB8900E20893 /* PBXTargetDependency */ = {
+		9E1CA28416F6265A001A7DA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = sheenfigure;
+			targetProxy = 9E1CA28316F6265A001A7DA1 /* PBXContainerItemProxy */;
+		};
+		9E1CA2D916F62ABC001A7DA1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AURosetteViewLib;
-			targetProxy = 24B2137E16F1EB8900E20893 /* PBXContainerItemProxy */;
+			targetProxy = 9E1CA2D816F62ABC001A7DA1 /* PBXContainerItemProxy */;
 		};
 		9E4315B916EDFEEC0040359E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1089,10 +1155,17 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bezaat/Bezaat-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					../Libraries/SheenFigure,
+					../Libraries/SheenFigure/SFGraphics,
+					../Libraries/FreeType/include,
+					../Libraries/shareButtonLib/AURosetteView/RosetteView,
+				);
 				INFOPLIST_FILE = "Bezaat/Bezaat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
+					"-all_load",
 					"-lsqlite3.0",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1109,10 +1182,17 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bezaat/Bezaat-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					../Libraries/SheenFigure,
+					../Libraries/SheenFigure/SFGraphics,
+					../Libraries/FreeType/include,
+					../Libraries/shareButtonLib/AURosetteView/RosetteView,
+				);
 				INFOPLIST_FILE = "Bezaat/Bezaat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
+					"-all_load",
 					"-lsqlite3.0",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
