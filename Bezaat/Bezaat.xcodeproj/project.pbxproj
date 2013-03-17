@@ -23,6 +23,10 @@
 		24B213A216F2040200E20893 /* BHPhotoAlbumLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139C16F2040200E20893 /* BHPhotoAlbumLayout.m */; };
 		24B213BE16F214A000E20893 /* BHCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B213BA16F2130200E20893 /* BHCollectionViewController.m */; };
 		24B213C016F2191E00E20893 /* BHCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24B213BB16F2130200E20893 /* BHCollectionViewController.xib */; };
+		9E1CA1F016F54E4F001A7DA1 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */; };
+		9E1CA1F316F54E8D001A7DA1 /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA1F216F54E8D001A7DA1 /* FacebookSDKResources.bundle */; };
+		9E1CA1F516F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA1F416F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle */; };
+		9E1CA1F716F54EE6001A7DA1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
@@ -176,6 +180,10 @@
 		24B213B916F2130200E20893 /* BHCollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BHCollectionViewController.h; sourceTree = "<group>"; };
 		24B213BA16F2130200E20893 /* BHCollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BHCollectionViewController.m; sourceTree = "<group>"; };
 		24B213BB16F2130200E20893 /* BHCollectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BHCollectionViewController.xib; sourceTree = "<group>"; };
+		9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		9E1CA1F216F54E8D001A7DA1 /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKResources.bundle; sourceTree = "<group>"; };
+		9E1CA1F416F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBUserSettingsViewResources.bundle; sourceTree = "<group>"; };
+		9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -311,14 +319,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24B2138016F1EB9200E20893 /* libAURosetteViewLib.a in Frameworks */,
-				9EDF783616F1E57600FB3BDD /* Social.framework in Frameworks */,
-				9EDF783716F1E57B00FB3BDD /* Accounts.framework in Frameworks */,
 				9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */,
 				9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */,
 				9E78A7BB16E34BA2000CA790 /* CoreGraphics.framework in Frameworks */,
 				9E9F090E16E55695000E8471 /* QuartzCore.framework in Frameworks */,
+				9EDF783616F1E57600FB3BDD /* Social.framework in Frameworks */,
+				9EDF783716F1E57B00FB3BDD /* Accounts.framework in Frameworks */,
+				9E1CA1F716F54EE6001A7DA1 /* AdSupport.framework in Frameworks */,
+				9E1CA1F016F54E4F001A7DA1 /* FacebookSDK.framework in Frameworks */,
 				9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */,
+				24B2138016F1EB9200E20893 /* libAURosetteViewLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,7 +454,11 @@
 			isa = PBXGroup;
 			children = (
 				9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */,
+				9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */,
+				9E1CA1F416F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle */,
+				9E1CA1F216F54E8D001A7DA1 /* FacebookSDKResources.bundle */,
 				9E9F0A7516EC824E000E8471 /* Social.framework */,
+				9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */,
 				9E9F0A7316EC8248000E8471 /* Accounts.framework */,
 				9E9F090D16E55695000E8471 /* QuartzCore.framework */,
 				9E78A7B616E34BA2000CA790 /* UIKit.framework */,
@@ -937,6 +951,8 @@
 				24B2136E16F1EB2200E20893 /* InfoPlist.strings in Resources */,
 				24B2137516F1EB2200E20893 /* Bundle.bundle in Resources */,
 				24B2137616F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command in Resources */,
+				9E1CA1F316F54E8D001A7DA1 /* FacebookSDKResources.bundle in Resources */,
+				9E1CA1F516F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1095,10 +1111,18 @@
 		9E78A7D716E34BA3000CA790 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bezaat/Bezaat-Prefix.pch";
 				INFOPLIST_FILE = "Bezaat/Bezaat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lsqlite3.0",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1107,10 +1131,18 @@
 		9E78A7D816E34BA3000CA790 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bezaat/Bezaat-Prefix.pch";
 				INFOPLIST_FILE = "Bezaat/Bezaat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lsqlite3.0",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
