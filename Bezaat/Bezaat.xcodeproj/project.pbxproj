@@ -14,12 +14,6 @@
 		243084B816F60B200050CDFF /* friend.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B316F60B200050CDFF /* friend.png */; };
 		243084B916F60B200050CDFF /* select_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B416F60B200050CDFF /* select_32.png */; };
 		243084BA16F60B200050CDFF /* unselect_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B516F60B200050CDFF /* unselect_32.png */; };
-		24B2136D16F1EB2200E20893 /* AURosetteView-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 24B2135316F1EB2200E20893 /* AURosetteView-Info.plist */; };
-		24B2136E16F1EB2200E20893 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 24B2135516F1EB2200E20893 /* InfoPlist.strings */; };
-		24B2137116F1EB2200E20893 /* AURosetteItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2135C16F1EB2200E20893 /* AURosetteItem.m */; };
-		24B2137216F1EB2200E20893 /* AURosetteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2135E16F1EB2200E20893 /* AURosetteView.m */; };
-		24B2137416F1EB2200E20893 /* AURosetteViewLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2136716F1EB2200E20893 /* AURosetteViewLib.m */; };
-		24B2137516F1EB2200E20893 /* Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 24B2136916F1EB2200E20893 /* Bundle.bundle */; };
 		24B2137616F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command in Resources */ = {isa = PBXBuildFile; fileRef = 24B2136B16F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command */; };
 		24B2138016F1EB9200E20893 /* libAURosetteViewLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24B2137C16F1EB2200E20893 /* libAURosetteViewLib.a */; };
 		24B2139D16F2040200E20893 /* BHAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2139216F2040200E20893 /* BHAlbum.m */; };
@@ -34,6 +28,8 @@
 		9E1CA1F316F54E8D001A7DA1 /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA1F216F54E8D001A7DA1 /* FacebookSDKResources.bundle */; };
 		9E1CA1F516F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA1F416F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle */; };
 		9E1CA1F716F54EE6001A7DA1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */; };
+		9E1CA25816F61D34001A7DA1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA25716F61D34001A7DA1 /* CoreLocation.framework */; };
+		9E1CA25B16F61D3C001A7DA1 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA25A16F61D3C001A7DA1 /* MessageUI.framework */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
@@ -167,18 +163,7 @@
 		243084B316F60B200050CDFF /* friend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friend.png; sourceTree = "<group>"; };
 		243084B416F60B200050CDFF /* select_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = select_32.png; sourceTree = "<group>"; };
 		243084B516F60B200050CDFF /* unselect_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unselect_32.png; sourceTree = "<group>"; };
-		24B2135316F1EB2200E20893 /* AURosetteView-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AURosetteView-Info.plist"; sourceTree = "<group>"; };
-		24B2135416F1EB2200E20893 /* AURosetteView-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AURosetteView-Prefix.pch"; sourceTree = "<group>"; };
-		24B2135616F1EB2200E20893 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		24B2135B16F1EB2200E20893 /* AURosetteItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AURosetteItem.h; sourceTree = "<group>"; };
-		24B2135C16F1EB2200E20893 /* AURosetteItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AURosetteItem.m; sourceTree = "<group>"; };
-		24B2135D16F1EB2200E20893 /* AURosetteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AURosetteView.h; sourceTree = "<group>"; };
-		24B2135E16F1EB2200E20893 /* AURosetteView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AURosetteView.m; sourceTree = "<group>"; };
 		24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AURosetteView.xcodeproj; sourceTree = "<group>"; };
-		24B2136516F1EB2200E20893 /* AURosetteViewLib-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AURosetteViewLib-Prefix.pch"; sourceTree = "<group>"; };
-		24B2136616F1EB2200E20893 /* AURosetteViewLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AURosetteViewLib.h; sourceTree = "<group>"; };
-		24B2136716F1EB2200E20893 /* AURosetteViewLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AURosetteViewLib.m; sourceTree = "<group>"; };
-		24B2136916F1EB2200E20893 /* Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Bundle.bundle; sourceTree = "<group>"; };
 		24B2136B16F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = CopyHeadersToLegacyBuildDir.command; sourceTree = "<group>"; };
 		24B2139116F2040200E20893 /* BHAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHAlbum.h; sourceTree = "<group>"; };
 		24B2139216F2040200E20893 /* BHAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHAlbum.m; sourceTree = "<group>"; };
@@ -199,6 +184,8 @@
 		9E1CA1F216F54E8D001A7DA1 /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKResources.bundle; sourceTree = "<group>"; };
 		9E1CA1F416F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBUserSettingsViewResources.bundle; sourceTree = "<group>"; };
 		9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		9E1CA25716F61D34001A7DA1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		9E1CA25A16F61D3C001A7DA1 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -334,6 +321,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E1CA25B16F61D3C001A7DA1 /* MessageUI.framework in Frameworks */,
+				9E1CA25816F61D34001A7DA1 /* CoreLocation.framework in Frameworks */,
 				9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */,
 				9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */,
 				9E78A7BB16E34BA2000CA790 /* CoreGraphics.framework in Frameworks */,
@@ -362,28 +351,6 @@
 			name = "Temproy images";
 			sourceTree = "<group>";
 		};
-		24B2135016F1EB2200E20893 /* AURosetteView */ = {
-			isa = PBXGroup;
-			children = (
-				24B2135316F1EB2200E20893 /* AURosetteView-Info.plist */,
-				24B2135416F1EB2200E20893 /* AURosetteView-Prefix.pch */,
-				24B2135516F1EB2200E20893 /* InfoPlist.strings */,
-				24B2135A16F1EB2200E20893 /* RosetteView */,
-			);
-			path = AURosetteView;
-			sourceTree = "<group>";
-		};
-		24B2135A16F1EB2200E20893 /* RosetteView */ = {
-			isa = PBXGroup;
-			children = (
-				24B2135B16F1EB2200E20893 /* AURosetteItem.h */,
-				24B2135C16F1EB2200E20893 /* AURosetteItem.m */,
-				24B2135D16F1EB2200E20893 /* AURosetteView.h */,
-				24B2135E16F1EB2200E20893 /* AURosetteView.m */,
-			);
-			path = RosetteView;
-			sourceTree = "<group>";
-		};
 		24B2136216F1EB2200E20893 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -391,24 +358,6 @@
 				24B2137C16F1EB2200E20893 /* libAURosetteViewLib.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		24B2136416F1EB2200E20893 /* AURosetteViewLib */ = {
-			isa = PBXGroup;
-			children = (
-				24B2136516F1EB2200E20893 /* AURosetteViewLib-Prefix.pch */,
-				24B2136616F1EB2200E20893 /* AURosetteViewLib.h */,
-				24B2136716F1EB2200E20893 /* AURosetteViewLib.m */,
-			);
-			path = AURosetteViewLib;
-			sourceTree = "<group>";
-		};
-		24B2136816F1EB2200E20893 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				24B2136916F1EB2200E20893 /* Bundle.bundle */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		24B2136A16F1EB2200E20893 /* Scripts */ = {
@@ -422,10 +371,7 @@
 		24B2137D16F1EB3900E20893 /* ShareButtonLib */ = {
 			isa = PBXGroup;
 			children = (
-				24B2135016F1EB2200E20893 /* AURosetteView */,
 				24B2136116F1EB2200E20893 /* AURosetteView.xcodeproj */,
-				24B2136416F1EB2200E20893 /* AURosetteViewLib */,
-				24B2136816F1EB2200E20893 /* Resources */,
 				24B2136A16F1EB2200E20893 /* Scripts */,
 			);
 			name = ShareButtonLib;
@@ -461,7 +407,6 @@
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
-				24B2137D16F1EB3900E20893 /* ShareButtonLib */,
 				9E78A7BC16E34BA2000CA790 /* Bezaat */,
 				9E9F082F16E4AFCF000E8471 /* Resources */,
 				9E78A7B516E34BA2000CA790 /* Frameworks */,
@@ -480,10 +425,13 @@
 		9E78A7B516E34BA2000CA790 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				24B2137D16F1EB3900E20893 /* ShareButtonLib */,
 				9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */,
 				9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */,
 				9E1CA1F416F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle */,
 				9E1CA1F216F54E8D001A7DA1 /* FacebookSDKResources.bundle */,
+				9E1CA25A16F61D3C001A7DA1 /* MessageUI.framework */,
+				9E1CA25716F61D34001A7DA1 /* CoreLocation.framework */,
 				9E9F0A7516EC824E000E8471 /* Social.framework */,
 				9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */,
 				9E9F0A7316EC8248000E8471 /* Accounts.framework */,
@@ -978,9 +926,6 @@
 				9E9F0A3716E7CF16000E8471 /* Riyadh.png in Resources */,
 				9E9F0A8916ECA939000E8471 /* TWAccountsViewController.xib in Resources */,
 				9E9F0A8B16ECA939000E8471 /* ViewController.xib in Resources */,
-				24B2136D16F1EB2200E20893 /* AURosetteView-Info.plist in Resources */,
-				24B2136E16F1EB2200E20893 /* InfoPlist.strings in Resources */,
-				24B2137516F1EB2200E20893 /* Bundle.bundle in Resources */,
 				24B2137616F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command in Resources */,
 				9E1CA1F316F54E8D001A7DA1 /* FacebookSDKResources.bundle in Resources */,
 				9E1CA1F516F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle in Resources */,
@@ -1042,9 +987,6 @@
 				9E9F0A3116E7927F000E8471 /* CountryLoader.m in Sources */,
 				9E9F0A8816ECA939000E8471 /* TWAccountsViewController.m in Sources */,
 				9E9F0A8A16ECA939000E8471 /* ViewController.m in Sources */,
-				24B2137116F1EB2200E20893 /* AURosetteItem.m in Sources */,
-				24B2137216F1EB2200E20893 /* AURosetteView.m in Sources */,
-				24B2137416F1EB2200E20893 /* AURosetteViewLib.m in Sources */,
 				24B2139D16F2040200E20893 /* BHAlbum.m in Sources */,
 				24B2139E16F2040200E20893 /* BHAlbumPhotoCell.m in Sources */,
 				24B2139F16F2040200E20893 /* BHAlbumTitleReusableView.m in Sources */,
@@ -1071,14 +1013,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		24B2135516F1EB2200E20893 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				24B2135616F1EB2200E20893 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		9E78A7BF16E34BA3000CA790 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
