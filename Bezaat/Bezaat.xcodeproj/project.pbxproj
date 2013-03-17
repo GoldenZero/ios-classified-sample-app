@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		243084AD16F609750050CDFF /* FriendsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 243084AB16F609750050CDFF /* FriendsListViewController.m */; };
+		243084AE16F609750050CDFF /* FriendsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 243084AC16F609750050CDFF /* FriendsListViewController.xib */; };
+		243084B616F60B200050CDFF /* Circle_Blue32.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B116F60B200050CDFF /* Circle_Blue32.png */; };
+		243084B716F60B200050CDFF /* Circle_Grey32.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B216F60B200050CDFF /* Circle_Grey32.png */; };
+		243084B816F60B200050CDFF /* friend.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B316F60B200050CDFF /* friend.png */; };
+		243084B916F60B200050CDFF /* select_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B416F60B200050CDFF /* select_32.png */; };
+		243084BA16F60B200050CDFF /* unselect_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 243084B516F60B200050CDFF /* unselect_32.png */; };
 		24B2136D16F1EB2200E20893 /* AURosetteView-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 24B2135316F1EB2200E20893 /* AURosetteView-Info.plist */; };
 		24B2136E16F1EB2200E20893 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 24B2135516F1EB2200E20893 /* InfoPlist.strings */; };
 		24B2137116F1EB2200E20893 /* AURosetteItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B2135C16F1EB2200E20893 /* AURosetteItem.m */; };
@@ -152,6 +159,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		243084AA16F609750050CDFF /* FriendsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsListViewController.h; sourceTree = "<group>"; };
+		243084AB16F609750050CDFF /* FriendsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsListViewController.m; sourceTree = "<group>"; };
+		243084AC16F609750050CDFF /* FriendsListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendsListViewController.xib; sourceTree = "<group>"; };
+		243084B116F60B200050CDFF /* Circle_Blue32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Circle_Blue32.png; sourceTree = "<group>"; };
+		243084B216F60B200050CDFF /* Circle_Grey32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Circle_Grey32.png; sourceTree = "<group>"; };
+		243084B316F60B200050CDFF /* friend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friend.png; sourceTree = "<group>"; };
+		243084B416F60B200050CDFF /* select_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = select_32.png; sourceTree = "<group>"; };
+		243084B516F60B200050CDFF /* unselect_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unselect_32.png; sourceTree = "<group>"; };
 		24B2135316F1EB2200E20893 /* AURosetteView-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AURosetteView-Info.plist"; sourceTree = "<group>"; };
 		24B2135416F1EB2200E20893 /* AURosetteView-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AURosetteView-Prefix.pch"; sourceTree = "<group>"; };
 		24B2135616F1EB2200E20893 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -335,6 +350,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		243084B016F60AF00050CDFF /* Temproy images */ = {
+			isa = PBXGroup;
+			children = (
+				243084B116F60B200050CDFF /* Circle_Blue32.png */,
+				243084B216F60B200050CDFF /* Circle_Grey32.png */,
+				243084B316F60B200050CDFF /* friend.png */,
+				243084B416F60B200050CDFF /* select_32.png */,
+				243084B516F60B200050CDFF /* unselect_32.png */,
+			);
+			name = "Temproy images";
+			sourceTree = "<group>";
+		};
 		24B2135016F1EB2200E20893 /* AURosetteView */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,6 +633,9 @@
 				9E78A83916E35EF5000CA790 /* PublishViewController.h */,
 				9E78A83A16E35EF6000CA790 /* PublishViewController.m */,
 				9E78A83B16E35EF6000CA790 /* PublishViewController.xib */,
+				243084AA16F609750050CDFF /* FriendsListViewController.h */,
+				243084AB16F609750050CDFF /* FriendsListViewController.m */,
+				243084AC16F609750050CDFF /* FriendsListViewController.xib */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -669,6 +699,7 @@
 		9E9F082F16E4AFCF000E8471 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				243084B016F60AF00050CDFF /* Temproy images */,
 				9E9F0A1416E75E86000E8471 /* Car Models */,
 				9E9F0A1616E75E86000E8471 /* Locations */,
 				9E9F09F116E63DFC000E8471 /* favourite.png */,
@@ -953,6 +984,12 @@
 				24B2137616F1EB2200E20893 /* CopyHeadersToLegacyBuildDir.command in Resources */,
 				9E1CA1F316F54E8D001A7DA1 /* FacebookSDKResources.bundle in Resources */,
 				9E1CA1F516F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle in Resources */,
+				243084AE16F609750050CDFF /* FriendsListViewController.xib in Resources */,
+				243084B616F60B200050CDFF /* Circle_Blue32.png in Resources */,
+				243084B716F60B200050CDFF /* Circle_Grey32.png in Resources */,
+				243084B816F60B200050CDFF /* friend.png in Resources */,
+				243084B916F60B200050CDFF /* select_32.png in Resources */,
+				243084BA16F60B200050CDFF /* unselect_32.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1014,6 +1051,7 @@
 				24B213A016F2040200E20893 /* BHEmblemView.m in Sources */,
 				24B213A116F2040200E20893 /* BHPhoto.m in Sources */,
 				24B213A216F2040200E20893 /* BHPhotoAlbumLayout.m in Sources */,
+				243084AD16F609750050CDFF /* FriendsListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
