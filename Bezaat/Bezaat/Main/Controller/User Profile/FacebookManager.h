@@ -11,8 +11,8 @@
 
 @protocol FacebookLoginDelegate <NSObject>
 @required
-- (void) fbDidLoginWithData:(NSDictionary *) userData;
-- (void) fbDidFailLoginWithError:(NSError *) error;
+// This method is called after the login is finished either successfully or with error.
+- (void) fbDidFinishLogging;
 @end
 
 @interface FacebookManager : NSObject
@@ -27,10 +27,12 @@
 // init
 -(id) initWithDelegate: (id <FacebookLoginDelegate>) del;
 
-// check for a valid session
-- (BOOL) hasValidToken;
-
 // start logging in
 - (void) performLogin;
 
+// logout
+- (void) performLogout;
+
+// get userData
+- (NSDictionary *) getUserDataDictionary;
 @end

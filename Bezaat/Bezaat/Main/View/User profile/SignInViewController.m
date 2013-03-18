@@ -73,24 +73,31 @@
     
     [self showLoadingIndicator];
     [fbManager performLogin];
+    
 }
 
 - (IBAction)twBtnPressed:(id)sender {
 }
 
+
 #pragma mark - FacebookLogin Delegate
-- (void) fbDidLoginWithData:(NSDictionary *)userData {
+- (void) fbDidFinishLogging {
     [self hideLoadingIndicator];
-    [GenericMethods throwAlertWithTitle:@"" message:@"تم تسجيل الدخول بنجاح" delegateVC:self];
+    
+    if ([SharedSession fbSharedInstance].isOpen) {
+        NSLog(@"Logged successfully");
+        //[fbManager getUserDataDictionary];
+        
+    } else {
+        if ([SharedSession fbSharedInstance].accessTokenData)
+            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملسة تسجيل الدخول" delegateVC:self];
+    }
     
 }
 
-- (void) fbDidFailLoginWithError:(NSError *)error {
-    [self hideLoadingIndicator];
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر تسجيل الدخول" delegateVC:self];
-}
 
 #pragma mark - helper methods
+
 
 - (void) showLoadingIndicator {
     

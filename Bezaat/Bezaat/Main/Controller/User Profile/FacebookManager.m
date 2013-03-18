@@ -20,65 +20,40 @@
     return self;
 }
 
-- (BOOL) hasValidToken {
-    // See if we have a valid token for the current state.
-    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded)
-        return YES;
+- (void) performLogin {
     
-    return NO;
+    if ([SharedSession fbSharedInstance].isOpen) {
+        //user is already logged in
+        [delegate fbDidFinishLogging];
+        
+    } else {
+        NSLog(@"%i", [SharedSession fbSharedInstance].state);
+        if ([SharedSession fbSharedInstance].state == FBSessionStateCreated) {
+            // Create a new, logged out session.
+            [SharedSession initNewFbSession];
+        }
+        
+        // if the session isn't open, let's open it now and present the login UX to the user
+        [[SharedSession fbSharedInstance] openWithCompletionHandler:^(FBSession *session,
+                                                         FBSessionState status,
+                                                         NSError *error) {
+            // and here we make sure to update our UX according to the new session state
+            [delegate fbDidFinishLogging];
+        }];
+    }
 }
 
-
-- (void) performLogin {
-    //NSLog(@"%i", FBSession.activeSession.state);
-    //DO NOT sign the user in until
-    if (FBSession.activeSession.state == FBSessionStateCreated)
-        [self openSession];
-    /*
-    else
-    {
-        [delegate fbDidLoginWithData:[self getuserDataDictionaryWithSession:FBSession.activeSession]];
-    }*/
+- (void) performLogout {
+    [[SharedSession fbSharedInstance] closeAndClearTokenInformation];
 }
 
 #pragma mark - helper methods
 
-// track session state
-- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error {
-    switch (state) {
-        case FBSessionStateOpen: {
-            
-            //NSLog(@"signed in with token: %@", session.accessTokenData);
-            [delegate fbDidLoginWithData:[self getuserDataDictionaryWithSession:session]];
-        }
-            break;
-        case FBSessionStateClosed:
-        case FBSessionStateClosedLoginFailed:
-            //close session & clear data
-            [FBSession.activeSession closeAndClearTokenInformation];
-            
-            //LoginDidFail
-            [self.delegate fbDidFailLoginWithError:error];
-            break;
-        default:
-            break;
-    }
-}
 
-// start a new session
-- (void)openSession
-{
-    [FBSession openActiveSessionWithReadPermissions:nil
-                                       allowLoginUI:YES
-                                  completionHandler:
-     ^(FBSession *session,
-       FBSessionState state, NSError *error) {
-         [self sessionStateChanged:session state:state error:error];
-     }];
-}
-
-//get userData
-- (NSDictionary *) getuserDataDictionaryWithSession:(FBSession *)session {
+- (NSDictionary *) getUserDataDictionary {
+    /*
+    [NSString stringWithFormat:@"https://graph.facebook.com/me/friends?access_token=%@", appDelegate.session.accessTokenData.accessToken]
+     */
     return [NSDictionary new];
 }
 @end

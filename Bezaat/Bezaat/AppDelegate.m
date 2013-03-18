@@ -63,24 +63,32 @@
     }
     */
     // Facebook:
-    // We need to properly handle activation of the application with regards to Facebook Login
-    // (e.g., returning from iOS 6.0 Login Dialog or from fast app switching).
+    // We need to properly handle activation of the application with regards to SSO
+    // (e.g., returning from iOS 6.0 authorization dialog or from fast app switching).
     [FBSession.activeSession handleDidBecomeActive];
     
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[SharedSession fbSharedInstance] close];
 }
 
 
 #pragma mark - Facebook related
 
-
+/*
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
 
     //Handle the incoming facebook URL after authenticating the user through the facebook iOS app
     return [FBSession.activeSession handleOpenURL:url];
+}
+*/
+
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    // attempt to extract a token from the url
+    return [[SharedSession fbSharedInstance] handleOpenURL:url];
 }
 @end
