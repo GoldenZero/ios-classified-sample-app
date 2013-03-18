@@ -14,8 +14,9 @@
 #import <UIKit/UIKit.h>
 #import "ChooseActionViewController.h"
 #import "SignUpViewController.h"
+#import "FacebookManager.h"
 
-@interface SignInViewController : UIViewController
+@interface SignInViewController : UIViewController <FacebookLoginDelegate>
 
 #pragma mark - properties
 
@@ -24,5 +25,7 @@
 - (IBAction)signInBtnPressed:(id)sender;
 - (IBAction)signUpBtnPressed:(id)sender;
 - (IBAction)skipBtnPressed:(id)sender;
+- (IBAction)fbBtnPressed:(id)sender;
+- (IBAction)twBtnPressed:(id)sender;
 
 @end

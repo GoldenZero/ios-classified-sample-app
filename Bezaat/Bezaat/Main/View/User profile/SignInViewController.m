@@ -11,6 +11,9 @@
 @interface SignInViewController ()
 {
     BOOL userSignedIn;
+    FacebookManager * fbManager;
+    //TwitterManager * twManager;
+    MBProgressHUD2 * loadingHUD;
 }
 @end
 
@@ -28,7 +31,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    //initialize facebook manager
+    fbManager = [[FacebookManager alloc] initWithDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,4 +68,47 @@
     
     [self.navigationController pushViewController:chooseActionVC animated:YES];
 }
+
+- (IBAction)fbBtnPressed:(id)sender {
+    
+    [self showLoadingIndicator];
+    [fbManager performLogin];
+}
+
+- (IBAction)twBtnPressed:(id)sender {
+}
+
+#pragma mark - FacebookLogin Delegate
+- (void) fbDidLoginWithData:(NSDictionary *)userData {
+    [self hideLoadingIndicator];
+    [GenericMethods throwAlertWithTitle:@"" message:@"تم تسجيل الدخول بنجاح" delegateVC:self];
+    
+}
+
+- (void) fbDidFailLoginWithError:(NSError *)error {
+    [self hideLoadingIndicator];
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر تسجيل الدخول" delegateVC:self];
+}
+
+#pragma mark - helper methods
+
+- (void) showLoadingIndicator {
+    
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.navigationController.view animated:YES];
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    
+    loadingHUD.labelText = @"يرجى الانتظار";
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = YES;
+}
+
+
+- (void) hideLoadingIndicator {
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.navigationController.view  animated:YES];
+    loadingHUD = nil;
+}
+
+
+
 @end
