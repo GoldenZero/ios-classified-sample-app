@@ -30,12 +30,15 @@
 
 
 - (void) performLogin {
-    if (![self hasValidToken])
+    //NSLog(@"%i", FBSession.activeSession.state);
+    //DO NOT sign the user in until
+    if (FBSession.activeSession.state == FBSessionStateCreated)
         [self openSession];
+    /*
     else
     {
         [delegate fbDidLoginWithData:[self getuserDataDictionaryWithSession:FBSession.activeSession]];
-    }
+    }*/
 }
 
 #pragma mark - helper methods
