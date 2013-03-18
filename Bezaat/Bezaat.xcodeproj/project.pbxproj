@@ -37,6 +37,7 @@
 		9E1CA28216F62607001A7DA1 /* WinSoftPro-MItal.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA27E16F62607001A7DA1 /* WinSoftPro-MItal.otf */; };
 		9E1CA28516F62660001A7DA1 /* libsheenfigure.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA26516F62384001A7DA1 /* libsheenfigure.a */; };
 		9E1CA2DA16F62AC0001A7DA1 /* libAURosetteViewLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA2D716F62A96001A7DA1 /* libAURosetteViewLib.a */; };
+		9E1CA2F916F700C0001A7DA1 /* FacebookManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA2F816F700BF001A7DA1 /* FacebookManager.m */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
@@ -210,6 +211,8 @@
 		9E1CA27D16F62607001A7DA1 /* WinSoftPro-Med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WinSoftPro-Med.otf"; sourceTree = "<group>"; };
 		9E1CA27E16F62607001A7DA1 /* WinSoftPro-MItal.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WinSoftPro-MItal.otf"; sourceTree = "<group>"; };
 		9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AURosetteView.xcodeproj; path = ../Libraries/shareButtonLib/AURosetteView.xcodeproj; sourceTree = "<group>"; };
+		9E1CA2F716F700BF001A7DA1 /* FacebookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookManager.h; sourceTree = "<group>"; };
+		9E1CA2F816F700BF001A7DA1 /* FacebookManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookManager.m; sourceTree = "<group>"; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -812,6 +815,8 @@
 				9E9F0A0D16E75E3B000E8471 /* ProfileManager.m */,
 				9E9F0A0E16E75E3B000E8471 /* UserProfile.h */,
 				9E9F0A0F16E75E3B000E8471 /* UserProfile.m */,
+				9E1CA2F716F700BF001A7DA1 /* FacebookManager.h */,
+				9E1CA2F816F700BF001A7DA1 /* FacebookManager.m */,
 				9E9F0A8116ECA939000E8471 /* Temp for social Login */,
 			);
 			path = "User Profile";
@@ -1055,6 +1060,7 @@
 				9E1CA26816F623CA001A7DA1 /* GenericFonts.m in Sources */,
 				9E1CA27716F625B9001A7DA1 /* SFLabel.m in Sources */,
 				9E1CA27816F625B9001A7DA1 /* SFLabelSegment.m in Sources */,
+				9E1CA2F916F700C0001A7DA1 /* FacebookManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

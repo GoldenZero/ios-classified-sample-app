@@ -39,4 +39,26 @@
     [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
 }
 
++ (NSString *) handleArabicTaa : (NSString *) input {
+    
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^اأإآدذرزوؤء]ة" options:NSRegularExpressionCaseInsensitive error:&error];
+    NSString * output = input;
+    
+    NSArray * matches = [regex matchesInString:input options:0 range:NSMakeRange(0, input.length)];
+    
+    NSString * substring;
+    NSString * replacement;
+    
+    for (NSTextCheckingResult * match in matches)
+    {
+        substring = [input substringWithRange:match.range];
+        replacement = [substring
+                       stringByReplacingOccurrencesOfString:@"ة" withString:@"ـة"];
+        output = [output stringByReplacingOccurrencesOfString:substring withString:replacement];
+    }
+    
+    return output;
+    
+}
 @end

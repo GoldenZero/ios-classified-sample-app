@@ -20,4 +20,7 @@
 
 // This method shows a simple alert view with ok button as a cancel button
 + (void) throwAlertWithTitle:(NSString *) aTitle message:(NSString *) aMessage delegateVC:(UIViewController *) vc;
+
+//This method is used to handle the arabic connected Taa when loading custom fonts.
++ (NSString *) handleArabicTaa : (NSString *) input;
 @end
