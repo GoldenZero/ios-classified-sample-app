@@ -46,6 +46,13 @@
 
 - (IBAction)signInBtnPressed:(id)sender {
     
+    // check for internet connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل الاتصال بالإنترنت" delegateVC:self];
+        return;
+    }
+    
     //perform sign in operation
     //...
     userSignedIn = YES;
@@ -58,6 +65,7 @@
 }
 
 - (IBAction)signUpBtnPressed:(id)sender {
+    
     SignUpViewController * signUpVC = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
     [self.navigationController pushViewController:signUpVC animated:YES];
 }
@@ -71,17 +79,31 @@
 
 - (IBAction)fbBtnPressed:(id)sender {
     
+    // check for internet connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل الاتصال بالإنترنت" delegateVC:self];
+        return;
+    }
+    
     [self showLoadingIndicator];
     [fbManager performLogin];
     
 }
 
 - (IBAction)twBtnPressed:(id)sender {
+    // check for internet connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل الاتصال بالإنترنت" delegateVC:self];
+        return;
+    }
 }
 
 
 #pragma mark - FacebookLogin Delegate
 - (void) fbDidFinishLogging {
+    
     [self hideLoadingIndicator];
     
     if ([SharedSession fbSharedInstance].isOpen) {
@@ -98,7 +120,6 @@
 
 #pragma mark - helper methods
 
-
 - (void) showLoadingIndicator {
     
     loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.navigationController.view animated:YES];
@@ -109,13 +130,11 @@
     loadingHUD.dimBackground = YES;
 }
 
-
 - (void) hideLoadingIndicator {
     if (loadingHUD)
         [MBProgressHUD2 hideHUDForView:self.navigationController.view  animated:YES];
     loadingHUD = nil;
 }
-
 
 
 @end

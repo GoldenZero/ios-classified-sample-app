@@ -23,4 +23,7 @@
 
 //This method is used to handle the arabic connected Taa when loading custom fonts.
 + (NSString *) handleArabicTaa : (NSString *) input;
+
+// This method checks internet connectivity
++ (BOOL) connectedToInternet;
 @end

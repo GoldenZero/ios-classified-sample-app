@@ -61,4 +61,15 @@
     return output;
     
 }
+
++ (BOOL) connectedToInternet {
+    
+    Reachability * reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    
+    if (networkStatus == NotReachable)
+        return NO;
+
+    return YES;
+}
 @end
