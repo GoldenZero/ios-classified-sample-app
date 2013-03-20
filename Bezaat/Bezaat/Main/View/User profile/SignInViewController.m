@@ -106,12 +106,12 @@
     
     [self hideLoadingIndicator];
     
-    if ([SharedSession fbSharedInstance].isOpen) {
+    if ([SharedUser fbSharedSessionInstance].isOpen) {
         NSLog(@"Logged successfully");
-        //[fbManager getUserDataDictionary];
+        [fbManager getUserDataDictionary];
         
     } else {
-        if ([SharedSession fbSharedInstance].accessTokenData)
+        if ([SharedUser fbSharedSessionInstance].accessTokenData)
             [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملسة تسجيل الدخول" delegateVC:self];
     }
     

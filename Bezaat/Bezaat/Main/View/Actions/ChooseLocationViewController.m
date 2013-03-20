@@ -336,8 +336,11 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT				= 20.0;
 #pragma mark - drop down lists parameters
 
 //position
-#define COUNTRIES_DROPDOWNLIST_ORIGIN CGPointMake(30.0,40.0)
-#define CITIES_DROPDOWNLIST_ORIGIN CGPointMake(30.0,175.0)
+//#define COUNTRIES_DROPDOWNLIST_ORIGIN CGPointMake(30.0,40.0)
+//#define CITIES_DROPDOWNLIST_ORIGIN CGPointMake(30.0,175.0)
+
+#define COUNTRIES_DROPDOWNLIST_ORIGIN CGPointMake(30.0,280.0)
+#define CITIES_DROPDOWNLIST_ORIGIN CGPointMake(30.0,330.0)
 
 //name
 #define COUNTRIES_DROPDOWNLIST_NAME @"اختر البلد"
@@ -567,7 +570,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     
     // Set parent view controller
     citiesLst.parentViewController = self;
-    
+
     //2- create the content
     [self initCitiesListContentOfCurrentCountry];
 }

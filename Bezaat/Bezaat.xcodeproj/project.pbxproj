@@ -38,9 +38,10 @@
 		9E1CA28516F62660001A7DA1 /* libsheenfigure.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA26516F62384001A7DA1 /* libsheenfigure.a */; };
 		9E1CA2DA16F62AC0001A7DA1 /* libAURosetteViewLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA2D716F62A96001A7DA1 /* libAURosetteViewLib.a */; };
 		9E1CA2F916F700C0001A7DA1 /* FacebookManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA2F816F700BF001A7DA1 /* FacebookManager.m */; };
-		9E1CA30616F7CA2C001A7DA1 /* SharedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA30516F7CA2C001A7DA1 /* SharedSession.m */; };
+		9E1CA30616F7CA2C001A7DA1 /* SharedUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA30516F7CA2C001A7DA1 /* SharedUser.m */; };
 		9E1CA31116F85219001A7DA1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA31016F85219001A7DA1 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9E1CA31316F854F9001A7DA1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA31216F854F9001A7DA1 /* SystemConfiguration.framework */; };
+		9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
@@ -216,11 +217,13 @@
 		9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AURosetteView.xcodeproj; path = ../Libraries/shareButtonLib/AURosetteView.xcodeproj; sourceTree = "<group>"; };
 		9E1CA2F716F700BF001A7DA1 /* FacebookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookManager.h; sourceTree = "<group>"; };
 		9E1CA2F816F700BF001A7DA1 /* FacebookManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookManager.m; sourceTree = "<group>"; };
-		9E1CA30416F7CA2C001A7DA1 /* SharedSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedSession.h; sourceTree = "<group>"; };
-		9E1CA30516F7CA2C001A7DA1 /* SharedSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedSession.m; sourceTree = "<group>"; };
+		9E1CA30416F7CA2C001A7DA1 /* SharedUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedUser.h; sourceTree = "<group>"; };
+		9E1CA30516F7CA2C001A7DA1 /* SharedUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedUser.m; sourceTree = "<group>"; };
 		9E1CA30F16F85219001A7DA1 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		9E1CA31016F85219001A7DA1 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		9E1CA31216F854F9001A7DA1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9E1CA31B16F85C7A001A7DA1 /* fbUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fbUserData.h; sourceTree = "<group>"; };
+		9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fbUserData.m; sourceTree = "<group>"; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -473,7 +476,6 @@
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
-				9E1CA31216F854F9001A7DA1 /* SystemConfiguration.framework */,
 				9E78A7BC16E34BA2000CA790 /* Bezaat */,
 				9E9F082F16E4AFCF000E8471 /* Resources */,
 				9E78A7B516E34BA2000CA790 /* Frameworks */,
@@ -498,6 +500,7 @@
 				9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */,
 				9E1CA1F416F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle */,
 				9E1CA1F216F54E8D001A7DA1 /* FacebookSDKResources.bundle */,
+				9E1CA31216F854F9001A7DA1 /* SystemConfiguration.framework */,
 				9E1CA25A16F61D3C001A7DA1 /* MessageUI.framework */,
 				9E1CA25716F61D34001A7DA1 /* CoreLocation.framework */,
 				9E9F0A7516EC824E000E8471 /* Social.framework */,
@@ -835,10 +838,12 @@
 				9E9F0A0D16E75E3B000E8471 /* ProfileManager.m */,
 				9E9F0A0E16E75E3B000E8471 /* UserProfile.h */,
 				9E9F0A0F16E75E3B000E8471 /* UserProfile.m */,
+				9E1CA31B16F85C7A001A7DA1 /* fbUserData.h */,
+				9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */,
 				9E1CA2F716F700BF001A7DA1 /* FacebookManager.h */,
 				9E1CA2F816F700BF001A7DA1 /* FacebookManager.m */,
-				9E1CA30416F7CA2C001A7DA1 /* SharedSession.h */,
-				9E1CA30516F7CA2C001A7DA1 /* SharedSession.m */,
+				9E1CA30416F7CA2C001A7DA1 /* SharedUser.h */,
+				9E1CA30516F7CA2C001A7DA1 /* SharedUser.m */,
 				9E9F0A8116ECA939000E8471 /* Temp for social Login */,
 			);
 			path = "User Profile";
@@ -1083,8 +1088,9 @@
 				9E1CA27716F625B9001A7DA1 /* SFLabel.m in Sources */,
 				9E1CA27816F625B9001A7DA1 /* SFLabelSegment.m in Sources */,
 				9E1CA2F916F700C0001A7DA1 /* FacebookManager.m in Sources */,
-				9E1CA30616F7CA2C001A7DA1 /* SharedSession.m in Sources */,
+				9E1CA30616F7CA2C001A7DA1 /* SharedUser.m in Sources */,
 				9E1CA31116F85219001A7DA1 /* Reachability.m in Sources */,
+				9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

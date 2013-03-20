@@ -14,9 +14,17 @@
 @required
 // This method is called after the login is finished either successfully or with error.
 - (void) fbDidFinishLogging;
+
+// These methods are called after loading user's data in an FBRequest with success/failure
+- (void) fbDidLoadUserDataWithData:(NSDictionary *) userData;
+- (void) fbDidFailLoadingUserDataWithError:(NSError*) error;
+
+// These methods are called after Loading friends list with success/failure
+- (void) fbDidFailLoadingFriendsListWithError:(NSError*) error;
+- (void) fbDidFinishLoadingFriendsListWithData:(NSArray *) resultArray;
 @end
 
-@interface FacebookManager : NSObject
+@interface FacebookManager : NSObject <DataDelegate>
 
 #pragma  mark - properties
 
@@ -34,6 +42,9 @@
 // logout
 - (void) performLogout;
 
+// get friends data
+- (void) loadFriendsData;
+
 // get userData
-- (NSDictionary *) getUserDataDictionary;
+- (void) getUserDataDictionary;
 @end

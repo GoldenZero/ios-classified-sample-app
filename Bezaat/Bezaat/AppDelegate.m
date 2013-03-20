@@ -71,7 +71,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [[SharedSession fbSharedInstance] close];
+    [[SharedUser fbSharedSessionInstance] close];
 }
 
 
@@ -89,6 +89,6 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
     // attempt to extract a token from the url
-    return [[SharedSession fbSharedInstance] handleOpenURL:url];
+    return [[SharedUser fbSharedSessionInstance] handleOpenURL:url];
 }
 @end

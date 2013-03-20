@@ -7,6 +7,11 @@
 //
 
 #import "FacebookManager.h"
+@interface FacebookManager ()
+{
+    InternetManager * internetManager;
+}
+@end
 
 @implementation FacebookManager
 @synthesize delegate;
@@ -22,19 +27,19 @@
 
 - (void) performLogin {
     
-    if ([SharedSession fbSharedInstance].isOpen) {
+    if ([SharedUser fbSharedSessionInstance].isOpen) {
         //user is already logged in
         [delegate fbDidFinishLogging];
         
     } else {
-        NSLog(@"%i", [SharedSession fbSharedInstance].state);
-        if ([SharedSession fbSharedInstance].state == FBSessionStateCreated) {
+        NSLog(@"%i", [SharedUser fbSharedSessionInstance].state);
+        if ([SharedUser fbSharedSessionInstance].state == FBSessionStateCreated) {
             // Create a new, logged out session.
-            [SharedSession initNewFbSession];
+            [SharedUser initNewFbSession];
         }
         
         // if the session isn't open, let's open it now and present the login UX to the user
-        [[SharedSession fbSharedInstance] openWithCompletionHandler:^(FBSession *session,
+        [[SharedUser fbSharedSessionInstance] openWithCompletionHandler:^(FBSession *session,
                                                          FBSessionState status,
                                                          NSError *error) {
             // and here we make sure to update our UX according to the new session state
@@ -44,16 +49,36 @@
 }
 
 - (void) performLogout {
-    [[SharedSession fbSharedInstance] closeAndClearTokenInformation];
+    [[SharedUser fbSharedSessionInstance] closeAndClearTokenInformation];
 }
 
 #pragma mark - helper methods
 
 
-- (NSDictionary *) getUserDataDictionary {
+- (void) getUserDataDictionary {
+    
+    if ([SharedUser fbSharedSessionInstance].isOpen) {
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection,
+           NSDictionary<FBGraphUser> *user,
+           NSError *error) {
+             if (!error) {
+                 //create a suitable dictionary according to the data needed by server API
+                 //self.userNameLabel.text = user.name;
+                 NSLog(@"%@", user.id);
+                 NSLog(@"%@", user.name);
+                 //return [NSDictionary new];
+                 //self.userProfileImage.profileID = user.id;
+             }
+             else
+             {
+                 NSLog(@"%@", error.localizedDescription);
+             }
+         }];
+    }
+    
     /*
     [NSString stringWithFormat:@"https://graph.facebook.com/me/friends?access_token=%@", appDelegate.session.accessTokenData.accessToken]
      */
-    return [NSDictionary new];
 }
 @end
