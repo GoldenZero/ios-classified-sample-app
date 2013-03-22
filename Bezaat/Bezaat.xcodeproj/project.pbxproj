@@ -43,6 +43,7 @@
 		9E1CA31316F854F9001A7DA1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA31216F854F9001A7DA1 /* SystemConfiguration.framework */; };
 		9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */; };
 		9E2B621C16FC9EAC00A0981F /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B621B16FC9EAC00A0981F /* SplashViewController.xib */; };
+		9E2B622516FCA16500A0981F /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2B622416FCA16500A0981F /* SplashViewController.m */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
@@ -227,6 +228,7 @@
 		9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fbUserData.m; sourceTree = "<group>"; };
 		9E2B621B16FC9EAC00A0981F /* SplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashViewController.xib; sourceTree = "<group>"; };
 		9E2B622016FCA0C600A0981F /* SplashViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
+		9E2B622416FCA16500A0981F /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -637,6 +639,7 @@
 			isa = PBXGroup;
 			children = (
 				9E2B622016FCA0C600A0981F /* SplashViewController.h */,
+				9E2B622416FCA16500A0981F /* SplashViewController.m */,
 				9E2B621B16FC9EAC00A0981F /* SplashViewController.xib */,
 				24B213B916F2130200E20893 /* BHCollectionViewController.h */,
 				24B213BA16F2130200E20893 /* BHCollectionViewController.m */,
@@ -1097,6 +1100,7 @@
 				9E1CA30616F7CA2C001A7DA1 /* SharedUser.m in Sources */,
 				9E1CA31116F85219001A7DA1 /* Reachability.m in Sources */,
 				9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */,
+				9E2B622516FCA16500A0981F /* SplashViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
