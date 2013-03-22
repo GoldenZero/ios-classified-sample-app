@@ -54,6 +54,7 @@
 		9E2B628C16FCBADD00A0981F /* home_store@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B628216FCBADD00A0981F /* home_store@2x.png */; };
 		9E2B628D16FCBADD00A0981F /* home_whiteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B628316FCBADD00A0981F /* home_whiteButton.png */; };
 		9E2B628E16FCBADD00A0981F /* home_whiteButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B628416FCBADD00A0981F /* home_whiteButton@2x.png */; };
+		9E2B62B316FCCD3400A0981F /* splash_568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B62B216FCCD3400A0981F /* splash_568h@2x.png */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
@@ -249,6 +250,7 @@
 		9E2B628216FCBADD00A0981F /* home_store@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home_store@2x.png"; sourceTree = "<group>"; };
 		9E2B628316FCBADD00A0981F /* home_whiteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_whiteButton.png; sourceTree = "<group>"; };
 		9E2B628416FCBADD00A0981F /* home_whiteButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home_whiteButton@2x.png"; sourceTree = "<group>"; };
+		9E2B62B216FCCD3400A0981F /* splash_568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_568h@2x.png"; sourceTree = "<group>"; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -505,6 +507,14 @@
 				9E2B628416FCBADD00A0981F /* home_whiteButton@2x.png */,
 			);
 			path = home_sliced;
+			sourceTree = "<group>";
+		};
+		9E2B62B116FCCD3400A0981F /* splash */ = {
+			isa = PBXGroup;
+			children = (
+				9E2B62B216FCCD3400A0981F /* splash_568h@2x.png */,
+			);
+			path = splash;
 			sourceTree = "<group>";
 		};
 		9E4315B316EDFEE30040359E /* Products */ = {
@@ -767,6 +777,7 @@
 		9E9F082F16E4AFCF000E8471 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9E2B62B116FCCD3400A0981F /* splash */,
 				9E2B627A16FCBADD00A0981F /* home_sliced */,
 				9E1CA27916F62607001A7DA1 /* Fonts */,
 				243084B016F60AF00050CDFF /* Temproy images */,
@@ -1082,6 +1093,7 @@
 				9E2B628C16FCBADD00A0981F /* home_store@2x.png in Resources */,
 				9E2B628D16FCBADD00A0981F /* home_whiteButton.png in Resources */,
 				9E2B628E16FCBADD00A0981F /* home_whiteButton@2x.png in Resources */,
+				9E2B62B316FCCD3400A0981F /* splash_568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
