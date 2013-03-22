@@ -10,6 +10,7 @@
 
 #import "ChooseLocationViewController.h"
 
+#import "SplashViewController.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -18,17 +19,26 @@
     
     //1- chooseLocationVC
     self.chooseLocationVC = [[ChooseLocationViewController alloc]
-                                initWithNibName:@"ChooseLocationViewController" bundle:nil];
+                             initWithNibName:@"ChooseLocationViewController" bundle:nil];
     
     //2- mainNavigationVC
     self.mainNavigationVC = [[UINavigationController alloc] initWithRootViewController:self.chooseLocationVC];
     
     //3- window
-    self.window.rootViewController = self.mainNavigationVC;
+    self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController" bundle:nil];
+    self.window.rootViewController = self.splashVC;
     
     //4- visualize
     [self.window makeKeyAndVisible];
+    
+    //5- timer for splash view
+    [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(onSplashScreenDone) userInfo:nil repeats:NO];
     return YES;
+}
+-(void)onSplashScreenDone{
+    [self.splashVC.view removeFromSuperview];
+    self.window.rootViewController = self.mainNavigationVC;
+    [self.window makeKeyAndVisible];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -39,7 +49,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
@@ -54,14 +64,14 @@
     
     //check if facebook token is saved
     /*
-    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded)
-    {
-        
-         NSLog(@"-------------------\nthe user is still signed in");
-         NSLog(@"%@", FBSession.activeSession.accessTokenData);
-        
-    }
-    */
+     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded)
+     {
+     
+     NSLog(@"-------------------\nthe user is still signed in");
+     NSLog(@"%@", FBSession.activeSession.accessTokenData);
+     
+     }
+     */
     // Facebook:
     // We need to properly handle activation of the application with regards to SSO
     // (e.g., returning from iOS 6.0 authorization dialog or from fast app switching).
@@ -78,12 +88,12 @@
 #pragma mark - Facebook related
 
 /*
-- (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-
-    //Handle the incoming facebook URL after authenticating the user through the facebook iOS app
-    return [FBSession.activeSession handleOpenURL:url];
-}
-*/
+ - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+ 
+ //Handle the incoming facebook URL after authenticating the user through the facebook iOS app
+ return [FBSession.activeSession handleOpenURL:url];
+ }
+ */
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class ChooseLocationViewController;
+@class SplashViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -16,5 +17,5 @@
 
 @property (strong, nonatomic) UINavigationController * mainNavigationVC;
 @property (strong, nonatomic) ChooseLocationViewController * chooseLocationVC;
-
+@property (strong, nonatomic) SplashViewController *splashVC;
 @end
