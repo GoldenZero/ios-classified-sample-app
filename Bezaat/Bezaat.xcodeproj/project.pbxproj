@@ -42,7 +42,6 @@
 		9E1CA31116F85219001A7DA1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA31016F85219001A7DA1 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9E1CA31316F854F9001A7DA1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA31216F854F9001A7DA1 /* SystemConfiguration.framework */; };
 		9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */; };
-		9E2246BC16FEDBDB00305BC9 /* CountryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2246BB16FEDBDB00305BC9 /* CountryManager.m */; };
 		9E2246C616FEDE2A00305BC9 /* Cities.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E2246C316FEDE2A00305BC9 /* Cities.json */; };
 		9E2246C716FEDE2A00305BC9 /* Countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E2246C416FEDE2A00305BC9 /* Countries.json */; };
 		9E2246C816FEDE2A00305BC9 /* Currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E2246C516FEDE2A00305BC9 /* Currencies.json */; };
@@ -151,6 +150,7 @@
 		9E9F0A8B16ECA939000E8471 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E9F0A8716ECA939000E8471 /* ViewController.xib */; };
 		9EDF783616F1E57600FB3BDD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F0A7516EC824E000E8471 /* Social.framework */; };
 		9EDF783716F1E57B00FB3BDD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F0A7316EC8248000E8471 /* Accounts.framework */; };
+		9EFA08BC16FEE56800696B2C /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFA08BB16FEE56800696B2C /* LocationManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -249,8 +249,6 @@
 		9E1CA31216F854F9001A7DA1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9E1CA31B16F85C7A001A7DA1 /* fbUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fbUserData.h; sourceTree = "<group>"; };
 		9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fbUserData.m; sourceTree = "<group>"; };
-		9E2246BA16FEDBDB00305BC9 /* CountryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryManager.h; sourceTree = "<group>"; };
-		9E2246BB16FEDBDB00305BC9 /* CountryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryManager.m; sourceTree = "<group>"; };
 		9E2246C316FEDE2A00305BC9 /* Cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Cities.json; sourceTree = "<group>"; };
 		9E2246C416FEDE2A00305BC9 /* Countries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Countries.json; sourceTree = "<group>"; };
 		9E2246C516FEDE2A00305BC9 /* Currencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Currencies.json; sourceTree = "<group>"; };
@@ -403,6 +401,8 @@
 		9E9F0A8516ECA939000E8471 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		9E9F0A8616ECA939000E8471 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9E9F0A8716ECA939000E8471 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		9EFA08BA16FEE56800696B2C /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		9EFA08BB16FEE56800696B2C /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -923,8 +923,8 @@
 				9E9F0A2816E78B31000E8471 /* Country.m */,
 				9E9F0A2A16E78C5C000E8471 /* City.h */,
 				9E9F0A2B16E78C5C000E8471 /* City.m */,
-				9E2246BA16FEDBDB00305BC9 /* CountryManager.h */,
-				9E2246BB16FEDBDB00305BC9 /* CountryManager.m */,
+				9EFA08BA16FEE56800696B2C /* LocationManager.h */,
+				9EFA08BB16FEE56800696B2C /* LocationManager.m */,
 			);
 			path = Locations;
 			sourceTree = "<group>";
@@ -1216,7 +1216,7 @@
 				9E1CA31116F85219001A7DA1 /* Reachability.m in Sources */,
 				9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */,
 				9E2B622516FCA16500A0981F /* SplashViewController.m in Sources */,
-				9E2246BC16FEDBDB00305BC9 /* CountryManager.m in Sources */,
+				9EFA08BC16FEE56800696B2C /* LocationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
