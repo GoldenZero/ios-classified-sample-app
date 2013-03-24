@@ -12,7 +12,7 @@
 
 @protocol LocationManagerDelegate <NSObject>
 @required
-- (void) countriesDidFinishLoadingWithData:(NSArray*) resultArray;
+- (void) didFinishLoadingWithData:(NSArray*) resultArray;
 @end
 
 
@@ -25,7 +25,7 @@
 - (id) initWithDelegate:(id <LocationManagerDelegate>) del;
 
 // load countries & cities
-- (void) loadCountries;
+- (void) loadCountriesAndCities;
 
 // get the default selected country index in countries result array
 - (NSUInteger) getDefaultSelectedCountryIndex;

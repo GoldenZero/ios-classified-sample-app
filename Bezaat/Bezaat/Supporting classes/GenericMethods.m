@@ -88,7 +88,7 @@ static NSString * documentsDirectoryPath;
 
 + (BOOL) fileExistsInDocuments:(NSString *) fileName {
     
-    NSString * filePath = [NSString stringWithFormat:@"%@%@", documentsDirectoryPath, fileName];
+    NSString * filePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], fileName];
     BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
 
     return fileExists;

@@ -13,20 +13,26 @@
 #define CITIES_FILE_NAME            @"Cities.json"
 #define CURRENCIES_FILE_NAME        @"Currencies.json"
 
-#pragma mark - json keys
-
+#pragma mark - Country json keys
 #define COUNTRY_ID_JSONK            @"CountryID"
 #define COUNTRY_NAME_JSONK          @"CountryName"
 #define COUNTRY_NAME_EN_JSONK       @"CountryNameEn"
-#define CURRENCY_ID_JSONK           @"CurrencyID"
-#define DISPLAY_ORDER_JSONK         @"DisplayOrder"
+#define COUNTRY_CURRENCY_ID_JSONK   @"CurrencyID"
+#define COUNTRY_DISPLAY_ORDER_JSONK @"DisplayOrder"
 #define COUNTRY_CODE_JSONK          @"CountryCode"
+
+#pragma mark - City json keys
+#define CITY_ID_JSONK            @"CityID"
+#define CITY_NAME_JSONK          @"CityName"
+#define CITY_NAME_EN_JSONK       @"CityNameEn"
+#define CITY_COUNTRY_ID_JSONK    @"CountryID"
+#define CITY_DISPLAY_ORDER_JSONK @"DisplayOrder"
 
 #pragma mark -
 
 @interface LocationManager ()
 {
-    JSONParser * jsonParser;
+    NSFileManager * fileMngr;
 }
 @end
 
@@ -39,7 +45,7 @@
     
     self = [super init];
     if (self) {
-        //..
+        fileMngr = [NSFileManager defaultManager];
     }
     return self;
 }
@@ -48,12 +54,67 @@
     self = [super init];
     if (self) {
         self.delegate = del;
+        fileMngr = [NSFileManager defaultManager];
     }
     return self;
 }
 
-- (void) loadCountries {
-    //locate countries file in device documents
+- (void) loadCountriesAndCities {
+    
+    //1- load cities
+    NSData * citiesData = [NSData dataWithContentsOfFile:[self getCitiesFilePath]];
+    NSArray * citiesParsedArray = [[JSONParser sharedInstance] parseJSONData:citiesData];
+    
+    //2- store cities in a dictionary with countryID as key
+    NSString * countryIdKey;
+    NSMutableDictionary * citiesDictionary = [NSMutableDictionary new];
+    for (NSDictionary * cityDict in citiesParsedArray)
+    {
+        //create city object
+        City * city = [[City alloc] initWithCityIDString:[cityDict objectForKey:CITY_ID_JSONK]
+                                    cityName:[cityDict objectForKey:CITY_NAME_JSONK]
+                                    cityNameEn:[cityDict objectForKey:CITY_NAME_EN_JSONK]
+                                    countryIDString:[cityDict objectForKey:CITY_COUNTRY_ID_JSONK]
+                                    displayOrderString:[cityDict objectForKey:CITY_DISPLAY_ORDER_JSONK]
+                       ];
+        countryIdKey = [NSString stringWithFormat:@"%i", city.countryID];
+        
+        //add city to cities dictionary
+        if (![citiesDictionary objectForKey:countryIdKey])
+            [citiesDictionary setObject:[NSMutableArray new] forKey:countryIdKey];
+        [(NSMutableArray *)[citiesDictionary objectForKey:countryIdKey] addObject:city];
+            
+    }
+    
+    //3- load countries
+    NSData * countriesData = [NSData dataWithContentsOfFile:[self getCountriesFilePath]];
+    NSArray * countriesParsedArray = [[JSONParser sharedInstance] parseJSONData:countriesData];
+    
+    //4- store countries in array (This array holds countries and their cities **INSIDE**)
+    NSMutableArray * resultCountries = [NSMutableArray new];
+    for (NSDictionary * countryDict in countriesParsedArray)
+    {
+        //create country object
+        Country * country = [[Country alloc]
+                             initWithCountryIDString:[countryDict objectForKey:COUNTRY_ID_JSONK]
+                             countryName:[countryDict objectForKey:COUNTRY_NAME_JSONK]
+                             countryNameEn:[countryDict objectForKey:COUNTRY_NAME_EN_JSONK]
+                             currencyIDString:[countryDict objectForKey:COUNTRY_CURRENCY_ID_JSONK]
+                             displayOrderString:[countryDict objectForKey:COUNTRY_DISPLAY_ORDER_JSONK]
+                             countryCodeString:[countryDict objectForKey:COUNTRY_CODE_JSONK]
+                             ];
+        countryIdKey = [NSString stringWithFormat:@"%i", country.countryID];
+        //get array of cities
+        NSArray * citiesOfCountry = [NSArray arrayWithArray:[citiesDictionary objectForKey:countryIdKey]];
+        
+        //sort cities and add them to country
+        country.cities = [self sortCitiesArray:citiesOfCountry];
+        
+        //add country
+        [resultCountries addObject:country];
+    }
+    
+    [self.delegate didFinishLoadingWithData:[self sortCountriesArray:resultCountries]];
 }
 
 - (NSUInteger) getDefaultSelectedCountryIndex {
@@ -67,53 +128,82 @@
 
 #pragma mark - helper methods
 
+// This method gets the file path of countries file.
+// This method checks if countries json file does not exist in documents --> that means we are
+// launching the application the first time, so it copies it and returns its path in documents directory
 - (NSString *) getCountriesFilePath {
+    
     //1- search for "Countries.json" in documents
+    BOOL countriesExistInDocuments = [GenericMethods fileExistsInDocuments:COUNTRIES_FILE_NAME];
     
-    //2- if found --> return path
+    NSString * countriesDocumentPath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], COUNTRIES_FILE_NAME];
     
-    //3- not found: --> copy initial to documents
+    //2- if not found: --> copy initial to documents
+    if (!countriesExistInDocuments)
+    {
+        NSString * countriesfile = [COUNTRIES_FILE_NAME stringByReplacingOccurrencesOfString:@".json" withString:@""];
+        
+        NSString * sourcePath =  [[NSBundle mainBundle] pathForResource:countriesfile ofType:@"json"];
+        
+        NSError *error;
+        [fileMngr copyItemAtPath:sourcePath toPath:countriesDocumentPath error:&error];
+    }
+
+    //3- return the path
+    return countriesDocumentPath;
+}
+
+
+// This method gets the file path of cities file.
+// This method checks if countries json file does not exist in documents --> that means we are
+// launching the application the first time, so it copies it and returns its path in documents directory
+- (NSString *) getCitiesFilePath {
+    
+    //1- search for "Cities.json" in documents
+    BOOL citiesExistInDocuments = [GenericMethods fileExistsInDocuments:CITIES_FILE_NAME];
+    
+    NSString * citiesDocumentPath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], CITIES_FILE_NAME];
+    
+    //2- if not found: --> copy initial to documents
+    if (!citiesExistInDocuments)
+    {
+        
+        NSString * citiesfile = [CITIES_FILE_NAME stringByReplacingOccurrencesOfString:@".json" withString:@""];
+        
+        NSString * sourcePath =  [[NSBundle mainBundle] pathForResource:citiesfile ofType:@"json"];
+        
+        NSError *error;
+        [fileMngr copyItemAtPath:sourcePath toPath:citiesDocumentPath error:&error];
+    }
+    
+    //3- return the path
+    return citiesDocumentPath;
 }
 
 
 
-/*
- - (NSArray *) createCountriesArrayWithData:(NSArray *) data {
- NSMutableArray * countriesArr = [[NSMutableArray alloc] init];
- 
- for (NSDictionary * countryDict in data)
- {
- Country * ctr = [[Country alloc]
- initWithCountryIDString:[countryDict objectForKey:COUNTRY_ID_JSONK]
- countryName:[countryDict objectForKey:COUNTRY_NAME_JSONK]
- geoName:[countryDict objectForKey:GEONAME_JSONK]
- displayOrderString:[countryDict objectForKey:DISPLAY_ORDER_JSONK]
- jsonBigFlagFNString:[countryDict objectForKey:JSON_BIG_FLAG_FN_JSONK]
- jsonDisplayMeString:[countryDict objectForKey:JSON_DISPLAY_ME_JSONK]
- jsonSmallFlagFNString:[countryDict objectForKey:JSON_SMALL_FLAG_FN_JSONK]
- currencyIDString:[countryDict objectForKey:CURRENCY_ID_JSONK]
- countryNameEn:[countryDict objectForKey:COUNTRY_NAME_EN_JSONK]
- currency:[countryDict objectForKey:CURRENCY_JSONK]
- ];
- 
- if (ctr)
- [countriesArr addObject:ctr];
- }
- return countriesArr;
- }
- 
- - (NSArray *) sortCountriesArray:(NSArray *) countriesArray {
- 
- NSArray * sortedArray;
- sortedArray = [countriesArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
- NSUInteger first = [(Country *)a displayOrder];
- NSUInteger second = [(Country *)b displayOrder];
- return (first >= second);
- }];
- 
- return sortedArray;
- }
- */
+- (NSArray *) sortCountriesArray:(NSArray *) countriesArray {
+    
+    NSArray * sortedArray;
+    sortedArray = [countriesArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSUInteger first = [(Country *)a displayOrder];
+        NSUInteger second = [(Country *)b displayOrder];
+        return (first >= second);
+    }];
+    
+    return sortedArray;
+}
 
+- (NSArray *) sortCitiesArray:(NSArray *) citiesArray {
+    
+    NSArray * sortedArray;
+    sortedArray = [citiesArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSUInteger first = [(City *)a displayOrder];
+        NSUInteger second = [(City *)b displayOrder];
+        return (first >= second);
+    }];
+    
+    return sortedArray;
+}
 @end
 

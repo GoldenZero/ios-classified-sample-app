@@ -15,7 +15,7 @@
 @property (strong, nonatomic) NSString * cityName;
 @property (strong, nonatomic) NSString * cityNameEn;
 @property (nonatomic) NSUInteger countryID;
-@property  (nonatomic) NSUInteger displayOrder;
+@property (nonatomic) NSUInteger displayOrder;
 
 
 #pragma mark - methods
