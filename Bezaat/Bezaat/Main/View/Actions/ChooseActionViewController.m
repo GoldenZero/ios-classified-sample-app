@@ -53,9 +53,6 @@
 }
 
 - (void) prepareImages {
-    [AddCarButton setBackgroundImage:[UIImage imageNamed:@"home_addButton.png"] forState:UIControlStateNormal];
-    [BuyCarButton setBackgroundImage:[UIImage imageNamed:@"home_buyButton.png"] forState:UIControlStateNormal];
-    [AddStoreButton setBackgroundImage:[UIImage imageNamed:@"home_store.png"] forState:UIControlStateNormal];
     [toolBar setBackgroundImage:[UIImage imageNamed:@"home_blueRectangle.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     UIImage * backBtnImg = [UIImage imageNamed:@"home_whiteButton.png"];
     UIButton * customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60 , 40)];
