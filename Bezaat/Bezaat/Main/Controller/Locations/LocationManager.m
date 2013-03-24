@@ -119,14 +119,15 @@
 }
 
 - (NSUInteger) getDefaultSelectedCountryIndex {
-    //return 0;
+    return 0;
+    /*
     if (!cllocationMngr)
         cllocationMngr = [[CLLocationManager alloc] init];
     cllocationMngr.delegate = self;
     cllocationMngr.distanceFilter = kCLDistanceFilterNone;
     cllocationMngr.desiredAccuracy = kCLLocationAccuracyBest;
     [cllocationMngr startUpdatingLocation];
-        
+      */  
 }
 
 - (NSUInteger) getDefaultSelectedCityIndexForCountry:(NSUInteger) countryID {
