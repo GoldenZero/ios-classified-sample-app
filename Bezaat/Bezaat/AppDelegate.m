@@ -3,6 +3,7 @@
 //  Bezaat
 //
 //  Created by Roula Misrabi on 3/3/13.
+//  Edited by Noor Alssarraj on 24/3/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
@@ -21,23 +22,21 @@
     self.chooseLocationVC = [[ChooseLocationViewController alloc]
                              initWithNibName:@"ChooseLocationViewController" bundle:nil];
     
-    //2- mainNavigationVC
-    self.mainNavigationVC = [[UINavigationController alloc] initWithRootViewController:self.chooseLocationVC];
     
-    //3- window
+    //2- splash view
     self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController" bundle:nil];
     self.window.rootViewController = self.splashVC;
     
-    //4- visualize
+    //3- visualize
     [self.window makeKeyAndVisible];
     
-    //5- timer for splash view
+    //4- timer for splash view
     [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(onSplashScreenDone) userInfo:nil repeats:NO];
     return YES;
 }
 -(void)onSplashScreenDone{
     [self.splashVC.view removeFromSuperview];
-    self.window.rootViewController = self.mainNavigationVC;
+    self.window.rootViewController = self.chooseLocationVC;
     [self.window makeKeyAndVisible];
 }
 

@@ -3,6 +3,7 @@
 //  Bezaat
 //
 //  Created by Roula Misrabi on 3/3/13.
+//  Edited by Noor Alssarraj on 24/3/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
@@ -15,7 +16,6 @@
 
 @property (strong, nonatomic) UIWindow * window;
 
-@property (strong, nonatomic) UINavigationController * mainNavigationVC;
 @property (strong, nonatomic) ChooseLocationViewController * chooseLocationVC;
 @property (strong, nonatomic) SplashViewController *splashVC;
 @end
