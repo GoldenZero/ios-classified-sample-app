@@ -42,6 +42,7 @@
 		9E1CA31116F85219001A7DA1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA31016F85219001A7DA1 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9E1CA31316F854F9001A7DA1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA31216F854F9001A7DA1 /* SystemConfiguration.framework */; };
 		9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */; };
+		9E2246BC16FEDBDB00305BC9 /* CountryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2246BB16FEDBDB00305BC9 /* CountryManager.m */; };
 		9E2B621C16FC9EAC00A0981F /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B621B16FC9EAC00A0981F /* SplashViewController.xib */; };
 		9E2B622516FCA16500A0981F /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2B622416FCA16500A0981F /* SplashViewController.m */; };
 		9E2B628516FCBADD00A0981F /* home_addButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B627B16FCBADD00A0981F /* home_addButton.png */; };
@@ -245,6 +246,8 @@
 		9E1CA31216F854F9001A7DA1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9E1CA31B16F85C7A001A7DA1 /* fbUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fbUserData.h; sourceTree = "<group>"; };
 		9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fbUserData.m; sourceTree = "<group>"; };
+		9E2246BA16FEDBDB00305BC9 /* CountryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryManager.h; sourceTree = "<group>"; };
+		9E2246BB16FEDBDB00305BC9 /* CountryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryManager.m; sourceTree = "<group>"; };
 		9E2B621B16FC9EAC00A0981F /* SplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashViewController.xib; sourceTree = "<group>"; };
 		9E2B622016FCA0C600A0981F /* SplashViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		9E2B622416FCA16500A0981F /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
@@ -914,6 +917,8 @@
 				9E9F0A2816E78B31000E8471 /* Country.m */,
 				9E9F0A2A16E78C5C000E8471 /* City.h */,
 				9E9F0A2B16E78C5C000E8471 /* City.m */,
+				9E2246BA16FEDBDB00305BC9 /* CountryManager.h */,
+				9E2246BB16FEDBDB00305BC9 /* CountryManager.m */,
 			);
 			path = Locations;
 			sourceTree = "<group>";
@@ -1199,6 +1204,7 @@
 				9E1CA31116F85219001A7DA1 /* Reachability.m in Sources */,
 				9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */,
 				9E2B622516FCA16500A0981F /* SplashViewController.m in Sources */,
+				9E2246BC16FEDBDB00305BC9 /* CountryManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
