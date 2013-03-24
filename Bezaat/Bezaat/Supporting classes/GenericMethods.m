@@ -10,6 +10,8 @@
 
 @implementation GenericMethods
 
+static NSString * documentsDirectoryPath;
+
 + (BOOL) validateUrl: (NSString *) candidate {
     NSString *urlRegEx =
     @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+";
@@ -72,4 +74,24 @@
 
     return YES;
 }
+
++ (NSString *) getDocumentsDirectoryPath {
+    if (!documentsDirectoryPath)
+    {
+        NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        
+        documentsDirectoryPath = [pathArray objectAtIndex:0];
+
+    }
+    return documentsDirectoryPath;
+}
+
++ (BOOL) fileExistsInDocuments:(NSString *) fileName {
+    
+    NSString * filePath = [NSString stringWithFormat:@"%@%@", documentsDirectoryPath, fileName];
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+
+    return fileExists;
+}
+
 @end

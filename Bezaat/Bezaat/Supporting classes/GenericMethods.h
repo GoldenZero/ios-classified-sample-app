@@ -26,4 +26,10 @@
 
 // This method checks internet connectivity
 + (BOOL) connectedToInternet;
+
+// This method gets the string path of documents directory
++ (NSString *) getDocumentsDirectoryPath;
+
+// This method searches for a file in documnts path
++ (BOOL) fileExistsInDocuments:(NSString *) fileName;
 @end
