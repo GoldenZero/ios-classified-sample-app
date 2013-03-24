@@ -3,6 +3,7 @@
 //  Bezaat
 //
 //  Created by Roula Misrabi on 3/3/13.
+//  Edited by Noor Alssarraj on 24/3/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 // This UI is displaued to the user to let him either sign in with:
@@ -19,6 +20,13 @@
 @interface SignInViewController : UIViewController <FacebookLoginDelegate>
 
 #pragma mark - properties
+@property (strong, nonatomic) IBOutlet UILabel *labelView;
+@property (strong, nonatomic) IBOutlet UIButton *signInButton;
+@property (strong, nonatomic) IBOutlet UIButton *twButton;
+@property (strong, nonatomic) IBOutlet UIButton *fbButton;
+@property (strong, nonatomic) IBOutlet UIButton *signUpButton;
+@property (strong, nonatomic) IBOutlet UIButton *skipButton;
+@property (strong, nonatomic) IBOutlet UIImageView *logoImage;
 
 #pragma mark - actions
 

@@ -3,11 +3,12 @@
 //  Bezaat
 //
 //  Created by Roula Misrabi on 3/3/13.
+//  Edited by Noor Alssarraj on 24/3/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
 #import "SignInViewController.h"
-
+#import "FriendsListViewController.h"
 @interface SignInViewController ()
 {
     BOOL userSignedIn;
@@ -18,6 +19,7 @@
 @end
 
 @implementation SignInViewController
+@synthesize signInButton,signUpButton,skipButton,twButton,fbButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,6 +35,7 @@
     [super viewDidLoad];
     
     //initialize facebook manager
+    [self prepareImages];
     fbManager = [[FacebookManager alloc] initWithDelegate:self];
 }
 
@@ -60,21 +63,22 @@
     {
         ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
         
-        [self.navigationController pushViewController:chooseActionVC animated:YES];
+        [self presentViewController:chooseActionVC animated:YES completion:nil];
     }
+   
 }
 
 - (IBAction)signUpBtnPressed:(id)sender {
     
     SignUpViewController * signUpVC = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
-    [self.navigationController pushViewController:signUpVC animated:YES];
+    [self presentViewController:signUpVC animated:YES completion:nil];
 }
 
 - (IBAction)skipBtnPressed:(id)sender {
     
     ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     
-    [self.navigationController pushViewController:chooseActionVC animated:YES];
+    [self presentViewController:chooseActionVC animated:YES completion:nil];
 }
 
 - (IBAction)fbBtnPressed:(id)sender {
@@ -136,5 +140,30 @@
     loadingHUD = nil;
 }
 
+- (void) prepareImages{
+    UIImageView *backgroundBlue=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"account_blueGradient.png"]];
+    UIImageView *backgroundGray=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"account_grayGradient.png"]];
+    [self.view addSubview:backgroundBlue];
+    [self.view addSubview:backgroundGray];
+    [self.view sendSubviewToBack:backgroundBlue];
+    [self.view insertSubview:backgroundGray aboveSubview:backgroundBlue];
+    [self.logoImage setImage:[UIImage imageNamed:@"account_logo.png"]];
+    [self.fbButton setBackgroundImage:[UIImage imageNamed:@"account_facebookButton.png"] forState:UIControlStateNormal];
+    [self.twButton setBackgroundImage:[UIImage imageNamed:@"account_twitterButton.png"] forState:UIControlStateNormal];
+    [self.signInButton setBackgroundImage:[UIImage imageNamed:@"account_loginButton.png"] forState:UIControlStateNormal];
+    [self.signUpButton setBackgroundImage:[UIImage imageNamed:@"account_registrationButton.png"] forState:UIControlStateNormal];
+    [self.skipButton setBackgroundImage:[UIImage imageNamed:@"account_skipButton.png"] forState:UIControlStateNormal];
+    UIImageView *line=[[UIImageView alloc] initWithFrame:CGRectMake(0, 456, 320, 4)];
+    line.image=[UIImage imageNamed:@"account_skipLine.png"];
+    [self.view addSubview:line];
+    UIImageView *whiteRectangle=[[UIImageView alloc] initWithFrame:CGRectMake(0, 290, 320, 70)];
+    whiteRectangle.image=[UIImage imageNamed:@"account_whiteRectangle.png"];
+    [self.view addSubview:whiteRectangle];
+    [self.view insertSubview:whiteRectangle aboveSubview:backgroundGray];
+    // [self.view insertSubview:line aboveSubview:backgroundGray];
+    
+    
+    
+}
 
 @end
