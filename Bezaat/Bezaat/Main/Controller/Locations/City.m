@@ -6,57 +6,41 @@
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-/*
-#import "City.h"
-
-@implementation City
-
-@synthesize name, imageFileName, image;
-
-- (id) initWithName:(NSString *) aName imageFileName:(NSString *) aImageFileName {
-    self = [super init];
-    if (self) {
-        
-        //name
-        self.name = aName;
-        
-        //imageFileName
-        self.imageFileName = aImageFileName;
-        
-        //load image
-        self.image = [UIImage imageNamed:self.imageFileName];
-        
-    }
-    return self;
-}
-
-
-@end
-*/
-
 
 #import "City.h"
 
 @implementation City
 
-@synthesize name, imageFileName, image;
+@synthesize cityID;
+@synthesize cityName;
+@synthesize cityNameEn;
+@synthesize countryID;
+@synthesize displayOrder;
 
-- (id) initWithName:(NSString *) aName imageFileName:(NSString *) aImageFileName {
+- (id) initWithCityIDString:(NSString *) aCityIDString
+                   cityName:(NSString *) aCityName
+                 cityNameEn:(NSString *) aCityNameEn
+            countryIDString:(NSString *) aCountryIDString
+         displayOrderString:(NSString *)aDisplayOrderString {
+    
     self = [super init];
     if (self) {
+        // cityID
+        self.cityID = aCityIDString.integerValue;
         
-        //name
-        self.name = aName;
+        // cityName
+        self.cityName = aCityName;
         
-        //imageFileName
-        self.imageFileName = aImageFileName;
+        // cityNameEn
+        self.cityNameEn = aCityNameEn;
         
-        //load image
-        self.image = [UIImage imageNamed:self.imageFileName];
+        // countryID
+        self.countryID = aCountryIDString.integerValue;
         
+        // displayOrder
+        self.displayOrder = aDisplayOrderString.integerValue;
     }
     return self;
 }
-
 
 @end

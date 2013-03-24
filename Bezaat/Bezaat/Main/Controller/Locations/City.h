@@ -6,33 +6,24 @@
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-/*
 #import <Foundation/Foundation.h>
 
 @interface City : NSObject
 
 #pragma mark - properties
-@property (strong, nonatomic) NSString * name;
-@property (strong, nonatomic) NSString * imageFileName;
-@property (strong, nonatomic) UIImage * image;
+@property (nonatomic) NSUInteger cityID;
+@property (strong, nonatomic) NSString * cityName;
+@property (strong, nonatomic) NSString * cityNameEn;
+@property (nonatomic) NSUInteger countryID;
+@property  (nonatomic) NSUInteger displayOrder;
+
 
 #pragma mark - methods
-- (id) initWithName:(NSString *) aName imageFileName:(NSString *) aImageFileName;
+- (id) initWithCityIDString:(NSString *) aCityIDString
+                   cityName:(NSString *) aCityName
+                 cityNameEn:(NSString *) aCityNameEn
+            countryIDString:(NSString *) aCountryIDString
+         displayOrderString:(NSString *)aDisplayOrderString;
 
 @end
-*/
 
-
-#import <Foundation/Foundation.h>
-
-@interface City : NSObject
-
-#pragma mark - properties
-@property (strong, nonatomic) NSString * name;
-@property (strong, nonatomic) NSString * imageFileName;
-@property (strong, nonatomic) UIImage * image;
-
-#pragma mark - methods
-- (id) initWithName:(NSString *) aName imageFileName:(NSString *) aImageFileName;
-
-@end
