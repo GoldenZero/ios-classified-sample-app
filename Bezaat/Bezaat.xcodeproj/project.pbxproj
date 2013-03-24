@@ -43,6 +43,9 @@
 		9E1CA31316F854F9001A7DA1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA31216F854F9001A7DA1 /* SystemConfiguration.framework */; };
 		9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */; };
 		9E2246BC16FEDBDB00305BC9 /* CountryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2246BB16FEDBDB00305BC9 /* CountryManager.m */; };
+		9E2246C616FEDE2A00305BC9 /* Cities.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E2246C316FEDE2A00305BC9 /* Cities.json */; };
+		9E2246C716FEDE2A00305BC9 /* Countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E2246C416FEDE2A00305BC9 /* Countries.json */; };
+		9E2246C816FEDE2A00305BC9 /* Currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E2246C516FEDE2A00305BC9 /* Currencies.json */; };
 		9E2B621C16FC9EAC00A0981F /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B621B16FC9EAC00A0981F /* SplashViewController.xib */; };
 		9E2B622516FCA16500A0981F /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2B622416FCA16500A0981F /* SplashViewController.m */; };
 		9E2B628516FCBADD00A0981F /* home_addButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B627B16FCBADD00A0981F /* home_addButton.png */; };
@@ -248,6 +251,9 @@
 		9E1CA31C16F85C7B001A7DA1 /* fbUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fbUserData.m; sourceTree = "<group>"; };
 		9E2246BA16FEDBDB00305BC9 /* CountryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryManager.h; sourceTree = "<group>"; };
 		9E2246BB16FEDBDB00305BC9 /* CountryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryManager.m; sourceTree = "<group>"; };
+		9E2246C316FEDE2A00305BC9 /* Cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Cities.json; sourceTree = "<group>"; };
+		9E2246C416FEDE2A00305BC9 /* Countries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Countries.json; sourceTree = "<group>"; };
+		9E2246C516FEDE2A00305BC9 /* Currencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Currencies.json; sourceTree = "<group>"; };
 		9E2B621B16FC9EAC00A0981F /* SplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashViewController.xib; sourceTree = "<group>"; };
 		9E2B622016FCA0C600A0981F /* SplashViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		9E2B622416FCA16500A0981F /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
@@ -956,6 +962,9 @@
 		9E9F0A1616E75E86000E8471 /* Locations */ = {
 			isa = PBXGroup;
 			children = (
+				9E2246C316FEDE2A00305BC9 /* Cities.json */,
+				9E2246C416FEDE2A00305BC9 /* Countries.json */,
+				9E2246C516FEDE2A00305BC9 /* Currencies.json */,
 				9E9F0A3216E7CF16000E8471 /* Damascus.png */,
 				9E9F0A3316E7CF16000E8471 /* Locations.plist */,
 				9E9F0A3416E7CF16000E8471 /* Riyadh.png */,
@@ -1138,6 +1147,9 @@
 				9E2B62CD16FE0BE300A0981F /* splash_wheel@2x.png in Resources */,
 				9E2B62CE16FE0BE300A0981F /* splash_wheelShadow.png in Resources */,
 				9E2B62CF16FE0BE300A0981F /* splash_wheelShadow@2x.png in Resources */,
+				9E2246C616FEDE2A00305BC9 /* Cities.json in Resources */,
+				9E2246C716FEDE2A00305BC9 /* Countries.json in Resources */,
+				9E2246C816FEDE2A00305BC9 /* Currencies.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
