@@ -14,11 +14,11 @@ static int numberOfFriends=3;
 @interface FriendsListViewController (){
     NSMutableArray *selectedFriends;
 }
-    
+
 @end
 
 @implementation FriendsListViewController
-@synthesize selectButton,unselectButton,tableView,toolBar;
+@synthesize selectButton,unselectButton,tableView,toolBar,backButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,8 +37,17 @@ static int numberOfFriends=3;
     for (int i=0; i<numberOfFriends; i++) {
         [selectedFriends addObject:[NSNumber numberWithBool:NO]];
     }
-    [selectButton setImage:[UIImage imageNamed:@"select_32.png"]];
-    [unselectButton setImage:[UIImage imageNamed:@"unselect_32.png"]];
+    tableView.separatorColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"shareGradient.png"]];
+    
+    [toolBar setBackgroundImage:[UIImage imageNamed:@"share_blueRectangle.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+    [selectButton setImage:[UIImage imageNamed:@"share_whiteCircBtn.png"]];
+    [unselectButton setImage:[UIImage imageNamed:@"share_ring.png"]];
+    [backButton setImage:[UIImage imageNamed:@"share_arrowButton.png"]];
+    UIImageView *shareLabel =[[UIImageView alloc]initWithFrame:CGRectMake(0, 40, 320, 42)];
+    shareLabel.image=[UIImage imageNamed:@"share_grayButton.png"];
+    [self.view addSubview:shareLabel];
+    [self.view insertSubview:shareLabel aboveSubview:toolBar];
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,7 +60,7 @@ static int numberOfFriends=3;
 #pragma mark - table handling
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+    return 40;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -68,22 +77,24 @@ static int numberOfFriends=3;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Selected
-    UIImageView *selectCircle = [[UIImageView alloc]initWithFrame:CGRectMake(5, 12, 33, 33)];
+    UIImageView *selectCircle = [[UIImageView alloc]initWithFrame:CGRectMake(5, 10, 24, 23)];
+    [selectCircle setAlpha:1.0];
+    selectCircle.opaque= NO;
     
     // Image
-    UIImageView *imv = [[UIImageView alloc]initWithFrame:CGRectMake(250,5, 48, 48)];
-       
+    UIImageView *imv = [[UIImageView alloc]initWithFrame:CGRectMake(290,5, 24, 24)];
+    
     // title
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(40, 10, 190, 20)];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(40, 5, 220, 15)];
     title.numberOfLines = 0;
     title.textAlignment = NSTextAlignmentRight;
-    title.font=[UIFont boldSystemFontOfSize:16];
+    title.font=[UIFont boldSystemFontOfSize:14];
     
     // subtitle
-    UILabel *subtitle = [[UILabel alloc] initWithFrame:CGRectMake(40, 30, 190, 20)];
+    UILabel *subtitle = [[UILabel alloc] initWithFrame:CGRectMake(40, 25, 220, 10)];
     subtitle.numberOfLines = 0;
     subtitle.textAlignment = NSTextAlignmentRight;
-    subtitle.font=[UIFont systemFontOfSize:12];
+    subtitle.font=[UIFont systemFontOfSize:10];
     
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -92,7 +103,7 @@ static int numberOfFriends=3;
     }
 #pragma mark - set the information of friend in each cell -
     // replace it with friend's image
-    imv.image=[UIImage imageNamed:@"friend.png"];
+    imv.image=[UIImage imageNamed:@"share_picture.png"];
     // replace it with friend's name
     title.text=@"اسم الصديق";
     // replcae it with friend's mail
@@ -103,11 +114,11 @@ static int numberOfFriends=3;
     [cell addSubview:imv];
     BOOL b = [[selectedFriends objectAtIndex:indexPath.row] boolValue];
     if (b==YES) {
-        selectCircle.image=[UIImage imageNamed:@"Circle_Blue32.png"];
+        selectCircle.image=[UIImage imageNamed:@"share_blueCircle.png"];
         [cell.contentView addSubview:selectCircle];
     }
     else{
-        selectCircle.image=[UIImage imageNamed:@"Circle_Grey32.png"];
+        selectCircle.image=[UIImage imageNamed:@"share_whiteCircle.png"];
         [cell.contentView addSubview:selectCircle];
         
     }
@@ -148,6 +159,9 @@ static int numberOfFriends=3;
         [selectedFriends replaceObjectAtIndex:i withObject:temp];
     }
     [self.tableView reloadData];
+}
+
+- (IBAction)backButtonPressed:(id)sender {
 }
 
 @end

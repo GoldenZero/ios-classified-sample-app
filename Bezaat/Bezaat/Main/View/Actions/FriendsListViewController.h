@@ -15,9 +15,12 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *selectButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *unselectButton;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *backButton;
+
 
 #pragma mark - Actions
 - (IBAction)unSelectAllButton:(id)sender;
 - (IBAction)selectAllButton:(id)sender;
+- (IBAction)backButtonPressed:(id)sender;
 
 @end

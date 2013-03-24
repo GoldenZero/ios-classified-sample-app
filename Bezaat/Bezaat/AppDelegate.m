@@ -12,6 +12,8 @@
 #import "ChooseLocationViewController.h"
 
 #import "SplashViewController.h"
+
+#import "FriendsListViewController.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -26,7 +28,7 @@
     //2- splash view
     self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController" bundle:nil];
     self.window.rootViewController = self.splashVC;
-    
+    //self.friendsVC=[[FriendsListViewController alloc] initWithNibName:@"FriendsListViewController" bundle:nil];
     //3- visualize
     [self.window makeKeyAndVisible];
     
@@ -37,6 +39,7 @@
 -(void)onSplashScreenDone{
     [self.splashVC.view removeFromSuperview];
     self.window.rootViewController = self.chooseLocationVC;
+    //self.window.rootViewController = self.friendsVC;
     [self.window makeKeyAndVisible];
 }
 
