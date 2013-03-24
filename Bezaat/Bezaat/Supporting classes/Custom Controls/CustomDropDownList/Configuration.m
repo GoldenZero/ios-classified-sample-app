@@ -22,13 +22,14 @@
 {
 	if (self = [super init])
 	{
-		self.buttonActiveBG = [UIImage imageNamed:@"but-bg-active.png"];
-		self.buttonNoActiveBG = [UIImage imageNamed:@"but-bg-no-active.png"];
-		self.itemBGHoved = [UIImage imageNamed:@"dropdown-item-bg-hover.png"];
-		self.itemBG = [UIImage imageNamed:@"dropdown-item-bg.png"];
-		self.openBGTop = [UIImage imageNamed:@"open-dropdown-bg-top.png"];
-		self.openBGMiddle = [UIImage imageNamed:@"open-dropdown-bg-inner.png"];
-		self.openBGBottom = [UIImage imageNamed:@"open-dropdown-bg-bottom.png"];
+		self.buttonActiveBG = [UIImage imageNamed:@"location_whiteButton_01.png"];
+		self.buttonNoActiveBG = [UIImage imageNamed:@"location_whiteButton_01.png"];
+		self.itemBGHoved = [UIImage imageNamed:@"location_whiteButton_02.png"];
+		self.itemBG = [UIImage imageNamed:@""];
+		self.openBGTop = [UIImage imageNamed:@""];
+		self.openBGMiddle = [UIImage imageNamed:@""];
+		self.openBGBottom = [UIImage imageNamed:@""];
+
 	}
 	return self;
 }
