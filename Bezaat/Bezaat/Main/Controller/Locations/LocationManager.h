@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <AubadaLibrary/JSONParser.h>
+#import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 #import "Country.h"
 
 @protocol LocationManagerDelegate <NSObject>
@@ -16,7 +18,7 @@
 @end
 
 
-@interface LocationManager : NSObject
+@interface LocationManager : NSObject <CLLocationManagerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) id <LocationManagerDelegate> delegate;
@@ -31,6 +33,6 @@
 - (NSUInteger) getDefaultSelectedCountryIndex;
 
 // get the default selected city index in cities result array
-- (NSUInteger) getDefaultSelectedCityIndexForCountry:(NSUInteger) countryID;
+//- (NSUInteger) getDefaultSelectedCityIndexForCountry:(NSUInteger) countryID;
 
 @end

@@ -243,6 +243,7 @@
 		9EDF783616F1E57600FB3BDD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F0A7516EC824E000E8471 /* Social.framework */; };
 		9EDF783716F1E57B00FB3BDD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F0A7316EC8248000E8471 /* Accounts.framework */; };
 		9EFA08BC16FEE56800696B2C /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFA08BB16FEE56800696B2C /* LocationManager.m */; };
+		9EFA08D316FF1CC300696B2C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EFA08D216FF1CC300696B2C /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -587,6 +588,7 @@
 		9E9F0A8716ECA939000E8471 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		9EFA08BA16FEE56800696B2C /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		9EFA08BB16FEE56800696B2C /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		9EFA08D216FF1CC300696B2C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -594,6 +596,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EFA08D316FF1CC300696B2C /* MapKit.framework in Frameworks */,
 				9E1CA25B16F61D3C001A7DA1 /* MessageUI.framework in Frameworks */,
 				9E1CA25816F61D34001A7DA1 /* CoreLocation.framework in Frameworks */,
 				9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */,
@@ -880,6 +883,7 @@
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
+				9EFA08D216FF1CC300696B2C /* MapKit.framework */,
 				9E78A7BC16E34BA2000CA790 /* Bezaat */,
 				9E9F082F16E4AFCF000E8471 /* Resources */,
 				9E78A7B516E34BA2000CA790 /* Frameworks */,

@@ -33,6 +33,7 @@
 @interface LocationManager ()
 {
     NSFileManager * fileMngr;
+    CLLocationManager * cllocationMngr;
 }
 @end
 
@@ -118,7 +119,14 @@
 }
 
 - (NSUInteger) getDefaultSelectedCountryIndex {
-    return 0;
+    //return 0;
+    if (!cllocationMngr)
+        cllocationMngr = [[CLLocationManager alloc] init];
+    cllocationMngr.delegate = self;
+    cllocationMngr.distanceFilter = kCLDistanceFilterNone;
+    cllocationMngr.desiredAccuracy = kCLLocationAccuracyBest;
+    [cllocationMngr startUpdatingLocation];
+        
 }
 
 - (NSUInteger) getDefaultSelectedCityIndexForCountry:(NSUInteger) countryID {
@@ -204,6 +212,23 @@
     }];
     
     return sortedArray;
+}
+
+#pragma  mark - CLLocationManager Delegate
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    
+    NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks,                  NSError *error) {
+        
+        MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
+        NSString * code = mark.countryCode;
+        NSLog(@"%@", code);
+    }];
+}
+
+- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    
 }
 @end
 
