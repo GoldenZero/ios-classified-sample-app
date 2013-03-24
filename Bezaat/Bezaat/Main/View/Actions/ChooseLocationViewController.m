@@ -374,7 +374,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     City * chosenCity;
     BOOL countryChosen;
     BOOL cityChosen;
-    CountryLoader * countryLoader;
+    LocationManager * locationMngr;
 }
 @end
 
@@ -397,8 +397,8 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     [super viewDidLoad];
     
     //countryLoader
-    countryLoader = [[CountryLoader alloc] init];
-    countriesArray = [countryLoader loadCountriesFromPlistFileWithName:LOCATIONS_PLIST_FILE_NAME];
+    locationMngr = [[LocationManager alloc] init];
+    //countriesArray = [countryLoader loadCountriesFromPlistFileWithName:LOCATIONS_PLIST_FILE_NAME];
     
     //self initialize drop down lists
     [self initLocationLists];
@@ -426,7 +426,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     if (theDropDownList == countriesLst)
     {
         chosenCountry = [countriesArray objectAtIndex:k];
-        citiesArray = chosenCountry.citiesArray;
+        citiesArray = chosenCountry.cities;
         
         citiesLst.name = CITIES_DROPDOWNLIST_NAME;
         
@@ -439,9 +439,10 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     else if (theDropDownList == citiesLst)
     {
         chosenCity = (City *) [citiesArray objectAtIndex:k];
+        /*
         if ((chosenCity) && (chosenCity.image))
             [self.backgroungImageView setImage:chosenCity.image];
-        
+        */
         cityChosen = YES;
     }
     
@@ -529,7 +530,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
             BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
             
             BaseDataObject * tempBaseDataObject = [[BaseDataObject alloc] init];
-            tempBaseDataObject.name = [(Country *) [countriesArray objectAtIndex:i] name];
+            tempBaseDataObject.name = [(Country *) [countriesArray objectAtIndex:i] countryName];
             tempBaseDataObject.description = @"";
             tempBaseDataObject.image = nil;
             
@@ -584,13 +585,13 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     
     if (chosenCountry)
     {
-        citiesArray = chosenCountry.citiesArray;
+        citiesArray = chosenCountry.cities;
         for (NSUInteger i = 0; i < citiesArray.count; i++)
         {
             BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
             
             BaseDataObject * tempBaseDataObject = [[BaseDataObject alloc] init];
-            tempBaseDataObject.name = [(City *)[citiesArray objectAtIndex:i] name];
+            tempBaseDataObject.name = [(City *)[citiesArray objectAtIndex:i] cityName];
             
             tempBaseDataObject.description = @"";
             tempBaseDataObject.image = nil;

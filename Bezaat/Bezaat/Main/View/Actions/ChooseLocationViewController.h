@@ -30,7 +30,7 @@
 #import <UIKit/UIKit.h>
 #import "DropDownList.h"
 #import "SignInViewController.h"
-#import "CountryLoader.h"
+#import "LocationManager.h"
 
 @interface ChooseLocationViewController : UIViewController <DropDownListDelegate>
 
