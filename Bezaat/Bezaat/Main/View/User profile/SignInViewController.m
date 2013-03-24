@@ -142,12 +142,15 @@
 
 - (void) prepareImages{
     UIImageView *backgroundBlue=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"account_blueGradient.png"]];
-    UIImageView *backgroundGray=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"account_grayGradient.png"]];
+    UIImageView *backgroundGray=[[UIImageView alloc] initWithFrame:CGRectMake(0, 380, 320, 70)];
+
+    backgroundGray.image= [UIImage imageNamed:@"LogIn_Bottom_BG.png"];
     [self.view addSubview:backgroundBlue];
     [self.view addSubview:backgroundGray];
     [self.view sendSubviewToBack:backgroundBlue];
     [self.view insertSubview:backgroundGray aboveSubview:backgroundBlue];
-    [self.logoImage setImage:[UIImage imageNamed:@"account_logo.png"]];
+    [self.logoImageView setImage:[UIImage imageNamed:@"account_logo.png"]];
+
     [self.fbButton setBackgroundImage:[UIImage imageNamed:@"account_facebookButton.png"] forState:UIControlStateNormal];
     [self.twButton setBackgroundImage:[UIImage imageNamed:@"account_twitterButton.png"] forState:UIControlStateNormal];
     [self.signInButton setBackgroundImage:[UIImage imageNamed:@"account_loginButton.png"] forState:UIControlStateNormal];
@@ -156,7 +159,7 @@
     UIImageView *line=[[UIImageView alloc] initWithFrame:CGRectMake(0, 456, 320, 4)];
     line.image=[UIImage imageNamed:@"account_skipLine.png"];
     [self.view addSubview:line];
-    UIImageView *whiteRectangle=[[UIImageView alloc] initWithFrame:CGRectMake(0, 290, 320, 70)];
+    UIImageView *whiteRectangle=[[UIImageView alloc] initWithFrame:CGRectMake(0, 320, 320, 70)];
     whiteRectangle.image=[UIImage imageNamed:@"account_whiteRectangle.png"];
     [self.view addSubview:whiteRectangle];
     [self.view insertSubview:whiteRectangle aboveSubview:backgroundGray];

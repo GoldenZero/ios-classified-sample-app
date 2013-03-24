@@ -20,13 +20,13 @@
 @interface SignInViewController : UIViewController <FacebookLoginDelegate>
 
 #pragma mark - properties
-@property (strong, nonatomic) IBOutlet UILabel *labelView;
+
 @property (strong, nonatomic) IBOutlet UIButton *signInButton;
 @property (strong, nonatomic) IBOutlet UIButton *twButton;
 @property (strong, nonatomic) IBOutlet UIButton *fbButton;
 @property (strong, nonatomic) IBOutlet UIButton *signUpButton;
 @property (strong, nonatomic) IBOutlet UIButton *skipButton;
-@property (strong, nonatomic) IBOutlet UIImageView *logoImage;
+@property (strong, nonatomic)  IBOutlet UIImageView *logoImageView;
 
 #pragma mark - actions
 
