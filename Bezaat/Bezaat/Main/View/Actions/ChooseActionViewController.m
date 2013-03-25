@@ -55,7 +55,7 @@
 - (void) prepareImages {
     [toolBar setBackgroundImage:[UIImage imageNamed:@"home_blueRectangle.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     UIImage * backBtnImg = [UIImage imageNamed:@"home_whiteButton.png"];
-    UIButton * customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60 , 40)];
+    UIButton * customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30 , 40)];
     [customBtn setImage:backBtnImg forState:UIControlStateNormal];
     [customBtn addTarget:self action:@selector(popSelf) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * button = [[UIBarButtonItem alloc] initWithCustomView:customBtn];
