@@ -64,14 +64,14 @@
     return cell;
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.section == 0) {
-//        return 44.0f;
-//    }
-//    else {
-//        return 100.0f;
-//    }
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == _tblBrands) {
+        return 120;
+    }
+    else {
+        return 44;
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _tblBrands) {
@@ -107,6 +107,8 @@
     // Reload the tables
     [_tblBrands reloadData];
     [_tblModels reloadData];
+    
+    [MBProgressHUD2 hideHUDForView:self.view animated:YES];
 }
 
 #pragma mark UIViewController Methods
