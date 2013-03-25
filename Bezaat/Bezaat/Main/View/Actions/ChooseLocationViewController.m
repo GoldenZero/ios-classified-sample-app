@@ -353,11 +353,11 @@
 //#define BUTTON_INSTRUCTION_LABEL_FRAME CGRectMake(14.0,30.0,200.0,12.0)
 
 //table view parameters
-static const CGFloat X_TABLE_MARGIN	= 4.0;
-static const CGFloat Y_TABLE_MARGIN	= 45.0;
+static const CGFloat X_TABLE_MARGIN	= 0.0;
+static const CGFloat Y_TABLE_MARGIN	= 34.5;
 
 //backgroud parameters
-static const CGFloat X_BAKCGROUND_MARGIN	= -13.0;
+static const CGFloat X_BAKCGROUND_MARGIN	= 0.0;
 static const CGFloat Y_BACKGROUND_MARGIN	= 0.0;
 static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
 
