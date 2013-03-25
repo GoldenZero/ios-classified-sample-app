@@ -106,7 +106,7 @@
     }
     
     //3- load coordinates of countries in json files
-    NSDictionary * countryCoordsOnMap = [self loadMapCoordinatesForCountries];
+    NSDictionary * countryCoordsOnMap = [NSDictionary dictionaryWithDictionary:[self loadMapCoordinatesForCountries]];
     
     //4- load countries
     NSData * countriesData = [NSData dataWithContentsOfFile:[self getCountriesFilePath]];
@@ -222,7 +222,7 @@
 }
 
 // This method returns a dictionary of x,y coordinates with "countryID" as the key
-- (NSDictionary *) loadMapCoordinatesForCountries {
+- (NSMutableDictionary *) loadMapCoordinatesForCountries {
     
     NSString * coordinatesFilePath;
     if ([GenericMethods deviceIsRetina])
@@ -248,8 +248,8 @@
     {
         int parsedX = [(NSString *)[coordDict objectForKey:MAP_X_Y_COUNTRY_X_JSONK] integerValue];
         int parsedY = [(NSString *)[coordDict objectForKey:MAP_X_Y_COUNTRY_Y_JSONK] integerValue];
-        countryIdKey = [coordDict objectForKey:MAP_X_Y_COUNTRY_ID_JSONK];
-        
+        //countryIdKey = [coordDict objectForKey:MAP_X_Y_COUNTRY_ID_JSONK];
+        countryIdKey = [NSString stringWithFormat:@"%@", [coordDict objectForKey:MAP_X_Y_COUNTRY_ID_JSONK]];
         CountryMapCoordinates * currentCoord = [[CountryMapCoordinates alloc] init];
         currentCoord.x = parsedX;
         currentCoord.y = parsedY;
