@@ -13,7 +13,7 @@
 
 #import "SplashViewController.h"
 
-#import "FriendsListViewController.h"
+#import "ChooseActionViewController.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -23,12 +23,12 @@
     //1- chooseLocationVC
     self.chooseLocationVC = [[ChooseLocationViewController alloc]
                              initWithNibName:@"ChooseLocationViewController" bundle:nil];
-    
+    self.homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     
     //2- splash view
     self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController" bundle:nil];
     self.window.rootViewController = self.splashVC;
-    self.friendsVC=[[FriendsListViewController alloc] initWithNibName:@"FriendsListViewController" bundle:nil];
+    
     //3- visualize
     [self.window makeKeyAndVisible];
     
@@ -38,8 +38,15 @@
 }
 -(void)onSplashScreenDone{
     [self.splashVC.view removeFromSuperview];
-    self.window.rootViewController = self.chooseLocationVC;
-    //self.window.rootViewController = self.friendsVC;
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+        self.window.rootViewController = self.chooseLocationVC;
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];;
+    }
+    else{
+        self.window.rootViewController = self.homeVC;
+    }
+    
+
     [self.window makeKeyAndVisible];
 }
 
