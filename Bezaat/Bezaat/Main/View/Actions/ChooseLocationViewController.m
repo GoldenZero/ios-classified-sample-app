@@ -332,7 +332,7 @@
 #import "Configuration.h"
 #import "BaseDataObject.h"
 #import "GenericFonts.h"
-
+#import "Country.h"
 #pragma mark - drop down lists parameters
 
 //position
@@ -378,6 +378,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     UIImageView *mapImageView;
     UIImageView *logoImageView;
     MBProgressHUD2 * loadingHUD;
+    UIImageView *country;
 }
 @end
 
@@ -400,6 +401,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     
     //countryLoader
     [nextBtn setEnabled:YES];
+    [self setBackgroundImages];
     locationMngr = [[LocationManager alloc] initWithDelegate:self];
     [self showLoadingIndicator];
     [locationMngr loadCountriesAndCities];
@@ -407,7 +409,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     [self initLocationLists];
     
     // set images
-    [self setBackgroundImages];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -432,17 +434,15 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     [self.backgroungImageView sendSubviewToBack:whiteBackground];
     
     // 2- set map view
-    mapImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0,0, 1427, 993)];
+//    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]
+//        && [[UIScreen mainScreen] scale] == 2.0) {
+//        mapImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0,0, 2844, 1983)];
+//    } else {
+        mapImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0,0, 1427, 993)];
+
+    
     mapImageView.image=[UIImage imageNamed:@"location_map.png"];
     [self.backgroungImageView insertSubview:mapImageView aboveSubview:whiteBackground];
-    CGAffineTransform translate = CGAffineTransformMakeTranslation(-494+160, -315+140);
-    [mapImageView setTransform:translate];
-    // Test add country
-    UIImage *temp =[UIImage imageNamed:@"6.png"];
-    UIImageView *country=[[UIImageView alloc] initWithFrame:CGRectMake(494+5, 315+1,temp.size.width, temp.size.height)];
-    country.image=temp;
-    [mapImageView addSubview:country];
-    [mapImageView insertSubview:country aboveSubview:mapImageView];
     
     // 3- set blue gradient effect
     UIImageView *blueBackground=[[UIImageView alloc] initWithFrame:CGRectMake(0,0,320, 480)];
@@ -475,6 +475,19 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     {
         chosenCountry = [countriesArray objectAtIndex:k];
         citiesArray = chosenCountry.cities;
+       
+
+        countriesLst.name = [chosenCountry countryName];
+        CGAffineTransform translate = CGAffineTransformMakeTranslation((-[chosenCountry xCoord]+160), (-[chosenCountry yCoord]+140));
+        [mapImageView setTransform:translate];
+        int countryid=[chosenCountry countryID];
+        country.image=nil;
+        UIImage *temp =[UIImage imageNamed:[NSString stringWithFormat:@"%d_country.png",countryid]];
+        country=[[UIImageView alloc] initWithFrame:CGRectMake([chosenCountry xCoord]+5, [chosenCountry yCoord]+1,temp.size.width, temp.size.height)];
+        country.image=temp;
+        [mapImageView addSubview:country];
+        [mapImageView insertSubview:country aboveSubview:mapImageView];
+
         
         citiesLst.name =[[citiesArray objectAtIndex:0] cityName];
         
@@ -569,8 +582,23 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     countriesLst = [[DropDownList alloc] initWithOrigin:COUNTRIES_DROPDOWNLIST_ORIGIN
                                             ActiveImage:config.buttonActiveBG
                                       WithInactiveImage:config.buttonNoActiveBG];
+    // Setting default country
     NSUInteger defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    countriesLst.name = [[countriesArray objectAtIndex:defaultIndex] countryName];
+    Country *defaultCountry=[countriesArray objectAtIndex:defaultIndex];
+    countriesLst.name = [defaultCountry countryName];
+    CGAffineTransform translate = CGAffineTransformMakeTranslation((-[defaultCountry xCoord]+160), (-[defaultCountry yCoord]+140));
+    [mapImageView setTransform:translate];
+    int countryid=[defaultCountry countryID];
+    
+    UIImage *temp =[UIImage imageNamed:[NSString stringWithFormat:@"%d_country.png",countryid]];
+    country.image=nil;
+    country=[[UIImageView alloc] initWithFrame:CGRectMake([defaultCountry xCoord]+5, [defaultCountry yCoord]+1,temp.size.width, temp.size.height)];
+    country.image=temp;
+    [mapImageView addSubview:country];
+    [mapImageView insertSubview:country aboveSubview:mapImageView];
+    
+    
+    
     countriesLst.type = DROPDOWNLIST_TYPE;
     countriesLst.buttonInstructionLabelFrame = BUTTON_INSTRUCTION_LABEL_FRAME;
     
