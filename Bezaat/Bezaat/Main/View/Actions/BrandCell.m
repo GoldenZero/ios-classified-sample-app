@@ -16,6 +16,14 @@
     _imgBrand.image = brand.brandImage;
 }
 
+- (void)selectCell {
+    _imgSelected.hidden = NO;
+}
+
+- (void)unselectCell {
+    _imgSelected.hidden = YES;
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

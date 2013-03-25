@@ -13,7 +13,11 @@
 @interface BrandCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgBrand;
+@property (weak, nonatomic) IBOutlet UIImageView *imgSelected;
 
-- (void) reloadInformation:(Brand*)brand;
+- (void)reloadInformation:(Brand*)brand;
+
+- (void)selectCell;
+- (void)unselectCell;
 
 @end

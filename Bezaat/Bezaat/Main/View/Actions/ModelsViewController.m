@@ -38,15 +38,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    // Choose the cell identifier according to the table
-    NSString* cellID = (tableView == _tblBrands) ? @"BrandCell" : @"ModelCell";
+    // Choose the cell nib file to load
     NSString* cellNameToLoad = (tableView == _tblBrands) ? @"BrandCell" : @"ModelCell";
     
-    // Get a used cell or build a new one
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (cell == nil) {
-        cell = [[NSBundle mainBundle] loadNibNamed:cellNameToLoad owner:self options:nil][0];
-    }
+    // Build a new cell
+    UITableViewCell* cell = [[NSBundle mainBundle] loadNibNamed:cellNameToLoad owner:self options:nil][0];
 
     if (tableView == _tblBrands) {
         // Get the current brand item
@@ -78,7 +74,22 @@
 //}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    if (tableView == _tblBrands) {
+        // Mark this brand as selected and all the others as not selected
+        BrandCell* cell = (BrandCell*)[tableView cellForRowAtIndexPath:indexPath];
+        [cell selectCell];
+        
+        NSArray* cells = [tableView allTableViewCellsArray];
+        for (int i = 0; i < cells.count; i++) {
+            [(BrandCell*)cells[i] unselectCell];
+        }
+    }
+    else {
+        // Get the model
+        Model* selectedModel = (Model*)currentModels[indexPath.row];
+        
+        // TODO pass this information to the next view
+    }
 }
 
 #pragma mark Brands Manager Delegate
