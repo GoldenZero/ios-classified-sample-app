@@ -94,4 +94,11 @@ static NSString * documentsDirectoryPath;
     return fileExists;
 }
 
++ (BOOL) deviceIsRetina {
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+        ([UIScreen mainScreen].scale == 2.0)) {
+        return YES;
+    }
+    return NO;
+}
 @end

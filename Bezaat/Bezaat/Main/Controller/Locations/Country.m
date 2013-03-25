@@ -18,6 +18,8 @@
 @synthesize displayOrder;
 @synthesize countryCode;
 @synthesize cities;
+@synthesize xCoord;
+@synthesize yCoord;
 
 - (id) initWithCountryIDString:(NSString *) aCountryIDString
                    countryName:(NSString *) aCountryName
@@ -48,8 +50,20 @@
         
         // cities
         // self.cities = [NSArray new];
+        
+        // xCoord
+        self.xCoord = -1; //initial
+        
+        // yCoord
+        self.yCoord = -1;//initial
     }
     return self;
+}
+
+- (void) setCoordinatesWithX:(NSInteger) xVal y:(NSInteger) yVal {
+    
+    self.xCoord = xVal;
+    self.yCoord = yVal;
 }
 
 @end

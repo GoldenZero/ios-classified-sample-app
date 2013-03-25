@@ -21,6 +21,9 @@
 @property (strong, nonatomic) NSString *    countryCode;
 @property (strong, nonatomic) NSArray *     cities;
 
+@property (nonatomic)         NSInteger    xCoord;
+@property (nonatomic)         NSInteger    yCoord;
+
 
 #pragma mark - methods
 - (id) initWithCountryIDString:(NSString *) aCountryIDString
@@ -30,5 +33,6 @@
             displayOrderString:(NSString *) aDisplayOrderString
              countryCodeString:(NSString *) aCountryCode;
 
+- (void) setCoordinatesWithX:(NSInteger) xVal y:(NSInteger) yVal;
 @end
 

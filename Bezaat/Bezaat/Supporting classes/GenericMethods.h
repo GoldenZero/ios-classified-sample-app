@@ -32,4 +32,7 @@
 
 // This method searches for a file in documnts path
 + (BOOL) fileExistsInDocuments:(NSString *) fileName;
+
+// This method checks whether the device is retina display
++ (BOOL) deviceIsRetina;
 @end
