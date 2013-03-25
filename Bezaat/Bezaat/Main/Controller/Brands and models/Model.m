@@ -10,4 +10,25 @@
 
 @implementation Model
 
+@synthesize modelID;
+@synthesize brandID;
+@synthesize modelName;
+
+- (id) initWithModelIDString:(NSString *) aModelIDString
+               brandIDString:(NSString *) aBrandIDString
+                   modelName:(NSString *) aModelName {
+    self = [super init];
+    if (self) {
+        
+        // modelID
+        self.modelID = aModelIDString.integerValue;
+        
+        // brandID
+        self.brandID = aBrandIDString.integerValue;
+        
+        // modelName
+        self.modelName = aModelName;
+    }
+    return self;
+}
 @end

@@ -10,4 +10,13 @@
 
 @interface Model : NSObject
 
+#pragma mark - properties
+@property (nonatomic) NSUInteger modelID;
+@property (nonatomic) NSUInteger brandID;
+@property (strong, nonatomic) NSString * modelName;
+
+#pragma mark - methods
+- (id) initWithModelIDString:(NSString *) aModelIDString
+               brandIDString:(NSString *) aBrandIDString
+                   modelName:(NSString *) aModelName;
 @end
