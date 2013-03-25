@@ -1,5 +1,5 @@
 //
-//  ModelCell.h
+//  BrandCell.h
 //  Bezaat
 //
 //  Created by Aubada Taljo on 3/25/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ModelCell : UITableViewCell
+@interface BrandCell : UITableViewCell
 
 @end

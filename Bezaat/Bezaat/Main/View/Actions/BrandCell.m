@@ -1,14 +1,14 @@
 //
-//  ModelCell.m
+//  BrandCell.m
 //  Bezaat
 //
 //  Created by Aubada Taljo on 3/25/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-#import "ModelCell.h"
+#import "BrandCell.h"
 
-@implementation ModelCell
+@implementation BrandCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
