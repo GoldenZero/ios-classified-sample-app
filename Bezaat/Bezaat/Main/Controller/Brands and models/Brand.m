@@ -14,12 +14,14 @@
 @synthesize brandNameAr;
 @synthesize urlName;//EN name
 @synthesize brandImage;
+@synthesize brandInvertedImage;
 @synthesize models;
 
 - (id) initWithBrandIDString:(NSString *) aBrandIDString
                  brandNameAr:(NSString *) aBrandNameAr
                      urlName:(NSString *) aUrlName
-              brandImagePath:(NSString *) aBrandImagePath {
+                  brandImage:(UIImage *) aBrandImage
+          brandInvertedImage:(UIImage *) aBrandInvertedImage {
 
     self = [super init];
     if (self) {
@@ -34,10 +36,10 @@
         self.urlName = aUrlName;
         
         // brandImage
-        if ([[NSFileManager defaultManager] fileExistsAtPath:aBrandImagePath])
-            self.brandImage = [UIImage imageWithContentsOfFile:aBrandImagePath];
-        else
-            self.brandImage = nil;
+        self.brandImage = aBrandImage;
+        
+        // brandInvertedImage
+        self.brandInvertedImage = aBrandInvertedImage;
         
     }
     return self;

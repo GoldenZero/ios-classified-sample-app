@@ -16,11 +16,13 @@
 @property (strong, nonatomic) NSString * brandNameAr;
 @property (strong, nonatomic) NSString * urlName;//EN name
 @property (strong, nonatomic) UIImage * brandImage;
+@property (strong, nonatomic) UIImage * brandInvertedImage;
 @property (strong, nonatomic) NSArray * models;
 
 #pragma mark - methods
 - (id) initWithBrandIDString:(NSString *) aBrandIDString
                  brandNameAr:(NSString *) aBrandNameAr
                      urlName:(NSString *) aUrlName
-                  brandImagePath:(NSString *) aBrandImagePath;
+                  brandImage:(UIImage *) aBrandImage
+          brandInvertedImage:(UIImage *) aBrandInvertedImage;
 @end
