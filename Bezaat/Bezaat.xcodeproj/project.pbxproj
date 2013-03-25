@@ -238,6 +238,9 @@
 		9EDF783716F1E57B00FB3BDD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F0A7316EC8248000E8471 /* Accounts.framework */; };
 		9EFA08BC16FEE56800696B2C /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFA08BB16FEE56800696B2C /* LocationManager.m */; };
 		9EFA08D316FF1CC300696B2C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EFA08D216FF1CC300696B2C /* MapKit.framework */; };
+		9EFA092F17003FC400696B2C /* Brand.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFA092E17003FC400696B2C /* Brand.m */; };
+		9EFA093217003FD300696B2C /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFA093117003FD300696B2C /* Model.m */; };
+		9EFA093517003FE700696B2C /* BrandsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFA093417003FE700696B2C /* BrandsManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -574,6 +577,12 @@
 		9EFA08BA16FEE56800696B2C /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		9EFA08BB16FEE56800696B2C /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		9EFA08D216FF1CC300696B2C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		9EFA092D17003FC400696B2C /* Brand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Brand.h; sourceTree = "<group>"; };
+		9EFA092E17003FC400696B2C /* Brand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Brand.m; sourceTree = "<group>"; };
+		9EFA093017003FD300696B2C /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		9EFA093117003FD300696B2C /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
+		9EFA093317003FE600696B2C /* BrandsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrandsManager.h; sourceTree = "<group>"; };
+		9EFA093417003FE700696B2C /* BrandsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrandsManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -987,7 +996,7 @@
 		9E78A7DD16E34CE9000CA790 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				9E9F0A0516E75E3B000E8471 /* Car Models */,
+				9EFA092C17003FAF00696B2C /* Brands and models */,
 				9E9F0A0A16E75E3B000E8471 /* Locations */,
 				9E9F0A0B16E75E3B000E8471 /* User Profile */,
 			);
@@ -1208,13 +1217,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		9E9F0A0516E75E3B000E8471 /* Car Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Car Models";
-			sourceTree = "<group>";
-		};
 		9E9F0A0A16E75E3B000E8471 /* Locations */ = {
 			isa = PBXGroup;
 			children = (
@@ -1279,6 +1281,19 @@
 				9E9F0A8716ECA939000E8471 /* ViewController.xib */,
 			);
 			path = "Temp for social Login";
+			sourceTree = "<group>";
+		};
+		9EFA092C17003FAF00696B2C /* Brands and models */ = {
+			isa = PBXGroup;
+			children = (
+				9EFA092D17003FC400696B2C /* Brand.h */,
+				9EFA092E17003FC400696B2C /* Brand.m */,
+				9EFA093017003FD300696B2C /* Model.h */,
+				9EFA093117003FD300696B2C /* Model.m */,
+				9EFA093317003FE600696B2C /* BrandsManager.h */,
+				9EFA093417003FE700696B2C /* BrandsManager.m */,
+			);
+			path = "Brands and models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1599,6 +1614,9 @@
 				9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */,
 				9E2B622516FCA16500A0981F /* SplashViewController.m in Sources */,
 				9EFA08BC16FEE56800696B2C /* LocationManager.m in Sources */,
+				9EFA092F17003FC400696B2C /* Brand.m in Sources */,
+				9EFA093217003FD300696B2C /* Model.m in Sources */,
+				9EFA093517003FE700696B2C /* BrandsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
