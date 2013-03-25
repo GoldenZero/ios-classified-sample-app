@@ -399,6 +399,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
 {
     
     //countryLoader
+    [nextBtn setEnabled:YES];
     locationMngr = [[LocationManager alloc] initWithDelegate:self];
     [self showLoadingIndicator];
     [locationMngr loadCountriesAndCities];
@@ -487,8 +488,8 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         cityChosen = YES;
     }
     
-    if (countryChosen && cityChosen)
-        [nextBtn setEnabled:YES];
+//    if (countryChosen && cityChosen)
+//        [nextBtn setEnabled:YES];
     
 }
 
