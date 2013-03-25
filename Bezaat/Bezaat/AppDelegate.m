@@ -38,8 +38,8 @@
 }
 -(void)onSplashScreenDone{
     [self.splashVC.view removeFromSuperview];
-    //self.window.rootViewController = self.chooseLocationVC;
-    self.window.rootViewController = self.friendsVC;
+    self.window.rootViewController = self.chooseLocationVC;
+    //self.window.rootViewController = self.friendsVC;
     [self.window makeKeyAndVisible];
 }
 
