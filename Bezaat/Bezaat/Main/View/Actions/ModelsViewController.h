@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ModelsViewController : UIViewController
+@interface ModelsViewController : UIViewController {
+    NSArray* brands;
+}
+
+@property (weak, nonatomic) IBOutlet UITableView *tblModels;
+@property (weak, nonatomic) IBOutlet UITableView *tblBrands;
 
 @end
