@@ -164,7 +164,7 @@
 
 
 // This method gets the file path of cities file.
-// This method checks if countries json file does not exist in documents --> that means we are
+// This method checks if cities json file does not exist in documents --> that means we are
 // launching the application the first time, so it copies it and returns its path in documents directory
 - (NSString *) getCitiesFilePath {
     

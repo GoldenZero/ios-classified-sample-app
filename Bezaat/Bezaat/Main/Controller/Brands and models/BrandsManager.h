@@ -22,7 +22,7 @@
 
 #pragma mark - methods
 // get the shared instance of BarndsManager
-+ (BrandsManager *)sharedInstance;
++ (BrandsManager *) sharedInstance;
 
 // load brands & models
 - (void) loadBrandsAndModelsWithDelegate:(id <BrandManagerDelegate>) del;
