@@ -8,7 +8,13 @@
 
 #import "ModelCell.h"
 
+#import "Model.h"
+
 @implementation ModelCell
+
+- (void) reloadInformation:(Model*)model {
+    _lblModel.text = model.modelName;
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

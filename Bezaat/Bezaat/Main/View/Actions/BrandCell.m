@@ -8,7 +8,13 @@
 
 #import "BrandCell.h"
 
+#import "Brand.h"
+
 @implementation BrandCell
+
+- (void) reloadInformation:(Brand*)brand {
+    _imgBrand.image = brand.brandImage;
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

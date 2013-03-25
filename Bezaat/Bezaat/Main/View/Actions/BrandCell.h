@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class Brand;
+
 @interface BrandCell : UITableViewCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *imgBrand;
+
+- (void) reloadInformation:(Brand*)brand;
 
 @end
