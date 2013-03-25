@@ -434,9 +434,15 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     // 2- set map view
     mapImageView=[[UIImageView alloc]initWithFrame:CGRectMake(0,0, 1427, 993)];
     mapImageView.image=[UIImage imageNamed:@"location_map.png"];
-    CGPoint p={300.0f,200.0f};
-    [mapImageView setCenter:p];
     [self.backgroungImageView insertSubview:mapImageView aboveSubview:whiteBackground];
+    CGAffineTransform translate = CGAffineTransformMakeTranslation(-494+160, -315+140);
+    [mapImageView setTransform:translate];
+    // Test add country
+    UIImage *temp =[UIImage imageNamed:@"6.png"];
+    UIImageView *country=[[UIImageView alloc] initWithFrame:CGRectMake(494+5, 315+1,temp.size.width, temp.size.height)];
+    country.image=temp;
+    [mapImageView addSubview:country];
+    [mapImageView insertSubview:country aboveSubview:mapImageView];
     
     // 3- set blue gradient effect
     UIImageView *blueBackground=[[UIImageView alloc] initWithFrame:CGRectMake(0,0,320, 480)];
