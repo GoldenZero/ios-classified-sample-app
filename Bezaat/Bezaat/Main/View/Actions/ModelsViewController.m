@@ -79,7 +79,11 @@
         BrandCell* cell = (BrandCell*)[tableView cellForRowAtIndexPath:indexPath];
         [cell selectCell];
         
-        NSArray* cells = [tableView allTableViewCellsArray];
+        NSMutableArray* cells;
+        for (int counter=0; counter<[tableView numberOfRowsInSection:0]; counter++) {
+            NSIndexPath *index = [NSIndexPath indexPathForRow:0 inSection:0] ;
+            cells[counter]=[tableView cellForRowAtIndexPath:index];
+        }
         for (int i = 0; i < cells.count; i++) {
             [(BrandCell*)cells[i] unselectCell];
         }

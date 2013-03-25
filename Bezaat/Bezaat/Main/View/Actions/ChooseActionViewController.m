@@ -8,7 +8,7 @@
 //
 
 #import "ChooseActionViewController.h"
-
+#import "ModelsViewController.h"
 
 @interface ChooseActionViewController ()
 
@@ -40,10 +40,13 @@
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender {
-    
+    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
+    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 
     
 }
