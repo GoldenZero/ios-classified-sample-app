@@ -9,12 +9,25 @@
 #import "SharedUser.h"
 
 @implementation SharedUser
+@synthesize country;
+@synthesize city;
+@synthesize registered;
 
 //Facebook shared session instance
 static FBSession * fbSharedSession;
 
 //Facebook shared user data instance
 static fbUserData * fbSharedUserData;
+
+
++ (SharedUser *) sharedInstance {
+    static SharedUser * instance = nil;
+    if (instance == nil) {
+        instance = [[SharedUser alloc] init];
+    }
+    return instance;
+}
+
 
 + (FBSession *) fbSharedSessionInstance {
     return fbSharedSession;

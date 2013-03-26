@@ -10,8 +10,19 @@
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "fbUserData.h"
+#import "Country.h"
 
 @interface SharedUser : NSObject
+
+#pragma mark - properties
+
+@property (strong, nonatomic) Country * country;
+@property (strong, nonatomic) City * city;
+@property (nonatomic) BOOL registered;
+
+#pragma mark - methods
+// Get a shared instance of user's data
++ (SharedUser *) sharedInstance;
 
 // Return the shared instance of Facebook session
 + (FBSession *) fbSharedSessionInstance;
