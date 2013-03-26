@@ -76,23 +76,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _tblBrands) {
         // Mark this brand as selected and all the others as not selected
+        for (int counter=0; counter<[tableView numberOfRowsInSection:0]; counter++) {
+            NSIndexPath *index = [NSIndexPath indexPathForRow:counter inSection:0] ;
+            [(BrandCell*)[tableView cellForRowAtIndexPath:index] unselectCell];
+        }
+        
         BrandCell* cell = (BrandCell*)[tableView cellForRowAtIndexPath:indexPath];
         [cell selectCell];
-        
-        NSMutableArray* cells;
-        for (int counter=0; counter<[tableView numberOfRowsInSection:0]; counter++) {
-            NSIndexPath *index = [NSIndexPath indexPathForRow:0 inSection:0] ;
-            cells[counter]=[tableView cellForRowAtIndexPath:index];
-        }
-        for (int i = 0; i < cells.count; i++) {
-            [(BrandCell*)cells[i] unselectCell];
-        }
     }
     else {
         // Get the model
-        Model* selectedModel = (Model*)currentModels[indexPath.row];
+        //Model* selectedModel = (Model*)currentModels[indexPath.row];
         
         // TODO pass this information to the next view
+        
     }
 }
 
