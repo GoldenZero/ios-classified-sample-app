@@ -10,7 +10,9 @@
 
 @class Brand;
 
-@interface BrandCell : UITableViewCell
+@interface BrandCell : UITableViewCell {
+    Brand* currentBrand;
+}
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgBrand;
 @property (weak, nonatomic) IBOutlet UIImageView *imgSelected;

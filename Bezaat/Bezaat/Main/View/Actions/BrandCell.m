@@ -13,15 +13,18 @@
 @implementation BrandCell
 
 - (void) reloadInformation:(Brand*)brand {
-    _imgBrand.image = brand.brandImage;
+    currentBrand = brand;
+    _imgBrand.image = currentBrand.brandImage;
 }
 
 - (void)selectCell {
     _imgSelected.hidden = NO;
+    _imgBrand.image = currentBrand.brandInvertedImage;
 }
 
 - (void)unselectCell {
     _imgSelected.hidden = YES;
+    _imgBrand.image = currentBrand.brandImage;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
