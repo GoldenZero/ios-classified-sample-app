@@ -24,10 +24,12 @@
 @property (strong, nonatomic) id <LocationManagerDelegate> delegate;
 
 #pragma mark - methods
-- (id) initWithDelegate:(id <LocationManagerDelegate>) del;
+
+// get the shared instance of LocationManager
++ (LocationManager *) sharedInstance;
 
 // load countries & cities
-- (void) loadCountriesAndCities;
+- (void) loadCountriesAndCitiesWithDelegate:(id <LocationManagerDelegate>) del;
 
 // get the default selected country index in countries result array
 - (NSUInteger) getDefaultSelectedCountryIndex;

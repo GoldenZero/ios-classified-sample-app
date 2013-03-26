@@ -69,16 +69,17 @@
     return self;
 }
 
-- (id) initWithDelegate:(id <LocationManagerDelegate>) del {
-    self = [super init];
-    if (self) {
-        self.delegate = del;
-        fileMngr = [NSFileManager defaultManager];
++ (LocationManager *) sharedInstance {
+    static LocationManager * instance = nil;
+    if (instance == nil) {
+        instance = [[LocationManager alloc] init];
     }
-    return self;
+    return instance;
 }
 
-- (void) loadCountriesAndCities {
+- (void) loadCountriesAndCitiesWithDelegate:(id <LocationManagerDelegate>) del {
+    
+    self.delegate = del;
     
     //1- load cities
     NSData * citiesData = [NSData dataWithContentsOfFile:[self getCitiesFilePath]];

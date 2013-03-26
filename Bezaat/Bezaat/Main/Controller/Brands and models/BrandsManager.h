@@ -21,6 +21,7 @@
 @property (strong, nonatomic) id <BrandManagerDelegate> delegate;
 
 #pragma mark - methods
+
 // get the shared instance of BarndsManager
 + (BrandsManager *) sharedInstance;
 

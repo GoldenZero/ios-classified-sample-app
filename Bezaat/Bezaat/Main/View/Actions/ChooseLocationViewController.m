@@ -423,9 +423,9 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     }
     [nextBtn setEnabled:YES];
     [self setBackgroundImages];
-    locationMngr = [[LocationManager alloc] initWithDelegate:self];
+    locationMngr = [LocationManager sharedInstance];
     [self showLoadingIndicator];
-    [locationMngr loadCountriesAndCities];
+    [locationMngr loadCountriesAndCitiesWithDelegate:self];
     //self initialize drop down lists
     [self initLocationLists];
     
