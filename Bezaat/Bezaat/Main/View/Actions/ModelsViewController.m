@@ -83,6 +83,11 @@
         
         BrandCell* cell = (BrandCell*)[tableView cellForRowAtIndexPath:indexPath];
         [cell selectCell];
+        
+        // Reload the models table
+        Brand* selectedBrand = (Brand*)currentBrands[indexPath.row];
+        currentModels = selectedBrand.models;
+        [_tblModels reloadData];
     }
     else {
         // Get the model
