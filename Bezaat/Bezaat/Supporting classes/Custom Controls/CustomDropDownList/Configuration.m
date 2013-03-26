@@ -25,7 +25,7 @@
 		self.buttonActiveBG = [UIImage imageNamed:@"location_whiteButton_01.png"];
 		self.buttonNoActiveBG = [UIImage imageNamed:@"location_whiteButton_01.png"];
 		self.itemBGHoved = [UIImage imageNamed:@"location_whiteButton_02.png"];
-		self.itemBG = [UIImage imageNamed:@""];
+		self.itemBG = [UIImage imageNamed:@"open-dropdown-bg-inner.png"];
 		self.openBGTop = [UIImage imageNamed:@""];
 		self.openBGMiddle = [UIImage imageNamed:@""];
 		self.openBGBottom = [UIImage imageNamed:@""];
