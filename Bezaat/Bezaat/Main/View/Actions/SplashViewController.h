@@ -10,5 +10,6 @@
 
 @interface SplashViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UIImageView *splashView;
+@property (strong, nonatomic) IBOutlet UIImageView *wheelView;
 
 @end

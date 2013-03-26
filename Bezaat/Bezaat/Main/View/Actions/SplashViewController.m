@@ -27,14 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.splashView.image=[UIImage imageNamed:@"splash.png"];
-    UIImageView *wheelImage=[[UIImageView alloc] initWithFrame:CGRectMake(137, 350, 47, 47)];
-    wheelImage.image=[UIImage imageNamed:@"splash_wheel.png"];
-    [self.view addSubview:wheelImage];
-//    UIImageView *wheelShadowImage=[[UIImageView alloc] initWithFrame:CGRectMake(137, 380, 47, 47)];
-//    wheelShadowImage.image=[UIImage imageNamed:@"splash_wheelShadow.png"];
-//    [self.view addSubview:wheelShadowImage];
-    [self rotationWheel:wheelImage];
+    [self rotationWheel:self.wheelView];
 
     // Do any additional setup after loading the view from its nib.
 }

@@ -56,16 +56,6 @@
 #pragma mark -- custom methods
 - (void) setBackgroundImages{
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"home_blueRectangle.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    [self.facebookButton setBackgroundImage:[UIImage   imageNamed:@"SignUp_Facebook.png"] forState:UIControlStateNormal];
-    [self.twitterButton setBackgroundImage:[UIImage   imageNamed:@"SignUp_Twitter.png"] forState:UIControlStateNormal];
-    [self.saveButton setBackgroundImage:[UIImage   imageNamed:@"SignUp_rigester.png"] forState:UIControlStateNormal];
-    [self.deleteButton setBackgroundImage:[UIImage   imageNamed:@"SignUp_Clear.png"] forState:UIControlStateNormal];
-    UIImageView *background=[[UIImageView alloc] initWithFrame:CGRectMake(0,0,320, 480)];
-    background.image=[UIImage imageNamed:@"SignUp_Bottom_bg.png"];
-    [self.view addSubview:background];
-    [self.view sendSubviewToBack:background];
-    self.titleView.image=[UIImage imageNamed:@"SignUp_Top_BG.png"];
-    self.sepratorImage.image=[UIImage imageNamed:@"SignUp_Or_Slice.png"];
     
     UIImage * backBtnImg = [UIImage imageNamed:@"share_arrowButton.png"];
     UIButton * customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40 , 40)];
