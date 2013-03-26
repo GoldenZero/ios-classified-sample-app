@@ -143,7 +143,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         countriesLst.name = [chosenCountry countryName];
         
         // Translate the map
-        CGAffineTransform translate = CGAffineTransformMakeTranslation((-[chosenCountry xCoord]+160), (-[chosenCountry yCoord]+140));
+        CGAffineTransform translate = CGAffineTransformMakeTranslation((-[chosenCountry xCoord]+110), (-[chosenCountry yCoord]+120));
         [mapImageView setTransform:translate];
         int countryid=[chosenCountry countryID];
         countryImage.image=nil;
@@ -267,7 +267,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     countriesLst.name = [defaultCountry countryName];
     
     // Translate the map
-    CGAffineTransform translate = CGAffineTransformMakeTranslation((-[defaultCountry xCoord]+160), (-[defaultCountry yCoord]+140));
+    CGAffineTransform translate = CGAffineTransformMakeTranslation((-[defaultCountry xCoord]+110), (-[defaultCountry yCoord]+130));
     [mapImageView setTransform:translate];
     int countryid=[defaultCountry countryID];
     
