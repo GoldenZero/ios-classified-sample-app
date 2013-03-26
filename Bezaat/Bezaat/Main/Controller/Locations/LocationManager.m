@@ -82,7 +82,8 @@
     self.delegate = del;
     
     //1- load cities
-    NSData * citiesData = [NSData dataWithContentsOfFile:[self getCitiesFilePath]];
+    NSData * citiesData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:CITIES_FILE_NAME]];
+    
     NSArray * citiesParsedArray = [[JSONParser sharedInstance] parseJSONData:citiesData];
     
     //2- store cities in a dictionary with countryID as key
@@ -110,7 +111,8 @@
     NSDictionary * countryCoordsOnMap = [NSDictionary dictionaryWithDictionary:[self loadMapCoordinatesForCountries]];
     
     //4- load countries
-    NSData * countriesData = [NSData dataWithContentsOfFile:[self getCountriesFilePath]];
+    NSData * countriesData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:COUNTRIES_FILE_NAME]];
+    
     NSArray * countriesParsedArray = [[JSONParser sharedInstance] parseJSONData:countriesData];
     
     //5- store countries in array (This array holds countries and their cities **INSIDE**)
@@ -170,57 +172,32 @@
 
 #pragma mark - helper methods
 
-// This method gets the file path of countries file.
-// This method checks if countries json file does not exist in documents --> that means we are
+// This method gets the file path ofthe specified file.
+// This method checks if the json file does not exist in documents --> that means we are
 // launching the application the first time, so it copies it and returns its path in documents directory
-- (NSString *) getCountriesFilePath {
+// aFileName should be the file name with .json suffix
+- (NSString *) getJsonFilePathInDocumentsForFile:(NSString *) aFileName {
     
-    //1- search for "Countries.json" in documents
-    BOOL countriesExistInDocuments = [GenericMethods fileExistsInDocuments:COUNTRIES_FILE_NAME];
+    //1- search for json file in documents
+    BOOL fileExistInDocs = [GenericMethods fileExistsInDocuments:aFileName];
     
-    NSString * countriesDocumentPath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], COUNTRIES_FILE_NAME];
+    NSString * fileDocumentPath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], aFileName];
     
     //2- if not found: --> copy initial to documents
-    if (!countriesExistInDocuments)
+    if (!fileExistInDocs)
     {
-        NSString * countriesfile = [COUNTRIES_FILE_NAME stringByReplacingOccurrencesOfString:@".json" withString:@""];
+        NSString * file = [aFileName stringByReplacingOccurrencesOfString:@".json" withString:@""];
         
-        NSString * sourcePath =  [[NSBundle mainBundle] pathForResource:countriesfile ofType:@"json"];
+        NSString * sourcePath =  [[NSBundle mainBundle] pathForResource:file ofType:@"json"];
         
         NSError *error;
-        [fileMngr copyItemAtPath:sourcePath toPath:countriesDocumentPath error:&error];
-    }
-
-    //3- return the path
-    return countriesDocumentPath;
-}
-
-
-// This method gets the file path of cities file.
-// This method checks if cities json file does not exist in documents --> that means we are
-// launching the application the first time, so it copies it and returns its path in documents directory
-- (NSString *) getCitiesFilePath {
-    
-    //1- search for "Cities.json" in documents
-    BOOL citiesExistInDocuments = [GenericMethods fileExistsInDocuments:CITIES_FILE_NAME];
-    
-    NSString * citiesDocumentPath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], CITIES_FILE_NAME];
-    
-    //2- if not found: --> copy initial to documents
-    if (!citiesExistInDocuments)
-    {
-        
-        NSString * citiesfile = [CITIES_FILE_NAME stringByReplacingOccurrencesOfString:@".json" withString:@""];
-        
-        NSString * sourcePath =  [[NSBundle mainBundle] pathForResource:citiesfile ofType:@"json"];
-        
-        NSError *error;
-        [fileMngr copyItemAtPath:sourcePath toPath:citiesDocumentPath error:&error];
+        [fileMngr copyItemAtPath:sourcePath toPath:fileDocumentPath error:&error];
     }
     
     //3- return the path
-    return citiesDocumentPath;
+    return fileDocumentPath;
 }
+
 
 // This method returns a dictionary of x,y coordinates with "countryID" as the key
 - (NSMutableDictionary *) loadMapCoordinatesForCountries {

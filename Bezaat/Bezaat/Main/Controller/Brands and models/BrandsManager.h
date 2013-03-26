@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AubadaLibrary/JSONParser.h>
 #import "Brand.h"
+#import "SharedUser.h"
 
 @protocol BrandManagerDelegate <NSObject>
 @required

@@ -11,8 +11,10 @@
 #pragma mark - file names
 #define BRANDS_FILE_NAME         @"Brands.json"
 #define MODELS_FILE_NAME         @"Models.json"
+#define BRANDS_ORDER_FILE_NAME   @"BrandsOrder.json"
 
 #pragma mark - Brand json keys
+
 #define BRAND_ID_JSONK           @"BrandID"
 #define BRAND_NAME_AR_JSONK      @"BrandNameAr"
 #define BRAND_URL_NAME_JSONK     @"UrlName"
@@ -23,11 +25,37 @@
 #define MODEL_BRAND_ID_JSONK     @"BrandID"
 #define MODEL_NAME_JSONK           @"ModelName"
 
+
+#pragma mark - brandsOrder json keys
+
+#define BORDER_ALL_COUNTRIES_JSONK          @"countries"
+#define BORDER_PARENT_COUNTRY_JSONK         @"country"
+#define BORDER_DEFAULT_COUNTRY_JSONK        @"default"
+#define BORDER_COUNTRY_ID_JSONK             @"id"
+#define BORDER_ALL_BRANDS_JSONK             @"brands"
+#define BORDER_DISPLAY_ORDER_JSONK          @"displayOrder"
+#define BORDER_BRAND_ID_JSONK               @"BrandID"
+
+
 #pragma mark -
+
+#pragma mark - BrandOrderPair struct definition
+// This struct is used to store temporal displayOrder, brandID pair data after parsing the BrandsOrder json file
+
+@interface BrandOrderPair : NSObject
+@property (nonatomic) int displayOrder;
+@property (nonatomic) int brandID;
+@end
+
+@implementation BrandOrderPair
+@synthesize displayOrder, brandID;
+@end
 
 @interface BrandsManager ()
 {
-        NSFileManager * fileMngr;
+    NSFileManager * fileMngr;
+    NSDictionary * brandsOrderDict;
+    NSUInteger defaultCountryIDForOrdering;
 }
 @end
 
@@ -39,6 +67,8 @@
     self = [super init];
     if (self) {
         fileMngr = [NSFileManager defaultManager];
+        brandsOrderDict = nil;              //initial value
+        defaultCountryIDForOrdering = -1;   //initial value
     }
     return self;
 }
@@ -58,7 +88,8 @@
     self.delegate = del;
     
     //1- load models
-    NSData * modelsData = [NSData dataWithContentsOfFile:[self getModelsFilePath]];
+    NSData * modelsData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:MODELS_FILE_NAME]];
+    
     NSArray * modelsParsedArray = [[JSONParser sharedInstance] parseJSONData:modelsData];
     
     //2- store models in a dictionary with brandID as key
@@ -83,7 +114,7 @@
     }
     
     //3- load brands
-    NSData * brandsData = [NSData dataWithContentsOfFile:[self getBrandsFilePath]];
+    NSData * brandsData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:BRANDS_FILE_NAME]];
     NSArray * brandsParsedArray = [[JSONParser sharedInstance] parseJSONData:brandsData];
     
     //4- store brands in array (This array holds countries and their models **INSIDE**)
@@ -117,61 +148,36 @@
     }
     
     //sort brands according to chosen country
-    [self.delegate didFinishLoadingWithData:resultBrands];//UNSORTED!!
-    //[self.delegate didFinishLoadingWithData:[self sortBrandsArray:resultBrands]];
+    //[self.delegate didFinishLoadingWithData:resultBrands];//UNSORTED!!
+    [self.delegate didFinishLoadingWithData:[self sortBrandsArray:resultBrands]];
 }
 
 #pragma mark - helper methods
 
-// This method gets the file path of brands file.
-// This method checks if brands json file does not exist in documents --> that means we are
+// This method gets the file path ofthe specified file.
+// This method checks if the json file does not exist in documents --> that means we are
 // launching the application the first time, so it copies it and returns its path in documents directory
-- (NSString *) getBrandsFilePath {
+// aFileName should be the file name with .json suffix
+- (NSString *) getJsonFilePathInDocumentsForFile:(NSString *) aFileName {
     
-    //1- search for "Brands.json" in documents
-    BOOL brandsExistInDocuments = [GenericMethods fileExistsInDocuments:BRANDS_FILE_NAME];
+    //1- search for json file in documents
+    BOOL fileExistInDocs = [GenericMethods fileExistsInDocuments:aFileName];
     
-    NSString * brandsDocumentPath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], BRANDS_FILE_NAME];
+    NSString * fileDocumentPath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], aFileName];
     
     //2- if not found: --> copy initial to documents
-    if (!brandsExistInDocuments)
+    if (!fileExistInDocs)
     {
-        NSString * brandsfile = [BRANDS_FILE_NAME stringByReplacingOccurrencesOfString:@".json" withString:@""];
+        NSString * file = [aFileName stringByReplacingOccurrencesOfString:@".json" withString:@""];
         
-        NSString * sourcePath =  [[NSBundle mainBundle] pathForResource:brandsfile ofType:@"json"];
+        NSString * sourcePath =  [[NSBundle mainBundle] pathForResource:file ofType:@"json"];
         
         NSError *error;
-        [fileMngr copyItemAtPath:sourcePath toPath:brandsDocumentPath error:&error];
+        [fileMngr copyItemAtPath:sourcePath toPath:fileDocumentPath error:&error];
     }
     
     //3- return the path
-    return brandsDocumentPath;
-}
-
-
-// This method gets the file path of models file.
-// This method checks if models json file does not exist in documents --> that means we are
-// launching the application the first time, so it copies it and returns its path in documents directory
-- (NSString *) getModelsFilePath {
-    
-    //1- search for "Models.json" in documents
-    BOOL modelsExistInDocuments = [GenericMethods fileExistsInDocuments:MODELS_FILE_NAME];
-    
-    NSString * modelsDocumentPath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], MODELS_FILE_NAME];
-    
-    //2- if not found: --> copy initial to documents
-    if (!modelsExistInDocuments)
-    {
-        NSString * modelsfile = [MODELS_FILE_NAME stringByReplacingOccurrencesOfString:@".json" withString:@""];
-        
-        NSString * sourcePath =  [[NSBundle mainBundle] pathForResource:modelsfile ofType:@"json"];
-        
-        NSError *error;
-        [fileMngr copyItemAtPath:sourcePath toPath:modelsDocumentPath error:&error];
-    }
-    
-    //3- return the path
-    return modelsDocumentPath;
+    return fileDocumentPath;
 }
 
 - (UIImage *) loadImageOfBrand:(NSUInteger) aBrandID imageState:(BOOL) inverted {
@@ -212,4 +218,120 @@
     
 }
 
+// This method takes the brands array as input and the array of ordering which contains the pairs objects
+- (NSArray *) sortBrandsArray:(NSArray *) input {
+    NSMutableArray * sorted = [NSMutableArray new];
+    
+    if ((!brandsOrderDict) || (defaultCountryIDForOrdering == -1))
+    {
+        //1- parse the BrandsOrder json file
+        NSData * orderData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:BRANDS_ORDER_FILE_NAME]];
+        
+        NSArray * orderParsedArray = [[JSONParser sharedInstance] parseJSONData:orderData];
+        
+        // The whole file is represented in a single dictionary with key of ("countries")
+        // This root dictionary holds 2 keys:
+        // 1- "country" --> array of (displayOrder, brandID) pairs inside,
+        // 2- "default" --> the value of default country id for ordering brands.
+        NSDictionary * rootCountriesDict = [orderParsedArray[0] objectForKey:BORDER_ALL_COUNTRIES_JSONK];
+        
+        // The array that holds country objects.
+        NSArray * countriesArray = [rootCountriesDict objectForKey:BORDER_PARENT_COUNTRY_JSONK];
+        
+        NSString * countryIdKey;
+        
+        //The dictionary to store order data
+        NSMutableDictionary * orderDictionary = [NSMutableDictionary new];
+        
+        // Each country contains an array of brand order pairs + country id
+        for (NSDictionary * countryDict in countriesArray)
+        {
+            countryIdKey = [countryDict objectForKey:BORDER_COUNTRY_ID_JSONK];
+            NSArray * brandsParsedArray = [countryDict objectForKey:BORDER_ALL_BRANDS_JSONK];
+            
+            NSMutableArray * brandOrderPairs = [NSMutableArray new];
+            for (NSDictionary * brandOrderPairDict in brandsParsedArray)
+            {
+                NSString * displayOrderString = [brandOrderPairDict objectForKey:BORDER_DISPLAY_ORDER_JSONK];
+                NSString * brandIDString = [brandOrderPairDict objectForKey:BORDER_BRAND_ID_JSONK];
+                
+                BrandOrderPair * pair = [[BrandOrderPair alloc] init];
+                pair.displayOrder = displayOrderString.integerValue;
+                pair.brandID = brandIDString.integerValue;
+                
+                //add to result array
+                [brandOrderPairs addObject:pair];
+            }
+            //sort the array
+            NSArray * sortedBrandOrderPairs = [self sortBrandsOrderArray:brandOrderPairs];
+            
+            for (int i = 0; i < sortedBrandOrderPairs.count; i++)
+                NSLog(@"order = %i, brand: %i\n", ((BrandOrderPair *) sortedBrandOrderPairs[i]).displayOrder, ((BrandOrderPair *) sortedBrandOrderPairs[i]).brandID);
+            
+            //add to dictionary
+            [orderDictionary setObject:sortedBrandOrderPairs forKey:countryIdKey];
+        }
+        
+        
+        // The default country id to be used for ordering brands array
+        NSString * defaultCountryIDString = [rootCountriesDict objectForKey:BORDER_DEFAULT_COUNTRY_JSONK];
+        
+        defaultCountryIDForOrdering = defaultCountryIDString.integerValue;
+        
+        brandsOrderDict = orderDictionary;
+        defaultCountryIDForOrdering = defaultCountryIDString.integerValue;
+        
+    }
+    
+    NSString * chosenCountryIdKey = [NSString stringWithFormat:@"%i", [SharedUser sharedInstance].country.countryID];
+    
+    NSArray * orderingArray;
+    if ([brandsOrderDict objectForKey:chosenCountryIdKey])
+        orderingArray = [brandsOrderDict objectForKey:chosenCountryIdKey];
+    else
+        orderingArray = [brandsOrderDict objectForKey:[NSString stringWithFormat:@"%i", defaultCountryIDForOrdering]];
+    
+    for (int i = 0; i < orderingArray.count; i++)
+    {
+        BrandOrderPair * p = orderingArray[i];
+        Brand * brand = [self getBrandByID:p.brandID brands:input];
+        [sorted addObject:brand];
+    }
+    
+    return sorted;
+}
+
+    
+//This method is to sort an array of (BrandOrderPair) objects
+- (NSArray *) sortBrandsOrderArray:(NSArray *) input {
+    
+    NSArray * sortedArray;
+    sortedArray = [input sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSUInteger first = [(BrandOrderPair *)a displayOrder];
+        NSUInteger second = [(BrandOrderPair *)b displayOrder];
+        return (first >= second);
+    }];
+    
+    return sortedArray;
+}
+
+- (Brand *) getBrandByID:(NSUInteger) aBrandID brands:(NSArray *) brandsArray {
+    for (Brand * currentBrand in brandsArray)
+    {
+        if (currentBrand.brandID == aBrandID)
+        {
+            
+            Brand * result = [[Brand alloc]
+                    initWithBrandIDString:[NSString stringWithFormat:@"%i", currentBrand.brandID]
+                        brandNameAr:currentBrand.brandNameAr
+                        urlName:currentBrand.urlName
+                        brandImage:currentBrand.brandImage
+                        brandInvertedImage:currentBrand.brandInvertedImage];
+            result.models = [NSArray arrayWithArray:currentBrand.models];
+            
+            return result;
+        }
+    }
+    return nil;
+}
 @end
