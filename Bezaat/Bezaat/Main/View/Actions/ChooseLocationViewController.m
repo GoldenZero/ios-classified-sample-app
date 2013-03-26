@@ -82,6 +82,9 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
 
 #pragma mark - actions
 - (IBAction)nextBtnPressed:(id)sender {
+    [SharedUser sharedInstance].country = chosenCountry;
+    [SharedUser sharedInstance].city = chosenCity;
+    
     SignInViewController * signInVC = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
     [self presentViewController:signInVC animated:YES completion:nil];
 }
