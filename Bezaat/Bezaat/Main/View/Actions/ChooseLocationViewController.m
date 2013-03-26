@@ -135,6 +135,9 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
 - (void) dropDownListItemDidSelected:(DropDownList*) theDropDownList WithNumber:(int) k
 {
     //NSLog(@"item number: %i was selected in dropdownlist with name: %@", k + 1, theDropDownList.name);
+    // Take the width of the screen
+    CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
+    float screenWidth=screenBounds.width;
     
     if (theDropDownList == countriesLst)
     {
@@ -143,9 +146,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         countriesLst.name = [chosenCountry countryName];
         
         // Translate the map
-        CGAffineTransform translate = CGAffineTransformMakeTranslation((-[chosenCountry xCoord]+110), (-[chosenCountry yCoord]+120));
-        [mapImageView setTransform:translate];
-        int countryid=[chosenCountry countryID];
+               int countryid=[chosenCountry countryID];
         countryImage.image=nil;
         UIImage *temp;
         if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]
@@ -154,6 +155,9 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
             temp =[UIImage imageNamed:imagePath];
             if (temp) {
                 if ([chosenCountry xCoord]!=-1) {
+                    CGAffineTransform translate = CGAffineTransformMakeTranslation((-[chosenCountry xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[chosenCountry yCoord]+120));
+                    [mapImageView setTransform:translate];
+
                      countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([chosenCountry xCoord], [chosenCountry yCoord],temp.size.width, temp.size.height)];
                 }
             }
@@ -165,6 +169,9 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
             temp =[UIImage imageNamed:imagePath];
             if (temp) {
                 if ([chosenCountry xCoord]!=-1) {
+                    CGAffineTransform translate = CGAffineTransformMakeTranslation((-[chosenCountry xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[chosenCountry yCoord]+120));
+                    [mapImageView setTransform:translate];
+
                    countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([chosenCountry xCoord]+5, [chosenCountry yCoord]+1,temp.size.width, temp.size.height)];
                 }
             }
@@ -252,8 +259,10 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
 }
 
 - (void) initCountriesDropDownList {
-    
+    CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
+    float screenWidth=screenBounds.width;
     // Create configuration object
+    
     Configuration *config = [[Configuration alloc] init];
     
     countriesLst = [[DropDownList alloc] initWithOrigin:COUNTRIES_DROPDOWNLIST_ORIGIN
@@ -267,8 +276,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     countriesLst.name = [defaultCountry countryName];
     
     // Translate the map
-    CGAffineTransform translate = CGAffineTransformMakeTranslation((-[defaultCountry xCoord]+110), (-[defaultCountry yCoord]+130));
-    [mapImageView setTransform:translate];
+    
     int countryid=[defaultCountry countryID];
     
     // Init coutry image
@@ -279,6 +287,8 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         temp =[UIImage imageNamed:imagePath];
         if (temp) {
             if ([chosenCountry xCoord]!=-1) {
+                CGAffineTransform translate = CGAffineTransformMakeTranslation((-[defaultCountry xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[defaultCountry yCoord]+130));
+                [mapImageView setTransform:translate];
                 countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([defaultCountry xCoord], [defaultCountry yCoord],temp.size.width, temp.size.height)];
             }
         }
@@ -290,6 +300,8 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         temp =[UIImage imageNamed:imagePath];
         if (temp) {
             if ([chosenCountry xCoord]!=-1) {
+                CGAffineTransform translate = CGAffineTransformMakeTranslation((-[defaultCountry xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[defaultCountry yCoord]+130));
+                [mapImageView setTransform:translate];
                 countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([defaultCountry xCoord]+5, [defaultCountry yCoord]+1,temp.size.width, temp.size.height)];
             }
         }

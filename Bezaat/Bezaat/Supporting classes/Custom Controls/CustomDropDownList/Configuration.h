@@ -13,7 +13,7 @@
 
 
 // Frame of label in button to open dropdownlist
-#define BUTTON_INSTRUCTION_LABEL_FRAME						CGRectMake(25.0,16.0,200.0,18.0)
+#define BUTTON_INSTRUCTION_LABEL_FRAME						CGRectMake(25.0,13.0,200.0,18.0)
 
 // Font of text in button to open dropdownlist
 #define BUTTON_LABEL_FONT									[UIFont fontWithName:@"HelveticaNeue-Bold" size:12.82]
