@@ -66,7 +66,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _tblBrands) {
-        return 120;
+        return 130;
     }
     else {
         return 44;
