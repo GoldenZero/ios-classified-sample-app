@@ -55,6 +55,8 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CarAdCell * cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
+    [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 
@@ -67,4 +69,13 @@
     
 }
 
+# pragma mark - custom methods
+
+- (void) addToFavoritePressed{
+    // Code of add car ad to user favorite
+}
+
+- (void) distinguishButtonPressed{
+    // Code of distiguish car ad 
+}
 @end
