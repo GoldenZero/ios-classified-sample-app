@@ -16,7 +16,7 @@
 #import "SignInViewController.h"
 #import "LocationManager.h"
 
-@interface ChooseLocationViewController : UIViewController <DropDownListDelegate,LocationManagerDelegate>
+@interface ChooseLocationViewController : UIViewController <DropDownListDelegate,LocationManagerDelegate, CLLocationManagerDelegate>
 
 #pragma mark - properties
 

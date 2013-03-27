@@ -18,11 +18,11 @@
 @end
 
 
-@interface LocationManager : NSObject <CLLocationManagerDelegate>
+@interface LocationManager : NSObject
 
 #pragma mark - properties
 @property (strong, nonatomic) id <LocationManagerDelegate> delegate;
-
+@property (strong, nonatomic) NSString * deviceLocationCountryCode;
 #pragma mark - methods
 
 // get the shared instance of LocationManager

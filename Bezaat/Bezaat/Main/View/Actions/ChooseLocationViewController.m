@@ -35,6 +35,7 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     BOOL countryChosen;
     BOOL cityChosen;
     LocationManager * locationMngr;
+    CLLocationManager * deviceLocationDetector;
     UIImageView *mapImageView;
     MBProgressHUD2 * loadingHUD;
     UIImageView *countryImage;
@@ -68,10 +69,12 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     // Location Manager
     locationMngr = [LocationManager sharedInstance];
     [self showLoadingIndicator];
-    [locationMngr loadCountriesAndCitiesWithDelegate:self];
+    
+    [self loadData];
+    //[locationMngr loadCountriesAndCitiesWithDelegate:self];
    
     //self initialize drop down lists
-    [self initLocationLists];
+    //[self initLocationLists];
     
 }
 - (void)didReceiveMemoryWarning
@@ -429,5 +432,77 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         [citiesLst reloadInputViews];
     }
 }
+
+
+// This method loads the device location initialli, and afterwards the loading of country lists comes after
+- (void) loadData {
+    
+    if ([CLLocationManager locationServicesEnabled])
+    {
+        if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
+            ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized))
+        {
+            if (!deviceLocationDetector)
+                deviceLocationDetector = [[CLLocationManager alloc] init];
+            
+            deviceLocationDetector.delegate = self;
+            deviceLocationDetector.distanceFilter = 500;
+            deviceLocationDetector.desiredAccuracy = kCLLocationAccuracyKilometer;
+            deviceLocationDetector.pausesLocationUpdatesAutomatically = YES;
+            
+            [deviceLocationDetector startUpdatingLocation];
+        }
+        else
+            [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+    }
+    else
+        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+}
+
+#pragma  mark - CLLocationManager Delegate
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    
+    [deviceLocationDetector stopUpdatingLocation];
+    
+    //currentLocation = newLocation;
+    
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
+        NSString * code = mark.countryCode;
+        //NSLog(@"%@", code);
+        
+        [LocationManager sharedInstance].deviceLocationCountryCode = code;
+        
+        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        
+        //self initialize drop down lists
+        [self initLocationLists];
+        
+        /*
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Horraaay!" message:[NSString stringWithFormat:@"NewLocation %f %f, code = %@", newLocation.coordinate.latitude, newLocation.coordinate.longitude, code] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+        [alert show];
+         */
+    }];
+    
+}
+
+- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:error.localizedDescription delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+    [alert show];
+    
+    [deviceLocationDetector stopUpdatingLocation];
+    
+    [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+    
+    [locationMngr loadCountriesAndCitiesWithDelegate:self];
+    
+    //self initialize drop down lists
+    [self initLocationLists];
+}
+
 
 @end
