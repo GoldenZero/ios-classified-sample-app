@@ -9,7 +9,9 @@
 
 #import "SignUpViewController.h"
 
-@interface SignUpViewController ()
+@interface SignUpViewController (){
+     UITapGestureRecognizer *tap;
+}
 
 @end
 
@@ -27,8 +29,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    tap = [[UITapGestureRecognizer alloc]
+           initWithTarget:self
+           action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
     [self setBackgroundImages];
-    // Do any additional setup after loading the view from its nib.
+    
+}
+-(void)dismissKeyboard {
+    [self.userText resignFirstResponder];
+    [self.passwordText resignFirstResponder];
+    [self.confirmPasswordText resignFirstResponder];
+    [self.emailText resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

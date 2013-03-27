@@ -15,11 +15,12 @@
     FacebookManager * fbManager;
     //TwitterManager * twManager;
     MBProgressHUD2 * loadingHUD;
+    UITapGestureRecognizer *tap;
 }
 @end
 
 @implementation SignInViewController
-@synthesize signInButton,signUpButton,skipButton,twButton,fbButton;
+@synthesize signInButton,signUpButton,skipButton,twButton,fbButton,userNameText,passwordText;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,9 +34,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    tap = [[UITapGestureRecognizer alloc]
+           initWithTarget:self
+           action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+ 
     //initialize facebook manager
     fbManager = [[FacebookManager alloc] initWithDelegate:self];
+}
+
+-(void)dismissKeyboard {
+    [self.userNameText resignFirstResponder];
+    [self.passwordText resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

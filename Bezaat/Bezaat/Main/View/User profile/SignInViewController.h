@@ -17,7 +17,7 @@
 #import "SignUpViewController.h"
 #import "FacebookManager.h"
 
-@interface SignInViewController : UIViewController <FacebookLoginDelegate>
+@interface SignInViewController : BaseViewController <FacebookLoginDelegate>
 
 #pragma mark - properties
 
@@ -26,7 +26,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *fbButton;
 @property (strong, nonatomic) IBOutlet UIButton *signUpButton;
 @property (strong, nonatomic) IBOutlet UIButton *skipButton;
-@property (strong, nonatomic)  IBOutlet UIImageView *logoImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *logoImageView;
+@property (strong, nonatomic) IBOutlet UITextField *userNameText;
+@property (strong, nonatomic) IBOutlet UITextField *passwordText;
+@property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 
 #pragma mark - actions
 

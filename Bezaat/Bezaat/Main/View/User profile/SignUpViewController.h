@@ -10,7 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SignUpViewController : UIViewController<UITextViewDelegate>
+@interface SignUpViewController : BaseViewController<UITextViewDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
