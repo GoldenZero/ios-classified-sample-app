@@ -98,6 +98,10 @@
     }
 }
 
+- (IBAction)btnCloseTouchUpInside:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
 #pragma mark Brands Manager Delegate
 #pragma mark -
 
