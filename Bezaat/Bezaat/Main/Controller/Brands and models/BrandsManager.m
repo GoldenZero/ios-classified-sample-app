@@ -265,9 +265,6 @@
             //sort the array
             NSArray * sortedBrandOrderPairs = [self sortBrandsOrderArray:brandOrderPairs];
             
-            for (int i = 0; i < sortedBrandOrderPairs.count; i++)
-                NSLog(@"order = %i, brand: %i\n", ((BrandOrderPair *) sortedBrandOrderPairs[i]).displayOrder, ((BrandOrderPair *) sortedBrandOrderPairs[i]).brandID);
-            
             //add to dictionary
             [orderDictionary setObject:sortedBrandOrderPairs forKey:countryIdKey];
         }
