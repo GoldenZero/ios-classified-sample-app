@@ -14,6 +14,8 @@
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (strong, nonatomic) IBOutlet UILabel *modelNameLabel;
 
 #pragma mark - actions
 

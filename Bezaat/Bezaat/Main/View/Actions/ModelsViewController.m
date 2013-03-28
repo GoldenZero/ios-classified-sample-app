@@ -14,6 +14,7 @@
 #import "Brand.h"
 #import "Model.h"
 
+#import "BrowseCarAdsViewController.h"
 @interface ModelsViewController ()
 
 @end
@@ -92,8 +93,10 @@
     else {
         // Get the model
         //Model* selectedModel = (Model*)currentModels[indexPath.row];
-        
+       
         // TODO pass this information to the next view
+        BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
+        [self presentViewController:carAdsMenu animated:YES completion:nil];
         
     }
 }
