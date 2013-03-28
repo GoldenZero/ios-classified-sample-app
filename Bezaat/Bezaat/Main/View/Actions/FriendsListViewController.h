@@ -12,15 +12,14 @@
 
 #pragma mark - Properties
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *selectButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *unselectButton;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *backButton;
-
+@property (strong, nonatomic) NSArray *friendsArray;
 
 #pragma mark - Actions
 - (IBAction)unSelectAllButton:(id)sender;
 - (IBAction)selectAllButton:(id)sender;
 - (IBAction)backButtonPressed:(id)sender;
+- (IBAction)shareBtnPressed:(id)sender;
+
 
 @end

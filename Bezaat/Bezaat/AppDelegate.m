@@ -14,6 +14,8 @@
 #import "SplashViewController.h"
 
 #import "ChooseActionViewController.h"
+
+#import "FriendsListViewController.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -29,11 +31,16 @@
     self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController" bundle:nil];
     self.window.rootViewController = self.splashVC;
     
+    //  test friend list
+//    self.friendVC=[[FriendsListViewController alloc] initWithNibName:@"FriendsListViewController" bundle:nil];
+//    self.window.rootViewController = self.friendVC;
+
     //3- visualize
     [self.window makeKeyAndVisible];
     
     //4- timer for splash view
     [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(onSplashScreenDone) userInfo:nil repeats:NO];
+    
     return YES;
 }
 -(void)onSplashScreenDone{
