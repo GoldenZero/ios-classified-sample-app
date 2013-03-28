@@ -9,6 +9,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CarAdCell.h"
+#import "Model.h"
 
 @interface BrowseCarAdsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (strong, nonatomic) IBOutlet UILabel *modelNameLabel;
+@property (strong, nonatomic) Model *currentModel;
 
 #pragma mark - actions
 

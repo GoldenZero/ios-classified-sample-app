@@ -17,7 +17,7 @@
 @end
 
 @implementation BrowseCarAdsViewController
-@synthesize tableView;
+@synthesize tableView,currentModel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,7 +32,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    [self setButtonsToToolbar];
 }
 
 - (void)didReceiveMemoryWarning
@@ -120,7 +120,7 @@
     UIBarButtonItem * modelButton = [[UIBarButtonItem alloc] initWithCustomView:modelBtn];
     
     // 4- set the model label name
-    [self.modelNameLabel setText:@""];
+    [self.modelNameLabel setText:currentModel.modelName];
     
     // 5- adding buttons too the toolbar
     NSArray * items = [NSArray arrayWithObjects:searchButton,homeButton,modelButton, nil];

@@ -92,10 +92,11 @@
     }
     else {
         // Get the model
-        //Model* selectedModel = (Model*)currentModels[indexPath.row];
+        Model* selectedModel = (Model*)currentModels[indexPath.row];
        
         // TODO pass this information to the next view
         BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
+        carAdsMenu.currentModel=selectedModel;
         [self presentViewController:carAdsMenu animated:YES completion:nil];
         
     }
