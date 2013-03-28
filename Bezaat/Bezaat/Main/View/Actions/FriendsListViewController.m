@@ -7,6 +7,7 @@
 //
 
 #import "FriendsListViewController.h"
+#import "FriendCell.h"
 
 // Number of friends delete it from the code when adding frinds array, REPLACE it with friendsArray.count.
 static int numberOfFriends=3;
