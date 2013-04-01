@@ -17,7 +17,14 @@
 #import "SignUpViewController.h"
 #import "FacebookManager.h"
 
-@interface SignInViewController : BaseViewController <FacebookLoginDelegate>
+#import "TwitterLoginPopupDelegate.h"
+#import "TwitterLoginUiFeedback.h"
+#import "OAuth.h"
+#import "OAuth+UserDefaults.h"
+#import "OAuthConsumerCredentials.h"
+#import "TwitterDialog.h"
+
+@interface SignInViewController : BaseViewController <FacebookLoginDelegate, TwitterDialogDelegate, TwitterLoginDialogDelegate>
 
 #pragma mark - properties
 

@@ -10,6 +10,11 @@
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "fbUserData.h"
+
+#import "OAuth.h"
+#import "OAuth+UserDefaults.h"
+#import "OAuthConsumerCredentials.h"
+
 #import "Country.h"
 
 @interface SharedUser : NSObject
@@ -24,6 +29,8 @@
 // Get a shared instance of user's data
 + (SharedUser *) sharedInstance;
 
+#pragma mark - Facebook shared data
+
 // Return the shared instance of Facebook session
 + (FBSession *) fbSharedSessionInstance;
 
@@ -32,5 +39,13 @@
 
 // Return the shared instance of Facebook user data
 + (NSDictionary *) fbSharedUserDataInstance;
+
+#pragma mark - Twitter shared data
+
+// Create a new token for the user
++(void) setNewTwitterToken:(OAuth *) token;
+
+// Return the shared instance of twitter user token
++(OAuth *) twTokenSharedInstance;
 
 @end

@@ -13,12 +13,6 @@
 @synthesize city;
 @synthesize registered;
 
-//Facebook shared session instance
-static FBSession * fbSharedSession;
-
-//Facebook shared user data instance
-static fbUserData * fbSharedUserData;
-
 
 + (SharedUser *) sharedInstance {
     static SharedUser * instance = nil;
@@ -28,6 +22,13 @@ static fbUserData * fbSharedUserData;
     return instance;
 }
 
+#pragma mark - Facebook shared data
+
+//Facebook shared session instance
+static FBSession * fbSharedSession;
+
+//Facebook shared user data instance
+static fbUserData * fbSharedUserData;
 
 + (FBSession *) fbSharedSessionInstance {
     return fbSharedSession;
@@ -42,4 +43,18 @@ static fbUserData * fbSharedUserData;
 }
 
 //+ (void) initFbUserDataWithUser
+
+#pragma mark - Twitter shared data
+
+//Twitter shared user token
+static OAuth * twSharedToken;
+
++ (void) setNewTwitterToken:(OAuth *) token {
+    twSharedToken = token;
+}
+
+
++ (OAuth *) twTokenSharedInstance {
+    return twSharedToken;
+}
 @end

@@ -16,6 +16,7 @@
     //TwitterManager * twManager;
     MBProgressHUD2 * loadingHUD;
     UITapGestureRecognizer *tap;
+    OAuth *twOAuthObj;
 }
 @end
 
@@ -111,6 +112,16 @@
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل الاتصال بالإنترنت" delegateVC:self];
         return;
     }
+    
+    if (!twOAuthObj)
+        twOAuthObj = [[OAuth alloc] initWithConsumerKey:OAUTH_CONSUMER_KEY andConsumerSecret:OAUTH_CONSUMER_SECRET];
+    
+    TwitterDialog *td = [[TwitterDialog alloc] init];
+    td.twitterOAuth = twOAuthObj;
+    td.delegate = self;
+    td.logindelegate = self;
+    
+    [td show];
 }
 
 
@@ -125,10 +136,33 @@
         
     } else {
         if ([SharedUser fbSharedSessionInstance].accessTokenData)
-            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملسة تسجيل الدخول" delegateVC:self];
+            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملية تسجيل الدخول" delegateVC:self];
     }
     
 }
+
+#pragma mark - TwitterLoginDialog Delegate
+
+- (void)twitterDidLogin {
+    //Save Details
+    [SharedUser setNewTwitterToken:twOAuthObj];
+    
+    /*
+     NSLog(@"token = %@", oAuth.oauth_token);
+     NSLog(@"token secret = %@", oAuth.oauth_token_secret);
+     NSLog(@"user_id = %@", oAuth.user_id);
+     NSLog(@"screen_name = %@", oAuth.screen_name);
+     */
+    
+    [GenericMethods throwAlertWithTitle:@"Twitter" message:@"Sucessfully Authenticated to Twitter ^__^" delegateVC:self];
+}
+
+-(void)twitterDidNotLogin:(BOOL)cancelled {
+    [SharedUser setNewTwitterToken:nil];//set the token to nil if twitter sign in fails.
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملية تسجيل الدخول" delegateVC:self];
+}
+
 
 
 #pragma mark - helper methods
