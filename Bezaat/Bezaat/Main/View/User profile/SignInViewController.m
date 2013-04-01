@@ -169,7 +169,7 @@
 
 - (void) showLoadingIndicator {
     
-    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.navigationController.view animated:YES];
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
     loadingHUD.mode = MBProgressHUDModeIndeterminate2;
     
     loadingHUD.labelText = @"يرجى الانتظار";
