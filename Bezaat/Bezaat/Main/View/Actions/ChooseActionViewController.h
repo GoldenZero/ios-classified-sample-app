@@ -16,17 +16,22 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ChooseActionViewController : UIViewController
+@interface ChooseActionViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIButton *AddStoreButton;
 @property (strong, nonatomic) IBOutlet UIButton *AddCarButton;
 @property (strong, nonatomic) IBOutlet UIButton *BuyCarButton;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (strong, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (strong, nonatomic) IBOutlet UITableView *menuTableView;
+@property (strong, nonatomic) IBOutlet UIView *menuView;
+@property (strong, nonatomic) IBOutlet UIView *content;
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender;
 - (IBAction)BuyCarBtnPressed:(id)sender;
 - (IBAction)AddNewStoreBtnPressed:(id)sender;
+- (IBAction)sideMenuBtnPressed:(id)sender;
 
 @end
