@@ -9,8 +9,10 @@
 
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
-
-@interface ChooseActionViewController ()
+#import "sideMenuCell.h"
+@interface ChooseActionViewController (){
+    NSArray *menuArray;
+}
 
 @end
 
@@ -28,7 +30,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSString *menuPlistPath = [[NSBundle mainBundle] pathForResource:@"HomeScreenChoices" ofType:@"plist"];
+    
+    menuArray = [[NSArray alloc] initWithContentsOfFile:menuPlistPath];
+
     [self prepareImages];
+    [self customGestures];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -54,15 +61,105 @@
 - (IBAction)AddNewStoreBtnPressed:(id)sender {
 }
 
+- (IBAction)sideMenuBtnPressed:(id)sender {
+    
+    if(self.content.frame.origin.x == 0) //only show the menu if it is not already shown
+        [self showMenu];
+    else
+        [self hideMenu];
+}
+
 - (void) prepareImages {
     [toolBar setBackgroundImage:[UIImage imageNamed:@"home_blueRectangle.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    UIImage * backBtnImg = [UIImage imageNamed:@"home_whiteButton.png"];
-    UIButton * customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30 , 40)];
-    [customBtn setImage:backBtnImg forState:UIControlStateNormal];
-    [customBtn addTarget:self action:@selector(popSelf) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem * button = [[UIBarButtonItem alloc] initWithCustomView:customBtn];
-    NSArray * items = [NSArray arrayWithObjects:button, nil];
-    [toolBar setItems:items];
+}
+
+
+#pragma mark - handle side menu
+- (void) customGestures{
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft:)];
+    [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self.view addGestureRecognizer:swipeLeft];
+    
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.view addGestureRecognizer:swipeRight];
+
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return menuArray.count;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *CellIdentifier = @"sideMenuCell";
+    sideMenuCell *cell = [self.menuTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"sideMenuCell" owner:self options:nil];
+        for (id currentObject in topLevelObjects){
+            if ([currentObject isKindOfClass:[UITableViewCell class]]){
+                cell =  (sideMenuCell *) currentObject;
+                break;
+            }
+        }
+    }
+    cell.titleLable.text=[menuArray objectAtIndex:indexPath.row];
+    return cell;
+}
+
+
+#pragma mark - UITableView Delegate -
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
 }
+
+
+
+
+
+#pragma mark - animations -
+-(void)showMenu{
+    
+    //slide the content view to the right to reveal the menu
+    [UIView animateWithDuration:.25
+                     animations:^{
+                         
+                         [self.content setFrame:CGRectMake(self.menuView.frame.size.width, self.content.frame.origin.y, self.content.frame.size.width, self.content.frame.size.height)];
+                     }
+     ];
+    
+}
+
+-(void)hideMenu{
+    
+    //slide the content view to the left to hide the menu
+    [UIView animateWithDuration:.25
+                     animations:^{
+                         
+                         [self.content setFrame:CGRectMake(0, self.content.frame.origin.y, self.content.frame.size.width, self.content.frame.size.height)];
+                     }
+     ];
+}
+
+#pragma mark - Gesture handlers -
+
+-(void)handleSwipeLeft:(UISwipeGestureRecognizer*)recognizer{
+    
+    if(self.content.frame.origin.x != 0)
+        [self hideMenu];
+}
+
+-(void)handleSwipeRight:(UISwipeGestureRecognizer*)recognizer{
+    if(self.content.frame.origin.x == 0)
+        [self showMenu];
+}
+
+
 @end
