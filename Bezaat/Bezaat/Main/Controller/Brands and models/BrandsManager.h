@@ -27,6 +27,6 @@
 + (BrandsManager *) sharedInstance;
 
 // load brands & models
-- (void) loadBrandsAndModelsWithDelegate:(id <BrandManagerDelegate>) del;
+- (void) getBrandsAndModelsWithDelegate:(id <BrandManagerDelegate>) del;
 
 @end

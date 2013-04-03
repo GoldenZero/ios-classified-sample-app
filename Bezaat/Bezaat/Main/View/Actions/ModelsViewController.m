@@ -143,7 +143,7 @@
                           animated:YES];
     
     // Get the brands and models
-    [[BrandsManager sharedInstance] loadBrandsAndModelsWithDelegate:self];
+    [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
 }
 
 - (void)viewDidLoad

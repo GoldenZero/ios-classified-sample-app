@@ -22,4 +22,6 @@
 @property (strong, nonatomic) SplashViewController *splashVC;
 @property (strong, nonatomic) ChooseActionViewController *homeVC;
 //@property (strong, nonatomic) FriendsListViewController *friendVC;
+
+- (void) onSplashScreenDone;
 @end

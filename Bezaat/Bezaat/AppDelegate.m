@@ -16,6 +16,7 @@
 #import "ChooseActionViewController.h"
 
 #import "FriendsListViewController.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -38,12 +39,10 @@
     //3- visualize
     [self.window makeKeyAndVisible];
     
-    //4- timer for splash view
-    [NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(onSplashScreenDone) userInfo:nil repeats:NO];
-    
     return YES;
 }
--(void)onSplashScreenDone{
+
+- (void) onSplashScreenDone {
     [self.splashVC.view removeFromSuperview];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
         self.window.rootViewController = self.chooseLocationVC;
@@ -97,6 +96,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    //[[SharedUser fbSharedSessionInstance] closeAndClearTokenInformation];
     [[SharedUser fbSharedSessionInstance] close];
 }
 

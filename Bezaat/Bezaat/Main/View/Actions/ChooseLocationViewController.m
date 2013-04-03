@@ -3,6 +3,8 @@
 #import "BaseDataObject.h"
 #import "GenericFonts.h"
 #import "Country.h"
+#import <AddressBook/AddressBook.h>
+
 #pragma mark - drop down lists parameters
 
 //name
@@ -472,6 +474,10 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         
         MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
         NSString * code = mark.countryCode;
+        //NSLog(@"city: %@", [mark.addressDictionary objectForKey:kABPersonAddressCityKey]);
+        NSLog(@"city: %@", mark.locality);
+        NSLog(@"subcity: %@", mark.subLocality);
+        
         //NSLog(@"%@", code);
         
         [LocationManager sharedInstance].deviceLocationCountryCode = code;
