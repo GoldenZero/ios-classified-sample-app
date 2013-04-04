@@ -20,6 +20,9 @@
 @property (strong, nonatomic) Model *currentModel;
 
 #pragma mark - actions
+- (IBAction)homeBtnPress:(id)sender;
 
+- (IBAction)searchBtnPress:(id)sender;
+- (IBAction)modelBtnPress:(id)sender;
 
 @end

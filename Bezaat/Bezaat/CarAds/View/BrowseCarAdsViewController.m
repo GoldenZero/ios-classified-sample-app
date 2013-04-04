@@ -43,7 +43,7 @@
 
 #pragma mark - tableView handlig
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 190;
+    return 200;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -81,53 +81,29 @@
     // Code of distiguish car ad 
 }
 
-- (void) searchBtnPressed{
-    
-}
-
-- (void) homeBtnPressed{
-    ChooseActionViewController *homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
-    [self presentViewController:homeVC animated:YES completion:nil];
-    
-}
-
-- (void) modelBtnPressed{
-    ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    [self presentViewController:popover animated:YES completion:nil];
-}
-
 - (void) setButtonsToToolbar{
     
-    // 1- set search button
-    UIImage * searchBtnImg = [UIImage imageNamed:@""];
-    UIButton * searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30 , 40)];
-    [searchBtn setImage:searchBtnImg forState:UIControlStateNormal];
-    [searchBtn addTarget:self action:@selector(searchBtnPressed) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem * searchButton = [[UIBarButtonItem alloc] initWithCustomView:searchBtn];
-    
-    // 2- set home button
-    UIImage * homeBtnImg = [UIImage imageNamed:@""];
-    UIButton * homeBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30 , 40)];
-    [homeBtn setImage:homeBtnImg forState:UIControlStateNormal];
-    [homeBtn addTarget:self action:@selector(homeBtnPressed) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem * homeButton = [[UIBarButtonItem alloc] initWithCustomView:homeBtn];
-
-    // 3- set model button
-    UIImage * modelBtnImg = [UIImage imageNamed:@""];
-    UIButton * modelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30 , 40)];
-    [modelBtn setImage:modelBtnImg forState:UIControlStateNormal];
-    [modelBtn addTarget:self action:@selector(modelBtnPressed) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem * modelButton = [[UIBarButtonItem alloc] initWithCustomView:modelBtn];
-    
-    // 4- set the model label name
+    //  set the model label name
     [self.modelNameLabel setText:currentModel.modelName];
+
+    //  add background to the toolbar
+    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Listing_navigation_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
-    // 5- adding buttons too the toolbar
-    NSArray * items = [NSArray arrayWithObjects:searchButton,homeButton,modelButton, nil];
-    [self.toolBar setItems:items];
+}
+
+#pragma mark - actions
+- (IBAction)homeBtnPress:(id)sender {
+    ChooseActionViewController *homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    [self presentViewController:homeVC animated:YES completion:nil];
+}
+
+- (IBAction)searchBtnPress:(id)sender {
+}
+
+- (IBAction)modelBtnPress:(id)sender {
     
-    // 6- add background to the toolbar
-    [self.toolBar setBackgroundImage:[UIImage imageNamed:@""] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    
+    ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    [self presentViewController:popover animated:YES completion:nil];
+
 }
 @end
