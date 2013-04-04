@@ -12,11 +12,10 @@
 
 
 #import <UIKit/UIKit.h>
-#import "DropDownList.h"
 #import "SignInViewController.h"
 #import "LocationManager.h"
 
-@interface ChooseLocationViewController : UIViewController <DropDownListDelegate,LocationManagerDelegate, CLLocationManagerDelegate>
+@interface ChooseLocationViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate, CLLocationManagerDelegate>
 
 #pragma mark - properties
 

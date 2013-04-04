@@ -1,46 +1,34 @@
 #import "ChooseLocationViewController.h"
-#import "Configuration.h"
 #import "BaseDataObject.h"
 #import "GenericFonts.h"
 #import "Country.h"
 #import <AddressBook/AddressBook.h>
 
-#pragma mark - drop down lists parameters
-
-//name
-#define COUNTRIES_DROPDOWNLIST_NAME @"اختر البلد"
-#define CITIES_DROPDOWNLIST_NAME @"اختر االمدينة"
-
-//type
-#define DROPDOWNLIST_TYPE @"DEFAULT_TYPE"
-
-//table view parameters
-static const CGFloat X_TABLE_MARGIN	= 0.0;
-static const CGFloat Y_TABLE_MARGIN	= 34.5;
-
-//backgroud parameters
-static const CGFloat X_BAKCGROUND_MARGIN	= 0.0;
-static const CGFloat Y_BACKGROUND_MARGIN	= 0.0;
-static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
-
 
 @interface ChooseLocationViewController ()
 {
-    DropDownList * countriesLst;
-    DropDownList * citiesLst;
-    NSMutableArray * countriesLstItems;
-    NSMutableArray * citiesLstItems;
+    UIPickerView *countriesPickerView;
+    UIPickerView *citiesPickerView;
+    
+    NSUInteger defaultIndex;
+    
     NSArray * countriesArray;
     NSArray * citiesArray;
+    
     Country * chosenCountry;
     City * chosenCity;
+    
     BOOL countryChosen;
     BOOL cityChosen;
+    
     LocationManager * locationMngr;
     CLLocationManager * deviceLocationDetector;
-    UIImageView *mapImageView;
+    
     MBProgressHUD2 * loadingHUD;
+   
+    UIImageView *mapImageView;
     UIImageView *countryImage;
+    
     CGPoint COUNTRIES_DROPDOWNLIST_ORIGIN;//
     CGPoint CITIES_DROPDOWNLIST_ORIGIN;//
     
@@ -57,6 +45,8 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         // Custom initialization
         countryChosen = NO;
         cityChosen = NO;
+        citiesPickerView.delegate=self;
+        countriesPickerView.delegate=self;
     }
     return self;
 }
@@ -73,11 +63,22 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     [self showLoadingIndicator];
     
     [self loadData];
+
+    // Setting default country
+    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    chosenCountry =[countriesArray objectAtIndex:defaultIndex];
+    citiesArray=[chosenCountry cities];
+    
+    [self translateMap:chosenCountry];
     //[locationMngr loadCountriesAndCitiesWithDelegate:self];
    
     //self initialize drop down lists
-    //[self initLocationLists];
+    [self initPickerViews];
     
+}
+- (void) didFinishLoading {
+    [countriesPickerView selectRow:defaultIndex inComponent:1 animated:NO];
+    [citiesPickerView selectRow:0 inComponent:1 animated:NO];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -105,9 +106,9 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
             
         {
             COUNTRIES_DROPDOWNLIST_ORIGIN.x= 30.0;
-            COUNTRIES_DROPDOWNLIST_ORIGIN.y= 280.0;
+            COUNTRIES_DROPDOWNLIST_ORIGIN.y= 255.0;
             CITIES_DROPDOWNLIST_ORIGIN.x=30.0;
-            CITIES_DROPDOWNLIST_ORIGIN.y=330.0;
+            CITIES_DROPDOWNLIST_ORIGIN.y=315.0;
         }
         
         if(result.height == 568)
@@ -138,88 +139,13 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
 
 
 }
-#pragma mark - DropDownList delegate
-
-- (void) dropDownListItemDidSelected:(DropDownList*) theDropDownList WithNumber:(int) k
-{
-    //NSLog(@"item number: %i was selected in dropdownlist with name: %@", k + 1, theDropDownList.name);
-    // Take the width of the screen
-    CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
-    float screenWidth=screenBounds.width;
-    
-    if (theDropDownList == countriesLst)
-    {
-        chosenCountry = [countriesArray objectAtIndex:k];
-        citiesArray = chosenCountry.cities;
-        countriesLst.name = [chosenCountry countryName];
-        
-        // Translate the map
-               int countryid=[chosenCountry countryID];
-        countryImage.image=nil;
-        UIImage *temp;
-        if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]
-            && [[UIScreen mainScreen] scale] == 2.0) {
-            NSString *imagePath=[NSString stringWithFormat:@"%d_country@2x.png",countryid];
-            temp =[UIImage imageNamed:imagePath];
-            if (temp) {
-                if ([chosenCountry xCoord]!=-1) {
-                    CGAffineTransform translate = CGAffineTransformMakeTranslation((-[chosenCountry xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[chosenCountry yCoord]+120));
-                    [mapImageView setTransform:translate];
-
-                     countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([chosenCountry xCoord], [chosenCountry yCoord],temp.size.width, temp.size.height)];
-                }
-            }
-          countryImage.image=temp;
-        }
-        else
-        {
-            NSString *imagePath=[NSString stringWithFormat:@"%d_country.png",countryid];
-            temp =[UIImage imageNamed:imagePath];
-            if (temp) {
-                if ([chosenCountry xCoord]!=-1) {
-                    CGAffineTransform translate = CGAffineTransformMakeTranslation((-[chosenCountry xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[chosenCountry yCoord]+120));
-                    [mapImageView setTransform:translate];
-
-                   countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([chosenCountry xCoord]+5, [chosenCountry yCoord]+1,temp.size.width, temp.size.height)];
-                }
-            }
-            countryImage.image=temp;
-
-        }
-        [mapImageView addSubview:countryImage];
-        [mapImageView insertSubview:countryImage aboveSubview:mapImageView];
-
-        
-        citiesLst.name =[[citiesArray objectAtIndex:0] cityName];
-        
-        [self initCitiesListContentOfCurrentCountry];
-        
-        [citiesLst setUserInteractionEnabled:YES];
-        countryChosen = YES;
-        
-    }
-    else if (theDropDownList == citiesLst)
-    {
-        chosenCity = (City *) [citiesArray objectAtIndex:k];
-        /*
-         if ((chosenCity) && (chosenCity.image))
-         [self.backgroungImageView setImage:chosenCity.image];
-         */
-        cityChosen = YES;
-    }
-    
-}
-
-- (void) dropDownListDidShown:(DropDownList*) theDropDownList
-{
-    //NSLog(@"dropdownlist is shown");
-}
 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
     countriesArray=resultArray;
     [self hideLoadingIndicator];
     
 }
+
 #pragma mark - handler show indecator delegate
 - (void) showLoadingIndicator {
     
@@ -231,7 +157,6 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     
 }
 
-
 - (void) hideLoadingIndicator {
     
     if (loadingHUD)
@@ -239,53 +164,17 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     loadingHUD = nil;
     
 }
+
 #pragma mark - helper methods
 
-- (void) initLocationLists {
-    //1- init countries DropDownList
-    [self initCountriesDropDownList];
+- (void) translateMap : (Country*) country {
     
-    //2- set countries DropDownList delegate
-    countriesLst.delegate = self;
-    
-    //1- init cities DropDownList
-    [self initCitiesDropDownList];
-    
-    //2- set countries DropDownList delegate
-    citiesLst.delegate = self;
-    
-    //3- add to MainViewController
-    [self.view addSubview:countriesLst];
-    [self.view addSubview:citiesLst];
-    
-    // Paste data to myDropdownList
-    //myDropDownList.objects = dropDownListItems;
-    
-    //4- make active (because it's inactive by default)
-    [countriesLst setUserInteractionEnabled:YES];
-    [citiesLst setUserInteractionEnabled:NO];
-}
-
-- (void) initCountriesDropDownList {
+    // screen dimensions
     CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
     float screenWidth=screenBounds.width;
-    // Create configuration object
     
-    Configuration *config = [[Configuration alloc] init];
-    
-    countriesLst = [[DropDownList alloc] initWithOrigin:COUNTRIES_DROPDOWNLIST_ORIGIN
-                                            ActiveImage:config.buttonActiveBG
-                                      WithInactiveImage:config.buttonNoActiveBG];
-   
-    // Setting default country
-    NSUInteger defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    Country *defaultCountry=[countriesArray objectAtIndex:defaultIndex];
-    chosenCountry = defaultCountry;
-    countriesLst.name = [defaultCountry countryName];
-    
-    // Translate the map
-    
-    int countryid=[defaultCountry countryID];
+    countryImage.image=nil;
+    int countryid=[country countryID];
     
     // Init coutry image
     UIImage *temp;
@@ -294,10 +183,10 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         NSString *imagePath=[NSString stringWithFormat:@"%d_country@2x.png",countryid];
         temp =[UIImage imageNamed:imagePath];
         if (temp) {
-            if ([chosenCountry xCoord]!=-1) {
-                CGAffineTransform translate = CGAffineTransformMakeTranslation((-[defaultCountry xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[defaultCountry yCoord]+130));
+            if ([country xCoord]!=-1) {
+                CGAffineTransform translate = CGAffineTransformMakeTranslation((-[country xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[country yCoord]+130));
                 [mapImageView setTransform:translate];
-                countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([defaultCountry xCoord], [defaultCountry yCoord],temp.size.width, temp.size.height)];
+                countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([country xCoord], [country yCoord],temp.size.width, temp.size.height)];
             }
         }
         countryImage.image=temp;
@@ -307,10 +196,10 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         NSString *imagePath=[NSString stringWithFormat:@"%d_country.png",countryid];
         temp =[UIImage imageNamed:imagePath];
         if (temp) {
-            if ([chosenCountry xCoord]!=-1) {
-                CGAffineTransform translate = CGAffineTransformMakeTranslation((-[defaultCountry xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[defaultCountry yCoord]+130));
+            if ([country xCoord]!=-1) {
+                CGAffineTransform translate = CGAffineTransformMakeTranslation((-[country xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[country yCoord]+130));
                 [mapImageView setTransform:translate];
-                countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([defaultCountry xCoord]+5, [defaultCountry yCoord]+1,temp.size.width, temp.size.height)];
+                countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([country xCoord]+5, [country yCoord]+1,temp.size.width, temp.size.height)];
             }
         }
         countryImage.image=temp;
@@ -319,122 +208,37 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     [mapImageView addSubview:countryImage];
     [mapImageView insertSubview:countryImage aboveSubview:mapImageView];
     
+
     
-    countriesLst.type = DROPDOWNLIST_TYPE;
-    countriesLst.buttonInstructionLabelFrame = BUTTON_INSTRUCTION_LABEL_FRAME;
-    
-    [countriesLst setTopMainBG:config.openBGTop setMiddleBG:config.openBGMiddle setBottom:config.openBGBottom];
-    
-    [countriesLst setCellBGImage:config.itemBG setCellBGHoverImage:config.itemBGHoved];
-    
-    [countriesLst setBGXMargin:X_BAKCGROUND_MARGIN
-                     BGYMargin:Y_BACKGROUND_MARGIN
-            BGUnderTableHeight:BG_UNDER_TABLE_HEIGHT];
-    
-    [countriesLst setTableXMargin:X_TABLE_MARGIN TableYMargin:Y_TABLE_MARGIN];
-    
-    countriesLst.cellDispAmount = 4;
-    
-    // Make myDropDownList inactive by default
-    [countriesLst setUserInteractionEnabled:NO];
-    
-    
-    // Set parent view controller
-    countriesLst.parentViewController = self;
-    
-    //2- create the content
-    [self initCountriesListContent];
 }
 
-- (void) initCountriesListContent {
-    
-    countriesLstItems = [[NSMutableArray alloc] init];
-    
-    if (countriesArray)
-    {
-        for (NSUInteger i = 0; i < countriesArray.count; i++)
-        {
-            BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
-            
-            BaseDataObject * tempBaseDataObject = [[BaseDataObject alloc] init];
-            tempBaseDataObject.name = [(Country *) [countriesArray objectAtIndex:i] countryName];
-            tempBaseDataObject.description = @"";
-            tempBaseDataObject.image = nil;
-            
-            tempBaseItemObject.dataObject = tempBaseDataObject;
-            [countriesLstItems addObject:tempBaseItemObject];
-        }
-    }
-    countriesLst.objects = countriesLstItems;
-}
+- (void) initPickerViews {
 
-- (void) initCitiesDropDownList {
-    // Create configuration object
-    Configuration *config = [[Configuration alloc] init];
+    // 1- set the countries picker
+    countriesPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, 600, 80.0)];
+    countriesPickerView.delegate = self;
+    countriesPickerView.showsSelectionIndicator = YES;
     
-    citiesLst = [[DropDownList alloc] initWithOrigin:CITIES_DROPDOWNLIST_ORIGIN
-                                         ActiveImage:config.buttonActiveBG
-                                   WithInactiveImage:config.buttonNoActiveBG];
-    NSUInteger defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    citiesArray= [[countriesArray objectAtIndex:defaultIndex] cities];
-    chosenCity=[countriesArray objectAtIndex:defaultIndex];
-    citiesLst.name = [[citiesArray objectAtIndex:0]cityName];
-    citiesLst.type = DROPDOWNLIST_TYPE;
-    citiesLst.buttonInstructionLabelFrame = BUTTON_INSTRUCTION_LABEL_FRAME;
+    // 2- set scaling and trnsformation for countries picker
+    CGAffineTransform s0 = CGAffineTransformMakeScale       (0.4, 0.36);
+    CGAffineTransform t1 = CGAffineTransformMakeTranslation (-100-COUNTRIES_DROPDOWNLIST_ORIGIN.x, COUNTRIES_DROPDOWNLIST_ORIGIN.y);
+    countriesPickerView.transform =  CGAffineTransformConcat(s0, t1);
     
-    [citiesLst setTopMainBG:config.openBGTop setMiddleBG:config.openBGMiddle setBottom:config.openBGBottom];
+    [self.view addSubview:countriesPickerView];
     
-    [citiesLst setCellBGImage:config.itemBG setCellBGHoverImage:config.itemBGHoved];
+    // 3- set the cities picker
+    citiesPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, 600, 80.0)];
+    citiesPickerView.delegate = self;
+    citiesPickerView.showsSelectionIndicator = YES;
     
-    [citiesLst setBGXMargin:X_BAKCGROUND_MARGIN
-                  BGYMargin:Y_BACKGROUND_MARGIN
-         BGUnderTableHeight:BG_UNDER_TABLE_HEIGHT];
+    // 4- set scaling and trnsformation for cities picker
+    CGAffineTransform t2 = CGAffineTransformMakeTranslation (-100-CITIES_DROPDOWNLIST_ORIGIN.x, CITIES_DROPDOWNLIST_ORIGIN.y);
+    citiesPickerView.transform =  CGAffineTransformConcat(s0, t2);
     
-    [citiesLst setTableXMargin:X_TABLE_MARGIN TableYMargin:Y_TABLE_MARGIN];
-    
-    citiesLst.cellDispAmount = 4;
-    
-    // Make myDropDownList inactive by default
-    [citiesLst setUserInteractionEnabled:NO];
-    
-    
-    // Set parent view controller
-    citiesLst.parentViewController = self;
-    
-    //2- create the content
-    [self initCitiesListContentOfCurrentCountry];
-}
+    [self.view addSubview:citiesPickerView];
 
-- (void) initCitiesListContentOfCurrentCountry {
     
-    
-    if (!citiesLstItems)
-        citiesLstItems = [[NSMutableArray alloc] init];
-    [citiesLstItems removeAllObjects];
-    
-    if (chosenCountry)
-    {
-        citiesArray = chosenCountry.cities;
-        for (NSUInteger i = 0; i < citiesArray.count; i++)
-        {
-            BaseItemObject * tempBaseItemObject = [[BaseItemObject alloc] init];
-            
-            BaseDataObject * tempBaseDataObject = [[BaseDataObject alloc] init];
-            tempBaseDataObject.name = [(City *)[citiesArray objectAtIndex:i] cityName];
-            
-            tempBaseDataObject.description = @"";
-            tempBaseDataObject.image = nil;
-            
-            tempBaseItemObject.dataObject = tempBaseDataObject;
-            [citiesLstItems addObject:tempBaseItemObject];
-            
-        }
-        
-        citiesLst.objects = citiesLstItems;
-        [citiesLst reloadInputViews];
-    }
 }
-
 
 // This method loads the device location initialli, and afterwards the loading of country lists comes after
 - (void) loadData {
@@ -485,7 +289,8 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
         [locationMngr loadCountriesAndCitiesWithDelegate:self];
         
         //self initialize drop down lists
-        [self initLocationLists];
+        [countriesPickerView reloadAllComponents];
+        [citiesPickerView reloadAllComponents];
         
         /*
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Horraaay!" message:[NSString stringWithFormat:@"NewLocation %f %f, code = %@", newLocation.coordinate.latitude, newLocation.coordinate.longitude, code] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
@@ -507,8 +312,56 @@ static const CGFloat BG_UNDER_TABLE_HEIGHT	= 20.0;
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
     
     //self initialize drop down lists
-    [self initLocationLists];
+   
+    [countriesPickerView reloadAllComponents];
+    [citiesPickerView reloadAllComponents];
 }
 
+#pragma mark - UIPicker view handler
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
 
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    if (pickerView==countriesPickerView) {
+        return countriesArray.count;
+    }
+    else{
+        return citiesArray.count;
+    }
+}
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
+    // set label
+    UILabel *label= [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 50.0)];
+    [label setBackgroundColor:[UIColor clearColor]];
+    [label setFont:[UIFont boldSystemFontOfSize:30.0]];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    
+    if (pickerView==countriesPickerView){
+       
+        [label setText:[[countriesArray objectAtIndex:row]countryName]];
+        return label;
+    }
+
+    else if (pickerView==citiesPickerView){
+      
+        [label setText:[[[chosenCountry cities] objectAtIndex:row] cityName]];
+        return label;
+    }
+return nil;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (pickerView==countriesPickerView) {
+        chosenCountry=[countriesArray objectAtIndex:row];
+        citiesArray=[chosenCountry cities];
+        [self translateMap:chosenCountry];
+        [countriesPickerView reloadAllComponents];
+        [citiesPickerView reloadAllComponents];
+    }
+    else{
+        chosenCity=[citiesArray objectAtIndex:row];
+    }
+}
 @end
