@@ -459,6 +459,9 @@
 		9E3740521701C0F1008BB604 /* BrandsOrder.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E37404F1701C0F1008BB604 /* BrandsOrder.json */; };
 		9E3740531701C0F1008BB604 /* Models.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E3740501701C0F1008BB604 /* Models.json */; };
 		9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4315B716EDFEE30040359E /* libAubadaLibrary.a */; };
+		9E461E39170D960300FF87B3 /* CustomError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E461E38170D960300FF87B3 /* CustomError.m */; };
+		9E461E3F170D96C600FF87B3 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E461E3C170D96C600FF87B3 /* NSData+MD5.m */; };
+		9E461E40170D96C600FF87B3 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E461E3E170D96C600FF87B3 /* NSString+MD5.m */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
 		9E78A7B916E34BA2000CA790 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B816E34BA2000CA790 /* Foundation.framework */; };
 		9E78A7BB16E34BA2000CA790 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7BA16E34BA2000CA790 /* CoreGraphics.framework */; };
@@ -1087,6 +1090,12 @@
 		9E37404F1701C0F1008BB604 /* BrandsOrder.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = BrandsOrder.json; sourceTree = "<group>"; };
 		9E3740501701C0F1008BB604 /* Models.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Models.json; sourceTree = "<group>"; };
 		9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AubadaLibrary.xcodeproj; path = ../Libraries/AubadaLibrary/AubadaLibrary.xcodeproj; sourceTree = "<group>"; };
+		9E461E37170D960300FF87B3 /* CustomError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomError.h; sourceTree = "<group>"; };
+		9E461E38170D960300FF87B3 /* CustomError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomError.m; sourceTree = "<group>"; };
+		9E461E3B170D96C600FF87B3 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
+		9E461E3C170D96C600FF87B3 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
+		9E461E3D170D96C600FF87B3 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		9E461E3E170D96C600FF87B3 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E78A7B616E34BA2000CA790 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9E78A7B816E34BA2000CA790 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1894,6 +1903,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9E461E3A170D96C600FF87B3 /* MD5 */ = {
+			isa = PBXGroup;
+			children = (
+				9E461E3B170D96C600FF87B3 /* NSData+MD5.h */,
+				9E461E3C170D96C600FF87B3 /* NSData+MD5.m */,
+				9E461E3D170D96C600FF87B3 /* NSString+MD5.h */,
+				9E461E3E170D96C600FF87B3 /* NSString+MD5.m */,
+			);
+			path = MD5;
+			sourceTree = "<group>";
+		};
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
@@ -2117,10 +2137,13 @@
 			children = (
 				9E198E2117096BF9002CECCE /* Twitter Library */,
 				9E78A85616E4930F000CA790 /* Custom Controls */,
+				9E461E3A170D96C600FF87B3 /* MD5 */,
 				9E78A87116E4A1E0000CA790 /* GenericMethods.h */,
 				9E78A87216E4A1E0000CA790 /* GenericMethods.m */,
 				9E1CA26616F623CA001A7DA1 /* GenericFonts.h */,
 				9E1CA26716F623CA001A7DA1 /* GenericFonts.m */,
+				9E461E37170D960300FF87B3 /* CustomError.h */,
+				9E461E38170D960300FF87B3 /* CustomError.m */,
 			);
 			path = "Supporting classes";
 			sourceTree = "<group>";
@@ -2911,6 +2934,9 @@
 				9E198E7217096BFA002CECCE /* OAuth.m in Sources */,
 				9E198E7517096BFA002CECCE /* TwitterDialog.m in Sources */,
 				24D070E81709BC9E008D96EF /* sideMenuCell.m in Sources */,
+				9E461E39170D960300FF87B3 /* CustomError.m in Sources */,
+				9E461E3F170D96C600FF87B3 /* NSData+MD5.m in Sources */,
+				9E461E40170D96C600FF87B3 /* NSString+MD5.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
