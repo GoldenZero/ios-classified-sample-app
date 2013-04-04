@@ -131,7 +131,7 @@
     [UIView animateWithDuration:.25
                      animations:^{
                          
-                         [self.content setFrame:CGRectMake(self.menuView.frame.size.width, self.content.frame.origin.y, self.content.frame.size.width, self.content.frame.size.height)];
+                         [self.content setFrame:CGRectMake(-self.menuView.frame.size.width, self.content.frame.origin.y, self.content.frame.size.width, self.content.frame.size.height)];
                      }
      ];
     
