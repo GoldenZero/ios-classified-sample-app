@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "UserProfile.h"
+#import "CustomError.h"
+#import "NSString+MD5.h"
 
 @protocol ProfileManagerDelegate <NSObject>
 
 @required
-- (void) userFailDidLogin:(NSError*) error;
+- (void) userFailLoginWithError:(NSError*) error;
 - (void) userDidLoginWithData:(UserProfile *) resultProfile;
 @end
 
@@ -25,6 +27,6 @@
 
 + (ProfileManager *) sharedInstance;
 
-- (void) loginWithEmail:(NSString *) emailAdress password:(NSString *) plainPassword;
+- (void) loginWithDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress password:(NSString *) plainPassword;
 
 @end

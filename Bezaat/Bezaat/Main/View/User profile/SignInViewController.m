@@ -60,21 +60,11 @@
 - (IBAction)signInBtnPressed:(id)sender {
     
     // check for internet connectivity
-    if (![GenericMethods connectedToInternet])
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل الاتصال بالإنترنت" delegateVC:self];
-        return;
-    }
+    //The manager checks it!
     
     //perform sign in operation
-    //...
-    userSignedIn = YES;
-    if (userSignedIn)
-    {
-        ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
-        
-        [self presentViewController:chooseActionVC animated:YES completion:nil];
-    }
+    [[ProfileManager sharedInstance] loginWithDelegate:self email:userNameText.text password:passwordText.text];
+    
    
 }
 
@@ -163,6 +153,28 @@
     [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملية تسجيل الدخول" delegateVC:self];
 }
 
+#pragma mark - ProfileManager delegate methods
+- (void) userDidLoginWithData:(UserProfile *)resultProfile {
+    
+    //set the current user's profiles
+    [[SharedUser sharedInstance] setCurrentProfile:resultProfile];
+
+    //hide loading indicator
+    [self hideLoadingIndicator];
+    
+    //present the next view controller
+    ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    
+    [self presentViewController:chooseActionVC animated:YES completion:nil];
+    
+}
+
+- (void) userFailLoginWithError:(NSError *)error {
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    [self hideLoadingIndicator];
+}
 
 
 #pragma mark - helper methods
