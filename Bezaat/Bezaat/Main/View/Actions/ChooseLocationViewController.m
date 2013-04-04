@@ -63,8 +63,14 @@
     [self showLoadingIndicator];
     
     [self loadData];
-
+    // Setting default country
     
+    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    if  (defaultIndex!= -1){
+        chosenCountry =[countriesArray objectAtIndex:defaultIndex];
+        citiesArray=[chosenCountry cities];
+        [self translateMap:chosenCountry];
+    }
     
     //[locationMngr loadCountriesAndCitiesWithDelegate:self];
    
@@ -221,14 +227,6 @@
     [mapImageView insertSubview:countryImage aboveSubview:mapImageView];
 }
 - (void) initPickerViews {
-    // Setting default country
-    
-    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    if  (defaultIndex!= -1){
-        chosenCountry =[countriesArray objectAtIndex:defaultIndex];
-        citiesArray=[chosenCountry cities];
-        [self translateMap:chosenCountry];
-    }
     // 1- set the countries picker
     countriesPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, 600, 80.0)];
     countriesPickerView.delegate = self;

@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "CarAdCell.h"
 #import "Model.h"
-
+#import "Brand.h"
 @interface BrowseCarAdsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 #pragma mark - properties
@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (strong, nonatomic) IBOutlet UILabel *modelNameLabel;
 @property (strong, nonatomic) Model *currentModel;
+
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;
