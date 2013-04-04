@@ -47,7 +47,7 @@
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 6;
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -55,7 +55,7 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     CarAdCell * cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
     [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:) forControlEvents:UIControlEventTouchUpInside];
     [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -71,6 +71,49 @@
     
 }
 
+# pragma mark - hide bars while scrolling
+
+- (void) scrollViewDidScroll:(UITableView *)sender {
+    if (sender.contentOffset.y == 0){
+        [UIView animateWithDuration:.25
+                         animations:^{
+                             self.topBarView.frame = CGRectMake(0,0,self.topBarView.frame.size.width,self.topBarView.frame.size.height);
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+        CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
+        [UIView animateWithDuration:.25
+                         animations:^{
+                             self.contentView.frame = CGRectMake(0,self.topBarView.frame.size.height,screenBounds.width,screenBounds.height);
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+        
+
+    }
+
+    else {
+    [UIView animateWithDuration:.25
+                     animations:^{
+                         self.topBarView.frame = CGRectMake(0,-self.topBarView.frame.size.height,self.topBarView.frame.size.width,self.topBarView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+        CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
+        [UIView animateWithDuration:.25
+                         animations:^{
+                             self.contentView.frame = CGRectMake(0,0,screenBounds.width,screenBounds.height);
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+
+        
+    }
+}
 # pragma mark - custom methods
 
 - (void) addToFavoritePressed{

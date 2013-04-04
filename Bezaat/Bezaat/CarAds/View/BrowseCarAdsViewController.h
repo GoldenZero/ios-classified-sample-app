@@ -18,6 +18,8 @@
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (strong, nonatomic) IBOutlet UILabel *modelNameLabel;
 @property (strong, nonatomic) Model *currentModel;
+@property (strong, nonatomic) IBOutlet UIView *topBarView;
+@property (strong, nonatomic) IBOutlet UIView *contentView;
 
 
 #pragma mark - actions

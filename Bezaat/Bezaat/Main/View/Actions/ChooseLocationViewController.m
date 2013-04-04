@@ -72,6 +72,7 @@
         [self translateMap:chosenCountry];
     }
     
+    
     //[locationMngr loadCountriesAndCitiesWithDelegate:self];
    
     //self initialize drop down lists
