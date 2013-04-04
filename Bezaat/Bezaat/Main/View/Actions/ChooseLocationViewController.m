@@ -64,17 +64,13 @@
     
     [self loadData];
 
-    // Setting default country
-    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    chosenCountry =[countriesArray objectAtIndex:defaultIndex];
-    citiesArray=[chosenCountry cities];
     
-    [self translateMap:chosenCountry];
+    
     //[locationMngr loadCountriesAndCitiesWithDelegate:self];
    
     //self initialize drop down lists
     [self initPickerViews];
-    
+    [citiesPickerView reloadAllComponents];
 }
 - (void) didFinishLoading {
     [countriesPickerView selectRow:defaultIndex inComponent:1 animated:NO];
@@ -185,7 +181,11 @@
         if (temp) {
             if ([country xCoord]!=-1) {
                 CGAffineTransform translate = CGAffineTransformMakeTranslation((-[country xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[country yCoord]+130));
+                [UIView beginAnimations:@"MoveAnimation" context:nil];
+                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+                [UIView setAnimationDuration:2.0];
                 [mapImageView setTransform:translate];
+                [UIView commitAnimations];
                 countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([country xCoord], [country yCoord],temp.size.width, temp.size.height)];
             }
         }
@@ -198,22 +198,37 @@
         if (temp) {
             if ([country xCoord]!=-1) {
                 CGAffineTransform translate = CGAffineTransformMakeTranslation((-[country xCoord]+((screenWidth/2)-(temp.size.width/2))), (-[country yCoord]+130));
+                [UIView beginAnimations:@"MoveAnimation" context:nil];
+                [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+                [UIView setAnimationDuration:2.0];
                 [mapImageView setTransform:translate];
+                [UIView commitAnimations];
                 countryImage=[[UIImageView alloc] initWithFrame:CGRectMake([country xCoord]+5, [country yCoord]+1,temp.size.width, temp.size.height)];
             }
         }
         countryImage.image=temp;
         
     }
-    [mapImageView addSubview:countryImage];
-    [mapImageView insertSubview:countryImage aboveSubview:mapImageView];
-    
-
-    
+    [NSTimer scheduledTimerWithTimeInterval:2.0
+                                     target:self
+                                   selector:@selector(addCountryImageToMap)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
+- (void) addCountryImageToMap{
+    [mapImageView addSubview:countryImage];
+    [mapImageView insertSubview:countryImage aboveSubview:mapImageView];
+}
 - (void) initPickerViews {
-
+    // Setting default country
+    
+    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    if  (defaultIndex!= -1){
+        chosenCountry =[countriesArray objectAtIndex:defaultIndex];
+        citiesArray=[chosenCountry cities];
+        [self translateMap:chosenCountry];
+    }
     // 1- set the countries picker
     countriesPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, 600, 80.0)];
     countriesPickerView.delegate = self;
@@ -225,7 +240,7 @@
     countriesPickerView.transform =  CGAffineTransformConcat(s0, t1);
     
     [self.view addSubview:countriesPickerView];
-    
+    [countriesPickerView reloadAllComponents];
     // 3- set the cities picker
     citiesPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 0, 600, 80.0)];
     citiesPickerView.delegate = self;
@@ -344,12 +359,11 @@
         return label;
     }
 
-    else if (pickerView==citiesPickerView){
+    else {
       
-        [label setText:[[[chosenCountry cities] objectAtIndex:row] cityName]];
+        [label setText:[[citiesArray objectAtIndex:row] cityName]];
         return label;
     }
-return nil;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
@@ -357,7 +371,6 @@ return nil;
         chosenCountry=[countriesArray objectAtIndex:row];
         citiesArray=[chosenCountry cities];
         [self translateMap:chosenCountry];
-        [countriesPickerView reloadAllComponents];
         [citiesPickerView reloadAllComponents];
     }
     else{
