@@ -11,6 +11,7 @@
 @implementation SharedUser
 @synthesize country;
 @synthesize city;
+@synthesize currentProfile;
 @synthesize registered;
 
 

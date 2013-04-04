@@ -12,6 +12,23 @@
 
 #pragma mark - properties
 
+@property (nonatomic) NSUInteger userID;
+@property (strong, nonatomic) NSString * userName;
+@property (strong, nonatomic) NSString * emailAddress;
+@property (strong, nonatomic) NSString * passwordMD5;
+@property (nonatomic) NSUInteger defaultCityID;
+@property (nonatomic) BOOL isVerified;
+@property (nonatomic) BOOL isActive;
+
 #pragma mark - actions
+- (id) initWithUserIDString:(NSString *) aUserIDString
+                   userName:(NSString *) aUserName
+               emailAddress:(NSString *) aEmailAddress
+                passwordMD5:(NSString *) aPasswordMD5
+        defaultCityIDString:(NSString *) aDefaultCityIDString
+           isVerifiedString:(NSString *) aIsVerifiedString
+             isActiveString:(NSString *) aIsActiveString;
 
 @end
+
+

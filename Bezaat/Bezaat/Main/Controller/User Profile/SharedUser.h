@@ -16,6 +16,7 @@
 #import "OAuthConsumerCredentials.h"
 
 #import "Country.h"
+#import "UserProfile.h"
 
 @interface SharedUser : NSObject
 
@@ -23,6 +24,7 @@
 
 @property (strong, nonatomic) Country * country;
 @property (strong, nonatomic) City * city;
+@property (strong, nonatomic) UserProfile * currentProfile;
 @property (nonatomic) BOOL registered;
 
 #pragma mark - methods
