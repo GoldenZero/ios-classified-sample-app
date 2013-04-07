@@ -109,6 +109,7 @@ static NSString * key_chain_identifier = @"BezaatLogin";
     
     //set password
     [[ProfileManager keyChainItemSharedInstance] setObject:md5 forKey:(__bridge id)(kSecValueData)];
+    
 }
 
 - (NSString *) getSavedUserEmail {

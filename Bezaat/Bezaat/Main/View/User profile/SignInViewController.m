@@ -59,8 +59,9 @@
 
 - (IBAction)signInBtnPressed:(id)sender {
     
-    // check for internet connectivity
-    //The manager checks it!
+    //The manager checks for internet connectivity
+    //show loading indicator
+    [self showLoadingIndicator];
     
     //perform sign in operation
     [[ProfileManager sharedInstance] loginWithDelegate:self email:userNameText.text password:passwordText.text];
