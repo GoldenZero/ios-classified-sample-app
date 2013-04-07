@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CarAd.h"
+#import "CustomError.h"
 
 @protocol CarAdsManagerDelegate <NSObject>
 @required
@@ -27,6 +28,6 @@
 + (CarAdsManager *) sharedInstance;
 
 - (NSUInteger) nextPage;
-- (void) loadCarAdsOfPage:(NSUInteger) pageNum WithDelegate:(id <CarAdsManagerDelegate>) del;
+- (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSUInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del;
 
 @end

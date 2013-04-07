@@ -48,6 +48,18 @@
     
     return self;
 }
+
+- (id) initWithTempFileName:(NSString*)name urlRequest:(NSURLRequest *) urlRequest delegate:(id<DataDelegate>)delegate startImmediately:(BOOL)immediately responseType:(NSString*)responseType {
+    if (self = [self initWithTempFileName:name url:urlRequest.URL.absoluteString delegate:delegate responseType:responseType]) {
+        if (immediately) {
+            [self startWithURLRequest:urlRequest];
+        }
+    }
+    
+    return self;
+}
+
+
 /*
  * This dictionary holds all the urls needed to access the online data
  * The keys of the dictionary are in the readonly properties defined below
@@ -82,6 +94,13 @@
     
     // Send the request
     NSURLRequest* request = [[NSURLRequest alloc] initWithURL:url];
+    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [connection start];
+}
+
+- (void) startWithURLRequest:(NSURLRequest * )request {
+    
+    // Send the request
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
 }

@@ -41,7 +41,8 @@
 @synthesize pageNumber;
 @synthesize pageSize;
 
-static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%i&pageSize=%i&cityId=%i&textTerm=%@&brandId=%i&modelId=%i&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%i&toYear=%i&adsWithImages=%i&adsWithPrice=%i&area=%@&orderby=%@";
+static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%i&pageSize=%i&cityId=%i&textTerm=%@&brandId=%i&modelId=%i&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@";
+
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
 - (id) init {
@@ -54,22 +55,92 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return self;
 }
 
++ (CarAdsManager *) sharedInstance {
+    static CarAdsManager * instance = nil;
+    if (instance == nil) {
+        instance = [[CarAdsManager alloc] init];
+    }
+    return instance;
+}
+
 - (NSUInteger) nextPage {
     self.pageNumber ++;
     return self.pageNumber;
 }
 
-- (void) loadCarAdsOfPage:(NSUInteger) pageNum WithDelegate:(id <CarAdsManagerDelegate>) del {
-    //1- send user credentials in HTTP header
+- (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSUInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del {
     
-    //2- send the request
-    internetMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName url:ads_url delegate:self startImmediately:YES responseType:@"JSON"];
+    //1- set the delegate
+    self.delegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.delegate)
+            [self.delegate adsDidFailLoadingWithError:error];
+        return ;
+    }
+    
+    //3- set user credentials in HTTP header
+    NSString * fullURLString = [NSString stringWithFormat:ads_url,
+                                pageNum,
+                                self.pageSize,
+                                cityID,
+                                @"",
+                                brandID,
+                                modelID,
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"1",   //by default, load images
+                                @"1",   //by default, load images
+                                @"",
+                                @""
+                                ];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //4- send the request
+        [request setURL:correctURL];
+        internetMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل اتحميل البيانات"];
+        
+        if (self.delegate)
+            [self.delegate adsDidFailLoadingWithError:error];
+        return ;
+    }
+    
 }
 
 #pragma mark - Data delegate methods
+
 - (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
+
+    NSLog(@"Failure!! X(");
 }
 
 - (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*) result {
+    NSLog(@"data received!");
 }
+
+#pragma mark - helper methods
+
+- (NSArray * ) createCarAdsArrayWithData:(NSArray *) data {
+    
+}
+
 @end

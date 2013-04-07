@@ -38,6 +38,9 @@
 - (id) initWithTempFileName:(NSString*)name url:(NSString*)url delegate:(id<DataDelegate>)delegate responseType:(NSString*)responseType;
 - (id) initWithTempFileName:(NSString*)name url:(NSString*)url delegate:(id<DataDelegate>)delegate startImmediately:(BOOL)immediately responseType:(NSString*)responseType;
 
+// extension
+- (id) initWithTempFileName:(NSString*)name urlRequest:(NSURLRequest *) urlRequest delegate:(id<DataDelegate>)delegate startImmediately:(BOOL)immediately responseType:(NSString*)responseType;
+
 #pragma mark -
 #pragma mark URLs Dictionary
 
@@ -57,5 +60,8 @@
 + (NSString*) urlByName:(NSString*)urlName;
 
 - (void) start;
+
+// extension
+- (void) startWithURLRequest:(NSURLRequest * )request;
 
 @end
