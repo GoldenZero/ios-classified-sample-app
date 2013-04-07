@@ -38,6 +38,7 @@
 
 #pragma mark - Actions
 - (IBAction)backBtnPressed:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)laterBtnPressed:(id)sender {
@@ -69,7 +70,7 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     labelAdCell * cell = (labelAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"labelAdCell" owner:self options:nil] objectAtIndex:0];
-    [cell.checkButton addTarget:self action:@selector(chosenPeriodPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 

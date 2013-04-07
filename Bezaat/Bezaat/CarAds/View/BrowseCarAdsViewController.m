@@ -11,6 +11,7 @@
 #import "CarAdDetailsViewController.h"
 #import "ModelsViewController.h"
 #import "ChooseActionViewController.h"
+#import "labelAdViewController.h"
 
 @interface BrowseCarAdsViewController ()
 
@@ -58,7 +59,7 @@
 
     CarAdCell * cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
     [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 
@@ -121,7 +122,9 @@
 }
 
 - (void) distinguishButtonPressed{
-    // Code of distiguish car ad 
+    
+    labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void) setButtonsToToolbar{
