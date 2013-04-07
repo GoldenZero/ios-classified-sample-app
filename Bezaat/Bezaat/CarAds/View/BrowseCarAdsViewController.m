@@ -13,7 +13,11 @@
 #import "ChooseActionViewController.h"
 #import "labelAdViewController.h"
 
-@interface BrowseCarAdsViewController ()
+@interface BrowseCarAdsViewController (){
+    bool searchBtnFlag;
+    UITapGestureRecognizer *tap;
+
+}
 
 @end
 
@@ -26,12 +30,19 @@
     if (self) {
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
-    }
+        searchBtnFlag=false;
+            }
     return self;
 }
 
 - (void)viewDidLoad
 {
+    [self.searchPanelView setHidden:YES];
+    tap = [[UITapGestureRecognizer alloc]
+           initWithTarget:self
+           action:@selector(dismissKeyboard)];
+    [self.searchPanelView addGestureRecognizer:tap];
+    
     [super viewDidLoad];
     [self setButtonsToToolbar];
 }
@@ -137,6 +148,13 @@
     
 }
 
+#pragma mark - keyboard handler
+-(void)dismissKeyboard {
+    [self.carNameText resignFirstResponder];
+    [self.lowerPriceText resignFirstResponder];
+    [self.higherPriceText resignFirstResponder];
+}
+
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender {
     ChooseActionViewController *homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
@@ -144,6 +162,33 @@
 }
 
 - (IBAction)searchBtnPress:(id)sender {
+    [self.searchPanelView setHidden:NO];
+    if (searchBtnFlag==false){
+        searchBtnFlag=true;
+    }
+    else{
+        searchBtnFlag=false;
+    }
+    if (searchBtnFlag){
+        [UIView animateWithDuration:.5
+                         animations:^{
+                             self.searchPanelView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+    }
+    
+    else {
+        [UIView animateWithDuration:.5
+                         animations:^{
+                             self.searchPanelView.frame = CGRectMake(0,-self.searchPanelView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+    }
+
 }
 
 - (IBAction)modelBtnPress:(id)sender {
@@ -151,5 +196,14 @@
     ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
     [self presentViewController:popover animated:YES completion:nil];
 
+}
+
+- (IBAction)searchInPanelBtnPrss:(id)sender {
+}
+
+- (IBAction)clearInPanelBtnPrss:(id)sender {
+}
+
+- (IBAction)adWithImageBtnPrss:(id)sender {
 }
 @end

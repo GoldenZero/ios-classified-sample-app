@@ -11,7 +11,7 @@
 #import "CarAdCell.h"
 #import "Model.h"
 #import "Brand.h"
-@interface BrowseCarAdsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -20,12 +20,19 @@
 @property (strong, nonatomic) Model *currentModel;
 @property (strong, nonatomic) IBOutlet UIView *topBarView;
 @property (strong, nonatomic) IBOutlet UIView *contentView;
+@property (strong, nonatomic) IBOutlet UIButton *adWithImageButton;
+@property (strong, nonatomic) IBOutlet UIView *searchPanelView;
+@property (strong, nonatomic) IBOutlet UITextField *carNameText;
+@property (strong, nonatomic) IBOutlet UITextField *lowerPriceText;
+@property (strong, nonatomic) IBOutlet UITextField *higherPriceText;
 
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;
-
 - (IBAction)searchBtnPress:(id)sender;
 - (IBAction)modelBtnPress:(id)sender;
+- (IBAction)searchInPanelBtnPrss:(id)sender;
+- (IBAction)clearInPanelBtnPrss:(id)sender;
+- (IBAction)adWithImageBtnPrss:(id)sender;
 
 @end
