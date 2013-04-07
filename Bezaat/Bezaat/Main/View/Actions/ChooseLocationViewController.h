@@ -15,7 +15,7 @@
 #import "SignInViewController.h"
 #import "LocationManager.h"
 
-@interface ChooseLocationViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate, CLLocationManagerDelegate>
+@interface ChooseLocationViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate, CLLocationManagerDelegate, LocationManagerDelegate>
 
 #pragma mark - properties
 
