@@ -10,6 +10,8 @@
 #import "UserProfile.h"
 #import "CustomError.h"
 #import "NSString+MD5.h"
+#import <Security/Security.h>
+#import "KeychainItemWrapper.h"
 
 @protocol ProfileManagerDelegate <NSObject>
 
@@ -23,10 +25,19 @@
 #pragma mark - properties
 @property (strong, nonatomic) id <ProfileManagerDelegate> delegate;
 
-#pragma mark - actions
+#pragma mark - methods
 
 + (ProfileManager *) sharedInstance;
 
++ (KeychainItemWrapper *) keyChainItemSharedInstance;
+
 - (void) loginWithDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress password:(NSString *) plainPassword;
 
+- (void) storeLoginUseremail:(NSString *) userEmail passwordMD5:(NSString *) MD5;
+
+// get the stored email address from keyChain
+- (NSString *) getSavedUserEmail;
+
+// get the stored password MD5 from keyChain
+- (NSString *) getSavedUserPasswordMD5;
 @end

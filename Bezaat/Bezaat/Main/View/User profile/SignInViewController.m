@@ -159,6 +159,9 @@
     //set the current user's profiles
     [[SharedUser sharedInstance] setCurrentProfile:resultProfile];
 
+    //save user's login data
+    [[ProfileManager sharedInstance] storeLoginUseremail:resultProfile.emailAddress passwordMD5:resultProfile.passwordMD5];
+    
     //hide loading indicator
     [self hideLoadingIndicator];
     

@@ -35,6 +35,7 @@
 static NSString * login_url = @"http://gfctest.edanat.com/v1.0/json/user-login";
 static NSString * login_email_post_key = @"EmailAddress";
 static NSString * login_password_post_key = @"Password";
+static NSString * key_chain_identifier = @"BezaatLogin";
 
 - (id) init {
     
@@ -54,6 +55,15 @@ static NSString * login_password_post_key = @"Password";
         instance = [[ProfileManager alloc] init];
     }
     return instance;
+}
+
++ (KeychainItemWrapper *) keyChainItemSharedInstance {
+    static KeychainItemWrapper * wrapperInstance = nil;
+    if (wrapperInstance == nil) {
+        wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:key_chain_identifier accessGroup:nil];
+    }
+    
+    return wrapperInstance;
 }
 
 - (void) loginWithDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress password:(NSString *) plainPassword {
@@ -90,6 +100,29 @@ static NSString * login_password_post_key = @"Password";
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
     
+}
+
+
+- (void) storeLoginUseremail:(NSString *) userEmail passwordMD5:(NSString *) md5 {
+    //set user email
+    [[ProfileManager keyChainItemSharedInstance] setObject:userEmail forKey:(__bridge id)(kSecAttrAccount)];
+    
+    //set password
+    [[ProfileManager keyChainItemSharedInstance] setObject:md5 forKey:(__bridge id)(kSecValueData)];
+}
+
+- (NSString *) getSavedUserEmail {
+    
+    NSString * userEmail = [[ProfileManager keyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
+    
+    return userEmail;
+}
+
+- (NSString *) getSavedUserPasswordMD5 {
+ 
+    NSString * md5 = [[ProfileManager keyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    
+    return md5;
 }
 
 
