@@ -15,6 +15,9 @@
 #import "Model.h"
 
 #import "BrowseCarAdsViewController.h"
+
+#define ALL_MODELS_TEXT     @"جميع الموديلات"
+
 @interface ModelsViewController ()
 
 @end
@@ -87,7 +90,21 @@
         
         // Reload the models table
         Brand* selectedBrand = (Brand*)currentBrands[indexPath.row];
-        currentModels = selectedBrand.models;
+        
+        // create an extra item for 'all models'
+        Model * allModelsItem = [[Model alloc] init];
+        allModelsItem.modelID = -1;
+        allModelsItem.brandID = selectedBrand.brandID;
+        allModelsItem.modelName = ALL_MODELS_TEXT;
+        
+        //create an array that has the 'all models' item first
+        NSMutableArray * tempArray = [NSMutableArray arrayWithObject:allModelsItem];
+        
+        //add the rest of models for this brand
+        [tempArray addObjectsFromArray:selectedBrand.models];
+        currentModels = tempArray;
+        
+        //currentModels = selectedBrand.models;
         [_tblModels reloadData];
     }
     else {
@@ -112,7 +129,21 @@
 - (void) didFinishLoadingWithData:(NSArray*) resultArray {
     // Update the information
     currentBrands = resultArray;
-    currentModels = ((Brand*)resultArray[0]).models;
+    
+    // create an extra item for 'all models'
+    Model * allModelsItem = [[Model alloc] init];
+    allModelsItem.modelID = -1;
+    allModelsItem.brandID = ((Brand*)resultArray[0]).brandID;
+    allModelsItem.modelName = ALL_MODELS_TEXT;
+    
+    //create an array that has the 'all models' item first
+    NSMutableArray * tempArray = [NSMutableArray arrayWithObject:allModelsItem];
+    
+    //add the rest of models for this brand
+    [tempArray addObjectsFromArray:((Brand*)resultArray[0]).models];
+    currentModels = tempArray;
+    
+    //currentModels = ((Brand*)resultArray[0]).models;
     
     // Reload the tables
     [_tblBrands reloadData];

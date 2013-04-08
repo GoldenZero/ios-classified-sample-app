@@ -46,7 +46,7 @@
 @synthesize pageNumber;
 @synthesize pageSize;
 
-static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%i&pageSize=%i&cityId=%i&textTerm=%@&brandId=%i&modelId=%i&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@";
+static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%i&pageSize=%i&cityId=%i&textTerm=%@&brandId=%i&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@";
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
@@ -73,7 +73,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return self.pageNumber;
 }
 
-- (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSUInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del {
+- (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del {
     
     //1- set the delegate
     self.delegate = del;
@@ -96,7 +96,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 cityID,
                                 @"",
                                 brandID,
-                                modelID,
+                                [NSString stringWithFormat:@"%@", (modelID == -1 ? @"" : [NSString stringWithFormat:@"%i", modelID])],
                                 @"",
                                 @"",
                                 @"",

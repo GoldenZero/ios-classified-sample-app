@@ -11,7 +11,7 @@
 @interface Model : NSObject
 
 #pragma mark - properties
-@property (nonatomic) NSUInteger modelID;
+@property (nonatomic) NSInteger modelID;
 @property (nonatomic) NSUInteger brandID;
 @property (strong, nonatomic) NSString * modelName;
 
