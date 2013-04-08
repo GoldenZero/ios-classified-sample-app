@@ -31,7 +31,8 @@
 #define LISTING_STORE_LOGO_URL_JKEY @"StoreLogoURL"
 
 #pragma mark - literals
-#define DEFAULT_PAGE_SIZE           20
+//#define DEFAULT_PAGE_SIZE           20
+#define DEFAULT_PAGE_SIZE           10
 
 @interface CarAdsManager ()
 {
@@ -176,6 +177,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             {
                 for (NSDictionary * adDict in dataAdsArray)
                 {
+                    
                     CarAd * ad =
                     [[CarAd alloc]
                      initWithAdIDString:[adDict objectForKey:LISTING_ADD_ID_JKEY]
@@ -196,6 +198,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                      ];
                     
                     [adsArray addObject:ad];
+                    
                 }
             }
         }

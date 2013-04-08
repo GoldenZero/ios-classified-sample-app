@@ -12,9 +12,6 @@
 
 @interface GenericMethods : NSObject
 
-//This method takes a url string and validates it
-+ (BOOL) validateUrl: (NSString *) candidate;
-
 //This method takes a "true/false" string and returns YES/No
 + (BOOL) boolValueOfString:(NSString *) str;
 
@@ -35,4 +32,7 @@
 
 // This method checks whether the device is retina display
 + (BOOL) deviceIsRetina;
+
+// This method parses a JSON like date string into an NSDate
++ (NSDate *) NSDateFromDotNetJSONString:(NSString *) string;
 @end

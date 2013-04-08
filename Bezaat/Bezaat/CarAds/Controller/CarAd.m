@@ -57,10 +57,10 @@
         self.isFeatured = aIsFeaturedString.boolValue;
         
         // thumbnailURL
-        if ([GenericMethods validateUrl:aThumbnailURLString])
-            self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
-        else
+        if ([aThumbnailURLString isEqualToString:@""])
             self.thumbnailURL = nil;
+        else
+            self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
         
         // title
         self.title = aTitle;
@@ -72,16 +72,15 @@
         self.currencyString = aCurrencyString;
         
         // postedOnDate
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-mm-dd 'at' HH:mm"];
-        self.postedOnDate = [formatter dateFromString:aPostedOnDateString];
+        // the JSON date has the style of "\/Date(1356658797343)\/", so it needs custom parsing
+        self.postedOnDate = [GenericMethods NSDateFromDotNetJSONString:aPostedOnDateString];
         
         // modelYear
         self.modelYear = aModelYearString.integerValue;
         
         // distanceRangeInKm
         self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
-        
+
         // viewCount
         self.viewCount = aViewCountString.integerValue;
         
@@ -92,11 +91,10 @@
         self.storeName = aStoreName;
         
         // storeLogoURL
-        
-        if ([GenericMethods validateUrl:aStoreLogoURLString])
-            self.storeLogoURL = [NSURL URLWithString:aStoreLogoURLString];
-        else
+        if ([aStoreLogoURLString isEqualToString:@""])
             self.storeLogoURL = nil;
+        else
+            self.storeLogoURL = [NSURL URLWithString:aStoreLogoURLString];
     }
     return self;
 }
