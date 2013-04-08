@@ -19,11 +19,13 @@
 
 - (void)selectCell {
     _imgSelected.hidden = NO;
+    //_imgUnselected.hidden = YES;
     _imgBrand.image = currentBrand.brandInvertedImage;
 }
 
 - (void)unselectCell {
     _imgSelected.hidden = YES;
+    //_imgUnselected.hidden = NO;
     _imgBrand.image = currentBrand.brandImage;
 }
 

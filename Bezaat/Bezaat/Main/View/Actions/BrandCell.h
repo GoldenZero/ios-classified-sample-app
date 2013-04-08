@@ -16,6 +16,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgBrand;
 @property (weak, nonatomic) IBOutlet UIImageView *imgSelected;
+@property (weak, nonatomic) IBOutlet UIImageView *imgUnselected;
 
 - (void)reloadInformation:(Brand*)brand;
 
