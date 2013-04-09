@@ -110,6 +110,11 @@
     
     
 }
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.row == ([self.tableView numberOfRowsInSection:0] - 1))
+        [self loadPageOfAds];
+}
 
 # pragma mark - hide bars while scrolling
 

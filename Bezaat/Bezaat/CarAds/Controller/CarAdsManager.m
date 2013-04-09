@@ -181,17 +181,6 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
     else
         result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInSeconds, ARABIC_SECOND_TEXT];
-    
-    
-    /*
-    //temporary
-    //----------
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-mm-dd 'at' HH:mm:ss"];
-    
-    NSString * result = [formatter stringFromDate:input];
-    //----------
-     */
 
     return result;
 }
