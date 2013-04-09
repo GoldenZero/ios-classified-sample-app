@@ -12,6 +12,7 @@
 #define BRANDS_FILE_NAME         @"Brands.json"
 #define MODELS_FILE_NAME         @"Models.json"
 #define BRANDS_ORDER_FILE_NAME   @"BrandsOrder.json"
+#define DISTANCE_RANGES_FILE_NAME @"DistanceRanges.json"
 
 #pragma mark - Brand json keys
 
@@ -36,6 +37,15 @@
 #define BORDER_DISPLAY_ORDER_JSONK          @"displayOrder"
 #define BORDER_BRAND_ID_JSONK               @"BrandID"
 
+#pragma mark - distance ranges json keys
+
+#define DISTANCE_RANGES_STATUS_CODE_JKEY    @"StatusCode"
+#define DISTANCE_RANGES_STATUS_MSG_JKEY     @"StatusMessage"
+#define DISTANCE_RANGES_DATA_JKEY           @"Data"
+
+#define RANGE_ID_JKEY                       @"RangeId"
+#define RANGE_NAME_JKEY                     @"RangeName"
+#define RANGE_DISPLAY_ORDER_JKEY            @"DisplayOrder"
 
 #pragma mark -
 
@@ -57,6 +67,7 @@
     NSDictionary * brandsOrderDict;
     NSUInteger defaultCountryIDForOrdering;
     NSArray * totalBrands;
+    NSArray * distanceRanges;
     BOOL sortedOnce;
 }
 @end
@@ -72,6 +83,7 @@
         brandsOrderDict = nil;              //initial value
         defaultCountryIDForOrdering = -1;   //initial value
         totalBrands = nil;
+        distanceRanges = nil;
         sortedOnce = NO;
     }
     return self;
@@ -167,6 +179,32 @@
     if (del)
         [self.delegate didFinishLoadingWithData:totalBrands];
 }
+
+/*
+- (NSArray *) getDistanceRangesArray {
+    
+    if (!distanceRanges)
+    {
+        //1- load distance range
+        NSData * distanceRangesData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:DISTANCE_RANGES_FILE_NAME]];
+        
+        NSArray * distanceRangeParsedArray = [[JSONParser sharedInstance] parseJSONData:distanceRangesData];
+        
+        NSDictionary * totalDict = [data objectAtIndex:0];
+        NSString * statusCodeString = [totalDict objectForKey:LISTING_STATUS_CODE_JKEY];
+        NSInteger statusCode = statusCodeString.integerValue;
+        
+        NSMutableArray * adsArray = [NSMutableArray new];
+        if (statusCode == 200)
+        {
+            NSArray * dataAdsArray = [totalDict objectForKey:LISTING_DATA_JKEY];
+            if ((dataAdsArray) && (dataAdsArray.count))
+            {
+                for (NSDictionary * adDict in dataAdsArray)
+                {
+        
+    }
+}*/
 
 #pragma mark - helper methods
 
@@ -354,4 +392,17 @@
     }
     return nil;
 }
+
+- (NSArray *) sortDistanceRangesArray:(NSArray *) rangesArray {
+    
+    NSArray * sortedArray;
+    sortedArray = [rangesArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSUInteger first = [(DistanceRange *)a displayOrder];
+        NSUInteger second = [(DistanceRange *)b displayOrder];
+        return (first >= second);
+    }];
+    
+    return sortedArray;
+}
+
 @end

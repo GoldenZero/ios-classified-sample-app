@@ -10,6 +10,7 @@
 #import <AubadaLibrary/JSONParser.h>
 #import "Brand.h"
 #import "SharedUser.h"
+#import "DistanceRange.h"
 
 @protocol BrandManagerDelegate <NSObject>
 @required
@@ -28,5 +29,8 @@
 
 // load brands & models
 - (void) getBrandsAndModelsWithDelegate:(id <BrandManagerDelegate>) del;
+
+//load distance ranges
+- (NSArray *) getDistanceRangesArray;
 
 @end
