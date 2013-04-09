@@ -7,7 +7,6 @@
 //
 
 #import "SharedUser.h"
-#import "LocationManager.h"
 
 @interface SharedUser()
 {

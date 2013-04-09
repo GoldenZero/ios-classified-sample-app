@@ -24,7 +24,6 @@
 #import "OAuthConsumerCredentials.h"
 #import "TwitterDialog.h"
 
-#import "ProfileManager.h"
 
 @interface SignInViewController : BaseViewController <FacebookLoginDelegate, TwitterDialogDelegate, TwitterLoginDialogDelegate, ProfileManagerDelegate>
 

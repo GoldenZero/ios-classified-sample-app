@@ -11,7 +11,9 @@
 #import "CarAdCell.h"
 #import "Model.h"
 #import "Brand.h"
-@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>
+#import "CarAdsManager.h"
+
+@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

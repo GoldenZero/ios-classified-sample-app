@@ -33,7 +33,14 @@
     
     [self rotationWheel:self.wheelView];
     
-    // Do any additional setup after loading the view from its nib.
+    //clear keychain data if first launch before any loading of brands data
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"])
+    {
+        //reset keychains only on first launch
+        [[LocationManager locationKeyChainItemSharedInstance] resetKeychainItem];
+        [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning

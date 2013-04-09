@@ -17,7 +17,8 @@
     bool searchBtnFlag;
     bool filtersShown;
     UITapGestureRecognizer *tap;
-
+    MBProgressHUD2 * loadingHUD;
+    NSMutableArray * carAdsArray;
 }
 
 @end
@@ -47,6 +48,13 @@
     
     [super viewDidLoad];
     [self setButtonsToToolbar];
+    
+    //init the array if it is still nullable
+    if (!carAdsArray)
+        carAdsArray = [NSMutableArray new];
+    
+    //load the first page of data
+    [self loadPageOfAds];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,7 +69,10 @@
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 6;
+
+    if (carAdsArray)
+        return carAdsArray.count;
+    return 0;
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -73,6 +84,21 @@
     CarAdCell * cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
     [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:) forControlEvents:UIControlEventTouchUpInside];
     [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+    
+    //customize the carAdCell with actual data
+    cell.carInfoLabel.text = carAdObject.title;
+    cell.carPriceLabel.text = [NSString stringWithFormat:@"%i", carAdObject.price];
+    cell.adTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
+    cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+    cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+    cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
+    
+    //customize favoriteButton according to carAdObject.isFavorite
+    //customize carAdObject.storeName
+    //load carAdObject.storeLogoURL
+    
     return cell;
 }
 
@@ -144,6 +170,36 @@
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Listing_navigation_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
 }
+
+- (void) showLoadingIndicator {
+    
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    loadingHUD.labelText = @"جاري تحميل البيانات";
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = YES;
+    
+}
+
+- (void) hideLoadingIndicator {
+    
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
+    loadingHUD = nil;
+    
+}
+
+- (void) loadPageOfAds {
+    //show loading indicator
+    [self showLoadingIndicator];
+    
+    //load a page of data
+    NSInteger page = [[CarAdsManager sharedInstance] nextPage];
+    NSInteger size = [[CarAdsManager sharedInstance] pageSize];
+    
+    [[CarAdsManager sharedInstance] loadCarAdsOfPage:page forBrand:size Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID] WithDelegate:self];
+}
+
 
 #pragma mark - keyboard handler
 -(void)dismissKeyboard {
@@ -257,4 +313,29 @@
 
 - (IBAction)adWithImageBtnPrss:(id)sender {
 }
+
+#pragma mark - CarAdsManager Delegate methods
+
+- (void) adsDidFailLoadingWithError:(NSError *)error {
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    [self hideLoadingIndicator];
+}
+
+- (void) adsDidFinishLoadingWithData:(NSArray *)resultArray {
+    //1- hide the loading indicator
+    [self hideLoadingIndicator];
+    
+    //2- append the newly loaded ads
+    if (resultArray)
+        [carAdsArray addObjectsFromArray:resultArray];
+    
+    //3- refresh table data
+    [self.tableView reloadData];
+    //4- cache the resultArray data
+    //... (COME BACK HERE LATER) ...
+    
+}
+
 @end

@@ -13,7 +13,6 @@
 
 #import <UIKit/UIKit.h>
 #import "SignInViewController.h"
-#import "LocationManager.h"
 
 @interface ChooseLocationViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate, CLLocationManagerDelegate, LocationManagerDelegate>
 
