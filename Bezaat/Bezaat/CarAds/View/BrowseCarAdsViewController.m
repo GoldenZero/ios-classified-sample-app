@@ -15,6 +15,7 @@
 
 @interface BrowseCarAdsViewController (){
     bool searchBtnFlag;
+    bool filtersShown;
     UITapGestureRecognizer *tap;
 
 }
@@ -31,6 +32,7 @@
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         searchBtnFlag=false;
+        filtersShown=false;
             }
     return self;
 }
@@ -86,34 +88,31 @@
 # pragma mark - hide bars while scrolling
 
 - (void) scrollViewDidScroll:(UITableView *)sender {
+    float filtersHieght=0;
     if (sender.contentOffset.y == 0){
-        [UIView animateWithDuration:.25
-                         animations:^{
-                             self.topBarView.frame = CGRectMake(0,0,self.topBarView.frame.size.width,self.topBarView.frame.size.height);
-                         }
-                         completion:^(BOOL finished){
-                             
-                         }];
+        if(filtersShown)
+        {
+            [self showFiltersBar];
+            filtersHieght=self.filtersView.frame.size.height;
+        }
+        [self showTopBar];
+        
         CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
         [UIView animateWithDuration:.25
                          animations:^{
-                             self.contentView.frame = CGRectMake(0,self.topBarView.frame.size.height,screenBounds.width,screenBounds.height);
+                             self.contentView.frame = CGRectMake(0,self.topBarView.frame.size.height+filtersHieght,screenBounds.width,screenBounds.height);
                          }
                          completion:^(BOOL finished){
                              
                          }];
-        
-
     }
 
     else {
-    [UIView animateWithDuration:.25
-                     animations:^{
-                         self.topBarView.frame = CGRectMake(0,-self.topBarView.frame.size.height,self.topBarView.frame.size.width,self.topBarView.frame.size.height);
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
+        if(filtersShown)
+        {
+            [self hideFiltersBar];
+        }
+        [self hideTopBar];
         CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
         [UIView animateWithDuration:.25
                          animations:^{
@@ -122,8 +121,6 @@
                          completion:^(BOOL finished){
                              
                          }];
-
-        
     }
 }
 # pragma mark - custom methods
@@ -155,6 +152,68 @@
     [self.higherPriceText resignFirstResponder];
 }
 
+#pragma mark - animatation 
+
+- (void) showFiltersBar{
+    [UIView animateWithDuration:.5
+                     animations:^{
+                         self.filtersView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];    
+}
+
+- (void) hideFiltersBar{
+    [UIView animateWithDuration:.5
+                     animations:^{
+                         self.filtersView.frame = CGRectMake(0,-self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void) showSearchPanel{
+    [UIView animateWithDuration:.5
+                     animations:^{
+                         self.searchPanelView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void) hideSearchPanel{
+    [UIView animateWithDuration:.5
+                     animations:^{
+                         self.searchPanelView.frame = CGRectMake(0,-self.searchPanelView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void) hideTopBar{
+    [UIView animateWithDuration:.25
+                     animations:^{
+                         self.topBarView.frame = CGRectMake(0,-self.topBarView.frame.size.height,self.topBarView.frame.size.width,self.topBarView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void) showTopBar{
+    [UIView animateWithDuration:.25
+                     animations:^{
+                         self.topBarView.frame = CGRectMake(0,0,self.topBarView.frame.size.width,self.topBarView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender {
     ChooseActionViewController *homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
@@ -170,23 +229,11 @@
         searchBtnFlag=false;
     }
     if (searchBtnFlag){
-        [UIView animateWithDuration:.5
-                         animations:^{
-                             self.searchPanelView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
-                         }
-                         completion:^(BOOL finished){
-                             
-                         }];
+        [self showSearchPanel];
     }
     
     else {
-        [UIView animateWithDuration:.5
-                         animations:^{
-                             self.searchPanelView.frame = CGRectMake(0,-self.searchPanelView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
-                         }
-                         completion:^(BOOL finished){
-                             
-                         }];
+        [self hideSearchPanel];
     }
 
 }
@@ -199,6 +246,10 @@
 }
 
 - (IBAction)searchInPanelBtnPrss:(id)sender {
+    filtersShown=true;
+    [self hideSearchPanel];
+    [self showFiltersBar];
+    
 }
 
 - (IBAction)clearInPanelBtnPrss:(id)sender {

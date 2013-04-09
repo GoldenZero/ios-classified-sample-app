@@ -25,6 +25,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *carNameText;
 @property (strong, nonatomic) IBOutlet UITextField *lowerPriceText;
 @property (strong, nonatomic) IBOutlet UITextField *higherPriceText;
+@property (strong, nonatomic) IBOutlet UIView *filtersView;
 
 
 #pragma mark - actions
