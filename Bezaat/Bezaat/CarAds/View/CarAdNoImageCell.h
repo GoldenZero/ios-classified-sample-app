@@ -20,5 +20,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *kilometrageLabel;
 @property (strong, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (strong, nonatomic) IBOutlet UIButton *distiguishButton;
+@property (strong, nonatomic) IBOutlet UIImageView *distinguishImage;
 
 @end
