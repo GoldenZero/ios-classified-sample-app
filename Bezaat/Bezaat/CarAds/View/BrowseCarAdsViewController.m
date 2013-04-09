@@ -127,11 +127,9 @@
             filtersHieght=self.filtersView.frame.size.height;
         }
         [self showTopBar];
-        
-        CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
         [UIView animateWithDuration:.25
                          animations:^{
-                             self.contentView.frame = CGRectMake(0,self.topBarView.frame.size.height+filtersHieght,screenBounds.width,screenBounds.height);
+                             self.contentView.frame = CGRectMake(0,self.topBarView.frame.size.height+filtersHieght,self.tableView.frame.size.width,self.tableView.frame.size.height);
                          }
                          completion:^(BOOL finished){
                              
@@ -141,13 +139,14 @@
     else {
         if(filtersShown)
         {
-            [self hideFiltersBar];
+            filtersHieght=self.filtersView.frame.size.height;
         }
+        [self hideFiltersBar];
+        [self hideNotificationBar];
         [self hideTopBar];
-        CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
         [UIView animateWithDuration:.25
                          animations:^{
-                             self.contentView.frame = CGRectMake(0,0,screenBounds.width,screenBounds.height);
+                             self.contentView.frame = CGRectMake(0,0,self.tableView.frame.size.width,self.tableView.frame.size.height+(self.topBarView.frame.size.height));
                          }
                          completion:^(BOOL finished){
                              
@@ -269,6 +268,28 @@
     [UIView animateWithDuration:.25
                      animations:^{
                          self.topBarView.frame = CGRectMake(0,0,self.topBarView.frame.size.width,self.topBarView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void) showNotificationBar{
+    [UIView animateWithDuration:.5
+                     animations:^{
+                         self.notificationView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.notificationView.frame.size.width,self.notificationView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         
+                     }];
+
+    
+}
+
+- (void) hideNotificationBar{
+    [UIView animateWithDuration:.5
+                     animations:^{
+                         self.notificationView.frame = CGRectMake(0,-self.topBarView.frame.size.height,self.notificationView.frame.size.width,self.notificationView.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          

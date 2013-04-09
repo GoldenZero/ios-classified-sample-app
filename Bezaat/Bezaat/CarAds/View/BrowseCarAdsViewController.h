@@ -28,6 +28,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *lowerPriceText;
 @property (strong, nonatomic) IBOutlet UITextField *higherPriceText;
 @property (strong, nonatomic) IBOutlet UIView *filtersView;
+@property (strong, nonatomic) IBOutlet UIView *notificationView;
 
 
 #pragma mark - actions
