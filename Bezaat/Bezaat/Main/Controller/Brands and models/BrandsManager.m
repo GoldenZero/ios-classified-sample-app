@@ -180,7 +180,7 @@
         [self.delegate didFinishLoadingWithData:totalBrands];
 }
 
-/*
+
 - (NSArray *) getDistanceRangesArray {
     
     if (!distanceRanges)
@@ -190,21 +190,36 @@
         
         NSArray * distanceRangeParsedArray = [[JSONParser sharedInstance] parseJSONData:distanceRangesData];
         
-        NSDictionary * totalDict = [data objectAtIndex:0];
-        NSString * statusCodeString = [totalDict objectForKey:LISTING_STATUS_CODE_JKEY];
+        NSDictionary * totalDict = [distanceRangeParsedArray objectAtIndex:0];
+        NSString * statusCodeString = [totalDict objectForKey:DISTANCE_RANGES_STATUS_CODE_JKEY];
         NSInteger statusCode = statusCodeString.integerValue;
         
-        NSMutableArray * adsArray = [NSMutableArray new];
+        NSMutableArray * resultRangesArray = [NSMutableArray new];
         if (statusCode == 200)
         {
-            NSArray * dataAdsArray = [totalDict objectForKey:LISTING_DATA_JKEY];
-            if ((dataAdsArray) && (dataAdsArray.count))
+            NSArray * dataRangesArray = [totalDict objectForKey:DISTANCE_RANGES_DATA_JKEY];
+            if ((dataRangesArray) && (dataRangesArray.count))
             {
-                for (NSDictionary * adDict in dataAdsArray)
+                for (NSDictionary * rangeDict in dataRangesArray)
                 {
+                    DistanceRange * range =
+                    [[DistanceRange alloc]
+                                initWithRangeIDString:[rangeDict objectForKey:RANGE_ID_JKEY]
+                                rangeName:[rangeDict objectForKey:RANGE_NAME_JKEY]
+                                displayOrderString:[rangeDict objectForKey:RANGE_DISPLAY_ORDER_JKEY]
+                     
+                     ];
+                    [resultRangesArray addObject:range];
+                }
+            }
+        }
         
+        NSArray * sortedRanges = [self sortDistanceRangesArray:resultRangesArray];
+        distanceRanges = [NSArray arrayWithArray:sortedRanges];
     }
-}*/
+    
+    return distanceRanges;
+}
 
 #pragma mark - helper methods
 

@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "BrandsManager.h"
-
 @interface ModelsViewController : UIViewController<BrandManagerDelegate> {
     NSArray* currentBrands;
     NSArray* currentModels;

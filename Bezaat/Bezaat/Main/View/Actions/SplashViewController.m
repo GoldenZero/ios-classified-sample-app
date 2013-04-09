@@ -9,7 +9,6 @@
 #import "SplashViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
-#import "BrandsManager.h"
 
 @interface SplashViewController ()
 
