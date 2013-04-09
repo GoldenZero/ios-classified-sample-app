@@ -41,6 +41,7 @@
 - (void)viewDidLoad
 {
     [self.searchPanelView setHidden:YES];
+    
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
@@ -172,6 +173,7 @@
     
     //  add background to the toolbar
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Listing_navigation_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+    [self.notificationToolbar setBackgroundImage:[UIImage imageNamed:@"Listing_navigation_2_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
 }
 
@@ -303,7 +305,6 @@
 }
 
 - (IBAction)searchBtnPress:(id)sender {
-    [self.searchPanelView setHidden:NO];
     if (searchBtnFlag==false){
         searchBtnFlag=true;
     }
@@ -311,11 +312,16 @@
         searchBtnFlag=false;
     }
     if (searchBtnFlag){
+        [self.searchPanelView setHidden:NO];
+
         [self showSearchPanel];
     }
     
     else {
+        [self.searchPanelView setHidden:YES];
+
         [self hideSearchPanel];
+        
     }
     
 }
@@ -331,6 +337,7 @@
     filtersShown=true;
     [self hideSearchPanel];
     [self showFiltersBar];
+ //   [self showNotificationBar];
     
 }
 
