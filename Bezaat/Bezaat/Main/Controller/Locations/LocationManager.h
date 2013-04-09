@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <AubadaLibrary/JSONParser.h>
 #import <CoreLocation/CoreLocation.h>
+#import <Social/Social.h>
 #import <MapKit/MapKit.h>
 #import "Country.h"
+#import "KeychainItemWrapper.h"
+
 
 @protocol LocationManagerDelegate <NSObject>
 @required
@@ -28,6 +31,9 @@
 // get the shared instance of LocationManager
 + (LocationManager *) sharedInstance;
 
+// get the instance of keychain item to store location of user
++ (KeychainItemWrapper *) locationKeyChainItemSharedInstance;
+
 // load countries & cities
 - (void) loadCountriesAndCitiesWithDelegate:(id <LocationManagerDelegate>) del;
 
@@ -37,4 +43,12 @@
 // get the default selected city index in cities result array
 //- (NSUInteger) getDefaultSelectedCityIndexForCountry:(NSUInteger) countryID;
 
+// store the data of chosen country and city inside
+- (void) storeDataOfCountry:(NSUInteger) countryID city:(NSUInteger) cityID;
+
+// get the stored country from keyChain
+- (NSInteger) getSavedUserCountryID;
+
+// get the stored city from keyChain
+- (NSInteger) getSavedUserCityID;
 @end

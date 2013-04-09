@@ -91,8 +91,8 @@
 
 #pragma mark - actions
 - (IBAction)nextBtnPressed:(id)sender {
-    [SharedUser sharedInstance].country = chosenCountry;
-    [SharedUser sharedInstance].city = chosenCity;
+    
+    [[LocationManager sharedInstance] storeDataOfCountry:chosenCountry.countryID city:chosenCity.cityID];
     
     SignInViewController * signInVC = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
     [self presentViewController:signInVC animated:YES completion:nil];

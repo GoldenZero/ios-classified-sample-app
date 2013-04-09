@@ -29,7 +29,7 @@
 
 + (ProfileManager *) sharedInstance;
 
-+ (KeychainItemWrapper *) keyChainItemSharedInstance;
++ (KeychainItemWrapper *) loginKeyChainItemSharedInstance;
 
 - (void) loginWithDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress password:(NSString *) plainPassword;
 

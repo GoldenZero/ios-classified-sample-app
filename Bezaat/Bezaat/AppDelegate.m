@@ -47,6 +47,10 @@
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
         self.window.rootViewController = self.chooseLocationVC;
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];;
+        
+        //reset keychains only on first launch
+        [[LocationManager locationKeyChainItemSharedInstance] resetKeychainItem];
+        [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
     }
     else{
         self.window.rootViewController = self.homeVC;

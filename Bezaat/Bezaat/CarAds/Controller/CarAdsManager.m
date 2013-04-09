@@ -54,7 +54,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     self = [super init];
     if (self) {
         self.delegate = nil;
-        self.pageNumber = 1;
+        self.pageNumber = 0;
         self.pageSize = DEFAULT_PAGE_SIZE;
     }
     return self;
@@ -130,6 +130,19 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
     
 }
+
+- (NSString *) getDateDifferenceStringFromDate:(NSDate *) input {
+    
+    //temporary
+    //----------
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-mm-dd 'at' HH:mm:ss"];
+    
+    NSString * result = [formatter stringFromDate:input];
+    //----------
+    return result;
+}
+
 
 #pragma mark - Data delegate methods
 

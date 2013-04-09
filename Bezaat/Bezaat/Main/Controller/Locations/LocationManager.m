@@ -35,6 +35,12 @@
 #define MAP_X_Y_COUNTRY_X_JSONK    @"X"
 #define MAP_X_Y_COUNTRY_Y_JSONK    @"Y"
 
+
+#pragma mark - keychain dictionary keys
+
+#define KEYCHAIN_DICT_COUNTRY_KEY   @"countryID"
+#define KEYCHAIN_DICT_CITY_KEY      @"cityID"
+
 #pragma mark - CountryMapCoordinates struct definition
 // This struct is used to store temporal x, y coordinates data after parsing
 @interface CountryMapCoordinates : NSObject
@@ -62,6 +68,8 @@
 @synthesize deviceLocationCountryCode;
 
 
+static NSString * location_key_chain_identifier = @"BezaatLocation";
+
 - (id) init {
     
     self = [super init];
@@ -84,6 +92,15 @@
         instance = [[LocationManager alloc] init];
     }
     return instance;
+}
+
++ (KeychainItemWrapper *) locationKeyChainItemSharedInstance {
+    static KeychainItemWrapper * wrapperInstance = nil;
+    if (wrapperInstance == nil) {
+        wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:location_key_chain_identifier accessGroup:nil];
+    }
+    
+    return wrapperInstance;
 }
 
 - (void) loadCountriesAndCitiesWithDelegate:(id <LocationManagerDelegate>) del {
@@ -186,6 +203,129 @@
 }
 
 
+- (void) storeDataOfCountry:(NSUInteger) countryID city:(NSUInteger) cityID {
+    
+    /*
+    NSNumber * countryNum = [NSNumber numberWithInt:countryID];
+    NSNumber * cityNum = [NSNumber numberWithInt:cityID];
+    
+    NSMutableDictionary * locationDict = [NSMutableDictionary new];
+    [locationDict setObject:countryNum forKey:KEYCHAIN_DICT_COUNTRY_KEY];
+    [locationDict setObject:cityNum forKey:KEYCHAIN_DICT_CITY_KEY];
+    
+    //serialize the dictionary
+    NSError *error;
+    NSData * dictionaryRep = [NSPropertyListSerialization dataWithPropertyList:locationDict format:NSPropertyListXMLFormat_v1_0 options:0 error:&error ];
+                              
+    //[[LocationManager LocationKeyChainItemSharedInstance] setObject:locationDict forKey:(__bridge id)(kSecValueData)];
+    
+    [[LocationManager LocationKeyChainItemSharedInstance] setObject:dictionaryRep forKey:(__bridge id)(kSecValueData)];
+     */
+    
+    //store the values as strings
+    NSString * countryStr = [NSString stringWithFormat:@"%i", countryID];
+    NSString * cityStr = [NSString stringWithFormat:@"%i", cityID];
+    
+    //set country
+    [[LocationManager locationKeyChainItemSharedInstance] setObject:countryStr forKey:(__bridge id)(kSecAttrAccount)];
+    
+    //set city
+    [[LocationManager locationKeyChainItemSharedInstance] setObject:cityStr forKey:(__bridge id)(kSecValueData)];
+}
+
+- (NSInteger) getSavedUserCountryID {
+    
+    /*
+    //NSDictionary * locationDict = [[LocationManager LocationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    
+    NSError *error;
+    NSData * dictionaryRep = [[LocationManager LocationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    
+    NSDictionary * locationDict = [NSPropertyListSerialization propertyListWithData:dictionaryRep options:NSPropertyListImmutable format:nil error:&error];
+    
+    if (error)
+        return -1;
+    
+    if (!locationDict)
+        return -1;
+    
+    if (![locationDict objectForKey:KEYCHAIN_DICT_COUNTRY_KEY])
+        return -1;
+    
+    NSNumber * countryNum = [locationDict objectForKey:KEYCHAIN_DICT_COUNTRY_KEY];
+    
+    return countryNum.unsignedIntegerValue;
+     */
+    
+
+    //NSLog(@"length ===== %i", [[[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)] length]);
+    
+    /*
+    //if no stored value yet return -1
+    if ([[[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)] length] == 0)
+        return -1;
+    */
+    
+    NSString * countryStr = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
+    
+    NSLog(@"countryStr: %@", countryStr);
+    
+    if (!countryStr)
+        return -1;
+    
+    if ([(NSString *)countryStr isEqualToString:@""])
+        return -1;
+    
+    return countryStr.integerValue;
+}
+
+- (NSInteger) getSavedUserCityID {
+    
+    /*
+    //NSDictionary * locationDict = [[LocationManager LocationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    
+    NSError *error;
+    NSData * dictionaryRep = [[LocationManager LocationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    
+    NSDictionary * locationDict = [NSPropertyListSerialization propertyListWithData:dictionaryRep options:NSPropertyListImmutable format:nil error:&error];
+    
+    if (error)
+        return -1;
+    
+    if (!locationDict)
+        return -1;
+    
+    if (![locationDict objectForKey:KEYCHAIN_DICT_CITY_KEY])
+        return -1;
+    
+    NSNumber * cityNum = [locationDict objectForKey:KEYCHAIN_DICT_CITY_KEY];
+    
+    return cityNum.unsignedIntegerValue;
+     */
+    
+    //NSLog(@"length ===== %i", [[[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)] length]);
+    
+    /*
+    //if no stored value yet
+    if ([[[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)] length] == 0)
+        return -1;
+    */
+    
+    NSString * cityStr = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    
+    NSLog(@"cityStr: %@", cityStr);
+    
+    if (!cityStr)
+        return -1;
+    
+    if ([(NSString *)cityStr isEqualToString:@""])
+        return -1;
+    
+    return cityStr.integerValue;
+    
+}
+
+
 #pragma mark - helper methods
 
 // This method gets the file path ofthe specified file.
@@ -278,6 +418,8 @@
     
     return sortedArray;
 }
+
+
 
 @end
 

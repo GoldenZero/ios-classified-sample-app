@@ -22,8 +22,6 @@
 
 #pragma mark - properties
 
-@property (strong, nonatomic) Country * country;
-@property (strong, nonatomic) City * city;
 @property (strong, nonatomic) UserProfile * currentProfile;
 @property (nonatomic) BOOL registered;
 
@@ -49,5 +47,11 @@
 
 // Return the shared instance of twitter user token
 +(OAuth *) twTokenSharedInstance;
+
+// Return the country id global among the whole application
+- (NSInteger) getUserCountryID;
+
+// Return the city id global among the while application
+- (NSInteger) getUserCityID;
 
 @end

@@ -35,7 +35,7 @@
 static NSString * login_url = @"http://gfctest.edanat.com/v1.0/json/user-login";
 static NSString * login_email_post_key = @"EmailAddress";
 static NSString * login_password_post_key = @"Password";
-static NSString * key_chain_identifier = @"BezaatLogin";
+static NSString * login_key_chain_identifier = @"BezaatLogin";
 
 - (id) init {
     
@@ -57,10 +57,10 @@ static NSString * key_chain_identifier = @"BezaatLogin";
     return instance;
 }
 
-+ (KeychainItemWrapper *) keyChainItemSharedInstance {
++ (KeychainItemWrapper *) loginKeyChainItemSharedInstance {
     static KeychainItemWrapper * wrapperInstance = nil;
     if (wrapperInstance == nil) {
-        wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:key_chain_identifier accessGroup:nil];
+        wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:login_key_chain_identifier accessGroup:nil];
     }
     
     return wrapperInstance;
@@ -105,23 +105,23 @@ static NSString * key_chain_identifier = @"BezaatLogin";
 
 - (void) storeLoginUseremail:(NSString *) userEmail passwordMD5:(NSString *) md5 {
     //set user email
-    [[ProfileManager keyChainItemSharedInstance] setObject:userEmail forKey:(__bridge id)(kSecAttrAccount)];
+    [[ProfileManager loginKeyChainItemSharedInstance] setObject:userEmail forKey:(__bridge id)(kSecAttrAccount)];
     
     //set password
-    [[ProfileManager keyChainItemSharedInstance] setObject:md5 forKey:(__bridge id)(kSecValueData)];
+    [[ProfileManager loginKeyChainItemSharedInstance] setObject:md5 forKey:(__bridge id)(kSecValueData)];
     
 }
 
 - (NSString *) getSavedUserEmail {
     
-    NSString * userEmail = [[ProfileManager keyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
+    NSString * userEmail = [[ProfileManager loginKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
     
     return userEmail;
 }
 
 - (NSString *) getSavedUserPasswordMD5 {
  
-    NSString * md5 = [[ProfileManager keyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    NSString * md5 = [[ProfileManager loginKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
     
     return md5;
 }

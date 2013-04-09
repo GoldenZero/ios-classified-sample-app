@@ -57,6 +57,7 @@
     NSDictionary * brandsOrderDict;
     NSUInteger defaultCountryIDForOrdering;
     NSArray * totalBrands;
+    BOOL sortedOnce;
 }
 @end
 
@@ -71,6 +72,7 @@
         brandsOrderDict = nil;              //initial value
         defaultCountryIDForOrdering = -1;   //initial value
         totalBrands = nil;
+        sortedOnce = NO;
     }
     return self;
 }
@@ -152,11 +154,16 @@
             //add brand
             [resultBrands addObject:brand];
         }
-        
-        //sort brands according to chosen country
-        totalBrands = [NSArray arrayWithArray:[self sortBrandsArray:resultBrands]];
+        totalBrands = resultBrands;
     }
 
+    if ((!sortedOnce) && ([[SharedUser sharedInstance] getUserCountryID] > -1))
+    {
+        //sort brands according to chosen country
+        NSArray * temp = [NSArray arrayWithArray:[self sortBrandsArray:totalBrands]];
+        totalBrands = temp;
+    }
+    
     if (del)
         [self.delegate didFinishLoadingWithData:totalBrands];
 }
@@ -233,6 +240,7 @@
     
     if ((!brandsOrderDict) || (defaultCountryIDForOrdering == -1))
     {
+        
         //1- parse the BrandsOrder json file
         NSData * orderData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:BRANDS_ORDER_FILE_NAME]];
         
@@ -289,19 +297,25 @@
         
     }
     
-    NSString * chosenCountryIdKey = [NSString stringWithFormat:@"%i", [SharedUser sharedInstance].country.countryID];
+    NSString * chosenCountryIdKey = [NSString stringWithFormat:@"%i", [[SharedUser sharedInstance] getUserCountryID]];
     
-    NSArray * orderingArray;
-    if ([brandsOrderDict objectForKey:chosenCountryIdKey])
-        orderingArray = [brandsOrderDict objectForKey:chosenCountryIdKey];
-    else
-        orderingArray = [brandsOrderDict objectForKey:[NSString stringWithFormat:@"%i", defaultCountryIDForOrdering]];
-    
-    for (int i = 0; i < orderingArray.count; i++)
+    if ([[SharedUser sharedInstance] getUserCountryID] != -1)
     {
-        BrandOrderPair * p = orderingArray[i];
-        Brand * brand = [self getBrandByID:p.brandID brands:input];
-        [sorted addObject:brand];
+    
+        NSArray * orderingArray;
+        if ([brandsOrderDict objectForKey:chosenCountryIdKey])
+            orderingArray = [brandsOrderDict objectForKey:chosenCountryIdKey];
+        else
+            orderingArray = [brandsOrderDict objectForKey:[NSString stringWithFormat:@"%i", defaultCountryIDForOrdering]];
+        
+        for (int i = 0; i < orderingArray.count; i++)
+        {
+            BrandOrderPair * p = orderingArray[i];
+            Brand * brand = [self getBrandByID:p.brandID brands:input];
+            [sorted addObject:brand];
+        }
+        
+        sortedOnce = YES;
     }
     
     return sorted;

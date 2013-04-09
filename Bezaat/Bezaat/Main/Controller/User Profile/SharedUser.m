@@ -7,13 +7,30 @@
 //
 
 #import "SharedUser.h"
+#import "LocationManager.h"
+
+@interface SharedUser()
+{
+    @protected
+        NSInteger countryID;
+        NSInteger cityID;
+}
+@end
 
 @implementation SharedUser
-@synthesize country;
-@synthesize city;
 @synthesize currentProfile;
 @synthesize registered;
 
+- (id) init {
+    self = [super init];
+    if (self) {
+        //initialy, set the country and city IDs to -1 to check if they are not loaded
+        // load them from application keychain
+        countryID = -1;
+        cityID = -1;
+    }
+    return self;
+}
 
 + (SharedUser *) sharedInstance {
     static SharedUser * instance = nil;
@@ -58,4 +75,17 @@ static OAuth * twSharedToken;
 + (OAuth *) twTokenSharedInstance {
     return twSharedToken;
 }
+
+- (NSInteger) getUserCountryID {
+    if (countryID == -1)
+        countryID = [[LocationManager sharedInstance] getSavedUserCountryID];
+    return countryID;
+}
+
+- (NSInteger) getUserCityID {
+    if (cityID == -1)
+        cityID = [[LocationManager sharedInstance] getSavedUserCityID];
+    return cityID;
+}
+
 @end
