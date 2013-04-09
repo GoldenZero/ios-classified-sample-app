@@ -34,7 +34,7 @@
         self.tableView.dataSource = self;
         searchBtnFlag=false;
         filtersShown=false;
-            }
+    }
     return self;
 }
 
@@ -69,7 +69,7 @@
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
     if (carAdsArray)
         return carAdsArray.count;
     return 0;
@@ -80,7 +80,7 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     CarAdCell * cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
     [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:) forControlEvents:UIControlEventTouchUpInside];
     [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -107,7 +107,7 @@
     //vc.carPhotos;
     //vc.carDetails;
     [self presentViewController:vc animated:YES completion:nil];
-
+    
     
 }
 
@@ -132,7 +132,7 @@
                              
                          }];
     }
-
+    
     else {
         if(filtersShown)
         {
@@ -165,7 +165,7 @@
     
     //  set the model label name
     [self.modelNameLabel setText:currentModel.modelName];
-
+    
     //  add background to the toolbar
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Listing_navigation_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
@@ -208,7 +208,7 @@
     [self.higherPriceText resignFirstResponder];
 }
 
-#pragma mark - animatation 
+#pragma mark - animatation
 
 - (void) showFiltersBar{
     [UIView animateWithDuration:.5
@@ -217,7 +217,7 @@
                      }
                      completion:^(BOOL finished){
                          
-                     }];    
+                     }];
 }
 
 - (void) hideFiltersBar{
@@ -291,14 +291,14 @@
     else {
         [self hideSearchPanel];
     }
-
+    
 }
 
 - (IBAction)modelBtnPress:(id)sender {
     
     ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
     [self presentViewController:popover animated:YES completion:nil];
-
+    
 }
 
 - (IBAction)searchInPanelBtnPrss:(id)sender {
