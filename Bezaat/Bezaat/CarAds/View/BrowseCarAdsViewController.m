@@ -195,9 +195,9 @@
     
     //load a page of data
     NSInteger page = [[CarAdsManager sharedInstance] nextPage];
-    NSInteger size = [[CarAdsManager sharedInstance] pageSize];
+    //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
     
-    [[CarAdsManager sharedInstance] loadCarAdsOfPage:page forBrand:size Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID] WithDelegate:self];
+    [[CarAdsManager sharedInstance] loadCarAdsOfPage:page forBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID] WithDelegate:self];
 }
 
 
@@ -333,6 +333,7 @@
     
     //3- refresh table data
     [self.tableView reloadData];
+    
     //4- cache the resultArray data
     //... (COME BACK HERE LATER) ...
     
