@@ -98,6 +98,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
     
     //3- set user credentials in HTTP header
+    
+    //4- set the url string
     NSString * fullURLString = [NSString stringWithFormat:ads_url,
                                 pageNum,
                                 self.pageSize,
@@ -118,13 +120,13 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    NSLog(@"%@", correctURLstring);
+    //NSLog(@"%@", correctURLstring);
     NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
     NSURL * correctURL = [NSURL URLWithString:correctURLstring];
     
     if (correctURL)
     {
-        //4- send the request
+        //5- send the request
         [request setURL:correctURL];
         internetMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
     }

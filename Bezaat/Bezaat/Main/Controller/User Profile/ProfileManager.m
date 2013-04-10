@@ -36,6 +36,7 @@
 
 @interface ProfileManager ()
 {
+    InternetManager * internetMngr;
     @protected
         NSMutableData * dataSoFar;
 }
@@ -43,6 +44,7 @@
 
 @implementation ProfileManager
 @synthesize delegate;
+@synthesize deviceDelegate;
 
 //the login url is a POST url
 static NSString * login_url = @"http://gfctest.edanat.com/v1.0/json/user-login";
@@ -51,16 +53,18 @@ static NSString * login_email_post_key = @"EmailAddress";
 static NSString * login_password_post_key = @"Password";
 static NSString * login_key_chain_identifier = @"BezaatLogin";
 
+static NSString * internetMngrTempFileName = @"mngrTmp";
+
 - (id) init {
     
     self = [super init];
     
     if (self) {
         self.delegate = nil;
+        self.deviceDelegate = nil;
         dataSoFar = nil;
     }
     return self;
-    
 }
 
 + (ProfileManager *) sharedInstance {
@@ -116,6 +120,70 @@ static NSString * login_key_chain_identifier = @"BezaatLogin";
     
 }
 
+- (void) registerDeviceWithDelegate:(id <DeviceRegisterDelegate>) del {
+    
+    //1- set the delegate
+    self.deviceDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.deviceDelegate)
+            [self.deviceDelegate deviceFailRegisterWithError:error];
+        return ;
+    }
+    
+    //4- detect device data
+    //temp string for simulator
+    //NSString * machineNameWithVersion = [@"iPhone3,1" lowercaseString];
+    
+    NSString * machineNameWithVersion = [[[GenericMethods machineName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+
+    NSString * str1 = [machineNameWithVersion stringByReplacingOccurrencesOfString:@"iphone" withString:@""];
+    
+    NSString * str2 = [str1 stringByReplacingOccurrencesOfString:@"ipad" withString:@""];
+    NSString * version = [str2 stringByReplacingOccurrencesOfString:@"ipod" withString:@""];
+
+    // 4-1- device generation number
+    NSString * deviceVersion = [version stringByReplacingOccurrencesOfString:@"," withString:@"."];
+    
+    
+    // 4-2- device type
+    NSString * deviceType = [machineNameWithVersion stringByReplacingOccurrencesOfString:version withString:@""];
+    
+    // 4-3- iOS version
+    NSString * osVersion = [[UIDevice currentDevice] systemVersion];
+    
+    //5- set the url string
+    NSString * fullURLString = [NSString stringWithFormat:device_reg_url, deviceType, deviceVersion, osVersion];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSLog(@"%@", correctURLstring);
+    
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //5- send the request
+        internetMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName url:correctURLstring delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"خطأ غير معروق"];
+        
+        if (self.deviceDelegate)
+            [self.deviceDelegate deviceFailRegisterWithError:error];
+        
+        return ;
+    }
+}
+
+
 - (void) storeUserProfile:(UserProfile * ) up {
     
     NSMutableDictionary * userDict = [NSMutableDictionary new];
@@ -157,9 +225,23 @@ static NSString * login_key_chain_identifier = @"BezaatLogin";
     return result;
 }
 
+- (NSString *) getSavedDeviceToken {
+    
+    NSString * str = [[ProfileManager loginKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    
+    if ([str isEqualToString:@""])
+        return @"";
+    
+    NSDictionary * dataDict = [str propertyList];
+    
+    if (!dataDict)
+        return @"";
+    
+    return [dataDict objectForKey:DREG_TOKEN];
+}
+
 
 #pragma mark - NSURLConnection Delegate methods
-
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
 
@@ -297,5 +379,82 @@ static NSString * login_key_chain_identifier = @"BezaatLogin";
 
     }
     return @"";
+}
+
+- (DeviceRegistration *) parseRegistrationData:(NSArray *) data {
+    
+    if ((data) && (data.count > 0))
+    {
+        NSDictionary * totalDict = [data objectAtIndex:0];
+        NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+        NSInteger statusCode = statusCodeString.integerValue;
+        
+        if (statusCode == 200)
+        {
+            NSDictionary * dataDict = [totalDict objectForKey:LOGIN_DATA_JKEY];
+            if (dataDict)
+            {
+                DeviceRegistration * devRegObject = [[DeviceRegistration alloc]
+                                   initWithDeviceIDString:[dataDict objectForKey:DREG_DEVICE_ID]
+                                        type:[dataDict objectForKey:DREG_TYPE]
+                                        token:[dataDict objectForKey:DREG_TOKEN]
+                                        version:[dataDict objectForKey:DREG_VERSION]
+                                        osVersion:[dataDict objectForKey:DREG_OS_VERSION]
+                                        ipAddress:[dataDict objectForKey:DREG_IP_ADDRESS]
+                                        registeredOnString:[dataDict objectForKey:DREG_REGISTERED_ON]
+                                   ];
+                return devRegObject;
+            }
+        }
+    }
+    return nil;
+}
+
+//store device data and token in keychain
+- (void) storeDeviceRegistrationData:(DeviceRegistration *) devRegObject {
+    
+    NSMutableDictionary * dataDict = [NSMutableDictionary new];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-mm-dd 'at' HH:mm:ss"];
+    
+    NSString * dateString = [formatter stringFromDate:devRegObject.registeredOn];
+
+    [dataDict setObject:[NSString stringWithFormat:@"%i", devRegObject.deviceID] forKey:DREG_DEVICE_ID];
+    [dataDict setObject:devRegObject.type forKey:DREG_TYPE];
+    [dataDict setObject:devRegObject.token forKey:DREG_TOKEN];
+    [dataDict setObject:devRegObject.version forKey:DREG_VERSION];
+    [dataDict setObject:devRegObject.osVersion forKey:DREG_OS_VERSION];
+    [dataDict setObject:devRegObject.ipAddress forKey:DREG_IP_ADDRESS];
+    [dataDict setObject:dateString forKey:DREG_REGISTERED_ON];
+    
+    
+    [[ProfileManager loginKeyChainItemSharedInstance] setObject:dataDict.description forKey:(__bridge id)(kSecValueData)];
+}
+
+
+#pragma mark - Data delegate methods
+
+- (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
+    
+    if (self.deviceDelegate)
+        [deviceDelegate deviceFailRegisterWithError:error];
+}
+
+- (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*) result {
+    
+    if (!result)
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل اتحميل البيانات"];
+        
+        if (self.deviceDelegate)
+            [self.deviceDelegate deviceFailRegisterWithError:error];
+    }
+    else
+    {
+        DeviceRegistration * deviceRegObject = [self parseRegistrationData:(NSArray *)result];
+        [self storeDeviceRegistrationData:deviceRegObject];
+    }
 }
 @end

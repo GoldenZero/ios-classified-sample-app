@@ -50,7 +50,6 @@
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
         self.window.rootViewController = self.chooseLocationVC;
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];;
-        
     }
     else{
         self.window.rootViewController = self.homeVC;

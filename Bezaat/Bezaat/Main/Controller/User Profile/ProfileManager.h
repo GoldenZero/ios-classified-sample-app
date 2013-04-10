@@ -12,6 +12,7 @@
 #import "NSString+MD5.h"
 #import <Security/Security.h>
 #import "KeychainItemWrapper.h"
+#import "DeviceRegistration.h"
 
 @protocol ProfileManagerDelegate <NSObject>
 @required
@@ -22,13 +23,13 @@
 @protocol DeviceRegisterDelegate <NSObject>
 @required
 - (void) deviceFailRegisterWithError:(NSError*) error;
-- (void) deviceDidRegisterWithData:(UserProfile *) resultProfile;
 @end
 
-@interface ProfileManager : NSObject
+@interface ProfileManager : NSObject <DataDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) id <ProfileManagerDelegate> delegate;
+@property (strong, nonatomic) id <DeviceRegisterDelegate> deviceDelegate;
 
 #pragma mark - methods
 
@@ -36,11 +37,18 @@
 
 + (KeychainItemWrapper *) loginKeyChainItemSharedInstance;
 
+// call login API
 - (void) loginWithDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress password:(NSString *) plainPassword;
+
+// call device register API
+- (void) registerDeviceWithDelegate:(id <DeviceRegisterDelegate>) del;
 
 // store user's data
 - (void) storeUserProfile:(UserProfile * ) up;
 
 // get the stored user data
 - (UserProfile *) getSavedUserProfile;
+
+// get the stored device token
+- (NSString *) getSavedDeviceToken;
 @end

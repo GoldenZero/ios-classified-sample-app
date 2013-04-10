@@ -40,6 +40,10 @@
         [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
     }
     
+    //call the device registeration
+    if ([[[ProfileManager sharedInstance] getSavedDeviceToken] isEqualToString:@""])
+        [[ProfileManager sharedInstance] registerDeviceWithDelegate:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning
