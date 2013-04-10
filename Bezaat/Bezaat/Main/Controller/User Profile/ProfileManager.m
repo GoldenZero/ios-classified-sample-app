@@ -102,28 +102,45 @@ static NSString * login_key_chain_identifier = @"BezaatLogin";
     
 }
 
-
-- (void) storeLoginUseremail:(NSString *) userEmail passwordMD5:(NSString *) md5 {
-    //set user email
-    [[ProfileManager loginKeyChainItemSharedInstance] setObject:userEmail forKey:(__bridge id)(kSecAttrAccount)];
+- (void) storeUserProfile:(UserProfile * ) up {
     
-    //set password
-    [[ProfileManager loginKeyChainItemSharedInstance] setObject:md5 forKey:(__bridge id)(kSecValueData)];
+    NSMutableDictionary * userDict = [NSMutableDictionary new];
     
+    [userDict setObject:[NSNumber numberWithUnsignedInteger:up.userID] forKey:LOGIN_USER_ID_JKEY];
+    [userDict setObject:up.userName forKey:LOGIN_USER_NAME_JKEY];
+    [userDict setObject:up.emailAddress forKey:LOGIN_EMAIL_ADDRESS_JKEY];
+    [userDict setObject:up.passwordMD5 forKey:LOGIN_PASSWORD_JKEY];
+    [userDict setObject:[NSNumber numberWithUnsignedInteger:up.defaultCityID] forKey:LOGIN_DEFAULT_CITY_ID_JKEY];
+    [userDict setObject:[NSNumber numberWithBool:up.isVerified] forKey:LOGIN_IS_VERIFIED_JKEY];
+    [userDict setObject:[NSNumber numberWithBool:up.isActive] forKey:LOGIN_IS_ACTIVE_JKEY];
+    
+    
+    [[ProfileManager loginKeyChainItemSharedInstance] setObject:userDict.description forKey:(__bridge id)(kSecAttrAccount)];
 }
 
-- (NSString *) getSavedUserEmail {
+- (UserProfile *) getSavedUserProfile {
     
-    NSString * userEmail = [[ProfileManager loginKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
+    NSString * str = [[ProfileManager loginKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
     
-    return userEmail;
-}
-
-- (NSString *) getSavedUserPasswordMD5 {
- 
-    NSString * md5 = [[ProfileManager loginKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    if ([str isEqualToString:@""])
+         return nil;
     
-    return md5;
+    NSDictionary * userDict = [str propertyList];
+    
+    if (!userDict)
+        return nil;
+    
+    UserProfile * result= [[UserProfile alloc] init] ;
+    
+    result.userID = ((NSNumber *)[userDict objectForKey:LOGIN_USER_ID_JKEY]).integerValue;
+    result.userName = [userDict objectForKey:LOGIN_USER_NAME_JKEY];
+    result.emailAddress = [userDict objectForKey:LOGIN_EMAIL_ADDRESS_JKEY];
+    result.passwordMD5 = [userDict objectForKey:LOGIN_PASSWORD_JKEY];
+    result.defaultCityID = ((NSNumber *)[userDict objectForKey:LOGIN_DEFAULT_CITY_ID_JKEY]).integerValue;
+    result.isVerified = ((NSNumber *)[userDict objectForKey:LOGIN_IS_VERIFIED_JKEY]).boolValue;
+    result.isActive = ((NSNumber *)[userDict objectForKey:LOGIN_IS_ACTIVE_JKEY]).boolValue;
+    
+    return result;
 }
 
 

@@ -13,11 +13,11 @@
     @protected
         NSInteger countryID;
         NSInteger cityID;
+        UserProfile * currentProfile;
 }
 @end
 
 @implementation SharedUser
-@synthesize currentProfile;
 @synthesize registered;
 
 - (id) init {
@@ -27,6 +27,7 @@
         // load them from application keychain
         countryID = -1;
         cityID = -1;
+        currentProfile = nil;
     }
     return self;
 }
@@ -85,6 +86,13 @@ static OAuth * twSharedToken;
     if (cityID == -1)
         cityID = [[LocationManager sharedInstance] getSavedUserCityID];
     return cityID;
+}
+
+- (UserProfile *) getUserProfileData {
+    //return a nil of user is a visitor
+    if (!currentProfile)
+        currentProfile =[[ProfileManager sharedInstance] getSavedUserProfile];
+    return currentProfile;
 }
 
 @end

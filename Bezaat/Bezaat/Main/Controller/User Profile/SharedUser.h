@@ -22,7 +22,6 @@
 
 #pragma mark - properties
 
-@property (strong, nonatomic) UserProfile * currentProfile;
 @property (nonatomic) BOOL registered;
 
 #pragma mark - methods
@@ -53,5 +52,8 @@
 
 // Return the city id global among the while application
 - (NSInteger) getUserCityID;
+
+// Return the user profile object global among the while application
+- (UserProfile *) getUserProfileData;
 
 @end

@@ -156,13 +156,10 @@
 
 #pragma mark - ProfileManager delegate methods
 - (void) userDidLoginWithData:(UserProfile *)resultProfile {
-    
-    //set the current user's profiles
-    [[SharedUser sharedInstance] setCurrentProfile:resultProfile];
 
-    //save user's login data
-    [[ProfileManager sharedInstance] storeLoginUseremail:resultProfile.emailAddress passwordMD5:resultProfile.passwordMD5];
-    
+    //save user's data
+    [[ProfileManager sharedInstance] storeUserProfile:resultProfile];
+
     //hide loading indicator
     [self hideLoadingIndicator];
     
@@ -195,7 +192,7 @@
 
 - (void) hideLoadingIndicator {
     if (loadingHUD)
-        [MBProgressHUD2 hideHUDForView:self.navigationController.view  animated:YES];
+        [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
     loadingHUD = nil;
 }
 

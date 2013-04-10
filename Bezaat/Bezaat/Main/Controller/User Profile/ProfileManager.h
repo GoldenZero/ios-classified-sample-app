@@ -33,11 +33,9 @@
 
 - (void) loginWithDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress password:(NSString *) plainPassword;
 
-- (void) storeLoginUseremail:(NSString *) userEmail passwordMD5:(NSString *) MD5;
+// store user's data
+- (void) storeUserProfile:(UserProfile * ) up;
 
-// get the stored email address from keyChain
-- (NSString *) getSavedUserEmail;
-
-// get the stored password MD5 from keyChain
-- (NSString *) getSavedUserPasswordMD5;
+// get the stored user data
+- (UserProfile *) getSavedUserProfile;
 @end

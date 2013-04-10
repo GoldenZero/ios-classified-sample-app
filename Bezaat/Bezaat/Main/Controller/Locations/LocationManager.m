@@ -205,124 +205,45 @@ static NSString * location_key_chain_identifier = @"BezaatLocation";
 
 - (void) storeDataOfCountry:(NSUInteger) countryID city:(NSUInteger) cityID {
     
-    /*
     NSNumber * countryNum = [NSNumber numberWithInt:countryID];
     NSNumber * cityNum = [NSNumber numberWithInt:cityID];
     
-    NSMutableDictionary * locationDict = [NSMutableDictionary new];
-    [locationDict setObject:countryNum forKey:KEYCHAIN_DICT_COUNTRY_KEY];
-    [locationDict setObject:cityNum forKey:KEYCHAIN_DICT_CITY_KEY];
     
-    //serialize the dictionary
-    NSError *error;
-    NSData * dictionaryRep = [NSPropertyListSerialization dataWithPropertyList:locationDict format:NSPropertyListXMLFormat_v1_0 options:0 error:&error ];
-                              
-    //[[LocationManager LocationKeyChainItemSharedInstance] setObject:locationDict forKey:(__bridge id)(kSecValueData)];
+    NSMutableDictionary * dataDict = [NSMutableDictionary new];
+    [dataDict setObject:countryNum forKey:COUNTRY_ID_JSONK];
+    [dataDict setObject:cityNum forKey:CITY_ID_JSONK];
     
-    [[LocationManager LocationKeyChainItemSharedInstance] setObject:dictionaryRep forKey:(__bridge id)(kSecValueData)];
-     */
-    
-    //store the values as strings
-    NSString * countryStr = [NSString stringWithFormat:@"%i", countryID];
-    NSString * cityStr = [NSString stringWithFormat:@"%i", cityID];
-    
-    //set country
-    [[LocationManager locationKeyChainItemSharedInstance] setObject:countryStr forKey:(__bridge id)(kSecAttrAccount)];
-    
-    //set city
-    [[LocationManager locationKeyChainItemSharedInstance] setObject:cityStr forKey:(__bridge id)(kSecValueData)];
+    [[LocationManager locationKeyChainItemSharedInstance] setObject:dataDict.description forKey:(__bridge id)(kSecValueData)];
 }
 
 - (NSInteger) getSavedUserCountryID {
     
-    /*
-    //NSDictionary * locationDict = [[LocationManager LocationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    NSString * str = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
     
-    NSError *error;
-    NSData * dictionaryRep = [[LocationManager LocationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
-    
-    NSDictionary * locationDict = [NSPropertyListSerialization propertyListWithData:dictionaryRep options:NSPropertyListImmutable format:nil error:&error];
-    
-    if (error)
+    if ([str isEqualToString:@""])
         return -1;
     
-    if (!locationDict)
+    NSDictionary * dataDict = [str propertyList];
+    
+    if (!dataDict)
         return -1;
-    
-    if (![locationDict objectForKey:KEYCHAIN_DICT_COUNTRY_KEY])
-        return -1;
-    
-    NSNumber * countryNum = [locationDict objectForKey:KEYCHAIN_DICT_COUNTRY_KEY];
-    
-    return countryNum.unsignedIntegerValue;
-     */
-    
 
-    //NSLog(@"length ===== %i", [[[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)] length]);
-    
-    /*
-    //if no stored value yet return -1
-    if ([[[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)] length] == 0)
-        return -1;
-    */
-    
-    NSString * countryStr = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
-    
-    NSLog(@"countryStr: %@", countryStr);
-    
-    if (!countryStr)
-        return -1;
-    
-    if ([(NSString *)countryStr isEqualToString:@""])
-        return -1;
-    
-    return countryStr.integerValue;
+    return (((NSNumber *)[dataDict objectForKey:COUNTRY_ID_JSONK]).integerValue);
 }
 
 - (NSInteger) getSavedUserCityID {
     
-    /*
-    //NSDictionary * locationDict = [[LocationManager LocationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    NSString * str = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
     
-    NSError *error;
-    NSData * dictionaryRep = [[LocationManager LocationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
-    
-    NSDictionary * locationDict = [NSPropertyListSerialization propertyListWithData:dictionaryRep options:NSPropertyListImmutable format:nil error:&error];
-    
-    if (error)
+    if ([str isEqualToString:@""])
         return -1;
     
-    if (!locationDict)
+    NSDictionary * dataDict = [str propertyList];
+    
+    if (!dataDict)
         return -1;
     
-    if (![locationDict objectForKey:KEYCHAIN_DICT_CITY_KEY])
-        return -1;
-    
-    NSNumber * cityNum = [locationDict objectForKey:KEYCHAIN_DICT_CITY_KEY];
-    
-    return cityNum.unsignedIntegerValue;
-     */
-    
-    //NSLog(@"length ===== %i", [[[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)] length]);
-    
-    /*
-    //if no stored value yet
-    if ([[[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)] length] == 0)
-        return -1;
-    */
-    
-    NSString * cityStr = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
-    
-    NSLog(@"cityStr: %@", cityStr);
-    
-    if (!cityStr)
-        return -1;
-    
-    if ([(NSString *)cityStr isEqualToString:@""])
-        return -1;
-    
-    return cityStr.integerValue;
-    
+    return (((NSNumber *)[dataDict objectForKey:CITY_ID_JSONK]).integerValue);
 }
 
 
