@@ -17,6 +17,7 @@
     bool searchBtnFlag;
     bool filtersShown;
     bool searchWithImage;
+    float lastContentOffset;
     UITapGestureRecognizer *tap;
     MBProgressHUD2 * loadingHUD;
     NSMutableArray * carAdsArray;
@@ -37,6 +38,7 @@
         searchBtnFlag=false;
         filtersShown=false;
         searchWithImage=false;
+        lastContentOffset=0;
     }
     return self;
 }
@@ -139,39 +141,23 @@
 # pragma mark - hide bars while scrolling
 
 - (void) scrollViewDidScroll:(UITableView *)sender {
-    float filtersHieght=0;
-    if (sender.contentOffset.y == 0){
-        if(filtersShown)
-        {
-            [self showFiltersBar];
-            filtersHieght=self.filtersView.frame.size.height;
-        }
+   // Scroll up
+    if (( lastContentOffset> sender.contentOffset.y)||(sender.contentOffset.y == 0))
+    {
+        [self showNotificationBar];
+        [self showFiltersBar];
         [self showTopBar];
-        [UIView animateWithDuration:.25
-                         animations:^{
-                             self.contentView.frame = CGRectMake(0,self.topBarView.frame.size.height+filtersHieght,self.tableView.frame.size.width,self.tableView.frame.size.height);
-                         }
-                         completion:^(BOOL finished){
-                             
-                         }];
     }
     
+    //Scroll down
     else {
-        if(filtersShown)
-        {
-            filtersHieght=self.filtersView.frame.size.height;
-        }
+       
+        [self hideTopBar];
         [self hideFiltersBar];
         [self hideNotificationBar];
-        [self hideTopBar];
-        [UIView animateWithDuration:.25
-                         animations:^{
-                             self.contentView.frame = CGRectMake(0,0,self.tableView.frame.size.width,self.tableView.frame.size.height+(self.topBarView.frame.size.height));
-                         }
-                         completion:^(BOOL finished){
-                             
-                         }];
+        
     }
+    lastContentOffset=sender.contentOffset.y;
 }
 # pragma mark - custom methods
 
