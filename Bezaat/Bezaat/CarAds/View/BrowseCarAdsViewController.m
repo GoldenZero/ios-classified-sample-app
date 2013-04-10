@@ -192,9 +192,7 @@
     
     //  add background to the toolbar
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Listing_navigation_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    [self.notificationToolbar setBackgroundImage:[UIImage imageNamed:@"Listing_navigation_2_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    
-}
+  }
 
 - (void) showLoadingIndicator {
     
@@ -238,7 +236,7 @@
 - (void) showFiltersBar{
     [UIView animateWithDuration:.5
                      animations:^{
-                         self.filtersView.frame = CGRectMake(2,self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
+                         self.filtersView.frame = CGRectMake(2,self.topBarView.frame.size.height-2,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          
@@ -379,12 +377,30 @@
 }
 
 - (IBAction)kiloFilterBtnPrss:(id)sender {
+    [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
+     [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+     [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
 }
 
 - (IBAction)priceFilterBtnPrss:(id)sender {
+    [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
+    [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+     [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
 }
 
 - (IBAction)dateFilterBtnPrss:(id)sender {
+    [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
+    [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+    [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)okNotificationBtnPrss:(id)sender {
+    [self.okNotificationBtnImg setAlpha:1.0];
+    [self.notificationView setHidden:YES];
+}
+
+- (IBAction)cancelNotificationBtnPrss:(id)sender {
+    [self.notificationView setHidden:YES];
 }
 
 #pragma mark - CarAdsManager Delegate methods
