@@ -14,10 +14,15 @@
 #import "KeychainItemWrapper.h"
 
 @protocol ProfileManagerDelegate <NSObject>
-
 @required
 - (void) userFailLoginWithError:(NSError*) error;
 - (void) userDidLoginWithData:(UserProfile *) resultProfile;
+@end
+
+@protocol DeviceRegisterDelegate <NSObject>
+@required
+- (void) deviceFailRegisterWithError:(NSError*) error;
+- (void) deviceDidRegisterWithData:(UserProfile *) resultProfile;
 @end
 
 @interface ProfileManager : NSObject

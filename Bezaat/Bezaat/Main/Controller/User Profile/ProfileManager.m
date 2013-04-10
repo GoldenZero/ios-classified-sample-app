@@ -9,6 +9,7 @@
 #import "ProfileManager.h"
 
 #pragma mark - login json keys
+
 #define LOGIN_STATUS_CODE_JKEY      @"StatusCode"
 #define LOGIN_STATUS_MSG_JKEY       @"StatusMessage"
 #define LOGIN_DATA_JKEY             @"Data"
@@ -20,6 +21,16 @@
 #define LOGIN_DEFAULT_CITY_ID_JKEY  @"DefaultCityID"
 #define LOGIN_IS_VERIFIED_JKEY      @"IsVerified"
 #define LOGIN_IS_ACTIVE_JKEY        @"IsActive"
+
+/*
+#pragma mark - device register json keys
+"DeviceID":29,"Type":"iphone",
+"Token":"245C167B31720427DE05DBCAAF4B59CC",
+"Version":"4",
+"OSVersion":"6",
+"IPAddress":"172.16.4.202",
+"RegisteredOn":"\/Date(1365613059283)\/"}}
+*/
 
 @interface ProfileManager ()
 {

@@ -96,6 +96,7 @@ static NSString * documentsDirectoryPath;
 }
 
 + (NSDate *) NSDateFromDotNetJSONString:(NSString *) string {
+    
     static NSRegularExpression *dateRegEx = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -118,6 +119,14 @@ static NSString * documentsDirectoryPath;
         return [NSDate dateWithTimeIntervalSince1970:seconds];
     }
     return nil;
+}
+
++ (NSString *) machineName {
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    return [NSString stringWithCString:systemInfo.machine
+                              encoding:NSUTF8StringEncoding];
 }
 
 @end

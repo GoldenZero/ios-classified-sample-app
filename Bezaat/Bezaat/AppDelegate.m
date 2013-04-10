@@ -23,18 +23,21 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    //1- chooseLocationVC
+    //1- hide the status bar
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
+    //2- chooseLocationVC
     self.chooseLocationVC = [[ChooseLocationViewController alloc]
                              initWithNibName:@"ChooseLocationViewController" bundle:nil];
     self.homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     
-    //2- splash view
+    //3- splash view
     self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController" bundle:nil];
     self.window.rootViewController = self.splashVC;
     
     //  test friend list
-//    self.friendVC=[[FriendsListViewController alloc] initWithNibName:@"FriendsListViewController" bundle:nil];
-//    self.window.rootViewController = self.friendVC;
+    //self.friendVC=[[FriendsListViewController alloc] initWithNibName:@"FriendsListViewController" bundle:nil];
+    //self.window.rootViewController = self.friendVC;
 
     //3- visualize
     [self.window makeKeyAndVisible];

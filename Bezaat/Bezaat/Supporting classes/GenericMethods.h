@@ -9,6 +9,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Constants.h"
+#import <sys/utsname.h>
 
 @interface GenericMethods : NSObject
 
@@ -35,4 +36,7 @@
 
 // This method parses a JSON like date string into an NSDate
 + (NSDate *) NSDateFromDotNetJSONString:(NSString *) string;
+
+// This method returns the device name and version
++ (NSString *) machineName;
 @end
