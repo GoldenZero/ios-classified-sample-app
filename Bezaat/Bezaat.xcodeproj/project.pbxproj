@@ -514,6 +514,8 @@
 		9E461E3F170D96C600FF87B3 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E461E3C170D96C600FF87B3 /* NSData+MD5.m */; };
 		9E461E40170D96C600FF87B3 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E461E3E170D96C600FF87B3 /* NSString+MD5.m */; };
 		9E461E4B1711396F00FF87B3 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E461E4A1711396F00FF87B3 /* KeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9E53BB821715BCF30097DA8E /* CarDetalis.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53BB811715BCF30097DA8E /* CarDetalis.m */; };
+		9E53BB851715BD040097DA8E /* CarDetalisManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53BB841715BD040097DA8E /* CarDetalisManager.m */; };
 		9E5C5C2C1712CF8C00BA4373 /* brands_whiteRectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E5C5C2A1712CF8C00BA4373 /* brands_whiteRectangle.png */; };
 		9E5C5C2D1712CF8C00BA4373 /* brands_whiteRectangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E5C5C2B1712CF8C00BA4373 /* brands_whiteRectangle@2x.png */; };
 		9E78A7B716E34BA2000CA790 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E78A7B616E34BA2000CA790 /* UIKit.framework */; };
@@ -1209,6 +1211,10 @@
 		9E461E3E170D96C600FF87B3 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		9E461E491711396F00FF87B3 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
 		9E461E4A1711396F00FF87B3 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
+		9E53BB801715BCF30097DA8E /* CarDetalis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarDetalis.h; sourceTree = "<group>"; };
+		9E53BB811715BCF30097DA8E /* CarDetalis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarDetalis.m; sourceTree = "<group>"; };
+		9E53BB831715BD040097DA8E /* CarDetalisManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarDetalisManager.h; sourceTree = "<group>"; };
+		9E53BB841715BD040097DA8E /* CarDetalisManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarDetalisManager.m; sourceTree = "<group>"; };
 		9E5C5C2A1712CF8C00BA4373 /* brands_whiteRectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brands_whiteRectangle.png; sourceTree = "<group>"; };
 		9E5C5C2B1712CF8C00BA4373 /* brands_whiteRectangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brands_whiteRectangle@2x.png"; sourceTree = "<group>"; };
 		9E78A7B316E34BA2000CA790 /* Bezaat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bezaat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2182,8 +2188,12 @@
 			children = (
 				9E78A84416E363C8000CA790 /* CarAdsManager.h */,
 				9E78A84516E363C8000CA790 /* CarAdsManager.m */,
+				9E53BB831715BD040097DA8E /* CarDetalisManager.h */,
+				9E53BB841715BD040097DA8E /* CarDetalisManager.m */,
 				9E78A84A16E363FB000CA790 /* CarAd.h */,
 				9E78A84B16E363FC000CA790 /* CarAd.m */,
+				9E53BB801715BCF30097DA8E /* CarDetalis.h */,
+				9E53BB811715BCF30097DA8E /* CarDetalis.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3192,6 +3202,8 @@
 				24DF4A6C171409D200F17825 /* CarAdWithStoreCell.m in Sources */,
 				9E06E49D1714205A006404F7 /* DistanceRange.m in Sources */,
 				9E06E4CF1715A091006404F7 /* DeviceRegistration.m in Sources */,
+				9E53BB821715BCF30097DA8E /* CarDetalis.m in Sources */,
+				9E53BB851715BD040097DA8E /* CarDetalisManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
