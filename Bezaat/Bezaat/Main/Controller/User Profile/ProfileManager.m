@@ -22,15 +22,17 @@
 #define LOGIN_IS_VERIFIED_JKEY      @"IsVerified"
 #define LOGIN_IS_ACTIVE_JKEY        @"IsActive"
 
-/*
+
 #pragma mark - device register json keys
-"DeviceID":29,"Type":"iphone",
-"Token":"245C167B31720427DE05DBCAAF4B59CC",
-"Version":"4",
-"OSVersion":"6",
-"IPAddress":"172.16.4.202",
-"RegisteredOn":"\/Date(1365613059283)\/"}}
-*/
+
+#define DREG_DEVICE_ID              @"DeviceID"
+#define DREG_TYPE                   @"Type"
+#define DREG_TOKEN                  @"Token"
+#define DREG_VERSION                @"Version"
+#define DREG_OS_VERSION             @"OSVersion"
+#define DREG_IP_ADDRESS             @"IPAddress"
+#define DREG_REGISTERED_ON          @"RegisteredOn"
+
 
 @interface ProfileManager ()
 {
