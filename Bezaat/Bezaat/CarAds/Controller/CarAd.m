@@ -60,7 +60,12 @@
         if ([aThumbnailURLString isEqualToString:@""])
             self.thumbnailURL = nil;
         else
+        {
+            //------------ TEMPORARY ------------
+            //replace ".com" with ".com.s3-external-3.amazonaws.com"
+            //-----------------------------------
             self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
+        }
         
         // title
         self.title = aTitle;

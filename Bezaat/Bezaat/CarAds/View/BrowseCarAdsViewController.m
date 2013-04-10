@@ -19,6 +19,7 @@
     UITapGestureRecognizer *tap;
     MBProgressHUD2 * loadingHUD;
     NSMutableArray * carAdsArray;
+    HJObjManager* asynchImgManager;   //asynchronous image loading manager
 }
 
 @end
@@ -53,6 +54,12 @@
     //init the array if it is still nullable
     if (!carAdsArray)
         carAdsArray = [NSMutableArray new];
+    
+    //init the image load manager
+    asynchImgManager = [[HJObjManager alloc] init];
+	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
+	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
+	asynchImgManager.fileCache = fileCache;
     
     //load the first page of data
     [self loadPageOfAds];
@@ -96,6 +103,16 @@
     cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
     cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
     
+    if (carAdObject.thumbnailURL)
+    {
+        //load image as URL
+        [cell.carImage clear];
+        cell.carImage.url = carAdObject.thumbnailURL;
+        
+        [cell.carImage showLoadingWheel];
+        [asynchImgManager manage:cell.carImage];
+    }
+
     //customize favoriteButton according to carAdObject.isFavorite
     //customize carAdObject.storeName
     //load carAdObject.storeLogoURL
