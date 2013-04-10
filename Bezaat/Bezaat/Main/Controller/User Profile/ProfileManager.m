@@ -46,6 +46,7 @@
 
 //the login url is a POST url
 static NSString * login_url = @"http://gfctest.edanat.com/v1.0/json/user-login";
+static NSString * device_reg_url = @"http://gfctest.edanat.com/v1.0/json/register-device?deviceTpe=%@&version=%@&osVersion=%@";
 static NSString * login_email_post_key = @"EmailAddress";
 static NSString * login_password_post_key = @"Password";
 static NSString * login_key_chain_identifier = @"BezaatLogin";
