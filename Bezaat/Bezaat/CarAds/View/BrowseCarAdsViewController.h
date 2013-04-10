@@ -33,6 +33,9 @@
 @property (strong, nonatomic) IBOutlet UIImageView *searchImageButton;
 
 @property (strong, nonatomic) IBOutlet UIImageView *checkAdImage;
+@property (strong, nonatomic) IBOutlet UIButton *kiloFilterBtn;
+@property (strong, nonatomic) IBOutlet UIButton *priceFilterBtn;
+@property (strong, nonatomic) IBOutlet UIButton *dateFilterBtn;
 
 
 #pragma mark - actions
@@ -42,5 +45,8 @@
 - (IBAction)searchInPanelBtnPrss:(id)sender;
 - (IBAction)clearInPanelBtnPrss:(id)sender;
 - (IBAction)adWithImageBtnPrss:(id)sender;
+- (IBAction)kiloFilterBtnPrss:(id)sender;
+- (IBAction)priceFilterBtnPrss:(id)sender;
+- (IBAction)dateFilterBtnPrss:(id)sender;
 
 @end

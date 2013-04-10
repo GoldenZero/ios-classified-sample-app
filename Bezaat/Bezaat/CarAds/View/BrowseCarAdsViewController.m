@@ -238,7 +238,7 @@
 - (void) showFiltersBar{
     [UIView animateWithDuration:.5
                      animations:^{
-                         self.filtersView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
+                         self.filtersView.frame = CGRectMake(2,self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          
@@ -248,7 +248,7 @@
 - (void) hideFiltersBar{
     [UIView animateWithDuration:.5
                      animations:^{
-                         self.filtersView.frame = CGRectMake(0,-self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
+                         self.filtersView.frame = CGRectMake(2,-self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          
@@ -355,6 +355,8 @@
 - (IBAction)searchInPanelBtnPrss:(id)sender {
     filtersShown=true;
     [self hideSearchPanel];
+    [self.filtersView setHidden:NO];
+    [self.searchImageButton setHidden:YES];
     [self showFiltersBar];
  //   [self showNotificationBar];
     
@@ -374,6 +376,15 @@
         searchWithImage=false;
         
     }
+}
+
+- (IBAction)kiloFilterBtnPrss:(id)sender {
+}
+
+- (IBAction)priceFilterBtnPrss:(id)sender {
+}
+
+- (IBAction)dateFilterBtnPrss:(id)sender {
 }
 
 #pragma mark - CarAdsManager Delegate methods
