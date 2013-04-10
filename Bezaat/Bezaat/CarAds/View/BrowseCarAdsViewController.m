@@ -16,6 +16,7 @@
 @interface BrowseCarAdsViewController (){
     bool searchBtnFlag;
     bool filtersShown;
+    bool searchWithImage;
     UITapGestureRecognizer *tap;
     MBProgressHUD2 * loadingHUD;
     NSMutableArray * carAdsArray;
@@ -35,6 +36,7 @@
         self.tableView.dataSource = self;
         searchBtnFlag=false;
         filtersShown=false;
+        searchWithImage=false;
     }
     return self;
 }
@@ -330,13 +332,13 @@
     }
     if (searchBtnFlag){
         [self.searchPanelView setHidden:NO];
-
+        [self.searchImageButton setHidden:NO];
         [self showSearchPanel];
     }
     
     else {
         [self.searchPanelView setHidden:YES];
-
+        [self.searchImageButton setHidden:YES];
         [self hideSearchPanel];
         
     }
@@ -362,6 +364,16 @@
 }
 
 - (IBAction)adWithImageBtnPrss:(id)sender {
+    if(searchWithImage==false){
+        [self.checkAdImage setAlpha:1.0];
+        searchWithImage=true;
+        
+    }
+    else{
+        [self.checkAdImage setAlpha:0.2];
+        searchWithImage=false;
+        
+    }
 }
 
 #pragma mark - CarAdsManager Delegate methods

@@ -30,6 +30,9 @@
 @property (strong, nonatomic) IBOutlet UIView *filtersView;
 @property (strong, nonatomic) IBOutlet UIView *notificationView;
 @property (strong, nonatomic) IBOutlet UIToolbar *notificationToolbar;
+@property (strong, nonatomic) IBOutlet UIImageView *searchImageButton;
+
+@property (strong, nonatomic) IBOutlet UIImageView *checkAdImage;
 
 
 #pragma mark - actions
