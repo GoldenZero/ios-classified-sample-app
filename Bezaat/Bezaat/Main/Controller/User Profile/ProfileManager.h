@@ -14,6 +14,13 @@
 #import "KeychainItemWrapper.h"
 #import "DeviceRegistration.h"
 
+#pragma mark - HTTP header keys
+
+#define DEVICE_TOKEN_HTTP_HEADER_KEY   @"DeviceToken"
+#define USER_ID_HTTP_HEADER_KEY        @"UserID"
+#define PASSWORD_HTTP_HEADER_KEY       @"Password"
+
+
 @protocol ProfileManagerDelegate <NSObject>
 @required
 - (void) userFailLoginWithError:(NSError*) error;

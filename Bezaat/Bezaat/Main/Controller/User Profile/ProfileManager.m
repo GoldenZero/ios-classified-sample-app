@@ -138,9 +138,9 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     //4- detect device data
     //temp string for simulator
-    //NSString * machineNameWithVersion = [@"iPhone3,1" lowercaseString];
+    NSString * machineNameWithVersion = [@"iPhone1,1" lowercaseString];
     
-    NSString * machineNameWithVersion = [[[GenericMethods machineName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+    //NSString * machineNameWithVersion = [[[GenericMethods machineName] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
 
     NSString * str1 = [machineNameWithVersion stringByReplacingOccurrencesOfString:@"iphone" withString:@""];
     
@@ -454,7 +454,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     else
     {
         DeviceRegistration * deviceRegObject = [self parseRegistrationData:(NSArray *)result];
-        [self storeDeviceRegistrationData:deviceRegObject];
+        if (deviceRegObject)
+            [self storeDeviceRegistrationData:deviceRegObject];
     }
 }
 @end
