@@ -16,6 +16,7 @@
 @interface BrowseCarAdsViewController (){
     bool searchBtnFlag;
     bool filtersShown;
+    bool searchWithImage;
     UITapGestureRecognizer *tap;
     MBProgressHUD2 * loadingHUD;
     NSMutableArray * carAdsArray;
@@ -35,6 +36,7 @@
         self.tableView.dataSource = self;
         searchBtnFlag=false;
         filtersShown=false;
+        searchWithImage=false;
     }
     return self;
 }
@@ -190,9 +192,7 @@
     
     //  add background to the toolbar
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Listing_navigation_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    [self.notificationToolbar setBackgroundImage:[UIImage imageNamed:@"Listing_navigation_2_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    
-}
+  }
 
 - (void) showLoadingIndicator {
     
@@ -236,7 +236,7 @@
 - (void) showFiltersBar{
     [UIView animateWithDuration:.5
                      animations:^{
-                         self.filtersView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
+                         self.filtersView.frame = CGRectMake(2,self.topBarView.frame.size.height-2,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          
@@ -246,7 +246,7 @@
 - (void) hideFiltersBar{
     [UIView animateWithDuration:.5
                      animations:^{
-                         self.filtersView.frame = CGRectMake(0,-self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
+                         self.filtersView.frame = CGRectMake(2,-self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
                      }
                      completion:^(BOOL finished){
                          
@@ -330,13 +330,13 @@
     }
     if (searchBtnFlag){
         [self.searchPanelView setHidden:NO];
-
+        [self.searchImageButton setHidden:NO];
         [self showSearchPanel];
     }
     
     else {
         [self.searchPanelView setHidden:YES];
-
+        [self.searchImageButton setHidden:YES];
         [self hideSearchPanel];
         
     }
@@ -353,6 +353,8 @@
 - (IBAction)searchInPanelBtnPrss:(id)sender {
     filtersShown=true;
     [self hideSearchPanel];
+    [self.filtersView setHidden:NO];
+    [self.searchImageButton setHidden:YES];
     [self showFiltersBar];
  //   [self showNotificationBar];
     
@@ -362,6 +364,43 @@
 }
 
 - (IBAction)adWithImageBtnPrss:(id)sender {
+    if(searchWithImage==false){
+        [self.checkAdImage setAlpha:1.0];
+        searchWithImage=true;
+        
+    }
+    else{
+        [self.checkAdImage setAlpha:0.2];
+        searchWithImage=false;
+        
+    }
+}
+
+- (IBAction)kiloFilterBtnPrss:(id)sender {
+    [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
+     [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+     [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)priceFilterBtnPrss:(id)sender {
+    [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
+    [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+     [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)dateFilterBtnPrss:(id)sender {
+    [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
+    [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+    [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)okNotificationBtnPrss:(id)sender {
+    [self.okNotificationBtnImg setAlpha:1.0];
+    [self.notificationView setHidden:YES];
+}
+
+- (IBAction)cancelNotificationBtnPrss:(id)sender {
+    [self.notificationView setHidden:YES];
 }
 
 #pragma mark - CarAdsManager Delegate methods

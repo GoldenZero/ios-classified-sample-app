@@ -29,7 +29,13 @@
 @property (strong, nonatomic) IBOutlet UITextField *higherPriceText;
 @property (strong, nonatomic) IBOutlet UIView *filtersView;
 @property (strong, nonatomic) IBOutlet UIView *notificationView;
-@property (strong, nonatomic) IBOutlet UIToolbar *notificationToolbar;
+@property (strong, nonatomic) IBOutlet UIImageView *searchImageButton;
+
+@property (strong, nonatomic) IBOutlet UIImageView *checkAdImage;
+@property (strong, nonatomic) IBOutlet UIButton *kiloFilterBtn;
+@property (strong, nonatomic) IBOutlet UIButton *priceFilterBtn;
+@property (strong, nonatomic) IBOutlet UIButton *dateFilterBtn;
+@property (strong, nonatomic) IBOutlet UIButton *okNotificationBtnImg;
 
 
 #pragma mark - actions
@@ -39,5 +45,10 @@
 - (IBAction)searchInPanelBtnPrss:(id)sender;
 - (IBAction)clearInPanelBtnPrss:(id)sender;
 - (IBAction)adWithImageBtnPrss:(id)sender;
+- (IBAction)kiloFilterBtnPrss:(id)sender;
+- (IBAction)priceFilterBtnPrss:(id)sender;
+- (IBAction)dateFilterBtnPrss:(id)sender;
+- (IBAction)okNotificationBtnPrss:(id)sender;
+- (IBAction)cancelNotificationBtnPrss:(id)sender;
 
 @end
