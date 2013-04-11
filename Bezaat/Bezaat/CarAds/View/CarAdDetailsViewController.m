@@ -8,6 +8,7 @@
 //
 
 #import "CarAdDetailsViewController.h"
+#import "labelAdViewController.h"
 
 @interface CarAdDetailsViewController (){
     BOOL pageControlUsed;
@@ -129,6 +130,8 @@
     
 }
 
+#pragma mark - buttpns actions
+
 - (IBAction)changePage:(id)sender{
     
     CGRect frame;
@@ -137,6 +140,28 @@
     frame.size = self.scrollView.frame.size;
     [self.scrollView scrollRectToVisible:frame animated:YES];
     pageControlUsed = YES;
+}
+
+- (IBAction)labelAdBtnPrss:(id)sender {
+    labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+    
+}
+
+- (IBAction)editAdBtnPrss:(id)sender {
+}
+
+- (IBAction)backBtnPrss:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)sendMailBtnPrss:(id)sender {
+}
+
+- (IBAction)favoriteBtnPrss:(id)sender {
+}
+
+- (IBAction)callBtnPrss:(id)sender {
 }
 
 #pragma mark - sharing acions

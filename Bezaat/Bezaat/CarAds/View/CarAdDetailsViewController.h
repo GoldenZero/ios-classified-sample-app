@@ -18,8 +18,15 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (strong, nonatomic) NSArray *carPhotos;
+@property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 
 #pragma mark - actions
 - (IBAction)changePage:(id)sender;
+- (IBAction)labelAdBtnPrss:(id)sender;
+- (IBAction)editAdBtnPrss:(id)sender;
+- (IBAction)backBtnPrss:(id)sender;
+- (IBAction)sendMailBtnPrss:(id)sender;
+- (IBAction)favoriteBtnPrss:(id)sender;
+- (IBAction)callBtnPrss:(id)sender;
 
 @end
