@@ -96,9 +96,9 @@
 }
 
 - (void) prepareShareButton{
-    UIImage* twitterImage = [UIImage imageNamed:@"/Bundle.bundle/Resources/rosetta_twitter.png"];
-    UIImage* facebookImage = [UIImage imageNamed:@"/Bundle.bundle/Resources/rosetta_facebook.png"];
-    UIImage* mailImage = [UIImage imageNamed:@"/Bundle.bundle/Resources/rosetta_mail.png"];
+    UIImage* twitterImage = [UIImage imageNamed:@"Details_button_twitter.png"];
+    UIImage* facebookImage = [UIImage imageNamed:@"Details_button_facebook.png"];
+    UIImage* mailImage = [UIImage imageNamed:@"Details_button_mail.png"];
     
     
     // create rosette items
@@ -119,6 +119,7 @@
     
     // create rosette view
     AURosetteView* rosette = [[AURosetteView alloc] initWithItems: [NSArray arrayWithObjects: twitterItem, facebookItem, mailItem, nil]];
+    [rosette.wheelButton setImage:[UIImage imageNamed:@"Details_button_share.png"] forState:UIControlStateNormal];
     [rosette setCenter:CGPointMake(40.0f, 420.0f)];
     
     CGAffineTransform transform =
