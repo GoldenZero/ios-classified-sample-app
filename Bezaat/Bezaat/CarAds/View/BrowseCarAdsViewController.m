@@ -77,7 +77,30 @@
 
 #pragma mark - tableView handlig
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 270;
+    
+    CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+    //ad with image
+    if (carAdObject.thumbnailURL)
+    {
+        //store ad - with image
+        if (carAdObject.storeID > 0)
+            return 300;
+        
+        //individual ad - with image
+        else
+            return 270;
+            
+    }
+    //ad with no image
+    else
+    {
+        //store ad - no image
+        if (carAdObject.storeID > 0)
+            return 270;//IMPORTANT _ COME BACK HERE!!!
+        //individual - no image
+        else
+            return 110;
+    }
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
