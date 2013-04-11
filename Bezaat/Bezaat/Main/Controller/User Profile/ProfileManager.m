@@ -162,7 +162,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    NSLog(@"%@", correctURLstring);
+    //NSLog(@"%@", correctURLstring);
     
     NSURL * correctURL = [NSURL URLWithString:correctURLstring];
     

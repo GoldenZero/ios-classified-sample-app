@@ -98,6 +98,7 @@ static NSString * location_key_chain_identifier = @"BezaatLocation";
     static KeychainItemWrapper * wrapperInstance = nil;
     if (wrapperInstance == nil) {
         wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:location_key_chain_identifier accessGroup:nil];
+        
     }
     
     return wrapperInstance;
@@ -213,12 +214,14 @@ static NSString * location_key_chain_identifier = @"BezaatLocation";
     [dataDict setObject:countryNum forKey:COUNTRY_ID_JSONK];
     [dataDict setObject:cityNum forKey:CITY_ID_JSONK];
     
-    [[LocationManager locationKeyChainItemSharedInstance] setObject:dataDict.description forKey:(__bridge id)(kSecValueData)];
+    //NSLog(@"%@", dataDict.description);
+    
+    [[LocationManager locationKeyChainItemSharedInstance] setObject:dataDict.description forKey:(__bridge id)(kSecAttrAccount)];
 }
 
 - (NSInteger) getSavedUserCountryID {
     
-    NSString * str = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    NSString * str = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
     
     if ([str isEqualToString:@""])
         return -1;
@@ -233,7 +236,7 @@ static NSString * location_key_chain_identifier = @"BezaatLocation";
 
 - (NSInteger) getSavedUserCityID {
     
-    NSString * str = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
+    NSString * str = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
     
     if ([str isEqualToString:@""])
         return -1;
