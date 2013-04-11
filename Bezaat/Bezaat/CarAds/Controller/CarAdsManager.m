@@ -121,7 +121,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=10&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
     
-    NSLog(@"%@", correctURLstring);
+    //NSLog(@"%@", correctURLstring);
     NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
     NSURL * correctURL = [NSURL URLWithString:correctURLstring];
     

@@ -174,6 +174,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 
 - (CarDetails * ) createCarDetailsObjectWithData:(NSArray *) data {
     
+    //NSLog(@"%@", data);
     if ((data) && (data.count > 0))
     {
         NSDictionary * totalDict = [data objectAtIndex:0];
@@ -188,32 +189,50 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             {
                 //1- parse images
                 NSMutableArray * imagesArray = [NSMutableArray new];
-                NSArray * parsedImagesArray = [dataDict objectForKey:DETAILS_AD_IMAGES_JKEY];
-                for (NSDictionary * imageDict in parsedImagesArray)
+                //if parsed as string ==> it is empty !!
+                NSString * tryCastString = [dataDict objectForKey:DETAILS_AD_IMAGES_JKEY];
+                if ([tryCastString class] != [NSString class])
                 {
-                    CarDetailsImage * imgObj =
-                    [[CarDetailsImage alloc]
-                            initWithImageIDString:[imageDict objectForKey:DETAILS_IMGS_IMAGE_ID_JKEY]
-                            imageURLString:[imageDict objectForKey:DETAILS_IMGS_IMAGE_URL_JKEY]
-                            thumbnailIDString:[imageDict objectForKey:DETAILS_IMGS_THUMBNAIL_ID_JKEY]
-                            thumbnailImageURLString:[imageDict objectForKey:DETAILS_IMGS_THUMBNAIL_IMG_URL_JKEY]];
+                    NSArray * parsedImagesArray = [dataDict objectForKey:DETAILS_AD_IMAGES_JKEY];
+                    if (parsedImagesArray)
+                    {
+                        for (NSDictionary * imageDict in parsedImagesArray)
+                        {
+                            CarDetailsImage * imgObj =
+                            [[CarDetailsImage alloc]
+                             initWithImageIDString:[imageDict objectForKey:DETAILS_IMGS_IMAGE_ID_JKEY]
+                             imageURLString:[imageDict objectForKey:DETAILS_IMGS_IMAGE_URL_JKEY]
+                             thumbnailIDString:[imageDict objectForKey:DETAILS_IMGS_THUMBNAIL_ID_JKEY]
+                             thumbnailImageURLString:[imageDict objectForKey:DETAILS_IMGS_THUMBNAIL_IMG_URL_JKEY]];
+                            
+                            [imagesArray addObject:imgObj];
+                        }
+                    }
                     
-                    [imagesArray addObject:imgObj];
                 }
                 
+                
                 //2- parse attributes
+                //if parsed as string ==> it is empty !!
+                tryCastString = [dataDict objectForKey:DETAILS_ATTRIBUTES_JKEY];
                 NSMutableArray * attrsArray = [NSMutableArray new];
-                NSArray * parsedAttributesArray = [dataDict objectForKey:DETAILS_ATTRIBUTES_JKEY];
-                for (NSDictionary * attrDict in parsedAttributesArray)
+                if ([tryCastString class] != [NSString class])
                 {
-                    CarDetailsAttribute * attrObj =
-                    [[CarDetailsAttribute alloc]
-                     initWithAdAttributeIDString:[attrDict objectForKey:DETAILS_ATTRS_AD_ATTR_ID_JKEY]
-                     attributeValue:[attrDict objectForKey:DETAILS_ATTRS_ATTR_VALUE_JKEY]
-                     categoryAttributeID:[attrDict objectForKey:DETAILS_ATTRS_CAT_ATTR_ID_JKEY]
-                     displayName:[attrDict objectForKey:DETAILS_ATTRS_DISPLAY_NAME_JKEY]];
-                    
-                    [attrsArray addObject:attrObj];
+                    NSArray * parsedAttributesArray = [dataDict objectForKey:DETAILS_ATTRIBUTES_JKEY];
+                    if (parsedAttributesArray)
+                    {
+                        for (NSDictionary * attrDict in parsedAttributesArray)
+                        {
+                            CarDetailsAttribute * attrObj =
+                            [[CarDetailsAttribute alloc]
+                             initWithAdAttributeIDString:[attrDict objectForKey:DETAILS_ATTRS_AD_ATTR_ID_JKEY]
+                             attributeValue:[attrDict objectForKey:DETAILS_ATTRS_ATTR_VALUE_JKEY]
+                             categoryAttributeID:[attrDict objectForKey:DETAILS_ATTRS_CAT_ATTR_ID_JKEY]
+                             displayName:[attrDict objectForKey:DETAILS_ATTRS_DISPLAY_NAME_JKEY]];
+                            
+                            [attrsArray addObject:attrObj];
+                        }
+                    }
                 }
                 
                 

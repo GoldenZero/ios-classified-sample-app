@@ -217,6 +217,8 @@
     CarAdDetailsViewController *vc=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
     //vc.carPhotos;
     //vc.carDetails;
+    
+    vc.currentAdID = [(CarAd *)[carAdsArray objectAtIndex:indexPath.row] adID];
     [self presentViewController:vc animated:YES completion:nil];
     
     

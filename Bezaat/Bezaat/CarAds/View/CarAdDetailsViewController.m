@@ -10,10 +10,14 @@
 #import "CarAdDetailsViewController.h"
 #import "labelAdViewController.h"
 
+#define FIXED_V_DISTANCE    8
+#define FIXED_H_DISTANCE    20
+
 @interface CarAdDetailsViewController (){
     BOOL pageControlUsed;
     MBProgressHUD2 * loadingHUD;
     CarDetails * currentDetailsObject;
+    CGFloat originalScrollViewHeight;
 }
 - (void)loadScrollViewWithPage:(int)page;
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -46,6 +50,9 @@
     //[self resizeScrollView];
     self.scrollView.delegate=self;
     self.labelsScrollView.delegate = self;
+    
+    //set the original size of scroll view without loading any labels yet
+    originalScrollViewHeight = self.labelsScrollView.frame.size.height;
     
     [self prepareShareButton];
 }
@@ -216,14 +223,72 @@
 
 - (void) resizeScrollView {
     
-    CGFloat originalScrollViewHeight = self.labelsScrollView.frame.size.height;
+    //1- remove all subviews in scroll view, lower than 335 (number is took from nib)
+    for (UIView * subview in [self.labelsScrollView subviews]) {
+        if (subview.frame.origin.y > 335) {
+            [subview removeFromSuperview];
+        }
+    }
+    [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, originalScrollViewHeight))];
     
-    /*
-    self.labelsScrollView.showsHorizontalScrollIndicator = NO;
-    self.labelsScrollView.showsVerticalScrollIndicator = NO;
     
-    [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, scrollViewHeight))];
-    */
+    if (self.currentAdID)
+    {
+         if ((currentDetailsObject.attributes) && (currentDetailsObject.attributes.count))
+         {
+             CGFloat addedHeightValue = 20;//initial value, distant from last labels
+             
+             CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
+             
+             for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
+             {
+                 //attr label
+                 NSString * attr_name_text = [NSString stringWithFormat:@"%@ :", attr.displayName];
+                 CGSize expectedLabelSize =
+                 [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
+                 
+                 CGFloat attr_x = self.labelsScrollView.frame.size.height - (expectedLabelSize.width + FIXED_H_DISTANCE);
+                 
+                 CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
+                 
+                 UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(attr_x, attr_y, expectedLabelSize.width, expectedLabelSize.height)];
+                                            
+                 attrNameLabel.text = attr_name_text;
+                 attrNameLabel.textAlignment = NSTextAlignmentRight;
+                 attrNameLabel.font = [UIFont systemFontOfSize:15];
+                 
+                 //value label
+                 CGFloat valueLabelWidth = self.labelsScrollView.frame.size.height - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
+                 CGFloat valueLabelHeight = expectedLabelSize.height;
+                 
+                 CGFloat val_x = self.labelsScrollView.frame.size.height - FIXED_H_DISTANCE;
+                 CGFloat val_y  = attr_y;
+                 
+                 UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(val_x, val_y, valueLabelWidth, valueLabelHeight)];
+                 
+                 valuelabel.text = attr.attributeValue;
+                 valuelabel.textAlignment = NSTextAlignmentRight;
+                 valuelabel.font = [UIFont systemFontOfSize:15];
+                 
+                 [self.labelsScrollView addSubview:attrNameLabel];
+                 [self.labelsScrollView addSubview:valuelabel];
+                 
+                 lastY = attr_y + valueLabelHeight;
+                 addedHeightValue = addedHeightValue + valueLabelHeight;
+             }
+             
+             addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
+             
+             self.labelsScrollView.showsHorizontalScrollIndicator = NO;
+             self.labelsScrollView.showsVerticalScrollIndicator = NO;
+             
+             CGFloat totalHeight = self.labelsScrollView.frame.size.height + addedHeightValue;
+             
+             [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
+         }
+    }
+    
+
     
     /*
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * photosNumber, self.scrollView.frame.size.height);
