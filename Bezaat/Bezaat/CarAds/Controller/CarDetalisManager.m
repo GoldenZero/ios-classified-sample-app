@@ -179,8 +179,9 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         NSDictionary * totalDict = [data objectAtIndex:0];
         NSString * statusCodeString = [totalDict objectForKey:DETAILS_STATUS_CODE_JKEY];
         NSInteger statusCode = statusCodeString.integerValue;
+        NSString * statusMessageProcessed = [[[totalDict objectForKey:DETAILS_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
         
-        if (statusCode == 200)
+        if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
         {
             NSDictionary * dataDict = [totalDict objectForKey:DETAILS_DATA_JKEY];
             if (dataDict)
