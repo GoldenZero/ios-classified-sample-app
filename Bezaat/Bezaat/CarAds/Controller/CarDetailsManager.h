@@ -1,5 +1,5 @@
 //
-//  CarDetalisManager.h
+//  CarDetailsManager.h
 //  Bezaat
 //
 //  Created by Roula Misrabi on 4/10/13.
@@ -7,22 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CarDetalis.h"
+#import "CarDetails.h"
 
 @protocol CarDetailsManagerDelegate <NSObject>
 @required
 - (void) detailsDidFailLoadingWithError:(NSError *) error;
-- (void) detailsDidFinishLoadingWithData:(CarDetalis *) resultArray;
+- (void) detailsDidFinishLoadingWithData:(CarDetails *) resultArray;
 @end
 
-@interface CarDetalisManager : NSObject <DataDelegate>
+@interface CarDetailsManager : NSObject <DataDelegate>
 
 #pragma mark - prperties
 @property (strong, nonatomic) id <CarDetailsManagerDelegate> delegate;
 
 #pragma mark - methods
 
-+ (CarDetalisManager *) sharedInstance;
++ (CarDetailsManager *) sharedInstance;
 
 - (void) loadCarDetailsOfAdID:(NSUInteger) adID WithDelegate:(id <CarDetailsManagerDelegate>) del;
 

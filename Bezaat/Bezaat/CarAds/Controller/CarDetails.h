@@ -1,5 +1,5 @@
 //
-//  CarDetalis.h
+//  CarDetails.h
 //  Bezaat
 //
 //  Created by Roula Misrabi on 4/10/13.
@@ -44,7 +44,7 @@
 @end
 //------------------------------------------------------
 
-@interface CarDetalis : NSObject
+@interface CarDetails : NSObject
 
 #pragma mark - properties
 

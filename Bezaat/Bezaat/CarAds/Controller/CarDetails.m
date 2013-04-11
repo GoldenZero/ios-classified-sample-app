@@ -1,12 +1,12 @@
 //
-//  CarDetalis.m
+//  CarDetails.m
 //  Bezaat
 //
 //  Created by Roula Misrabi on 4/10/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-#import "CarDetalis.h"
+#import "CarDetails.h"
 
 
 @implementation CarDetailsAttribute
@@ -78,7 +78,7 @@
 @end
 //------------------------------------------------------
 
-@implementation CarDetalis
+@implementation CarDetails
 
 @synthesize description;
 @synthesize adImages;

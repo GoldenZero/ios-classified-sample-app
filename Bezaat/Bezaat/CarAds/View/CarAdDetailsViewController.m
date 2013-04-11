@@ -12,7 +12,8 @@
 
 @interface CarAdDetailsViewController (){
     BOOL pageControlUsed;
-    NSUInteger photosNumber;
+    MBProgressHUD2 * loadingHUD;
+    CarDetails * currentDetailsObject;
 }
 - (void)loadScrollViewWithPage:(int)page;
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -23,7 +24,8 @@
 @end
 
 @implementation CarAdDetailsViewController
-@synthesize pageControl,scrollView,carPhotos;
+@synthesize pageControl,scrollView;
+@synthesize currentAdID;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,16 +40,25 @@
 {
     [super viewDidLoad];
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Details_navication_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    photosNumber=carPhotos.count;
+    
     pageControlUsed=NO;
+    
+    //[self resizeScrollView];
     self.scrollView.delegate=self;
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * photosNumber, self.scrollView.frame.size.height);
-    self.pageControl.currentPage = 0;
-    self.pageControl.numberOfPages = photosNumber;
-    for (int i=0; i<photosNumber; i++) {
-        [self.scrollView addSubview:[self prepareImge:[carPhotos objectAtIndex:i] :i]];
-    }
+    
     [self prepareShareButton];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    
+    //show loading indicator
+    [self showLoadingIndicator];
+    
+    //load car details data
+    [[CarDetailsManager sharedInstance] loadCarDetailsOfAdID:currentAdID WithDelegate:self];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -179,5 +190,62 @@
     
 }
 
+#pragma mark - helper methods
+
+- (void) showLoadingIndicator {
+    
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    loadingHUD.labelText = @"جاري تحميل البيانات";
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = YES;
+    
+}
+
+- (void) hideLoadingIndicator {
+    
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
+    loadingHUD = nil;
+    
+}
+
+- (void) resizeScrollView {
+    /*
+    //the original height of winners label is 32 for a single line
+    //and the (660/ 740 for iPhone classic & iPhone 5 are set by test&try)
+    CGFloat scrollViewHeight = 0;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        if(result.height == 480)
+        {
+            //iPhone Classic - This conforms to all iOS generations (3.5 inch) but iPhone 5 (4 inch)
+            scrollViewHeight = 740.0f ;
+            
+        }
+        if(result.height == 568)
+        {
+            //iPhone 5
+            scrollViewHeight = 820.0f ;
+            
+        }
+    }
+    self.mainScrollView.showsHorizontalScrollIndicator = NO;
+    self.mainScrollView.showsVerticalScrollIndicator = NO;
+    
+    [self.mainScrollView setContentSize:(CGSizeMake(self.mainScrollView.frame.size.width, scrollViewHeight))];
+     */
+    
+    /*
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * photosNumber, self.scrollView.frame.size.height);
+    self.pageControl.currentPage = 0;
+    
+    //self.pageControl.numberOfPages = photosNumber;
+    
+     for (int i=0; i<photosNumber; i++) {
+     [self.scrollView addSubview:[self prepareImge:[carPhotos objectAtIndex:i] :i]];
+     }*/
+}
 
 @end

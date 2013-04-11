@@ -11,13 +11,13 @@
 #import <UIKit/UIKit.h>
 #import "AURosetteView.h"
 #import "AURosetteItem.h"
+#import "CarDetailsManager.h"
 
-@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate>
+@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, CarDetailsManagerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
-@property (strong, nonatomic) NSArray *carPhotos;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (strong, nonatomic) IBOutlet UIScrollView *labelsScrollView;
 @property (strong, nonatomic) IBOutlet UILabel *detailsLabel;
@@ -26,6 +26,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *yearMiniLabel;
 @property (strong, nonatomic) IBOutlet UILabel *watchingCountLabel;
 @property (strong, nonatomic) IBOutlet UILabel *kiloMiniLabel;
+
+@property (nonatomic) NSUInteger currentAdID;
 
 
 #pragma mark - actions

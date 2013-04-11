@@ -1,12 +1,12 @@
 //
-//  CarDetalisManager.m
+//  CarDetailsManager.m
 //  Bezaat
 //
 //  Created by Roula Misrabi on 4/10/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-#import "CarDetalisManager.h"
+#import "CarDetailsManager.h"
 
 #pragma mark - car details json keys
 
@@ -50,13 +50,13 @@
 #define DETAILS_ATTRS_CAT_ATTR_ID_JKEY      @"CategoryAttributeID"
 #define DETAILS_ATTRS_DISPLAY_NAME_JKEY     @"DisplayName"
 
-@interface CarDetalisManager ()
+@interface CarDetailsManager ()
 {
     InternetManager * internetMngr;
 }
 @end
 
-@implementation CarDetalisManager
+@implementation CarDetailsManager
 
 @synthesize delegate;
 
@@ -71,10 +71,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return self;
 }
 
-+ (CarDetalisManager *) sharedInstance {
-    static CarDetalisManager * instance = nil;
++ (CarDetailsManager *) sharedInstance {
+    static CarDetailsManager * instance = nil;
     if (instance == nil) {
-        instance = [[CarDetalisManager alloc] init];
+        instance = [[CarDetailsManager alloc] init];
     }
     return instance;
 }
@@ -164,7 +164,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         //NSLog(@"%@", result.description);
         if (self.delegate)
         {
-            CarDetalis * detailsObject = [self createCarDetailsObjectWithData:(NSArray *)result];
+            CarDetails * detailsObject = [self createCarDetailsObjectWithData:(NSArray *)result];
             [delegate detailsDidFinishLoadingWithData:detailsObject];
         }
     }
@@ -172,7 +172,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 
 #pragma mark - helper methods
 
-- (CarDetalis * ) createCarDetailsObjectWithData:(NSArray *) data {
+- (CarDetails * ) createCarDetailsObjectWithData:(NSArray *) data {
     
     if ((data) && (data.count > 0))
     {
@@ -218,8 +218,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                 
                 
                 //3- create the object
-                CarDetalis * detailsObject =
-                [[CarDetalis alloc]
+                CarDetails * detailsObject =
+                [[CarDetails alloc]
                  initWithDescription:[dataDict objectForKey:DETAILS_DESCRIPTION_JKEY]
                  adImages:imagesArray
                  attributes:attrsArray
