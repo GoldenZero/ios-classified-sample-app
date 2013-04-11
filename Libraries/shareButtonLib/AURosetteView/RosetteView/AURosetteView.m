@@ -23,8 +23,8 @@
 @synthesize on = _on;
 @synthesize wheelButton = _wheelButton;
 
-#define kOnImageName @"/Bundle.bundle/Resources/rosetta_on.png"
-#define kOffImageName @"/Bundle.bundle/Resources/rosetta_off.png"
+#define kOnImageName @"Details_button_share.png"
+#define kOffImageName @"Details_button_share.png"
 #define kLeafImageName @"/Bundle.bundle/Resources/rosetta_leaf.png"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -177,7 +177,7 @@ CGFloat const kApertureAngle = 53.0f;
         imageLayer.anchorPoint = CGPointMake(0.5f, 0.5f);
         imageLayer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
         imageLayer.transform = CATransform3DMakeScale(0.01f, 0.01f, 1.0f);
-        imageLayer.opacity = 0.6f;
+        imageLayer.opacity = 1.0f;
         
         [self.layer addSublayer:imageLayer];
         [_imagesLayers addObject:imageLayer];        

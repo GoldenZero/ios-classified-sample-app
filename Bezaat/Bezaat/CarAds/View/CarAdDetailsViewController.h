@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (strong, nonatomic) NSArray *carPhotos;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (strong, nonatomic) IBOutlet UIScrollView *labelsScrollView;
 
 #pragma mark - actions
 - (IBAction)changePage:(id)sender;
