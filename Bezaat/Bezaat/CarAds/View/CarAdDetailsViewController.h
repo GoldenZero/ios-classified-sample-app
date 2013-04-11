@@ -20,6 +20,13 @@
 @property (strong, nonatomic) NSArray *carPhotos;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (strong, nonatomic) IBOutlet UIScrollView *labelsScrollView;
+@property (strong, nonatomic) IBOutlet UILabel *detailsLabel;
+@property (strong, nonatomic) IBOutlet UILabel *priceLabel;
+@property (strong, nonatomic) IBOutlet UILabel *addTimeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *yearMiniLabel;
+@property (strong, nonatomic) IBOutlet UILabel *watchingCountLabel;
+@property (strong, nonatomic) IBOutlet UILabel *kiloMiniLabel;
+
 
 #pragma mark - actions
 - (IBAction)changePage:(id)sender;
