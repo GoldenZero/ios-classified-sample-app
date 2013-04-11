@@ -12,7 +12,7 @@
 @protocol CarDetailsManagerDelegate <NSObject>
 @required
 - (void) detailsDidFailLoadingWithError:(NSError *) error;
-- (void) detailsDidFinishLoadingWithData:(CarDetails *) resultArray;
+- (void) detailsDidFinishLoadingWithData:(CarDetails *) resultObject;
 @end
 
 @interface CarDetailsManager : NSObject <DataDelegate>

@@ -45,6 +45,7 @@
     
     //[self resizeScrollView];
     self.scrollView.delegate=self;
+    self.labelsScrollView.delegate = self;
     
     [self prepareShareButton];
 }
@@ -52,6 +53,9 @@
 - (void) viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
+    
+    //set the currentDetailsObject to initial value
+    currentDetailsObject = nil;
     
     //show loading indicator
     [self showLoadingIndicator];
@@ -66,7 +70,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-#pragma mark - scroll acions
+#pragma mark - scroll actions
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     pageControlUsed = NO;
 }
@@ -211,31 +215,15 @@
 }
 
 - (void) resizeScrollView {
-    /*
-    //the original height of winners label is 32 for a single line
-    //and the (660/ 740 for iPhone classic & iPhone 5 are set by test&try)
-    CGFloat scrollViewHeight = 0;
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-    {
-        CGSize result = [[UIScreen mainScreen] bounds].size;
-        if(result.height == 480)
-        {
-            //iPhone Classic - This conforms to all iOS generations (3.5 inch) but iPhone 5 (4 inch)
-            scrollViewHeight = 740.0f ;
-            
-        }
-        if(result.height == 568)
-        {
-            //iPhone 5
-            scrollViewHeight = 820.0f ;
-            
-        }
-    }
-    self.mainScrollView.showsHorizontalScrollIndicator = NO;
-    self.mainScrollView.showsVerticalScrollIndicator = NO;
     
-    [self.mainScrollView setContentSize:(CGSizeMake(self.mainScrollView.frame.size.width, scrollViewHeight))];
-     */
+    CGFloat originalScrollViewHeight = self.labelsScrollView.frame.size.height;
+    
+    /*
+    self.labelsScrollView.showsHorizontalScrollIndicator = NO;
+    self.labelsScrollView.showsVerticalScrollIndicator = NO;
+    
+    [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, scrollViewHeight))];
+    */
     
     /*
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * photosNumber, self.scrollView.frame.size.height);
@@ -248,4 +236,29 @@
      }*/
 }
 
+
+#pragma mark - carDetailsManager delegate methods
+
+- (void) detailsDidFailLoadingWithError:(NSError *) error {
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    [self hideLoadingIndicator];
+    
+}
+
+- (void) detailsDidFinishLoadingWithData:(CarDetails *) resultObject {
+    
+    //1- hide the loading indicator
+    [self hideLoadingIndicator];
+    
+    //2- append the newly loaded ads
+    currentDetailsObject = resultObject;
+    
+    //3- display data
+    [self resizeScrollView];
+    
+    //4- cache the resultArray data
+    //... (COME BACK HERE LATER) ...
+}
 @end
