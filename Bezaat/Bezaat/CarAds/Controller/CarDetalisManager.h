@@ -9,6 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "CarDetalis.h"
 
-@interface CarDetalisManager : NSObject
+@protocol CarDetailsManagerDelegate <NSObject>
+@required
+- (void) detailsDidFailLoadingWithError:(NSError *) error;
+- (void) detailsDidFinishLoadingWithData:(CarDetalis *) resultArray;
+@end
+
+@interface CarDetalisManager : NSObject <DataDelegate>
+
+#pragma mark - prperties
+@property (strong, nonatomic) id <CarDetailsManagerDelegate> delegate;
+
+#pragma mark - methods
+
++ (CarDetalisManager *) sharedInstance;
+
+- (void) loadCarDetailsOfAdID:(NSUInteger) adID WithDelegate:(id <CarDetailsManagerDelegate>) del;
 
 @end

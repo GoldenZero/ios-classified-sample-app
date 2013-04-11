@@ -31,6 +31,7 @@
 #define LISTING_STORE_LOGO_URL_JKEY @"StoreLogoURL"
 
 #pragma mark - literals
+
 //#define DEFAULT_PAGE_SIZE           20
 #define DEFAULT_PAGE_SIZE           10
 #define ARABIC_BEFORE_TEXT          @"قبل"
@@ -118,7 +119,9 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    //NSLog(@"%@", correctURLstring);
+    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=10&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
+    
+    NSLog(@"%@", correctURLstring);
     NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
     NSURL * correctURL = [NSURL URLWithString:correctURLstring];
     
@@ -152,7 +155,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     else
     {
         CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل اتحميل البيانات"];
+        [error setDescMessage:@"فشل تحميل البيانات"];
         
         if (self.delegate)
             [self.delegate adsDidFailLoadingWithError:error];
@@ -220,7 +223,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     if (!result)
     {
         CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل اتحميل البيانات"];
+        [error setDescMessage:@"فشل تحميل البيانات"];
         
         if (self.delegate)
             [self.delegate adsDidFailLoadingWithError:error];
@@ -280,7 +283,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         }
         return adsArray;
     }
-    return nil;
+    return [NSArray new];
 }
 
 @end

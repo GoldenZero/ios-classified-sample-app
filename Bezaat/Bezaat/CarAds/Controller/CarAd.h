@@ -18,7 +18,7 @@
 @property (nonatomic) BOOL isFeatured;
 @property (strong, nonatomic) NSURL * thumbnailURL;
 @property (strong, nonatomic) NSString * title;
-@property (nonatomic) NSUInteger price;
+@property (nonatomic) float price;
 @property (strong, nonatomic) NSString * currencyString;
 @property (strong, nonatomic) NSDate * postedOnDate;
 @property (nonatomic) NSUInteger modelYear;

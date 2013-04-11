@@ -446,7 +446,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     if (!result)
     {
         CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل اتحميل البيانات"];
+        [error setDescMessage:@"فشل تحميل البيانات"];
         
         if (self.deviceDelegate)
             [self.deviceDelegate deviceFailRegisterWithError:error];

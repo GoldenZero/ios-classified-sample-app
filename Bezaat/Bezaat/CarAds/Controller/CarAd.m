@@ -66,7 +66,7 @@
         self.title = aTitle;
         
         // price
-        self.price = aPriceString.integerValue;
+        self.price = aPriceString.floatValue;
         
         // currencyString
         self.currencyString = aCurrencyString;

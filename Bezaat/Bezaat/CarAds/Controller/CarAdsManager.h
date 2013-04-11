@@ -28,6 +28,7 @@
 + (CarAdsManager *) sharedInstance;
 
 - (NSUInteger) nextPage;
+
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del;
 
 - (NSString *) getDateDifferenceStringFromDate:(NSDate *) input;

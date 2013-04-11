@@ -77,7 +77,7 @@
 
 #pragma mark - tableView handlig
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 200;
+    return 270;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -101,7 +101,7 @@
     
     //customize the carAdCell with actual data
     cell.carInfoLabel.text = carAdObject.title;
-    cell.carPriceLabel.text = [NSString stringWithFormat:@"%i", carAdObject.price];
+    cell.carPriceLabel.text = [NSString stringWithFormat:@"%f %@", carAdObject.price, carAdObject.currencyString];
     cell.adTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
     cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
     cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
