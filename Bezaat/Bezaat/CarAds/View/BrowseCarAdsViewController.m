@@ -96,7 +96,7 @@
     {
         //store ad - no image
         if (carAdObject.storeID > 0)
-            return 270; //IMPORTANT _ COME BACK HERE!!!
+            return 200;
         //individual - no image
         else
             return 110;
@@ -116,39 +116,13 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    //UITableViewCell * cell;
-    
-    CarAdCell * cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
+    UITableViewCell * cell;
     
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    //customize the carAdCell with actual data
-    cell.carInfoLabel.text = carAdObject.title;
-    cell.carPriceLabel.text = [NSString stringWithFormat:@"%f %@", carAdObject.price, carAdObject.currencyString];
-    cell.adTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
-    cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
-    cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
-    cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
-    
-    //load image as URL
-    [cell.carImage clear];
-    cell.carImage.url = carAdObject.thumbnailURL;
-    
-    [cell.carImage showLoadingWheel];
-    [asynchImgManager manage:cell.carImage];
     
     //customize favoriteButton according to carAdObject.isFavorite
     //customize carAdObject.storeName
     //load carAdObject.storeLogoURL
-    
-    /*
-    CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     
     
     //ad with image
@@ -157,7 +131,10 @@
         //store ad - with image
         if (carAdObject.storeID > 0)
         {
-            cell = (CarAdWithStoreCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreCell" owner:self options:nil] objectAtIndex:0];
+            /*
+            CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreCell" owner:self options:nil] objectAtIndex:0];
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -170,12 +147,42 @@
             cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
             cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
+            
+            //load image as URL
+            [cell.carImage clear];
+            cell.carImage.url = carAdObject.thumbnailURL;
+            
+            [cell.carImage showLoadingWheel];
+            [asynchImgManager manage:cell.carImage];
+             */
         }
         
         //individual ad - with image
         else
         {
-            cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
+            CarAdCell * cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+            
+            
+            //customize the carAdCell with actual data
+            cell.carInfoLabel.text = carAdObject.title;
+            cell.carPriceLabel.text = [NSString stringWithFormat:@"%f %@", carAdObject.price, carAdObject.currencyString];
+            cell.adTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
+            cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
+            
+            //load image as URL
+            [cell.carImage clear];
+            cell.carImage.url = carAdObject.thumbnailURL;
+            
+            [cell.carImage showLoadingWheel];
+            [asynchImgManager manage:cell.carImage];
+            
         }
         
     }
@@ -196,21 +203,10 @@
 
     }
     
-    
-    if (carAdObject.thumbnailURL)
-    {
-        //load image as URL
-        [cell.carImage clear];
-        cell.carImage.url = carAdObject.thumbnailURL;
-        
-        [cell.carImage showLoadingWheel];
-        [asynchImgManager manage:cell.carImage];
-    }
-
     //customize favoriteButton according to carAdObject.isFavorite
     //customize carAdObject.storeName
     //load carAdObject.storeLogoURL
-    */
+
     return cell;
 }
 
