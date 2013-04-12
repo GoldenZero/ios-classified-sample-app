@@ -26,6 +26,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *yearMiniLabel;
 @property (strong, nonatomic) IBOutlet UILabel *watchingCountLabel;
 @property (strong, nonatomic) IBOutlet UILabel *kiloMiniLabel;
+@property (weak, nonatomic) IBOutlet UIButton *phoneNumberButton;
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *featureBtn;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *editBtn;
+@property (weak, nonatomic) IBOutlet UIToolbar *topMostToolbar;
 
 @property (nonatomic) NSUInteger currentAdID;
 

@@ -29,8 +29,9 @@
 @end
 
 @implementation CarAdDetailsViewController
-@synthesize pageControl,scrollView;
+@synthesize pageControl,scrollView, phoneNumberButton, favoriteButton, featureBtn, editBtn, topMostToolbar;
 @synthesize currentAdID;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -218,6 +219,15 @@
 }
 
 - (IBAction)callBtnPrss:(id)sender {
+    if (currentDetailsObject)
+    {
+        if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
+            {
+                NSString *phoneStr = [[NSString alloc] initWithFormat:@"tel:%@",currentDetailsObject.mobileNumber];
+                NSURL *phoneURL = [[NSURL alloc] initWithString:phoneStr];
+                [[UIApplication sharedApplication] openURL:phoneURL];
+            }
+    }
 }
 
 #pragma mark - sharing acions
@@ -348,6 +358,37 @@
     
 }
 
+- (void) customizeButtonsByData {
+    
+    if (currentDetailsObject)
+    {
+        if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
+            [self.phoneNumberButton setEnabled:YES];
+        else
+            [self.phoneNumberButton setEnabled:NO];
+        
+        if (currentDetailsObject.isFavorite)
+            [self.favoriteButton setEnabled:NO];
+        
+        if (currentDetailsObject.isFeatured)
+            [self.featureBtn setEnabled:NO];
+        
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        if ((!savedProfile) || ((savedProfile) && (savedProfile.userID != currentDetailsObject.ownerID)))
+        {
+            NSMutableArray * newItems = [NSMutableArray new];
+            for (UIBarButtonItem * item in self.topMostToolbar.items)
+            {
+                // the edit button is marked by tag = 1
+                if (item.tag != 1)
+                    [newItems addObject:item];
+            }
+            [self.topMostToolbar setItems:newItems];
+        }
+    }
+    
+}
 
 #pragma mark - carDetailsManager delegate methods
 
@@ -377,7 +418,7 @@
         self.kiloMiniLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.distanceRangeInKm];
         self.watchingCountLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.viewCount];
     }
-    
+    [self customizeButtonsByData];
     [self resizeScrollView];
     
     //4- cache the resultArray data

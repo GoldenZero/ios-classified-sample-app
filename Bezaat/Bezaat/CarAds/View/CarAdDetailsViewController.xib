@@ -82,6 +82,7 @@
 								<int key="IBUISystemItemIdentifier">5</int>
 							</object>
 							<object class="IBUIBarButtonItem" id="8867096">
+								<int key="IBUITag">1</int>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">Details_navication_edit.png</string>
@@ -609,6 +610,46 @@
 					<int key="connectionID">395</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">phoneNumberButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="734775614"/>
+					</object>
+					<int key="connectionID">531</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">favoriteButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="269845445"/>
+					</object>
+					<int key="connectionID">532</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">featureBtn</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="594044823"/>
+					</object>
+					<int key="connectionID">533</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">editBtn</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="8867096"/>
+					</object>
+					<int key="connectionID">534</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">topMostToolbar</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="721676571"/>
+					</object>
+					<int key="connectionID">535</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">backBtnPrss:</string>
 						<reference key="source" ref="832691083"/>
@@ -894,7 +935,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">530</int>
+			<int key="maxID">535</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -943,12 +984,17 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addTimeLabel">UILabel</string>
 						<string key="detailsLabel">UILabel</string>
+						<string key="editBtn">UIBarButtonItem</string>
+						<string key="favoriteButton">UIButton</string>
+						<string key="featureBtn">UIBarButtonItem</string>
 						<string key="kiloMiniLabel">UILabel</string>
 						<string key="labelsScrollView">UIScrollView</string>
 						<string key="pageControl">UIPageControl</string>
+						<string key="phoneNumberButton">UIButton</string>
 						<string key="priceLabel">UILabel</string>
 						<string key="scrollView">UIScrollView</string>
 						<string key="toolBar">UIToolbar</string>
+						<string key="topMostToolbar">UIToolbar</string>
 						<string key="watchingCountLabel">UILabel</string>
 						<string key="yearMiniLabel">UILabel</string>
 					</dictionary>
@@ -960,6 +1006,18 @@
 						<object class="IBToOneOutletInfo" key="detailsLabel">
 							<string key="name">detailsLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="editBtn">
+							<string key="name">editBtn</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="favoriteButton">
+							<string key="name">favoriteButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="featureBtn">
+							<string key="name">featureBtn</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="kiloMiniLabel">
 							<string key="name">kiloMiniLabel</string>
@@ -973,6 +1031,10 @@
 							<string key="name">pageControl</string>
 							<string key="candidateClassName">UIPageControl</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="phoneNumberButton">
+							<string key="name">phoneNumberButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="priceLabel">
 							<string key="name">priceLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -983,6 +1045,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="toolBar">
 							<string key="name">toolBar</string>
+							<string key="candidateClassName">UIToolbar</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="topMostToolbar">
+							<string key="name">topMostToolbar</string>
 							<string key="candidateClassName">UIToolbar</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="watchingCountLabel">

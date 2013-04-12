@@ -118,7 +118,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     if (correctURL)
     {
         //4- set user credentials in HTTP header
-        UserProfile * savedProfile = [[ProfileManager sharedInstance] getSavedUserProfile];
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
         //passing device token as a http header request
         NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
