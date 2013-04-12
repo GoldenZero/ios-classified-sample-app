@@ -9,11 +9,13 @@
 // This UI is displayed to show details of a car ad.
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <Social/Social.h>
 #import "AURosetteView.h"
 #import "AURosetteItem.h"
 #import "CarDetailsManager.h"
 
-@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, CarDetailsManagerDelegate>
+@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, CarDetailsManagerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;

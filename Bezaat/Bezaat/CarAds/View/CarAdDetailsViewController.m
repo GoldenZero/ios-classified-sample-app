@@ -70,20 +70,13 @@
     originalScrollViewHeight = self.labelsScrollView.frame.size.height;
     
     [self prepareShareButton];
+    
+    [self startLoadingData];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    
-    //set the currentDetailsObject to initial value
-    currentDetailsObject = nil;
-    
-    //show loading indicator
-    [self showLoadingIndicator];
-    
-    //load car details data
-    [[CarDetailsManager sharedInstance] loadCarDetailsOfAdID:currentAdID WithDelegate:self];
     
 }
 
@@ -213,6 +206,23 @@
 }
 
 - (IBAction)sendMailBtnPrss:(id)sender {
+    
+    if (currentDetailsObject)
+    {
+        MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+        mailer.mailComposeDelegate = self;
+        
+        [mailer setSubject:currentDetailsObject.title];
+        
+        NSString * mailBody = currentDetailsObject.description;
+        
+        //set the recipients to the car ad owner
+        //mailer setToRecipients:
+        
+        [mailer setMessageBody:mailBody isHTML:NO];
+        mailer.modalPresentationStyle = UIModalPresentationPageSheet;
+        [self presentViewController:mailer animated:YES completion:nil];
+    }
 }
 
 - (IBAction)favoriteBtnPrss:(id)sender {
@@ -233,17 +243,115 @@
 #pragma mark - sharing acions
 - (void)twitterAction:(id)sender{
     
+    if (currentDetailsObject)
+    {
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+            
+            SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+            [mySLComposerSheet setInitialText:currentDetailsObject.title];
+            
+            //[mySLComposerSheet addImage:[UIImage imageNamed:@"myImage.png"]];
+            
+            if (currentDetailsObject.thumbnailURL)
+                [mySLComposerSheet addURL:currentDetailsObject.thumbnailURL];
+            
+            [mySLComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+                
+                switch (result) {
+                    case SLComposeViewControllerResultCancelled:
+                        NSLog(@"Post Canceled");
+                        break;
+                    case SLComposeViewControllerResultDone:
+                        NSLog(@"Post Sucessful");
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }];
+            
+            [self presentViewController:mySLComposerSheet animated:YES completion:nil];
+        }
+        /*
+        else
+            // no twitter account set in device settings
+            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر الحصول على بيانات تويتر في إعدادات جهازك" delegateVC:self];
+         */
+    }
+    
 }
 
 - (void)facebookAction:(id)sender{
     
-}
-
-- (void)mailAction:(id)sender{
+    if (currentDetailsObject)
+    {
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+            
+            SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+            [mySLComposerSheet setInitialText:currentDetailsObject.title];
+            
+            //[mySLComposerSheet addImage:[UIImage imageNamed:@"myImage.png"]];
+            
+            if (currentDetailsObject.thumbnailURL)
+                [mySLComposerSheet addURL:currentDetailsObject.thumbnailURL];
+            
+            [mySLComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+                
+                switch (result) {
+                    case SLComposeViewControllerResultCancelled:
+                        NSLog(@"Post Canceled");
+                        break;
+                    case SLComposeViewControllerResultDone:
+                        NSLog(@"Post Sucessful");
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }];
+            
+            [self presentViewController:mySLComposerSheet animated:YES completion:nil];
+        }
+        /*
+        else
+            // no facebook account set in device settings
+            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر الحصول على بيانات تويتر في إعدادات جهازك" delegateVC:self];
+         */
+    }
     
 }
 
+- (void)mailAction:(id)sender {
+    if (currentDetailsObject)
+    {
+        MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+        mailer.mailComposeDelegate = self;
+        
+        [mailer setSubject:currentDetailsObject.title];
+        
+        NSString * mailBody = currentDetailsObject.description;
+        
+        //set the recipients to the car ad owner
+        //mailer setToRecipients:
+        
+        [mailer setMessageBody:mailBody isHTML:NO];
+        mailer.modalPresentationStyle = UIModalPresentationPageSheet;
+        [self presentViewController:mailer animated:YES completion:nil];
+    }
+}
+
 #pragma mark - helper methods
+
+- (void) startLoadingData {
+    //set the currentDetailsObject to initial value
+    currentDetailsObject = nil;
+    
+    //show loading indicator
+    [self showLoadingIndicator];
+    
+    //load car details data
+    [[CarDetailsManager sharedInstance] loadCarDetailsOfAdID:currentAdID WithDelegate:self];
+}
 
 - (void) showLoadingIndicator {
     
@@ -423,5 +531,13 @@
     
     //4- cache the resultArray data
     //... (COME BACK HERE LATER) ...
+}
+
+#pragma mark - MFMailComposeViewController delegate methods
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+    
+    // Remove the mail view
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 @end
