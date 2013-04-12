@@ -48,8 +48,15 @@
     
     pageControlUsed=NO;
     
-    //[self resizeScrollView];
+    //set attributes for scrollviews
     self.scrollView.delegate=self;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.bounces = NO;
+
+    self.labelsScrollView.showsHorizontalScrollIndicator = NO;
+    self.labelsScrollView.showsVerticalScrollIndicator = NO;
+    self.labelsScrollView.bounces = NO;
     //self.labelsScrollView.delegate = self;
     
     //init the image load manager
@@ -262,10 +269,13 @@
         //1- set car images
         if ((currentDetailsObject.adImages) && (currentDetailsObject.adImages.count))
         {
+            self.pageControl.currentPage = 0;
+            self.pageControl.numberOfPages = currentDetailsObject.adImages.count;
             for (int i=0; i < currentDetailsObject.adImages.count; i++) {
                 NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
                 [self.scrollView addSubview:[self prepareImge:imgURL :i]];
             }
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
         }
         
         //2- set attributes
@@ -283,10 +293,15 @@
                 CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
                 
                 CGSize expectedLabelSize =
-                [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE) lineBreakMode:NSLineBreakByWordWrapping];
+                [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
                 
                 if (realTextSize.width > expectedLabelSize.width)
-                    expectedLabelSize.height = expectedLabelSize.height * 2;
+                {
+                    int factor = (int) (realTextSize.width / expectedLabelSize.width);
+                    factor ++;
+                    
+                    expectedLabelSize.height = expectedLabelSize.height * factor;
+                }
                 
                 CGFloat attr_x = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + FIXED_H_DISTANCE);
                 
@@ -323,10 +338,6 @@
             }
             
             addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
-            
-            self.labelsScrollView.bounces = NO;
-            self.labelsScrollView.showsHorizontalScrollIndicator = NO;
-            self.labelsScrollView.showsVerticalScrollIndicator = NO;
             
             CGFloat totalHeight = self.labelsScrollView.frame.size.height + addedHeightValue;
             
