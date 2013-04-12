@@ -26,4 +26,5 @@
 
 - (void) loadCarDetailsOfAdID:(NSUInteger) adID WithDelegate:(id <CarDetailsManagerDelegate>) del;
 
+- (NSString *) getDateDifferenceStringFromDate:(NSDate *) input;
 @end

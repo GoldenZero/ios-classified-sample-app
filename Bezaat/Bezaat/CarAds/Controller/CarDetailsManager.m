@@ -50,6 +50,18 @@
 #define DETAILS_ATTRS_CAT_ATTR_ID_JKEY      @"CategoryAttributeID"
 #define DETAILS_ATTRS_DISPLAY_NAME_JKEY     @"DisplayName"
 
+#pragma mark - literals
+
+#define ARABIC_BEFORE_TEXT          @"قبل"
+#define ARABIC_SECOND_TEXT          @"ثانية"
+#define ARABIC_MINUTE_TEXT          @"دقيقة"
+#define ARABIC_HOUR_TEXT            @"ساعة"
+#define ARABIC_DAY_TEXT             @"يوم"
+#define ARABIC_WEEK_TEXT            @"أسبوع"
+#define ARABIC_MONTH_TEXT           @"شهر"
+#define ARABIC_YEAR_TEXT            @"سنة"
+
+
 @interface CarDetailsManager ()
 {
     InternetManager * internetMngr;
@@ -139,6 +151,51 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             [self.delegate detailsDidFailLoadingWithError:error];
         return ;
     }
+}
+
+- (NSString *) getDateDifferenceStringFromDate:(NSDate *) input {
+    
+    NSString * result = @"";
+    
+    NSDate * today = [NSDate date];
+    
+    NSTimeInterval diffInSeconds = [today timeIntervalSinceDate:input];
+    
+    if (diffInSeconds > 60)
+    {
+        float diffInMinutes = diffInSeconds / 60;
+        if (diffInMinutes > 60)
+        {
+            float diffInHours = diffInMinutes / 60;
+            if (diffInHours > 24)
+            {
+                float diffInDays = diffInHours / 24;
+                
+                if (diffInDays > 30)
+                {
+                    float diffInMonths = diffInDays / 30;
+                    if (diffInMonths > 12)
+                    {
+                        float diffInYears = diffInMonths / 12;
+                        result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInYears, ARABIC_YEAR_TEXT];
+                    }
+                    else
+                        result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInMonths, ARABIC_MONTH_TEXT];
+                    
+                }
+                else
+                    result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInDays, ARABIC_DAY_TEXT];
+            }
+            else
+                result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInHours, ARABIC_HOUR_TEXT];
+        }
+        else
+            result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInMinutes, ARABIC_MINUTE_TEXT];
+    }
+    else
+        result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInSeconds, ARABIC_SECOND_TEXT];
+    
+    return result;
 }
 
 #pragma mark - Data delegate methods

@@ -122,6 +122,7 @@
     
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:) forControlEvents:UIControlEventTouchUpInside];
     [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -228,6 +229,8 @@
     if (indexPath.row == ([self.tableView numberOfRowsInSection:0] - 1))
         [self loadPageOfAds];
 }
+
+
 
 # pragma mark - hide bars while scrolling
 
