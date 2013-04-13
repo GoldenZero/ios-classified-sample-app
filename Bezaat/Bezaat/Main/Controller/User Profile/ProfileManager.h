@@ -32,11 +32,19 @@
 - (void) deviceFailRegisterWithError:(NSError*) error;
 @end
 
+@protocol FavoritesDelegate <NSObject>
+@required
+- (void) FavoriteFailAddingWithError:(NSError*) error;
+- (void) FavoriteDidAddWithData:(NSObject *) resultProfile;
+@end
+
+
 @interface ProfileManager : NSObject <DataDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) id <ProfileManagerDelegate> delegate;
 @property (strong, nonatomic) id <DeviceRegisterDelegate> deviceDelegate;
+@property (strong, nonatomic) id <AdToFavoriteDelegate> favDelegate;
 
 #pragma mark - methods
 
@@ -49,6 +57,9 @@
 
 // call device register API
 - (void) registerDeviceWithDelegate:(id <DeviceRegisterDelegate>) del;
+
+// call add to favorite API
+- (void) addCarAd:(NSUInteger ) adID toFavoritesWithDelegate:(id <FavoritesDelegate>) del;
 
 // store user's data
 - (void) storeUserProfile:(UserProfile * ) up;

@@ -36,7 +36,8 @@
 
 @interface ProfileManager ()
 {
-    InternetManager * internetMngr;
+    InternetManager * mainMngr;
+    InternetManager * favoriteMngr;
     @protected
         NSMutableData * dataSoFar;
 }
@@ -49,11 +50,12 @@
 //the login url is a POST url
 static NSString * login_url = @"http://gfctest.edanat.com/v1.0/json/user-login";
 static NSString * device_reg_url = @"http://gfctest.edanat.com/v1.0/json/register-device?deviceTpe=%@&version=%@&osVersion=%@";
+static NSString * ad_to_fav_url = @"";
 static NSString * login_email_post_key = @"EmailAddress";
 static NSString * login_password_post_key = @"Password";
 static NSString * login_key_chain_identifier = @"BezaatLogin";
 
-static NSString * internetMngrTempFileName = @"mngrTmp";
+static NSString * mainMngrTempFileName = @"mngrTmp";
 
 - (id) init {
     
@@ -62,6 +64,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     if (self) {
         self.delegate = nil;
         self.deviceDelegate = nil;
+        self.favDelegate = nil;
         dataSoFar = nil;
     }
     return self;
@@ -169,7 +172,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     if (correctURL)
     {
         //5- send the request
-        internetMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName url:correctURLstring delegate:self startImmediately:YES responseType:@"JSON"];
+        mainMngr = [[InternetManager alloc] initWithTempFileName:mainMngrTempFileName url:correctURLstring delegate:self startImmediately:YES responseType:@"JSON"];
     }
     else
     {
@@ -183,6 +186,66 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
 }
 
+- (void) addCarAd:(NSUInteger ) adID toFavoritesWithDelegate:(id <FavoritesDelegate>) del {
+    //1- set the delegate
+    self.favDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.favDelegate)
+            [self.favDelegate FavoriteFailAddingWithError:error];
+        return ;
+    }
+    //3- set the url string
+    NSString * fullURLString = [NSString stringWithFormat:details_url, adID];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        //5- send the request
+        [request setURL:correctURL];
+        internetMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.delegate)
+            [self.delegate detailsDidFailLoadingWithError:error];
+        return ;
+    }
+}
 
 - (void) storeUserProfile:(UserProfile * ) up {
     
