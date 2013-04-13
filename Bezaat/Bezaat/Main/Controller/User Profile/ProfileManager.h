@@ -44,7 +44,7 @@
 #pragma mark - properties
 @property (strong, nonatomic) id <ProfileManagerDelegate> delegate;
 @property (strong, nonatomic) id <DeviceRegisterDelegate> deviceDelegate;
-@property (strong, nonatomic) id <AdToFavoriteDelegate> favDelegate;
+@property (strong, nonatomic) id <FavoritesDelegate> favDelegate;
 
 #pragma mark - methods
 

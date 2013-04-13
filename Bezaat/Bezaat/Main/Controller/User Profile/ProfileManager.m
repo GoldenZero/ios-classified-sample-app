@@ -187,6 +187,7 @@ static NSString * mainMngrTempFileName = @"mngrTmp";
 }
 
 - (void) addCarAd:(NSUInteger ) adID toFavoritesWithDelegate:(id <FavoritesDelegate>) del {
+    /*
     //1- set the delegate
     self.favDelegate = del;
     
@@ -245,6 +246,7 @@ static NSString * mainMngrTempFileName = @"mngrTmp";
             [self.delegate detailsDidFailLoadingWithError:error];
         return ;
     }
+     */
 }
 
 - (void) storeUserProfile:(UserProfile * ) up {

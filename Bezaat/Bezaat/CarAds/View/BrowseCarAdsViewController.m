@@ -116,10 +116,34 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell * cell;
+    //UITableViewCell * cell;
     
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     
+    CarAdCell * cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    //customize the carAdCell with actual data
+    cell.carInfoLabel.text = carAdObject.title;
+    cell.carPriceLabel.text = [NSString stringWithFormat:@"%f %@", carAdObject.price, carAdObject.currencyString];
+    cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
+    cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+    cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+    cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
+    
+    //load image as URL
+    [cell.carImage clear];
+    cell.carImage.url = carAdObject.thumbnailURL;
+    
+    [cell.carImage showLoadingWheel];
+    [asynchImgManager manage:cell.carImage];
+    
+    /*
     //customize favoriteButton according to carAdObject.isFavorite
     //customize carAdObject.storeName
     //load carAdObject.storeLogoURL
@@ -154,7 +178,7 @@
             
             [cell.carImage showLoadingWheel];
             [asynchImgManager manage:cell.carImage];
-             */
+             *//*
         }
         
         //individual ad - with image
@@ -206,7 +230,7 @@
     //customize favoriteButton according to carAdObject.isFavorite
     //customize carAdObject.storeName
     //load carAdObject.storeLogoURL
-
+*/
     return cell;
 }
 
