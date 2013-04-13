@@ -11,15 +11,15 @@
 @interface CarAdNoImageCell : UITableViewCell
 
 #pragma mark - properties
-@property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
+@property (strong, nonatomic) IBOutlet UIImageView *cellBackgoundImage;
 @property (strong, nonatomic) IBOutlet UILabel *detailsLabel;
-@property (strong, nonatomic) IBOutlet UILabel *priceLabel;
-@property (strong, nonatomic) IBOutlet UILabel *addingTimeLabel;
-@property (strong, nonatomic) IBOutlet UILabel *yearLAbel;
+@property (strong, nonatomic) IBOutlet UILabel *carPriceLabel;
+@property (strong, nonatomic) IBOutlet UILabel *addTimeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *yearLabel;
 @property (strong, nonatomic) IBOutlet UILabel *watchingCountsLabel;
-@property (strong, nonatomic) IBOutlet UILabel *kilometrageLabel;
+@property (strong, nonatomic) IBOutlet UILabel *carMileageLabel;
 @property (strong, nonatomic) IBOutlet UIButton *favoriteButton;
-@property (strong, nonatomic) IBOutlet UIButton *distiguishButton;
-@property (strong, nonatomic) IBOutlet UIImageView *distinguishImage;
+@property (strong, nonatomic) IBOutlet UIButton *specailButton;
+@property (strong, nonatomic) IBOutlet UIImageView *distingushingImage;
 
 @end
