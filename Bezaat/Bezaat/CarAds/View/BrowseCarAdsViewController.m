@@ -171,7 +171,7 @@
             //customize the carAdCell with actual data
             cell.carInfoLabel.text = carAdObject.title;
             cell.carPriceLabel.text = [NSString stringWithFormat:@"%f %@", carAdObject.price, carAdObject.currencyString];
-            cell.adTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
+            cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
             cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
