@@ -55,7 +55,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">Listing_special_bg.png</string>
+									<string key="NSResourceName">Listing_box_bg.png</string>
 								</object>
 							</object>
 							<object class="IBUIView" id="513016533">
@@ -133,7 +133,7 @@
 								<reference key="IBUINormalTitleShadowColor" ref="1061783261"/>
 								<object class="NSCustomResource" key="IBUINormalImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">Listing_icon_special_heart.png</string>
+									<string key="NSResourceName">Listing_icon_heart.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="848223119"/>
 								<reference key="IBUIFont" ref="1018694651"/>
@@ -1399,16 +1399,6 @@
 						<reference key="parent" ref="275350184"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">906</int>
-						<reference key="object" ref="59359397"/>
-						<reference key="parent" ref="275350184"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">907</int>
-						<reference key="object" ref="277931105"/>
-						<reference key="parent" ref="275350184"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">917</int>
 						<reference key="object" ref="580915563"/>
 						<reference key="parent" ref="275350184"/>
@@ -1537,11 +1527,6 @@
 						<reference key="parent" ref="275350184"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1019</int>
-						<reference key="object" ref="874166778"/>
-						<reference key="parent" ref="275350184"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1050</int>
 						<reference key="object" ref="215893579"/>
 						<reference key="parent" ref="275350184"/>
@@ -1559,11 +1544,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">1225</int>
 						<reference key="object" ref="839090771"/>
-						<reference key="parent" ref="275350184"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1226</int>
-						<reference key="object" ref="127841045"/>
 						<reference key="parent" ref="275350184"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -1589,6 +1569,26 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">1231</int>
 						<reference key="object" ref="600165403"/>
+						<reference key="parent" ref="275350184"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">907</int>
+						<reference key="object" ref="277931105"/>
+						<reference key="parent" ref="275350184"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1226</int>
+						<reference key="object" ref="127841045"/>
+						<reference key="parent" ref="275350184"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1019</int>
+						<reference key="object" ref="874166778"/>
+						<reference key="parent" ref="275350184"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">906</int>
+						<reference key="object" ref="59359397"/>
 						<reference key="parent" ref="275350184"/>
 					</object>
 				</array>
@@ -1752,7 +1752,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1234</int>
+			<int key="maxID">1238</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1846,13 +1846,13 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="Listing_box_bg.png">{321, 201}</string>
 			<string key="Listing_icon_car.png">{16, 16}</string>
 			<string key="Listing_icon_date.png">{16, 16}</string>
 			<string key="Listing_icon_dollar.png">{36, 29}</string>
 			<string key="Listing_icon_eye.png">{16, 16}</string>
-			<string key="Listing_icon_special_heart.png">{38, 29}</string>
+			<string key="Listing_icon_heart.png">{38, 29}</string>
 			<string key="Listing_special.png">{57, 60}</string>
-			<string key="Listing_special_bg.png">{321, 200}</string>
 		</dictionary>
 		<bool key="IBDocument.UseAutolayout">YES</bool>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
