@@ -39,6 +39,7 @@
         filtersShown=false;
         searchWithImage=false;
         lastContentOffset=0;
+    
         
         // Show notification bar
 
@@ -48,6 +49,8 @@
 
 - (void)viewDidLoad
 {
+ 
+
        [self.searchPanelView setHidden:YES];
     
     tap = [[UITapGestureRecognizer alloc]
@@ -67,9 +70,9 @@
 	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
 	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
 	asynchImgManager.fileCache = fileCache;
-    
     //load the first page of data
     [self loadPageOfAds];
+    self.contentView.frame=CGRectMake(0, 65, self.contentView.frame.size.width, self.contentView.frame.size.height);
 }
 
 - (void)didReceiveMemoryWarning
@@ -404,14 +407,35 @@
         }
         [self showTopBar];
         [self showNotificationBar];
+        if (sender.contentOffset.y == 0) {
+            [UIView animateWithDuration:.5
+                             animations:^{
+                                 self.contentView.frame=CGRectMake(0, 65, self.contentView.frame.size.width, self.contentView.frame.size.height);
+                                 
+                             }
+                             completion:^(BOOL finished){
+                                 
+                             }];
+
+        }
+        
     }
-    
+
     //Scroll down
     else {
-       
+      
         [self hideTopBar];
         [self hideFiltersBar];
         [self hideNotificationBar];
+        [UIView animateWithDuration:.5
+                         animations:^{
+                             self.contentView.frame=CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+                             
+                         }
+                         completion:^(BOOL finished){
+                             
+                         }];
+
         
     }
     lastContentOffset=sender.contentOffset.y;
@@ -474,12 +498,13 @@
     [self.higherPriceText resignFirstResponder];
 }
 
-#pragma mark - animatation
+#pragma mark - animation
 
 - (void) showFiltersBar{
     [UIView animateWithDuration:.5
                      animations:^{
                          self.filtersView.frame = CGRectMake(2,self.topBarView.frame.size.height-2,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
+                         
                      }
                      completion:^(BOOL finished){
                          
@@ -500,6 +525,7 @@
     [UIView animateWithDuration:.5
                      animations:^{
                          self.searchPanelView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
+                         
                      }
                      completion:^(BOOL finished){
                          
@@ -530,6 +556,7 @@
     [UIView animateWithDuration:.25
                      animations:^{
                          self.topBarView.frame = CGRectMake(0,0,self.topBarView.frame.size.width,self.topBarView.frame.size.height);
+                         
                      }
                      completion:^(BOOL finished){
                          
@@ -540,6 +567,7 @@
     [UIView animateWithDuration:.5
                      animations:^{
                          self.notificationView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.notificationView.frame.size.width,self.notificationView.frame.size.height);
+                        
                      }
                      completion:^(BOOL finished){
                          
