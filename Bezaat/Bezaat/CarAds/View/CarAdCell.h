@@ -23,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *carMileageLabel;
 @property (strong, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (strong, nonatomic) IBOutlet UIButton *specailButton;
+@property (strong, nonatomic) IBOutlet UIButton *helpButton;
 
 # pragma mark - actions
 @end

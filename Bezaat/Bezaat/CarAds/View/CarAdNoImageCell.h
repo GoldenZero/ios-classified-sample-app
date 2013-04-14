@@ -21,5 +21,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (strong, nonatomic) IBOutlet UIButton *specailButton;
 @property (strong, nonatomic) IBOutlet UIImageView *distingushingImage;
+@property (strong, nonatomic) IBOutlet UIButton *helpButton;
 
 @end
