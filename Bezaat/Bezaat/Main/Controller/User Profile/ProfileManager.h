@@ -35,7 +35,7 @@
 @protocol FavoritesDelegate <NSObject>
 @required
 - (void) FavoriteFailAddingWithError:(NSError*) error;
-- (void) FavoriteDidAddWithData:(NSObject *) resultProfile;
+- (void) FavoriteDidAddWithStatus:(BOOL) resultStatus;
 @end
 
 
