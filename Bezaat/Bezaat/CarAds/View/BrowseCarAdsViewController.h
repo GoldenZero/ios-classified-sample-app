@@ -9,8 +9,10 @@
 
 #import <UIKit/UIKit.h>
 #import "CarAdCell.h"
-#import "CarAdWithStoreCell.h"
 #import "CarAdNoImageCell.h"
+#import "CarAdWithStoreCell.h"
+#import "CarAdWithStoreNoImageCell.h"
+
 
 #import "Model.h"
 #import "Brand.h"
