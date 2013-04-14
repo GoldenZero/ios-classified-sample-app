@@ -39,13 +39,16 @@
         filtersShown=false;
         searchWithImage=false;
         lastContentOffset=0;
+        
+        // Show notification bar
+
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
-    [self.searchPanelView setHidden:YES];
+       [self.searchPanelView setHidden:YES];
     
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
@@ -258,9 +261,13 @@
    // Scroll up
     if (( lastContentOffset> sender.contentOffset.y)||(sender.contentOffset.y == 0))
     {
-        [self showNotificationBar];
-        [self showFiltersBar];
+        if (filtersShown==true) {
+            [self.notificationView setHidden:YES];
+            [self.filtersView setHidden:NO];
+            [self showFiltersBar];
+        }
         [self showTopBar];
+        [self showNotificationBar];
     }
     
     //Scroll down
@@ -422,6 +429,8 @@
 }
 
 - (IBAction)searchBtnPress:(id)sender {
+    [self.notificationView setHidden:YES];
+    filtersShown=true;
     if (searchBtnFlag==false){
         searchBtnFlag=true;
     }
@@ -431,12 +440,15 @@
     if (searchBtnFlag){
         [self.searchPanelView setHidden:NO];
         [self.searchImageButton setHidden:NO];
+        [self hideFiltersBar];
         [self showSearchPanel];
     }
     
     else {
         [self.searchPanelView setHidden:YES];
         [self.searchImageButton setHidden:YES];
+        [self.filtersView setHidden:NO];
+        [self showFiltersBar];
         [self hideSearchPanel];
         
     }
