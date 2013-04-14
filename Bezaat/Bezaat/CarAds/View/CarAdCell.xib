@@ -258,6 +258,7 @@
 								<string key="NSFrame">{{250, 232}, {62, 21}}</string>
 								<reference key="NSSuperview" ref="269162287"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -400,14 +401,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">carInfoLabel</string>
-						<reference key="source" ref="275350184"/>
-						<reference key="destination" ref="526922573"/>
-					</object>
-					<int key="connectionID">482</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">carPriceLabel</string>
 						<reference key="source" ref="275350184"/>
 						<reference key="destination" ref="851975858"/>
@@ -469,6 +462,14 @@
 						<reference key="destination" ref="918383033"/>
 					</object>
 					<int key="connectionID">1233</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">detailsLabel</string>
+						<reference key="source" ref="275350184"/>
+						<reference key="destination" ref="526922573"/>
+					</object>
+					<int key="connectionID">1234</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1752,7 +1753,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1233</int>
+			<int key="maxID">1234</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1762,10 +1763,10 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addTimeLabel">UILabel</string>
 						<string key="carImage">HJManagedImageV</string>
-						<string key="carInfoLabel">UILabel</string>
 						<string key="carMileageLabel">UILabel</string>
 						<string key="carPriceLabel">UILabel</string>
 						<string key="cellBackgoundImage">UIImageView</string>
+						<string key="detailsLabel">UILabel</string>
 						<string key="distingushingImage">UIImageView</string>
 						<string key="favoriteButton">UIButton</string>
 						<string key="specailButton">UIButton</string>
@@ -1781,10 +1782,6 @@
 							<string key="name">carImage</string>
 							<string key="candidateClassName">HJManagedImageV</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="carInfoLabel">
-							<string key="name">carInfoLabel</string>
-							<string key="candidateClassName">UILabel</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="carMileageLabel">
 							<string key="name">carMileageLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -1796,6 +1793,10 @@
 						<object class="IBToOneOutletInfo" key="cellBackgoundImage">
 							<string key="name">cellBackgoundImage</string>
 							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="detailsLabel">
+							<string key="name">detailsLabel</string>
+							<string key="candidateClassName">UILabel</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="distingushingImage">
 							<string key="name">distingushingImage</string>
