@@ -92,15 +92,16 @@
     
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     //ad with image
+    int separatorHeight = 5;//extra value for separating
     if (carAdObject.thumbnailURL)
     {
         //store ad - with image
         if (carAdObject.storeID > 0)
-            return 300;
+            return 300 + separatorHeight;
         
         //individual ad - with image
         else
-            return 270;
+            return 270 + separatorHeight;
             
     }
     //ad with no image
@@ -108,10 +109,10 @@
     {
         //store ad - no image
         if (carAdObject.storeID > 0)
-            return 200;
+            return 200 + separatorHeight;
         //individual - no image
         else
-            return 110;
+            return 110 + separatorHeight;
     }
 }
 
@@ -151,11 +152,15 @@
             
             //customize the carAdCell with actual data
             cell.detailsLabel.text = carAdObject.title;
-            cell.carPriceLabel.text = [NSString stringWithFormat:@"%f %@", carAdObject.price, carAdObject.currencyString];
+            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+            if ([priceStr isEqualToString:@""])
+                cell.carPriceLabel.text = priceStr;
+            else
+                cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
             cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
-            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
+            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
             //load image as URL
             [cell.carImage clear];
@@ -221,11 +226,15 @@
             
             //customize the carAdCell with actual data
             cell.detailsLabel.text = carAdObject.title;
-            cell.carPriceLabel.text = [NSString stringWithFormat:@"%f %@", carAdObject.price, carAdObject.currencyString];
+            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+            if ([priceStr isEqualToString:@""])
+                cell.carPriceLabel.text = priceStr;
+            else
+                cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
             cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
-            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
+            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
             //load image as URL
             [cell.carImage clear];
@@ -285,11 +294,17 @@
             
             //customize the carAdCell with actual data
             cell.detailsLabel.text = carAdObject.title;
-            cell.carPriceLabel.text = [NSString stringWithFormat:@"%f %@", carAdObject.price, carAdObject.currencyString];
+            
+            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+            if ([priceStr isEqualToString:@""])
+                cell.carPriceLabel.text = priceStr;
+            else
+                cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+            
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
             cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
-            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
+            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
             //customize carAdObject.storeName
             cell.storeNameLabel.text = carAdObject.storeName;
@@ -344,11 +359,15 @@
             
             //customize the carAdCell with actual data
             cell.detailsLabel.text = carAdObject.title;
-            cell.carPriceLabel.text = [NSString stringWithFormat:@"%f %@", carAdObject.price, carAdObject.currencyString];
+            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+            if ([priceStr isEqualToString:@""])
+                cell.carPriceLabel.text = priceStr;
+            else
+                cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
             cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
-            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i", carAdObject.distanceRangeInKm];
+            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
              //BLOCK FOR NOOR
              //check favorite

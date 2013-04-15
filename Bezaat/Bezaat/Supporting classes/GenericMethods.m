@@ -129,4 +129,40 @@ static NSString * documentsDirectoryPath;
                               encoding:NSUTF8StringEncoding];
 }
 
++ (NSString*) reverseString:(NSString *) input {
+    
+    NSMutableString *reversedStr;
+    int len = [input length];
+    
+    // auto released string
+    reversedStr = [NSMutableString stringWithCapacity:len];
+    
+    // quick-and-dirty implementation
+    while ( len > 0 )
+        [reversedStr appendString:[NSString stringWithFormat:@"%C",[input characterAtIndex:--len]]];
+    
+    return reversedStr;
+}
+
++ (NSString *) formatPrice:(float) num {
+    
+    if ((int) num == 0)
+        return @"";
+    
+    NSString * numStr = [NSString stringWithFormat:@"%i", (int) num ];
+    
+    NSString * inputStr = [GenericMethods reverseString:numStr];
+    
+    NSString * outputStr = @"";
+    for (int i = 0; i < inputStr.length; i++)
+    {
+        int remainder = (i+1) % 3;
+        if (( remainder == 0 ) && (i != 0))
+            outputStr = [outputStr stringByAppendingFormat:@"%c,", [inputStr characterAtIndex:i]];
+        else
+            outputStr = [outputStr stringByAppendingFormat:@"%c", [inputStr characterAtIndex:i]];
+    }
+    return [GenericMethods reverseString:outputStr];
+}
+
 @end

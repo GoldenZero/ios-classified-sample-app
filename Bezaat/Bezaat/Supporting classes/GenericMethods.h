@@ -39,4 +39,10 @@
 
 // This method returns the device name and version
 + (NSString *) machineName;
+
+// This method gives the reverse of a string
++ (NSString*) reverseString:(NSString *) input;
+
+// This method formats the price value to remove the floating point and adds commas after each three digits
++ (NSString *) formatPrice:(float) num;
 @end
