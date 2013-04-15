@@ -159,7 +159,15 @@
                 cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
-            cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            
+            if (carAdObject.viewCount > 0)
+                cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            else
+            {
+                cell.watchingCountsLabel.text = @"";
+                [cell.countOfViewsTinyImg setHidden:YES];
+            }
+            
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
             //load image as URL
@@ -233,7 +241,14 @@
                 cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
-            cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+
+            if (carAdObject.viewCount > 0)
+                cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            else
+            {
+                cell.watchingCountsLabel.text = @"";
+                [cell.countOfViewsTinyImg setHidden:YES];
+            }
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
             //load image as URL
@@ -303,7 +318,15 @@
             
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
-            cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            
+            if (carAdObject.viewCount > 0)
+                cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            else
+            {
+                cell.watchingCountsLabel.text = @"";
+                [cell.countOfViewsTinyImg setHidden:YES];
+            }
+            
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
             //customize carAdObject.storeName
@@ -366,7 +389,13 @@
                 cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
-            cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            if (carAdObject.viewCount > 0)
+                cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            else
+            {
+                cell.watchingCountsLabel.text = @"";
+                [cell.countOfViewsTinyImg setHidden:YES];
+            }
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
              //BLOCK FOR NOOR
