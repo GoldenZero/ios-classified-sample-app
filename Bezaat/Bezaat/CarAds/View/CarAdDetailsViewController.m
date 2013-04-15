@@ -517,6 +517,19 @@
             }
             [self.topMostToolbar setItems:newItems];
         }
+        
+        // Check labeld ad
+        if (currentDetailsObject.isFeatured) {
+            [self.distinguishingImage setHidden:NO];
+            [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_Sp.png"]];
+            [self.priceLabel setTextColor:[UIColor orangeColor]];
+            [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
+        }
+        
+        // Check favorite
+        if ((savedProfile.userID == currentDetailsObject.ownerID)&&(currentDetailsObject.isFavorite)) {
+            [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+        }
     }
     
 }

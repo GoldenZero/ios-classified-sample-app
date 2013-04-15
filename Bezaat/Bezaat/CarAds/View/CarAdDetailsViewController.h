@@ -33,6 +33,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *featureBtn;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editBtn;
 @property (weak, nonatomic) IBOutlet UIToolbar *topMostToolbar;
+@property (strong, nonatomic) IBOutlet UIScrollView *distinguishingImage;
+@property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 
 @property (nonatomic) NSUInteger currentAdID;
 

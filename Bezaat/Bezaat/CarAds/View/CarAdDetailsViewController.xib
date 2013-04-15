@@ -105,6 +105,21 @@
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">268</int>
 						<array class="NSMutableArray" key="NSSubviews">
+							<object class="IBUIImageView" id="352612534">
+								<reference key="NSNextResponder" ref="990958099"/>
+								<int key="NSvFlags">-2147483356</int>
+								<string key="NSFrame">{{10, 50}, {32, 69}}</string>
+								<reference key="NSSuperview" ref="990958099"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="300744723"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">Details_Sp_logo.png</string>
+								</object>
+							</object>
 							<object class="IBUIView" id="696944264">
 								<reference key="NSNextResponder" ref="990958099"/>
 								<int key="NSvFlags">274</int>
@@ -207,7 +222,7 @@
 										<reference key="IBUINormalTitleShadowColor" ref="571933636"/>
 										<object class="NSCustomResource" key="IBUINormalImage">
 											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">Details_navication_2_hart.png</string>
+											<string key="NSResourceName">Details_gray_heart.png</string>
 										</object>
 										<reference key="IBUIFontDescription" ref="158472858"/>
 										<reference key="IBUIFont" ref="392777849"/>
@@ -253,10 +268,11 @@
 							<object class="IBUIScrollView" id="72525880">
 								<reference key="NSNextResponder" ref="990958099"/>
 								<int key="NSvFlags">274</int>
+								<array class="NSMutableArray" key="NSSubviews"/>
 								<string key="NSFrame">{{2, 48}, {317, 175}}</string>
 								<reference key="NSSuperview" ref="990958099"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="300744723"/>
+								<reference key="NSNextKeyView" ref="352612534"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -340,7 +356,6 @@
 								<string key="NSFrame">{{235, 352}, {62, 21}}</string>
 								<reference key="NSSuperview" ref="990958099"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -650,6 +665,22 @@
 					<int key="connectionID">532</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">distinguishingImage</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="72525880"/>
+					</object>
+					<int key="connectionID">537</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">backgroundImage</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="73372944"/>
+					</object>
+					<int key="connectionID">538</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">backBtnPrss:</string>
 						<reference key="source" ref="832691083"/>
@@ -762,6 +793,7 @@
 							<reference ref="555340035"/>
 							<reference ref="300744723"/>
 							<reference ref="72525880"/>
+							<reference ref="352612534"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -865,12 +897,6 @@
 						<reference key="parent" ref="990958099"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">353</int>
-						<reference key="object" ref="555340035"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="990958099"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">354</int>
 						<reference key="object" ref="72525880"/>
 						<array class="NSMutableArray" key="children"/>
@@ -895,6 +921,16 @@
 						<int key="objectID">303</int>
 						<reference key="object" ref="269845445"/>
 						<reference key="parent" ref="696944264"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">536</int>
+						<reference key="object" ref="352612534"/>
+						<reference key="parent" ref="990958099"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">353</int>
+						<reference key="object" ref="555340035"/>
+						<reference key="parent" ref="990958099"/>
 					</object>
 				</array>
 			</object>
@@ -927,12 +963,13 @@
 				<string key="32.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="353.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="354.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="536.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">535</int>
+			<int key="maxID">538</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -980,7 +1017,9 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addTimeLabel">UILabel</string>
+						<string key="backgroundImage">UIImageView</string>
 						<string key="detailsLabel">UILabel</string>
+						<string key="distinguishingImage">UIScrollView</string>
 						<string key="editBtn">UIBarButtonItem</string>
 						<string key="favoriteButton">UIButton</string>
 						<string key="featureBtn">UIBarButtonItem</string>
@@ -1000,9 +1039,17 @@
 							<string key="name">addTimeLabel</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="backgroundImage">
+							<string key="name">backgroundImage</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="detailsLabel">
 							<string key="name">detailsLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="distinguishingImage">
+							<string key="name">distinguishingImage</string>
+							<string key="candidateClassName">UIScrollView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="editBtn">
 							<string key="name">editBtn</string>
@@ -1069,10 +1116,11 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="Details_Sp_logo.png">{32, 69}</string>
 			<string key="Details_bg.png">{320, 391}</string>
 			<string key="Details_call.png">{43, 43}</string>
+			<string key="Details_gray_heart.png">{24, 24}</string>
 			<string key="Details_navication_2_bg.png">{320, 47}</string>
-			<string key="Details_navication_2_hart.png">{24, 24}</string>
 			<string key="Details_navication_2_mail.png">{24, 24}</string>
 			<string key="Details_navication_back.png">{32, 32}</string>
 			<string key="Details_navication_edit.png">{32, 32}</string>
