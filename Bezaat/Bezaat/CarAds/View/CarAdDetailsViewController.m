@@ -480,13 +480,18 @@
         
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
+        if(!savedProfile){
+            [self.favoriteButton setHidden:YES];
+        }
+        
         if ((!savedProfile) || ((savedProfile) && (savedProfile.userID != currentDetailsObject.ownerID)))
         {
+            
             NSMutableArray * newItems = [NSMutableArray new];
             for (UIBarButtonItem * item in self.topMostToolbar.items)
             {
                 // the edit button is marked by tag = 1
-                if (item.tag != 1)
+                if ((item.tag != 1)&&(item.tag!=2))
                     [newItems addObject:item];
             }
             [self.topMostToolbar setItems:newItems];
