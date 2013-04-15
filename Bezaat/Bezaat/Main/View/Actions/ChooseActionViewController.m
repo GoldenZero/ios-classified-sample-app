@@ -10,6 +10,8 @@
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
 #import "sideMenuCell.h"
+#import "AppDelegate.h"
+
 @interface ChooseActionViewController (){
     NSArray *menuArray;
 }
@@ -47,12 +49,14 @@
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender {
-    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    //ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    ModelsViewController *vc = [(AppDelegate *)[[UIApplication sharedApplication] delegate] modelsVC];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
-    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    //ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    ModelsViewController *vc = [(AppDelegate *)[[UIApplication sharedApplication] delegate] modelsVC];
     [self presentViewController:vc animated:YES completion:nil];
 
     

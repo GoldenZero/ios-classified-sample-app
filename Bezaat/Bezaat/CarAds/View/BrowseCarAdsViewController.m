@@ -12,6 +12,7 @@
 #import "ModelsViewController.h"
 #import "ChooseActionViewController.h"
 #import "labelAdViewController.h"
+#import "AppDelegate.h"
 
 @interface BrowseCarAdsViewController (){
     bool searchBtnFlag;
@@ -680,7 +681,8 @@
 
 - (IBAction)modelBtnPress:(id)sender {
     
-    ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    //ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    ModelsViewController *popover = [(AppDelegate *)[[UIApplication sharedApplication] delegate] modelsVC];
     [self presentViewController:popover animated:YES completion:nil];
     
 }

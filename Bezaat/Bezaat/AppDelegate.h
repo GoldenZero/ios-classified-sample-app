@@ -8,6 +8,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ModelsViewController.h"
 
 @class ChooseLocationViewController;
 @class SplashViewController;
@@ -22,6 +23,6 @@
 @property (strong, nonatomic) SplashViewController *splashVC;
 @property (strong, nonatomic) ChooseActionViewController *homeVC;
 //@property (strong, nonatomic) FriendsListViewController *friendVC;
-
+@property (strong, nonatomic) ModelsViewController * modelsVC;
 - (void) onSplashScreenDone;
 @end

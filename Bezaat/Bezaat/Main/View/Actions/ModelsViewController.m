@@ -19,7 +19,9 @@
 #define ALL_MODELS_TEXT     @"جميع الموديلات"
 
 @interface ModelsViewController ()
-
+{
+    BOOL oneSelectionMade;
+}
 @end
 
 @implementation ModelsViewController
@@ -49,12 +51,16 @@
     UITableViewCell* cell = [[NSBundle mainBundle] loadNibNamed:cellNameToLoad owner:self options:nil][0];
 
     if (tableView == _tblBrands) {
+        
         // Get the current brand item
         Brand* currentItem = currentBrands[indexPath.row];
         
         // Update the cell information
         BrandCell* brandCell = (BrandCell*)cell;
         [brandCell reloadInformation:currentItem];
+        
+        if ((!oneSelectionMade) && (indexPath.row == 0))
+            [brandCell selectCell];
     }
     else {
         // Get the current model item
@@ -79,6 +85,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _tblBrands) {
+        
+        oneSelectionMade = YES;
+        
         // Mark this brand as selected and all the others as not selected
         for (int counter=0; counter<[tableView numberOfRowsInSection:0]; counter++) {
             NSIndexPath *index = [NSIndexPath indexPathForRow:counter inSection:0] ;
@@ -123,8 +132,7 @@
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
-#pragma mark Brands Manager Delegate
-#pragma mark -
+#pragma mark - Brands Manager Delegate
 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray {
     // Update the information
@@ -167,20 +175,42 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // Show the loading indicator
-    [MBProgressHUD2 showHUDAddedTo:self.view
-                              text:@"جاري تحميل الموديلات"
-                      detailedText:@"الرجاء الانتظار"
-                          animated:YES];
-    
     // Get the brands and models
-    [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
+    if ((!currentBrands) || (!currentModels))
+    {
+        // Show the loading indicator
+        [MBProgressHUD2 showHUDAddedTo:self.view
+                                  text:@"جاري تحميل الموديلات"
+                          detailedText:@"الرجاء الانتظار"
+                              animated:YES];
+        [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
+    }
+    
+    else if ((currentBrands) && (!currentBrands.count))
+    {
+        // Show the loading indicator
+        [MBProgressHUD2 showHUDAddedTo:self.view
+                                  text:@"جاري تحميل الموديلات"
+                          detailedText:@"الرجاء الانتظار"
+                              animated:YES];
+        [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
+    }
+    
+    else if ((currentModels) && (!currentModels.count))
+    {
+        // Show the loading indicator
+        [MBProgressHUD2 showHUDAddedTo:self.view
+                                  text:@"جاري تحميل الموديلات"
+                          detailedText:@"الرجاء الانتظار"
+                              animated:YES];
+        [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    oneSelectionMade = NO;
 }
 
 - (void)didReceiveMemoryWarning

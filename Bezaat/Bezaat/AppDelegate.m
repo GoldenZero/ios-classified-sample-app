@@ -18,6 +18,7 @@
 #import "FriendsListViewController.h"
 
 @implementation AppDelegate
+@synthesize modelsVC;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -39,7 +40,10 @@
     //self.friendVC=[[FriendsListViewController alloc] initWithNibName:@"FriendsListViewController" bundle:nil];
     //self.window.rootViewController = self.friendVC;
 
-    //3- visualize
+    //4- init a single models UI
+    self.modelsVC = [[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    
+    //5- visualize
     [self.window makeKeyAndVisible];
     
     return YES;
