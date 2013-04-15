@@ -75,6 +75,12 @@
     self.contentView.frame=CGRectMake(0, 65, self.contentView.frame.size.width, self.contentView.frame.size.height);
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -157,6 +163,8 @@
             
             [cell.carImage showLoadingWheel];
             [asynchImgManager manage:cell.carImage];
+            [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.carImage.imageView setClipsToBounds:YES];
             
             //customize storeName
             cell.storeNameLabel.text = carAdObject.storeName;
@@ -225,7 +233,8 @@
             
             [cell.carImage showLoadingWheel];
             [asynchImgManager manage:cell.carImage];
-            
+            [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.carImage.imageView setClipsToBounds:YES];
             
              //BLOCK FOR NOOR
              //check favorite
@@ -393,7 +402,7 @@
 }
 
 
-
+/*
 # pragma mark - hide bars while scrolling
 
 - (void) scrollViewDidScroll:(UITableView *)sender {
@@ -439,7 +448,7 @@
         
     }
     lastContentOffset=sender.contentOffset.y;
-}
+}*/
 # pragma mark - custom methods
 
 - (void) addToFavoritePressed{
