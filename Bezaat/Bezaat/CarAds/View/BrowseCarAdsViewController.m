@@ -190,12 +190,7 @@
             [asynchImgManager manage:cell.storeImage];
             
             //BLOCK FOR NOOR
-            //check favorite
-            if (carAdObject.isFavorite)
-            {
-                [cell.favoriteButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-                
-            }
+     
             
             //check featured
             if (carAdObject.isFeatured)
@@ -216,6 +211,18 @@
                 [cell.helpButton setHidden:YES];
                 [cell.specailButton setHidden:NO];
                 [cell.favoriteButton setFrame:CGRectMake(cell.favoriteButton.frame.origin.x+36, cell.favoriteButton.frame.origin.y, cell.favoriteButton.frame.size.width, cell.favoriteButton.frame.size.height)];
+                //check favorite
+                
+                if (carAdObject.isFavorite)
+                {
+                    if (carAdObject.isFeatured) {
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    }
+                    else{
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                    }
+                    
+                }
                 
             }
             
@@ -262,12 +269,7 @@
             [cell.carImage.imageView setClipsToBounds:YES];
             
              //BLOCK FOR NOOR
-             //check favorite
-             if (carAdObject.isFavorite)
-             {
-                 [cell.favoriteButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-             }
-             
+         
              //check featured
              if (carAdObject.isFeatured)
              {
@@ -287,6 +289,18 @@
                  [cell.helpButton setHidden:YES];
                  [cell.specailButton setHidden:NO];
                  [cell.favoriteButton setFrame:CGRectMake(cell.favoriteButton.frame.origin.x+36, cell.favoriteButton.frame.origin.y, cell.favoriteButton.frame.size.width, cell.favoriteButton.frame.size.height)];
+                 //check favorite
+                 
+                 if (carAdObject.isFavorite)
+                 {
+                     if (carAdObject.isFeatured) {
+                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                     }
+                     else{
+                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                     }
+                     
+                 }
              
              }
              
@@ -340,11 +354,7 @@
             [asynchImgManager manage:cell.storeImage];
             
              //BLOCK FOR NOOR
-             //check favorite
-             if (carAdObject.isFavorite)
-             {
-                 [cell.favoriteButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-             }
+        
              
              //check featured
              if (carAdObject.isFeatured)
@@ -365,6 +375,18 @@
                  [cell.helpButton setHidden:YES];
                  [cell.specailButton setHidden:NO];
                  [cell.favoriteButton setFrame:CGRectMake(cell.favoriteButton.frame.origin.x+36, cell.favoriteButton.frame.origin.y, cell.favoriteButton.frame.size.width, cell.favoriteButton.frame.size.height)];
+                 //check favorite
+                 
+                 if (carAdObject.isFavorite)
+                 {
+                     if (carAdObject.isFeatured) {
+                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                     }
+                     else{
+                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                     }
+                     
+                 }
              }
              
             return cell;
@@ -400,11 +422,6 @@
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
              //BLOCK FOR NOOR
-             //check favorite
-             if (carAdObject.isFavorite)
-             {
-                 [cell.favoriteButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-             }
              
              //check featured
              if (carAdObject.isFeatured)
@@ -426,6 +443,19 @@
                  [cell.helpButton setHidden:YES];
                  [cell.specailButton setHidden:NO];
                  [cell.favoriteButton setFrame:CGRectMake(cell.favoriteButton.frame.origin.x+36, cell.favoriteButton.frame.origin.y, cell.favoriteButton.frame.size.width, cell.favoriteButton.frame.size.height)];
+              
+                 //check favorite
+                 
+                 if (carAdObject.isFavorite)
+                 {
+                     if (carAdObject.isFeatured) {
+                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                     }
+                     else{
+                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                     }
+        
+                 }
              }
              
             return cell;
