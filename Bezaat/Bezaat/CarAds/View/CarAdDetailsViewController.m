@@ -19,6 +19,8 @@
     CarDetails * currentDetailsObject;
     CGFloat originalScrollViewHeight;
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
+    AURosetteView *shareButton;
+    UITapGestureRecognizer *tap;
 }
 - (void)loadScrollViewWithPage:(int)page;
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -45,6 +47,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // hide share button
+    tap = [[UITapGestureRecognizer alloc]
+           initWithTarget:self
+           action:@selector(dismissShareButton)];
+    [self.scrollView addGestureRecognizer:tap];
+    [self.labelsScrollView addGestureRecognizer:tap];
+
+    
+    
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Details_navication_bg.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
     pageControlUsed=NO;
@@ -144,6 +155,15 @@
     
 }
 
+// flod share button when touch the screen
+-(void)dismissShareButton{
+    if ((shareButton.on)) {
+        [shareButton fold];
+    }
+
+    
+}
+
 - (void) prepareShareButton{
     UIImage* twitterImage = [UIImage imageNamed:@"Details_button_twitter.png"];
     UIImage* facebookImage = [UIImage imageNamed:@"Details_button_facebook.png"];
@@ -167,20 +187,21 @@
                                                                   action:@selector(mailAction:)];
     
     // create rosette view
-    AURosetteView* rosette = [[AURosetteView alloc] initWithItems: [NSArray arrayWithObjects: twitterItem, facebookItem, mailItem, nil]];
-    [rosette.wheelButton setImage:[UIImage imageNamed:@"Details_button_share.png"] forState:UIControlStateNormal];
-    [rosette setCenter:CGPointMake(40.0f, 420.0f)];
+    shareButton= [[AURosetteView alloc] initWithItems: [NSArray arrayWithObjects: twitterItem, facebookItem, mailItem, nil]];
+    [shareButton.wheelButton setImage:[UIImage imageNamed:@"Details_button_share.png"] forState:UIControlStateNormal];
+    [shareButton setCenter:CGPointMake(35.0f, 430.0f)];
     
     CGAffineTransform transform =
     CGAffineTransformMakeRotation(-0.7f);
     
-    rosette.transform = transform;
+    shareButton.transform = transform;
     
-    [self.view addSubview:rosette];
+    
+    [self.view insertSubview:shareButton aboveSubview:self.labelsScrollView];
     
 }
 
-#pragma mark - buttpns actions
+#pragma mark - buttons actions
 
 - (IBAction)changePage:(id)sender{
     

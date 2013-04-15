@@ -10,7 +10,7 @@
 #import "AURosetteView.h"
 #import <CoreImage/CoreImage.h>
 
-@interface AURosetteView (Private)
+@interface AURosetteView (public)
 - (void)wheelButtonAction:(id)sender;
 - (void)tapAction:(UITapGestureRecognizer*)tapGestureRecognizer;
 - (void)addLeaves;
@@ -368,6 +368,7 @@ CGFloat const kApertureAngle = 53.0f;
     }    
     
     [CATransaction commit];
+    self.on=false;
 }
 
 

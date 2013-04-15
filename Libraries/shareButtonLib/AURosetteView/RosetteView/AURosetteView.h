@@ -36,4 +36,5 @@
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated;
 - (void)toggleWithAnimation:(BOOL)animated;
+- (void) fold;
 @end
