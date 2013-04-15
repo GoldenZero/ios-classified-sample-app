@@ -402,7 +402,7 @@
 }
 
 
-/*
+
 # pragma mark - hide bars while scrolling
 
 - (void) scrollViewDidScroll:(UITableView *)sender {
@@ -448,7 +448,8 @@
         
     }
     lastContentOffset=sender.contentOffset.y;
-}*/
+}
+ 
 # pragma mark - custom methods
 
 - (void) addToFavoritePressed{
