@@ -43,7 +43,7 @@ static int numberOfFriends=3;
     // Set the background images
     tableView.separatorColor = [UIColor clearColor];
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"shareGradient.png"]];
-    [toolBar setBackgroundImage:[UIImage imageNamed:@"share_blueRectangle.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault ];
+    [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault ];
 }
 
 - (void)didReceiveMemoryWarning

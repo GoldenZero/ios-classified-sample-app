@@ -67,9 +67,9 @@
 
 #pragma mark -- custom methods
 - (void) setBackgroundImages{
-    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"home_blueRectangle.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
-    UIImage * backBtnImg = [UIImage imageNamed:@"share_arrowButton.png"];
+    UIImage * backBtnImg = [UIImage imageNamed:@"buttons_back.png"];
     UIButton * customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40 , 40)];
     [customBtn setImage:backBtnImg forState:UIControlStateNormal];
     [customBtn addTarget:self action:@selector(popSelf) forControlEvents:UIControlEventTouchUpInside];
