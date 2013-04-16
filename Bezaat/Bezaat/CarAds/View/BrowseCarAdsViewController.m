@@ -78,14 +78,15 @@
     //load the first page of data
     [self loadPageOfAds];
     
-    self.contentView.frame=CGRectMake(0, 65, self.contentView.frame.size.width, self.contentView.frame.size.height);
     
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+        
     [self.tableView reloadData];
+    self.contentView.frame=CGRectMake(0, 65, self.contentView.frame.size.width, self.contentView.frame.size.height);
+
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -231,6 +232,11 @@
             
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+            
+            // Not logged in
+            if(!savedProfile){
+                [cell.favoriteButton setHidden:YES];
+            }
             if ((savedProfile)                                      //logged in
                 && (savedProfile.userID == carAdObject.ownerID))    //is owner
             {
@@ -309,6 +315,11 @@
              
              //check owner
              UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+            // Not logged in
+            if(!savedProfile){
+                [cell.favoriteButton setHidden:YES];
+            }
+
              if ((savedProfile)                                      //logged in
              && (savedProfile.userID == carAdObject.ownerID))    //is owner
              {
@@ -394,6 +405,11 @@
              
              //check owner
              UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+            // Not logged in
+            if(!savedProfile){
+                [cell.favoriteButton setHidden:YES];
+            }
+
              if ((savedProfile)                                      //logged in
              && (savedProfile.userID == carAdObject.ownerID))    //is owner
              {
@@ -463,6 +479,11 @@
              
              //check owner
              UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+            // Not logged in
+            if(!savedProfile){
+                [cell.favoriteButton setHidden:YES];
+            }
+
              if ((savedProfile)                                      //logged in
              && (savedProfile.userID == carAdObject.ownerID))    //is owner
              {
