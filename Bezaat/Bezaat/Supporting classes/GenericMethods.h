@@ -45,4 +45,10 @@
 
 // This method formats the price value to remove the floating point and adds commas after each three digits
 + (NSString *) formatPrice:(float) num;
+
+// This method converts NSDictionary --> NSData
++ (NSData *) NSDataFromDictionary:(NSDictionary *) input;
+
+// This method converts NSDictionary --> NSData
++ (NSDictionary *) NSDictionaryFromData:(NSData *) data;
 @end

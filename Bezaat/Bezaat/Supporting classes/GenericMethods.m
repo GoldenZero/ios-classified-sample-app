@@ -165,4 +165,24 @@ static NSString * documentsDirectoryPath;
     return [GenericMethods reverseString:outputStr];
 }
 
++ (NSData *) NSDataFromDictionary:(NSDictionary *)input {
+    
+    
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:input forKey:@"NSData"];
+    [archiver finishEncoding];
+
+    return data;
+}
+
++ (NSDictionary *) NSDictionaryFromData:(NSData *) data {
+    
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSDictionary * dict = [unarchiver decodeObjectForKey:@"NSData"];
+    [unarchiver finishDecoding];
+    
+    return dict;
+}
+
 @end

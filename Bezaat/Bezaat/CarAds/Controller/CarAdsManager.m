@@ -7,6 +7,7 @@
 //
 
 #import "CarAdsManager.h"
+#import "SBJSON.h"
 
 #pragma mark - JSON Keys
 
@@ -55,7 +56,7 @@
 @synthesize pageNumber;
 @synthesize pageSize;
 
-static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%i&pageSize=%i&cityId=%i&textTerm=%@&brandId=%i&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@";
+static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&brandId=%i&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@";
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
@@ -82,8 +83,16 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return self.pageNumber;
 }
 
+- (NSUInteger) getCurrentPageNum {
+    return self.pageNumber;
+}
+
 - (void) setCurrentPageNum:(NSUInteger) pageNum {
     self.pageNumber = pageNum;
+}
+
+- (NSUInteger) getPageSize {
+    return PAGE_SIZE;
 }
 
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del {
@@ -104,8 +113,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     //3- set the url string
     NSString * fullURLString = [NSString stringWithFormat:ads_url,
-                                pageNum,
-                                self.pageSize,
+                                [NSString stringWithFormat:@"%i", pageNum],
+                                [NSString stringWithFormat:@"%i", self.pageSize],
                                 cityID,
                                 @"",
                                 brandID,
@@ -213,6 +222,78 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return result;
 }
 
+- (BOOL) cacheDataFromArray:(NSArray *) dataArr forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [NSString stringWithFormat:@"%@.json",
+    [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID]];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    //2- check if file exists
+    //BOOL cahcedFileExists = [GenericMethods fileExistsInDocuments:cacheFileName];
+    
+    //3- create the dictionary to be serialized to JSON
+    NSMutableDictionary * dictToBeWritten = [NSMutableDictionary new];
+    [dictToBeWritten setObject:[NSNumber numberWithUnsignedInteger:tillPageNum] forKey:@"pageNo"];
+    [dictToBeWritten setObject:[NSNumber numberWithUnsignedInteger:pSize] forKey:@"pageSize"];
+    [dictToBeWritten setObject:dataArr forKey:@"dataArray"];
+    
+    //4- convert dictionary to NSData
+    NSData * dataToBeWritten = [GenericMethods NSDataFromDictionary:dictToBeWritten];
+    
+    //5- serialize & write to file
+    NSError* error;
+    id jsonData = [NSJSONSerialization JSONObjectWithData:dataToBeWritten
+                                                    options:NSJSONReadingAllowFragments
+                                                      error:&error];
+    
+    [jsonData writeToFile:cacheFilePath atomically:YES];
+    
+    if (!error)
+        return YES;
+    
+
+    NSLog(@"error desc: %@", error.description);
+    return NO;
+}
+
+- (NSArray *) getCahedDataForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [NSString stringWithFormat:@"%@.json",
+                                [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID]];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    NSDictionary * dataDict = [NSDictionary dictionaryWithContentsOfFile:cacheFilePath];
+    
+    if (!dataDict)
+        return nil;
+    
+    NSArray * resultArr = [dataDict objectForKey:@"dataArray"];
+    return [self createCarAdsArrayWithData:resultArr];
+}
+
+- (NSInteger) getCahedpageNumForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [NSString stringWithFormat:@"%@.json",
+                                [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID]];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    NSDictionary * dataDict = [NSDictionary dictionaryWithContentsOfFile:cacheFilePath];
+    
+    if (!dataDict)
+        return -1;
+    
+    return (NSInteger)[dataDict objectForKey:@"pageNo"];
+    
+}
 
 #pragma mark - Data delegate methods
 
@@ -288,6 +369,32 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         return adsArray;
     }
     return [NSArray new];
+}
+
+- (NSString *) getCacheFileNameForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  {
+    
+    //the file name is the string of listing URL without the page number and page size
+    NSString * fullURLString = [NSString stringWithFormat:ads_url,
+                                @"",
+                                @"",
+                                cityID,
+                                @"",
+                                brandID,
+                                [NSString stringWithFormat:@"%@", (modelID == -1 ? @"" : [NSString stringWithFormat:@"%i", modelID])],
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"1",   //by default, load images
+                                @"1",   //by default, load images
+                                @"",
+                                @""
+                                ];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    return [correctURLstring stringByReplacingOccurrencesOfString:@"/" withString:@""];
 }
 
 @end

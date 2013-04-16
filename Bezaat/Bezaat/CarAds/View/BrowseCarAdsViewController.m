@@ -88,11 +88,21 @@
     [self.tableView reloadData];
 }
 
-- (void) viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     
-    //4- cache the resultArray data
-    //... (COME BACK HERE LATER) ...
+    //4- cache the data
+    //[[CarAdsManager sharedInstance] loadCarAdsOfPage:page forBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID] WithDelegate:self];
+    
+    /*
+    BOOL result = [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
+                                        forBrand:currentModel.brandID
+                                        Model:currentModel.modelID
+                                        InCity:[[SharedUser sharedInstance] getUserCityID]
+                                        tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]                                     forPageSize: [[CarAdsManager sharedInstance] getPageSize]];*/
+    //NSLog(@"%i", result);
+    
+
 }
 
 - (void)didReceiveMemoryWarning

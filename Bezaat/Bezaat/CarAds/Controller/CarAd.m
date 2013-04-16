@@ -98,4 +98,50 @@
     }
     return self;
 }
+#pragma mark - NSCoding methods
+
+- (id)initWithCoder:(NSCoder *)decoder  {
+    
+    self = [super init];
+    
+    if (self) {
+        self.adID = [decoder decodeIntegerForKey:@"adID"];
+        self.ownerID = [decoder decodeIntegerForKey:@"ownerID"];
+        self.storeID = [decoder decodeIntegerForKey:@"storeID"];
+        self.isFeatured = [decoder decodeBoolForKey:@"isFeatured"];
+        self.thumbnailURL = [decoder decodeObjectForKey:@"thumbnailURL"];
+        self.title = [decoder decodeObjectForKey:@"title"];
+        self.price = [decoder decodeFloatForKey:@"price"];
+        self.currencyString = [decoder decodeObjectForKey:@"currencyString"];
+        self.postedOnDate = [decoder decodeObjectForKey:@"postedOnDate"];
+        self.modelYear = [decoder decodeIntegerForKey:@"modelYear"];
+        self.distanceRangeInKm = [decoder decodeIntegerForKey:@"distanceRangeInKm"];
+        self.viewCount = [decoder decodeIntegerForKey:@"viewCount"];
+        self.isFavorite = [decoder decodeBoolForKey:@"isFavorite"];
+        self.storeName = [decoder decodeObjectForKey:@"storeName"];
+        self.storeLogoURL = [decoder decodeObjectForKey:@"storeLogoURL"];
+        
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+
+    [encoder encodeInteger:self.adID forKey:@"adID"];
+    [encoder encodeInteger:self.ownerID forKey:@"ownerID"];
+    [encoder encodeInteger:self.storeID forKey:@"storeID"];
+    [encoder encodeBool:self.isFeatured forKey:@"isFeatured"];
+    [encoder encodeObject:self.thumbnailURL forKey:@"thumbnailURL"];
+    [encoder encodeObject:self.title forKey:@"title"];
+    [encoder encodeFloat:self.price forKey:@"price"];
+    [encoder encodeObject:self.currencyString forKey:@"currencyString"];
+    [encoder encodeObject:self.postedOnDate forKey:@"postedOnDate"];
+    [encoder encodeInteger:self.modelYear forKey:@"modelYear"];
+    [encoder encodeInteger:self.distanceRangeInKm forKey:@"distanceRangeInKm"];
+    [encoder encodeInteger:self.viewCount forKey:@"viewCount"];
+    [encoder encodeBool:self.isFavorite forKey:@"isFavorite"];
+    [encoder encodeObject:self.storeName forKey:@"storeName"];
+    [encoder encodeObject:self.storeLogoURL forKey:@"storeLogoURL"];
+        
+}
 @end

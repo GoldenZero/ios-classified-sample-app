@@ -29,9 +29,15 @@
 
 - (NSUInteger) nextPage;
 
+- (NSUInteger) getCurrentPageNum;
+
 - (void) setCurrentPageNum:(NSUInteger) pageNum;
+
+- (NSUInteger) getPageSize;
 
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del;
 
 - (NSString *) getDateDifferenceStringFromDate:(NSDate *) input;
+
+- (BOOL) cacheDataFromArray:(NSArray *) dataArr forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize ;
 @end
