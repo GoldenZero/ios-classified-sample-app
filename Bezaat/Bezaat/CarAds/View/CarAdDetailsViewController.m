@@ -524,11 +524,24 @@
             [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_Sp.png"]];
             [self.priceLabel setTextColor:[UIColor orangeColor]];
             [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
+            [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar_Sp.png"]];
+            
         }
         
         // Check favorite
         if ((savedProfile.userID == currentDetailsObject.ownerID)&&(currentDetailsObject.isFavorite)) {
             [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+        }
+        
+        // Check store
+        if (currentDetailsObject.storeID!=0) {
+            [self.storeView setHidden:NO];
+            self.contentView.frame=CGRectMake(0,124 ,self.contentView.frame.size.width , self.contentView.frame.size.height);
+            [self.nameStoreLabel setText:currentDetailsObject.storeName];
+            NSURL* aURL = currentDetailsObject.storeLogoURL;
+            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:aURL]];
+            [self.brandStoreImg setImage:image];
+            
         }
     }
     

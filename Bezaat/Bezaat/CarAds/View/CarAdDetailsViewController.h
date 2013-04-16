@@ -35,9 +35,17 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *topMostToolbar;
 @property (strong, nonatomic) IBOutlet UIScrollView *distinguishingImage;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
+@property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
 
 @property (nonatomic) NSUInteger currentAdID;
-@property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
+
+// Store Bar content
+
+@property (strong, nonatomic) IBOutlet UIView *storeView;
+@property (strong, nonatomic) IBOutlet UIImageView *bgStoreView;
+@property (strong, nonatomic) IBOutlet UIImageView *brandStoreImg;
+@property (strong, nonatomic) IBOutlet UILabel *nameStoreLabel;
+@property (strong, nonatomic) IBOutlet UIView *contentView;
 
 
 #pragma mark - actions
