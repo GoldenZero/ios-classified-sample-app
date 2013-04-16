@@ -73,6 +73,7 @@
     
     //hide the scrolling indicator
     [self.tableView setShowsVerticalScrollIndicator:NO];
+    //[self.tableView setScrollEnabled:NO];
     
     //load the first page of data
     [self loadPageOfAds];
@@ -132,7 +133,10 @@
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (carAdsArray)
+    {
+        [self scrollToTheBottom];
         return carAdsArray.count;
+    }
     return 0;
 }
 
@@ -592,6 +596,15 @@
     [[CarAdsManager sharedInstance] loadCarAdsOfPage:page forBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID] WithDelegate:self];
 }
 
+- (void)scrollToTheBottom
+{
+    if (self.tableView.contentSize.height > self.tableView.frame.size.height)
+    {
+        CGPoint offset = CGPointMake(0,self.tableView.contentSize.height-self.tableView.frame.size.height);
+        [self.tableView setContentOffset:offset animated:YES];
+    }
+}
+
 
 #pragma mark - keyboard handler
 -(void)dismissKeyboard {
@@ -801,7 +814,7 @@
     
     //3- refresh table data
     [self.tableView reloadData];
-    
+
 }
 
 @end
