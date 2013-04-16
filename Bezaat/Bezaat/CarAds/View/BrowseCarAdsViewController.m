@@ -50,9 +50,8 @@
 
 - (void)viewDidLoad
 {
- 
-
-       [self.searchPanelView setHidden:YES];
+    
+    [self.searchPanelView setHidden:YES];
     
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
@@ -71,15 +70,28 @@
 	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
 	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
 	asynchImgManager.fileCache = fileCache;
+    
+    //hide the scrolling indicator
+    [self.tableView setShowsVerticalScrollIndicator:NO];
+    
     //load the first page of data
     [self loadPageOfAds];
+    
     self.contentView.frame=CGRectMake(0, 65, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self.tableView reloadData];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    //4- cache the resultArray data
+    //... (COME BACK HERE LATER) ...
 }
 
 - (void)didReceiveMemoryWarning
@@ -789,9 +801,6 @@
     
     //3- refresh table data
     [self.tableView reloadData];
-    
-    //4- cache the resultArray data
-    //... (COME BACK HERE LATER) ...
     
 }
 
