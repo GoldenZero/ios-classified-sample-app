@@ -37,6 +37,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 
 @property (nonatomic) NSUInteger currentAdID;
+@property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
 
 
 #pragma mark - actions

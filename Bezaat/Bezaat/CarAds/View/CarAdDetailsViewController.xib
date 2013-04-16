@@ -208,7 +208,6 @@
 										<string key="NSFrame">{{264, 0}, {56, 44}}</string>
 										<reference key="NSSuperview" ref="696944264"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -322,7 +321,6 @@
 								<string key="NSFrame">{{20, 323}, {277, 21}}</string>
 								<reference key="NSSuperview" ref="990958099"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -356,7 +354,6 @@
 								<string key="NSFrame">{{235, 352}, {62, 21}}</string>
 								<reference key="NSSuperview" ref="990958099"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -404,7 +401,7 @@
 							<object class="IBUILabel" id="610625010">
 								<reference key="NSNextResponder" ref="990958099"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{117, 352}, {42, 21}}</string>
+								<string key="NSFrame">{{104, 352}, {55, 21}}</string>
 								<reference key="NSSuperview" ref="990958099"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="363853008"/>
@@ -468,7 +465,7 @@
 							<object class="IBUIImageView" id="131397123">
 								<reference key="NSNextResponder" ref="990958099"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{93, 355}, {16, 16}}</string>
+								<string key="NSFrame">{{85, 355}, {16, 16}}</string>
 								<reference key="NSSuperview" ref="990958099"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="610625010"/>
@@ -680,6 +677,14 @@
 						<reference key="destination" ref="73372944"/>
 					</object>
 					<int key="connectionID">538</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">countOfViewsTinyImg</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="131397123"/>
+					</object>
+					<int key="connectionID">544</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -963,7 +968,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">543</int>
+			<int key="maxID">544</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1012,6 +1017,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addTimeLabel">UILabel</string>
 						<string key="backgroundImage">UIImageView</string>
+						<string key="countOfViewsTinyImg">UIImageView</string>
 						<string key="detailsLabel">UILabel</string>
 						<string key="distinguishingImage">UIScrollView</string>
 						<string key="editBtn">UIBarButtonItem</string>
@@ -1035,6 +1041,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="backgroundImage">
 							<string key="name">backgroundImage</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="countOfViewsTinyImg">
+							<string key="name">countOfViewsTinyImg</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="detailsLabel">
