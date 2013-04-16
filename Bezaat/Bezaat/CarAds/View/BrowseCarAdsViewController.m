@@ -711,8 +711,8 @@
 
 - (IBAction)modelBtnPress:(id)sender {
     
-    //ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    ModelsViewController *popover = [(AppDelegate *)[[UIApplication sharedApplication] delegate] modelsVC];
+    ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    
     [self presentViewController:popover animated:YES completion:nil];
     
 }

@@ -29,7 +29,10 @@
 {
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
+    if (selected)
+        [_bgImageView setHidden:NO];
+    else
+        [_bgImageView setHidden:YES];
 }
 
 @end

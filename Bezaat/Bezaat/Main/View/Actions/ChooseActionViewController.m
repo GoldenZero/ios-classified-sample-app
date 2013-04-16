@@ -49,14 +49,14 @@
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender {
-    //ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    ModelsViewController *vc = [(AppDelegate *)[[UIApplication sharedApplication] delegate] modelsVC];
+    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    
     [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
-    //ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    ModelsViewController *vc = [(AppDelegate *)[[UIApplication sharedApplication] delegate] modelsVC];
+    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    
     [self presentViewController:vc animated:YES completion:nil];
 
     
