@@ -7,6 +7,7 @@
 //
 
 #import "AddNewCarAdViewController.h"
+#import "ChooseActionViewController.h"
 
 @interface AddNewCarAdViewController ()
 
@@ -35,4 +36,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - helper methods
+- (void) setImagesToXib{
+    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+
+}
+
+#pragma mark - Buttons Actions
+- (IBAction)homeBtnPrss:(id)sender {
+    ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+    
+}
+
+- (IBAction)addBtnprss:(id)sender {
+    
+    // Add current Ad to the user's add
+    // CODE HERE
+    
+    
+    ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+}
 @end

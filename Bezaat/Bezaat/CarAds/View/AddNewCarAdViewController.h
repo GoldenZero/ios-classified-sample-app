@@ -12,7 +12,16 @@
 @interface AddNewCarAdViewController : UIViewController
 
 #pragma mark - properties
+@property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (strong, nonatomic) IBOutlet UITextField *adAdressText;
+@property (strong, nonatomic) IBOutlet UITextView *adDetailsText;
+@property (strong, nonatomic) IBOutlet UITextField *kiloText;
+@property (strong, nonatomic) IBOutlet UITextField *priceText;
+@property (strong, nonatomic) IBOutlet UIView *addImagesView;
 
 #pragma mark - actions
+
+- (IBAction)homeBtnPrss:(id)sender;
+- (IBAction)addBtnprss:(id)sender;
 
 @end
