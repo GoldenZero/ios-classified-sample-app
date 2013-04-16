@@ -556,10 +556,17 @@
     if (currentDetailsObject)
     {
         self.detailsLabel.text = currentDetailsObject.title;
-        self.priceLabel.text = [NSString stringWithFormat:@"%f %@", currentDetailsObject.price, currentDetailsObject.currencyString];
+        
+        NSString * priceStr = [GenericMethods formatPrice:currentDetailsObject.price];
+        if ([priceStr isEqualToString:@""])
+            self.priceLabel.text = priceStr;
+        else
+            self.priceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, currentDetailsObject.currencyString];
+        
+        
         self.addTimeLabel.text = [[CarDetailsManager sharedInstance] getDateDifferenceStringFromDate:currentDetailsObject.postedOnDate];
         self.yearMiniLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.modelYear];
-        self.kiloMiniLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.distanceRangeInKm];
+        self.kiloMiniLabel.text = [NSString stringWithFormat:@"%i KM", currentDetailsObject.distanceRangeInKm];
         self.watchingCountLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.viewCount];
     }
     [self customizeButtonsByData];

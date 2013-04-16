@@ -157,7 +157,7 @@ static NSString * documentsDirectoryPath;
     for (int i = 0; i < inputStr.length; i++)
     {
         int remainder = (i+1) % 3;
-        if (( remainder == 0 ) && (i != 0))
+        if (( remainder == 0 ) && (i != 0) && (i != (inputStr.length -1) ))
             outputStr = [outputStr stringByAppendingFormat:@"%c,", [inputStr characterAtIndex:i]];
         else
             outputStr = [outputStr stringByAppendingFormat:@"%c", [inputStr characterAtIndex:i]];

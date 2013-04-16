@@ -82,6 +82,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return self.pageNumber;
 }
 
+- (void) setCurrentPageNum:(NSUInteger) pageNum {
+    self.pageNumber = pageNum;
+}
+
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del {
     
     //1- set the delegate
