@@ -10,4 +10,6 @@
 
 @interface AddNewStoreViewController : UIViewController
 
+- (IBAction)homeBtnPress:(id)sender;
+
 @end
