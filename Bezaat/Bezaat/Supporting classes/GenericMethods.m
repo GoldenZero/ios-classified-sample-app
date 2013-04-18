@@ -165,6 +165,7 @@ static NSString * documentsDirectoryPath;
     return [GenericMethods reverseString:outputStr];
 }
 
+/*
 + (NSData *) NSDataFromDictionary:(NSDictionary *)input {
     
     
@@ -175,7 +176,9 @@ static NSString * documentsDirectoryPath;
 
     return data;
 }
+*/
 
+/*
 + (NSDictionary *) NSDictionaryFromData:(NSData *) data {
     
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
@@ -184,5 +187,5 @@ static NSString * documentsDirectoryPath;
     
     return dict;
 }
-
+*/
 @end

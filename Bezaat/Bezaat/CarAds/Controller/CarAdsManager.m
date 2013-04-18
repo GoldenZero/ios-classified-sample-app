@@ -87,12 +87,21 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return self.pageNumber;
 }
 
-- (void) setCurrentPageNum:(NSUInteger) pageNum {
-    self.pageNumber = pageNum;
+- (NSUInteger) getCurrentPageSize {
+    return self.pageSize;
 }
 
-- (NSUInteger) getPageSize {
-    return PAGE_SIZE;
+
+- (void) setCurrentPageNum:(NSUInteger) pNum {
+    self.pageNumber = pNum;
+}
+
+- (void) setCurrentPageSize:(NSUInteger) pSize {
+    self.pageSize = pSize;
+}
+
+- (void) setPageSizeToDefault {
+    self.pageSize = DEFAULT_PAGE_SIZE;
 }
 
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del {
@@ -225,8 +234,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 - (BOOL) cacheDataFromArray:(NSArray *) dataArr forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize {
     
     //1- get the file name same as request url
-    NSString * cacheFileName = [NSString stringWithFormat:@"%@.json",
-    [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID]];
+    NSString * cacheFileName = [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID];
     
     //2- get cache file path
     NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
@@ -241,60 +249,94 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     [dictToBeWritten setObject:dataArr forKey:@"dataArray"];
     
     //4- convert dictionary to NSData
-    NSData * dataToBeWritten = [GenericMethods NSDataFromDictionary:dictToBeWritten];
-    
-    //5- serialize & write to file
-    NSError* error;
-    id jsonData = [NSJSONSerialization JSONObjectWithData:dataToBeWritten
-                                                    options:NSJSONReadingAllowFragments
-                                                      error:&error];
-    
-    [jsonData writeToFile:cacheFilePath atomically:YES];
-    
-    if (!error)
+    NSError  *error;
+    NSData * dataToBeWritten = [NSKeyedArchiver archivedDataWithRootObject:dictToBeWritten];
+    if (![dataToBeWritten writeToFile:cacheFilePath options:NSDataWritingAtomic error:&error])
+        return NO;
+    else
         return YES;
     
-
-    NSLog(@"error desc: %@", error.description);
-    return NO;
 }
 
 - (NSArray *) getCahedDataForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
     
     //1- get the file name same as request url
-    NSString * cacheFileName = [NSString stringWithFormat:@"%@.json",
-                                [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID]];
+    NSString * cacheFileName = [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID];
     
     //2- get cache file path
     NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
     
-    NSDictionary * dataDict = [NSDictionary dictionaryWithContentsOfFile:cacheFilePath];
+    NSData *archiveData = [NSData dataWithContentsOfFile:cacheFilePath];
+    if (!archiveData)
+        return nil;
+    
+    NSDictionary * dataDict = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:archiveData];
     
     if (!dataDict)
         return nil;
     
     NSArray * resultArr = [dataDict objectForKey:@"dataArray"];
-    return [self createCarAdsArrayWithData:resultArr];
+    return resultArr;
 }
 
-- (NSInteger) getCahedpageNumForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
+- (NSUInteger) getCahedPageNumForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
     
     //1- get the file name same as request url
-    NSString * cacheFileName = [NSString stringWithFormat:@"%@.json",
-                                [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID]];
+    NSString * cacheFileName = [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID];
     
     //2- get cache file path
     NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
     
-    NSDictionary * dataDict = [NSDictionary dictionaryWithContentsOfFile:cacheFilePath];
+    
+    NSData *archiveData = [NSData dataWithContentsOfFile:cacheFilePath];
+    if (!archiveData)
+        return -1;
+    
+    NSDictionary * dataDict = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:archiveData];
     
     if (!dataDict)
         return -1;
     
-    return (NSInteger)[dataDict objectForKey:@"pageNo"];
+    NSNumber * dataNum = [dataDict objectForKey:@"pageNo"];
+    return [dataNum unsignedIntegerValue];
     
 }
 
+- (NSUInteger) getCahedPageSizeForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    NSData *archiveData = [NSData dataWithContentsOfFile:cacheFilePath];
+    if (!archiveData)
+        return -1;
+    
+    NSDictionary * dataDict = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:archiveData];
+    
+    if (!dataDict)
+        return -1;
+    
+    NSNumber * dataNum = [dataDict objectForKey:@"pageSize"];
+    return [dataNum unsignedIntegerValue];
+    
+}
+
+- (NSInteger) getIndexOfAd:(NSUInteger) adID inArray:(NSArray *) adsArray {
+    
+    if (!adsArray)
+        return -1;
+    
+    for (int index = 0; index < adsArray.count; index ++)
+    {
+        CarAd * obj = [adsArray objectAtIndex:index];
+        if (obj.adID == adID)
+            return index;
+    }
+    return -1;
+}
 #pragma mark - Data delegate methods
 
 - (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
@@ -393,8 +435,9 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 ];
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:"];
     
-    return [correctURLstring stringByReplacingOccurrencesOfString:@"/" withString:@""];
+    return [[correctURLstring componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
 }
 
 @end

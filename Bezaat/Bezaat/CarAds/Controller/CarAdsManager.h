@@ -30,14 +30,24 @@
 - (NSUInteger) nextPage;
 
 - (NSUInteger) getCurrentPageNum;
+- (NSUInteger) getCurrentPageSize;
 
-- (void) setCurrentPageNum:(NSUInteger) pageNum;
-
-- (NSUInteger) getPageSize;
+- (void) setCurrentPageNum:(NSUInteger) pNum;
+- (void) setCurrentPageSize:(NSUInteger) pSize;
+- (void) setPageSizeToDefault;
 
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del;
 
 - (NSString *) getDateDifferenceStringFromDate:(NSDate *) input;
 
 - (BOOL) cacheDataFromArray:(NSArray *) dataArr forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize ;
+
+- (NSArray *) getCahedDataForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID;
+
+- (NSUInteger) getCahedPageNumForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID;
+
+- (NSUInteger) getCahedPageSizeForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID;
+
+- (NSInteger) getIndexOfAd:(NSUInteger) adID inArray:(NSArray *) adsArray;
+
 @end
