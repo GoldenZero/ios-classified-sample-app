@@ -27,6 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setImagesArray];
     [self setImagesToXib];
 }
 
@@ -42,6 +43,24 @@
 
 }
 
+- (void) setImagesArray{
+    
+    [self.horizontalScrollView setContentSize:CGSizeMake(960, 119)];
+    [self.horizontalScrollView setScrollEnabled:YES];
+    [self.horizontalScrollView setShowsHorizontalScrollIndicator:YES];
+    
+    for (int i=0; i<8; i++) {
+        UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
+        [temp setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
+        
+        [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
+        [self.horizontalScrollView addSubview:temp];
+    }
+}
+
+- (void) uploadImage{
+    
+}
 #pragma mark - Buttons Actions
 - (IBAction)homeBtnPrss:(id)sender {
     ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
