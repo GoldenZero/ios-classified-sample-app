@@ -365,6 +365,7 @@
 		9E06E49717141C25006404F7 /* DistanceRanges.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E06E49617141C25006404F7 /* DistanceRanges.json */; };
 		9E06E49D1714205A006404F7 /* DistanceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E49C1714205A006404F7 /* DistanceRange.m */; };
 		9E06E4CF1715A091006404F7 /* DeviceRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E4CE1715A091006404F7 /* DeviceRegistration.m */; };
+		9E10F485172184EE006F54BE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E10F484172184EE006F54BE /* StoreKit.framework */; };
 		9E198E5F17096BFA002CECCE /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E198E2517096BF9002CECCE /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9E198E6017096BFA002CECCE /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E198E2717096BF9002CECCE /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9E198E6117096BFA002CECCE /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E198E2917096BF9002CECCE /* SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1113,6 +1114,7 @@
 		9E06E49C1714205A006404F7 /* DistanceRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistanceRange.m; sourceTree = "<group>"; };
 		9E06E4CD1715A091006404F7 /* DeviceRegistration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceRegistration.h; sourceTree = "<group>"; };
 		9E06E4CE1715A091006404F7 /* DeviceRegistration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceRegistration.m; sourceTree = "<group>"; };
+		9E10F484172184EE006F54BE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9E198E2317096BF9002CECCE /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9E198E2417096BF9002CECCE /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		9E198E2517096BF9002CECCE /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -1532,6 +1534,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E10F485172184EE006F54BE /* StoreKit.framework in Frameworks */,
 				9E198E7C17096E70002CECCE /* Security.framework in Frameworks */,
 				9E198E8017096E8F002CECCE /* libz.1.2.5.dylib in Frameworks */,
 				9E198E7E17096E79002CECCE /* MobileCoreServices.framework in Frameworks */,
@@ -2405,6 +2408,7 @@
 				9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */,
 				9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */,
 				9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */,
+				9E10F484172184EE006F54BE /* StoreKit.framework */,
 				9E198E7D17096E79002CECCE /* MobileCoreServices.framework */,
 				9E198E7B17096E70002CECCE /* Security.framework */,
 				9E198E7917096E63002CECCE /* CFNetwork.framework */,
