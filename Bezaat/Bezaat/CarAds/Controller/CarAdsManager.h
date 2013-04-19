@@ -10,8 +10,15 @@
 #import "CarAd.h"
 #import "CustomError.h"
 
+#pragma mark - FILTERS LITERALS
+
+#define YEAR_FILTER_LITERAL @"PostedOn"
+#define PRICE_FILTER_LITERAL @"Price"
+#define DISTANCE_FILTER_LITERAL @"DistanceRangeInKm"
+
 @protocol CarAdsManagerDelegate <NSObject>
 @required
+//load, search & filter
 - (void) adsDidFailLoadingWithError:(NSError *) error;
 - (void) adsDidFinishLoadingWithData:(NSArray*) resultArray;
 @end
@@ -36,10 +43,10 @@
 - (void) setCurrentPageSize:(NSUInteger) pSize;
 - (void) setPageSizeToDefault;
 
+//load
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del;
 
-- (NSString *) getDateDifferenceStringFromDate:(NSDate *) input;
-
+//cache
 - (BOOL) cacheDataFromArray:(NSArray *) dataArr forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize ;
 
 - (NSArray *) getCahedDataForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID;
@@ -50,6 +57,27 @@
 
 - (void) clearCachedDataForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize;
 
+//helpers
+- (NSString *) getDateDifferenceStringFromDate:(NSDate *) input;
+
 - (NSInteger) getIndexOfAd:(NSUInteger) adID inArray:(NSArray *) adsArray;
 
+
+//search & filter
+- (void) searchCarAdsOfPage:(NSUInteger) pageNum 
+                   forBrand:(NSUInteger) brandID
+                      Model:(NSInteger) modelID
+                     InCity:(NSUInteger) cityID
+                   textTerm:(NSString *) aTextTerm
+                   minPrice:(float) aMinPrice
+                   maxPrice:(float) aMaxPrice
+            distanceRangeID:(NSInteger) aDistanceRangeID
+                   fromYear:(NSString *) aFromYear
+                     toYear:(NSString *) aToYear
+              adsWithImages:(BOOL) aAdsWithImages
+               adsWithPrice:(BOOL) aAdsWithPrice
+                       area:(NSString *) aArea
+                    orderby:(NSString *) aOrderby
+              lastRefreshed:(NSString *)aLastRefreshed
+               WithDelegate:(id <CarAdsManagerDelegate>) del;
 @end

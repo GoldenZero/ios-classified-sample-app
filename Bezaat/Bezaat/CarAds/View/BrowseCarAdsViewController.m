@@ -15,6 +15,8 @@
 #import "AppDelegate.h"
 #import "ODRefreshControl.h"
 
+
+
 @interface BrowseCarAdsViewController (){
     bool searchBtnFlag;
     bool filtersShown;
@@ -1033,6 +1035,9 @@
         
     }
     
+    
+    //1- reset the pageNumber to 0 to start a new search
+    //2- load search data
 }
 
 - (IBAction)modelBtnPress:(id)sender {

@@ -56,7 +56,8 @@
 @synthesize pageNumber;
 @synthesize pageSize;
 
-static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&brandId=%i&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@";
+
+static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&brandId=%i&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@";
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
@@ -136,8 +137,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 @"1",   //by default, load images
                                 @"1",   //by default, load images
                                 @"",
-                                @""
-                                ];
+                                @"",
+                                @""];
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
@@ -186,50 +187,6 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
-- (NSString *) getDateDifferenceStringFromDate:(NSDate *) input {
-    
-    NSString * result = @"";
-    
-    NSDate * today = [NSDate date];
-    
-    NSTimeInterval diffInSeconds = [today timeIntervalSinceDate:input];
-    
-    if (diffInSeconds > 60)
-    {
-        float diffInMinutes = diffInSeconds / 60;
-        if (diffInMinutes > 60)
-        {
-            float diffInHours = diffInMinutes / 60;
-            if (diffInHours > 24)
-            {
-                float diffInDays = diffInHours / 24;
-                
-                if (diffInDays > 30)
-                {
-                    float diffInMonths = diffInDays / 30;
-                    if (diffInMonths > 12)
-                    {
-                        float diffInYears = diffInMonths / 12;
-                        result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInYears, ARABIC_YEAR_TEXT];
-                    }
-                    else
-                        result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInMonths, ARABIC_MONTH_TEXT];
-                   
-                }
-                else
-                    result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInDays, ARABIC_DAY_TEXT];
-            }
-            else
-                result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInHours, ARABIC_HOUR_TEXT];
-        }
-        else
-            result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInMinutes, ARABIC_MINUTE_TEXT];
-    }
-    else
-        result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInSeconds, ARABIC_SECOND_TEXT];
-
-    return result;
-}
 
 - (BOOL) cacheDataFromArray:(NSArray *) dataArr forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize {
     
@@ -340,6 +297,51 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
 }
 
+- (NSString *) getDateDifferenceStringFromDate:(NSDate *) input {
+    
+    NSString * result = @"";
+    
+    NSDate * today = [NSDate date];
+    
+    NSTimeInterval diffInSeconds = [today timeIntervalSinceDate:input];
+    
+    if (diffInSeconds > 60)
+    {
+        float diffInMinutes = diffInSeconds / 60;
+        if (diffInMinutes > 60)
+        {
+            float diffInHours = diffInMinutes / 60;
+            if (diffInHours > 24)
+            {
+                float diffInDays = diffInHours / 24;
+                
+                if (diffInDays > 30)
+                {
+                    float diffInMonths = diffInDays / 30;
+                    if (diffInMonths > 12)
+                    {
+                        float diffInYears = diffInMonths / 12;
+                        result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInYears, ARABIC_YEAR_TEXT];
+                    }
+                    else
+                        result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInMonths, ARABIC_MONTH_TEXT];
+                    
+                }
+                else
+                    result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInDays, ARABIC_DAY_TEXT];
+            }
+            else
+                result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInHours, ARABIC_HOUR_TEXT];
+        }
+        else
+            result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInMinutes, ARABIC_MINUTE_TEXT];
+    }
+    else
+        result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInSeconds, ARABIC_SECOND_TEXT];
+    
+    return result;
+}
+
 - (NSInteger) getIndexOfAd:(NSUInteger) adID inArray:(NSArray *) adsArray {
     
     if (!adsArray)
@@ -446,6 +448,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 @"",
                                 @"1",   //by default, load images
                                 @"1",   //by default, load images
+                                @"",
                                 @"",
                                 @""
                                 ];
