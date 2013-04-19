@@ -1080,7 +1080,15 @@
     
     //2- append the newly loaded ads
     if (resultArray)
-        [carAdsArray addObjectsFromArray:resultArray];
+    {
+        for (CarAd * newAd in resultArray)
+        {
+            NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:newAd.adID inArray:carAdsArray];
+            if (index == -1)
+                [carAdsArray addObject:newAd];
+        }
+    
+    }
     
     //3- refresh table data
     [self.tableView reloadData];
