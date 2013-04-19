@@ -355,6 +355,105 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
     return -1;
 }
+
+- (void) searchCarAdsOfPage:(NSUInteger) pageNum
+                   forBrand:(NSUInteger) brandID
+                      Model:(NSInteger) modelID
+                     InCity:(NSUInteger) cityID
+                   textTerm:(NSString *) aTextTerm
+                   minPrice:(float) aMinPrice
+                   maxPrice:(float) aMaxPrice
+            distanceRangeID:(NSInteger) aDistanceRangeID
+                   fromYear:(NSString *) aFromYear
+                     toYear:(NSString *) aToYear
+              adsWithImages:(BOOL) aAdsWithImages
+               adsWithPrice:(BOOL) aAdsWithPrice
+                       area:(NSString *) aArea
+                    orderby:(NSString *) aOrderby
+              lastRefreshed:(NSString *)aLastRefreshed
+               WithDelegate:(id <CarAdsManagerDelegate>) del  {
+    
+    //1- set the delegate
+    self.delegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.delegate)
+            [self.delegate adsDidFailLoadingWithError:error];
+        return ;
+    }
+    
+    //3- set the url string
+    NSString * fullURLString = [NSString stringWithFormat:ads_url,
+                                [NSString stringWithFormat:@"%i", pageNum],
+                                [NSString stringWithFormat:@"%i", self.pageSize],
+                                cityID,
+                                aTextTerm,
+                                brandID,
+                                [NSString stringWithFormat:@"%@", (modelID == -1 ? @"" : [NSString stringWithFormat:@"%i", modelID])],
+                                [NSString stringWithFormat:@"%i", (int) aMinPrice],
+                                [NSString stringWithFormat:@"%i", (int) aMaxPrice],
+                                [NSString stringWithFormat:@"%i", aDistanceRangeID],
+                                aFromYear,
+                                aToYear,
+                                [NSString stringWithFormat:@"%i", aAdsWithImages],
+                                @"1",   //by default, load price
+                                aArea,
+                                aOrderby,
+                                aLastRefreshed
+                                ];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=10&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
+    
+    //NSLog(@"%@", correctURLstring);
+    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[ProfileManager sharedInstance] getSavedUserProfile];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        //5- send the request
+        [request setURL:correctURL];
+        internetMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.delegate)
+            [self.delegate adsDidFailLoadingWithError:error];
+        return ;
+    }
+    
+}
+
 #pragma mark - Data delegate methods
 
 - (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
