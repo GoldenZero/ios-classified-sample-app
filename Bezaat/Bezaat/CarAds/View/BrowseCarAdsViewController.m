@@ -13,7 +13,6 @@
 #import "ChooseActionViewController.h"
 #import "labelAdViewController.h"
 #import "AppDelegate.h"
-#import "SRRefreshView.h"
 
 @interface BrowseCarAdsViewController (){
     bool searchBtnFlag;
@@ -25,7 +24,6 @@
     NSMutableArray * carAdsArray;
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
     BOOL dataLoadedFromCache;
-    SRRefreshView   *_slimeView;
 }
 
 @end
