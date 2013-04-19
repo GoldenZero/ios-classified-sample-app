@@ -324,6 +324,22 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
+- (void) clearCachedDataForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    //3- check if file exists
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:cacheFilePath];
+    if (fileExists)
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:cacheFilePath error:NULL];
+    }
+}
+
 - (NSInteger) getIndexOfAd:(NSUInteger) adID inArray:(NSArray *) adsArray {
     
     if (!adsArray)

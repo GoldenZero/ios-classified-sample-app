@@ -48,6 +48,8 @@
 
 - (NSUInteger) getCahedPageSizeForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID;
 
+- (void) clearCachedDataForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize;
+
 - (NSInteger) getIndexOfAd:(NSUInteger) adID inArray:(NSArray *) adsArray;
 
 @end

@@ -13,6 +13,7 @@
 #import "ChooseActionViewController.h"
 #import "labelAdViewController.h"
 #import "AppDelegate.h"
+#import "ODRefreshControl.h"
 
 @interface BrowseCarAdsViewController (){
     bool searchBtnFlag;
@@ -24,6 +25,8 @@
     NSMutableArray * carAdsArray;
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
     BOOL dataLoadedFromCache;
+    ODRefreshControl *refreshControl;
+    BOOL isRefreshing;
 }
 
 @end
@@ -77,20 +80,20 @@
     //[self.tableView setScrollEnabled:NO];
     
     dataLoadedFromCache = NO;
+    isRefreshing = NO;
     
     //set up the refresher
-    
+    refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
+    [refreshControl addTarget:self action:@selector(refreshAds:) forControlEvents:UIControlEventValueChanged];
     
     //load the first page of data
     [self loadFirstData];
-    
     
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.tableView reloadData];
     self.contentView.frame=CGRectMake(0, 65, self.contentView.frame.size.width, self.contentView.frame.size.height);
     
 }
@@ -856,10 +859,8 @@
         
         //refresh table data
         [self.tableView reloadData];
-        
-        //move to top of view
-        //[self.tableView setContentOffset:CGPointZero animated:YES];
         //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [self.tableView setContentOffset:CGPointZero animated:YES];
         
         dataLoadedFromCache = YES;
         
@@ -874,11 +875,26 @@
     }
 }
 
-- (void) refreshAds {
+- (void) refreshAds:(ODRefreshControl *)refreshControl {
     
-    NSLog(@"refresher released!");
+    //NSLog(@"refresher released!");
     //1- clear cache
+    [[CarAdsManager sharedInstance] clearCachedDataForBrand:currentModel.brandID
+                                            Model:currentModel.modelID
+                                            InCity:[[SharedUser sharedInstance] getUserCityID]
+                                            tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
+                                            forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+    //2- reset page identifiers
+    [[CarAdsManager sharedInstance] setCurrentPageNum:0];
+    [[CarAdsManager sharedInstance] setPageSizeToDefault];
     
+    
+    //3- reset the array
+    [carAdsArray removeAllObjects];
+    
+    //4- reload
+    isRefreshing = YES;
+    [self loadPageOfAds];
 }
 
 - (void)scrollToTheBottom
@@ -1087,11 +1103,21 @@
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
     
     [self hideLoadingIndicator];
+    if (isRefreshing)
+    {
+        isRefreshing = NO;
+        [refreshControl endRefreshing];
+    }
 }
 
 - (void) adsDidFinishLoadingWithData:(NSArray *)resultArray {
     //1- hide the loading indicator
     [self hideLoadingIndicator];
+    if (isRefreshing)
+    {
+        isRefreshing = NO;
+        [refreshControl endRefreshing];
+    }
     
     //2- append the newly loaded ads
     if (resultArray)
@@ -1107,6 +1133,8 @@
     
     //3- refresh table data
     [self.tableView reloadData];
+    //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self.tableView setContentOffset:CGPointZero animated:YES];
     
 }
 
