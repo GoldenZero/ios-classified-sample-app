@@ -13,6 +13,7 @@
 #import "ChooseActionViewController.h"
 #import "labelAdViewController.h"
 #import "AppDelegate.h"
+#import "SRRefreshView.h"
 
 @interface BrowseCarAdsViewController (){
     bool searchBtnFlag;
@@ -24,7 +25,7 @@
     NSMutableArray * carAdsArray;
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
     BOOL dataLoadedFromCache;
-    UIRefreshControl * refresher;
+    SRRefreshView   *_slimeView;
 }
 
 @end
@@ -80,9 +81,7 @@
     dataLoadedFromCache = NO;
     
     //set up the refresher
-    refresher = [[UIRefreshControl alloc] init];
-    //refresher.tintColor = [UIColormagentaColor];
-    [refresher addTarget:self action:@selector(refreshAds) forControlEvents:UIControlEventValueChanged];
+    
     
     //load the first page of data
     [self loadFirstData];
