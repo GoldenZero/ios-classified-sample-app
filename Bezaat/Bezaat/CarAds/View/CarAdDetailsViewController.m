@@ -512,19 +512,19 @@
             [self.phoneNumberButton setEnabled:YES];
         else
             [self.phoneNumberButton setEnabled:NO];
-        
-        if (currentDetailsObject.isFavorite)
-            [self.favoriteButton setEnabled:NO];//CUTOMIZE BY NOOR - AD IS FAV
-        else
-            [self.favoriteButton setEnabled:YES];//CUTOMIZE BY NOOR - AD IS NOT FAV
-        
+    
         if (currentDetailsObject.isFeatured)
             [self.featureBtn setEnabled:NO];
         
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
-        if(!savedProfile){
-            [self.favoriteButton setHidden:YES];
+        if(savedProfile){
+            [self.favoriteButton setHidden:NO];
+            
+            // Check favorite
+            if (currentDetailsObject.isFavorite) {
+                [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+            }
         }
         
         if ((!savedProfile) || ((savedProfile) && (savedProfile.userID != currentDetailsObject.ownerID)))
@@ -548,11 +548,6 @@
             [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
             [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar_Sp.png"]];
             
-        }
-        
-        // Check favorite
-        if ((savedProfile.userID == currentDetailsObject.ownerID)&&(currentDetailsObject.isFavorite)) {
-            [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
         }
         
         // Check store
@@ -631,7 +626,7 @@
 - (void) FavoriteFailAddingWithError:(NSError*) error forAdID:(NSUInteger)adID {
     
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
-    [self.favoriteButton setEnabled:YES];//CUTOMIZE BY NOOR - AD IS NOT FAV
+    [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
 }
 
 - (void) FavoriteDidAddWithStatus:(BOOL) resultStatus forAdID:(NSUInteger)adID {
@@ -639,12 +634,12 @@
     if (resultStatus)//added successfully
     {
         [currentDetailsObject setIsFavorite:YES];
-        [self.favoriteButton setEnabled:NO];//CUTOMIZE BY NOOR - AD IS FAV
+        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
     }
     else
     {
         [currentDetailsObject setIsFavorite:NO];
-        [self.favoriteButton setEnabled:YES];//CUTOMIZE BY NOOR - AD IS NOT FAV
+        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
         
     }
 }
@@ -652,7 +647,7 @@
 - (void) FavoriteFailRemovingWithError:(NSError*) error forAdID:(NSUInteger)adID {
     
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
-    [self.favoriteButton setEnabled:NO];//CUTOMIZE BY NOOR - AD IS FAV
+    [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
     
 }
 
@@ -661,12 +656,12 @@
     if (resultStatus)//removed successfully
     {
         [currentDetailsObject setIsFavorite:NO];
-        [self.favoriteButton setEnabled:YES];//CUTOMIZE BY NOOR - AD IS NOT FAV
+        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
     }
     else
     {
         [currentDetailsObject setIsFavorite:YES];
-        [self.favoriteButton setEnabled:NO];//CUTOMIZE BY NOOR - AD IS FAV
+        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
     }
     
 }
