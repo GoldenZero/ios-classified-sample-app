@@ -24,6 +24,7 @@
     NSMutableArray * carAdsArray;
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
     BOOL dataLoadedFromCache;
+    UIRefreshControl * refresher;
 }
 
 @end
@@ -77,6 +78,12 @@
     //[self.tableView setScrollEnabled:NO];
     
     dataLoadedFromCache = NO;
+    
+    //set up the refresher
+    refresher = [[UIRefreshControl alloc] init];
+    //refresher.tintColor = [UIColormagentaColor];
+    [refresher addTarget:self action:@selector(refreshAds) forControlEvents:UIControlEventValueChanged];
+    
     //load the first page of data
     [self loadFirstData];
     
@@ -853,6 +860,10 @@
         //refresh table data
         [self.tableView reloadData];
         
+        //move to top of view
+        //[self.tableView setContentOffset:CGPointZero animated:YES];
+        //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        
         dataLoadedFromCache = YES;
         
     }
@@ -864,6 +875,13 @@
         [[CarAdsManager sharedInstance] setPageSizeToDefault];
         [self loadPageOfAds];
     }
+}
+
+- (void) refreshAds {
+    
+    NSLog(@"refresher released!");
+    //1- clear cache
+    
 }
 
 - (void)scrollToTheBottom
