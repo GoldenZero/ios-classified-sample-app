@@ -15,7 +15,7 @@
 #import "AURosetteItem.h"
 #import "CarDetailsManager.h"
 
-@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, CarDetailsManagerDelegate>
+@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, CarDetailsManagerDelegate, FavoritesDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;

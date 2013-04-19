@@ -577,9 +577,8 @@
     
     if (indexPath.row == ([self.tableView numberOfRowsInSection:0] - 1))
     {
-     
         if (!dataLoadedFromCache)
-        [self loadPageOfAds];
+            [self loadPageOfAds];
     }
 }
 
@@ -1347,7 +1346,7 @@
             if (carAdObject.storeID > 0)
             {
                 CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//added successfully
+                if (resultStatus)//removed successfully
                 {
                     [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
                     if (carAdObject.isFeatured)
@@ -1370,7 +1369,7 @@
             else
             {
                 CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//added successfully
+                if (resultStatus)//removed successfully
                 {
                     [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
                     if (carAdObject.isFeatured)
@@ -1397,7 +1396,7 @@
             if (carAdObject.storeID > 0)
             {
                 CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//added successfully
+                if (resultStatus)//removed successfully
                 {
                     [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
                     if (carAdObject.isFeatured)
@@ -1420,7 +1419,7 @@
             else
             {
                 CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//added successfully
+                if (resultStatus)//removed successfully
                 {
                     [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
                     if (carAdObject.isFeatured)

@@ -247,6 +247,20 @@
 }
 
 - (IBAction)favoriteBtnPrss:(id)sender {
+    if (currentDetailsObject)
+    {
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        if ((savedProfile) && (!self.favoriteButton.hidden))
+        {
+            if (!currentDetailsObject.isFavorite)
+                //add from fav
+                [[ProfileManager sharedInstance] addCarAd:currentDetailsObject.adID toFavoritesWithDelegate:self];
+            else
+                //remove from fav
+                [[ProfileManager sharedInstance] removeCarAd:currentDetailsObject.adID fromFavoritesWithDelegate:self];
+        }
+    }
 }
 
 - (IBAction)callBtnPrss:(id)sender {
@@ -500,7 +514,9 @@
             [self.phoneNumberButton setEnabled:NO];
         
         if (currentDetailsObject.isFavorite)
-            [self.favoriteButton setEnabled:NO];
+            [self.favoriteButton setEnabled:NO];//CUTOMIZE BY NOOR - AD IS FAV
+        else
+            [self.favoriteButton setEnabled:YES];//CUTOMIZE BY NOOR - AD IS NOT FAV
         
         if (currentDetailsObject.isFeatured)
             [self.featureBtn setEnabled:NO];
@@ -609,4 +625,51 @@
     // Remove the mail view
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+#pragma mark - favorites Delegate methods
+- (void) FavoriteFailAddingWithError:(NSError*) error forAdID:(NSUInteger)adID {
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [self.favoriteButton setEnabled:YES];//CUTOMIZE BY NOOR - AD IS NOT FAV
+}
+
+- (void) FavoriteDidAddWithStatus:(BOOL) resultStatus forAdID:(NSUInteger)adID {
+    
+    if (resultStatus)//added successfully
+    {
+        [currentDetailsObject setIsFavorite:YES];
+        [self.favoriteButton setEnabled:NO];//CUTOMIZE BY NOOR - AD IS FAV
+    }
+    else
+    {
+        [currentDetailsObject setIsFavorite:NO];
+        [self.favoriteButton setEnabled:YES];//CUTOMIZE BY NOOR - AD IS NOT FAV
+        
+    }
+}
+
+- (void) FavoriteFailRemovingWithError:(NSError*) error forAdID:(NSUInteger)adID {
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [self.favoriteButton setEnabled:NO];//CUTOMIZE BY NOOR - AD IS FAV
+    
+}
+
+- (void) FavoriteDidRemoveWithStatus:(BOOL) resultStatus forAdID:(NSUInteger)adID {
+    
+    if (resultStatus)//removed successfully
+    {
+        [currentDetailsObject setIsFavorite:NO];
+        [self.favoriteButton setEnabled:YES];//CUTOMIZE BY NOOR - AD IS NOT FAV
+    }
+    else
+    {
+        [currentDetailsObject setIsFavorite:YES];
+        [self.favoriteButton setEnabled:NO];//CUTOMIZE BY NOOR - AD IS FAV
+    }
+    
+}
+
+
 @end
