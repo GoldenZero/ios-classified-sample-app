@@ -9,7 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddNewCarAdViewController : UIViewController
+@interface AddNewCarAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *verticalScrollView;
 
 @property (strong, nonatomic) IBOutlet UIView *addImagesView;
+@property (strong, nonatomic) IBOutlet UIPickerView *pickerView;
 
 #pragma mark - actions
 
