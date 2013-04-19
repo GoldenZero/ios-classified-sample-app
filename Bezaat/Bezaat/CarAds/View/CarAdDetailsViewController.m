@@ -22,7 +22,7 @@
     AURosetteView *shareButton;
     UITapGestureRecognizer *tap;
 }
-- (void)loadScrollViewWithPage:(int)page;
+
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
 - (void)twitterAction:(id)sender;
 - (void)facebookAction:(id)sender;
@@ -391,13 +391,15 @@
 
 - (void) resizeScrollView {
     
-    //1- remove all subviews in scroll view, lower than 335 (number is took from nib)
+    CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
+    
+    //1- remove all subviews in scroll view, lower than lastY (number is took from nib)
     for (UIView * subview in [self.labelsScrollView subviews]) {
-        if (subview.frame.origin.y > 355) {
+        if (subview.frame.origin.y > lastY) {
             [subview removeFromSuperview];
         }
     }
-    //[self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, originalScrollViewHeight))];
+    
     
     
     if (currentDetailsObject)
@@ -417,7 +419,11 @@
         //2- set attributes
         if ((currentDetailsObject.attributes) && (currentDetailsObject.attributes.count))
         {
-            CGFloat addedHeightValue = 20;//initial value, distant from last labels
+            CGFloat addedHeightValue;   //initial value, distant from last labels
+            if (currentDetailsObject.storeID > 0)   //isStore
+                addedHeightValue = 80;
+            else
+                addedHeightValue = 35;
             
             CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
             
@@ -580,7 +586,14 @@
         self.addTimeLabel.text = [[CarDetailsManager sharedInstance] getDateDifferenceStringFromDate:currentDetailsObject.postedOnDate];
         self.yearMiniLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.modelYear];
         self.kiloMiniLabel.text = [NSString stringWithFormat:@"%i KM", currentDetailsObject.distanceRangeInKm];
-        self.watchingCountLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.viewCount];
+        if (currentDetailsObject.viewCount > 0)
+            self.watchingCountLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.viewCount];
+        else
+        {
+            self.watchingCountLabel.text = @"";
+            [self.countOfViewsTinyImg setHidden:YES];
+        }
+        
     }
     [self customizeButtonsByData];
     [self resizeScrollView];

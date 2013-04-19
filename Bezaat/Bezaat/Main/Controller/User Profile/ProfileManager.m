@@ -216,7 +216,6 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
     //NSLog(@"%@", correctURLstring);
-    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
     NSURL * correctURL = [NSURL URLWithString:correctURLstring];
     
     if (correctURL)
@@ -296,7 +295,6 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     //NSLog(@"%@", correctURLstring);
-    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
     NSURL * correctURL = [NSURL URLWithString:correctURLstring];
     
     if (correctURL)

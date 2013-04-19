@@ -97,7 +97,6 @@
     //4- cache the data
     if (carAdsArray && carAdsArray.count)
     {
-        NSLog(@"%@", carAdsArray);
         [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
                                                   forBrand:currentModel.brandID
                                                      Model:currentModel.modelID
@@ -560,11 +559,16 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CarAdDetailsViewController *vc=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
-    //vc.carPhotos;
-    //vc.carDetails;
+    CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+    CarAdDetailsViewController * vc;
     
-    vc.currentAdID = [(CarAd *)[carAdsArray objectAtIndex:indexPath.row] adID];
+    if (carAdObject.thumbnailURL)   //ad with image
+        vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    
+    else                            //ad with no image
+        vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+    
+    vc.currentAdID =  carAdObject.adID;
     [self presentViewController:vc animated:YES completion:nil];
     
     
@@ -797,7 +801,7 @@
 
 - (void) handleFeaturingBtnForCellAtIndexPath:(NSIndexPath *) indexPath {
     
-    CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+    //CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
     //COME BACK HERE
