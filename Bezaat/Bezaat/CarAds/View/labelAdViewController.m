@@ -10,7 +10,9 @@
 #import "labelAdCell.h"
 
 @interface labelAdViewController ()
-
+{
+    NSArray * productsArr;
+}
 @end
 
 @implementation labelAdViewController
@@ -29,7 +31,12 @@
     [super viewDidLoad];
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
-    // Do any additional setup after loading the view from its nib.
+    //register the current class as transaction observer
+    [[SKPaymentQueue defaultQueue]
+     addTransactionObserver:self];
+    
+    //init the productsArr
+    productsArr = [NSArray new];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,12 +84,78 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
+    if (productsArr && productsArr.count)
+    {
+        SKProduct *product = [productsArr objectAtIndex:indexPath.row];
+        [self purchaseProductWithIdentifier:product.productIdentifier];
+    }
 }
 
 - (void) chosenPeriodPressed{
     //
+}
+
+- (void) purchaseProductWithIdentifier:(NSString *) identifier {
+    if ([SKPaymentQueue canMakePayments])
+    {
+        SKProductsRequest *request = [[SKProductsRequest alloc]
+                                      initWithProductIdentifiers:
+                                      [NSSet setWithObject:identifier]];
+        request.delegate = self;
+        [request start];
+    }
+    else
+        NSLog(@"Please enable In App Purchase in Settings");
+
+}
+
+#pragma mark - SKProductsRequestDelegate
+
+-(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
+{
+    productsArr = response.products;
+    
+    if (productsArr.count != 0)
+    {
+        for (SKProduct * prod in productsArr)
+        {
+            NSLog(@"ID: %@, title: %@, desc: %@, ", prod.productIdentifier, prod.localizedTitle, prod.localizedDescription);
+        }
+    } else {
+        NSLog(@"No product found");
+    }
+    
+    NSArray * invalidProducts = response.invalidProductIdentifiers;
+    
+    for (SKProduct * product in invalidProducts)
+    {
+        NSLog(@"Product not found: %@", product);
+    }
+}
+
+#pragma mark - SKPaymentTransactionObserver
+
+-(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
+{
+    for (SKPaymentTransaction *transaction in transactions)
+    {
+        switch (transaction.transactionState) {
+            case SKPaymentTransactionStatePurchased:
+                NSLog(@"Purchased successfully");
+                [[SKPaymentQueue defaultQueue]
+                 finishTransaction:transaction];
+                break;
+                
+            case SKPaymentTransactionStateFailed:
+                NSLog(@"Transaction Failed");
+                [[SKPaymentQueue defaultQueue]
+                 finishTransaction:transaction];
+                break;
+                
+            default:
+                break;
+        }
+    }
 }
 
 @end
