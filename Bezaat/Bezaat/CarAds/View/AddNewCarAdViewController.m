@@ -24,8 +24,16 @@
     IBOutlet  UIButton *receiveMail;
     IBOutlet  UIButton *kiloMile;
     
-     UITapGestureRecognizer *tap;
-   
+    UITapGestureRecognizer *tap;
+    
+    // Arrays
+    NSArray *globalArray;
+    NSArray *currencyArray;
+    NSArray *adPeriodArray;
+    NSArray *serviceKindArray;
+    NSArray *kiloMileArray;
+    NSArray *receiveMailsArray;
+    NSArray *productionYearArray;
 }
 
 @end
@@ -36,7 +44,13 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        globalArray=[[NSArray alloc] init];
+        currencyArray =[[NSArray alloc] initWithObjects:@"ريال",@"درهم",@"جنيه",@"دولار",@"يورو",@"دينار",@"ليرة",@"شيكل", nil];
+        adPeriodArray =[[NSArray alloc] initWithObjects:@"١٤ يوم",@"١ شهر",@"٢ شهر", nil];
+        serviceKindArray=[[NSArray alloc] initWithObjects:@"معروض للبيع",@"مطلوب للشراء",@"ايجار",@"تقسيط", nil];
+        kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
+        receiveMailsArray=[[NSArray alloc] initWithObjects:@"نعم",@"لا", nil];
+        productionYearArray=[[NSArray alloc] initWithObjects:@"٢٠١٢",@"٢٠١١",@"٢٠١٠",@"٢٠٠٠", nil];
     }
     return self;
 }
@@ -48,9 +62,10 @@
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
-    [self.view addGestureRecognizer:tap];
+    [self.verticalScrollView addGestureRecognizer:tap];
+    [self.horizontalScrollView addGestureRecognizer:tap];
     
-
+    [self.pickerView selectRow:0 inComponent:0 animated:YES];
 
     [carAdTitle setDelegate:(id)self];
     [mobileNum setDelegate:(id)self];
@@ -231,36 +246,99 @@
                                        _pickerView.frame.size.height);
     }];
 }
+
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
+{
+    return 1;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSString *choosen=[globalArray objectAtIndex:row];
+    if ([currencyArray containsObject:choosen]) {
+        [currency setTitle:choosen forState:UIControlStateNormal];
+    }
+    else if ([adPeriodArray containsObject:choosen]) {
+        [adPeriod setTitle:choosen forState:UIControlStateNormal];
+    }
+    else if ([serviceKindArray containsObject:choosen]) {
+        [serviceKind  setTitle:choosen forState:UIControlStateNormal];
+    }
+    else if ([kiloMileArray containsObject:choosen]) {
+        [kiloMile setTitle:choosen forState:UIControlStateNormal];
+    }
+    else if ([receiveMailsArray containsObject:choosen]) {
+        [receiveMail setTitle:choosen forState:UIControlStateNormal];
+    }
+    else if ([productionYearArray containsObject:choosen]) {
+        [productionYear setTitle:choosen forState:UIControlStateNormal];
+    }
+    
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component;
+{
+    return [globalArray count];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component;
+{
+    return [globalArray objectAtIndex:row];
+}
+
 #pragma mark - Buttons Actions
 
 - (void) chooseServiceKind{
     [self showPicker:self.pickerView];
+    [self.pickerView selectRow:0 inComponent:0 animated:YES];
+    // fill picker with service options
+    globalArray=serviceKindArray;
     
+    [self.pickerView reloadAllComponents];
 }
 
 - (void) chooseAdPeriod{
     [self showPicker:self.pickerView];
+    [self.pickerView selectRow:0 inComponent:0 animated:YES];
+    // fill picker with period of ad options
+    globalArray= adPeriodArray;
     
+    [self.pickerView reloadAllComponents];
 }
 
 - (void) chooseProductionYear{
     [self showPicker:self.pickerView];
-
+    [self.pickerView selectRow:0 inComponent:0 animated:YES];
+    // fill picker with production year
+    globalArray=productionYearArray;
+    
+    [self.pickerView reloadAllComponents];
 }
 
 - (void) chooseCurrency{
     [self showPicker:self.pickerView];
+    [self.pickerView selectRow:0 inComponent:0 animated:YES];
+    // fill picker with currency options
+    globalArray=currencyArray;
     
+    [self.pickerView reloadAllComponents];
 }
 
 - (void) chooseReceiveMail{
     [self showPicker:self.pickerView];
-    
+    [self.pickerView selectRow:0 inComponent:0 animated:YES];
+    // fill picker with receive mails options
+    globalArray=receiveMailsArray;
+    [self.pickerView reloadAllComponents];
 }
 
 - (void) chooseKiloMile{
     [self showPicker:self.pickerView];
-    
+    [self.pickerView selectRow:0 inComponent:0 animated:YES];
+    // fill picker with distance options
+    globalArray=kiloMileArray;
+    [self.pickerView reloadAllComponents];
 }
 
 - (IBAction)homeBtnPrss:(id)sender {
