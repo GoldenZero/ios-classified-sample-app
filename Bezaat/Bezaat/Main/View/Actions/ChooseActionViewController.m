@@ -12,6 +12,7 @@
 #import "sideMenuCell.h"
 #import "AppDelegate.h"
 #import "AddNewCarAdViewController.h"
+#import "labelAdViewController.h"
 @interface ChooseActionViewController (){
     NSArray *menuArray;
 }
@@ -121,8 +122,12 @@
 #pragma mark - UITableView Delegate -
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.row==0){
+    if(indexPath.row==1){
         AddNewCarAdViewController *vc=[[AddNewCarAdViewController alloc] initWithNibName:@"AddNewCarAdViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    if (indexPath.row==0) {
+        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
     }
 }

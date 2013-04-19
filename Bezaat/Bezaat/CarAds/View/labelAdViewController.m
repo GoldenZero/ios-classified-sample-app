@@ -52,9 +52,7 @@
 - (IBAction)explainAdBtnPrss:(id)sender {
 }
 
-- (void) chosenPeriodPressed{
-    
-}
+
 
 #pragma mark - handle table
 
@@ -71,7 +69,9 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     labelAdCell * cell = (labelAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"labelAdCell" owner:self options:nil] objectAtIndex:0];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
@@ -81,5 +81,8 @@
     
 }
 
+- (void) chosenPeriodPressed{
+    //
+}
 
 @end
