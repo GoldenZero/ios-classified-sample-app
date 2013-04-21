@@ -61,7 +61,7 @@ typedef enum {
 	
 }
 
-@property (stron) id<DropDownViewDelegate> delegate;
+@property (strong) id<DropDownViewDelegate> delegate;
 
 @property (nonatomic,retain)UITableView *uiTableView;
 
