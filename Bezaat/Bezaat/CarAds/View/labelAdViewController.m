@@ -12,6 +12,9 @@
 @interface labelAdViewController ()
 {
     NSArray * productsArr;
+    NSString *checkedImageName;
+    NSString *unCheckedImageName;
+    int choosenCell;
 }
 @end
 
@@ -21,7 +24,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+       checkedImageName=@"publish_check_ok.png";
+       unCheckedImageName=@"publish_check.png";
+        choosenCell=0;
+
     }
     return self;
 }
@@ -29,6 +35,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.tableView setSeparatorColor:[UIColor clearColor]];
+    [self.tableView setBackgroundColor:[UIColor clearColor]];
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
     //register the current class as transaction observer
@@ -51,6 +59,7 @@
 }
 
 - (IBAction)laterBtnPressed:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)labelAdBtnPressed:(id)sender {
@@ -64,7 +73,7 @@
 #pragma mark - handle table
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 76;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -79,20 +88,28 @@
     
     labelAdCell * cell = (labelAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"labelAdCell" owner:self options:nil] objectAtIndex:0];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
+    //[cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
+    if (indexPath.row==choosenCell) {
+        [cell.checkButton setBackgroundImage:[UIImage imageNamed:checkedImageName] forState:UIControlStateNormal];
+    }
+    else{
+        [cell.checkButton setBackgroundImage:[UIImage imageNamed:unCheckedImageName] forState:UIControlStateNormal];
+    }
     return cell;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    choosenCell=indexPath.row;
     if (productsArr && productsArr.count)
     {
         SKProduct *product = [productsArr objectAtIndex:indexPath.row];
         [self purchaseProductWithIdentifier:product.productIdentifier];
     }
+    [self.tableView reloadData];
 }
 
 - (void) chosenPeriodPressed{
-    //
+    
 }
 
 - (void) purchaseProductWithIdentifier:(NSString *) identifier {
