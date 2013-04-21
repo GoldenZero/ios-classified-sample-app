@@ -14,7 +14,7 @@
 #import "labelAdViewController.h"
 #import "AppDelegate.h"
 #import "ODRefreshControl.h"
-
+#import "DropDownView.h"
 
 
 @interface BrowseCarAdsViewController (){
@@ -29,6 +29,14 @@
     BOOL dataLoadedFromCache;
     ODRefreshControl *refreshControl;
     BOOL isRefreshing;
+    
+    DropDownView *dropDownDistance;
+    DropDownView *dropDownfromYear;
+    DropDownView *dropDowntoYear;
+    
+    NSArray *distanseArray;
+    NSArray *fromYearArray;
+    NSArray *toYearArray;
 }
 
 @end
@@ -58,7 +66,8 @@
 {
     
     [self.searchPanelView setHidden:YES];
-    
+    [self.tableView setSeparatorColor:[UIColor clearColor]];
+    [self.tableView setBackgroundColor:[UIColor clearColor]];
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
@@ -90,6 +99,7 @@
     
     //load the first page of data
     [self loadFirstData];
+    [self prepareDropDownLists];
     
 }
 
@@ -1059,6 +1069,9 @@
 }
 
 - (IBAction)clearInPanelBtnPrss:(id)sender {
+    [self.carNameText setText:@""];
+    [self.lowerPriceText setText:@""];
+    [self.higherPriceText setText:@""];
 }
 
 - (IBAction)adWithImageBtnPrss:(id)sender {
@@ -1099,6 +1112,18 @@
 
 - (IBAction)cancelNotificationBtnPrss:(id)sender {
     [self.notificationView setHidden:YES];
+}
+
+- (IBAction)distanceBtnPrss:(id)sender {
+     [dropDownDistance openAnimation];
+}
+
+- (IBAction)fromYearBtnPrss:(id)sender {
+     [dropDownfromYear openAnimation];
+}
+
+- (IBAction)toYearBtnPrss:(id)sender {
+     [dropDowntoYear openAnimation];
 }
 
 #pragma mark - CarAdsManager Delegate methods
@@ -1497,6 +1522,54 @@
         }
     }
 
+}
+
+#pragma - mark drop down handler
+
+- (void) prepareDropDownLists{
+    distanseArray = [[NSArray alloc] initWithArray:[NSArray arrayWithObjects:@"10000",@"330000",@"845367",@"1245456",@"34568",@"",nil]];
+    fromYearArray = [[NSArray alloc] initWithArray:[NSArray arrayWithObjects:@"1999",@"2000",@"2010",@"1980",@"1995",@"",nil]];
+    toYearArray = [[NSArray alloc] initWithArray:[NSArray arrayWithObjects:@"2000",@"2005",@"2008",@"2010",@"2013",@"",nil]];
+    
+    dropDownDistance=[[DropDownView alloc] initWithArrayData:distanseArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.distanceButton animation:BLENDIN openAnimationDuration:0.5 closeAnimationDuration:0.5 _tag:1];
+	dropDownDistance.delegate = self;
+	[self.view addSubview:dropDownDistance.view];
+	//[self.distanceButton setTitle:[dataArray objectAtIndex:0] forState:UIControlStateNormal];
+
+    
+    dropDownfromYear=[[DropDownView alloc] initWithArrayData:fromYearArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.fromYearButton animation:BLENDIN openAnimationDuration:0.5 closeAnimationDuration:0.5 _tag:2];
+    
+	dropDownfromYear.delegate = self;
+	[self.view addSubview:dropDownfromYear.view];
+	//[self.distanceButton setTitle:[dataArray objectAtIndex:0] forState:UIControlStateNormal];
+
+    
+    dropDowntoYear=[[DropDownView alloc] initWithArrayData:toYearArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.toYearButton animation:BLENDIN openAnimationDuration:0.5 closeAnimationDuration:0.5 _tag:3];
+	dropDowntoYear.delegate = self;
+	[self.view addSubview:dropDowntoYear.view];
+	//[self.distanceButton setTitle:[dataArray objectAtIndex:0] forState:UIControlStateNormal];
+
+}
+
+-(void)dropDownCellSelected:(NSInteger)returnIndex :(NSInteger)_tag{
+    switch (_tag) {
+        case 1:
+        {
+            //[self.distanceButton setTitle:[distanseArray objectAtIndex:returnIndex ] forState:UIControlStateNormal];
+            break;
+        }
+        case 2:{
+         //   [self.fromYearButton setTitle:[fromYearArray objectAtIndex:returnIndex ] forState:UIControlStateNormal];
+            break;
+        }
+        case 3:{
+          //  [self.toYearButton setTitle:[toYearArray objectAtIndex:returnIndex ] forState:UIControlStateNormal];
+            break;
+        }
+        default:
+            break;
+    }
+    
 }
 
 @end
