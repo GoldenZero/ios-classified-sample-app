@@ -12,13 +12,13 @@
 #import "CarAdNoImageCell.h"
 #import "CarAdWithStoreCell.h"
 #import "CarAdWithStoreNoImageCell.h"
-
+#import "DropDownView.h"
 
 #import "Model.h"
 #import "Brand.h"
 #import "CarAdsManager.h"
 
-@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate, FavoritesDelegate>
+@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -42,6 +42,9 @@
 @property (strong, nonatomic) IBOutlet UIButton *dateFilterBtn;
 @property (strong, nonatomic) IBOutlet UIButton *okNotificationBtnImg;
 
+@property (strong, nonatomic) IBOutlet UIButton *distanceButton;
+@property (strong, nonatomic) IBOutlet UIButton *fromYearButton;
+@property (strong, nonatomic) IBOutlet UIButton *toYearButton;
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;
@@ -55,5 +58,8 @@
 - (IBAction)dateFilterBtnPrss:(id)sender;
 - (IBAction)okNotificationBtnPrss:(id)sender;
 - (IBAction)cancelNotificationBtnPrss:(id)sender;
+- (IBAction)distanceBtnPrss:(id)sender;
+- (IBAction)fromYearBtnPrss:(id)sender;
+- (IBAction)toYearBtnPrss:(id)sender;
 
 @end
