@@ -257,6 +257,13 @@
 // This method loads the device location initialli, and afterwards the loading of country lists comes after
 - (void) loadData {
     
+    if (![GenericMethods connectedToInternet])
+    {
+        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        return;
+    }
+    
     if ([CLLocationManager locationServicesEnabled])
     {
         if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
