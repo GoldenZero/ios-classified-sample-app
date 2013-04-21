@@ -99,7 +99,7 @@
     [self.horizontalScrollView setScrollEnabled:YES];
     [self.horizontalScrollView setShowsHorizontalScrollIndicator:YES];
     
-    for (int i=0; i<8; i++) {
+    for (int i=0; i<6; i++) {
         UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
         [temp setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
         
@@ -351,10 +351,9 @@
     
     // Add current Ad to the user's add
     // CODE HERE
+    [self dismissViewControllerAnimated:YES completion:nil];
     
-    
-    ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
+
 }
 
 
