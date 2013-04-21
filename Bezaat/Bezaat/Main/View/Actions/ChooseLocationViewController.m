@@ -60,7 +60,6 @@
     
     // Location Manager
     locationMngr = [LocationManager sharedInstance];
-    [self showLoadingIndicator];
     
     [self loadData];
     // Setting default country
@@ -257,6 +256,13 @@
 // This method loads the device location initialli, and afterwards the loading of country lists comes after
 - (void) loadData {
     
+    if (![GenericMethods connectedToInternet])
+    {
+        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        return;
+    }
+    
     if ([CLLocationManager locationServicesEnabled])
     {
         if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
@@ -265,6 +271,7 @@
             if (!deviceLocationDetector)
                 deviceLocationDetector = [[CLLocationManager alloc] init];
             
+            [self showLoadingIndicator];
             deviceLocationDetector.delegate = self;
             deviceLocationDetector.distanceFilter = 500;
             deviceLocationDetector.desiredAccuracy = kCLLocationAccuracyKilometer;

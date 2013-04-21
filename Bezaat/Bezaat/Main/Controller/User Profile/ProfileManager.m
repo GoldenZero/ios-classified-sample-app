@@ -37,7 +37,9 @@
 @interface ProfileManager ()
 {
     InternetManager * mainMngr;
-    InternetManager * favoriteMngr;
+    InternetManager * favoriteAddMngr;
+    InternetManager * favoriteRemoveMngr;
+    NSUInteger currentAdIDForFav;
     @protected
         NSMutableData * dataSoFar;
 }
@@ -71,6 +73,7 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         self.deviceDelegate = nil;
         self.favDelegate = nil;
         dataSoFar = nil;
+        currentAdIDForFav= 0;
     }
     return self;
 }
@@ -193,6 +196,8 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
 
 - (void) addCarAd:(NSUInteger ) adID toFavoritesWithDelegate:(id <FavoritesDelegate>) del {
     
+    currentAdIDForFav = adID;
+    
     //1- set the delegate
     self.favDelegate = del;
     
@@ -203,20 +208,31 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         [error setDescMessage:@"فشل الاتصال بالإنترنت"];
         
         if (self.favDelegate)
-            [self.favDelegate FavoriteFailAddingWithError:error];
+            [self.favDelegate FavoriteFailAddingWithError:error forAdID:adID];
         return ;
     }
-    //3- set the url string
-    NSString * fullURLString = [NSString stringWithFormat:add_to_fav_url, adID];
     
+    NSString * fullURLString = add_to_fav_url;
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
+
     //NSLog(@"%@", correctURLstring);
-    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
     NSURL * correctURL = [NSURL URLWithString:correctURLstring];
     
     if (correctURL)
     {
+        NSString * post =[NSString stringWithFormat:@"%@=%@",ad_id_post_key, [NSString stringWithFormat:@"%i",adID]];
+        
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setTimeoutInterval:20];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
         //4- set user credentials in HTTP header
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
@@ -238,23 +254,11 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         
         [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
         
-        //5- send the request
-        NSString * post =[NSString stringWithFormat:@"%@=%@",ad_id_post_key, [NSString stringWithFormat:@"%i",adID]];
         
-        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-        
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setTimeoutInterval:20];
-        
-        [request setURL:correctURL];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:postData];
         
         
-        favoriteMngr = [[InternetManager alloc] initWithTempFileName:favMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+        favoriteAddMngr = [[InternetManager alloc] initWithTempFileName:favMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
     }
     else
     {
@@ -262,7 +266,7 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         [error setDescMessage:@"فشل تحميل البيانات"];
         
         if (self.favDelegate)
-            [self.favDelegate FavoriteFailAddingWithError:error];
+            [self.favDelegate FavoriteFailAddingWithError:error forAdID:adID];
         return ;
     }
     
@@ -270,6 +274,8 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
 
 - (void) removeCarAd:(NSUInteger ) adID fromFavoritesWithDelegate:(id <FavoritesDelegate>) del {
     
+    currentAdIDForFav = adID;
+    
     //1- set the delegate
     self.favDelegate = del;
     
@@ -280,20 +286,32 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         [error setDescMessage:@"فشل الاتصال بالإنترنت"];
         
         if (self.favDelegate)
-            [self.favDelegate FavoriteFailAddingWithError:error];
+            [self.favDelegate FavoriteFailRemovingWithError:error forAdID:adID];
         return ;
     }
     //3- set the url string
-    NSString * fullURLString = [NSString stringWithFormat:remove_from_fav_url, adID];
+    NSString * fullURLString = remove_from_fav_url;
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     //NSLog(@"%@", correctURLstring);
-    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
     NSURL * correctURL = [NSURL URLWithString:correctURLstring];
     
     if (correctURL)
     {
+        NSString * post =[NSString stringWithFormat:@"%@=%@",ad_id_post_key, [NSString stringWithFormat:@"%i",adID]];
+        
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setTimeoutInterval:20];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
         //4- set user credentials in HTTP header
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
@@ -316,22 +334,10 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
         
         //5- send the request
-        NSString * post =[NSString stringWithFormat:@"%@=%@",ad_id_post_key, [NSString stringWithFormat:@"%i",adID]];
-        
-        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-        
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setTimeoutInterval:20];
-        
-        [request setURL:correctURL];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         [request setHTTPBody:postData];
         
         
-        favoriteMngr = [[InternetManager alloc] initWithTempFileName:favMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+        favoriteRemoveMngr = [[InternetManager alloc] initWithTempFileName:favMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
     }
     else
     {
@@ -339,7 +345,7 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         [error setDescMessage:@"فشل تحميل البيانات"];
         
         if (self.favDelegate)
-            [self.favDelegate FavoriteFailAddingWithError:error];
+            [self.favDelegate FavoriteFailRemovingWithError:error forAdID:adID];
         return ;
     }
     
@@ -603,10 +609,15 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         if (self.deviceDelegate)
             [deviceDelegate deviceFailRegisterWithError:error];
     }
-    else if (manager == favoriteMngr)
+    else if (manager == favoriteAddMngr)
     {   // add to favorites
         if (self.favDelegate)
-            [favDelegate FavoriteFailAddingWithError:error];
+            [favDelegate FavoriteFailAddingWithError:error forAdID:currentAdIDForFav];
+    }
+    else if (manager == favoriteRemoveMngr)
+    {   // remove from favorites
+        if (self.favDelegate)
+            [favDelegate FavoriteFailRemovingWithError:error forAdID:currentAdIDForFav];
     }
 }
 
@@ -615,18 +626,24 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
     if (!result)
     {
         CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل تحميل البيانات"];
+        [error setDescMessage:@"فشل العملية"];
         
         if (manager == mainMngr)
         {   //Device registeration
             if (self.deviceDelegate)
                 [self.deviceDelegate deviceFailRegisterWithError:error];
         }
-        else if (manager == favoriteMngr)
+        else if (manager == favoriteAddMngr)
         {   // add to favorites
             if (self.favDelegate)
-                [favDelegate FavoriteFailAddingWithError:error];
+                [favDelegate FavoriteFailAddingWithError:error forAdID:currentAdIDForFav];
         }
+        else if (manager == favoriteRemoveMngr)
+        {   // add to favorites
+            if (self.favDelegate)
+                [favDelegate FavoriteFailRemovingWithError:error forAdID:currentAdIDForFav];
+        }
+        
     }
     else
     {
@@ -636,7 +653,7 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
             if (deviceRegObject)
                 [self storeDeviceRegistrationData:deviceRegObject];
         }
-        else if (manager == favoriteMngr)
+        else if (manager == favoriteAddMngr)
         {   // add to favorites
             NSArray * data = (NSArray *) result;
             if ((data) && (data.count > 0))
@@ -650,7 +667,39 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
                 if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
                 {
                     if (self.favDelegate)
-                        [favDelegate FavoriteDidAddWithStatus:YES];
+                        [favDelegate FavoriteDidAddWithStatus:YES forAdID:currentAdIDForFav];
+                }
+                else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:statusMessageProcessed];
+                    if (self.favDelegate)
+                        [favDelegate FavoriteFailAddingWithError:error forAdID:currentAdIDForFav];
+                }
+            }
+        }
+        else if (manager == favoriteRemoveMngr)
+        {   // add to favorites
+            NSArray * data = (NSArray *) result;
+            if ((data) && (data.count > 0))
+            {
+                NSDictionary * totalDict = [data objectAtIndex:0];
+                NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+                NSInteger statusCode = statusCodeString.integerValue;
+                
+                NSString * statusMessageProcessed = [[[totalDict objectForKey:LOGIN_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                
+                if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                {
+                    if (self.favDelegate)
+                        [favDelegate FavoriteDidRemoveWithStatus:YES forAdID:currentAdIDForFav];
+                }
+                else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:statusMessageProcessed];
+                    if (self.favDelegate)
+                        [favDelegate FavoriteFailRemovingWithError:error forAdID:currentAdIDForFav];
                 }
             }
         }

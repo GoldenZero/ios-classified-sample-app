@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 
-@interface labelAdViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface labelAdViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate>
 
 #pragma mark - actions
 - (IBAction)backBtnPressed:(id)sender;

@@ -144,4 +144,24 @@
     [encoder encodeObject:self.storeLogoURL forKey:@"storeLogoURL"];
         
 }
+
+- (NSString *) description {
+    return [NSString stringWithFormat:@"adID:%i, ownerID:%i, storeID:%i, isFeatured:%i, thumbnailURL:%@, title:%@, price:%f, currencyString:%@, postedOnDate:%@, modelYear:%i, distanceRangeInKm:%i, viewCount:%i, isFavorite:%i, storeName:%@, storeLogoURL:%@",
+            self.adID,
+            self.ownerID,
+            self.storeID,
+            self.isFeatured,
+            self.thumbnailURL,
+            self.title,
+            self.price,
+            self.currencyString,
+            self.postedOnDate,
+            self.modelYear,
+            self.distanceRangeInKm,
+            self.viewCount,
+            self.isFavorite,
+            self.storeName,
+            self.storeLogoURL
+            ];
+}
 @end

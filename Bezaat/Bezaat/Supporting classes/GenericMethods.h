@@ -47,8 +47,8 @@
 + (NSString *) formatPrice:(float) num;
 
 // This method converts NSDictionary --> NSData
-+ (NSData *) NSDataFromDictionary:(NSDictionary *) input;
+// + (NSData *) NSDataFromDictionary:(NSDictionary *) input;
 
 // This method converts NSDictionary --> NSData
-+ (NSDictionary *) NSDictionaryFromData:(NSData *) data;
+// + (NSDictionary *) NSDictionaryFromData:(NSData *) data;
 @end

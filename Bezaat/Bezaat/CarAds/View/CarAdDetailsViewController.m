@@ -22,7 +22,7 @@
     AURosetteView *shareButton;
     UITapGestureRecognizer *tap;
 }
-- (void)loadScrollViewWithPage:(int)page;
+
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
 - (void)twitterAction:(id)sender;
 - (void)facebookAction:(id)sender;
@@ -247,6 +247,20 @@
 }
 
 - (IBAction)favoriteBtnPrss:(id)sender {
+    if (currentDetailsObject)
+    {
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        if ((savedProfile) && (!self.favoriteButton.hidden))
+        {
+            if (!currentDetailsObject.isFavorite)
+                //add from fav
+                [[ProfileManager sharedInstance] addCarAd:currentDetailsObject.adID toFavoritesWithDelegate:self];
+            else
+                //remove from fav
+                [[ProfileManager sharedInstance] removeCarAd:currentDetailsObject.adID fromFavoritesWithDelegate:self];
+        }
+    }
 }
 
 - (IBAction)callBtnPrss:(id)sender {
@@ -391,13 +405,15 @@
 
 - (void) resizeScrollView {
     
-    //1- remove all subviews in scroll view, lower than 335 (number is took from nib)
+    CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
+    
+    //1- remove all subviews in scroll view, lower than lastY (number is took from nib)
     for (UIView * subview in [self.labelsScrollView subviews]) {
-        if (subview.frame.origin.y > 355) {
+        if (subview.frame.origin.y > lastY) {
             [subview removeFromSuperview];
         }
     }
-    //[self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, originalScrollViewHeight))];
+    
     
     
     if (currentDetailsObject)
@@ -417,9 +433,13 @@
         //2- set attributes
         if ((currentDetailsObject.attributes) && (currentDetailsObject.attributes.count))
         {
-            CGFloat addedHeightValue = 20;//initial value, distant from last labels
+            CGFloat addedHeightValue;   //initial value, distant from last labels
+            if (currentDetailsObject.storeID > 0)   //isStore
+                addedHeightValue = 80 + 30;
+            else
+                addedHeightValue = 35 + 30;
             
-            CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
+            lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height + addedHeightValue;
             
             for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
             {
@@ -492,17 +512,19 @@
             [self.phoneNumberButton setEnabled:YES];
         else
             [self.phoneNumberButton setEnabled:NO];
-        
-        if (currentDetailsObject.isFavorite)
-            [self.favoriteButton setEnabled:NO];
-        
+    
         if (currentDetailsObject.isFeatured)
             [self.featureBtn setEnabled:NO];
         
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
-        if(!savedProfile){
-            [self.favoriteButton setHidden:YES];
+        if(savedProfile){
+            [self.favoriteButton setHidden:NO];
+            
+            // Check favorite
+            if (currentDetailsObject.isFavorite) {
+                [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+            }
         }
         
         if ((!savedProfile) || ((savedProfile) && (savedProfile.userID != currentDetailsObject.ownerID)))
@@ -526,11 +548,6 @@
             [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
             [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar_Sp.png"]];
             
-        }
-        
-        // Check favorite
-        if ((savedProfile.userID == currentDetailsObject.ownerID)&&(currentDetailsObject.isFavorite)) {
-            [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
         }
         
         // Check store
@@ -580,7 +597,14 @@
         self.addTimeLabel.text = [[CarDetailsManager sharedInstance] getDateDifferenceStringFromDate:currentDetailsObject.postedOnDate];
         self.yearMiniLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.modelYear];
         self.kiloMiniLabel.text = [NSString stringWithFormat:@"%i KM", currentDetailsObject.distanceRangeInKm];
-        self.watchingCountLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.viewCount];
+        if (currentDetailsObject.viewCount > 0)
+            self.watchingCountLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.viewCount];
+        else
+        {
+            self.watchingCountLabel.text = @"";
+            [self.countOfViewsTinyImg setHidden:YES];
+        }
+        
     }
     [self customizeButtonsByData];
     [self resizeScrollView];
@@ -596,4 +620,51 @@
     // Remove the mail view
     [controller dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+#pragma mark - favorites Delegate methods
+- (void) FavoriteFailAddingWithError:(NSError*) error forAdID:(NSUInteger)adID {
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
+}
+
+- (void) FavoriteDidAddWithStatus:(BOOL) resultStatus forAdID:(NSUInteger)adID {
+    
+    if (resultStatus)//added successfully
+    {
+        [currentDetailsObject setIsFavorite:YES];
+        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [currentDetailsObject setIsFavorite:NO];
+        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
+        
+    }
+}
+
+- (void) FavoriteFailRemovingWithError:(NSError*) error forAdID:(NSUInteger)adID {
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+    
+}
+
+- (void) FavoriteDidRemoveWithStatus:(BOOL) resultStatus forAdID:(NSUInteger)adID {
+    
+    if (resultStatus)//removed successfully
+    {
+        [currentDetailsObject setIsFavorite:NO];
+        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [currentDetailsObject setIsFavorite:YES];
+        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+    }
+    
+}
+
+
 @end

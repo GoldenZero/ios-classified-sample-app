@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface sideMenuCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
+
 @property (strong, nonatomic) IBOutlet UILabel *titleLable;
 @property (strong, nonatomic) IBOutlet UIImageView *cellImage;
 

@@ -34,8 +34,13 @@
 
 @protocol FavoritesDelegate <NSObject>
 @required
-- (void) FavoriteFailAddingWithError:(NSError*) error;
-- (void) FavoriteDidAddWithStatus:(BOOL) resultStatus;
+// add
+- (void) FavoriteFailAddingWithError:(NSError*) error forAdID:(NSUInteger) adID;
+- (void) FavoriteDidAddWithStatus:(BOOL) resultStatus forAdID:(NSUInteger) adID;
+
+// remove
+- (void) FavoriteFailRemovingWithError:(NSError*) error forAdID:(NSUInteger) adID;
+- (void) FavoriteDidRemoveWithStatus:(BOOL) resultStatus forAdID:(NSUInteger) adID;
 @end
 
 
@@ -60,6 +65,9 @@
 
 // call add to favorite API
 - (void) addCarAd:(NSUInteger ) adID toFavoritesWithDelegate:(id <FavoritesDelegate>) del;
+
+// call remove from favorite API
+- (void) removeCarAd:(NSUInteger ) adID fromFavoritesWithDelegate:(id <FavoritesDelegate>) del;
 
 // store user's data
 - (void) storeUserProfile:(UserProfile * ) up;

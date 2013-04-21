@@ -56,7 +56,8 @@
 @synthesize pageNumber;
 @synthesize pageSize;
 
-static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&brandId=%i&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@";
+
+static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&brandId=%i&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@";
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
@@ -87,12 +88,21 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return self.pageNumber;
 }
 
-- (void) setCurrentPageNum:(NSUInteger) pageNum {
-    self.pageNumber = pageNum;
+- (NSUInteger) getCurrentPageSize {
+    return self.pageSize;
 }
 
-- (NSUInteger) getPageSize {
-    return PAGE_SIZE;
+
+- (void) setCurrentPageNum:(NSUInteger) pNum {
+    self.pageNumber = pNum;
+}
+
+- (void) setCurrentPageSize:(NSUInteger) pSize {
+    self.pageSize = pSize;
+}
+
+- (void) setPageSizeToDefault {
+    self.pageSize = DEFAULT_PAGE_SIZE;
 }
 
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del {
@@ -127,8 +137,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 @"1",   //by default, load images
                                 @"1",   //by default, load images
                                 @"",
-                                @""
-                                ];
+                                @"",
+                                @""];
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
@@ -177,6 +187,116 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
+
+- (BOOL) cacheDataFromArray:(NSArray *) dataArr forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    //2- check if file exists
+    //BOOL cahcedFileExists = [GenericMethods fileExistsInDocuments:cacheFileName];
+    
+    //3- create the dictionary to be serialized to JSON
+    NSMutableDictionary * dictToBeWritten = [NSMutableDictionary new];
+    [dictToBeWritten setObject:[NSNumber numberWithUnsignedInteger:tillPageNum] forKey:@"pageNo"];
+    [dictToBeWritten setObject:[NSNumber numberWithUnsignedInteger:pSize] forKey:@"pageSize"];
+    [dictToBeWritten setObject:dataArr forKey:@"dataArray"];
+    
+    //4- convert dictionary to NSData
+    NSError  *error;
+    NSData * dataToBeWritten = [NSKeyedArchiver archivedDataWithRootObject:dictToBeWritten];
+    if (![dataToBeWritten writeToFile:cacheFilePath options:NSDataWritingAtomic error:&error])
+        return NO;
+    else
+        return YES;
+    
+}
+
+- (NSArray *) getCahedDataForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    NSData *archiveData = [NSData dataWithContentsOfFile:cacheFilePath];
+    if (!archiveData)
+        return nil;
+    
+    NSDictionary * dataDict = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:archiveData];
+    
+    if (!dataDict)
+        return nil;
+    
+    NSArray * resultArr = [dataDict objectForKey:@"dataArray"];
+    return resultArr;
+}
+
+- (NSUInteger) getCahedPageNumForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    
+    NSData *archiveData = [NSData dataWithContentsOfFile:cacheFilePath];
+    if (!archiveData)
+        return -1;
+    
+    NSDictionary * dataDict = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:archiveData];
+    
+    if (!dataDict)
+        return -1;
+    
+    NSNumber * dataNum = [dataDict objectForKey:@"pageNo"];
+    return [dataNum unsignedIntegerValue];
+    
+}
+
+- (NSUInteger) getCahedPageSizeForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    NSData *archiveData = [NSData dataWithContentsOfFile:cacheFilePath];
+    if (!archiveData)
+        return -1;
+    
+    NSDictionary * dataDict = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:archiveData];
+    
+    if (!dataDict)
+        return -1;
+    
+    NSNumber * dataNum = [dataDict objectForKey:@"pageSize"];
+    return [dataNum unsignedIntegerValue];
+    
+}
+
+- (void) clearCachedDataForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    //3- check if file exists
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:cacheFilePath];
+    if (fileExists)
+    {
+        [[NSFileManager defaultManager] removeItemAtPath:cacheFilePath error:NULL];
+    }
+}
+
 - (NSString *) getDateDifferenceStringFromDate:(NSDate *) input {
     
     NSString * result = @"";
@@ -205,7 +325,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     }
                     else
                         result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInMonths, ARABIC_MONTH_TEXT];
-                   
+                    
                 }
                 else
                     result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInDays, ARABIC_DAY_TEXT];
@@ -218,80 +338,119 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
     else
         result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInSeconds, ARABIC_SECOND_TEXT];
-
+    
     return result;
 }
 
-- (BOOL) cacheDataFromArray:(NSArray *) dataArr forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize {
+- (NSInteger) getIndexOfAd:(NSUInteger) adID inArray:(NSArray *) adsArray {
     
-    //1- get the file name same as request url
-    NSString * cacheFileName = [NSString stringWithFormat:@"%@.json",
-    [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID]];
-    
-    //2- get cache file path
-    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
-    
-    //2- check if file exists
-    //BOOL cahcedFileExists = [GenericMethods fileExistsInDocuments:cacheFileName];
-    
-    //3- create the dictionary to be serialized to JSON
-    NSMutableDictionary * dictToBeWritten = [NSMutableDictionary new];
-    [dictToBeWritten setObject:[NSNumber numberWithUnsignedInteger:tillPageNum] forKey:@"pageNo"];
-    [dictToBeWritten setObject:[NSNumber numberWithUnsignedInteger:pSize] forKey:@"pageSize"];
-    [dictToBeWritten setObject:dataArr forKey:@"dataArray"];
-    
-    //4- convert dictionary to NSData
-    NSData * dataToBeWritten = [GenericMethods NSDataFromDictionary:dictToBeWritten];
-    
-    //5- serialize & write to file
-    NSError* error;
-    id jsonData = [NSJSONSerialization JSONObjectWithData:dataToBeWritten
-                                                    options:NSJSONReadingAllowFragments
-                                                      error:&error];
-    
-    [jsonData writeToFile:cacheFilePath atomically:YES];
-    
-    if (!error)
-        return YES;
-    
-
-    NSLog(@"error desc: %@", error.description);
-    return NO;
-}
-
-- (NSArray *) getCahedDataForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
-    
-    //1- get the file name same as request url
-    NSString * cacheFileName = [NSString stringWithFormat:@"%@.json",
-                                [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID]];
-    
-    //2- get cache file path
-    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
-    
-    NSDictionary * dataDict = [NSDictionary dictionaryWithContentsOfFile:cacheFilePath];
-    
-    if (!dataDict)
-        return nil;
-    
-    NSArray * resultArr = [dataDict objectForKey:@"dataArray"];
-    return [self createCarAdsArrayWithData:resultArr];
-}
-
-- (NSInteger) getCahedpageNumForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID {
-    
-    //1- get the file name same as request url
-    NSString * cacheFileName = [NSString stringWithFormat:@"%@.json",
-                                [self getCacheFileNameForBrand:brandID Model:modelID InCity:cityID]];
-    
-    //2- get cache file path
-    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
-    
-    NSDictionary * dataDict = [NSDictionary dictionaryWithContentsOfFile:cacheFilePath];
-    
-    if (!dataDict)
+    if (!adsArray)
         return -1;
     
-    return (NSInteger)[dataDict objectForKey:@"pageNo"];
+    for (int index = 0; index < adsArray.count; index ++)
+    {
+        CarAd * obj = [adsArray objectAtIndex:index];
+        if (obj.adID == adID)
+            return index;
+    }
+    return -1;
+}
+
+- (void) searchCarAdsOfPage:(NSUInteger) pageNum
+                   forBrand:(NSUInteger) brandID
+                      Model:(NSInteger) modelID
+                     InCity:(NSUInteger) cityID
+                   textTerm:(NSString *) aTextTerm
+                   minPrice:(float) aMinPrice
+                   maxPrice:(float) aMaxPrice
+            distanceRangeID:(NSInteger) aDistanceRangeID
+                   fromYear:(NSString *) aFromYear
+                     toYear:(NSString *) aToYear
+              adsWithImages:(BOOL) aAdsWithImages
+               adsWithPrice:(BOOL) aAdsWithPrice
+                       area:(NSString *) aArea
+                    orderby:(NSString *) aOrderby
+              lastRefreshed:(NSString *)aLastRefreshed
+               WithDelegate:(id <CarAdsManagerDelegate>) del  {
+    
+    //1- set the delegate
+    self.delegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.delegate)
+            [self.delegate adsDidFailLoadingWithError:error];
+        return ;
+    }
+    
+    //3- set the url string
+    NSString * fullURLString = [NSString stringWithFormat:ads_url,
+                                [NSString stringWithFormat:@"%i", pageNum],
+                                [NSString stringWithFormat:@"%i", self.pageSize],
+                                cityID,
+                                aTextTerm,
+                                brandID,
+                                [NSString stringWithFormat:@"%@", (modelID == -1 ? @"" : [NSString stringWithFormat:@"%i", modelID])],
+                                [NSString stringWithFormat:@"%i", (int) aMinPrice],
+                                [NSString stringWithFormat:@"%i", (int) aMaxPrice],
+                                [NSString stringWithFormat:@"%i", aDistanceRangeID],
+                                aFromYear,
+                                aToYear,
+                                [NSString stringWithFormat:@"%i", aAdsWithImages],
+                                @"1",   //by default, load price
+                                aArea,
+                                aOrderby,
+                                aLastRefreshed
+                                ];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=10&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
+    
+    //NSLog(@"%@", correctURLstring);
+    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[ProfileManager sharedInstance] getSavedUserProfile];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        //5- send the request
+        [request setURL:correctURL];
+        internetMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.delegate)
+            [self.delegate adsDidFailLoadingWithError:error];
+        return ;
+    }
     
 }
 
@@ -389,12 +548,14 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 @"1",   //by default, load images
                                 @"1",   //by default, load images
                                 @"",
+                                @"",
                                 @""
                                 ];
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:"];
     
-    return [correctURLstring stringByReplacingOccurrencesOfString:@"/" withString:@""];
+    return [[correctURLstring componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
 }
 
 @end

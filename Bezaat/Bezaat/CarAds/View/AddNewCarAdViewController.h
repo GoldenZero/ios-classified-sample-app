@@ -9,15 +9,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddNewCarAdViewController : UIViewController
+@interface AddNewCarAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
-@property (strong, nonatomic) IBOutlet UITextField *adAdressText;
-@property (strong, nonatomic) IBOutlet UITextView *adDetailsText;
-@property (strong, nonatomic) IBOutlet UITextField *kiloText;
-@property (strong, nonatomic) IBOutlet UITextField *priceText;
+@property (strong, nonatomic) IBOutlet UIScrollView *horizontalScrollView;
+@property (strong, nonatomic) IBOutlet UIScrollView *verticalScrollView;
+
 @property (strong, nonatomic) IBOutlet UIView *addImagesView;
+@property (strong, nonatomic) IBOutlet UIPickerView *pickerView;
 
 #pragma mark - actions
 
