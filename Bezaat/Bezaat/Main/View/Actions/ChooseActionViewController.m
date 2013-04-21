@@ -15,6 +15,7 @@
 #import "labelAdViewController.h"
 @interface ChooseActionViewController (){
     NSArray *menuArray;
+    NSArray *iconMenuArray;
 }
 
 @end
@@ -36,7 +37,9 @@
     NSString *menuPlistPath = [[NSBundle mainBundle] pathForResource:@"HomeScreenChoices" ofType:@"plist"];
     
     menuArray = [[NSArray alloc] initWithContentsOfFile:menuPlistPath];
-
+    iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png", nil];
+    self.menuTableView.separatorColor = [UIColor clearColor];
+    
     [self prepareImages];
     [self customGestures];
     // Do any additional setup after loading the view from its nib.
@@ -114,7 +117,9 @@
             }
         }
     }
+    cell.cellImage.image=[UIImage imageNamed:[iconMenuArray objectAtIndex:indexPath.row]];
     cell.titleLable.text=[menuArray objectAtIndex:indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
