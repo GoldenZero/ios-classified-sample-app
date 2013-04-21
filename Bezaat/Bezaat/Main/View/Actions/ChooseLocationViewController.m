@@ -60,7 +60,6 @@
     
     // Location Manager
     locationMngr = [LocationManager sharedInstance];
-    [self showLoadingIndicator];
     
     [self loadData];
     // Setting default country
@@ -272,6 +271,7 @@
             if (!deviceLocationDetector)
                 deviceLocationDetector = [[CLLocationManager alloc] init];
             
+            [self showLoadingIndicator];
             deviceLocationDetector.delegate = self;
             deviceLocationDetector.distanceFilter = 500;
             deviceLocationDetector.desiredAccuracy = kCLLocationAccuracyKilometer;

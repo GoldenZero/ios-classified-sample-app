@@ -435,11 +435,11 @@
         {
             CGFloat addedHeightValue;   //initial value, distant from last labels
             if (currentDetailsObject.storeID > 0)   //isStore
-                addedHeightValue = 80;
+                addedHeightValue = 80 + 30;
             else
-                addedHeightValue = 35;
+                addedHeightValue = 35 + 30;
             
-            CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
+            lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height + addedHeightValue;
             
             for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
             {
