@@ -10,4 +10,213 @@
 
 @implementation StoreManager
 
+static NSString *create_store_url = @"http://gfctest.edanat.com/v1.0/json/create-store";
+static NSString *upload_logo_url = @"http://gfctest.edanat.com/v1.0/json/upload-logo";
+static NSString *create_store_temp_file = @"createStoreTmpFile";
+static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
+
+@synthesize delegate;
+
++ (StoreManager *) sharedInstance {
+    static StoreManager * instance = nil;
+    if (instance == nil) {
+        instance = [[StoreManager alloc] init];
+    }
+    return instance;
+}
+
+- (void)uploadLOGO:(UIImage *)image {
+    requestInProgress = RequestInProgressUploadLOGO;
+    
+    //1- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.delegate)
+            [self.delegate storeLOGOUploadDidFailWithError:error];
+        return ;
+    }
+    
+    //2- start the request
+    /////////////////////////////////
+    /*
+	 turning the image into a NSData object
+	 getting the image back out of the UIImageView
+	 setting the quality to 90
+     */
+	NSData *imageData = UIImageJPEGRepresentation(image, 90);
+	
+	// setting up the request object now
+    NSMutableURLRequest *request = [self request];
+
+    if (request == nil) {
+        [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
+        return;
+    }
+	/*
+	 add some header info now
+	 we always need a boundary when we post a file
+	 also we need to set the content type
+	 
+	 You might want to generate a random boundary.. this is just the same
+	 as my output from wireshark on a valid html post
+     */
+	NSString *boundary = @"---------------------------14737809831466499882746641449";
+	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+	[request addValue:contentType forHTTPHeaderField: @"Content-Type"];
+	
+	/*
+	 now lets create the body of the post
+     */
+	NSMutableData *body = [NSMutableData data];
+	[body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[@"Content-Disposition: form-data; name=\"StoreLOGO\"; filename=\"StoreLOGO.jpg\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[NSData dataWithData:imageData]];
+	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+
+    // setting the body of the post to the reqeust
+	[request setHTTPBody:body];
+	
+    internetManager = [[InternetManager alloc] initWithTempFileName:upload_logo_temp_file
+                                                         urlRequest:request
+                                                           delegate:self
+                                                   startImmediately:YES
+                                                       responseType:@"JSON"
+                       ];
+
+}
+
+- (void)createStore:(Store *)store {
+    requestInProgress = RequestInProgressCreateStore;
+
+    //1- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.delegate)
+            [self.delegate storeCreationDidFailWithError:error];
+        return ;
+    }
+    
+    //2- start the request
+    NSMutableURLRequest *request = [self request];
+    
+    if (request == nil) {
+        [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
+        return;
+    }
+    [request setURL:[NSURL URLWithString:create_store_url]];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+
+    NSString * post =[NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%d&%@=%@"
+                      ,@"StoreName", store.name
+                      ,@"Description", store.desc
+                      ,@"EmailAddress", store.email
+                      ,@"CountryID", store.countryID
+                      ,@"MobileNumber", store.phone
+                      ];
+    if (store.logoURL != nil) {
+        post = [post stringByAppendingFormat:@"&%@=%@",@"LogoURL", store.logoURL];
+    }
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    // start the request
+    [request setHTTPBody:postData];
+    
+    internetManager = [[InternetManager alloc] initWithTempFileName:create_store_temp_file
+                                                         urlRequest:request
+                                                           delegate:self
+                                                   startImmediately:YES
+                                                       responseType:@"JSON"
+                       ];
+}
+
+- (NSMutableURLRequest *)request {
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setTimeoutInterval:30];
+    [request setHTTPMethod:@"POST"];
+    
+    return [self addUserCredentialsToRequest:request];
+}
+
+- (NSMutableURLRequest *)addUserCredentialsToRequest:(NSMutableURLRequest *)request {
+    /// set user credentials in HTTP header
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    
+    //passing device token as a http header request
+    NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+    [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+    
+    //passing user id as a http header request
+    NSString * userIDString = @"";
+    if (savedProfile) { //if user is logged and not a visitor --> set the ID
+        userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+    }
+    else {
+        return nil;
+    }
+    
+    [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+    
+    //passing password as a http header request
+    NSString * passwordMD5String = savedProfile.passwordMD5;
+    
+    [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+    
+    return request;
+}
+
+#pragma mark - DataDelegate Methods
+
+- (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
+    if (manager != internetManager) {
+        return;
+    }
+    
+    if (requestInProgress == RequestInProgressUploadLOGO) {
+        if ([delegate respondsToSelector:@selector(storeLOGOUploadDidFailWithError:)]) {
+            [delegate storeLOGOUploadDidFailWithError:error];
+        }
+    }
+    else if (requestInProgress == RequestInProgressCreateStore) {
+        if ([delegate respondsToSelector:@selector(storeCreationDidFailWithError:)]) {
+            [delegate storeCreationDidFailWithError:error];
+        }
+    }
+}
+
+- (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*)result {
+    if (manager != internetManager) {
+        return;
+    }
+    
+    if (requestInProgress == RequestInProgressUploadLOGO) {
+        NSDictionary *data = [((NSDictionary *)result) objectForKey:@"Data"];
+        NSString *imageURL = [data objectForKey:@"LogoURL"];
+        if ([delegate respondsToSelector:@selector(storeLOGOUploadDidSucceedWithImageURL:)]) {
+            [delegate storeLOGOUploadDidSucceedWithImageURL:imageURL];
+        }
+    }
+    else if (requestInProgress == RequestInProgressCreateStore) {
+        
+        if ([delegate respondsToSelector:@selector(storeCreationDidSucceedWithStoreID:)]) {
+            [delegate storeCreationDidSucceedWithStoreID:(NSString *)result];
+        }
+    }
+}
+
 @end

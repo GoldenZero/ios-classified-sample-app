@@ -10,4 +10,11 @@
 
 @implementation Store
 
+@synthesize name;
+@synthesize desc;
+@synthesize phone;
+@synthesize email;
+@synthesize logoURL;
+@synthesize countryID;
+
 @end

@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StoreManager.h"
 
-@interface AddNewStoreViewController : UIViewController
+@interface AddNewStoreViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextViewDelegate,StoreManagerDelegate>
 
 - (IBAction)homeBtnPress:(id)sender;
+- (IBAction)chooseImageBtnPress:(id)sender;
+- (IBAction)cancelBtnPress:(id)sender;
+- (IBAction)saveBtnPress:(id)sender;
 
 @end

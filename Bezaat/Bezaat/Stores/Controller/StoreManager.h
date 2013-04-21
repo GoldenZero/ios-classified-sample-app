@@ -9,10 +9,34 @@
 #import <Foundation/Foundation.h>
 #import "Store.h"
 
-@interface StoreManager : NSObject
+@protocol StoreManagerDelegate <NSObject>
+@required
+- (void) storeCreationDidFailWithError:(NSError *)error;
+- (void) storeCreationDidSucceedWithStoreID:(NSString *)storeID;
+- (void) storeLOGOUploadDidFailWithError:(NSError *)error;
+- (void) storeLOGOUploadDidSucceedWithImageURL:(NSString *)imageURL;
+@end
+
+typedef enum {
+    RequestInProgressCreateStore,
+    RequestInProgressUploadLOGO
+} RequestInProgress;
+
+@interface StoreManager : NSObject <DataDelegate> {
+    InternetManager *internetManager;
+    RequestInProgress requestInProgress;
+}
 
 #pragma mark - properties
 
-#pragma mark - actions
+@property (nonatomic,weak) id<StoreManagerDelegate>delegate;
+
+#pragma mark - methods
+
++ (StoreManager *)sharedInstance;
+
+- (void)uploadLOGO:(UIImage *)image;
+
+- (void)createStore:(Store *)store;
 
 @end
