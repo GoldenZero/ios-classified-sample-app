@@ -50,7 +50,7 @@
            initWithTarget:self
            action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
-        
+
     loadingHUD = [[MBProgressHUD2 alloc] init];
 }
 
