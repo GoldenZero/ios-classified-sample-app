@@ -38,6 +38,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
 
 @property (nonatomic) NSUInteger currentAdID;
+@property (strong, nonatomic) IBOutlet UIImageView *callBarImgBg;
 
 // Store Bar content
 

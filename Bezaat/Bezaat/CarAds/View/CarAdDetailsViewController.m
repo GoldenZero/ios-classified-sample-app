@@ -47,6 +47,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setPlacesOfViews];
     // hide share button
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
@@ -156,7 +157,7 @@
 }
 
 // flod share button when touch the screen
--(void)dismissShareButton{
+- (void)dismissShareButton{
     if ((shareButton.on)) {
         [shareButton fold];
     }
@@ -189,7 +190,29 @@
     // create rosette view
     shareButton= [[AURosetteView alloc] initWithItems: [NSArray arrayWithObjects: twitterItem, facebookItem, mailItem, nil]];
     [shareButton.wheelButton setImage:[UIImage imageNamed:@"Details_button_share.png"] forState:UIControlStateNormal];
-    [shareButton setCenter:CGPointMake(35.0f, 430.0f)];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        
+    {
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        if(result.height == 480)
+            
+        {
+            
+            shareButton.frame=CGRectMake(35, 430, shareButton.frame.size.width ,shareButton.frame.size.height );
+            [shareButton setCenter:CGPointMake(35.0f, 430.0f)];
+        }
+        
+        else
+            
+        {
+            
+            shareButton.frame=CGRectMake(35, 520, shareButton.frame.size.width ,shareButton.frame.size.height );
+            [shareButton setCenter:CGPointMake(35.0f, 520.0f)];
+            
+        }
+    }
+
+    
     
     CGAffineTransform transform =
     CGAffineTransformMakeRotation(-0.7f);
@@ -439,7 +462,10 @@
                 NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
                 [self.scrollView addSubview:[self prepareImge:imgURL :i]];
             }
+            [self.scrollView setScrollEnabled:YES];
+            [self.scrollView setShowsVerticalScrollIndicator:YES];
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
+
         }
         
         //2- set attributes
@@ -510,6 +536,7 @@
             CGFloat totalHeight = self.labelsScrollView.frame.size.height + addedHeightValue;
             
             [self.labelsScrollView setScrollEnabled:YES];
+            [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
             [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
         }
     }
@@ -678,5 +705,34 @@
     
 }
 
+- (void) setPlacesOfViews{
+    self.toolBar.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin;
+    self.labelsScrollView.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin;
+    self.callBarImgBg.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin;
+    self.toolBar.frame=CGRectMake(0, 0, self.toolBar.frame.size.width, self.toolBar.frame.size.height);
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        
+    {
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        if(result.height == 480)
+            
+        {
+            self.labelsScrollView.frame=CGRectMake(0, self.toolBar.frame.size.height, self.labelsScrollView.frame.size.width ,self.labelsScrollView.frame.size.height );
+            shareButton.frame=CGRectMake(35, 430, shareButton.frame.size.width ,shareButton.frame.size.height );
+        }
+        
+        else
+            
+        {
+            self.labelsScrollView.frame=CGRectMake(0, self.toolBar.frame.size.height, self.labelsScrollView.frame.size.width ,960- self.toolBar.frame.size.height);
+            shareButton.frame=CGRectMake(35, 520, shareButton.frame.size.width ,shareButton.frame.size.height );
+            
+        }
+    }
+
+       
+    
+}
 
 @end
