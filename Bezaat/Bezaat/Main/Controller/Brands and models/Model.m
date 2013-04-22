@@ -31,4 +31,8 @@
     }
     return self;
 }
+
+- (NSString *) description {
+    return [NSString stringWithFormat:@"owner brand ID: %i, model ID: %i, model name: %@", self.brandID, self.modelID, self.modelName];
+}
 @end

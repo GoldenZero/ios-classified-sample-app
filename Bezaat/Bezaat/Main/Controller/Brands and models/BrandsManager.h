@@ -30,6 +30,9 @@
 // load brands & models
 - (void) getBrandsAndModelsWithDelegate:(id <BrandManagerDelegate>) del;
 
+//load brands & models for posting an ad
+- (void) getBrandsAndModelsForPostAdWithDelegate:(id<BrandManagerDelegate>)del;
+
 //load distance ranges
 - (NSArray *) getDistanceRangesArray;
 

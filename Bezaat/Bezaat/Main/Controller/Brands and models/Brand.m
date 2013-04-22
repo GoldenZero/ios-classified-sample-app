@@ -44,4 +44,8 @@
     }
     return self;
 }
+- (NSString *) description {
+    return [NSString stringWithFormat:@"brand ID: %i, brand name: %@, models: %@", self.brandID
+            , self.brandNameAr, self.models];
+}
 @end

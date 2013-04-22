@@ -323,8 +323,8 @@ static NSString * location_key_chain_identifier = @"BezaatLocation";
     
     NSArray * sortedArray;
     sortedArray = [countriesArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        NSUInteger first = [(Country *)a displayOrder];
-        NSUInteger second = [(Country *)b displayOrder];
+        NSInteger first = [(Country *)a displayOrder];
+        NSInteger second = [(Country *)b displayOrder];
         return (first >= second);
     }];
     
@@ -335,8 +335,8 @@ static NSString * location_key_chain_identifier = @"BezaatLocation";
     
     NSArray * sortedArray;
     sortedArray = [citiesArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        NSUInteger first = [(City *)a displayOrder];
-        NSUInteger second = [(City *)b displayOrder];
+        NSInteger first = [(City *)a displayOrder];
+        NSInteger second = [(City *)b displayOrder];
         return (first >= second);
     }];
     

@@ -14,6 +14,9 @@
 #define BRANDS_ORDER_FILE_NAME   @"BrandsOrder.json"
 #define DISTANCE_RANGES_FILE_NAME @"DistanceRanges.json"
 
+//the file which should be loaded for brands UI
+#define POST_MODELS_FILE_NAME       @"post_models.json"
+
 #pragma mark - Brand json keys
 
 #define BRAND_ID_JSONK           @"BrandID"
@@ -69,6 +72,7 @@
     NSArray * totalBrands;
     NSArray * distanceRanges;
     BOOL sortedOnce;
+    BOOL isLoadingForPostAd;
 }
 @end
 
@@ -85,6 +89,7 @@
         totalBrands = nil;
         distanceRanges = nil;
         sortedOnce = NO;
+        isLoadingForPostAd = NO;
     }
     return self;
 }
@@ -100,6 +105,8 @@
 
 
 - (void) getBrandsAndModelsWithDelegate:(id<BrandManagerDelegate>)del {
+    
+    isLoadingForPostAd = NO;
     
     if (del)
         self.delegate = del;
@@ -168,7 +175,7 @@
         }
         totalBrands = resultBrands;
     }
-
+    
     if ((!sortedOnce) && ([[SharedUser sharedInstance] getUserCountryID] > -1))
     {
         //sort brands according to chosen country
@@ -180,6 +187,85 @@
         [self.delegate didFinishLoadingWithData:totalBrands];
 }
 
+- (void) getBrandsAndModelsForPostAdWithDelegate:(id<BrandManagerDelegate>)del {
+    
+    isLoadingForPostAd = YES;
+    
+    if (del)
+        self.delegate = del;
+    
+    //check if brands has been loaded before
+    
+    //1- load models
+    NSData * modelsData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:POST_MODELS_FILE_NAME]];
+    
+    NSArray * modelsParsedArray = [[JSONParser sharedInstance] parseJSONData:modelsData];
+    
+    //2- store models in a dictionary with brandID as key
+    NSString * brandIdKey;
+    NSMutableDictionary * modelsDictionary = [NSMutableDictionary new];
+    for (NSDictionary * modelDict in modelsParsedArray)
+    {
+        //create model object
+        Model * model = [[Model alloc]
+                         initWithModelIDString:[modelDict objectForKey:MODEL_ID_JSONK]
+                         brandIDString:[modelDict objectForKey:MODEL_BRAND_ID_JSONK]
+                         modelName:[modelDict objectForKey:MODEL_NAME_JSONK]
+                         ];
+        
+        brandIdKey = [NSString stringWithFormat:@"%i", model.brandID];
+        
+        //add model to models dictionary
+        if (![modelsDictionary objectForKey:brandIdKey])
+            [modelsDictionary setObject:[NSMutableArray new] forKey:brandIdKey];
+        [(NSMutableArray *)[modelsDictionary objectForKey:brandIdKey] addObject:model];
+        
+    }
+    
+    //3- load brands
+    NSData * brandsData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:BRANDS_FILE_NAME]];
+    NSArray * brandsParsedArray = [[JSONParser sharedInstance] parseJSONData:brandsData];
+    
+    //4- store brands in array (This array holds countries and their models **INSIDE**)
+    NSMutableArray * resultBrands = [NSMutableArray new];
+    for (NSDictionary * brandDict in brandsParsedArray)
+    {
+        NSString * brandIdStr = [brandDict objectForKey:BRAND_ID_JSONK];
+        NSUInteger theBrandID = brandIdStr.integerValue;
+        
+        UIImage * theBrandImage = [self loadImageOfBrand:theBrandID imageState:NO];
+        UIImage * theBrandInvertedImage = [self loadImageOfBrand:theBrandID imageState:YES];
+        
+        //create brand object
+        Brand * brand = [[Brand alloc]
+                         initWithBrandIDString:brandIdStr
+                         brandNameAr:[brandDict objectForKey:BRAND_NAME_AR_JSONK]
+                         urlName:[brandDict objectForKey:BRAND_URL_NAME_JSONK]
+                         brandImage:theBrandImage
+                         brandInvertedImage:theBrandInvertedImage
+                         ];
+        brandIdKey = [NSString stringWithFormat:@"%i", brand.brandID];
+        
+        //get array of models
+        NSArray * modelsOfBrand = [NSArray arrayWithArray:[modelsDictionary objectForKey:brandIdKey]];
+        
+        //set models of brand
+        brand.models = modelsOfBrand;
+        
+        //add brand
+        [resultBrands addObject:brand];
+    }
+    
+    NSArray * temp;
+    if ([[SharedUser sharedInstance] getUserCountryID] > -1)
+    {
+        //sort brands according to chosen country
+        temp = [NSArray arrayWithArray:[self sortBrandsArray:resultBrands]];
+    }
+    
+    if (del)
+        [self.delegate didFinishLoadingWithData:temp];
+}
 
 - (NSArray *) getDistanceRangesArray {
     
@@ -204,9 +290,9 @@
                 {
                     DistanceRange * range =
                     [[DistanceRange alloc]
-                                initWithRangeIDString:[rangeDict objectForKey:RANGE_ID_JKEY]
-                                rangeName:[rangeDict objectForKey:RANGE_NAME_JKEY]
-                                displayOrderString:[rangeDict objectForKey:RANGE_DISPLAY_ORDER_JKEY]
+                     initWithRangeIDString:[rangeDict objectForKey:RANGE_ID_JKEY]
+                     rangeName:[rangeDict objectForKey:RANGE_NAME_JKEY]
+                     displayOrderString:[rangeDict objectForKey:RANGE_DISPLAY_ORDER_JKEY]
                      
                      ];
                     [resultRangesArray addObject:range];
@@ -222,7 +308,7 @@
 }
 
 - (NSArray *) getYearsArray {
-
+    
     NSMutableArray * resultArray = [NSMutableArray new];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -237,7 +323,7 @@
     }
     
     [resultArray addObject:[NSString stringWithFormat:@"قبل %i", 2003]];
-
+    
     return resultArray;
 }
 
@@ -374,7 +460,7 @@
     
     if ([[SharedUser sharedInstance] getUserCountryID] != -1)
     {
-    
+        
         NSArray * orderingArray;
         if ([brandsOrderDict objectForKey:chosenCountryIdKey])
             orderingArray = [brandsOrderDict objectForKey:chosenCountryIdKey];
@@ -387,8 +473,8 @@
             Brand * brand = [self getBrandByID:p.brandID brands:input];
             [sorted addObject:brand];
         }
-        
-        sortedOnce = YES;
+        if (!isLoadingForPostAd)
+            sortedOnce = YES;
     }
     
     return sorted;
@@ -400,8 +486,8 @@
     
     NSArray * sortedArray;
     sortedArray = [input sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        NSUInteger first = [(BrandOrderPair *)a displayOrder];
-        NSUInteger second = [(BrandOrderPair *)b displayOrder];
+        NSInteger first = [(BrandOrderPair *)a displayOrder];
+        NSInteger second = [(BrandOrderPair *)b displayOrder];
         return (first >= second);
     }];
     
@@ -432,8 +518,8 @@
     
     NSArray * sortedArray;
     sortedArray = [rangesArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        NSUInteger first = [(DistanceRange *)a displayOrder];
-        NSUInteger second = [(DistanceRange *)b displayOrder];
+        NSInteger first = [(DistanceRange *)a displayOrder];
+        NSInteger second = [(DistanceRange *)b displayOrder];
         return (first >= second);
     }];
     
