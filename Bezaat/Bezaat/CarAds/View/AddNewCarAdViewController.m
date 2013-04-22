@@ -36,6 +36,8 @@
     NSArray *productionYearArray;
     
     MBProgressHUD2 *loadingHUD;
+    int chosenImgBtnTag;
+    UIImage * currentImageToUpload;
 }
 
 @end
@@ -60,6 +62,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    chosenImgBtnTag = -1;
+    currentImageToUpload = nil;
     
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
@@ -105,12 +110,17 @@
         UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
         [temp setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
         
-        [temp addTarget:self action:@selector(uploadImage) forControlEvents:UIControlEventTouchUpInside];
+        temp.tag = (i+1) * 10;
+        [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
         [self.horizontalScrollView addSubview:temp];
     }
 }
 
-- (void) uploadImage {
+- (void) uploadImage: (id)sender{
+    
+    UIButton * senderBtn = (UIButton *) sender;
+    chosenImgBtnTag = senderBtn.tag;
+    
     //display the action sheet for choosing 'existing photo' or 'use camera'
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@""
                                                              delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
@@ -142,6 +152,8 @@
 }
 
 - (void) useImage:(UIImage *) image {
+    
+    currentImageToUpload = image;
     [self showLoadingIndicator];
     [[CarAdsManager sharedInstance] uploadImage:image WithDelegate:self];
 }
@@ -443,13 +455,34 @@
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
     
     [self hideLoadingIndicator];
+    if (chosenImgBtnTag > -1)
+    {
+        UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+        [tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
+    }
+    
+    
+    //reset 'current' data
+    chosenImgBtnTag = -1;
+    currentImageToUpload = nil;
+
 }
 
 - (void) imageDidFinishUploadingWithURL:(NSURL *)url CreativeID:(NSInteger)ID {
+    
     [self hideLoadingIndicator];
     
     //1- show the image on the button
-    
+    if ((chosenImgBtnTag > -1) && (currentImageToUpload))
+    {
+        UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+        [tappedBtn setImage:currentImageToUpload forState:UIControlStateNormal];
+    }
     //2- add image data to this ad
+    
+    //reset 'current' data
+    chosenImgBtnTag = -1;
+    currentImageToUpload = nil;
+
 }
 @end
