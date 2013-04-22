@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "ODRefreshControl.h"
 #import "DropDownView.h"
+#import "DistanceRange.h"
 
 
 @interface BrowseCarAdsViewController (){
@@ -34,7 +35,7 @@
     DropDownView *dropDownfromYear;
     DropDownView *dropDowntoYear;
     
-    NSArray *distanseArray;
+    NSMutableArray *distanseArray;
     NSArray *fromYearArray;
     NSArray *toYearArray;
 }
@@ -66,6 +67,7 @@
 {
     
     [self.searchPanelView setHidden:YES];
+    [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
     [self.tableView setSeparatorColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
     tap = [[UITapGestureRecognizer alloc]
@@ -1059,6 +1061,7 @@
 }
 
 - (IBAction)searchInPanelBtnPrss:(id)sender {
+    
     filtersShown=true;
     [self hideSearchPanel];
     [self.filtersView setHidden:NO];
@@ -1072,16 +1075,20 @@
     [self.carNameText setText:@""];
     [self.lowerPriceText setText:@""];
     [self.higherPriceText setText:@""];
+    [self.distanceRangeLabel setText:@"المسافة المقطوعة"];
+    [self.fromYearLabel setText:@"من سنة "];
+    [self.toYearLabel setText:@"إلى سنة"];
+    [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
 }
 
 - (IBAction)adWithImageBtnPrss:(id)sender {
     if(searchWithImage==false){
-        [self.checkAdImage setAlpha:1.0];
+        [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg3.png"] forState:UIControlStateNormal];
         searchWithImage=true;
         
     }
     else{
-        [self.checkAdImage setAlpha:0.2];
+        [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
         searchWithImage=false;
         
     }
@@ -1527,9 +1534,14 @@
 #pragma - mark drop down handler
 
 - (void) prepareDropDownLists{
-    distanseArray = [[NSArray alloc] initWithArray:[NSArray arrayWithObjects:@"10000",@"330000",@"845367",@"1245456",@"34568",@"",nil]];
-    fromYearArray = [[NSArray alloc] initWithArray:[NSArray arrayWithObjects:@"1999",@"2000",@"2010",@"1980",@"1995",@"",nil]];
-    toYearArray = [[NSArray alloc] initWithArray:[NSArray arrayWithObjects:@"2000",@"2005",@"2008",@"2010",@"2013",@"",nil]];
+    distanseArray=[[NSMutableArray alloc]init];
+    NSArray *temp =  [[BrandsManager sharedInstance] getDistanceRangesArray];
+    for (int i=0; i<temp.count; i++) {
+        [distanseArray addObject:[[temp objectAtIndex:i] rangeName]];
+        
+    }
+    fromYearArray = [[BrandsManager sharedInstance] getYearsArray];
+    toYearArray = [[BrandsManager sharedInstance] getYearsArray];
     
     dropDownDistance=[[DropDownView alloc] initWithArrayData:distanseArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.distanceButton animation:BLENDIN openAnimationDuration:0.5 closeAnimationDuration:0.5 _tag:1];
 	dropDownDistance.delegate = self;
@@ -1555,15 +1567,15 @@
     switch (_tag) {
         case 1:
         {
-            //[self.distanceButton setTitle:[distanseArray objectAtIndex:returnIndex ] forState:UIControlStateNormal];
+            [self.distanceRangeLabel setText:[distanseArray objectAtIndex:returnIndex ] ];
             break;
         }
         case 2:{
-         //   [self.fromYearButton setTitle:[fromYearArray objectAtIndex:returnIndex ] forState:UIControlStateNormal];
+            [self.fromYearLabel setText:[fromYearArray objectAtIndex:returnIndex ] ];
             break;
         }
         case 3:{
-          //  [self.toYearButton setTitle:[toYearArray objectAtIndex:returnIndex ] forState:UIControlStateNormal];
+            [self.toYearLabel setText:[toYearArray objectAtIndex:returnIndex ] ];
             break;
         }
         default:

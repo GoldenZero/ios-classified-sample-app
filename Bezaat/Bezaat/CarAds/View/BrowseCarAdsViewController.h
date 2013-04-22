@@ -36,7 +36,6 @@
 @property (strong, nonatomic) IBOutlet UIView *notificationView;
 @property (strong, nonatomic) IBOutlet UIImageView *searchImageButton;
 
-@property (strong, nonatomic) IBOutlet UIImageView *checkAdImage;
 @property (strong, nonatomic) IBOutlet UIButton *kiloFilterBtn;
 @property (strong, nonatomic) IBOutlet UIButton *priceFilterBtn;
 @property (strong, nonatomic) IBOutlet UIButton *dateFilterBtn;
@@ -45,6 +44,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *distanceButton;
 @property (strong, nonatomic) IBOutlet UIButton *fromYearButton;
 @property (strong, nonatomic) IBOutlet UIButton *toYearButton;
+@property (strong, nonatomic) IBOutlet UILabel *distanceRangeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *fromYearLabel;
+@property (strong, nonatomic) IBOutlet UILabel *toYearLabel;
+
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;
