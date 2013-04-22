@@ -391,6 +391,15 @@
 		9E06E49D1714205A006404F7 /* DistanceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E49C1714205A006404F7 /* DistanceRange.m */; };
 		9E06E4CF1715A091006404F7 /* DeviceRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E4CE1715A091006404F7 /* DeviceRegistration.m */; };
 		9E10D6A717256454009D1C06 /* UIImagePickerController+NonRotating.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E10D6A617256454009D1C06 /* UIImagePickerController+NonRotating.m */; };
+		9E10D6B717256545009D1C06 /* add_period.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6AF17256545009D1C06 /* add_period.json */; };
+		9E10D6B817256545009D1C06 /* brand_models_key.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B017256545009D1C06 /* brand_models_key.json */; };
+		9E10D6B917256545009D1C06 /* category_attributes.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B117256545009D1C06 /* category_attributes.json */; };
+		9E10D6BA17256545009D1C06 /* currency.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B217256545009D1C06 /* currency.json */; };
+		9E10D6BB17256545009D1C06 /* km_mile.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B317256545009D1C06 /* km_mile.json */; };
+		9E10D6BC17256545009D1C06 /* model_year.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B417256545009D1C06 /* model_year.json */; };
+		9E10D6BD17256545009D1C06 /* post_models.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B517256545009D1C06 /* post_models.json */; };
+		9E10D6BE17256545009D1C06 /* service.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B617256545009D1C06 /* service.json */; };
+		9E10D6C117256581009D1C06 /* StaticAttrsLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E10D6C017256581009D1C06 /* StaticAttrsLoader.m */; };
 		9E10F485172184EE006F54BE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E10F484172184EE006F54BE /* StoreKit.framework */; };
 		9E198E5F17096BFA002CECCE /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E198E2517096BF9002CECCE /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9E198E6017096BFA002CECCE /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E198E2717096BF9002CECCE /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1152,6 +1161,16 @@
 		9E06E4CE1715A091006404F7 /* DeviceRegistration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceRegistration.m; sourceTree = "<group>"; };
 		9E10D6A517256454009D1C06 /* UIImagePickerController+NonRotating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+NonRotating.h"; sourceTree = "<group>"; };
 		9E10D6A617256454009D1C06 /* UIImagePickerController+NonRotating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+NonRotating.m"; sourceTree = "<group>"; };
+		9E10D6AF17256545009D1C06 /* add_period.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = add_period.json; sourceTree = "<group>"; };
+		9E10D6B017256545009D1C06 /* brand_models_key.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = brand_models_key.json; sourceTree = "<group>"; };
+		9E10D6B117256545009D1C06 /* category_attributes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = category_attributes.json; sourceTree = "<group>"; };
+		9E10D6B217256545009D1C06 /* currency.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = currency.json; sourceTree = "<group>"; };
+		9E10D6B317256545009D1C06 /* km_mile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = km_mile.json; sourceTree = "<group>"; };
+		9E10D6B417256545009D1C06 /* model_year.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = model_year.json; sourceTree = "<group>"; };
+		9E10D6B517256545009D1C06 /* post_models.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_models.json; sourceTree = "<group>"; };
+		9E10D6B617256545009D1C06 /* service.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = service.json; sourceTree = "<group>"; };
+		9E10D6BF17256581009D1C06 /* StaticAttrsLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticAttrsLoader.h; sourceTree = "<group>"; };
+		9E10D6C017256581009D1C06 /* StaticAttrsLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaticAttrsLoader.m; sourceTree = "<group>"; };
 		9E10F484172184EE006F54BE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9E198E2317096BF9002CECCE /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9E198E2417096BF9002CECCE /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -1679,6 +1698,7 @@
 		24B9CB32171FD97C00824475 /* AddNewCar */ = {
 			isa = PBXGroup;
 			children = (
+				9E10D6AE17256545009D1C06 /* attributes json files */,
 				24B9CB33171FD97C00824475 /* AddCar_Bottom_bg.png */,
 				24B9CB34171FD97C00824475 /* AddCar_Bottom_bg@2x.png */,
 				24B9CB35171FD97C00824475 /* AddCar_Car_logo.png */,
@@ -2037,6 +2057,21 @@
 				24E7A2BA170AC15B0080ACB1 /* Details_point_silect@2x.png */,
 			);
 			path = Details;
+			sourceTree = "<group>";
+		};
+		9E10D6AE17256545009D1C06 /* attributes json files */ = {
+			isa = PBXGroup;
+			children = (
+				9E10D6AF17256545009D1C06 /* add_period.json */,
+				9E10D6B017256545009D1C06 /* brand_models_key.json */,
+				9E10D6B117256545009D1C06 /* category_attributes.json */,
+				9E10D6B217256545009D1C06 /* currency.json */,
+				9E10D6B317256545009D1C06 /* km_mile.json */,
+				9E10D6B417256545009D1C06 /* model_year.json */,
+				9E10D6B517256545009D1C06 /* post_models.json */,
+				9E10D6B617256545009D1C06 /* service.json */,
+			);
+			path = "attributes json files";
 			sourceTree = "<group>";
 		};
 		9E198E2117096BF9002CECCE /* Twitter Library */ = {
@@ -2541,6 +2576,8 @@
 				9E78A84B16E363FC000CA790 /* CarAd.m */,
 				9E53BB801715BCF30097DA8E /* CarDetails.h */,
 				9E53BB811715BCF30097DA8E /* CarDetails.m */,
+				9E10D6BF17256581009D1C06 /* StaticAttrsLoader.h */,
+				9E10D6C017256581009D1C06 /* StaticAttrsLoader.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3565,6 +3602,14 @@
 				24EDD5C4172556EC0093AACA /* Brands2_dark_bg@2x.png in Resources */,
 				24EDD5C7172556FD0093AACA /* brands2_whiteRectangle.png in Resources */,
 				24EDD5C8172556FD0093AACA /* brands2_whiteRectangle@2x.png in Resources */,
+				9E10D6B717256545009D1C06 /* add_period.json in Resources */,
+				9E10D6B817256545009D1C06 /* brand_models_key.json in Resources */,
+				9E10D6B917256545009D1C06 /* category_attributes.json in Resources */,
+				9E10D6BA17256545009D1C06 /* currency.json in Resources */,
+				9E10D6BB17256545009D1C06 /* km_mile.json in Resources */,
+				9E10D6BC17256545009D1C06 /* model_year.json in Resources */,
+				9E10D6BD17256545009D1C06 /* post_models.json in Resources */,
+				9E10D6BE17256545009D1C06 /* service.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3662,6 +3707,7 @@
 				9EAC7659172157EA001B1122 /* ODRefreshControl.m in Sources */,
 				249562E81723FFD6002C3F40 /* DropDownView.m in Sources */,
 				9E10D6A717256454009D1C06 /* UIImagePickerController+NonRotating.m in Sources */,
+				9E10D6C117256581009D1C06 /* StaticAttrsLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
