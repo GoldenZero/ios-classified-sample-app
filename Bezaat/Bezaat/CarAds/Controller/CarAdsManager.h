@@ -23,10 +23,18 @@
 - (void) adsDidFinishLoadingWithData:(NSArray*) resultArray;
 @end
 
+@protocol UploadImageDelegate <NSObject>
+@required
+//load, search & filter
+- (void) imageDidFailUploadingWithError:(NSError *) error;
+- (void) imageDidFinishUploadingWithURL:(NSURL*) url CreativeID:(NSInteger) ID;
+@end
+
 @interface CarAdsManager : NSObject <DataDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) id <CarAdsManagerDelegate> delegate;
+@property (strong, nonatomic) id <UploadImageDelegate> imageDelegate;
 @property (nonatomic) NSUInteger pageNumber;
 @property (nonatomic) NSUInteger pageSize;
 
@@ -80,4 +88,6 @@
                     orderby:(NSString *) aOrderby
               lastRefreshed:(NSString *)aLastRefreshed
                WithDelegate:(id <CarAdsManagerDelegate>) del;
+
+- (void) uploadImage:(UIImage *) image WithDelegate:(id <UploadImageDelegate>) del;
 @end

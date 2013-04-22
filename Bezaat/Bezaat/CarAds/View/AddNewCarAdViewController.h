@@ -8,8 +8,9 @@
 // This UI is dislayed to the user to add a new car ad to his profile.
 
 #import <UIKit/UIKit.h>
+#import "CarAdsManager.h"
 
-@interface AddNewCarAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface AddNewCarAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;

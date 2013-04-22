@@ -15,6 +15,9 @@
 #define LISTING_STATUS_MSG_JKEY     @"StatusMessage"
 #define LISTING_DATA_JKEY           @"Data"
 
+#define UPLOAD_IMAGE_URL_JKEY           @"URL"
+#define UPLOAD_IMAGE_CREATIVE_ID_JKEY   @"CreativeID"
+
 #define LISTING_ADD_ID_JKEY         @"AdID"
 #define LISTING_OWNER_ID_JKEY       @"OwnerID"
 #define LISTING_STORE_ID_JKEY       @"StoreID"
@@ -47,17 +50,19 @@
 @interface CarAdsManager ()
 {
     InternetManager * internetMngr;
+    InternetManager * imageMngr;
 }
 @end
 
 @implementation CarAdsManager
-
 @synthesize delegate;
+@synthesize imageDelegate;
 @synthesize pageNumber;
 @synthesize pageSize;
 
 
 static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&brandId=%i&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@";
+static NSString * upload_image_url = @"http://gfctest.edanat.com/v1.0/json/upload-image?theFile=";
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
@@ -65,6 +70,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     self = [super init];
     if (self) {
         self.delegate = nil;
+        self.imageDelegate = nil;
         self.pageNumber = 0;
         self.pageSize = DEFAULT_PAGE_SIZE;
     }
@@ -454,12 +460,97 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
+- (void) uploadImage:(UIImage *) image WithDelegate:(id <UploadImageDelegate>) del {
+    
+    //1- set the delegate
+    self.imageDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.imageDelegate)
+            [self.imageDelegate imageDidFailUploadingWithError:error];
+        return ;
+    }
+    // the boundary string : a random string, that will not repeat in post data, to separate post data fields.
+    NSString *boundary = @"----------V2ymHFg03ehbqgZCaKO6jy";
+    
+    // string constant for the post parameter 'file'. My server uses this name: `file`. Your's may differ
+    NSString* FileParamConstant = @"file";
+    
+    // the server url to which the image (or the media) is uploaded. Use your server url here
+    NSURL* requestURL = [NSURL URLWithString:upload_image_url];
+    
+    //upload image
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setTimeoutInterval:30];
+    [request setHTTPMethod:@"POST"];
+    
+    // set Content-Type in HTTP header
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    // post body
+    NSMutableData *body = [NSMutableData data];
+    
+    // add image data
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    if (imageData) {
+        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", FileParamConstant] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:imageData];
+        [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // setting the body of the post to the reqeust
+    [request setHTTPBody:body];
+    
+    // set the content-length
+    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    if (requestURL)
+    {
+        // set URL
+        [request setURL:requestURL];
+        
+        imageMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.imageDelegate)
+            [self.imageDelegate imageDidFailUploadingWithError:error];
+        return ;
+    }
+    
+
+}
+
 #pragma mark - Data delegate methods
 
 - (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
 
-    if (self.delegate)
-        [delegate adsDidFailLoadingWithError:error];
+    if (manager == internetMngr)
+    {
+        if (self.delegate)
+            [delegate adsDidFailLoadingWithError:error];
+    }
+    else if (manager == imageMngr)
+    {
+        if (self.imageDelegate)
+            [imageDelegate imageDidFailUploadingWithError:error];
+    }
 }
 
 - (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*) result {
@@ -469,15 +560,62 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
         [error setDescMessage:@"فشل تحميل البيانات"];
         
-        if (self.delegate)
-            [self.delegate adsDidFailLoadingWithError:error];
+        if (manager == internetMngr)
+        {
+            if (self.delegate)
+                [delegate adsDidFailLoadingWithError:error];
+        }
+        else if (manager == imageMngr)
+        {
+            if (self.imageDelegate)
+                [imageDelegate imageDidFailUploadingWithError:error];
+        }
     }
     else
     {
-        if (self.delegate)
+        if (manager == internetMngr)
         {
-            NSArray * adsArray = [self createCarAdsArrayWithData:(NSArray *)result];
-            [delegate adsDidFinishLoadingWithData:adsArray];
+            if (self.delegate)
+            {
+                NSArray * adsArray = [self createCarAdsArrayWithData:(NSArray *)result];
+                [delegate adsDidFinishLoadingWithData:adsArray];
+            }
+
+        }
+        else if (manager == imageMngr)
+        {
+            if (self.imageDelegate)
+            {
+                NSArray * data = (NSArray *)result;
+                if ((data) && (data.count > 0))
+                {
+                    NSDictionary * totalDict = [data objectAtIndex:0];
+                    NSString * statusCodeString = [totalDict objectForKey:LISTING_STATUS_CODE_JKEY];
+                    NSInteger statusCode = statusCodeString.integerValue;
+                    
+                    NSString * statusMessageProcessed = [[[totalDict objectForKey:LISTING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                    
+                    if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                    {
+                        NSDictionary * attrsDict = [totalDict objectForKey:LISTING_DATA_JKEY];
+                        NSString * urlString = [attrsDict objectForKey:UPLOAD_IMAGE_URL_JKEY];
+                        NSString * idString = [attrsDict objectForKey:UPLOAD_IMAGE_CREATIVE_ID_JKEY];
+                        
+                        NSInteger imageID = [idString integerValue];
+                        NSURL * imageURL = [NSURL URLWithString:urlString];
+                        
+                        [imageDelegate imageDidFinishUploadingWithURL:imageURL CreativeID:imageID];
+                    }
+                    else
+                    {
+                        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                        [error setDescMessage:statusMessageProcessed];
+                        if (self.imageDelegate)
+                            [imageDelegate imageDidFailUploadingWithError:error];
+                    }
+
+                }
+            }
         }
     }
 }

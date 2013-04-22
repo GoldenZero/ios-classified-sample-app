@@ -34,6 +34,8 @@
     NSArray *kiloMileArray;
     NSArray *receiveMailsArray;
     NSArray *productionYearArray;
+    
+    MBProgressHUD2 *loadingHUD;
 }
 
 @end
@@ -108,8 +110,40 @@
     }
 }
 
-- (void) uploadImage{
-    
+- (void) uploadImage {
+    //display the action sheet for choosing 'existing photo' or 'use camera'
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@""
+                                                             delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"التقط صورة", @"اختر صورة", nil];
+
+    [actionSheet showInView:self.view];
+}
+
+-(void) TakePhotoWithCamera {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        picker.allowsEditing = YES;
+        picker.delegate = self;
+        [self presentViewController:picker animated:YES completion:nil];
+    }
+}
+
+-(void) SelectPhotoFromLibrary {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
+    {
+        UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        picker.allowsEditing = YES;
+        picker.delegate = self;
+        [self presentViewController:picker animated:YES completion:nil];
+    }
+}
+
+- (void) useImage:(UIImage *) image {
+    [self showLoadingIndicator];
+    [[CarAdsManager sharedInstance] uploadImage:image WithDelegate:self];
 }
 
 -(void)dismissKeyboard {
@@ -220,6 +254,24 @@
     [carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
     [self.verticalScrollView addSubview:carDetails];
+    
+}
+
+- (void) showLoadingIndicator {
+    
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    loadingHUD.labelText = @"جاري تحميل البيانات";
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = YES;
+    
+}
+
+- (void) hideLoadingIndicator {
+    
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
+    loadingHUD = nil;
     
 }
 
@@ -356,5 +408,48 @@
 
 }
 
+#pragma mark - UIActionSheet Delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        [self TakePhotoWithCamera];
+    }
+    else if (buttonIndex == 1)
+    {
+        [self SelectPhotoFromLibrary];
+    }
+}
 
+#pragma mark - UIImagePickerController Delegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    //UIImage * img = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+    UIImage * img = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    
+    [self useImage:img];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - iploadImage Delegate
+
+- (void) imageDidFailUploadingWithError:(NSError *)error {
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    [self hideLoadingIndicator];
+}
+
+- (void) imageDidFinishUploadingWithURL:(NSURL *)url CreativeID:(NSInteger)ID {
+    [self hideLoadingIndicator];
+    
+    //1- show the image on the button
+    
+    //2- add image data to this ad
+}
 @end
