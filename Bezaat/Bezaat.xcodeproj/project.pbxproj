@@ -390,6 +390,7 @@
 		9E06E49717141C25006404F7 /* DistanceRanges.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E06E49617141C25006404F7 /* DistanceRanges.json */; };
 		9E06E49D1714205A006404F7 /* DistanceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E49C1714205A006404F7 /* DistanceRange.m */; };
 		9E06E4CF1715A091006404F7 /* DeviceRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E4CE1715A091006404F7 /* DeviceRegistration.m */; };
+		9E10D6A717256454009D1C06 /* UIImagePickerController+NonRotating.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E10D6A617256454009D1C06 /* UIImagePickerController+NonRotating.m */; };
 		9E10F485172184EE006F54BE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E10F484172184EE006F54BE /* StoreKit.framework */; };
 		9E198E5F17096BFA002CECCE /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E198E2517096BF9002CECCE /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9E198E6017096BFA002CECCE /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E198E2717096BF9002CECCE /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1149,6 +1150,8 @@
 		9E06E49C1714205A006404F7 /* DistanceRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistanceRange.m; sourceTree = "<group>"; };
 		9E06E4CD1715A091006404F7 /* DeviceRegistration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceRegistration.h; sourceTree = "<group>"; };
 		9E06E4CE1715A091006404F7 /* DeviceRegistration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceRegistration.m; sourceTree = "<group>"; };
+		9E10D6A517256454009D1C06 /* UIImagePickerController+NonRotating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+NonRotating.h"; sourceTree = "<group>"; };
+		9E10D6A617256454009D1C06 /* UIImagePickerController+NonRotating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+NonRotating.m"; sourceTree = "<group>"; };
 		9E10F484172184EE006F54BE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9E198E2317096BF9002CECCE /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		9E198E2417096BF9002CECCE /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -2694,6 +2697,8 @@
 				9E1CA26716F623CA001A7DA1 /* GenericFonts.m */,
 				9E461E37170D960300FF87B3 /* CustomError.h */,
 				9E461E38170D960300FF87B3 /* CustomError.m */,
+				9E10D6A517256454009D1C06 /* UIImagePickerController+NonRotating.h */,
+				9E10D6A617256454009D1C06 /* UIImagePickerController+NonRotating.m */,
 			);
 			path = "Supporting classes";
 			sourceTree = "<group>";
@@ -3656,6 +3661,7 @@
 				61201C57171EF85400B809C2 /* StoreDetailsViewController.m in Sources */,
 				9EAC7659172157EA001B1122 /* ODRefreshControl.m in Sources */,
 				249562E81723FFD6002C3F40 /* DropDownView.m in Sources */,
+				9E10D6A717256454009D1C06 /* UIImagePickerController+NonRotating.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
