@@ -220,9 +220,9 @@
     [carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
     [self.verticalScrollView addSubview:carDetails];
-
     
 }
+
 
 #pragma mark - picker methods
 

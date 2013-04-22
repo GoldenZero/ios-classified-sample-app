@@ -230,19 +230,25 @@
     
     if (currentDetailsObject)
     {
-        MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
-        mailer.mailComposeDelegate = self;
-        
-        [mailer setSubject:currentDetailsObject.title];
-        
-        NSString * mailBody = currentDetailsObject.description;
-        
-        //set the recipients to the car ad owner
-        //mailer setToRecipients:
-        
-        [mailer setMessageBody:mailBody isHTML:NO];
-        mailer.modalPresentationStyle = UIModalPresentationPageSheet;
-        [self presentViewController:mailer animated:YES completion:nil];
+        if ([MFMailComposeViewController canSendMail])
+        {
+            MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+            mailer.mailComposeDelegate = self;
+            
+            [mailer setSubject:currentDetailsObject.title];
+            
+            NSString * mailBody = currentDetailsObject.description;
+            
+            //set the recipients to the car ad owner
+            //mailer setToRecipients:
+            
+            [mailer setMessageBody:mailBody isHTML:NO];
+            mailer.modalPresentationStyle = UIModalPresentationPageSheet;
+            [self presentViewController:mailer animated:YES completion:nil];
+        }
+        else {
+            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر إرسال الرسائل الإلكترونية من هذا الجهاز" delegateVC:self];
+        }
     }
 }
 
@@ -359,16 +365,22 @@
 - (void)mailAction:(id)sender {
     if (currentDetailsObject)
     {
-        MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
-        mailer.mailComposeDelegate = self;
-        
-        [mailer setSubject:currentDetailsObject.title];
-        
-        NSString * mailBody = currentDetailsObject.description;
-        
-        [mailer setMessageBody:mailBody isHTML:NO];
-        mailer.modalPresentationStyle = UIModalPresentationPageSheet;
-        [self presentViewController:mailer animated:YES completion:nil];
+        if ([MFMailComposeViewController canSendMail])
+        {
+            MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+            mailer.mailComposeDelegate = self;
+            
+            [mailer setSubject:currentDetailsObject.title];
+            
+            NSString * mailBody = currentDetailsObject.description;
+            
+            [mailer setMessageBody:mailBody isHTML:NO];
+            mailer.modalPresentationStyle = UIModalPresentationPageSheet;
+            [self presentViewController:mailer animated:YES completion:nil];
+        }
+        else {
+            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر إرسال الرسائل الإلكترونية من هذا الجهاز" delegateVC:self];
+        }
     }
 }
 
