@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BrowseStoresViewController : UIViewController
+@interface BrowseStoresViewController : UIViewController<UITableViewDataSource>
 
 @end
