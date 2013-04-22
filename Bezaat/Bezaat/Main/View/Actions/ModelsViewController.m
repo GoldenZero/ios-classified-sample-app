@@ -76,10 +76,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _tblBrands) {
-        return 130;
+        return 58;
     }
     else {
-        return 44;
+        return 41;
     }
 }
 
@@ -211,6 +211,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.tblBrands setBackgroundColor:[UIColor clearColor]];
+    //[self.tblModels setBackgroundColor:[UIColor clearColor]];
     oneSelectionMade = NO;
 }
 
