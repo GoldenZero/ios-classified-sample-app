@@ -92,7 +92,6 @@
 - (IBAction)saveBtnPress:(id)sender {
     BOOL notAllDataFilled = [@"" isEqualToString:nameField.text] ||
                             [@"" isEqualToString:descriptionField.text] ||
-//                            [@"" isEqualToString:phoneField.text] ||
                             [@"" isEqualToString:emailField.text] ||
                             [@"" isEqualToString:phoneField.text];
     if (notAllDataFilled) {
@@ -126,6 +125,22 @@
     
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] createStore:store];
+}
+
+#pragma mark -
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == nameField) {
+        [descriptionField becomeFirstResponder];
+    }
+    else if (textField == emailField) {
+        [phoneField becomeFirstResponder];
+    }
+    else {
+        [textField resignFirstResponder];
+        [self saveBtnPress:nil];
+    }
+    return NO;
 }
 
 #pragma mark - UIAlertViewDelegate Methods
