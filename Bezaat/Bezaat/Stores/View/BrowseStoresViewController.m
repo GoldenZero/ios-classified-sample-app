@@ -51,7 +51,13 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark -
+#pragma mark - Actions
+
+- (IBAction)backBtnPress:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [allUserStores count];

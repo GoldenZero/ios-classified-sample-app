@@ -10,4 +10,6 @@
 
 @interface BrowseStoresViewController : UIViewController<UITableViewDataSource>
 
+- (IBAction)backBtnPress:(id)sender;
+
 @end
