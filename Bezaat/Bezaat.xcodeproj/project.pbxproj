@@ -385,6 +385,8 @@
 		61201C53171EF83F00B809C2 /* BrowseStoresViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61201C51171EF83F00B809C2 /* BrowseStoresViewController.xib */; };
 		61201C57171EF85400B809C2 /* StoreDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61201C55171EF85400B809C2 /* StoreDetailsViewController.m */; };
 		61201C58171EF85400B809C2 /* StoreDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61201C56171EF85400B809C2 /* StoreDetailsViewController.xib */; };
+		613522A11725C90400011D7D /* StoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 613522A01725C90400011D7D /* StoreTableViewCell.xib */; };
+		613522A41725CB1800011D7D /* StoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 613522A31725CB1800011D7D /* StoreTableViewCell.m */; };
 		9E06E49717141C25006404F7 /* DistanceRanges.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E06E49617141C25006404F7 /* DistanceRanges.json */; };
 		9E06E49D1714205A006404F7 /* DistanceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E49C1714205A006404F7 /* DistanceRange.m */; };
 		9E06E4CF1715A091006404F7 /* DeviceRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E4CE1715A091006404F7 /* DeviceRegistration.m */; };
@@ -1150,6 +1152,9 @@
 		61201C54171EF85400B809C2 /* StoreDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreDetailsViewController.h; sourceTree = "<group>"; };
 		61201C55171EF85400B809C2 /* StoreDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreDetailsViewController.m; sourceTree = "<group>"; };
 		61201C56171EF85400B809C2 /* StoreDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreDetailsViewController.xib; sourceTree = "<group>"; };
+		613522A01725C90400011D7D /* StoreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreTableViewCell.xib; sourceTree = "<group>"; };
+		613522A21725CB1800011D7D /* StoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreTableViewCell.h; sourceTree = "<group>"; };
+		613522A31725CB1800011D7D /* StoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreTableViewCell.m; sourceTree = "<group>"; };
 		9E06E49617141C25006404F7 /* DistanceRanges.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DistanceRanges.json; sourceTree = "<group>"; };
 		9E06E49B17142059006404F7 /* DistanceRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceRange.h; sourceTree = "<group>"; };
 		9E06E49C1714205A006404F7 /* DistanceRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistanceRange.m; sourceTree = "<group>"; };
@@ -2823,6 +2828,9 @@
 				61201C54171EF85400B809C2 /* StoreDetailsViewController.h */,
 				61201C55171EF85400B809C2 /* StoreDetailsViewController.m */,
 				61201C56171EF85400B809C2 /* StoreDetailsViewController.xib */,
+				613522A21725CB1800011D7D /* StoreTableViewCell.h */,
+				613522A31725CB1800011D7D /* StoreTableViewCell.m */,
+				613522A01725C90400011D7D /* StoreTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3602,6 +3610,7 @@
 				24EDD602172579CD0093AACA /* LogIn_skipButton@2x.png in Resources */,
 				24EDD605172579E30093AACA /* LogIn_skipLine.png in Resources */,
 				24EDD606172579E30093AACA /* LogIn_skipLine@2x.png in Resources */,
+				613522A11725C90400011D7D /* StoreTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3700,6 +3709,7 @@
 				249562E81723FFD6002C3F40 /* DropDownView.m in Sources */,
 				9E10D6A717256454009D1C06 /* UIImagePickerController+NonRotating.m in Sources */,
 				9E10D6C117256581009D1C06 /* StaticAttrsLoader.m in Sources */,
+				613522A41725CB1800011D7D /* StoreTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
