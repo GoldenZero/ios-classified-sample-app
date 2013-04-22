@@ -211,6 +211,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tblModels.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        
+    {
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        if(result.height == 480)
+            
+        {
+            self.tblModels.frame=CGRectMake(self.tblModels.frame.origin.x, self.tblModels.frame.origin.y, self.tblModels.frame.size.width ,self.tblModels.frame.size.height);
+            self.blackBgImgV.frame=CGRectMake(self.blackBgImgV.frame.origin.x, self.blackBgImgV.frame.origin.y, self.blackBgImgV.frame.size.width ,self.blackBgImgV.frame.size.height);
+            self.blueBgImgV.frame=CGRectMake(self.blueBgImgV.frame.origin.x, self.blueBgImgV.frame.origin.y, self.blueBgImgV.frame.size.width ,self.blueBgImgV.frame.size.height);
+        }
+        
+        else
+            
+        {
+             self.tblModels.frame=CGRectMake(self.tblModels.frame.origin.x, self.tblModels.frame.origin.y, self.tblModels.frame.size.width ,self.tblModels.frame.size.height+90);
+            self.blackBgImgV.frame=CGRectMake(self.blackBgImgV.frame.origin.x, self.blackBgImgV.frame.origin.y, self.blackBgImgV.frame.size.width ,self.blackBgImgV.frame.size.height+90);
+            self.blueBgImgV.frame=CGRectMake(self.blueBgImgV.frame.origin.x, self.blueBgImgV.frame.origin.y, self.blueBgImgV.frame.size.width ,self.blueBgImgV.frame.size.height+90);
+        }
+    }
+
     [self.tblBrands setBackgroundColor:[UIColor clearColor]];
     //[self.tblModels setBackgroundColor:[UIColor clearColor]];
     oneSelectionMade = NO;

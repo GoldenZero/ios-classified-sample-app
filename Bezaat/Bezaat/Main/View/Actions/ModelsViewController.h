@@ -16,5 +16,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tblModels;
 @property (weak, nonatomic) IBOutlet UITableView *tblBrands;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
+@property (strong, nonatomic) IBOutlet UIImageView *blueBgImgV;
+@property (strong, nonatomic) IBOutlet UIImageView *blackBgImgV;
 
 @end
