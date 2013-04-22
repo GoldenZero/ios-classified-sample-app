@@ -33,4 +33,7 @@
 //load distance ranges
 - (NSArray *) getDistanceRangesArray;
 
+//load years
+- (NSArray *) getYearsArray;
+
 @end

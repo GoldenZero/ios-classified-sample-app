@@ -221,6 +221,26 @@
     return distanceRanges;
 }
 
+- (NSArray *) getYearsArray {
+
+    NSMutableArray * resultArray = [NSMutableArray new];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy"];
+    NSString *yearString = [formatter stringFromDate:[NSDate date]];
+    NSInteger currentYear = [yearString integerValue];
+    NSInteger year = currentYear;
+    
+    while (year > 2002) {
+        [resultArray addObject:[NSString stringWithFormat:@"%i", year]];
+        year = year - 1;
+    }
+    
+    [resultArray addObject:[NSString stringWithFormat:@"قبل %i", 2003]];
+
+    return resultArray;
+}
+
 #pragma mark - helper methods
 
 // This method gets the file path ofthe specified file.
