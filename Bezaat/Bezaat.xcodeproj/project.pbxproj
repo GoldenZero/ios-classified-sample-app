@@ -347,6 +347,8 @@
 		24E7A449172672BD00597999 /* publish_why@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24E7A443172672BD00597999 /* publish_why@2x.png */; };
 		24E7A44C172672EE00597999 /* share_grayButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 24E7A44A172672EE00597999 /* share_grayButton.png */; };
 		24E7A44D172672EE00597999 /* share_grayButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24E7A44B172672EE00597999 /* share_grayButton@2x.png */; };
+		24E7A451172675C200597999 /* whyLabelAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 24E7A44F172675C200597999 /* whyLabelAdViewController.m */; };
+		24E7A452172675C200597999 /* whyLabelAdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24E7A450172675C200597999 /* whyLabelAdViewController.xib */; };
 		24EDD5C3172556EC0093AACA /* Brands2_dark_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 24EDD5C1172556EB0093AACA /* Brands2_dark_bg.png */; };
 		24EDD5C4172556EC0093AACA /* Brands2_dark_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24EDD5C2172556EB0093AACA /* Brands2_dark_bg@2x.png */; };
 		24EDD5C7172556FD0093AACA /* brands2_whiteRectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 24EDD5C5172556FC0093AACA /* brands2_whiteRectangle.png */; };
@@ -1139,6 +1141,9 @@
 		24E7A443172672BD00597999 /* publish_why@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "publish_why@2x.png"; sourceTree = "<group>"; };
 		24E7A44A172672EE00597999 /* share_grayButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_grayButton.png; sourceTree = "<group>"; };
 		24E7A44B172672EE00597999 /* share_grayButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_grayButton@2x.png"; sourceTree = "<group>"; };
+		24E7A44E172675C200597999 /* whyLabelAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = whyLabelAdViewController.h; sourceTree = "<group>"; };
+		24E7A44F172675C200597999 /* whyLabelAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = whyLabelAdViewController.m; sourceTree = "<group>"; };
+		24E7A450172675C200597999 /* whyLabelAdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = whyLabelAdViewController.xib; sourceTree = "<group>"; };
 		24EDD5C1172556EB0093AACA /* Brands2_dark_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Brands2_dark_bg.png; sourceTree = "<group>"; };
 		24EDD5C2172556EB0093AACA /* Brands2_dark_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Brands2_dark_bg@2x.png"; sourceTree = "<group>"; };
 		24EDD5C5172556FC0093AACA /* brands2_whiteRectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brands2_whiteRectangle.png; sourceTree = "<group>"; };
@@ -2711,6 +2716,9 @@
 				9E53BBF51718266F0097DA8E /* CarAdWithStoreNoImageCell.h */,
 				9E53BBF61718266F0097DA8E /* CarAdWithStoreNoImageCell.m */,
 				9E53BBF71718266F0097DA8E /* CarAdWithStoreNoImageCell.xib */,
+				24E7A44E172675C200597999 /* whyLabelAdViewController.h */,
+				24E7A44F172675C200597999 /* whyLabelAdViewController.m */,
+				24E7A450172675C200597999 /* whyLabelAdViewController.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3738,6 +3746,7 @@
 				24E7A449172672BD00597999 /* publish_why@2x.png in Resources */,
 				24E7A44C172672EE00597999 /* share_grayButton.png in Resources */,
 				24E7A44D172672EE00597999 /* share_grayButton@2x.png in Resources */,
+				24E7A452172675C200597999 /* whyLabelAdViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3836,6 +3845,7 @@
 				9E10D6A717256454009D1C06 /* UIImagePickerController+NonRotating.m in Sources */,
 				9E10D6C117256581009D1C06 /* StaticAttrsLoader.m in Sources */,
 				613522A41725CB1800011D7D /* StoreTableViewCell.m in Sources */,
+				24E7A451172675C200597999 /* whyLabelAdViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

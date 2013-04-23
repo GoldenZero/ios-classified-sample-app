@@ -8,6 +8,7 @@
 
 #import "labelAdViewController.h"
 #import "labelAdCell.h"
+#import "whyLabelAdViewController.h"
 
 @interface labelAdViewController ()
 {
@@ -66,6 +67,8 @@
 }
 
 - (IBAction)explainAdBtnPrss:(id)sender {
+    whyLabelAdViewController *vc=[[whyLabelAdViewController alloc] initWithNibName:@"whyLabelAdViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 
