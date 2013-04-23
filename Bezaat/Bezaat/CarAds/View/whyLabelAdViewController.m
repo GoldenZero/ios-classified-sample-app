@@ -29,14 +29,17 @@
 {
     pageControlUsed=NO;
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    
-    
-    [self.scrollView addSubview:[self prepareImge:@"" :1]];
-    [self.scrollView addSubview:[self prepareImge:@"" :2]];
-    [self.scrollView addSubview:[self prepareImge:@"" :3]];
-    [self.scrollView addSubview:[self prepareImge:@"" :4]];
+   
+    CGSize result = [[UIScreen mainScreen] bounds].size;
+    [self.scrollView setContentSize:CGSizeMake(result.width*4, result.height-self.toolBar.frame.size.height)];
+    [self.scrollView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
+    [self.scrollView addSubview:[self prepareImge:@"featuresAd_steps_p1.png" :0]];
+    [self.scrollView addSubview:[self prepareImge:@"featuresAd_steps_p2.png" :1]];
+    [self.scrollView addSubview:[self prepareImge:@"featuresAd_steps_p3.png" :2]];
+    [self.scrollView addSubview:[self prepareImge:@"featuresAd_steps_p4.png" :3]];
 
     [super viewDidLoad];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,22 +71,9 @@
     frame.origin.x=self.scrollView.frame.size.width*i;
     frame.origin.y=0;
     frame.size=self.scrollView.frame.size;
-    UIView *subView=[[UIView alloc]initWithFrame:frame];
-    [subView setBackgroundColor:[UIColor clearColor]];
-    
-
-    UIImageView * imageView = [[UIImageView alloc] init];
-    CGRect imageFrame;
-    imageFrame.origin.x=0;
-    imageFrame.origin.y=0;
-    imageFrame.size.width=frame.size.width;
-    imageFrame.size.height=frame.size.height;
-    imageView.frame=imageFrame;
-    
-    
-    [subView addSubview:imageView];
-    return subView;
-    
+    UIImageView * imageView = [[UIImageView alloc] initWithFrame:frame];
+    imageView.image=[UIImage  imageNamed:imageNAme];
+    return imageView;
 }
 
 
