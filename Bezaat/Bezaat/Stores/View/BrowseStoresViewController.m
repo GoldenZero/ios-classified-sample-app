@@ -31,7 +31,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
             Store *store = [[Store alloc] init];
             store.name = [NSString stringWithFormat:@"Store_%d",i];
             store.desc = [NSString stringWithFormat:@"Store_%d Description",i];
-            store.logoURL = @"http://content.bezaat.com/bd4ec47c-18a6-4860-898a-db267cc1254e.jpg";
+            store.imageURL = @"http://content.bezaat.com/bd4ec47c-18a6-4860-898a-db267cc1254e.jpg";
             [result addObject:store];
         }
         allUserStores = result;
@@ -43,6 +43,8 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+//
+//    [tableView registerClass:[StoreTableViewCell class] forCellReuseIdentifier:storeTableCellIdentifier];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,15 +67,17 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    StoreTableViewCell *cell = [_tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
-    
-    if (cell == nil) {
-        cell = [[StoreTableViewCell alloc] init];
+    StoreTableViewCell *cell = (StoreTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
+    if (cell == nil)
+    {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreTableViewCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
     }
+    
     Store *store = [allUserStores objectAtIndex:indexPath.row];
-    cell.nameLabel.text = store.name;
-    cell.descriptionLabel.text = store.desc;
-    cell.logoURL = store.logoURL;
+    cell.name = store.name;
+    cell.country = [NSString stringWithFormat:@"c%d",store.countryID];
+    cell.logoURL = store.imageURL;
     
     return cell;
 }

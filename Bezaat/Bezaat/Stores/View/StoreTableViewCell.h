@@ -10,10 +10,14 @@
 
 @interface StoreTableViewCell : UITableViewCell
 
-@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
-@property (nonatomic, weak) IBOutlet UILabel *descriptionLabel;
-@property (nonatomic, weak) IBOutlet UIImageView *LOGOImageView;
+@property (nonatomic, strong) IBOutlet UILabel *nameLabel;
+@property (nonatomic, strong) IBOutlet UILabel *countryLabel;
+@property (nonatomic, strong) IBOutlet UILabel *adsCountLabel;
+@property (nonatomic, strong) IBOutlet UIImageView *LOGOImageView;
 
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *country;
+@property (nonatomic, strong) NSString *adsCount;
 @property (nonatomic, strong) NSString *logoURL;
 @property (nonatomic, strong) UIImage *defaultImage;
 
