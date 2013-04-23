@@ -54,15 +54,14 @@
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender {
     ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    
+    vc.tagOfCallXib=1;
     [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
     ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    
+    vc.tagOfCallXib=1;
     [self presentViewController:vc animated:YES completion:nil];
-
     
 }
 
@@ -128,7 +127,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row==1){
-        AddNewCarAdViewController *vc=[[AddNewCarAdViewController alloc] initWithNibName:@"AddNewCarAdViewController" bundle:nil];
+        ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+        vc.tagOfCallXib=2;
         [self presentViewController:vc animated:YES completion:nil];
     }
     if (indexPath.row==0) {

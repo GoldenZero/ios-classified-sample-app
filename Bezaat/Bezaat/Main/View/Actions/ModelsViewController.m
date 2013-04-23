@@ -13,6 +13,7 @@
 
 #import "Brand.h"
 #import "Model.h"
+#import "AddNewCarAdViewController.h"
 
 #import "BrowseCarAdsViewController.h"
 
@@ -121,9 +122,17 @@
         Model* selectedModel = (Model*)currentModels[indexPath.row];
        
         // TODO pass this information to the next view
-        BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
-        carAdsMenu.currentModel=selectedModel;
-        [self presentViewController:carAdsMenu animated:YES completion:nil];
+        if (self.tagOfCallXib==2) {
+            AddNewCarAdViewController *adNewCar=[[AddNewCarAdViewController alloc] initWithNibName:@"AddNewCarAdViewController" bundle:nil];
+            adNewCar.currentModel=selectedModel;
+            [self presentViewController:adNewCar animated:YES completion:nil];
+        }
+        else{
+            BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
+            carAdsMenu.currentModel=selectedModel;
+            [self presentViewController:carAdsMenu animated:YES completion:nil];
+        }
+       
         
     }
 }

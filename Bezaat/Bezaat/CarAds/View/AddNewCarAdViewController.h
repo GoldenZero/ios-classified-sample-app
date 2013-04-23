@@ -20,6 +20,8 @@
 @property (strong, nonatomic) IBOutlet UIView *addImagesView;
 @property (strong, nonatomic) IBOutlet UIPickerView *pickerView;
 
+@property (strong, nonatomic) Model *currentModel;
+
 #pragma mark - actions
 
 - (IBAction)homeBtnPrss:(id)sender;

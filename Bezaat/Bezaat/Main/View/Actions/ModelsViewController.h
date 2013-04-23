@@ -18,5 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
 @property (strong, nonatomic) IBOutlet UIImageView *blueBgImgV;
 @property (strong, nonatomic) IBOutlet UIImageView *blackBgImgV;
+@property int tagOfCallXib;
 
 @end
