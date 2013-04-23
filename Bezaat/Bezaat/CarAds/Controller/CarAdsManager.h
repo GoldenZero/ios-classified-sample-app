@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "CarAd.h"
 #import "CustomError.h"
+#import "StaticAttrsLoader.h"
 
 #pragma mark - FILTERS LITERALS
 
@@ -25,16 +26,23 @@
 
 @protocol UploadImageDelegate <NSObject>
 @required
-//load, search & filter
+
 - (void) imageDidFailUploadingWithError:(NSError *) error;
 - (void) imageDidFinishUploadingWithURL:(NSURL*) url CreativeID:(NSInteger) ID;
 @end
 
+@protocol PostAdDelegate <NSObject>
+@required
+
+- (void) adDidFailPostingWithError:(NSError *) error;
+- (void) adDidFinishPostingWithAdID:(NSInteger) adID;
+@end
 @interface CarAdsManager : NSObject <DataDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) id <CarAdsManagerDelegate> delegate;
 @property (strong, nonatomic) id <UploadImageDelegate> imageDelegate;
+@property (strong, nonatomic) id <PostAdDelegate> adPostingDelegate;
 @property (nonatomic) NSUInteger pageNumber;
 @property (nonatomic) NSUInteger pageSize;
 
@@ -89,5 +97,27 @@
               lastRefreshed:(NSString *)aLastRefreshed
                WithDelegate:(id <CarAdsManagerDelegate>) del;
 
+//upload image
 - (void) uploadImage:(UIImage *) image WithDelegate:(id <UploadImageDelegate>) del;
+
+//post an ad
+- (void) postAdOfBrand:(NSUInteger) brandID
+                 Model:(NSInteger) modelID
+                InCity:(NSUInteger) cityID
+             userEmail:(NSString *) usermail
+                 title:(NSString *) aTitle
+           description:(NSString *) aDescription
+                 price:(NSString *) aPrice
+         periodValueID:(NSInteger) aPeriodValueID
+                mobile:(NSString *) aMobileNum
+       currencyValueID:(NSInteger) aCurrencyValueID
+        serviceValueID:(NSInteger) aServiceValueID
+      modelYearValueID:(NSInteger) aModelYearValueID
+              distance:(NSString *) aDistance
+                 color:(NSString *) aColor
+            phoneNumer:(NSString *) aPhoneNumer
+       adCommentsEmail:(BOOL) aAdCommentsEmail
+      kmVSmilesValueID:(NSInteger) aKmVSmilesValueID
+              imageIDs:(NSArray *) aImageIDsArray
+          withDelegate:(id <PostAdDelegate>) del;
 @end

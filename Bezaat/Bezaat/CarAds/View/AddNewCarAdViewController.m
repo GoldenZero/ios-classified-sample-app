@@ -38,6 +38,13 @@
     MBProgressHUD2 *loadingHUD;
     int chosenImgBtnTag;
     UIImage * currentImageToUpload;
+    
+    //These objects should be set bt selecting the drop down menus.
+    SingleValue * chosenPeriod;
+    SingleValue * chosenCurrency;
+    SingleValue * chosenKmVSmile;
+    SingleValue * chosenService;
+    SingleValue * chosenYear;
 }
 
 @end
@@ -86,6 +93,7 @@
     [self setImagesArray];
     [self setImagesToXib];
     [self closePicker:self.pickerView];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -287,6 +295,10 @@
     
 }
 
+- (void) postTheAd {
+    //call the post ad back end method
+}
+
 
 #pragma mark - picker methods
 
@@ -484,5 +496,21 @@
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
 
+}
+
+
+#pragma mark - PostAd Delegate
+- (void) adDidFailPostingWithError:(NSError *)error {
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    [self hideLoadingIndicator];
+}
+
+- (void) adDidFinishPostingWithAdID:(NSInteger)adID {
+    
+    [self hideLoadingIndicator];
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
+    
 }
 @end
