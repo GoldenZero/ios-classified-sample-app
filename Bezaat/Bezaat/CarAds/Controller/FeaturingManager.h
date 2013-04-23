@@ -10,6 +10,21 @@
 #import "PricingOption.h"
 #import "FeatutreOrder.h"
 
-@interface FeaturingManager : NSObject
+@protocol PricingOptionsDelegate <NSObject>
+@required
+
+- (void) optionsDidFailLoadingWithError:(NSError *) error;
+- (void) optionsDidFinishLoadingWithData:(NSArray*) resultArray;
+@end
+
+@interface FeaturingManager : NSObject <DataDelegate>
+
+#pragma mark - properties
+@property (strong, nonatomic) id <PricingOptionsDelegate> pricingDelegate;
+
+#pragma mark - methods
++ (FeaturingManager *) sharedInstance;
+
+- (void) loadPricingOptionsForCountry:(NSInteger) countryID withDelegate:(id <PricingOptionsDelegate>) del;
 
 @end

@@ -16,6 +16,9 @@
     NSString *checkedImageName;
     NSString *unCheckedImageName;
     int choosenCell;
+    
+    MBProgressHUD2 * loadingHUD;
+    NSArray * pricingOptions;
 }
 @end
 
@@ -46,6 +49,12 @@
     
     //init the productsArr
     productsArr = [NSArray new];
+    
+    //init the pricingOptions
+    pricingOptions = [NSArray new];
+    
+    //load the options
+    [self loadPricingOptions];
 }
 
 - (void)didReceiveMemoryWarning
@@ -89,16 +98,26 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    labelAdCell * cell = (labelAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"labelAdCell" owner:self options:nil] objectAtIndex:0];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //[cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
-    if (indexPath.row==choosenCell) {
-        [cell.checkButton setBackgroundImage:[UIImage imageNamed:checkedImageName] forState:UIControlStateNormal];
+    if ((pricingOptions) && (pricingOptions.count))
+    {
+        labelAdCell * cell = (labelAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"labelAdCell" owner:self options:nil] objectAtIndex:0];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //[cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
+        if (indexPath.row==choosenCell) {
+            [cell.checkButton setBackgroundImage:[UIImage imageNamed:checkedImageName] forState:UIControlStateNormal];
+        }
+        else{
+            [cell.checkButton setBackgroundImage:[UIImage imageNamed:unCheckedImageName] forState:UIControlStateNormal];
+        }
+        
+        PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:indexPath.row];
+        cell.costLabel.text = [GenericMethods formatPrice:option.price];
+        cell.periodLabel.text = option.adPeriodDays;
+        cell.detailsLabel.text = option.currencyName;
+        
+        return cell;
     }
-    else{
-        [cell.checkButton setBackgroundImage:[UIImage imageNamed:unCheckedImageName] forState:UIControlStateNormal];
-    }
-    return cell;
+    return [UITableViewCell new];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -178,4 +197,44 @@
     }
 }
 
+#pragma mark - helper methods
+- (void) loadPricingOptions {
+    
+    [self showLoadingIndicator];
+    [[FeaturingManager sharedInstance] loadPricingOptionsForCountry:[[SharedUser sharedInstance] getUserCountryID] withDelegate:self];
+}
+
+- (void) showLoadingIndicator {
+    
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    loadingHUD.labelText = @"جاري تحميل البيانات";
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = YES;
+    
+}
+
+- (void) hideLoadingIndicator {
+    
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
+    loadingHUD = nil;
+    
+}
+
+#pragma mark - PricingOptions Delegate
+
+- (void) optionsDidFailLoadingWithError:(NSError *)error {
+    
+    [self hideLoadingIndicator];
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+}
+
+- (void) optionsDidFinishLoadingWithData:(NSArray *)resultArray {
+    [self hideLoadingIndicator];
+    
+    pricingOptions = [NSArray arrayWithArray:resultArray];
+    [self.tableView reloadData];
+}
 @end
