@@ -10,11 +10,15 @@
 
 @implementation Store
 
-@synthesize name;
+@synthesize  identifier;
+@synthesize  name;
+@synthesize  ownerEmail;
+@synthesize  imageURL;
+@synthesize  countryID;
+@synthesize  activeAdsCount;
+@synthesize  status;
+@synthesize  contactNo;
+
 @synthesize desc;
-@synthesize phone;
-@synthesize email;
-@synthesize logoURL;
-@synthesize countryID;
 
 @end

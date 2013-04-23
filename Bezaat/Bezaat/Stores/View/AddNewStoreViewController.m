@@ -18,6 +18,7 @@
     UITapGestureRecognizer *tap;
     MBProgressHUD2 *loadingHUD;
     
+    IBOutlet UIImageView *storeImageView;
     IBOutlet UITextField *nameField;
     IBOutlet UITextView *descriptionField;
     IBOutlet UITextField *emailField;
@@ -119,7 +120,7 @@
     }
     store.name = nameField.text;
     store.desc = descriptionField.text;
-    store.email = emailField.text;
+    store.ownerEmail = emailField.text;
     store.phone = phoneField.text;
     store.countryID =   [[LocationManager sharedInstance] getSavedUserCountryID];
     
@@ -127,7 +128,7 @@
     [[StoreManager sharedInstance] createStore:store];
 }
 
-#pragma mark -
+#pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == nameField) {
@@ -152,6 +153,7 @@
 #pragma mark - UIImagePickerControllerDelegate Methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [picker dismissViewControllerAnimated:YES completion:nil];
     storeImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     NSLog(@"imagePickerController:didFinishPickingMediaWithInfo:%f",storeImage.size.width);
     uploadingLOGO = YES;
@@ -170,6 +172,12 @@
 }
 
 - (void) storeLOGOUploadDidFailWithError:(NSError *)error {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                    message:@"حدث خطأ في تحميل الصورة"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
     uploadingLOGO = NO;
 }
 
@@ -177,7 +185,21 @@
     if (store == nil) {
         store = [[Store alloc] init];
     }
-    store.logoURL = imageURL;
+    store.imageURL = imageURL;
+    if (imageURL != nil) {
+        NSURL *_imageURL = [NSURL URLWithString:imageURL];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfURL:_imageURL];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Update the UI
+                storeImageView.image = [UIImage imageWithData:imageData];
+                [storeImageView setNeedsDisplay];
+            });
+        });
+    }
+    
     uploadingLOGO = NO;
 }
 

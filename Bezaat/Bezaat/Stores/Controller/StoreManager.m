@@ -82,6 +82,8 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
 
     // setting the body of the post to the reqeust
 	[request setHTTPBody:body];
+    
+    [request setURL:[NSURL URLWithString:upload_logo_url]];
 	
     internetManager = [[InternetManager alloc] initWithTempFileName:upload_logo_temp_file
                                                          urlRequest:request
@@ -119,12 +121,12 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
     NSString * post =[NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%d&%@=%@"
                       ,@"StoreName", store.name
                       ,@"Description", store.desc
-                      ,@"EmailAddress", store.email
+                      ,@"EmailAddress", store.ownerEmail
                       ,@"CountryID", store.countryID
                       ,@"MobileNumber", store.phone
                       ];
-    if (store.logoURL != nil) {
-        post = [post stringByAppendingFormat:@"&%@=%@",@"LogoURL", store.logoURL];
+    if (store.imageURL != nil) {
+        post = [post stringByAppendingFormat:@"&%@=%@",@"LogoURL", store.imageURL];
     }
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
@@ -187,6 +189,7 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
         return;
     }
     
+    NSLog(@"connectionDidFailWithError:%@",error);
     if (requestInProgress == RequestInProgressUploadLOGO) {
         if ([delegate respondsToSelector:@selector(storeLOGOUploadDidFailWithError:)]) {
             [delegate storeLOGOUploadDidFailWithError:error];
@@ -203,9 +206,9 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
     if (manager != internetManager) {
         return;
     }
-    
+    NSLog(@"connectionDidSucceedWithObjects:%@",((NSArray *)result)[0]);
     if (requestInProgress == RequestInProgressUploadLOGO) {
-        NSDictionary *data = [((NSDictionary *)result) objectForKey:@"Data"];
+        NSDictionary *data = [(((NSArray *)result)[0]) objectForKey:@"Data"];
         NSString *imageURL = [data objectForKey:@"LogoURL"];
         if ([delegate respondsToSelector:@selector(storeLOGOUploadDidSucceedWithImageURL:)]) {
             [delegate storeLOGOUploadDidSucceedWithImageURL:imageURL];
@@ -214,7 +217,7 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
     else if (requestInProgress == RequestInProgressCreateStore) {
         
         if ([delegate respondsToSelector:@selector(storeCreationDidSucceedWithStoreID:)]) {
-            [delegate storeCreationDidSucceedWithStoreID:(NSString *)result];
+            [delegate storeCreationDidSucceedWithStoreID:((NSArray *)result)[0]];
         }
     }
 }

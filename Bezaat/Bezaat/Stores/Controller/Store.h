@@ -12,12 +12,17 @@
 
 #pragma mark - properties
 
+@property (nonatomic) NSInteger identifier;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSString *imageURL;
+@property (nonatomic, strong) NSString *ownerEmail;
 @property (nonatomic, strong) NSString *phone;
-@property (nonatomic, strong) NSString *email;
-@property (nonatomic, strong) NSString *logoURL;
 @property (nonatomic) NSInteger countryID;
+@property (nonatomic) NSInteger activeAdsCount;
+@property (nonatomic) NSInteger status;
+@property (nonatomic) NSInteger contactNo;
+
+@property (nonatomic, strong) NSString *desc;
 
 #pragma mark - actions
 
