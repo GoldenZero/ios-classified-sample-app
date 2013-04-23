@@ -103,6 +103,7 @@
 @synthesize isFavorite;
 @synthesize storeName;
 @synthesize storeLogoURL;
+@synthesize adURL;
 
 - (id) initWithDescription:(NSString *) aDescription
                   adImages:(NSArray *)aAdImages
@@ -126,7 +127,8 @@
            viewCountString:(NSString *) aViewCountString
           isFavoriteString:(NSString *) aIsFavoriteString
                  storeName:(NSString *) aStoreName
-              storeLogoURL:(NSString *) aStoreLogoURLString {
+              storeLogoURL:(NSString *) aStoreLogoURLString
+                     adURL:(NSString *) aAdURLString {
     
     self = [super init];
     if (self) {
@@ -206,6 +208,12 @@
             self.storeLogoURL = nil;
         else
             self.storeLogoURL = [NSURL URLWithString:aStoreLogoURLString];
+        
+        //adURL
+        if ([aAdURLString isEqualToString:@""])
+            self.adURL = nil;
+        else
+            self.adURL = [NSURL URLWithString:aAdURLString];
     }
     return self;
 }

@@ -37,6 +37,7 @@
 #define DETAILS_IS_FAVORITE_JKEY      @"IsFavorite"
 #define DETAILS_STORE_NAME_JKEY      @"StoreName"
 #define DETAILS_STORE_LOGO_URL_JKEY  @"StoreLogoURL"
+#define DETAILS_AD_URL_JKEY          @"AdURL"
 
 //images array
 #define DETAILS_IMGS_IMAGE_ID_JKEY          @"ImageID"
@@ -319,6 +320,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                  isFavoriteString:[dataDict objectForKey:DETAILS_IS_FAVORITE_JKEY]
                  storeName:[dataDict objectForKey:DETAILS_STORE_NAME_JKEY]
                  storeLogoURL:[dataDict objectForKey:DETAILS_STORE_LOGO_URL_JKEY]
+                 adURL:[dataDict objectForKey:DETAILS_AD_URL_JKEY]
                  ];
                 
                 return detailsObject;

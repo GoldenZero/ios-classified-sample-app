@@ -316,8 +316,8 @@
             
             //[mySLComposerSheet addImage:[UIImage imageNamed:@"myImage.png"]];
             
-            if (currentDetailsObject.thumbnailURL)
-                [mySLComposerSheet addURL:currentDetailsObject.thumbnailURL];
+            if (currentDetailsObject.adURL)
+                [mySLComposerSheet addURL:currentDetailsObject.adURL];
             
             [mySLComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
                 
@@ -356,8 +356,8 @@
             
             //[mySLComposerSheet addImage:[UIImage imageNamed:@"myImage.png"]];
             
-            if (currentDetailsObject.thumbnailURL)
-                [mySLComposerSheet addURL:currentDetailsObject.thumbnailURL];
+            if (currentDetailsObject.adURL)
+                [mySLComposerSheet addURL:currentDetailsObject.adURL];
             
             [mySLComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
                 

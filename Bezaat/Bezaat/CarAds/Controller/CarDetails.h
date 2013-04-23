@@ -71,6 +71,7 @@
 @property (nonatomic) BOOL isFavorite;
 @property (strong, nonatomic) NSString * storeName;
 @property (strong, nonatomic) NSURL * storeLogoURL;
+@property (strong, nonatomic) NSURL * adURL;
 
 #pragma mark - methods
 
@@ -96,7 +97,8 @@
            viewCountString:(NSString *) aViewCountString
           isFavoriteString:(NSString *) aIsFavoriteString
                  storeName:(NSString *) aStoreName
-              storeLogoURL:(NSString *) aStoreLogoURLString;
+              storeLogoURL:(NSString *) aStoreLogoURLString
+                       adURL:(NSString *) aAdURLString;
 
 
 @end
