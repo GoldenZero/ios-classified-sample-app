@@ -106,6 +106,7 @@
     NSArray * distanceValues;
     NSArray * modelYearValues;
     NSArray * serviceValues;
+    NSDictionary * brandKeys;
 }
 @end
 
@@ -121,6 +122,7 @@
         distanceValues = nil;
         modelYearValues = nil;
         serviceValues = nil;
+        brandKeys = nil;
     }
     return self;
 }
@@ -143,7 +145,7 @@
         NSMutableArray * result = [NSMutableArray new];
         for (NSDictionary * dict in parsedArray)
         {
-            //create model object
+            //create value object
             SingleValue * val = [[SingleValue alloc]
                              initWithValueIDString:[dict objectForKey:ADD_PERIOD_CAT_ATTR_MASTER_VALUE_ID_JKEY]
                                  valueString:[dict objectForKey:ADD_PERIOD_MASTER_VALUE_JKEY]
@@ -167,7 +169,7 @@
         NSMutableArray * result = [NSMutableArray new];
         for (NSDictionary * dict in parsedArray)
         {
-            //create model object
+            //create value object
             SingleValue * val = [[SingleValue alloc]
                                  initWithValueIDString:[dict objectForKey:CURRENCY_CAT_ATTR_MASTER_VALUE_ID_JKEY]
                                  valueString:[dict objectForKey:CURRENCY_MASTER_VALUE_JKEY]
@@ -191,7 +193,7 @@
         NSMutableArray * result = [NSMutableArray new];
         for (NSDictionary * dict in parsedArray)
         {
-            //create model object
+            //create value object
             SingleValue * val = [[SingleValue alloc]
                                  initWithValueIDString:[dict objectForKey:KM_MILE_CAT_ATTR_MASTER_VALUE_ID_JKEY]
                                  valueString:[dict objectForKey:KM_MILE_MASTER_VALUE_JKEY]
@@ -216,7 +218,7 @@
         NSMutableArray * result = [NSMutableArray new];
         for (NSDictionary * dict in parsedArray)
         {
-            //create model object
+            //create value object
             SingleValue * val = [[SingleValue alloc]
                                  initWithValueIDString:[dict objectForKey:MODEL_YEAR_CAT_ATTR_MASTER_VALUE_ID_JKEY]
                                  valueString:[dict objectForKey:MODEL_YEAR_MASTER_VALUE_JKEY]
@@ -240,7 +242,7 @@
         NSMutableArray * result = [NSMutableArray new];
         for (NSDictionary * dict in parsedArray)
         {
-            //create model object
+            //create value object
             SingleValue * val = [[SingleValue alloc]
                                  initWithValueIDString:[dict objectForKey:SERVICE_CAT_ATTR_MASTER_VALUE_ID_JKEY]
                                  valueString:[dict objectForKey:SERVICE_MASTER_VALUE_JKEY]
@@ -254,7 +256,30 @@
     return serviceValues;
 }
 
+- (NSDictionary *) loadBrandKeys {
+    if (!brandKeys) {
+        NSData * data = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:BRAND_MODELS_FILE_NAME]];
+        
+        NSArray * parsedArray = [[JSONParser sharedInstance] parseJSONData:data];
+        NSMutableDictionary * result = [NSMutableDictionary new];
+        for (NSDictionary * dict in parsedArray)
+        {
+            //create brandKey object
+            NSString * brandIdString = [dict objectForKey: BRAND_MODELS_BRAND_ID_JKEY];
+            NSString * modelKeyString = [dict objectForKey:BRAND_MODELS_MODEL_KEY_JKEY];
+            
+            NSNumber * brandID = [NSNumber numberWithInteger:[brandIdString integerValue]];
+            NSNumber * modelKey = [NSNumber numberWithInteger:[modelKeyString integerValue]];
+            
+            [result setObject:modelKey forKey:brandID];
+        }
+        brandKeys = result;
+    }
+    return brandKeys;
+}
+
 #pragma mark - helper methods
+
 // This method gets the file path ofthe specified file.
 // This method checks if the json file does not exist in documents --> that means we are
 // launching the application the first time, so it copies it and returns its path in documents directory
