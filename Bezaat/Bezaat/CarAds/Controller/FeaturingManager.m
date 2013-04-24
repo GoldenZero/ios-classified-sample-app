@@ -12,16 +12,16 @@
 #define PRICING_STATUS_MSG_JKEY     @"StatusMessage"
 #define PRICING_DATA_JKEY           @"Data"
 
-
 //pricing options
 #define PRICING_OPTIONS_PRICING_ID_JKEY         @"PricingID"
 #define PRICING_OPTIONS_COUNTRY_ID_JKEY         @"CountryID"
-#define PRICING_OPTIONS_CATEGORY_ID_JKEY        @"CategoryID"
 #define PRICING_OPTIONS_AD_PERIOD_DAYS_JKEY     @"AdPeriodDays"
 #define PRICING_OPTIONS_PRICE_JKEY              @"Price"
-#define PRICING_OPTIONS_CURRENCY_ID_JKEY        @"CurrencyID"
-#define PRICING_OPTIONS_CURRENCY_NAME_JKEY      @"CurrencyName"
-#define PRICING_OPTIONS_CURRENCY_NAME_EN_JKEY   @"CurrencyNameEn"
+#define PRICING_OPTIONS_PRICING_NAME_JKEY       @"PricingName"
+//#define PRICING_OPTIONS_CATEGORY_ID_JKEY        @"CategoryID"
+//#define PRICING_OPTIONS_CURRENCY_ID_JKEY        @"CurrencyID"
+//#define PRICING_OPTIONS_CURRENCY_NAME_JKEY      @"CurrencyName"
+//#define PRICING_OPTIONS_CURRENCY_NAME_EN_JKEY   @"CurrencyNameEn"
 
 @interface FeaturingManager() {
     InternetManager * pricingManager;
@@ -181,12 +181,9 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     PricingOption * option = [[PricingOption alloc]
                                               initWithPricingIDString:[optionDict objectForKey:PRICING_OPTIONS_PRICING_ID_JKEY]
                                               countryID:[optionDict objectForKey:PRICING_OPTIONS_COUNTRY_ID_JKEY]
-                                              categoryID:[optionDict objectForKey:PRICING_OPTIONS_CATEGORY_ID_JKEY]
-                                              adPeriodDays:[optionDict objectForKey:PRICING_OPTIONS_AD_PERIOD_DAYS_JKEY]
+                                              adPeriodDaysString:[optionDict objectForKey:PRICING_OPTIONS_AD_PERIOD_DAYS_JKEY]
                                               price:[optionDict objectForKey:PRICING_OPTIONS_PRICE_JKEY]
-                                              currencyID:[optionDict objectForKey:PRICING_OPTIONS_CURRENCY_ID_JKEY]
-                                              currencyName:[optionDict objectForKey:PRICING_OPTIONS_CURRENCY_NAME_JKEY]
-                                              currencyNameEn:[optionDict objectForKey:PRICING_OPTIONS_CURRENCY_NAME_EN_JKEY]
+                                              pricingName:[optionDict objectForKey:PRICING_OPTIONS_PRICING_NAME_JKEY]
                                               ];
                     
                     [optionsArray addObject:option];

@@ -111,9 +111,10 @@
         }
         
         PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:indexPath.row];
-        cell.costLabel.text = [GenericMethods formatPrice:option.price];
-        cell.periodLabel.text = option.adPeriodDays;
-        cell.detailsLabel.text = option.currencyName;
+        //cell.costLabel.text = [NSString stringWithFormat:@"%@ دولار",[GenericMethods formatPrice:option.price]];
+        cell.costLabel.text = [NSString stringWithFormat:@"%@ دولار",[GenericMethods formatPrice:1000]];
+        cell.periodLabel.text = option.pricingName;
+        cell.detailsLabel.text = @"";
         
         return cell;
     }
