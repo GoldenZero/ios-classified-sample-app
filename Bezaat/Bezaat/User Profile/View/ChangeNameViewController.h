@@ -14,7 +14,7 @@
 }
 @property (weak, nonatomic) IBOutlet UITextField *userNameText;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLbl;
-
+@property (strong, nonatomic) NSString* theName;
 
 - (IBAction)saveInvoked:(id)sender;
 - (IBAction)backInvoked:(id)sender;

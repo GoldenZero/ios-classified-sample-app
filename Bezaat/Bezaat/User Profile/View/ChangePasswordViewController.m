@@ -86,21 +86,24 @@
 
 -(void)userUpdateWithData:(UserProfile *)newData
 {
-    NSLog(@"%@",newData);
+   // NSLog(@"%@",newData);
     [[ProfileManager sharedInstance] storeUserProfile:newData];
     [self hideLoadingIndicator];
     
     self.oldPwdTxt.text = @"";
     self.pwdNewTxt.text = @"";
     self.confirmPwdTxt.text = @"";
+    
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تمت العملة بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+    alert.tag = 0;
+    [alert show];
+    
+    return;
 }
 
 -(void)userFailUpdateWithError:(NSError *)error
 {
-    //NSLog(@"error: %@",error);
-    //UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Request time out" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-    // [alert show];
-    //    return;
+    
     [self hideLoadingIndicator];
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
 }
@@ -141,5 +144,14 @@
     loadingHUD = nil;
     
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 0) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+    
+}
+
 
 @end

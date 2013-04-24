@@ -29,7 +29,7 @@
     // Do any additional setup after loading the view from its nib.
     //[self showLoadingIndicator];
     CurrentUser = [[UserProfile alloc]init];
-    //[[ProfileManager sharedInstance] loginWithDelegate:self email:@"akbarbunere2@gmail.com" password:@"1234"];
+    [[ProfileManager sharedInstance] loginWithDelegate:self email:@"akbarbunere2@gmail.com" password:@"12345"];
    
     locationMngr = [LocationManager sharedInstance];
     
@@ -362,6 +362,7 @@
                     ChangeNameViewController* vc = [[ChangeNameViewController alloc]initWithNibName:@"ChangeNameViewController" bundle:nil];
                     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
                     [self presentViewController:vc animated:YES completion:nil];
+                    vc.theName = CurrentUser.userName;
                     return;
                     break;
                 }

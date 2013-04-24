@@ -27,6 +27,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    self.userNameText.text = self.theName;
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,6 +70,13 @@
     NSLog(@"%@",newData);
     [[ProfileManager sharedInstance] storeUserProfile:newData];
     [self hideLoadingIndicator];
+    
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تمت العملة بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+    alert.tag = 0;
+    [alert show];
+    
+    return;
+
 }
 
 -(void)userFailUpdateWithError:(NSError *)error
@@ -115,4 +124,13 @@
     loadingHUD = nil;
     
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 0) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    
+    
+}
+
 @end

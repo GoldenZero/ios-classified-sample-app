@@ -439,9 +439,11 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     
     if (correctURL)
     {
-        NSString * post =[NSString stringWithFormat:@"%@=%@&%@=%@",update_user_post_key, Name,login_password_post_key,pwd];
+        //[NSString s]
+        NSString * post =[NSString  stringWithFormat:@"%@=%@&%@=%@",update_user_post_key, Name,login_password_post_key,pwd];
         
-        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding  allowLossyConversion:YES];
+        
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData
                                                                   length]];
         
