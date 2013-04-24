@@ -49,6 +49,7 @@
 {
     [super viewDidLoad];
     [self.filterAllBtn setHighlighted:YES];
+    [self.noAdsLbl setHidden:YES];
     
     //initialize the user to get info
     CurrentUser = [[UserProfile alloc]init];
@@ -103,7 +104,7 @@
     NSInteger page = [[CarAdsManager sharedInstance] nextPage];
     //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
     
-    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"all" forPage:page andSize:[[CarAdsManager sharedInstance] getCurrentPageSize] WithDelegate:self];
+    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"active" forPage:page andSize:[[CarAdsManager sharedInstance] getCurrentPageSize] WithDelegate:self];
 }
 
 
@@ -152,7 +153,11 @@
 - (void) adsDidFinishLoadingWithData:(NSArray *)resultArray {
     //1- hide the loading indicator
     [self hideLoadingIndicator];
-    
+    if ([resultArray count] == 0) {
+        [self.noAdsLbl setHidden:NO];
+    }else{
+        [self.noAdsLbl setHidden:YES];
+    }
     //2- append the newly loaded ads
     if (resultArray && [resultArray count]!=0)
     {
@@ -201,7 +206,7 @@
     //load a page of data
     NSInteger page = 1;
     NSInteger size = [[CarAdsManager sharedInstance] pageSize];
-    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"all" forPage:page andSize:size WithDelegate:self];
+    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"active" forPage:page andSize:size WithDelegate:self];
    
 }
 
@@ -223,7 +228,7 @@
     //load a page of data
     NSInteger page = 1;
     NSInteger size = [[CarAdsManager sharedInstance] pageSize];
-    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"active" forPage:page andSize:size WithDelegate:self];
+    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"inactive" forPage:page andSize:size WithDelegate:self];
     
 }
 
@@ -244,7 +249,7 @@
     //load a page of data
     NSInteger page = 1;
     NSInteger size = [[CarAdsManager sharedInstance] pageSize];
-    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"inactive" forPage:page andSize:size WithDelegate:self];
+    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"featured-ads" forPage:page andSize:size WithDelegate:self];
     
 }
 
@@ -267,7 +272,7 @@
     NSInteger page = 1;
     NSInteger size = [[CarAdsManager sharedInstance] pageSize];
     
-    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"featured-ads" forPage:page andSize:size WithDelegate:self];
+    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"favourite" forPage:page andSize:size WithDelegate:self];
     
     
 }

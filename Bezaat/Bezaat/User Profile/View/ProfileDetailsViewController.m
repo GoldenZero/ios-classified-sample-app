@@ -44,7 +44,7 @@
     [self.profileTable setNeedsDisplay];
     
     CurrentUser = [[UserProfile alloc]init];
-    //[[ProfileManager sharedInstance] loginWithDelegate:self email:@"akbarbunere2@gmail.com" password:@"1234"];
+    //[[ProfileManager sharedInstance] loginWithDelegate:self email:@"akbarbunere2@gmail.com" password:@"12345"];
     
     locationMngr = [LocationManager sharedInstance];
     CurrentUser = [[ProfileManager sharedInstance] getSavedUserProfile];
@@ -360,9 +360,10 @@
                 case 0:
                 {
                     ChangeNameViewController* vc = [[ChangeNameViewController alloc]initWithNibName:@"ChangeNameViewController" bundle:nil];
+                    vc.theName = CurrentUser.userName;
                     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
                     [self presentViewController:vc animated:YES completion:nil];
-                    vc.theName = CurrentUser.userName;
+                    
                     return;
                     break;
                 }
