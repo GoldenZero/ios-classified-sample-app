@@ -44,7 +44,7 @@
 // get the shared instance of BarndsManager
 + (StaticAttrsLoader *) sharedInstance;
 
-//load ADD_PERIOD file
+//load ADD_PERIOD file (No need to load them in UI)
 - (NSArray *) loadAddPeriodValues;
 
 //load CURRENCY file
@@ -56,7 +56,7 @@
 //load MODEL_YEAR file
 - (NSArray *) loadModelYearValues;
 
-//load SERVICE file
+//load SERVICE file (No need to load them in UI)
 - (NSArray *) loadServiceValues;
 
 //load BRAND_MODELS file

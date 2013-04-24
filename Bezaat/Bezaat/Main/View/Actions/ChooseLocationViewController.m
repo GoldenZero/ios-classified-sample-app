@@ -381,6 +381,8 @@
     if (pickerView==countriesPickerView) {
         chosenCountry=[countriesArray objectAtIndex:row];
         citiesArray=[chosenCountry cities];
+        if (citiesArray && citiesArray.count)
+            chosenCity=[citiesArray objectAtIndex:0];//set initial chosen city
         [self translateMap:chosenCountry];
         [citiesPickerView reloadAllComponents];
     }

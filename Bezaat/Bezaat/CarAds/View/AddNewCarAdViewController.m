@@ -9,6 +9,14 @@
 #import "AddNewCarAdViewController.h"
 #import "ChooseActionViewController.h"
 
+
+#pragma mark - literals for use in post ad
+//These literals should used for posting any ad
+#define AD_PERIOD_2_MONTHS_VALUE_ID     1189 //period = 2 months (fixed)
+#define SERVICE_FOR_SALE_VALUE_ID       830  //service = for sale (fixed)
+#define AD_COMMENTS_BY_MAIL             1    //always allow "true" receiving mails (fixed)
+
+
 @interface AddNewCarAdViewController (){
     IBOutlet  UITextField *carAdTitle;
     IBOutlet  UITextField *mobileNum;
