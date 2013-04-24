@@ -63,7 +63,7 @@
 @synthesize pageSize;
 
 
-static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&brandId=%i&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@";
+static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&brandId=%@&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@";
 static NSString * upload_image_url = @"http://gfctest.edanat.com/v1.0/json/upload-image?theFile=";
 static NSString * post_ad_url = @"http://gfctest.edanat.com/v1.0/json/post-an-ad?brandId=%@&cityId=%@&fromPhone=%i&userEmail=%@&collection=%@";
 
@@ -137,7 +137,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 [NSString stringWithFormat:@"%i", self.pageSize],
                                 cityID,
                                 @"",
-                                brandID,
+                                [NSString stringWithFormat:@"%@", (brandID == -1 ? @"" : [NSString stringWithFormat:@"%i", brandID])],
                                 [NSString stringWithFormat:@"%@", (modelID == -1 ? @"" : [NSString stringWithFormat:@"%i", modelID])],
                                 @"",
                                 @"",
@@ -403,7 +403,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 [NSString stringWithFormat:@"%i", self.pageSize],
                                 cityID,
                                 aTextTerm,
-                                brandID,
+                                [NSString stringWithFormat:@"%@", (brandID == -1 ? @"" : [NSString stringWithFormat:@"%i", brandID])],
                                 [NSString stringWithFormat:@"%@", (modelID == -1 ? @"" : [NSString stringWithFormat:@"%i", modelID])],
                                 [NSString stringWithFormat:@"%i", (int) aMinPrice],
                                 [NSString stringWithFormat:@"%i", (int) aMaxPrice],
@@ -862,7 +862,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 @"",
                                 cityID,
                                 @"",
-                                brandID,
+                                [NSString stringWithFormat:@"%@", (brandID == -1 ? @"" : [NSString stringWithFormat:@"%i", brandID])],
                                 [NSString stringWithFormat:@"%@", (modelID == -1 ? @"" : [NSString stringWithFormat:@"%i", modelID])],
                                 @"",
                                 @"",
