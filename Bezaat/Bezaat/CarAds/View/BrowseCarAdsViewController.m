@@ -175,7 +175,7 @@
     
     if (carAdsArray)
     {
-        [self scrollToTheBottom];
+        //[self scrollToTheBottom];
         return carAdsArray.count;
     }
     return 0;
@@ -606,7 +606,7 @@
     
     if (indexPath.row == ([self.tableView numberOfRowsInSection:0] - 1))
     {
-        if (!dataLoadedFromCache)
+        //if (!dataLoadedFromCache)
             [self loadPageOfAds];
     }
 }
