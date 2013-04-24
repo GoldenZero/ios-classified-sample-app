@@ -59,10 +59,20 @@
         // Update the cell information
         BrandCell* brandCell = (BrandCell*)cell;
         [brandCell reloadInformation:currentItem];
-        
-        if ((!oneSelectionMade) && (indexPath.row == 0))
-            [brandCell selectCell];
-    }
+        if (self.tagOfCallXib!=2) {
+            if (indexPath.row == 0)
+            {
+                [brandCell.imgSelected  setImage:[UIImage imageNamed:@"Brands2_allcars_button.png"]];
+                [brandCell.imgUnselected  setImage:[UIImage imageNamed:@"Brands2_allcars_button.png"]];
+            }
+            if ((!oneSelectionMade) && (indexPath.row == 1))
+                [brandCell selectCell];
+        }
+        else{
+            if ((!oneSelectionMade) && (indexPath.row == 0))
+                [brandCell selectCell];
+        }
+           }
     else {
         // Get the current model item
         Model* currentItem = currentModels[indexPath.row];
@@ -115,7 +125,16 @@
         currentModels = tempArray;
         
         //currentModels = selectedBrand.models;
-        [_tblModels reloadData];
+        if (selectedBrand.models!=nil) {
+            [_tblModels reloadData];
+        }
+        else{
+                BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
+                carAdsMenu.currentModel=nil;
+                [self presentViewController:carAdsMenu animated:YES completion:nil];
+
+        }
+    
     }
     else {
         // Get the model
@@ -144,22 +163,43 @@
 #pragma mark - Brands Manager Delegate
 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray {
-    // Update the information
-    currentBrands = resultArray;
     
-    // create an extra item for 'all models'
-    Model * allModelsItem = [[Model alloc] init];
-    allModelsItem.modelID = -1;
-    allModelsItem.brandID = ((Brand*)resultArray[0]).brandID;
-    allModelsItem.modelName = ALL_MODELS_TEXT;
+    // Add new car ad call this xib
+    if (self.tagOfCallXib==2) {
+        currentBrands=resultArray;
+        currentModels=((Brand*)resultArray[0]).models;
+    }
     
-    //create an array that has the 'all models' item first
-    NSMutableArray * tempArray = [NSMutableArray arrayWithObject:allModelsItem];
-    
-    //add the rest of models for this brand
-    [tempArray addObjectsFromArray:((Brand*)resultArray[0]).models];
-    currentModels = tempArray;
-    
+    // Browse car ads call this xib
+    else{
+        // create an extra item for 'all barnds'
+        Brand * allBrandsItem = [[Brand alloc] init];
+        allBrandsItem.brandID = -1;
+        allBrandsItem.models=nil;
+        
+        //create an array that has the 'all brands' item first
+        NSMutableArray * tempBrandsArray = [NSMutableArray arrayWithObject:allBrandsItem];
+        
+        //add the rest of models for this brand
+        [tempBrandsArray addObjectsFromArray:resultArray];
+        currentBrands = tempBrandsArray;
+        
+        // create an extra item for 'all models'
+        Model * allModelsItem = [[Model alloc] init];
+        allModelsItem.modelID = -1;
+        allModelsItem.brandID = ((Brand*)resultArray[0]).brandID;
+        allModelsItem.modelName = ALL_MODELS_TEXT;
+        
+        //create an array that has the 'all models' item first
+        NSMutableArray * tempArray = [NSMutableArray arrayWithObject:allModelsItem];
+        
+        //add the rest of models for this brand
+        [tempArray addObjectsFromArray:((Brand*)resultArray[0]).models];
+        currentModels = tempArray;
+
+        
+    }
+        
     //currentModels = ((Brand*)resultArray[0]).models;
     
     // Reload the tables

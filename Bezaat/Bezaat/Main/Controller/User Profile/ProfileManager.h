@@ -27,6 +27,12 @@
 - (void) userDidLoginWithData:(UserProfile *) resultProfile;
 @end
 
+@protocol ProfileUpdateDelegate <NSObject>
+@required
+- (void) userUpdateWithData:(UserProfile *)newData;
+- (void) userFailUpdateWithError:(NSError*) error;
+@end
+
 @protocol DeviceRegisterDelegate <NSObject>
 @required
 - (void) deviceFailRegisterWithError:(NSError*) error;
@@ -48,6 +54,7 @@
 
 #pragma mark - properties
 @property (strong, nonatomic) id <ProfileManagerDelegate> delegate;
+@property (strong, nonatomic) id <ProfileUpdateDelegate> updateDelegate;
 @property (strong, nonatomic) id <DeviceRegisterDelegate> deviceDelegate;
 @property (strong, nonatomic) id <FavoritesDelegate> favDelegate;
 
@@ -77,4 +84,7 @@
 
 // get the stored device token
 - (NSString *) getSavedDeviceToken;
+
+//call update user api
+- (void) updateUserWithDelegate:(id <ProfileUpdateDelegate> )del userName:(NSString *)Name andPassword:(NSString*)pwd;
 @end

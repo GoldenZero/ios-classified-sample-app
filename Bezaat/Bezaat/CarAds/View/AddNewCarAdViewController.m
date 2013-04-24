@@ -9,6 +9,14 @@
 #import "AddNewCarAdViewController.h"
 #import "ChooseActionViewController.h"
 
+
+#pragma mark - literals for use in post ad
+//These literals should used for posting any ad
+#define AD_PERIOD_2_MONTHS_VALUE_ID     1189 //period = 2 months (fixed)
+#define SERVICE_FOR_SALE_VALUE_ID       830  //service = for sale (fixed)
+#define AD_COMMENTS_BY_MAIL             1    //always allow "true" receiving mails (fixed)
+
+
 @interface AddNewCarAdViewController (){
     IBOutlet  UITextField *carAdTitle;
     IBOutlet  UITextField *mobileNum;
@@ -32,7 +40,7 @@
     NSArray *adPeriodArray;
     NSArray *serviceKindArray;
     NSArray *kiloMileArray;
-    NSArray *receiveMailsArray;
+    
     NSArray *productionYearArray;
     
     MBProgressHUD2 *loadingHUD;
@@ -45,6 +53,8 @@
     SingleValue * chosenKmVSmile;
     SingleValue * chosenService;
     SingleValue * chosenYear;
+    
+    bool recievMail;
 }
 
 @end
@@ -59,9 +69,9 @@
         currencyArray =[[NSArray alloc] initWithObjects:@"ريال",@"درهم",@"جنيه",@"دولار",@"يورو",@"دينار",@"ليرة",@"شيكل", nil];
         adPeriodArray =[[NSArray alloc] initWithObjects:@"١٤ يوم",@"١ شهر",@"٢ شهر", nil];
         serviceKindArray=[[NSArray alloc] initWithObjects:@"معروض للبيع",@"مطلوب للشراء",@"ايجار",@"تقسيط", nil];
-        kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
-        receiveMailsArray=[[NSArray alloc] initWithObjects:@"نعم",@"لا", nil];
+        kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil]; 
         productionYearArray=[[NSArray alloc] initWithObjects:@"٢٠١٢",@"٢٠١١",@"٢٠١٠",@"٢٠٠٠", nil];
+        receiveMail=false;
     }
     return self;
 }
@@ -256,10 +266,8 @@
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
 
-    receiveMail =[[UIButton alloc] initWithFrame:CGRectMake(30, 386, 260, 30)];
-    [receiveMail setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [receiveMail setTitle:@"استقبل ايميلات عند التعليق على الاعلان" forState:UIControlStateNormal];
-    [receiveMail setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    receiveMail =[[UIButton alloc] initWithFrame:CGRectMake(44, 390, 229, 46)];
+    [receiveMail setBackgroundImage:[UIImage imageNamed: @"AddCar_check_gray.png"] forState:UIControlStateNormal];
     [receiveMail addTarget:self action:@selector(chooseReceiveMail) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:receiveMail];
 
@@ -344,9 +352,7 @@
     else if ([kiloMileArray containsObject:choosen]) {
         [kiloMile setTitle:choosen forState:UIControlStateNormal];
     }
-    else if ([receiveMailsArray containsObject:choosen]) {
-        [receiveMail setTitle:choosen forState:UIControlStateNormal];
-    }
+
     else if ([productionYearArray containsObject:choosen]) {
         [productionYear setTitle:choosen forState:UIControlStateNormal];
     }
@@ -402,11 +408,16 @@
 }
 
 - (void) chooseReceiveMail{
-    [self showPicker:self.pickerView];
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
-    // fill picker with receive mails options
-    globalArray=receiveMailsArray;
-    [self.pickerView reloadAllComponents];
+    if(recievMail==false){
+        [receiveMail setBackgroundImage:[UIImage imageNamed: @"AddCar_check.png"] forState:UIControlStateNormal];
+        recievMail=true;
+        
+    }
+    else{
+        [receiveMail setBackgroundImage:[UIImage imageNamed: @"AddCar_check_gray.png"] forState:UIControlStateNormal];
+        recievMail=false;
+    }
+   
 }
 
 - (void) chooseKiloMile{

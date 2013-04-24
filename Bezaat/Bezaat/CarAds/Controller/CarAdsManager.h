@@ -62,6 +62,9 @@
 //load
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del;
 
+- (void) loadUserAdsOfStatus:(NSString*) status forPage:(NSUInteger) pageNum andSize:(NSInteger) pageSize WithDelegate:(id <CarAdsManagerDelegate>) del;
+
+
 //cache
 - (BOOL) cacheDataFromArray:(NSArray *) dataArr forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize ;
 
@@ -80,7 +83,7 @@
 
 
 //search & filter
-- (void) searchCarAdsOfPage:(NSUInteger) pageNum 
+- (void) searchCarAdsOfPage:(NSUInteger) pageNum
                    forBrand:(NSUInteger) brandID
                       Model:(NSInteger) modelID
                      InCity:(NSUInteger) cityID

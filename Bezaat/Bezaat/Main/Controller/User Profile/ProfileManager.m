@@ -37,6 +37,7 @@
 @interface ProfileManager ()
 {
     InternetManager * mainMngr;
+    InternetManager * updateMngr;
     InternetManager * favoriteAddMngr;
     InternetManager * favoriteRemoveMngr;
     NSUInteger currentAdIDForFav;
@@ -49,20 +50,24 @@
 @synthesize delegate;
 @synthesize deviceDelegate;
 @synthesize favDelegate;
+@synthesize updateDelegate;
 
 //the login url is a POST url
 static NSString * login_url = @"http://gfctest.edanat.com/v1.0/json/user-login";
 static NSString * device_reg_url = @"http://gfctest.edanat.com/v1.0/json/register-device?deviceTpe=%@&version=%@&osVersion=%@";
 static NSString * add_to_fav_url = @"http://gfctest.edanat.com/v1.0/json/add-to-favorite";
 static NSString * remove_from_fav_url = @"http://gfctest.edanat.com/v1.0/json/remove-from-favorite";
+static NSString * update_user_url = @"http://gfctest.edanat.com/v1.0/json/modify-user";
 
 static NSString * login_email_post_key = @"EmailAddress";
+static NSString * update_user_post_key = @"UserName";
 static NSString * login_password_post_key = @"Password";
 static NSString * login_key_chain_identifier = @"BezaatLogin";
 static NSString * ad_id_post_key = @"AdID";
 
 static NSString * mainMngrTempFileName = @"mngrTmp";
 static NSString * favMngrTempFileName = @"favmngrTmp";
+static NSString * updateMngrTempFileName = @"updmngrTmp";
 
 - (id) init {
     
@@ -72,6 +77,7 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         self.delegate = nil;
         self.deviceDelegate = nil;
         self.favDelegate = nil;
+        self.updateDelegate = nil;
         dataSoFar = nil;
         currentAdIDForFav= 0;
     }
@@ -223,7 +229,8 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         NSString * post =[NSString stringWithFormat:@"%@=%@",ad_id_post_key, [NSString stringWithFormat:@"%i",adID]];
         
         NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData
+                                                                  length]];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setTimeoutInterval:20];
@@ -408,6 +415,86 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
 }
 
 
+- (void) updateUserWithDelegate:(id <ProfileUpdateDelegate> )del userName:(NSString *)Name andPassword:(NSString*)pwd{
+   
+    //1- set the delegate
+    self.updateDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.updateDelegate)
+            [self.updateDelegate userFailUpdateWithError:error];
+        return ;
+    }
+    
+    NSString * fullURLString = update_user_url;
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //[NSString s]
+        NSString * post =[NSString  stringWithFormat:@"%@=%@&%@=%@",update_user_post_key, Name,login_password_post_key,pwd];
+        
+        NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding  allowLossyConversion:YES];
+        
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData
+                                                                  length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setTimeoutInterval:20];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        
+        [request setHTTPBody:postData];
+        
+        
+        updateMngr = [[InternetManager alloc] initWithTempFileName:updateMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.updateDelegate)
+            [self.updateDelegate userFailUpdateWithError:error];
+        return ;
+    }
+
+}
+
+
 #pragma mark - NSURLConnection Delegate methods
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -427,6 +514,9 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
     
     if (self.delegate)
         [self.delegate userFailLoginWithError:error];
+    else if (self.updateDelegate) {
+        [self.updateDelegate userFailUpdateWithError:error];
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -461,6 +551,16 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
                         [self.delegate userFailLoginWithError:error];
                     }
                 }
+                else if (self.updateDelegate) {
+                    if (userData.isActive && userData.isVerified)
+                        [updateDelegate userUpdateWithData:userData];
+                }else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:@"تعذر تسجيل الدخول"];
+                    
+                    [self.updateDelegate userFailUpdateWithError:error];
+                }
             }
             else    //data is nil for some reason
             {
@@ -471,8 +571,17 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
                     
                     [self.delegate userFailLoginWithError:error];
                 }
+                else if (self.updateDelegate)
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:@"خطأ في تحميل االبيانات"];
+                    
+                    [self.updateDelegate userFailUpdateWithError:error];
+                }
             }
         }
+        
+    
         else
         {
             NSString * statusMessage = [self getStatusMessage:dataArray];
@@ -482,6 +591,13 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
                 [error setDescMessage:statusMessage];
                 
                 [self.delegate userFailLoginWithError:error];
+            }
+            if (self.updateDelegate)
+            {
+                CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                [error setDescMessage:statusMessage];
+                
+                [self.updateDelegate userFailUpdateWithError:error];
             }
         }
     }
@@ -619,6 +735,11 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         if (self.favDelegate)
             [favDelegate FavoriteFailRemovingWithError:error forAdID:currentAdIDForFav];
     }
+    else if (manager == updateMngr)
+    {   // remove from favorites
+        if (self.updateDelegate)
+            [updateDelegate userFailUpdateWithError:error];
+    }
 }
 
 - (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*) result {
@@ -642,6 +763,11 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
         {   // add to favorites
             if (self.favDelegate)
                 [favDelegate FavoriteFailRemovingWithError:error forAdID:currentAdIDForFav];
+        }
+        else if (manager == updateMngr)
+        {   // remove from favorites
+            if (self.updateDelegate)
+                [updateDelegate userFailUpdateWithError:error];
         }
         
     }
@@ -703,6 +829,32 @@ static NSString * favMngrTempFileName = @"favmngrTmp";
                 }
             }
         }
+        else if (manager == updateMngr)
+        {
+            NSArray * data = (NSArray *) result;
+            if ((data) && (data.count > 0))
+            {
+                NSDictionary * totalDict = [data objectAtIndex:0];
+                NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+                NSInteger statusCode = statusCodeString.integerValue;
+                
+                NSString * statusMessageProcessed = [[[totalDict objectForKey:LOGIN_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                
+                if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                {
+                    if (self.updateDelegate)
+                        [updateDelegate userUpdateWithData:[self getUserData:data]];
+                }
+                else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:statusMessageProcessed];
+                    if (self.updateDelegate)
+                        [updateDelegate userFailUpdateWithError:error];
+                }
+            }
+        }
     }
 }
+
 @end

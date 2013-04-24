@@ -13,9 +13,14 @@
 #import "AppDelegate.h"
 #import "AddNewCarAdViewController.h"
 #import "labelAdViewController.h"
+#import "ProfileDetailsViewController.h"
+#import "UserDetailsViewController.h"
+
 @interface ChooseActionViewController (){
     NSArray *menuArray;
     NSArray *iconMenuArray;
+    NSMutableArray *custoMenuArray;
+    NSMutableArray *custoIconMenuArray;
 }
 
 @end
@@ -33,16 +38,23 @@
 
 - (void)viewDidLoad
 {
+    custoMenuArray=[[NSMutableArray alloc]init];
+    custoIconMenuArray=[[NSMutableArray alloc]init];
+
     [super viewDidLoad];
-    NSString *menuPlistPath = [[NSBundle mainBundle] pathForResource:@"HomeScreenChoices" ofType:@"plist"];
-    
-    menuArray = [[NSArray alloc] initWithContentsOfFile:menuPlistPath];
-    iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png", nil];
-    self.menuTableView.separatorColor = [UIColor clearColor];
+    //[self customizeMenu];
+       self.menuTableView.separatorColor = [UIColor clearColor];
     
     [self prepareImages];
     [self customGestures];
+    
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self customizeMenu];
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,7 +107,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return menuArray.count;
+    return custoMenuArray.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -116,13 +128,62 @@
             }
         }
     }
-    cell.cellImage.image=[UIImage imageNamed:[iconMenuArray objectAtIndex:indexPath.row]];
-    cell.titleLable.text=[menuArray objectAtIndex:indexPath.row];
+    cell.cellImage.image=[UIImage imageNamed:[custoIconMenuArray objectAtIndex:indexPath.row]];
+    cell.titleLable.text=[custoMenuArray objectAtIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
+- (void) customizeMenu{
+    NSString *menuPlistPath = [[NSBundle mainBundle] pathForResource:@"HomeScreenChoices" ofType:@"plist"];
+    
+    menuArray = [[NSArray alloc] initWithContentsOfFile:menuPlistPath];
+    iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png", nil];
 
+     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+       // gust
+    if(!savedProfile){
+        [self.userNameLabel setText:@"زائر"];
+        [custoMenuArray addObject:[menuArray objectAtIndex:1]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:3]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:7]];
+        
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
+    }
+    // member
+    else if (savedProfile){
+        [self.userNameLabel setText:savedProfile.userName];
+      // IF store
+        [custoMenuArray addObject:[menuArray objectAtIndex:1]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:2]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:3]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:6]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:8]];
+        
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
+
+        // If member
+        [custoMenuArray addObject:[menuArray objectAtIndex:0]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:1]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:3]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:6]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:8]];
+        
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:0]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
+
+    
+    }
+}
 #pragma mark - UITableView Delegate -
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -133,6 +194,14 @@
     }
     if (indexPath.row==0) {
         labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    if (indexPath.row == 8) {
+        ProfileDetailsViewController* vc = [[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    if (indexPath.row == 5) {
+        UserDetailsViewController* vc = [[UserDetailsViewController alloc]initWithNibName:@"UserDetailsViewController" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
     }
 }
