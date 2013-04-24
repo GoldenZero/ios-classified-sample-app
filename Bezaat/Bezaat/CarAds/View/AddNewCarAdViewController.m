@@ -8,7 +8,7 @@
 
 #import "AddNewCarAdViewController.h"
 #import "ChooseActionViewController.h"
-
+#import "ModelsViewController.h"
 
 #pragma mark - literals for use in post ad
 //These literals should used for posting any ad
@@ -20,41 +20,34 @@
 @interface AddNewCarAdViewController (){
     IBOutlet  UITextField *carAdTitle;
     IBOutlet  UITextField *mobileNum;
-    IBOutlet  UITextField *phoneNum;
-    IBOutlet  UITextField *externalColor;
     IBOutlet  UITextField *distance;
     IBOutlet  UITextField *carPrice;
     IBOutlet  UITextView *carDetails;
-    IBOutlet  UIButton *serviceKind;
-    IBOutlet  UIButton *adPeriod;
     IBOutlet  UIButton *productionYear;
     IBOutlet  UIButton *currency;
-    IBOutlet  UIButton *receiveMail;
-    IBOutlet  UIButton *kiloMile;
+    IBOutlet  UISegmentedControl *kiloMile;
+    IBOutlet  UIButton *countryCity;
     
     UITapGestureRecognizer *tap;
     
     // Arrays
     NSArray *globalArray;
     NSArray *currencyArray;
-    NSArray *adPeriodArray;
-    NSArray *serviceKindArray;
-    NSArray *kiloMileArray;
-    
     NSArray *productionYearArray;
+    NSArray *countryArray;
+    NSArray *cityArray;
+    NSArray *kiloMileArray;
     
     MBProgressHUD2 *loadingHUD;
     int chosenImgBtnTag;
     UIImage * currentImageToUpload;
-    
+    bool kiloChoosen;
     //These objects should be set bt selecting the drop down menus.
-    SingleValue * chosenPeriod;
     SingleValue * chosenCurrency;
-    SingleValue * chosenKmVSmile;
-    SingleValue * chosenService;
     SingleValue * chosenYear;
+    SingleValue * chosenCity;
+    SingleValue * chosenCountry;
     
-    bool recievMail;
 }
 
 @end
@@ -67,11 +60,12 @@
     if (self) {
         globalArray=[[NSArray alloc] init];
         currencyArray =[[NSArray alloc] initWithObjects:@"ريال",@"درهم",@"جنيه",@"دولار",@"يورو",@"دينار",@"ليرة",@"شيكل", nil];
-        adPeriodArray =[[NSArray alloc] initWithObjects:@"١٤ يوم",@"١ شهر",@"٢ شهر", nil];
-        serviceKindArray=[[NSArray alloc] initWithObjects:@"معروض للبيع",@"مطلوب للشراء",@"ايجار",@"تقسيط", nil];
-        kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil]; 
+        countryArray =[[NSArray alloc] initWithObjects:@"سوريا",@"امارات",@"السعودية", nil];
+        cityArray=[[NSArray alloc] initWithObjects:@"دمشق",@"حمص",@"حلب",@"حماه", nil];
         productionYearArray=[[NSArray alloc] initWithObjects:@"٢٠١٢",@"٢٠١١",@"٢٠١٠",@"٢٠٠٠", nil];
-        receiveMail=false;
+        kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
+        kiloChoosen=true;
+        
     }
     return self;
 }
@@ -79,7 +73,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self.modelNameLabel setText:self.currentModel.modelName];
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
     
@@ -93,8 +87,6 @@
 
     [carAdTitle setDelegate:(id)self];
     [mobileNum setDelegate:(id)self];
-    [phoneNum setDelegate:(id)self];
-    [externalColor setDelegate:(id)self];
     [distance setDelegate:(id)self];
     [carPrice setDelegate:(id)self];
     [carDetails setDelegate:(id)self];
@@ -102,6 +94,7 @@
     [self addButtonsToXib];
     [self setImagesArray];
     [self setImagesToXib];
+    [self closePicker:self.locationPickerView];
     [self closePicker:self.pickerView];
     
 }
@@ -178,111 +171,84 @@
 
 -(void)dismissKeyboard {
     [self closePicker:self.pickerView];
+    [self closePicker:self.locationPickerView];
     [carAdTitle resignFirstResponder];
-    [phoneNum resignFirstResponder];
     [mobileNum resignFirstResponder];
     [carPrice resignFirstResponder];
-    [externalColor resignFirstResponder];
     [distance resignFirstResponder];
     [carDetails resignFirstResponder];
 }
 
 
-
 - (void) addButtonsToXib{
-    [self.verticalScrollView setContentSize:CGSizeMake(320 , 460)];
+    [self.verticalScrollView setContentSize:CGSizeMake(320 , 420)];
     [self.verticalScrollView setScrollEnabled:YES];
     [self.verticalScrollView setShowsHorizontalScrollIndicator:YES];
     
-    carAdTitle=[[UITextField alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
+    countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
+    [countryCity setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
+    [countryCity setTitle:@"اختر البلد" forState:UIControlStateNormal];
+    [countryCity setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [countryCity addTarget:self action:@selector(chooseCountryCity) forControlEvents:UIControlEventTouchUpInside];
+    [self.verticalScrollView addSubview:countryCity];
+    
+    carAdTitle=[[UITextField alloc] initWithFrame:CGRectMake(30, 60,260 ,30)];
     [carAdTitle setBorderStyle:UITextBorderStyleRoundedRect];
     [carAdTitle setTextAlignment:NSTextAlignmentRight];
     [carAdTitle setPlaceholder:@"عنوان الإعلان"];
     [carAdTitle setKeyboardType:UIKeyboardTypeAlphabet];
     [self.verticalScrollView addSubview:carAdTitle];
     
-    phoneNum=[[UITextField alloc] initWithFrame:CGRectMake(30,96 ,260 ,30)];
-    [phoneNum setBorderStyle:UITextBorderStyleRoundedRect];
-    [phoneNum setTextAlignment:NSTextAlignmentRight];
-    [phoneNum setPlaceholder:@"رقم الهاتف"];
-    [phoneNum setKeyboardType:UIKeyboardTypePhonePad];
-    [self.verticalScrollView addSubview:phoneNum];
-    
-    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,134 ,260 ,30)];
-    [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
-    [mobileNum setTextAlignment:NSTextAlignmentRight];
-    [mobileNum setPlaceholder:@"رقم الجوال"];
-    [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
-    [self.verticalScrollView addSubview:mobileNum];
-    
-    carPrice=[[UITextField alloc] initWithFrame:CGRectMake(170,271 ,120 ,30)];
+    carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,100 ,260 ,80 )];
+    [carDetails setTextAlignment:NSTextAlignmentRight];
+    [carDetails setKeyboardType:UIKeyboardTypeDefault];
+    [self.verticalScrollView addSubview:carDetails];
+
+    carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,190 ,160 ,30)];
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [carPrice setTextAlignment:NSTextAlignmentRight];
     [carPrice setPlaceholder:@"السعر"];
     [carPrice setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:carPrice];
     
-    externalColor=[[UITextField alloc] initWithFrame:CGRectMake(170,348 ,120 ,30)];
-    [externalColor setBorderStyle:UITextBorderStyleRoundedRect];
-    [externalColor setTextAlignment:NSTextAlignmentRight];
-    [externalColor setPlaceholder:@"اللون الخارجي"];
-    [externalColor setKeyboardType:UIKeyboardTypeAlphabet];
-    [self.verticalScrollView addSubview:externalColor];
-    
-    distance=[[UITextField alloc] initWithFrame:CGRectMake(170,310 ,120 ,30)];
-    [distance setBorderStyle:UITextBorderStyleRoundedRect];
-    [distance setTextAlignment:NSTextAlignmentRight];
-    [distance setPlaceholder:@"المسافة"];
-    [distance setKeyboardType:UIKeyboardTypeNumberPad];
-    [self.verticalScrollView addSubview:distance];
-    
-    serviceKind =[[UIButton alloc] initWithFrame:CGRectMake(170, 58, 120, 30)];
-    [serviceKind setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [serviceKind setTitle:@"الخدمة المطلوبة" forState:UIControlStateNormal];
-    [serviceKind setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [serviceKind addTarget:self action:@selector(chooseServiceKind) forControlEvents:UIControlEventTouchUpInside];
-    [self.verticalScrollView addSubview:serviceKind];
-    
-    adPeriod =[[UIButton alloc] initWithFrame:CGRectMake(30, 58, 120, 30)];
-    [adPeriod setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [adPeriod setTitle:@"فترة الإعلان" forState:UIControlStateNormal];
-    [adPeriod setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [adPeriod addTarget:self action:@selector(chooseAdPeriod) forControlEvents:UIControlEventTouchUpInside];
-    [self.verticalScrollView addSubview:adPeriod];
-
-    
-    productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 348, 120, 30)];
-    [productionYear setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [productionYear setTitle:@"عام الصنع" forState:UIControlStateNormal];
-    [productionYear setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [productionYear addTarget:self action:@selector(chooseProductionYear) forControlEvents:UIControlEventTouchUpInside];
-    [self.verticalScrollView addSubview:productionYear];
-
-    
-    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 271, 120, 30)];
+    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 190, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
     [currency setTitle:@"العملة" forState:UIControlStateNormal];
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
 
-    receiveMail =[[UIButton alloc] initWithFrame:CGRectMake(44, 390, 229, 46)];
-    [receiveMail setBackgroundImage:[UIImage imageNamed: @"AddCar_check_gray.png"] forState:UIControlStateNormal];
-    [receiveMail addTarget:self action:@selector(chooseReceiveMail) forControlEvents:UIControlEventTouchUpInside];
-    [self.verticalScrollView addSubview:receiveMail];
+    distance=[[UITextField alloc] initWithFrame:CGRectMake(130,240 ,160 ,30)];
+    [distance setBorderStyle:UITextBorderStyleRoundedRect];
+    [distance setTextAlignment:NSTextAlignmentRight];
+    [distance setPlaceholder:@"المسافة"];
+    [distance setKeyboardType:UIKeyboardTypeNumberPad];
+    [self.verticalScrollView addSubview:distance];
 
-    kiloMile =[[UIButton alloc] initWithFrame:CGRectMake(30, 310, 120, 30)];
-    [kiloMile setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [kiloMile setTitle:@"كم/ميل" forState:UIControlStateNormal];
-    [kiloMile setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [kiloMile addTarget:self action:@selector(chooseKiloMile) forControlEvents:UIControlEventTouchUpInside];
+    kiloMile = [[UISegmentedControl alloc] initWithItems:kiloMileArray];
+    kiloMile.frame = CGRectMake(30, 240, 80, 30);
+    kiloMile.segmentedControlStyle = UISegmentedControlStylePlain;
+    kiloMile.selectedSegmentIndex = 2;
+    [kiloMile addTarget:self action:@selector(chooseKiloMile) forControlEvents: UIControlEventValueChanged];
     [self.verticalScrollView addSubview:kiloMile];
     
-    carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,178 ,260 ,85 )];
-    [carDetails setTextAlignment:NSTextAlignmentRight];
-    [carDetails setKeyboardType:UIKeyboardTypeDefault];
-    [self.verticalScrollView addSubview:carDetails];
+    productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 280, 260, 30)];
+    [productionYear setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
+    [productionYear setTitle:@"عام الصنع" forState:UIControlStateNormal];
+    [productionYear setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [productionYear addTarget:self action:@selector(chooseProductionYear) forControlEvents:UIControlEventTouchUpInside];
+    [self.verticalScrollView addSubview:productionYear];
+
+
+    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,320 ,260 ,30)];
+    [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
+    [mobileNum setTextAlignment:NSTextAlignmentRight];
+    [mobileNum setPlaceholder:@"رقم الجوال"];
+    [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
+    [self.verticalScrollView addSubview:mobileNum];
     
+
+       
 }
 
 - (void) showLoadingIndicator {
@@ -312,82 +278,129 @@
 
 -(IBAction)closePicker:(id)sender
 {
-    [UIView animateWithDuration:0.3 animations:^{
-        _pickerView.frame = CGRectMake(_pickerView.frame.origin.x,
-                                       480, 
-                                       _pickerView.frame.size.width,
-                                       _pickerView.frame.size.height);
-    }];
+    if (sender==_locationPickerView) {
+        [self.locationPickerView setHidden:YES];
+        [UIView animateWithDuration:0.3 animations:^{
+            _locationPickerView.frame = CGRectMake(_locationPickerView.frame.origin.x,
+                                                   480,
+                                                   _locationPickerView.frame.size.width,
+                                                   _locationPickerView.frame.size.height);
+        }];
+        
+    }
+    else {
+        [self.pickerView setHidden:YES];
+        [UIView animateWithDuration:0.3 animations:^{
+            _pickerView.frame = CGRectMake(_pickerView.frame.origin.x,
+                                           480,
+                                           _pickerView.frame.size.width,
+                                           _pickerView.frame.size.height);
+        }];
+    }
+    
+
 }
 
 -(IBAction)showPicker:(id)sender
 {
-    [self.pickerView setHidden:NO];
-    [UIView animateWithDuration:0.3 animations:^{
-        _pickerView.frame = CGRectMake(_pickerView.frame.origin.x,
-                                       280,
-                                       _pickerView.frame.size.width,
-                                       _pickerView.frame.size.height);
-    }];
+    if (sender==_locationPickerView) {
+        [self.locationPickerView setHidden:NO];
+        [UIView animateWithDuration:0.3 animations:^{
+            _locationPickerView.frame = CGRectMake(_locationPickerView.frame.origin.x,
+                                           280,
+                                           _locationPickerView.frame.size.width,
+                                           _locationPickerView.frame.size.height);
+        }];
+
+    }
+    else {
+        [self.pickerView setHidden:NO];
+        [UIView animateWithDuration:0.3 animations:^{
+            _pickerView.frame = CGRectMake(_pickerView.frame.origin.x,
+                                           280,
+                                           _pickerView.frame.size.width,
+                                           _pickerView.frame.size.height);
+        }];
+    }
+
 }
 
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
 {
-    return 1;
+    if (pickerView==_locationPickerView) {
+        return 2;
+    }
+    else {
+        return 1;
+    }
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    NSString *choosen=[globalArray objectAtIndex:row];
-    if ([currencyArray containsObject:choosen]) {
-        [currency setTitle:choosen forState:UIControlStateNormal];
-    }
-    else if ([adPeriodArray containsObject:choosen]) {
-        [adPeriod setTitle:choosen forState:UIControlStateNormal];
-    }
-    else if ([serviceKindArray containsObject:choosen]) {
-        [serviceKind  setTitle:choosen forState:UIControlStateNormal];
-    }
-    else if ([kiloMileArray containsObject:choosen]) {
-        [kiloMile setTitle:choosen forState:UIControlStateNormal];
+    if (pickerView==_locationPickerView) {
+        if (component==0) {
+            NSString *choosen=[countryArray objectAtIndex:row];
+           // SET cities array
+            [countryCity setTitle:choosen forState:UIControlStateNormal];
+            [pickerView reloadAllComponents];
+        }
+        else{
+            NSString *choosen=[cityArray objectAtIndex:row];
+            [countryCity setTitle:choosen forState:UIControlStateNormal];
+            [pickerView reloadAllComponents];
+        }
+
     }
 
-    else if ([productionYearArray containsObject:choosen]) {
-        [productionYear setTitle:choosen forState:UIControlStateNormal];
+    else {
+        NSString *choosen=[globalArray objectAtIndex:row];
+        if ([currencyArray containsObject:choosen]) {
+            [currency setTitle:choosen forState:UIControlStateNormal];
+        }
+        else if ([productionYearArray containsObject:choosen]) {
+            [productionYear setTitle:choosen forState:UIControlStateNormal];
+        }
     }
-    
+
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component;
 {
-    return [globalArray count];
+    if (pickerView==_locationPickerView) {
+        if (component==0) {
+            return [countryArray count];
+        }
+        else{
+            return [cityArray count];
+        }
+    }
+    else {
+        return [globalArray count];
+    }
+
+    
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component;
 {
-    return [globalArray objectAtIndex:row];
+    if (pickerView==_locationPickerView) {
+        if (component==0) {
+            return [countryArray objectAtIndex:row];
+        }
+        else{
+            return [cityArray objectAtIndex:row];
+        }
+    }
+    else {
+        return [globalArray objectAtIndex:row];
+    }
+    
+    
 }
 
 #pragma mark - Buttons Actions
 
-- (void) chooseServiceKind{
-    [self showPicker:self.pickerView];
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
-    // fill picker with service options
-    globalArray=serviceKindArray;
-    
-    [self.pickerView reloadAllComponents];
-}
-
-- (void) chooseAdPeriod{
-    [self showPicker:self.pickerView];
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
-    // fill picker with period of ad options
-    globalArray= adPeriodArray;
-    
-    [self.pickerView reloadAllComponents];
-}
 
 - (void) chooseProductionYear{
     [self showPicker:self.pickerView];
@@ -407,25 +420,24 @@
     [self.pickerView reloadAllComponents];
 }
 
-- (void) chooseReceiveMail{
-    if(recievMail==false){
-        [receiveMail setBackgroundImage:[UIImage imageNamed: @"AddCar_check.png"] forState:UIControlStateNormal];
-        recievMail=true;
-        
-    }
-    else{
-        [receiveMail setBackgroundImage:[UIImage imageNamed: @"AddCar_check_gray.png"] forState:UIControlStateNormal];
-        recievMail=false;
-    }
-   
+- (void) chooseCountryCity{
+    [self showPicker:self.locationPickerView];
+    [self.locationPickerView selectRow:0 inComponent:0 animated:YES];
+    
+    [self.locationPickerView reloadAllComponents];
+
+    
 }
 
 - (void) chooseKiloMile{
-    [self showPicker:self.pickerView];
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
-    // fill picker with distance options
-    globalArray=kiloMileArray;
-    [self.pickerView reloadAllComponents];
+    if (kiloMile.selectedSegmentIndex==2) {
+        kiloChoosen=true;
+    }
+    else if (kiloMile.selectedSegmentIndex==1){
+        
+        kiloChoosen=false;
+    }
+
 }
 
 - (IBAction)homeBtnPrss:(id)sender {
@@ -440,6 +452,13 @@
     // CODE HERE
     [self dismissViewControllerAnimated:YES completion:nil];
     
+
+}
+
+- (IBAction)selectModelBtnPrss:(id)sender {
+    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    vc.tagOfCallXib=2;
+    [self presentViewController:vc animated:YES completion:nil];
 
 }
 

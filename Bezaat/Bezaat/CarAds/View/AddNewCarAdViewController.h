@@ -21,10 +21,13 @@
 @property (strong, nonatomic) IBOutlet UIPickerView *pickerView;
 
 @property (strong, nonatomic) Model *currentModel;
+@property (strong, nonatomic) IBOutlet UILabel *modelNameLabel;
+@property (strong, nonatomic) IBOutlet UIPickerView *locationPickerView;
 
 #pragma mark - actions
 
 - (IBAction)homeBtnPrss:(id)sender;
 - (IBAction)addBtnprss:(id)sender;
+- (IBAction)selectModelBtnPrss:(id)sender;
 
 @end
