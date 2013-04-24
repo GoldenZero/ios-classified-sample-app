@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+ 
 @interface PricingOption : NSObject
 
 @property (nonatomic) NSInteger pricingID;
