@@ -118,12 +118,20 @@
     //4- cache the data
     if (carAdsArray && carAdsArray.count)
     {
-        [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
+        if (currentModel)
+            [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
                                                   forBrand:currentModel.brandID
                                                      Model:currentModel.modelID
                                                     InCity:[[SharedUser sharedInstance] getUserCityID]
                                                tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
                                                forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+        else
+            [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
+                                                      forBrand:-1
+                                                         Model:-1
+                                                        InCity:[[SharedUser sharedInstance] getUserCityID]
+                                                   tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
+                                                   forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
     }
     
 }
@@ -684,7 +692,10 @@
 - (void) setButtonsToToolbar{
     
     //  set the model label name
-    [self.modelNameLabel setText:currentModel.modelName];
+    if (currentModel)
+        [self.modelNameLabel setText:currentModel.modelName];
+    else
+        [self.modelNameLabel setText:@"جميع السيارات"];
     
     //  add background to the toolbar
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
@@ -856,17 +867,34 @@
     NSInteger page = [[CarAdsManager sharedInstance] nextPage];
     //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
     
-    [[CarAdsManager sharedInstance] loadCarAdsOfPage:page forBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID] WithDelegate:self];
+    if (currentModel)
+        [[CarAdsManager sharedInstance] loadCarAdsOfPage:page forBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID] WithDelegate:self];
+    else
+        [[CarAdsManager sharedInstance] loadCarAdsOfPage:page forBrand:-1 Model:-1 InCity:[[SharedUser sharedInstance] getUserCityID] WithDelegate:self];
 }
 
 - (void) loadFirstData {
-    NSArray * cachedArray = [[CarAdsManager sharedInstance] getCahedDataForBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID]];
+    NSArray * cachedArray;
+    if (currentModel)
+        cachedArray = [[CarAdsManager sharedInstance] getCahedDataForBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID]];
+    else
+        cachedArray = [[CarAdsManager sharedInstance] getCahedDataForBrand:-1 Model:-1 InCity:[[SharedUser sharedInstance] getUserCityID]];
     
     if (cachedArray && cachedArray.count)
     {
-        NSInteger cachedPageNum = [[CarAdsManager sharedInstance] getCahedPageNumForBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID]];
         
-        NSInteger cachedPageSize = [[CarAdsManager sharedInstance] getCahedPageSizeForBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID]];
+        NSInteger cachedPageNum;
+        if (currentModel)
+            cachedPageNum = [[CarAdsManager sharedInstance] getCahedPageNumForBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID]];
+        else
+            cachedPageNum = [[CarAdsManager sharedInstance] getCahedPageNumForBrand:-1 Model:-1 InCity:[[SharedUser sharedInstance] getUserCityID]];
+        
+        NSInteger cachedPageSize;
+        if (currentModel)
+            cachedPageSize = [[CarAdsManager sharedInstance] getCahedPageSizeForBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID]];
+        else
+            cachedPageSize = [[CarAdsManager sharedInstance] getCahedPageSizeForBrand:-1 Model:-1 InCity:[[SharedUser sharedInstance] getUserCityID]];
+            
         [[CarAdsManager sharedInstance] setCurrentPageNum:cachedPageNum];
         [[CarAdsManager sharedInstance] setCurrentPageSize:cachedPageSize];
         [carAdsArray addObjectsFromArray:cachedArray];
@@ -893,11 +921,19 @@
     
     //NSLog(@"refresher released!");
     //1- clear cache
-    [[CarAdsManager sharedInstance] clearCachedDataForBrand:currentModel.brandID
+    if (currentModel)
+        [[CarAdsManager sharedInstance] clearCachedDataForBrand:currentModel.brandID
                                             Model:currentModel.modelID
                                             InCity:[[SharedUser sharedInstance] getUserCityID]
                                             tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
                                             forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+    else
+        [[CarAdsManager sharedInstance] clearCachedDataForBrand:-1
+                                                          Model:-1
+                                                         InCity:[[SharedUser sharedInstance] getUserCityID]
+                                                    tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
+                                                    forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+    
     //2- reset page identifiers
     [[CarAdsManager sharedInstance] setCurrentPageNum:0];
     [[CarAdsManager sharedInstance] setPageSizeToDefault];
