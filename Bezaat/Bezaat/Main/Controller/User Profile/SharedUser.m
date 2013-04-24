@@ -77,21 +77,19 @@ static OAuth * twSharedToken;
 }
 
 - (NSInteger) getUserCountryID {
-    if (countryID == -1)
-        countryID = [[LocationManager sharedInstance] getSavedUserCountryID];
+    
+    countryID = [[LocationManager sharedInstance] getSavedUserCountryID];
     return countryID;
 }
 
 - (NSInteger) getUserCityID {
-    if (cityID == -1)
-        cityID = [[LocationManager sharedInstance] getSavedUserCityID];
+    cityID = [[LocationManager sharedInstance] getSavedUserCityID];
     return cityID;
 }
 
 - (UserProfile *) getUserProfileData {
     //return a nil of user is a visitor
-    if (!currentProfile)
-        currentProfile =[[ProfileManager sharedInstance] getSavedUserProfile];
+    currentProfile =[[ProfileManager sharedInstance] getSavedUserProfile];
     return currentProfile;
 }
 

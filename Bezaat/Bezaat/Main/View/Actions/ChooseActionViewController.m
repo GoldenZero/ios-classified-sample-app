@@ -42,13 +42,19 @@
     custoIconMenuArray=[[NSMutableArray alloc]init];
 
     [super viewDidLoad];
-    [self customizeMenu];
+    //[self customizeMenu];
        self.menuTableView.separatorColor = [UIColor clearColor];
     
     [self prepareImages];
     [self customGestures];
     
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self customizeMenu];
 }
 
 - (void)didReceiveMemoryWarning
