@@ -20,7 +20,7 @@
 @property (nonatomic) NSInteger countryID;
 @property (nonatomic) NSInteger activeAdsCount;
 @property (nonatomic) NSInteger status;
-@property (nonatomic) NSInteger contactNo;
+@property (nonatomic, strong) NSString *contactNo;
 
 @property (nonatomic, strong) NSString *desc;
 

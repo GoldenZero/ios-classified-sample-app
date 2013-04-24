@@ -8,12 +8,26 @@
 
 #import "StoreManager.h"
 
+typedef enum {
+    RequestInProgressCreateStore,
+    RequestInProgressUploadLOGO,
+    RequestInProgressGetUserStores
+} RequestInProgress;
+
+@interface StoreManager () {
+    InternetManager *internetManager;
+    RequestInProgress requestInProgress;
+}
+@end
+
 @implementation StoreManager
 
 static NSString *create_store_url = @"http://gfctest.edanat.com/v1.0/json/create-store";
 static NSString *upload_logo_url = @"http://gfctest.edanat.com/v1.0/json/upload-logo";
+static NSString *get_user_stores_url = @"http://gfctest.edanat.com/v1.0/json/user-stores";
 static NSString *create_store_temp_file = @"createStoreTmpFile";
 static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
+static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
 
 @synthesize delegate;
 
@@ -29,13 +43,7 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
     requestInProgress = RequestInProgressUploadLOGO;
     
     //1- check connectivity
-    if (![GenericMethods connectedToInternet])
-    {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate storeLOGOUploadDidFailWithError:error];
+    if (![self checkConnectivity]) {
         return ;
     }
     
@@ -98,14 +106,8 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
     requestInProgress = RequestInProgressCreateStore;
 
     //1- check connectivity
-    if (![GenericMethods connectedToInternet])
-    {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate storeCreationDidFailWithError:error];
-        return ;
+    if (![self checkConnectivity]) {
+        return;
     }
     
     //2- start the request
@@ -145,6 +147,33 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
                        ];
 }
 
+- (void)getUserStores {
+    requestInProgress = RequestInProgressGetUserStores;
+    
+    //1- check connectivity
+    if (![self checkConnectivity]) {
+        return;
+    }
+    
+    //2- start the request
+    NSMutableURLRequest *request = [self request];
+    
+    if (request == nil) {
+        [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
+        return;
+    }
+    [request setURL:[NSURL URLWithString:get_user_stores_url]];
+    
+    internetManager = [[InternetManager alloc] initWithTempFileName:get_user_stores_temp_file
+                                                         urlRequest:request
+                                                           delegate:self
+                                                   startImmediately:YES
+                                                       responseType:@"JSON"
+                       ];
+}
+
+#pragma mark - Private Methods
+
 - (NSMutableURLRequest *)request {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
@@ -182,6 +211,19 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
     return request;
 }
 
+- (BOOL) checkConnectivity {
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.delegate)
+            [self.delegate storeCreationDidFailWithError:error];
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark - DataDelegate Methods
 
 - (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
@@ -189,7 +231,6 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
         return;
     }
     
-    NSLog(@"connectionDidFailWithError:%@",error);
     if (requestInProgress == RequestInProgressUploadLOGO) {
         if ([delegate respondsToSelector:@selector(storeLOGOUploadDidFailWithError:)]) {
             [delegate storeLOGOUploadDidFailWithError:error];
@@ -200,24 +241,46 @@ static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
             [delegate storeCreationDidFailWithError:error];
         }
     }
+    else if (requestInProgress == RequestInProgressGetUserStores) {
+        if ([delegate respondsToSelector:@selector(userStoresRetrieveDidFailWithError:)]) {
+            [delegate userStoresRetrieveDidFailWithError:error];
+        }
+    }
 }
 
 - (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*)result {
     if (manager != internetManager) {
         return;
     }
-    NSLog(@"connectionDidSucceedWithObjects:%@",((NSArray *)result)[0]);
     if (requestInProgress == RequestInProgressUploadLOGO) {
-        NSDictionary *data = [(((NSArray *)result)[0]) objectForKey:@"Data"];
+        NSDictionary *data = ((NSArray *)result)[0][@"Data"];
         NSString *imageURL = [data objectForKey:@"LogoURL"];
         if ([delegate respondsToSelector:@selector(storeLOGOUploadDidSucceedWithImageURL:)]) {
             [delegate storeLOGOUploadDidSucceedWithImageURL:imageURL];
         }
     }
     else if (requestInProgress == RequestInProgressCreateStore) {
-        
         if ([delegate respondsToSelector:@selector(storeCreationDidSucceedWithStoreID:)]) {
-            [delegate storeCreationDidSucceedWithStoreID:((NSArray *)result)[0]];
+            [delegate storeCreationDidSucceedWithStoreID:((NSArray *)result)[0][@"Data"]];
+        }
+    }
+    else if (requestInProgress == RequestInProgressGetUserStores) {
+        NSArray *storesDics = ((NSArray *)result)[0][@"Data"];
+        NSMutableArray *stores = [[NSMutableArray alloc] initWithCapacity:[storesDics count]];
+        for (NSDictionary *storeDic in storesDics) {
+            Store *store = [[Store alloc] init];
+            store.identifier = [storeDic[@"StoreID"] integerValue];
+            store.name = storeDic[@"StoreName"];
+            store.activeAdsCount = [storeDic[@"ActiveAdsCount"] integerValue];
+            store.countryID = [storeDic[@"CountryID"] integerValue];
+            store.contactNo = storeDic[@"StoreContactNo"];
+            store.imageURL = storeDic[@"StoreImageURL"];
+            store.ownerEmail = storeDic[@"StoreOwnerEmail"];
+            store.status = [storeDic[@"StoreStatus"] integerValue];
+            [stores addObject:store];
+        }
+        if ([delegate respondsToSelector:@selector(userStoresRetrieveDidSucceedWithStores:)]) {
+            [delegate userStoresRetrieveDidSucceedWithStores:stores];
         }
     }
 }

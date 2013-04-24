@@ -10,22 +10,16 @@
 #import "Store.h"
 
 @protocol StoreManagerDelegate <NSObject>
-@required
+@optional
 - (void) storeCreationDidFailWithError:(NSError *)error;
 - (void) storeCreationDidSucceedWithStoreID:(NSString *)storeID;
 - (void) storeLOGOUploadDidFailWithError:(NSError *)error;
 - (void) storeLOGOUploadDidSucceedWithImageURL:(NSString *)imageURL;
+- (void) userStoresRetrieveDidFailWithError:(NSError *)error;
+- (void) userStoresRetrieveDidSucceedWithStores:(NSArray *)stores;
 @end
 
-typedef enum {
-    RequestInProgressCreateStore,
-    RequestInProgressUploadLOGO
-} RequestInProgress;
-
-@interface StoreManager : NSObject <DataDelegate> {
-    InternetManager *internetManager;
-    RequestInProgress requestInProgress;
-}
+@interface StoreManager : NSObject <DataDelegate>
 
 #pragma mark - properties
 
@@ -38,5 +32,7 @@ typedef enum {
 - (void)uploadLOGO:(UIImage *)image;
 
 - (void)createStore:(Store *)store;
+
+- (void)getUserStores;
 
 @end

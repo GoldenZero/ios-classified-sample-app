@@ -8,10 +8,10 @@
 
 #import "BrowseStoresViewController.h"
 #import "StoreTableViewCell.h"
-#import "StoreManager.h"
 
 @interface BrowseStoresViewController () {
     NSArray *allUserStores;
+    MBProgressHUD2 *loadingHUD;
     IBOutlet UITableView *tableView;
 }
 
@@ -26,15 +26,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        NSMutableArray *result = [[NSMutableArray alloc] init];
-        for (int i = 0; i < 4; i++) {
-            Store *store = [[Store alloc] init];
-            store.name = [NSString stringWithFormat:@"Store_%d",i];
-            store.desc = [NSString stringWithFormat:@"Store_%d Description",i];
-            store.imageURL = @"http://content.bezaat.com/bd4ec47c-18a6-4860-898a-db267cc1254e.jpg";
-            [result addObject:store];
-        }
-        allUserStores = result;
+        loadingHUD = [[MBProgressHUD2 alloc] init];
     }
     return self;
 }
@@ -43,8 +35,10 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-//
-//    [tableView registerClass:[StoreTableViewCell class] forCellReuseIdentifier:storeTableCellIdentifier];
+    
+    [StoreManager sharedInstance].delegate = self;
+    [[StoreManager sharedInstance] getUserStores];
+    [self showLoadingIndicator];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,6 +51,22 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
 
 - (IBAction)backBtnPress:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Private Methods
+
+- (void) showLoadingIndicator {
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    loadingHUD.labelText = @"جاري تحميل البيانات";
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = YES;
+}
+
+- (void) hideLoadingIndicator {
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
+    loadingHUD = nil;
 }
 
 #pragma mark - UITableViewDataSource
@@ -80,6 +90,25 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     cell.logoURL = store.imageURL;
     
     return cell;
+}
+
+#pragma mark - StoreManagerDelegate
+
+- (void) userStoresRetrieveDidFailWithError:(NSError *)error {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                    message:@"حدث خطأ في تحميل المتاجر"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self hideLoadingIndicator];
+}
+
+- (void) userStoresRetrieveDidSucceedWithStores:(NSArray *)stores {
+    allUserStores = stores;
+    [tableView reloadData];
+    [self hideLoadingIndicator];
 }
 
 @end
