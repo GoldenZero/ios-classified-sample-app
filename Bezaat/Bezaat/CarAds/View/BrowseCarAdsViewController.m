@@ -1207,7 +1207,7 @@
     //3- refresh table data
     [self.tableView reloadData];
     //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    [self.tableView setContentOffset:CGPointZero animated:YES];
+    //[self.tableView setContentOffset:CGPointZero animated:YES];
     
 }
 
