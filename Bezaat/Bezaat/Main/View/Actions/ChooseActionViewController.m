@@ -13,6 +13,9 @@
 #import "AppDelegate.h"
 #import "AddNewCarAdViewController.h"
 #import "labelAdViewController.h"
+#import "ProfileDetailsViewController.h"
+#import "UserDetailsViewController.h"
+
 @interface ChooseActionViewController (){
     NSArray *menuArray;
     NSArray *iconMenuArray;
@@ -185,6 +188,14 @@
     }
     if (indexPath.row==0) {
         labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    if (indexPath.row == 8) {
+        ProfileDetailsViewController* vc = [[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    if (indexPath.row == 5) {
+        UserDetailsViewController* vc = [[UserDetailsViewController alloc]initWithNibName:@"UserDetailsViewController" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
     }
 }
