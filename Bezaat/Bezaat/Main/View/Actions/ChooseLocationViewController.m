@@ -62,14 +62,6 @@
     locationMngr = [LocationManager sharedInstance];
     
     [self loadData];
-    // Setting default country
-    
-    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    if  (defaultIndex!= -1){
-        chosenCountry =[countriesArray objectAtIndex:defaultIndex];
-        citiesArray=[chosenCountry cities];
-        [self translateMap:chosenCountry];
-    }
     
     
     //[locationMngr loadCountriesAndCitiesWithDelegate:self];
@@ -145,6 +137,19 @@
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
     countriesArray=resultArray;
     [self hideLoadingIndicator];
+    
+    // Setting default country
+    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    if  (defaultIndex!= -1){
+        chosenCountry =[countriesArray objectAtIndex:defaultIndex];//set initial chosen country
+        citiesArray=[chosenCountry cities];
+        if (citiesArray && citiesArray.count)
+            chosenCity=[citiesArray objectAtIndex:0];//set initial chosen city
+        [countriesPickerView reloadAllComponents];
+        [citiesPickerView reloadAllComponents];
+        [countriesPickerView selectRow:defaultIndex inComponent:0 animated:YES];
+        [self translateMap:chosenCountry];
+    }
     
 }
 
@@ -300,8 +305,8 @@
         MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
         NSString * code = mark.countryCode;
         //NSLog(@"city: %@", [mark.addressDictionary objectForKey:kABPersonAddressCityKey]);
-        NSLog(@"city: %@", mark.locality);
-        NSLog(@"subcity: %@", mark.subLocality);
+        //NSLog(@"city: %@", mark.locality);
+        //NSLog(@"subcity: %@", mark.subLocality);
         
         //NSLog(@"%@", code);
         
