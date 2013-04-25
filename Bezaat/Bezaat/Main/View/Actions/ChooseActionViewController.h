@@ -14,9 +14,10 @@
 
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
 
-@interface ChooseActionViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface ChooseActionViewController : GAITrackedViewController<UITableViewDataSource,UITableViewDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIButton *AddStoreButton;

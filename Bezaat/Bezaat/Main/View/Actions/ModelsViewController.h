@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-@interface ModelsViewController : UIViewController<BrandManagerDelegate> {
+@interface ModelsViewController : GAITrackedViewController<BrandManagerDelegate> {
     NSArray* currentBrands;
     NSArray* currentModels;
 }

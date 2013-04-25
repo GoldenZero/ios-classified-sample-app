@@ -39,6 +39,7 @@
     //self.friendVC=[[FriendsListViewController alloc] initWithNibName:@"FriendsListViewController" bundle:nil];
     //self.window.rootViewController = self.friendVC;
 
+    //GA
     // Optional: automatically send uncaught exceptions to Google Analytics.
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
@@ -47,7 +48,7 @@
     [GAI sharedInstance].debug = YES;
     // Create tracker instance.
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-40430774-1"];
-
+    //GA
     
     
     //4- visualize

@@ -260,6 +260,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.trackedViewName = @"Choose Model";
     self.tblModels.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin;
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         
