@@ -23,6 +23,9 @@
 
 - (void) orderDidFailConfirmingWithError:(NSError *) error;
 - (void) orderDidFinishConfirmingWithStatus:(BOOL) status;
+
+- (void) orderDidFailCancellingWithError:(NSError *) error;
+- (void) orderDidFinishCancellingWithStatus:(BOOL) status;
 @end
 
 @interface FeaturingManager : NSObject <DataDelegate>
@@ -39,4 +42,6 @@
 - (void) createOrderForFeaturingAdID:(NSInteger) adID withPricingID:(NSInteger) pricingID WithDelegate:(id <FeaturingOrderDelegate>) del;
 
 - (void) confirmOrderID:(NSString *) orderID gatewayResponse:(NSString *) aGatewayResponse withDelegate:(id <FeaturingOrderDelegate>) del;
+
+- (void) cancelOrderID:(NSString *) orderID withDelegate:(id <FeaturingOrderDelegate>) del;
 @end
