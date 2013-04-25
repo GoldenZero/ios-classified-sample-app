@@ -233,7 +233,7 @@
                 
             {
                 ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-                vc.tagOfCallXib=1;
+                vc.tagOfCallXib=2;
                 [self presentViewController:vc animated:YES completion:nil];
 
                 break;
