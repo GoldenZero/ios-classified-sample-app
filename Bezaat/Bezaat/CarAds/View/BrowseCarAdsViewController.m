@@ -88,7 +88,7 @@
     tapCloseSearch= [[UITapGestureRecognizer alloc]
                      initWithTarget:self
                      action:@selector(dismissSearch)];
-    //[self. addGestureRecognizer:tapCloseSearch];
+    [self.forTapping addGestureRecognizer:tapCloseSearch];
     
     [super viewDidLoad];
     [self setButtonsToToolbar];
@@ -149,7 +149,8 @@
                                                    tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
                                                    forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
     }
-    
+    [self.searchPanelView setHidden:YES];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -943,6 +944,7 @@
 - (void) dismissSearch{
     [self hideSearchPanel];
      [self.searchImageButton setHidden:YES];
+     searchBtnFlag=false;
 }
 #pragma mark - animation
 

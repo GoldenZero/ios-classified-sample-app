@@ -40,6 +40,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *fromYearLabel;
 @property (strong, nonatomic) IBOutlet UILabel *toYearLabel;
 
+@property (strong, nonatomic) IBOutlet UIView *forTapping;
+
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;
