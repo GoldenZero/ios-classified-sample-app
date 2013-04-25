@@ -26,20 +26,12 @@
 @property (strong, nonatomic) IBOutlet UILabel *modelNameLabel;
 @property (strong, nonatomic) Model *currentModel;
 @property (strong, nonatomic) IBOutlet UIView *topBarView;
-@property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet UIButton *adWithImageButton;
 @property (strong, nonatomic) IBOutlet UIView *searchPanelView;
 @property (strong, nonatomic) IBOutlet UITextField *carNameText;
 @property (strong, nonatomic) IBOutlet UITextField *lowerPriceText;
 @property (strong, nonatomic) IBOutlet UITextField *higherPriceText;
-@property (strong, nonatomic) IBOutlet UIView *filtersView;
-@property (strong, nonatomic) IBOutlet UIView *notificationView;
 @property (strong, nonatomic) IBOutlet UIImageView *searchImageButton;
-
-@property (strong, nonatomic) IBOutlet UIButton *kiloFilterBtn;
-@property (strong, nonatomic) IBOutlet UIButton *priceFilterBtn;
-@property (strong, nonatomic) IBOutlet UIButton *dateFilterBtn;
-@property (strong, nonatomic) IBOutlet UIButton *okNotificationBtnImg;
 
 @property (strong, nonatomic) IBOutlet UIButton *distanceButton;
 @property (strong, nonatomic) IBOutlet UIButton *fromYearButton;
@@ -56,11 +48,6 @@
 - (IBAction)searchInPanelBtnPrss:(id)sender;
 - (IBAction)clearInPanelBtnPrss:(id)sender;
 - (IBAction)adWithImageBtnPrss:(id)sender;
-- (IBAction)kiloFilterBtnPrss:(id)sender;
-- (IBAction)priceFilterBtnPrss:(id)sender;
-- (IBAction)dateFilterBtnPrss:(id)sender;
-- (IBAction)okNotificationBtnPrss:(id)sender;
-- (IBAction)cancelNotificationBtnPrss:(id)sender;
 - (IBAction)distanceBtnPrss:(id)sender;
 - (IBAction)fromYearBtnPrss:(id)sender;
 - (IBAction)toYearBtnPrss:(id)sender;

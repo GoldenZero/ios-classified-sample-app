@@ -16,13 +16,14 @@
 #import "ODRefreshControl.h"
 #import "DropDownView.h"
 #import "DistanceRange.h"
-
+#import "whyLabelAdViewController.h"
 
 @interface BrowseCarAdsViewController (){
     bool searchBtnFlag;
-    bool filtersShown;
     float lastContentOffset;
     UITapGestureRecognizer *tap;
+    UITapGestureRecognizer *tapCloseSearch;
+    
     MBProgressHUD2 * loadingHUD;
     NSMutableArray * carAdsArray;
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
@@ -57,7 +58,6 @@
     if (self) {
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
-        filtersShown=false;
         searchWithImage=false;
         lastContentOffset=0;
         
@@ -84,6 +84,11 @@
            initWithTarget:self
            action:@selector(dismissKeyboard)];
     [self.searchPanelView addGestureRecognizer:tap];
+    
+    tapCloseSearch= [[UITapGestureRecognizer alloc]
+                     initWithTarget:self
+                     action:@selector(dismissSearch)];
+    //[self. addGestureRecognizer:tapCloseSearch];
     
     [super viewDidLoad];
     [self setButtonsToToolbar];
@@ -119,9 +124,8 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    self.contentView.frame=CGRectMake(0, 65, self.contentView.frame.size.width, self.contentView.frame.size.height);
-    
+    [self.tableView reloadData];
+    self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -156,7 +160,6 @@
 
 #pragma mark - tableView handlig
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     //ad with image
     int separatorHeight = 5;//extra value for separating
@@ -218,7 +221,7 @@
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            
+            [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             
             //customize the carAdCell with actual data
             cell.detailsLabel.text = carAdObject.title;
@@ -327,7 +330,7 @@
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            
+            [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             
             //customize the carAdCell with actual data
             cell.detailsLabel.text = carAdObject.title;
@@ -423,7 +426,7 @@
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            
+            [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             
             //customize the carAdCell with actual data
             cell.detailsLabel.text = carAdObject.title;
@@ -524,7 +527,7 @@
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            
+            [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             
             //customize the carAdCell with actual data
             cell.detailsLabel.text = carAdObject.title;
@@ -626,52 +629,6 @@
 
 
 # pragma mark - hide bars while scrolling
-
-- (void) scrollViewDidScroll:(UITableView *)sender {
-    // Scroll up
-    if (( lastContentOffset> sender.contentOffset.y)||(sender.contentOffset.y == 0))
-    {
-        if (filtersShown==true) {
-            [self.notificationView setHidden:YES];
-            [self.filtersView setHidden:NO];
-            [self showFiltersBar];
-        }
-        [self showTopBar];
-        [self showNotificationBar];
-        if (sender.contentOffset.y == 0) {
-            [UIView animateWithDuration:.5
-                             animations:^{
-                                 self.contentView.frame=CGRectMake(0, 65, self.contentView.frame.size.width, self.contentView.frame.size.height);
-                                 
-                             }
-                             completion:^(BOOL finished){
-                                 
-                             }];
-            
-        }
-        
-    }
-    
-    //Scroll down
-    else {
-        
-        [self hideTopBar];
-        [self hideFiltersBar];
-        [self hideNotificationBar];
-        [UIView animateWithDuration:.5
-                         animations:^{
-                             self.contentView.frame=CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-                             
-                         }
-                         completion:^(BOOL finished){
-                             
-                         }];
-        
-        
-    }
-    lastContentOffset=sender.contentOffset.y;
-}
-
 # pragma mark - custom methods
 
 - (void) addToFavoritePressed:(id)sender event:(id)event {
@@ -700,7 +657,11 @@
         [self handleFeaturingBtnForCellAtIndexPath:indexPath];
     }
 }
-
+- (void)featureAdSteps{
+    whyLabelAdViewController *vc=[[whyLabelAdViewController alloc] initWithNibName:@"whyLabelAdViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+    
+}
 - (void) setButtonsToToolbar{
     
     //  set the model label name
@@ -979,28 +940,11 @@
     [dropDowntoYear closeAnimation];
 }
 
+- (void) dismissSearch{
+    [self hideSearchPanel];
+     [self.searchImageButton setHidden:YES];
+}
 #pragma mark - animation
-
-- (void) showFiltersBar{
-    [UIView animateWithDuration:.5
-                     animations:^{
-                         self.filtersView.frame = CGRectMake(2,self.topBarView.frame.size.height-2,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
-                         
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
-}
-
-- (void) hideFiltersBar{
-    [UIView animateWithDuration:.5
-                     animations:^{
-                         self.filtersView.frame = CGRectMake(2,-self.topBarView.frame.size.height,self.filtersView.frame.size.width,self.filtersView.frame.size.height);
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
-}
 
 - (void) showSearchPanel{
     [UIView animateWithDuration:.5
@@ -1021,50 +965,7 @@
                      completion:^(BOOL finished){
                          
                      }];
-}
-
-- (void) hideTopBar{
-    [UIView animateWithDuration:.25
-                     animations:^{
-                         self.topBarView.frame = CGRectMake(0,-self.topBarView.frame.size.height,self.topBarView.frame.size.width,self.topBarView.frame.size.height);
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
-}
-
-- (void) showTopBar{
-    [UIView animateWithDuration:.25
-                     animations:^{
-                         self.topBarView.frame = CGRectMake(0,0,self.topBarView.frame.size.width,self.topBarView.frame.size.height);
-                         
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
-}
-
-- (void) showNotificationBar{
-    [UIView animateWithDuration:.5
-                     animations:^{
-                         self.notificationView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.notificationView.frame.size.width,self.notificationView.frame.size.height);
-                         
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
     
-    
-}
-
-- (void) hideNotificationBar{
-    [UIView animateWithDuration:.5
-                     animations:^{
-                         self.notificationView.frame = CGRectMake(0,-self.topBarView.frame.size.height,self.notificationView.frame.size.width,self.notificationView.frame.size.height);
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
 }
 
 #pragma mark - actions
@@ -1074,7 +975,7 @@
 }
 
 - (IBAction)searchBtnPress:(id)sender {
-    [self.notificationView setHidden:YES];
+  
     if (searchBtnFlag==false){
         searchBtnFlag=true;
     }
@@ -1084,14 +985,12 @@
     if (searchBtnFlag){
         [self.searchPanelView setHidden:NO];
         [self.searchImageButton setHidden:NO];
-        [self hideFiltersBar];
         [self showSearchPanel];
     }
     
     else {
         [self.searchPanelView setHidden:YES];
         [self.searchImageButton setHidden:YES];
-        [self showFiltersBar];
         [self hideSearchPanel];
         
     }
@@ -1104,6 +1003,7 @@
 - (IBAction)modelBtnPress:(id)sender {
     
     ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    popover.tagOfCallXib=1;
     
     [self presentViewController:popover animated:YES completion:nil];
     
@@ -1111,11 +1011,8 @@
 
 - (IBAction)searchInPanelBtnPrss:(id)sender {
     
-    filtersShown=true;
     [self hideSearchPanel];
-    [self.filtersView setHidden:NO];
     [self.searchImageButton setHidden:YES];
-    [self showFiltersBar];
 // ______________________________________
 //    CODE TODO for Roula
 //_______________________________________
@@ -1127,12 +1024,7 @@
     //    self.lowerPriceText;
     //    self.higherPriceText;
     //    searchWithImage : bool;
-    
-    // filters bar actions are :
-    //    kiloFilterBtnPrss;
-    //    priceFilterBtnPrss;
-    //    dateFilterBtnPrss;
-    
+  
 }
 
 - (IBAction)clearInPanelBtnPrss:(id)sender {
@@ -1163,45 +1055,6 @@
         searchWithImage=false;
         
     }
-}
-
-- (IBAction)kiloFilterBtnPrss:(id)sender {
-    [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
-    [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
-    [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
-    
-    // ______________________________________
-    //    CODE TODO for Roula
-    //_______________________________________
-}
-
-- (IBAction)priceFilterBtnPrss:(id)sender {
-    [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
-    [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
-    [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
-    
-    // ______________________________________
-    //    CODE TODO for Roula
-    //_______________________________________
-}
-
-- (IBAction)dateFilterBtnPrss:(id)sender {
-    [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
-    [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
-    [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
-    
-    // ______________________________________
-    //    CODE TODO for Roula
-    //_______________________________________
-}
-
-- (IBAction)okNotificationBtnPrss:(id)sender {
-    [self.okNotificationBtnImg setAlpha:1.0];
-    [self.notificationView setHidden:YES];
-}
-
-- (IBAction)cancelNotificationBtnPrss:(id)sender {
-    [self.notificationView setHidden:YES];
 }
 
 - (IBAction)distanceBtnPrss:(id)sender {
