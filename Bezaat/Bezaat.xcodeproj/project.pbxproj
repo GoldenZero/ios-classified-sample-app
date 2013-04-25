@@ -433,6 +433,8 @@
 		613522FA1725DEFD00011D7D /* StoreList_Top_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 613522E41725DEFD00011D7D /* StoreList_Top_bg@2x.png */; };
 		842127F517290CDF0070FD76 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842127F417290CDF0070FD76 /* libGoogleAnalytics.a */; };
 		842127F717290D360070FD76 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 842127F617290D360070FD76 /* CoreData.framework */; };
+		8421280117292CE90070FD76 /* ChooseLocationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 842127FF17292CE90070FD76 /* ChooseLocationVC.m */; };
+		8421280217292CE90070FD76 /* ChooseLocationVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8421280017292CE90070FD76 /* ChooseLocationVC.xib */; };
 		8439FDE21727F4CD00CB1939 /* algeria.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAD1727F4CD00CB1939 /* algeria.png */; };
 		8439FDE31727F4CD00CB1939 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAE1727F4CD00CB1939 /* arrow.png */; };
 		8439FDE41727F4CD00CB1939 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAF1727F4CD00CB1939 /* arrow@2x.png */; };
@@ -1323,6 +1325,9 @@
 		842127F317290CDF0070FD76 /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransactionItem.h; sourceTree = "<group>"; };
 		842127F417290CDF0070FD76 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
 		842127F617290D360070FD76 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		842127FE17292CE90070FD76 /* ChooseLocationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLocationVC.h; sourceTree = "<group>"; };
+		842127FF17292CE90070FD76 /* ChooseLocationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLocationVC.m; sourceTree = "<group>"; };
+		8421280017292CE90070FD76 /* ChooseLocationVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseLocationVC.xib; sourceTree = "<group>"; };
 		8439FDAD1727F4CD00CB1939 /* algeria.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = algeria.png; sourceTree = "<group>"; };
 		8439FDAE1727F4CD00CB1939 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		8439FDAF1727F4CD00CB1939 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
@@ -3120,6 +3125,9 @@
 				9E78A7F516E35556000CA790 /* ChooseLocationViewController.h */,
 				9E78A7F616E35556000CA790 /* ChooseLocationViewController.m */,
 				9E78A7F716E35556000CA790 /* ChooseLocationViewController.xib */,
+				842127FE17292CE90070FD76 /* ChooseLocationVC.h */,
+				842127FF17292CE90070FD76 /* ChooseLocationVC.m */,
+				8421280017292CE90070FD76 /* ChooseLocationVC.xib */,
 				9E78A7F216E35556000CA790 /* ChooseActionViewController.h */,
 				9E78A7F316E35556000CA790 /* ChooseActionViewController.m */,
 				9E78A7F416E35556000CA790 /* ChooseActionViewController.xib */,
@@ -4161,6 +4169,7 @@
 				8439FE3A1727F50100CB1939 /* twotabe_white.png in Resources */,
 				8439FE3B1727F50100CB1939 /* twotabe_white@2x.png in Resources */,
 				8439FE46172812B800CB1939 /* GuestProfileViewController.xib in Resources */,
+				8421280217292CE90070FD76 /* ChooseLocationVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4272,6 +4281,7 @@
 				8439FE0B1727F4CD00CB1939 /* StoreAdsCell.m in Sources */,
 				8439FE0D1727F4CD00CB1939 /* UserDetailsViewController.m in Sources */,
 				8439FE45172812B800CB1939 /* GuestProfileViewController.m in Sources */,
+				8421280117292CE90070FD76 /* ChooseLocationVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

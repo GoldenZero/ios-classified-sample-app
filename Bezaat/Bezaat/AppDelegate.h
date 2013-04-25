@@ -13,6 +13,8 @@
 @class ChooseLocationViewController;
 @class SplashViewController;
 @class ChooseActionViewController;
+@class ChooseLocationVC;
+
 //@class FriendsListViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
@@ -20,6 +22,7 @@
 @property (strong, nonatomic) UIWindow * window;
 
 @property (strong, nonatomic) ChooseLocationViewController * chooseLocationVC;
+@property (strong, nonatomic) ChooseLocationVC * chooseLocationVC1;
 @property (strong, nonatomic) SplashViewController *splashVC;
 @property (strong, nonatomic) ChooseActionViewController *homeVC;
 //@property (strong, nonatomic) FriendsListViewController *friendVC;

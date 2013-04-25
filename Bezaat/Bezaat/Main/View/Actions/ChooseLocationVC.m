@@ -1,21 +1,20 @@
 //
-//  CountryListViewController.m
+//  ChooseLocationVC.m
 //  Bezaat
 //
-//  Created by GALMarei on 4/21/13.
+//  Created by GALMarei on 4/25/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-#import "CountryListViewController.h"
+#import "ChooseLocationVC.h"
 
-@interface CountryListViewController ()
+@interface ChooseLocationVC ()
 {
     int counting;
 }
 @end
 
-@implementation CountryListViewController
-
+@implementation ChooseLocationVC
 
 - (void)viewDidLoad
 {
@@ -26,35 +25,96 @@
     cityChosen = NO;
     
     locationMngr = [LocationManager sharedInstance];
-    
-    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    if  (defaultIndex!= -1){
-        chosenCountry =[countriesArray objectAtIndex:defaultIndex];
-        citiesArray=[chosenCountry cities];
-    }
-    
-    defaultCityID =  [[LocationManager sharedInstance] getSavedUserCityID];
-    NSLog(@"%i",defaultCityID);
-    
-    [locationMngr loadCountriesAndCitiesWithDelegate:self];
-    //[self.countriesTable reloadData];
-    
+    [self loadData];
+        
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    /*
-     DropDownCell *cell = (DropDownCell*) [self.countriesTable cellForRowAtIndexPath:CityIndex];
-     
-     NSIndexPath *path0 = [NSIndexPath indexPathForRow:[CityIndex row] + 1 inSection:0];
-     NSIndexPath *path1 = [NSIndexPath indexPathForRow:[CityIndex row] + 2 inSection:0];
-     NSIndexPath *path2 = [NSIndexPath indexPathForRow:[CityIndex row] + 3 inSection:0];
-     
-     NSArray *indexPathArray = [NSArray arrayWithObjects:path0, path1, path2, nil];
-     */
     
+  
     
-    [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(getThingsDone) userInfo:nil repeats:NO];
+}
+
+- (void) loadData {
+    
+    if (![GenericMethods connectedToInternet])
+    {
+        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        return;
+    }
+    
+    if ([CLLocationManager locationServicesEnabled])
+    {
+        if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
+            ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized))
+        {
+            if (!_locationManager)
+                _locationManager = [[CLLocationManager alloc] init];
+            
+            [self showLoadingIndicator];
+            _locationManager.delegate = self;
+            _locationManager.distanceFilter = 500;
+            _locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+            _locationManager.pausesLocationUpdatesAutomatically = YES;
+            
+            [_locationManager startUpdatingLocation];
+        }
+        else
+            [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+    }
+    else
+        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+}
+
+
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    
+    [_locationManager stopUpdatingLocation];
+    
+    //currentLocation = newLocation;
+    
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
+        NSString * code = mark.countryCode;
+        //NSLog(@"city: %@", [mark.addressDictionary objectForKey:kABPersonAddressCityKey]);
+        //NSLog(@"city: %@", mark.locality);
+        //NSLog(@"subcity: %@", mark.subLocality);
+        
+        //NSLog(@"%@", code);
+        
+        [LocationManager sharedInstance].deviceLocationCountryCode = code;
+        
+        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        
+        //self initialize drop down lists
+                
+        /*
+         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Horraaay!" message:[NSString stringWithFormat:@"NewLocation %f %f, code = %@", newLocation.coordinate.latitude, newLocation.coordinate.longitude, code] delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+         [alert show];
+         */
+    }];
+    
+}
+
+
+
+
+- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:error.localizedDescription delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+    [alert show];
+    
+    [_locationManager stopUpdatingLocation];
+    
+    [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+    
+    [locationMngr loadCountriesAndCitiesWithDelegate:self];
+    
     
 }
 
@@ -66,21 +126,26 @@
 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
     countriesArray=resultArray;
-    for (int i =0; i <= [countriesArray count] - 1; i++) {
-        chosenCountry=[countriesArray objectAtIndex:i];
+    [self hideLoadingIndicator];
+    
+    
+    // Setting default country
+    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    if  (defaultIndex!= -1){
+        chosenCountry =[countriesArray objectAtIndex:defaultIndex];//set initial chosen country
         citiesArray=[chosenCountry cities];
-        for (City* cit in citiesArray) {
-            if (cit.cityID == defaultCityID)
-            {
-                defaultCityName = cit.cityName;
-                CityIndex = [NSIndexPath indexPathForRow:[citiesArray indexOfObject:cit] inSection:i];
-                break;
-                //return;
-            }
-        }
+        if (citiesArray && citiesArray.count)
+            chosenCity=[citiesArray objectAtIndex:0];//set initial chosen city
     }
     
+    
+        defaultCityName = chosenCity.cityName;
+        CityIndex = [NSIndexPath indexPathForRow:0 inSection:[countriesArray indexOfObject:chosenCountry]];
+               
+    
     [self.countriesTable reloadData];
+    
+    [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(getThingsDone) userInfo:nil repeats:NO];
     
 }
 
@@ -552,30 +617,32 @@
             citiesArray=[chosenCountry cities];
             chosenCity = [citiesArray objectAtIndex:indexPath.row - 1];
             [[cell textLabel] setText:chosenCity.cityName];
-            [[LocationManager locationKeyChainItemSharedInstance] resetKeychainItem];
+            
             [[LocationManager sharedInstance] storeDataOfCountry:chosenCountry.countryID city:chosenCity.cityID];
             
-            [self dismissViewControllerAnimated:YES completion:nil];
+            SignInViewController * signInVC = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            [self presentViewController:signInVC animated:YES completion:nil];
             
             break;
         }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-/*
- -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- counting++;
- if (counting >= 10) {
- if ([CityIndex section] >= 10) {
- [self.countriesTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:17] atScrollPosition:nil animated:YES];
- }
- }
- }
- */
-- (IBAction)backInvoked:(id)sender {
+- (void) showLoadingIndicator {
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    loadingHUD.labelText = @"جاري تحميل البيانات";
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = YES;
+    
 }
+
+- (void) hideLoadingIndicator {
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
+    loadingHUD = nil;
+    
+}
+
 @end

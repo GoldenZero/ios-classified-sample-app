@@ -11,6 +11,8 @@
 
 #import "ChooseLocationViewController.h"
 
+#import "ChooseLocationVC.h"
+
 #import "SplashViewController.h"
 
 #import "ChooseActionViewController.h"
@@ -27,8 +29,8 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
     //2- chooseLocationVC
-    self.chooseLocationVC = [[ChooseLocationViewController alloc]
-                             initWithNibName:@"ChooseLocationViewController" bundle:nil];
+    self.chooseLocationVC1 = [[ChooseLocationVC alloc]
+                             initWithNibName:@"ChooseLocationVC" bundle:nil];
     self.homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     
     //3- splash view
@@ -60,7 +62,7 @@
 - (void) onSplashScreenDone {
     [self.splashVC.view removeFromSuperview];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
-        self.window.rootViewController = self.chooseLocationVC;
+        self.window.rootViewController = self.chooseLocationVC1;
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];;
     }
     else{

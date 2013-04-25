@@ -1,8 +1,8 @@
 //
-//  CountryListViewController.h
+//  ChooseLocationVC.h
 //  Bezaat
 //
-//  Created by GALMarei on 4/21/13.
+//  Created by GALMarei on 4/25/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
@@ -10,9 +10,12 @@
 #import "DropDownCell.h"
 #import "GenericFonts.h"
 #import "Country.h"
+#import "SignInViewController.h"
 
-@interface CountryListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,LocationManagerDelegate>
+@interface ChooseLocationVC : UIViewController<UITableViewDelegate,UITableViewDataSource,LocationManagerDelegate,CLLocationManagerDelegate>
 {
+    
+    MBProgressHUD2 * loadingHUD;
     
     NSIndexPath* CityIndex;
     NSMutableArray* _countries;
@@ -56,8 +59,16 @@
     
     LocationManager * locationMngr;
     
+    CLLocationManager* _locationManager;
+    CLLocation* _currentLocation;
+    
+    NSString* sLatitude;
+    NSString* eLatitude;
+    NSString* sLongtude;
+    NSString* eLongtude;
+    
 }
 @property (weak, nonatomic) IBOutlet UITableView *countriesTable;
-- (IBAction)backInvoked:(id)sender;
+
 
 @end
