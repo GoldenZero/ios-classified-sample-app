@@ -19,6 +19,7 @@
 @property (nonatomic) NSUInteger defaultCityID;
 @property (nonatomic) BOOL isVerified;
 @property (nonatomic) BOOL isActive;
+@property (nonatomic) BOOL hasStores;
 
 #pragma mark - actions
 - (id) initWithUserIDString:(NSString *) aUserIDString
@@ -27,7 +28,8 @@
                 passwordMD5:(NSString *) aPasswordMD5
         defaultCityIDString:(NSString *) aDefaultCityIDString
            isVerifiedString:(NSString *) aIsVerifiedString
-             isActiveString:(NSString *) aIsActiveString;
+             isActiveString:(NSString *) aIsActiveString
+            hasStoresString:(NSString *)aHasStoresString;
 
 @end
 

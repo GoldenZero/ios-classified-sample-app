@@ -17,6 +17,7 @@
 @synthesize defaultCityID;
 @synthesize isVerified;
 @synthesize isActive;
+@synthesize hasStores;
 
 
 - (id) initWithUserIDString:(NSString *) aUserIDString
@@ -25,7 +26,8 @@
                 passwordMD5:(NSString *) aPasswordMD5
         defaultCityIDString:(NSString *) aDefaultCityIDString
            isVerifiedString:(NSString *) aIsVerifiedString
-             isActiveString:(NSString *) aIsActiveString {
+             isActiveString:(NSString *) aIsActiveString
+            hasStoresString:(NSString *)aHasStoresString {
     
     self = [super init];
     
@@ -51,6 +53,9 @@
         
         // isActive
         self.isActive = aIsActiveString.boolValue;
+        
+        //hasStores
+        self.hasStores = aHasStoresString.boolValue;
         
     }
     return self;

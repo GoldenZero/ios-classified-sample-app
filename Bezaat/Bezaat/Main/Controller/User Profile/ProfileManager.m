@@ -21,6 +21,7 @@
 #define LOGIN_DEFAULT_CITY_ID_JKEY  @"DefaultCityID"
 #define LOGIN_IS_VERIFIED_JKEY      @"IsVerified"
 #define LOGIN_IS_ACTIVE_JKEY        @"IsActive"
+#define LOGIN_HAS_STORES_JKEY       @"HasStores"
 
 
 #pragma mark - device register json keys
@@ -369,7 +370,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     [userDict setObject:[NSNumber numberWithUnsignedInteger:up.defaultCityID] forKey:LOGIN_DEFAULT_CITY_ID_JKEY];
     [userDict setObject:[NSNumber numberWithBool:up.isVerified] forKey:LOGIN_IS_VERIFIED_JKEY];
     [userDict setObject:[NSNumber numberWithBool:up.isActive] forKey:LOGIN_IS_ACTIVE_JKEY];
-    
+    [userDict setObject:[NSNumber numberWithBool:up.hasStores] forKey:LOGIN_HAS_STORES_JKEY];
     
     [[ProfileManager loginKeyChainItemSharedInstance] setObject:userDict.description forKey:(__bridge id)(kSecAttrAccount)];
 }
@@ -395,6 +396,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     result.defaultCityID = ((NSNumber *)[userDict objectForKey:LOGIN_DEFAULT_CITY_ID_JKEY]).integerValue;
     result.isVerified = ((NSNumber *)[userDict objectForKey:LOGIN_IS_VERIFIED_JKEY]).boolValue;
     result.isActive = ((NSNumber *)[userDict objectForKey:LOGIN_IS_ACTIVE_JKEY]).boolValue;
+    result.hasStores = ((NSNumber *)[userDict objectForKey:LOGIN_HAS_STORES_JKEY]).boolValue;
     
     return result;
 }
@@ -642,6 +644,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
                                     defaultCityIDString:[dataDict objectForKey:LOGIN_DEFAULT_CITY_ID_JKEY]
                                     isVerifiedString:[dataDict objectForKey:LOGIN_IS_VERIFIED_JKEY]
                                     isActiveString:[dataDict objectForKey:LOGIN_IS_ACTIVE_JKEY]
+                                   hasStoresString:[dataDict objectForKey:LOGIN_HAS_STORES_JKEY]
                                    ];
                 return p;
             }
