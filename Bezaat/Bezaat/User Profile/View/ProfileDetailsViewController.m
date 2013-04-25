@@ -29,7 +29,7 @@
     // Do any additional setup after loading the view from its nib.
     //[self showLoadingIndicator];
     CurrentUser = [[UserProfile alloc]init];
-    [[ProfileManager sharedInstance] loginWithDelegate:self email:@"akbarbunere2@gmail.com" password:@"12345"];
+    //[[ProfileManager sharedInstance] loginWithDelegate:self email:@"akbarbunere2@gmail.com" password:@"12345"];
    
     locationMngr = [LocationManager sharedInstance];
     

@@ -38,6 +38,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *userNameText;
 @property (strong, nonatomic) IBOutlet UITextField *passwordText;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
+@property (strong, nonatomic) UITextField* twitterEmail;
+
 
 #pragma mark - actions
 

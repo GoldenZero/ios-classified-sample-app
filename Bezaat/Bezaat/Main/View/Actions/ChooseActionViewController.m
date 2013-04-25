@@ -227,10 +227,7 @@
                 //_____________________
                 // My adds view
                 //_____________________
-                ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-                vc.tagOfCallXib=2;
-                [self presentViewController:vc animated:YES completion:nil];
-                break;
+                
             }
             case 1:
                 
@@ -275,10 +272,8 @@
             }
             case 6:
             {
-                // TODO CODE
-                //_____________________
-                // Settings view
-                //_____________________
+                ProfileDetailsViewController *vc=[[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
+                [self presentViewController:vc animated:YES completion:nil];
 
                 break;
             }
@@ -291,10 +286,14 @@
             }
             case 8:
             {
-                // TODO CODE
-                //_____________________
-                // Log out view
-                //_____________________
+                [self showLoadingIndicator];
+                [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
+                
+                
+                UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تم تسجيل الخروج" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+                alert.tag = 1;
+                [self hideLoadingIndicator];
+                [alert show];
 
                 break;
             }
@@ -378,5 +377,14 @@
         [self showMenu];
 }
 
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.tag == 1) {
+        SignInViewController *vc=[[SignInViewController alloc]initWithNibName:@"SignInViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+        
+    }
+}
 
 @end

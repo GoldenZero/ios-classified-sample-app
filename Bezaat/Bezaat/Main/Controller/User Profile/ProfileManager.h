@@ -25,6 +25,10 @@
 @required
 - (void) userFailLoginWithError:(NSError*) error;
 - (void) userDidLoginWithData:(UserProfile *) resultProfile;
+
+- (void) userFailLoginWithTwitterError:(NSError*) error;
+- (void) userDidLoginWithTwitterData:(UserProfile *) resultProfile;
+
 @end
 
 @protocol ProfileUpdateDelegate <NSObject>
@@ -66,6 +70,9 @@
 
 // call login API
 - (void) loginWithDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress password:(NSString *) plainPassword;
+
+// call login Twitter API
+- (void) loginWithTwitterDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress AndUserName:(NSString *) userName andTwitterid:(NSString*)twitterID;
 
 // call device register API
 - (void) registerDeviceWithDelegate:(id <DeviceRegisterDelegate>) del;

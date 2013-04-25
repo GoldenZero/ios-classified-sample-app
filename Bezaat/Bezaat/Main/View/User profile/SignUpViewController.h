@@ -9,6 +9,15 @@
 // This UI is displayed to add a new user profile.
 
 #import <UIKit/UIKit.h>
+#import "FacebookManager.h"
+
+#import "TwitterLoginPopupDelegate.h"
+#import "TwitterLoginUiFeedback.h"
+#import "OAuth.h"
+#import "OAuth+UserDefaults.h"
+#import "OAuthConsumerCredentials.h"
+#import "TwitterDialog.h"
+
 
 @interface SignUpViewController : BaseViewController<UITextViewDelegate>
 

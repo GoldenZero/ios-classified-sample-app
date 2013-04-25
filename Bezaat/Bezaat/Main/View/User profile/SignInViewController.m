@@ -145,7 +145,9 @@
      NSLog(@"screen_name = %@", oAuth.screen_name);
      */
     
-    [GenericMethods throwAlertWithTitle:@"Twitter" message:@"Sucessfully Authenticated to Twitter ^__^" delegateVC:self];
+   // [GenericMethods throwAlertWithTitle:@"Twitter" message:@"Sucessfully Authenticated to Twitter ^__^" delegateVC:self];
+    
+    [[ProfileManager sharedInstance] loginWithTwitterDelegate:self email:@"" AndUserName:twOAuthObj.screen_name andTwitterid:twOAuthObj.user_id];
 }
 
 -(void)twitterDidNotLogin:(BOOL)cancelled {
@@ -177,6 +179,74 @@
     [self hideLoadingIndicator];
 }
 
+
+-(void)userDidLoginWithTwitterData:(UserProfile *)resultProfile
+{
+    
+    //save user's data
+    [[ProfileManager sharedInstance] storeUserProfile:resultProfile];
+    
+    //hide loading indicator
+    [self hideLoadingIndicator];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"تم تسجيل الدخول بنجاح"
+                                                    message:@""
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil, nil];
+    
+    alert.tag = 3;
+    [alert show];
+    
+  
+}
+
+-(void)userFailLoginWithTwitterError:(NSError *)error
+{
+   // [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"الرجاء تزويدنا بالبريد الإلكتروني"
+                                                    message:@"\n\n"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:@"إلغاء", nil];
+    
+    self.twitterEmail = [[UITextField alloc] initWithFrame:CGRectMake(12, 50, 260, 25)];
+    [self.twitterEmail setBackgroundColor:[UIColor whiteColor]];
+    [self.twitterEmail setPlaceholder:@"123@eample.com"];
+    [self.twitterEmail setTextAlignment:UITextAlignmentCenter];
+    self.twitterEmail.keyboardType = UIKeyboardTypeEmailAddress;
+    [alert addSubview:self.twitterEmail];
+    
+    // show the dialog box
+    alert.tag = 4;
+    [alert show];
+    
+    // set cursor and show keyboard
+    [self.twitterEmail becomeFirstResponder];
+
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.tag == 4) {
+        if (buttonIndex == 1)
+        {
+            alertView.hidden = YES;
+        }else if (buttonIndex == 0)
+        {
+            [[ProfileManager sharedInstance] loginWithTwitterDelegate:self email:self.twitterEmail.text AndUserName:twOAuthObj.screen_name andTwitterid:twOAuthObj.user_id];
+        }
+    }
+    else if (alertView.tag == 3){
+    
+    //present the next view controller
+    ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    
+    [self presentViewController:chooseActionVC animated:YES completion:nil];
+}
+
+}
 
 #pragma mark - helper methods
 

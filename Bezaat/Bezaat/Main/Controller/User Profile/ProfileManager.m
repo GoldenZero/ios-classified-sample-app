@@ -22,6 +22,7 @@
 #define LOGIN_IS_VERIFIED_JKEY      @"IsVerified"
 #define LOGIN_IS_ACTIVE_JKEY        @"IsActive"
 #define LOGIN_HAS_STORES_JKEY       @"HasStores"
+#define LOGIN_USER_TWITTER_ID_JKEY  @"TwitterUserID"
 
 
 #pragma mark - device register json keys
@@ -42,6 +43,7 @@
     InternetManager * favoriteAddMngr;
     InternetManager * favoriteRemoveMngr;
     NSUInteger currentAdIDForFav;
+    NSString* twitterChecked;
     @protected
         NSMutableData * dataSoFar;
 }
@@ -55,6 +57,7 @@
 
 //the login url is a POST url
 static NSString * login_url = @"http://gfctest.edanat.com/v1.0/json/user-login";
+static NSString * login_twitter_url = @"http://gfctest.edanat.com/v1.0/json/user-twitter-login";
 static NSString * device_reg_url = @"http://gfctest.edanat.com/v1.0/json/register-device?deviceTpe=%@&version=%@&osVersion=%@";
 static NSString * add_to_fav_url = @"http://gfctest.edanat.com/v1.0/json/add-to-favorite";
 static NSString * remove_from_fav_url = @"http://gfctest.edanat.com/v1.0/json/remove-from-favorite";
@@ -62,6 +65,7 @@ static NSString * update_user_url = @"http://gfctest.edanat.com/v1.0/json/modify
 
 static NSString * login_email_post_key = @"EmailAddress";
 static NSString * update_user_post_key = @"UserName";
+static NSString * update_user_twitter_post_key = @"TwitterUserID";
 static NSString * login_password_post_key = @"Password";
 static NSString * login_key_chain_identifier = @"BezaatLogin";
 static NSString * ad_id_post_key = @"AdID";
@@ -138,6 +142,42 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     
 }
 
+- (void) loginWithTwitterDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress AndUserName:(NSString *) userName andTwitterid:(NSString*)twitterID
+{
+    twitterChecked = @"twitter";
+    //1- set the delegate
+    self.delegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.delegate)
+            [self.delegate userFailLoginWithTwitterError:error];
+        return ;
+    }
+    
+    //3- start the request
+    NSString * post =[NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@",login_email_post_key, emailAdress, update_user_post_key, userName,update_user_twitter_post_key,twitterID];
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setTimeoutInterval:20];
+    
+    [request setURL:[NSURL URLWithString:login_twitter_url]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    
+    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [connection start];
+
+}
 - (void) registerDeviceWithDelegate:(id <DeviceRegisterDelegate>) del {
     
     //1- set the delegate
@@ -527,6 +567,9 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     dataSoFar = nil;
     
     if (self.delegate)
+        if ([twitterChecked isEqualToString:@"twitter"])
+           [self.delegate userFailLoginWithTwitterError:error];
+        else
         [self.delegate userFailLoginWithError:error];
     else if (self.updateDelegate) {
         [self.updateDelegate userFailUpdateWithError:error];
@@ -556,13 +599,19 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
                 if (self.delegate)
                 {
                     if (userData.isActive && userData.isVerified)
-                        [delegate userDidLoginWithData:userData];
+                        if ([twitterChecked isEqualToString:@"twitter"])
+                            [delegate userDidLoginWithTwitterData:userData];
+                        else
+                            [delegate userDidLoginWithData:userData];
+                        
                     else
                     {
                         CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
                         [error setDescMessage:@"تعذر تسجيل الدخول"];
-                        
-                        [self.delegate userFailLoginWithError:error];
+                        if ([twitterChecked isEqualToString:@"twitter"])
+                            [self.delegate userFailLoginWithTwitterError:error];
+                        else
+                            [self.delegate userFailLoginWithError:error];
                     }
                 }
                 else if (self.updateDelegate) {
@@ -582,8 +631,10 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
                 {
                     CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
                     [error setDescMessage:@"خطأ في تحميل االبيانات"];
-                    
-                    [self.delegate userFailLoginWithError:error];
+                    if ([twitterChecked isEqualToString:@"twitter"])
+                        [self.delegate userFailLoginWithTwitterError:error];
+                    else
+                        [self.delegate userFailLoginWithError:error];
                 }
                 else if (self.updateDelegate)
                 {
@@ -603,8 +654,10 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
             {
                 CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
                 [error setDescMessage:statusMessage];
-                
-                [self.delegate userFailLoginWithError:error];
+                if ([twitterChecked isEqualToString:@"twitter"])
+                    [self.delegate userFailLoginWithTwitterError:error];
+                else
+                    [self.delegate userFailLoginWithError:error];
             }
             if (self.updateDelegate)
             {
