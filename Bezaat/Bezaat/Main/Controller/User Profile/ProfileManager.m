@@ -359,6 +359,18 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     
 }
 
+- (BOOL) updateStoreStateForCurrentUser:(BOOL) storeState {
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (savedProfile)
+    {
+        savedProfile.hasStores = storeState;
+        [self storeUserProfile:savedProfile];
+        return YES;
+    }
+    else
+        return NO;
+}
+
 - (void) storeUserProfile:(UserProfile * ) up {
     
     NSMutableDictionary * userDict = [NSMutableDictionary new];

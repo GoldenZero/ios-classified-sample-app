@@ -76,6 +76,9 @@
 // call remove from favorite API
 - (void) removeCarAd:(NSUInteger ) adID fromFavoritesWithDelegate:(id <FavoritesDelegate>) del;
 
+// update the stores status in keyChain
+- (BOOL) updateStoreStateForCurrentUser:(BOOL) storeState;
+
 // store user's data
 - (void) storeUserProfile:(UserProfile * ) up;
 
