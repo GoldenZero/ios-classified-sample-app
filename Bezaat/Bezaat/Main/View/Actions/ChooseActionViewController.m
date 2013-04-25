@@ -16,6 +16,9 @@
 #import "ProfileDetailsViewController.h"
 #import "UserDetailsViewController.h"
 #import "GuestProfileViewController.h"
+#import "SignInViewController.h"
+#import "AddNewStoreViewController.h"
+#import "BrowseStoresViewController.h"
 
 @interface ChooseActionViewController (){
     NSArray *menuArray;
@@ -167,6 +170,7 @@
        // gust
     if(!savedProfile){
         [self.userNameLabel setText:@"زائر"];
+        
         [custoMenuArray addObject:[menuArray objectAtIndex:1]];
         [custoMenuArray addObject:[menuArray objectAtIndex:3]];
         [custoMenuArray addObject:[menuArray objectAtIndex:7]];
@@ -178,32 +182,34 @@
     // member
     else if (savedProfile){
         [self.userNameLabel setText:savedProfile.userName];
-      // IF store
-        [custoMenuArray addObject:[menuArray objectAtIndex:1]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:2]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:3]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:6]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:8]];
-        
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
+        if (savedProfile.hasStores) {
+            [custoMenuArray addObject:[menuArray objectAtIndex:1]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:2]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:3]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:6]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:8]];
+            
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
 
-        // If member
-        [custoMenuArray addObject:[menuArray objectAtIndex:0]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:1]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:3]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:6]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:8]];
+        }
         
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:0]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
-
+        else{
+            [custoMenuArray addObject:[menuArray objectAtIndex:0]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:1]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:3]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:6]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:8]];
+        
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:0]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
+        }
     
     }
 }
@@ -212,33 +218,89 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     
-    if(indexPath.row==1){
-        ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-        vc.tagOfCallXib=2;
-        [self presentViewController:vc animated:YES completion:nil];
-    }
-    if (indexPath.row==0) {
-        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
-        [self presentViewController:vc animated:YES completion:nil];
-    }
-    if (indexPath.row == 8) {
-        //guest
-        if(!savedProfile){
-            GuestProfileViewController* vc = [[GuestProfileViewController alloc]initWithNibName:@"GuestProfileViewController" bundle:nil];
-            [self presentViewController:vc animated:YES completion:nil];
-        } //member
-        else if (savedProfile){
-            ProfileDetailsViewController* vc = [[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
-            [self presentViewController:vc animated:YES completion:nil];
+    if([menuArray containsObject:[custoMenuArray objectAtIndex:indexPath.row]]){
+        NSInteger selectedIndex=[menuArray indexOfObject:[custoMenuArray objectAtIndex:indexPath.row]];
+        switch (selectedIndex) {
+            case 0:
+            {
+                // TODO CODE
+                //_____________________
+                // My adds view
+                //_____________________
+                break;
+            }
+            case 1:
+                
+            {
+                ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+                vc.tagOfCallXib=1;
+                [self presentViewController:vc animated:YES completion:nil];
+
+                break;
+            }
+            case 2:
+            {
+                BrowseStoresViewController *vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
+                [self presentViewController:vc animated:YES completion:nil];
+             
+                break;
+            }
+            case 3:
+            {
+                AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+                [self presentViewController:vc animated:YES completion:nil];
+
+                break;
+            }
+            case 4:
+            {
+                // TODO CODE
+                //_____________________
+                // Notifications view
+                //_____________________
+
+                break;
+            }
+            case 5:
+            {
+                // TODO CODE
+                //_____________________
+                // Favorites view
+                //_____________________
+
+                break;
+            }
+            case 6:
+            {
+                // TODO CODE
+                //_____________________
+                // Settings view
+                //_____________________
+
+                break;
+            }
+            case 7:
+            {
+                SignInViewController *vc=[[SignInViewController alloc]initWithNibName:@"SignInViewController" bundle:nil];
+                [self presentViewController:vc animated:YES completion:nil];
+
+                break;
+            }
+            case 8:
+            {
+                // TODO CODE
+                //_____________________
+                // Log out view
+                //_____________________
+
+                break;
+            }
+            default:
+                break;
         }
+        
     }
-    if (indexPath.row == 5) {
-        UserDetailsViewController* vc = [[UserDetailsViewController alloc]initWithNibName:@"UserDetailsViewController" bundle:nil];
-        [self presentViewController:vc animated:YES completion:nil];
-    }
-    if (indexPath.row == 9) {
-        //[self logout];
-    }
+  
 }
 
 -(void)logout
