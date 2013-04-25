@@ -76,7 +76,7 @@
     [[ProfileManager sharedInstance] storeUserProfile:newData];
     [self hideLoadingIndicator];
     
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تمت العملة بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تمت العملية بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
     alert.tag = 0;
     [alert show];
     

@@ -8,6 +8,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAI.h"
 
 @class ChooseLocationViewController;
 @class SplashViewController;
@@ -22,5 +23,7 @@
 @property (strong, nonatomic) SplashViewController *splashVC;
 @property (strong, nonatomic) ChooseActionViewController *homeVC;
 //@property (strong, nonatomic) FriendsListViewController *friendVC;
+@property(nonatomic, retain) id<GAITracker> tracker;
+
 - (void) onSplashScreenDone;
 @end

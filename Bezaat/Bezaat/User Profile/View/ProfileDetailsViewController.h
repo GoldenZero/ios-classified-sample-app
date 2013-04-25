@@ -14,7 +14,7 @@
 #import "ChangeNameViewController.h"
 
 
-@interface ProfileDetailsViewController : UIViewController<ProfileManagerDelegate,ProfileUpdateDelegate,UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate>
+@interface ProfileDetailsViewController : UIViewController<ProfileManagerDelegate,UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate>
 {
     UserProfile* CurrentUser;
     MBProgressHUD2 * loadingHUD;

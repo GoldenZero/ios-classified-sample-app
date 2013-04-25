@@ -88,22 +88,6 @@
 
 }
 
--(void)userUpdateWithData:(UserProfile *)newData
-{
-    NSLog(@"%@",newData);
-    [self hideLoadingIndicator];
-}
-
--(void)userFailUpdateWithError:(NSError *)error
-{
-    //NSLog(@"error: %@",error);
-    //UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Request time out" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-   // [alert show];
-//    return;
-    [self hideLoadingIndicator];
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

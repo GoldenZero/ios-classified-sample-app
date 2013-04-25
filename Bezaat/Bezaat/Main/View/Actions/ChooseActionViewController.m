@@ -15,12 +15,15 @@
 #import "labelAdViewController.h"
 #import "ProfileDetailsViewController.h"
 #import "UserDetailsViewController.h"
+#import "GuestProfileViewController.h"
 
 @interface ChooseActionViewController (){
     NSArray *menuArray;
     NSArray *iconMenuArray;
     NSMutableArray *custoMenuArray;
     NSMutableArray *custoIconMenuArray;
+    MBProgressHUD2 * loadingHUD;
+
 }
 
 @end
@@ -187,6 +190,8 @@
 #pragma mark - UITableView Delegate -
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    
     if(indexPath.row==1){
         ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
         vc.tagOfCallXib=2;
@@ -197,16 +202,57 @@
         [self presentViewController:vc animated:YES completion:nil];
     }
     if (indexPath.row == 8) {
-        ProfileDetailsViewController* vc = [[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
-        [self presentViewController:vc animated:YES completion:nil];
+        //guest
+        if(!savedProfile){
+            GuestProfileViewController* vc = [[GuestProfileViewController alloc]initWithNibName:@"GuestProfileViewController" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        } //member
+        else if (savedProfile){
+            ProfileDetailsViewController* vc = [[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
     }
     if (indexPath.row == 5) {
         UserDetailsViewController* vc = [[UserDetailsViewController alloc]initWithNibName:@"UserDetailsViewController" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
     }
+    if (indexPath.row == 9) {
+        //[self logout];
+    }
+}
+
+-(void)logout
+{
+    [self showLoadingIndicator];
+    //[[LocationManager locationKeyChainItemSharedInstance] resetKeychainItem];
+    [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
+    
+    
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تم تسجيل الخروج" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+    alert.tag = 0;
+    [self hideLoadingIndicator];
+    [alert show];
+    return;
+    
 }
 
 
+- (void) showLoadingIndicator {
+    
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    loadingHUD.labelText = @"جاري تحميل البيانات";
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = YES;
+    
+}
+
+- (void) hideLoadingIndicator {
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
+    loadingHUD = nil;
+    
+}
 
 
 

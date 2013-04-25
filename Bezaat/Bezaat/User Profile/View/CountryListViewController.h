@@ -13,6 +13,8 @@
 
 @interface CountryListViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,LocationManagerDelegate>
 {
+    
+    NSIndexPath* CityIndex;
     NSMutableArray* _countries;
     NSMutableArray* _cities;
     

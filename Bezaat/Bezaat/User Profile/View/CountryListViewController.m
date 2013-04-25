@@ -9,7 +9,9 @@
 #import "CountryListViewController.h"
 
 @interface CountryListViewController ()
-
+{
+int counting;
+}
 @end
 
 @implementation CountryListViewController
@@ -19,7 +21,7 @@
 {
     [super viewDidLoad];
 
-    
+    counting = 0;
     countryChosen = NO;
     cityChosen = NO;
     
@@ -39,6 +41,23 @@
 
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    /*
+    DropDownCell *cell = (DropDownCell*) [self.countriesTable cellForRowAtIndexPath:CityIndex];
+    
+    NSIndexPath *path0 = [NSIndexPath indexPathForRow:[CityIndex row] + 1 inSection:0];
+    NSIndexPath *path1 = [NSIndexPath indexPathForRow:[CityIndex row] + 2 inSection:0];
+    NSIndexPath *path2 = [NSIndexPath indexPathForRow:[CityIndex row] + 3 inSection:0];
+    
+    NSArray *indexPathArray = [NSArray arrayWithObjects:path0, path1, path2, nil];
+    */
+    
+    
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(getThingsDone) userInfo:nil repeats:NO];
+  
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -54,6 +73,7 @@
             if (cit.cityID == defaultCityID)
             {
                 defaultCityName = cit.cityName;
+                 CityIndex = [NSIndexPath indexPathForRow:[citiesArray indexOfObject:cit] inSection:i];
                 break;
                 //return;
             }
@@ -302,7 +322,6 @@
                 
                 // Configure the cell.
                 return cell;
-                
                 break;
             }
             default: {
@@ -324,11 +343,97 @@
                 
                 // Configure the cell.
                 return cell;
-                
+               
                 break;
             }
         }
       return nil;
+}
+
+-(void)getThingsDone
+{
+    if (citiesArray) {
+        if ([CityIndex section] > 10) {
+            [self.countriesTable scrollToRowAtIndexPath:CityIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        }
+        [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(getTheIndexDraw) userInfo:nil repeats:NO];
+    }
+
+}
+
+-(void)getTheIndexDraw
+{
+       
+    DropDownCell *Cell = (DropDownCell*) [self.countriesTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[CityIndex row] inSection:[CityIndex section]]];
+    
+    if (Cell == nil){
+        NSLog(@"New Cell Made");
+        
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell" owner:nil options:nil];
+        
+        for(id currentObject in topLevelObjects)
+        {
+            if([currentObject isKindOfClass:[DropDownCell class]])
+            {
+                Cell = (DropDownCell *)currentObject;
+                break;
+            }
+        }
+    }
+
+    chosenCountry=[countriesArray objectAtIndex:[CityIndex section]];
+    citiesArray=[chosenCountry cities];
+    NSMutableArray *indexPathArray;
+    indexPathArray = [[NSMutableArray alloc] init];
+    for (int i = 1; i <= [citiesArray count]; i++) {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:0+i inSection:[CityIndex section]];
+        [indexPathArray addObject:path];
+    }
+    
+    [Cell setOpen];
+    if ([CityIndex section] == 0)
+        dropDown1Open = [Cell isOpen];
+    else if ([CityIndex section] == 1)
+        dropDown2Open = [Cell isOpen];
+    else if ([CityIndex section] == 2)
+        dropDown3Open = [Cell isOpen];
+    else if ([CityIndex section] == 3)
+        dropDown4Open = [Cell isOpen];
+    else if ([CityIndex section] == 4)
+        dropDown5Open = [Cell isOpen];
+    else if ([CityIndex section] == 5)
+        dropDown6Open = [Cell isOpen];
+    else if ([CityIndex section] == 6)
+        dropDown7Open = [Cell isOpen];
+    else if ([CityIndex section] == 7)
+        dropDown8Open = [Cell isOpen];
+    else if ([CityIndex section] == 8)
+        dropDown9Open = [Cell isOpen];
+    else if ([CityIndex section] == 9)
+        dropDown10Open = [Cell isOpen];
+    else if ([CityIndex section] == 10)
+        dropDown11Open = [Cell isOpen];
+    else if ([CityIndex section] == 11)
+        dropDown12Open = [Cell isOpen];
+    else if ([CityIndex section] == 12)
+        dropDown13Open = [Cell isOpen];
+    else if ([CityIndex section] == 13)
+        dropDown14Open = [Cell isOpen];
+    else if ([CityIndex section] == 14)
+        dropDown15Open = [Cell isOpen];
+    else if ([CityIndex section] == 15)
+        dropDown16Open = [Cell isOpen];
+    else if ([CityIndex section] == 16)
+        dropDown17Open = [Cell isOpen];
+    else if ([CityIndex section] == 17)
+        dropDown18Open = [Cell isOpen];
+    
+    [self.countriesTable insertRowsAtIndexPaths:indexPathArray withRowAnimation:UITableViewRowAnimationTop];
+    
+    
+    [self.countriesTable selectRowAtIndexPath:[NSIndexPath indexPathForRow:[CityIndex row] + 1 inSection:[CityIndex section]] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+    [self.countriesTable scrollToRowAtIndexPath:CityIndex atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    
 }
 
 #pragma mark - Table view delegate
@@ -457,11 +562,18 @@
             }
            [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+/*
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[tableView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    counting++;
+    if (counting >= 10) {
+        if ([CityIndex section] >= 10) {
+        [self.countriesTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:17] atScrollPosition:nil animated:YES];
+        }
+    }
 }
-
+*/
 - (IBAction)backInvoked:(id)sender {
     
     [self dismissViewControllerAnimated:YES completion:nil];

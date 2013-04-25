@@ -431,6 +431,8 @@
 		613522F81725DEFD00011D7D /* StoreList_Separator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 613522E21725DEFD00011D7D /* StoreList_Separator@2x.png */; };
 		613522F91725DEFD00011D7D /* StoreList_Top_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 613522E31725DEFD00011D7D /* StoreList_Top_bg.png */; };
 		613522FA1725DEFD00011D7D /* StoreList_Top_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 613522E41725DEFD00011D7D /* StoreList_Top_bg@2x.png */; };
+		842127F517290CDF0070FD76 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842127F417290CDF0070FD76 /* libGoogleAnalytics.a */; };
+		842127F717290D360070FD76 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 842127F617290D360070FD76 /* CoreData.framework */; };
 		8439FDE21727F4CD00CB1939 /* algeria.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAD1727F4CD00CB1939 /* algeria.png */; };
 		8439FDE31727F4CD00CB1939 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAE1727F4CD00CB1939 /* arrow.png */; };
 		8439FDE41727F4CD00CB1939 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAF1727F4CD00CB1939 /* arrow@2x.png */; };
@@ -498,6 +500,8 @@
 		8439FE391727F50100CB1939 /* twotabe_dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FE231727F50100CB1939 /* twotabe_dark@2x.png */; };
 		8439FE3A1727F50100CB1939 /* twotabe_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FE241727F50100CB1939 /* twotabe_white.png */; };
 		8439FE3B1727F50100CB1939 /* twotabe_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FE251727F50100CB1939 /* twotabe_white@2x.png */; };
+		8439FE45172812B800CB1939 /* GuestProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8439FE43172812B700CB1939 /* GuestProfileViewController.m */; };
+		8439FE46172812B800CB1939 /* GuestProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8439FE44172812B700CB1939 /* GuestProfileViewController.xib */; };
 		9E06E49717141C25006404F7 /* DistanceRanges.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E06E49617141C25006404F7 /* DistanceRanges.json */; };
 		9E06E49D1714205A006404F7 /* DistanceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E49C1714205A006404F7 /* DistanceRange.m */; };
 		9E06E4CF1715A091006404F7 /* DeviceRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E4CE1715A091006404F7 /* DeviceRegistration.m */; };
@@ -1312,6 +1316,13 @@
 		613522E21725DEFD00011D7D /* StoreList_Separator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "StoreList_Separator@2x.png"; sourceTree = "<group>"; };
 		613522E31725DEFD00011D7D /* StoreList_Top_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StoreList_Top_bg.png; sourceTree = "<group>"; };
 		613522E41725DEFD00011D7D /* StoreList_Top_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "StoreList_Top_bg@2x.png"; sourceTree = "<group>"; };
+		842127EF17290CDF0070FD76 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		842127F017290CDF0070FD76 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		842127F117290CDF0070FD76 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		842127F217290CDF0070FD76 /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransaction.h; sourceTree = "<group>"; };
+		842127F317290CDF0070FD76 /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransactionItem.h; sourceTree = "<group>"; };
+		842127F417290CDF0070FD76 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
+		842127F617290D360070FD76 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		8439FDAD1727F4CD00CB1939 /* algeria.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = algeria.png; sourceTree = "<group>"; };
 		8439FDAE1727F4CD00CB1939 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		8439FDAF1727F4CD00CB1939 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
@@ -1387,6 +1398,9 @@
 		8439FE231727F50100CB1939 /* twotabe_dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twotabe_dark@2x.png"; sourceTree = "<group>"; };
 		8439FE241727F50100CB1939 /* twotabe_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twotabe_white.png; sourceTree = "<group>"; };
 		8439FE251727F50100CB1939 /* twotabe_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twotabe_white@2x.png"; sourceTree = "<group>"; };
+		8439FE42172812B600CB1939 /* GuestProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestProfileViewController.h; sourceTree = "<group>"; };
+		8439FE43172812B700CB1939 /* GuestProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestProfileViewController.m; sourceTree = "<group>"; };
+		8439FE44172812B700CB1939 /* GuestProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuestProfileViewController.xib; sourceTree = "<group>"; };
 		9E06E49617141C25006404F7 /* DistanceRanges.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DistanceRanges.json; sourceTree = "<group>"; };
 		9E06E49B17142059006404F7 /* DistanceRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceRange.h; sourceTree = "<group>"; };
 		9E06E49C1714205A006404F7 /* DistanceRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistanceRange.m; sourceTree = "<group>"; };
@@ -1811,6 +1825,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				842127F717290D360070FD76 /* CoreData.framework in Frameworks */,
 				9E10F485172184EE006F54BE /* StoreKit.framework in Frameworks */,
 				9E198E7C17096E70002CECCE /* Security.framework in Frameworks */,
 				9E198E8017096E8F002CECCE /* libz.1.2.5.dylib in Frameworks */,
@@ -1831,6 +1846,7 @@
 				9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */,
 				9E1CA28516F62660001A7DA1 /* libsheenfigure.a in Frameworks */,
 				9E1CA2DA16F62AC0001A7DA1 /* libAURosetteViewLib.a in Frameworks */,
+				842127F517290CDF0070FD76 /* libGoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2356,6 +2372,19 @@
 			path = StoreList;
 			sourceTree = "<group>";
 		};
+		842127EE17290CD30070FD76 /* GA */ = {
+			isa = PBXGroup;
+			children = (
+				842127EF17290CDF0070FD76 /* GAI.h */,
+				842127F017290CDF0070FD76 /* GAITrackedViewController.h */,
+				842127F117290CDF0070FD76 /* GAITracker.h */,
+				842127F217290CDF0070FD76 /* GAITransaction.h */,
+				842127F317290CDF0070FD76 /* GAITransactionItem.h */,
+				842127F417290CDF0070FD76 /* libGoogleAnalytics.a */,
+			);
+			name = GA;
+			sourceTree = "<group>";
+		};
 		8439FDAA1727F4CD00CB1939 /* User Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -2392,6 +2421,9 @@
 				8439FDDF1727F4CD00CB1939 /* UserDetailsViewController.h */,
 				8439FDE01727F4CD00CB1939 /* UserDetailsViewController.m */,
 				8439FDE11727F4CD00CB1939 /* UserDetailsViewController.xib */,
+				8439FE42172812B600CB1939 /* GuestProfileViewController.h */,
+				8439FE43172812B700CB1939 /* GuestProfileViewController.m */,
+				8439FE44172812B700CB1939 /* GuestProfileViewController.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2885,6 +2917,7 @@
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
+				842127F617290D360070FD76 /* CoreData.framework */,
 				9E78A7BC16E34BA2000CA790 /* Bezaat */,
 				9E9F082F16E4AFCF000E8471 /* Resources */,
 				9E78A7B516E34BA2000CA790 /* Frameworks */,
@@ -2903,6 +2936,7 @@
 		9E78A7B516E34BA2000CA790 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				842127EE17290CD30070FD76 /* GA */,
 				9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */,
 				9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */,
 				9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */,
@@ -4126,6 +4160,7 @@
 				8439FE391727F50100CB1939 /* twotabe_dark@2x.png in Resources */,
 				8439FE3A1727F50100CB1939 /* twotabe_white.png in Resources */,
 				8439FE3B1727F50100CB1939 /* twotabe_white@2x.png in Resources */,
+				8439FE46172812B800CB1939 /* GuestProfileViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4236,6 +4271,7 @@
 				8439FE091727F4CD00CB1939 /* ProfileDetailsViewController.m in Sources */,
 				8439FE0B1727F4CD00CB1939 /* StoreAdsCell.m in Sources */,
 				8439FE0D1727F4CD00CB1939 /* UserDetailsViewController.m in Sources */,
+				8439FE45172812B800CB1939 /* GuestProfileViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4348,6 +4384,10 @@
 				);
 				INFOPLIST_FILE = "Bezaat/Bezaat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -4377,6 +4417,10 @@
 				);
 				INFOPLIST_FILE = "Bezaat/Bezaat-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
