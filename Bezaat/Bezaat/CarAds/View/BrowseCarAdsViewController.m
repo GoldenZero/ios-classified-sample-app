@@ -21,7 +21,6 @@
 @interface BrowseCarAdsViewController (){
     bool searchBtnFlag;
     bool filtersShown;
-    bool searchWithImage;
     float lastContentOffset;
     UITapGestureRecognizer *tap;
     MBProgressHUD2 * loadingHUD;
@@ -38,6 +37,13 @@
     NSMutableArray *distanseArray;
     NSArray *fromYearArray;
     NSArray *toYearArray;
+    
+    // Search panels attributes
+    bool searchWithImage;
+    NSArray *distanceRangeArray;
+    DistanceRange *distanceObj;
+    NSString *fromYearString;
+    NSString *toYearString;
 }
 
 @end
@@ -51,11 +57,15 @@
     if (self) {
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
-        searchBtnFlag=false;
         filtersShown=false;
         searchWithImage=false;
         lastContentOffset=0;
         
+        // Init search panels attributes
+        searchBtnFlag=false;
+        distanceObj=nil;
+        fromYearString=@"";
+        toYearString=@"";
         
         // Show notification bar
         
@@ -101,7 +111,9 @@
     
     //load the first page of data
     [self loadFirstData];
+    distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
     [self prepareDropDownLists];
+    
     
 }
 
@@ -962,6 +974,9 @@
     [self.carNameText resignFirstResponder];
     [self.lowerPriceText resignFirstResponder];
     [self.higherPriceText resignFirstResponder];
+    [dropDownDistance closeAnimation];
+    [dropDownfromYear closeAnimation];
+    [dropDowntoYear closeAnimation];
 }
 
 #pragma mark - animation
@@ -1060,7 +1075,6 @@
 
 - (IBAction)searchBtnPress:(id)sender {
     [self.notificationView setHidden:YES];
-    filtersShown=true;
     if (searchBtnFlag==false){
         searchBtnFlag=true;
     }
@@ -1077,7 +1091,6 @@
     else {
         [self.searchPanelView setHidden:YES];
         [self.searchImageButton setHidden:YES];
-        [self.filtersView setHidden:NO];
         [self showFiltersBar];
         [self hideSearchPanel];
         
@@ -1103,7 +1116,22 @@
     [self.filtersView setHidden:NO];
     [self.searchImageButton setHidden:YES];
     [self showFiltersBar];
-    //   [self showNotificationBar];
+// ______________________________________
+//    CODE TODO for Roula
+//_______________________________________
+    // variables are :
+    //    fromYearString;
+    //    toYearString;
+    //    distanceObj;
+    //    self.carNameText;
+    //    self.lowerPriceText;
+    //    self.higherPriceText;
+    //    searchWithImage : bool;
+    
+    // filters bar actions are :
+    //    kiloFilterBtnPrss;
+    //    priceFilterBtnPrss;
+    //    dateFilterBtnPrss;
     
 }
 
@@ -1115,6 +1143,13 @@
     [self.fromYearLabel setText:@"من سنة "];
     [self.toYearLabel setText:@"إلى سنة"];
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
+    
+    // Init search panels attributes
+    searchBtnFlag=false;
+    distanceObj=nil;
+    fromYearString=@"";
+    toYearString=@"";
+
 }
 
 - (IBAction)adWithImageBtnPrss:(id)sender {
@@ -1134,18 +1169,30 @@
     [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
     [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
     [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+    
+    // ______________________________________
+    //    CODE TODO for Roula
+    //_______________________________________
 }
 
 - (IBAction)priceFilterBtnPrss:(id)sender {
     [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
     [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
     [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+    
+    // ______________________________________
+    //    CODE TODO for Roula
+    //_______________________________________
 }
 
 - (IBAction)dateFilterBtnPrss:(id)sender {
     [self.dateFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button_over.png"] forState:UIControlStateNormal];
     [self.kiloFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
     [self.priceFilterBtn setImage:[UIImage imageNamed:@"Listing_navigation_button.png"] forState:UIControlStateNormal];
+    
+    // ______________________________________
+    //    CODE TODO for Roula
+    //_______________________________________
 }
 
 - (IBAction)okNotificationBtnPrss:(id)sender {
@@ -1571,9 +1618,9 @@
 
 - (void) prepareDropDownLists{
     distanseArray=[[NSMutableArray alloc]init];
-    NSArray *temp =  [[BrandsManager sharedInstance] getDistanceRangesArray];
-    for (int i=0; i<temp.count; i++) {
-        [distanseArray addObject:[[temp objectAtIndex:i] rangeName]];
+   
+    for (int i=0; i<distanceRangeArray.count; i++) {
+        [distanseArray addObject:[[distanceRangeArray objectAtIndex:i] rangeName]];
         
     }
     fromYearArray = [[BrandsManager sharedInstance] getYearsArray];
@@ -1603,15 +1650,18 @@
     switch (_tag) {
         case 1:
         {
-            [self.distanceRangeLabel setText:[distanseArray objectAtIndex:returnIndex ] ];
+            [self.distanceRangeLabel setText:[distanseArray objectAtIndex:returnIndex ]];
+            distanceObj=(DistanceRange*)[distanceRangeArray objectAtIndex:returnIndex];
             break;
         }
         case 2:{
-            [self.fromYearLabel setText:[fromYearArray objectAtIndex:returnIndex ] ];
+            [self.fromYearLabel setText:[fromYearArray objectAtIndex:returnIndex ]];
+            fromYearString=[fromYearArray objectAtIndex:returnIndex];
             break;
         }
         case 3:{
-            [self.toYearLabel setText:[toYearArray objectAtIndex:returnIndex ] ];
+            [self.toYearLabel setText:[toYearArray objectAtIndex:returnIndex ]];
+            toYearString=[toYearArray objectAtIndex:returnIndex ];
             break;
         }
         default:
