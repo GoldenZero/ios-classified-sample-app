@@ -223,28 +223,13 @@
         switch (selectedIndex) {
             case 0:
             {
-                
-                
-<<<<<<< HEAD
-<<<<<<< HEAD
-                //hgjhgjh
-                //kjghj
-                //adasdsadas
-                //dfsfsdfsd
-                
-=======
->>>>>>> nothing
-                
                 // TODO CODE
                 //_____________________
                 // My adds view
                 //_____________________
-=======
                 ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
                 vc.tagOfCallXib=2;
                 [self presentViewController:vc animated:YES completion:nil];
-
->>>>>>> chose
                 break;
             }
             case 1:
