@@ -35,9 +35,14 @@
 #define CREATE_ORDER_PAYMENT_METHOD_POST_KEY         @"PaymentMethod"
 #define CREATE_ORDER_AD_ID_POST_KEY                  @"AdID"
 
-@interface FeaturingManager() {
+#define CONFIRM_ORDER_ORDER_ID_POST_KEY              @"OrderID"
+#define CONFIRM_ORDER_GATE_RESPONSE_POST_KEY         @"GatewayResponse"
+
+@interface FeaturingManager () {
     InternetManager * pricingManager;
     InternetManager * createOrderManager;
+    InternetManager * confirmOrderManager;
+    InternetManager * cancelOrderManager;
 }
 @end
 
@@ -46,7 +51,10 @@
 @synthesize orderDelegate;
 
 static NSString * pricing_options_url = @"http://gfctest.edanat.com/v1.0/json/featured-ad-pricing?countryId=%i";
+
 static NSString * create_order_url = @"http://gfctest.edanat.com/v1.0/json/process-for-featurad";
+static NSString * confirm_order_url = @"http://gfctest.edanat.com/v1.0/json/confirm-featured-ad";
+static NSString * cancel_order_url = @"";
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
@@ -54,6 +62,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     self = [super init];
     if (self) {
         self.pricingDelegate = nil;
+        self.orderDelegate = nil;
     }
     return self;
 }
@@ -143,8 +152,6 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
-
-
 - (void) createOrderForFeaturingAdID:(NSInteger) adID withPricingID:(NSInteger) pricingID WithDelegate:(id <FeaturingOrderDelegate>) del { //(Payment method will be detected inside)
     
     //1- set the delegate
@@ -231,6 +238,85 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
+- (void) confirmOrderID:(NSString *) orderID gatewayResponse:(NSString *) aGatewayResponse withDelegate:(id <FeaturingOrderDelegate>) del {
+    
+    //1- set the delegate
+    self.orderDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.orderDelegate)
+            [self.orderDelegate orderDidFailConfirmingWithError:error];
+        return ;
+    }
+    
+    NSString * fullURLString = confirm_order_url;
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        
+        //3- start the request
+        NSString * post = [NSString stringWithFormat:@"%@=%@&%@=%@",
+                           CONFIRM_ORDER_ORDER_ID_POST_KEY, orderID,
+                           CONFIRM_ORDER_GATE_RESPONSE_POST_KEY, aGatewayResponse
+                           ];
+        
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setTimeoutInterval:20];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        [request setHTTPBody:postData];
+        
+        confirmOrderManager = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+        
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل العملية"];
+        
+        if (self.orderDelegate)
+            [self.orderDelegate orderDidFailConfirmingWithError:error];
+        return ;
+    }
+}
+
 #pragma mark - Data Delegate methods
 
 - (void) manager:(BaseDataManager *)manager connectionDidFailWithError:(NSError *)error {
@@ -243,6 +329,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     {
         if (self.orderDelegate)
             [orderDelegate orderDidFailCreationWithError:error];
+    }
+    else if (manager == confirmOrderManager)
+    {
+        if (self.orderDelegate)
+            [orderDelegate orderDidFailConfirmingWithError:error];
     }
 }
 
@@ -260,6 +351,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         {
             if (self.orderDelegate)
                 [orderDelegate orderDidFailCreationWithError:error];
+        }
+        else if (manager == confirmOrderManager)
+        {
+            if (self.orderDelegate)
+                [orderDelegate orderDidFailConfirmingWithError:error];
         }
     }
     else
@@ -286,6 +382,48 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     
                     if (self.orderDelegate)
                         [orderDelegate orderDidFinishCreationWithID:orderIdentifier];
+                }
+                else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:statusMessageProcessed];
+                    
+                    if (self.orderDelegate)
+                        [orderDelegate orderDidFailCreationWithError:error];
+                }
+                
+            }
+        }
+        else if (manager == confirmOrderManager)
+        {
+            NSArray * data = (NSArray *)result;
+            if ((data) && (data.count > 0))
+            {
+                NSDictionary * totalDict = [data objectAtIndex:0];
+                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSInteger statusCode = statusCodeString.integerValue;
+                
+                NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                
+                if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                {
+                    NSString * data = [totalDict objectForKey:PRICING_DATA_JKEY];
+                    NSString * dataProcessed = [[data stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                    
+                    if ([dataProcessed isEqualToString:@"success"])
+                    {
+                        if (self.orderDelegate)
+                            [orderDelegate orderDidFinishConfirmingWithStatus:YES];
+                    }
+                    else
+                    {
+                        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                        [error setDescMessage:@"فشل العملية"];
+                        
+                        if (self.orderDelegate)
+                            [self.orderDelegate orderDidFailConfirmingWithError:error];
+                        return ;
+                    }
                 }
                 else
                 {

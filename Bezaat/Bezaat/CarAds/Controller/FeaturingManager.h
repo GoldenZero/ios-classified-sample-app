@@ -19,7 +19,10 @@
 @protocol FeaturingOrderDelegate <NSObject>
 @required
 - (void) orderDidFailCreationWithError:(NSError *) error;
-- (void) orderDidFinishCreationWithID:(NSString *) orderID;//COME BACK HERE
+- (void) orderDidFinishCreationWithID:(NSString *) orderID;
+
+- (void) orderDidFailConfirmingWithError:(NSError *) error;
+- (void) orderDidFinishConfirmingWithStatus:(BOOL) status;
 @end
 
 @interface FeaturingManager : NSObject <DataDelegate>
@@ -34,4 +37,6 @@
 - (void) loadPricingOptionsForCountry:(NSInteger) countryID withDelegate:(id <PricingOptionsDelegate>) del;
 
 - (void) createOrderForFeaturingAdID:(NSInteger) adID withPricingID:(NSInteger) pricingID WithDelegate:(id <FeaturingOrderDelegate>) del;
+
+- (void) confirmOrderID:(NSString *) orderID gatewayResponse:(NSString *) aGatewayResponse withDelegate:(id <FeaturingOrderDelegate>) del;
 @end
