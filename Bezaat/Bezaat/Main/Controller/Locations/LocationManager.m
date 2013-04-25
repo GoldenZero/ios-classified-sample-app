@@ -215,7 +215,6 @@ static NSString * location_key_chain_identifier = @"BezaatLocation";
     [dataDict setObject:cityNum forKey:CITY_ID_JSONK];
     
     //NSLog(@"%@", dataDict.description);
-    [[LocationManager locationKeyChainItemSharedInstance] resetKeychainItem];
     [[LocationManager locationKeyChainItemSharedInstance] setObject:dataDict.description forKey:(__bridge id)(kSecAttrAccount)];
 }
 
