@@ -306,7 +306,7 @@
 
 #pragma mark - sharing acions
 - (void)twitterAction:(id)sender{
-    
+    [shareButton fold];
     if (currentDetailsObject)
     {
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
@@ -346,7 +346,7 @@
 }
 
 - (void)facebookAction:(id)sender{
-    
+     [shareButton fold];
     if (currentDetailsObject)
     {
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
@@ -386,6 +386,7 @@
 }
 
 - (void)mailAction:(id)sender {
+     [shareButton fold];
     if (currentDetailsObject)
     {
         if ([MFMailComposeViewController canSendMail])
@@ -558,7 +559,7 @@
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
         if(savedProfile){
-            [self.favoriteButton setHidden:NO];
+            [self.favoriteButton setEnabled:YES];
             
             // Check favorite
             if (currentDetailsObject.isFavorite) {
