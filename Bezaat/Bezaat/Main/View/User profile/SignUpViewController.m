@@ -32,7 +32,7 @@
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
-    [self.view addGestureRecognizer:tap];
+    [self.contentView addGestureRecognizer:tap];
     [self setBackgroundImages];
     
 }
@@ -61,7 +61,8 @@
 
 - (IBAction)saveButtonPressed:(id)sender {
 }
-- (void)popSelf{
+
+- (IBAction)backBtnPrss:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -69,15 +70,7 @@
 - (void) setBackgroundImages{
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
-    UIImage * backBtnImg = [UIImage imageNamed:@"buttons_back.png"];
-    UIButton * customBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40 , 40)];
-    [customBtn setImage:backBtnImg forState:UIControlStateNormal];
-    [customBtn addTarget:self action:@selector(popSelf) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem * button = [[UIBarButtonItem alloc] initWithCustomView:customBtn];
-    NSArray * items = [NSArray arrayWithObjects:button, nil];
-    [self.toolBar setItems:items];
-
-}
+   }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {

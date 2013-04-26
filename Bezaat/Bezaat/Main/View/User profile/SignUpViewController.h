@@ -34,9 +34,12 @@
 @property (strong, nonatomic) IBOutlet UITextField *passwordText;
 @property (strong, nonatomic) IBOutlet UITextField *confirmPasswordText;
 
+@property (strong, nonatomic) IBOutlet UIView *contentView;
+
 #pragma mark - actions
 - (IBAction)fbButtonPressed:(id)sender;
 - (IBAction)twButtonPressed:(id)sender;
 - (IBAction)deleteButtonPressed:(id)sender;
 - (IBAction)saveButtonPressed:(id)sender;
+- (IBAction)backBtnPrss:(id)sender;
 @end
