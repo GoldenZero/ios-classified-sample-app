@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 SheenFigure
+ * Copyright (C) 2013 SheenFigure
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,24 @@
  * limitations under the License.
  */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
+#import "SSFont.h"
+#import "SSText.h"
 
-#import "SFFont.h"
-#import "SFText.h"
-
-@interface SFLabel : UIScrollView <UIScrollViewDelegate> {
-    NSMutableArray *_segments;
-    
-    SFFontRef _sfFont;
-    SFTextRef _sfText;
-    
-    NSString *_text;
-    UIColor *_textColor;
-    UITextAlignment _textAlign;
+@interface SSLabel : UIView {
+    BOOL _autoFitToSize;
+    BOOL _autoAdjustSuperViewContentSize;
 }
 
-- (void)setFont:(SFFontRef)font;
-- (void)setFontWithFileName:(NSString *)name size:(CGFloat)fontSize;
-
+@property (nonatomic, retain) SSFont *font;
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) UIColor *textColor;
-@property (nonatomic) UITextAlignment textAlign;
+
+@property (nonatomic) SSTextAlignment textAlignment;
+@property (nonatomic) SSWritingDirection writingDirection;
+
+@property (nonatomic) BOOL autoFitToSize;
+@property (nonatomic) BOOL autoAdjustSuperViewContentSize;
 
 @end

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 SheenFigure
+ * Copyright (C) 2013 SheenFigure
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-#ifndef _SSUNISTR_H
-#define _SSUNISTR_H
+#import <Foundation/Foundation.h>
 
-#include "SFTypes.h"
+@interface SSFont : NSObject {
+    NSString *_path;
+}
 
-int unislen(const SFUnichar value[]);
-SFBool hasmaxlen(const SFUnichar *value, int maxLength);
-int idxunichar(const SFUnichar value[], SFUnichar word, int startIndex, int count);
+- (id)initWithPath:(NSString *)path size:(float)size;
++ (SSFont *)fontWithPath:(NSString *)path size:(float)size;
 
-SFUnichar *subustrl(const SFUnichar *value, int startIndex, int length);
-SFUnichar *subustrs(const SFUnichar *value, int startIndex);
+- (SSFont *)makeCloneForSize:(float)size;
 
-SFUnichar *catustr(const SFUnichar *value1, const SFUnichar *value2);
-SFUnichar *catustrch(const SFUnichar value1, SFUnichar *value2);
+- (float)size;
+- (float)sizeByEm;
+- (float)ascender;
 
-#endif
+- (float)descender;
+- (float)leading;
+
+@end
