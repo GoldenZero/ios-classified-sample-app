@@ -58,6 +58,10 @@
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">buttons_home.png</string>
 								</object>
+								<double key="IBUIImageInsets.top">0.0</double>
+								<double key="IBUIImageInsets.bottom">-2.5</double>
+								<double key="IBUIImageInsets.left">0.0</double>
+								<double key="IBUIImageInsets.right">0.0</double>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<float key="IBUIWidth">30</float>
 								<reference key="IBUIToolbar" ref="552963652"/>
@@ -80,6 +84,10 @@
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">buttons_check.png</string>
 								</object>
+								<double key="IBUIImageInsets.top">0.0</double>
+								<double key="IBUIImageInsets.bottom">-2.5</double>
+								<double key="IBUIImageInsets.left">0.0</double>
+								<double key="IBUIImageInsets.right">0.0</double>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<reference key="IBUIToolbar" ref="552963652"/>
 							</object>
@@ -165,6 +173,7 @@
 						<string key="NSFrame">{{0, 260}, {320, 216}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="349104648"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<bool key="IBUIShowsSelectionIndicator">YES</bool>
@@ -207,6 +216,7 @@
 						<string key="NSFrame">{{0, 260}, {320, 216}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<bool key="IBUIShowsSelectionIndicator">YES</bool>
@@ -1322,18 +1332,12 @@
 					<string key="superclassName">BaseViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addBtnprss:">id</string>
-						<string key="closePicker:">id</string>
 						<string key="homeBtnPrss:">id</string>
 						<string key="selectModelBtnPrss:">id</string>
-						<string key="showPicker:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="addBtnprss:">
 							<string key="name">addBtnprss:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closePicker:">
-							<string key="name">closePicker:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="homeBtnPrss:">
@@ -1342,10 +1346,6 @@
 						</object>
 						<object class="IBActionInfo" key="selectModelBtnPrss:">
 							<string key="name">selectModelBtnPrss:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showPicker:">
-							<string key="name">showPicker:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
