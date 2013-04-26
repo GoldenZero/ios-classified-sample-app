@@ -14,11 +14,31 @@
  * limitations under the License.
  */
 
-#ifndef _SF_GSUB_UTILIZATION_H
-#define _SF_GSUB_UTILIZATION_H
+#ifndef _SF_TEXT_PRIVATE_H
+#define _SF_TEXT_PRIVATE_H
 
+#include "SFConfig.h"
+#include "SFTypes.h"
 #include "SFInternal.h"
+#include "SFFontPrivate.h"
 
-void SFApplyGSUB(SFInternal *internal);
+typedef struct SFText {
+    const SFUnichar *_str;
+    int _strLength;
+
+    SFFont *_sfFont;
+    SFStringRecord *_record;
+    int _writingDirection;
+    int _txtAlign;
+    
+    SFUInt _retainCount;
+} SFText;
+
+#ifndef _SF_TEXT_REF
+#define _SF_TEXT_REF
+
+typedef struct SFText *SFTextRef;
+
+#endif
 
 #endif

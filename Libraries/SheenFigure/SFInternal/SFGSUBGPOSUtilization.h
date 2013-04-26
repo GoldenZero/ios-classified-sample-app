@@ -14,11 +14,17 @@
  * limitations under the License.
  */
 
-#ifndef _SF_GSUB_UTILIZATION_H
-#define _SF_GSUB_UTILIZATION_H
+#ifndef _SF_GSUB_GPOS_UTILIZATION_H
+#define _SF_GSUB_GPOS_UTILIZATION_H
 
 #include "SFInternal.h"
 
-void SFApplyGSUB(SFInternal *internal);
+typedef void (*SFApplyLookupFunction)(SFInternal *internal, LookupTable lookup, SFGlyphIndex sindex, SFGlyphIndex eindex);
+
+#ifdef GSUB_GPOS_CHAINING_CONTEXT
+
+void SFApplyChainingContextual(SFInternal *internal, ChainingContextualSubPosSubtable *stable, LookupFlag lookupFlag, SFApplyLookupFunction applyLookupFunction);
+
+#endif
 
 #endif
