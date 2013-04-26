@@ -32,8 +32,11 @@
     BOOL isRefreshing;
     
     DropDownView *dropDownDistance;
+    bool dropDownDistanceFlag;
     DropDownView *dropDownfromYear;
+    bool dropDownfromYearFlag;
     DropDownView *dropDowntoYear;
+    bool dropDowntoYearFlag;
     
     NSMutableArray *distanseArray;
     NSArray *fromYearArray;
@@ -67,7 +70,10 @@
         fromYearString=@"";
         toYearString=@"";
         
-        // Show notification bar
+        // Set the flags of the dropdown
+        dropDownDistanceFlag=false;
+        dropDownfromYearFlag=false;
+        dropDowntoYearFlag=false;
         
     }
     return self;
@@ -939,6 +945,10 @@
     [dropDownDistance closeAnimation];
     [dropDownfromYear closeAnimation];
     [dropDowntoYear closeAnimation];
+    dropDownDistanceFlag=false;
+    dropDownfromYearFlag=false;
+    dropDowntoYearFlag=false;
+
 }
 
 - (void) dismissSearch{
@@ -960,6 +970,12 @@
 }
 
 - (void) hideSearchPanel{
+    [dropDownDistance closeAnimation];
+    [dropDownfromYear closeAnimation];
+    [dropDowntoYear closeAnimation];
+    dropDownDistanceFlag=false;
+    dropDownfromYearFlag=false;
+    dropDowntoYearFlag=false;
     [UIView animateWithDuration:.5
                      animations:^{
                          self.searchPanelView.frame = CGRectMake(0,-self.searchPanelView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
@@ -1060,15 +1076,36 @@
 }
 
 - (IBAction)distanceBtnPrss:(id)sender {
-     [dropDownDistance openAnimation];
+    if (dropDownDistanceFlag==false) {
+        dropDownDistanceFlag=true;
+        [dropDownDistance openAnimation];
+    }
+    else{
+        dropDownDistanceFlag=false;
+        [dropDownDistance closeAnimation];
+    }
 }
 
 - (IBAction)fromYearBtnPrss:(id)sender {
-     [dropDownfromYear openAnimation];
+    if (dropDownfromYearFlag==false) {
+        dropDownfromYearFlag=true;
+        [dropDownfromYear openAnimation];
+    }
+    else{
+        dropDownfromYearFlag=false;
+        [dropDownfromYear closeAnimation];
+    }
 }
 
 - (IBAction)toYearBtnPrss:(id)sender {
-     [dropDowntoYear openAnimation];
+    if (dropDowntoYearFlag==false) {
+        dropDowntoYearFlag=true;
+        [dropDowntoYear openAnimation];    }
+    else{
+        dropDowntoYearFlag=false;
+        [dropDowntoYear closeAnimation];
+    }
+    
 }
 
 #pragma mark - CarAdsManager Delegate methods
@@ -1481,20 +1518,20 @@
     fromYearArray = [[BrandsManager sharedInstance] getYearsArray];
     toYearArray = [[BrandsManager sharedInstance] getYearsArray];
     
-    dropDownDistance=[[DropDownView alloc] initWithArrayData:distanseArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.distanceButton animation:BLENDIN openAnimationDuration:0.5 closeAnimationDuration:0.5 _tag:1];
+    dropDownDistance=[[DropDownView alloc] initWithArrayData:distanseArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.distanceButton animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:1];
 	dropDownDistance.delegate = self;
 	[self.view addSubview:dropDownDistance.view];
 	//[self.distanceButton setTitle:[dataArray objectAtIndex:0] forState:UIControlStateNormal];
 
     
-    dropDownfromYear=[[DropDownView alloc] initWithArrayData:fromYearArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.fromYearButton animation:BLENDIN openAnimationDuration:0.5 closeAnimationDuration:0.5 _tag:2];
+    dropDownfromYear=[[DropDownView alloc] initWithArrayData:fromYearArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.fromYearButton animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:2];
     
 	dropDownfromYear.delegate = self;
 	[self.view addSubview:dropDownfromYear.view];
 	//[self.distanceButton setTitle:[dataArray objectAtIndex:0] forState:UIControlStateNormal];
 
     
-    dropDowntoYear=[[DropDownView alloc] initWithArrayData:toYearArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.toYearButton animation:BLENDIN openAnimationDuration:0.5 closeAnimationDuration:0.5 _tag:3];
+    dropDowntoYear=[[DropDownView alloc] initWithArrayData:toYearArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.toYearButton animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:3];
 	dropDowntoYear.delegate = self;
 	[self.view addSubview:dropDowntoYear.view];
 	//[self.distanceButton setTitle:[dataArray objectAtIndex:0] forState:UIControlStateNormal];

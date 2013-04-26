@@ -582,6 +582,7 @@
         // Check labeld ad
         if (currentDetailsObject.isFeatured) {
             [self.distinguishingImage setHidden:NO];
+            NSLog(@"%c",currentDetailsObject.isFeatured);
             [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_Sp.png"]];
             [self.priceLabel setTextColor:[UIColor orangeColor]];
             [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
