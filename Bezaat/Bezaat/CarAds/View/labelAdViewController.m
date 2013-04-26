@@ -55,6 +55,8 @@
     
     //load the options
     [self loadPricingOptions];
+    
+    [self purchaseProductWithIdentifier:@"com.bezaat.uae.25"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -140,7 +142,7 @@
     {
         SKProductsRequest *request = [[SKProductsRequest alloc]
                                       initWithProductIdentifiers:
-                                      [NSSet setWithObject:identifier]];
+                                      [NSArray arrayWithObjects:identifier, nil]];
         request.delegate = self;
         [request start];
     }
