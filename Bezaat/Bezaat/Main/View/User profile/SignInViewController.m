@@ -132,6 +132,104 @@
     
 }
 
+- (void)fbDidFinishLogging:(FBSession *)session
+                     state:(FBSessionState) state
+                     error:(NSError *)error
+{
+    
+    switch (state) {
+        case FBSessionStateOpen:
+            if (!error) {
+                // NSLog(@"User session found");
+                if (FBSession.activeSession.isOpen) {
+                    [[FBRequest requestForMe] startWithCompletionHandler:
+                     ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+                         if (!error) {
+                             //NSLog(@"User_Info: %@",user);
+                             /*
+                              RXMLElement *rxml = [RXMLElement elementFromURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/account/SocialPluginLogin?skey=%@&email=%@&fullName=%@&providerName=facebook&providerUserId=%@",[[AppDelegate instance] getURLiPhone],[[AppDelegate instance] md5:API_SECRET_KEY],[user objectForKey:@"email"],[self htmlEntityEncode:user.name],[user objectForKey:@"id"]]]];
+                              
+                              checkParenting = NO;
+                              __block NSString * userIdString=@"0";
+                              
+                              
+                              [rxml iterate:@"flipBlogIphone.user" with: ^(RXMLElement *sa) {
+                              
+                              userIdString = [[NSString alloc]initWithString:[NSString stringWithFormat:@"%@",[sa child:@"userid"]]];
+                              
+                              }];
+                              //Discuss the status here
+                              //NSLog(@"userIdString:): %@",userIdString);
+                              if([userIdString isEqualToString:@"0"]){
+                              //Do Nothing!!
+                              
+                              }
+                              else{*/
+                             //NSLog(@"Correct id= %@",userIdString);
+                             //[[NSUserDefaults standardUserDefaults] setValue:userIdString forKey:@"userid"];
+                             //[[NSUserDefaults standardUserDefaults] setValue:user.name forKey:@"username1"];
+                             //[[NSUserDefaults standardUserDefaults] synchronize];
+                             UIAlertView *alertView = [[UIAlertView alloc]
+                                                       initWithTitle:@"تم تسجيل دخولك بنجاح"
+                                                       message:@""
+                                                       delegate:nil
+                                                       cancelButtonTitle:@"متابعة"
+                                                       otherButtonTitles:nil];
+                             [alertView show];
+                             UILabel *theTitle = [alertView valueForKey:@"_titleLabel"];
+                             [theTitle setFont:[UIFont fontWithName:@"Helvetica" size:20]];
+                             [theTitle setTextAlignment:UITextAlignmentCenter];
+                             
+                             //}
+                         }
+                     }];
+                }
+            }
+            break;
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed:
+            [FBSession.activeSession closeAndClearTokenInformation];
+            break;
+        default:
+            break;
+    }
+    
+    /*
+     [[NSNotificationCenter defaultCenter]
+     postNotificationName:FBSessionStateChangedNotification
+     object:session];
+     */
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Error"
+                                  message:error.localizedDescription
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+    
+    //
+    //
+    //old code
+    //
+    //
+    //
+    
+    [self hideLoadingIndicator];
+    
+    if ([SharedUser fbSharedSessionInstance].isOpen) {
+        NSLog(@"Logged successfully");
+        [fbManager getUserDataDictionary];
+        
+    } else {
+        if ([SharedUser fbSharedSessionInstance].accessTokenData)
+            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملية تسجيل الدخول" delegateVC:self];
+    }
+    
+}
+
+
 #pragma mark - TwitterLoginDialog Delegate
 
 - (void)twitterDidLogin {

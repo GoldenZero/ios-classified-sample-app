@@ -31,6 +31,13 @@
 
 @end
 
+@protocol ProfileRegisterDelegate <NSObject>
+@required
+- (void) userFailRegisterWithError:(NSError*) error;
+- (void) userDidRegisterWithData:(UserProfile *) resultProfile;
+
+@end
+
 @protocol ProfileUpdateDelegate <NSObject>
 @required
 - (void) userUpdateWithData:(UserProfile *)newData;
@@ -61,6 +68,7 @@
 @property (strong, nonatomic) id <ProfileUpdateDelegate> updateDelegate;
 @property (strong, nonatomic) id <DeviceRegisterDelegate> deviceDelegate;
 @property (strong, nonatomic) id <FavoritesDelegate> favDelegate;
+@property (strong, nonatomic) id <ProfileRegisterDelegate> RegisterDelegate;
 
 #pragma mark - methods
 
@@ -73,6 +81,9 @@
 
 // call login Twitter API
 - (void) loginWithTwitterDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress AndUserName:(NSString *) userName andTwitterid:(NSString*)twitterID;
+
+// call register API
+- (void) registerWithDelegate:(id <ProfileRegisterDelegate>) del UserName:(NSString *) userName AndEmail:(NSString *) emailAdress andPassword:(NSString*)PWD;
 
 // call device register API
 - (void) registerDeviceWithDelegate:(id <DeviceRegisterDelegate>) del;

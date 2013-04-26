@@ -58,6 +58,7 @@
 //the login url is a POST url
 static NSString * login_url = @"http://gfctest.edanat.com/v1.0/json/user-login";
 static NSString * login_twitter_url = @"http://gfctest.edanat.com/v1.0/json/user-twitter-login";
+static NSString * register_url = @"http://gfctest.edanat.com/v1.0/json/register-user";
 static NSString * device_reg_url = @"http://gfctest.edanat.com/v1.0/json/register-device?deviceTpe=%@&version=%@&osVersion=%@";
 static NSString * add_to_fav_url = @"http://gfctest.edanat.com/v1.0/json/add-to-favorite";
 static NSString * remove_from_fav_url = @"http://gfctest.edanat.com/v1.0/json/remove-from-favorite";
@@ -83,6 +84,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
         self.deviceDelegate = nil;
         self.favDelegate = nil;
         self.updateDelegate = nil;
+        self.RegisterDelegate = nil;
         dataSoFar = nil;
         currentAdIDForFav= 0;
     }
@@ -172,12 +174,60 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    //passing device token as a http header request
+    NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+    [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+    
     [request setHTTPBody:postData];
     
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
 
 }
+
+- (void) registerWithDelegate:(id <ProfileRegisterDelegate>) del UserName:(NSString *) userName AndEmail:(NSString *) emailAdress andPassword:(NSString*)PWD
+{
+    twitterChecked = @"twitter";
+    //1- set the delegate
+    self.RegisterDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.RegisterDelegate)
+            [self.RegisterDelegate userFailRegisterWithError:error];
+        return ;
+    }
+    
+    //3- start the request
+    NSString * post =[NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@",update_user_post_key, userName,login_email_post_key, emailAdress,login_password_post_key,PWD];
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setTimeoutInterval:20];
+    
+    [request setURL:[NSURL URLWithString:register_url]];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    //passing device token as a http header request
+    NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+    [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+    
+    [request setHTTPBody:postData];
+    
+    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [connection start];
+    
+}
+
 - (void) registerDeviceWithDelegate:(id <DeviceRegisterDelegate>) del {
     
     //1- set the delegate
@@ -573,6 +623,9 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
         [self.delegate userFailLoginWithError:error];
     else if (self.updateDelegate) {
         [self.updateDelegate userFailUpdateWithError:error];
+    }
+    else if (self.RegisterDelegate) {
+        [self.RegisterDelegate userFailRegisterWithError:error];
     }
 }
 

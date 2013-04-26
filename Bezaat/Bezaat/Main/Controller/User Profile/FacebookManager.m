@@ -48,6 +48,7 @@
     }
 }
 
+
 - (void) performLogout {
     [[SharedUser fbSharedSessionInstance] closeAndClearTokenInformation];
 }
