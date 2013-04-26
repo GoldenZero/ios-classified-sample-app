@@ -23,6 +23,7 @@
 @end
 
 @implementation labelAdViewController
+NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotification";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,6 +58,13 @@
     [self loadPricingOptions];
     
     [self purchaseProductWithIdentifier:@"com.bezaat.uae.25"];
+    //[self purchaseProductWithIdentifier:@"com.bezaat.uae.test"];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:MyProductPurchasedNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -138,8 +146,11 @@
 }
 
 - (void) purchaseProductWithIdentifier:(NSString *) identifier {
+    
+    
     if ([SKPaymentQueue canMakePayments])
     {
+        
         SKProductsRequest *request = [[SKProductsRequest alloc]
                                       initWithProductIdentifiers:
                                       [NSArray arrayWithObjects:identifier, nil]];
@@ -162,6 +173,8 @@
         for (SKProduct * prod in productsArr)
         {
             NSLog(@"ID: %@, title: %@, desc: %@, ", prod.productIdentifier, prod.localizedTitle, prod.localizedDescription);
+            SKPayment * payment = [SKPayment paymentWithProduct:prod];
+            [[SKPaymentQueue defaultQueue] addPayment:payment];
         }
     } else {
         NSLog(@"No product found");
@@ -186,6 +199,7 @@
                 NSLog(@"Purchased successfully");
                 [[SKPaymentQueue defaultQueue]
                  finishTransaction:transaction];
+                [[NSNotificationCenter defaultCenter] postNotificationName:MyProductPurchasedNotification object:transaction.payment.productIdentifier userInfo:nil];
                 break;
                 
             case SKPaymentTransactionStateFailed:
@@ -198,6 +212,13 @@
                 break;
         }
     }
+}
+
+- (void)productPurchased:(NSNotification *)notification {
+    
+    NSString * productIdentifier = notification.object;
+    NSLog(@"product is purchased: %@", productIdentifier);
+    
 }
 
 #pragma mark - helper methods
