@@ -48,6 +48,8 @@
     DistanceRange *distanceObj;
     NSString *fromYearString;
     NSString *toYearString;
+    
+    BOOL isSearching;
 }
 
 @end
@@ -86,7 +88,7 @@
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
     [self.tableView setSeparatorColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
-       tap = [[UITapGestureRecognizer alloc]
+    tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
     [self.searchPanelView addGestureRecognizer:tap];
@@ -115,6 +117,7 @@
     
     dataLoadedFromCache = NO;
     isRefreshing = NO;
+    isSearching = NO;
     
     //set up the refresher
     refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
@@ -140,23 +143,26 @@
     //4- cache the data
     if (carAdsArray && carAdsArray.count)
     {
-        if (currentModel)
-            [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
-                                                  forBrand:currentModel.brandID
-                                                     Model:currentModel.modelID
-                                                    InCity:[[SharedUser sharedInstance] getUserCityID]
-                                               tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
-                                               forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
-        else
-            [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
-                                                      forBrand:-1
-                                                         Model:-1
-                                                        InCity:[[SharedUser sharedInstance] getUserCityID]
-                                                   tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
-                                                   forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+        if (!isSearching)
+        {
+            if (currentModel)
+                [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
+                                                          forBrand:currentModel.brandID
+                                                             Model:currentModel.modelID
+                                                            InCity:[[SharedUser sharedInstance] getUserCityID]
+                                                       tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
+                                                       forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+            else
+                [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
+                                                          forBrand:-1
+                                                             Model:-1
+                                                            InCity:[[SharedUser sharedInstance] getUserCityID]
+                                                       tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
+                                                       forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+        }
     }
     [self.searchPanelView setHidden:YES];
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -629,7 +635,7 @@
     if (indexPath.row == ([self.tableView numberOfRowsInSection:0] - 1))
     {
         //if (!dataLoadedFromCache)
-            [self loadPageOfAds];
+        [self loadPageOfAds];
     }
 }
 
@@ -855,6 +861,8 @@
 
 - (void) loadFirstData {
     NSArray * cachedArray;
+    isSearching = NO;
+    
     if (currentModel)
         cachedArray = [[CarAdsManager sharedInstance] getCahedDataForBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID]];
     else
@@ -874,7 +882,7 @@
             cachedPageSize = [[CarAdsManager sharedInstance] getCahedPageSizeForBrand:currentModel.brandID Model:currentModel.modelID InCity:[[SharedUser sharedInstance] getUserCityID]];
         else
             cachedPageSize = [[CarAdsManager sharedInstance] getCahedPageSizeForBrand:-1 Model:-1 InCity:[[SharedUser sharedInstance] getUserCityID]];
-            
+        
         [[CarAdsManager sharedInstance] setCurrentPageNum:cachedPageNum];
         [[CarAdsManager sharedInstance] setCurrentPageSize:cachedPageSize];
         [carAdsArray addObjectsFromArray:cachedArray];
@@ -903,10 +911,10 @@
     //1- clear cache
     if (currentModel)
         [[CarAdsManager sharedInstance] clearCachedDataForBrand:currentModel.brandID
-                                            Model:currentModel.modelID
-                                            InCity:[[SharedUser sharedInstance] getUserCityID]
-                                            tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
-                                            forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+                                                          Model:currentModel.modelID
+                                                         InCity:[[SharedUser sharedInstance] getUserCityID]
+                                                    tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
+                                                    forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
     else
         [[CarAdsManager sharedInstance] clearCachedDataForBrand:-1
                                                           Model:-1
@@ -936,6 +944,33 @@
     }
 }
 
+- (BOOL) validateStringYearsFrom:(NSString *) fromString To:(NSString *) toString {
+    
+    //if year is a string of (2003 لبق) then it returns a zero integer value
+    NSInteger fromYear = [fromString integerValue];
+    
+    NSInteger toYear = [toString integerValue];
+    
+    if ((fromYear == 0) && (toYear == 0))
+        return YES; //both strings are of type (2003 لبق) or both are empty
+    
+    else if ((fromYear != 0) && (toYear == 0))
+        return NO;  //the toYear is (2003 لبق) and from year is a higher year
+    
+    else if ((fromYear != 0) && (toYear != 0))
+    {
+        if (fromYear > toYear)
+            return NO;
+    }
+    return YES;
+}
+
+- (BOOL) validatePriceFrom:(float) Pmin to:(float) Pmax {
+    
+    if (Pmin > Pmax)
+        return NO;
+    return YES;
+}
 
 #pragma mark - keyboard handler
 -(void)dismissKeyboard {
@@ -948,13 +983,20 @@
     dropDownDistanceFlag=false;
     dropDownfromYearFlag=false;
     dropDowntoYearFlag=false;
-
+    
 }
 
 - (void) dismissSearch{
     [self hideSearchPanel];
-     [self.searchImageButton setHidden:YES];
-     searchBtnFlag=false;
+    [self.searchImageButton setHidden:YES];
+    searchBtnFlag=false;
+}
+
+- (void) dismissSearchAndShowLoading {
+    
+    [self.searchImageButton setHidden:YES];
+    searchBtnFlag=false;
+    [self hideSearchPanelAndShowLoading];
 }
 #pragma mark - animation
 
@@ -986,6 +1028,27 @@
     
 }
 
+- (void) hideSearchPanelAndShowLoading{
+    [dropDownDistance closeAnimation];
+    [dropDownfromYear closeAnimation];
+    [dropDowntoYear closeAnimation];
+    dropDownDistanceFlag=false;
+    dropDownfromYearFlag=false;
+    dropDowntoYearFlag=false;
+    [UIView animateWithDuration:.5
+                     animations:^{
+                         self.searchPanelView.frame = CGRectMake(0,-self.searchPanelView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         if (finished)
+                         {
+                             [self.searchPanelView setHidden:YES];
+                             [self showLoadingIndicator];
+                         }
+                     }];
+    
+}
+
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender {
     ChooseActionViewController *homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
@@ -993,7 +1056,7 @@
 }
 
 - (IBAction)searchBtnPress:(id)sender {
-  
+    
     if (searchBtnFlag==false){
         searchBtnFlag=true;
     }
@@ -1014,8 +1077,7 @@
     }
     
     
-    //1- reset the pageNumber to 0 to start a new search
-    //2- load search data
+
 }
 
 - (IBAction)modelBtnPress:(id)sender {
@@ -1029,20 +1091,151 @@
 
 - (IBAction)searchInPanelBtnPrss:(id)sender {
     
-    [self hideSearchPanel];
-    [self.searchImageButton setHidden:YES];
-// ______________________________________
-//    CODE TODO for Roula
-//_______________________________________
-    // variables are :
-    //    fromYearString;
-    //    toYearString;
-    //    distanceObj;
-    //    self.carNameText;
-    //    self.lowerPriceText;
-    //    self.higherPriceText;
-    //    searchWithImage : bool;
-  
+    
+    BOOL validYears ;
+    //1- validate year values
+    if (( ([fromYearString isEqualToString:@""])
+         && (![toYearString isEqualToString:@""]))
+        ||
+        ( (![fromYearString isEqualToString:@""])
+         && ([toYearString isEqualToString:@""])) )
+        validYears = NO;
+    else
+    {
+        validYears = [self validateStringYearsFrom:fromYearString To:toYearString];
+    }
+    
+    if (!validYears)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيم سنوات صحيحة" delegateVC:self];
+    }
+    
+    NSInteger from = self.lowerPriceText.text.integerValue;
+    NSInteger to = self.higherPriceText.text.integerValue;
+    
+    BOOL validPrice = YES;
+    //2- validate price values
+    if (( ([self.lowerPriceText.text isEqualToString:@""])
+         && (![self.higherPriceText.text isEqualToString:@""]))
+        ||
+        ( (![self.lowerPriceText.text isEqualToString:@""])
+         && ([self.higherPriceText.text isEqualToString:@""])) )
+        validPrice = NO;
+    
+    else if ((![self.lowerPriceText.text isEqualToString:@""])
+             && (![self.higherPriceText.text isEqualToString:@""]))
+    {
+        
+        validPrice = [self validatePriceFrom:from to:to];
+    }
+    
+    if (!validPrice)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيم سعر صحيحة" delegateVC:self];
+        return;
+    }
+    
+    NSString * minPriceString;
+    NSString * maxPriceString;
+    
+    if ([self.lowerPriceText.text isEqualToString:@""])
+        minPriceString = self.lowerPriceText.text;
+    else
+        minPriceString = [NSString stringWithFormat:@"%i", self.lowerPriceText.text.integerValue];
+    
+    if ([self.higherPriceText.text isEqualToString:@""])
+        maxPriceString = self.higherPriceText.text;
+    else
+        maxPriceString = [NSString stringWithFormat:@"%i", self.higherPriceText.text.integerValue];
+    
+    //1- reset the pageNumber to 0 to start a new search
+    [[CarAdsManager sharedInstance] setCurrentPageNum:0];
+    [[CarAdsManager sharedInstance] setPageSizeToDefault];
+    
+    NSInteger page = [[CarAdsManager sharedInstance] nextPage];
+    
+    NSInteger distanceRangeID = -1;
+    if (distanceObj)
+        distanceRangeID = distanceObj.rangeID;
+    
+    
+    //2- load search data
+    if (currentModel)
+    {
+        isSearching = YES;
+        [carAdsArray removeAllObjects];
+        [self dismissSearchAndShowLoading];
+        
+        [self searchOfPage:page
+                  forBrand:currentModel.brandID
+                     Model:currentModel.modelID
+                    InCity:[[SharedUser sharedInstance] getUserCityID]
+                  textTerm:self.carNameText.text
+                  minPrice:minPriceString
+                  maxPrice:maxPriceString
+           distanceRangeID:distanceRangeID
+                  fromYear:fromYearString
+                    toYear:toYearString
+                      area:@""
+                   orderby:@""
+             lastRefreshed:@""];
+    }
+    else
+    {
+        isSearching = YES;
+        [carAdsArray removeAllObjects];
+        [self dismissSearchAndShowLoading];
+
+        [self searchOfPage:page
+                  forBrand:-1
+                     Model:-1
+                    InCity:[[SharedUser sharedInstance] getUserCityID]
+                  textTerm:self.carNameText.text
+                  minPrice:minPriceString
+                  maxPrice:maxPriceString
+           distanceRangeID:distanceRangeID
+                  fromYear:fromYearString
+                    toYear:toYearString
+                      area:@""
+                   orderby:@""
+             lastRefreshed:@""];
+    }
+    
+    
+}
+
+- (void) searchOfPage:(NSInteger) page
+             forBrand:(NSInteger) brandID
+                  Model:(NSInteger) modelID
+                 InCity:(NSInteger) cityID
+               textTerm:(NSString *) aTextTerm
+               minPrice:(NSString *) aMinPriceString
+               maxPrice:(NSString *) aMaxPriceString
+        distanceRangeID:(NSInteger) aDistanceRangeID
+               fromYear:(NSString *) aFromYearString
+                 toYear:(NSString *) aToYearString
+                   area:(NSString *) aArea
+                orderby:(NSString *) orderByString
+          lastRefreshed:(NSString *) lasRefreshedString {
+    
+    
+    [[CarAdsManager sharedInstance] searchCarAdsOfPage:page
+                                              forBrand:brandID
+                                                 Model:modelID
+                                                InCity:cityID
+                                              textTerm:aTextTerm
+                                              minPrice:aMinPriceString
+                                              maxPrice:aMaxPriceString
+                                       distanceRangeID:aDistanceRangeID
+                                              fromYear:aFromYearString
+                                                toYear:aToYearString
+                                         adsWithImages:searchWithImage
+                                          adsWithPrice:YES
+                                                  area:aArea
+                                               orderby:orderByString
+                                         lastRefreshed:lasRefreshedString
+                                          WithDelegate:self];
+    
 }
 
 - (IBAction)clearInPanelBtnPrss:(id)sender {
@@ -1055,11 +1248,11 @@
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
     
     // Init search panels attributes
-    searchBtnFlag=false;
+    searchWithImage=false;
     distanceObj=nil;
     fromYearString=@"";
     toYearString=@"";
-
+    
 }
 
 - (IBAction)adWithImageBtnPrss:(id)sender {
@@ -1140,7 +1333,7 @@
             if (index == -1)
                 [carAdsArray addObject:newAd];
         }
-    
+        
     }
     
     //3- refresh table data
@@ -1393,7 +1586,7 @@
             }
         }
     }
-
+    
 }
 
 - (void) FavoriteDidRemoveWithStatus:(BOOL) resultStatus forAdID:(NSUInteger)adID {
@@ -1503,14 +1696,14 @@
             }
         }
     }
-
+    
 }
 
 #pragma - mark drop down handler
 
 - (void) prepareDropDownLists{
     distanseArray=[[NSMutableArray alloc]init];
-   
+    
     for (int i=0; i<distanceRangeArray.count; i++) {
         [distanseArray addObject:[[distanceRangeArray objectAtIndex:i] rangeName]];
         
@@ -1522,20 +1715,20 @@
 	dropDownDistance.delegate = self;
 	[self.view addSubview:dropDownDistance.view];
 	//[self.distanceButton setTitle:[dataArray objectAtIndex:0] forState:UIControlStateNormal];
-
+    
     
     dropDownfromYear=[[DropDownView alloc] initWithArrayData:fromYearArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.fromYearButton animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:2];
     
 	dropDownfromYear.delegate = self;
 	[self.view addSubview:dropDownfromYear.view];
 	//[self.distanceButton setTitle:[dataArray objectAtIndex:0] forState:UIControlStateNormal];
-
+    
     
     dropDowntoYear=[[DropDownView alloc] initWithArrayData:toYearArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.toYearButton animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:3];
 	dropDowntoYear.delegate = self;
 	[self.view addSubview:dropDowntoYear.view];
 	//[self.distanceButton setTitle:[dataArray objectAtIndex:0] forState:UIControlStateNormal];
-
+    
 }
 
 -(void)dropDownCellSelected:(NSInteger)returnIndex :(NSInteger)_tag{
