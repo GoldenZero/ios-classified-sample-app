@@ -110,19 +110,21 @@
         
         // Reload the models table
         Brand* selectedBrand = (Brand*)currentBrands[indexPath.row];
-        
-        // create an extra item for 'all models'
-        Model * allModelsItem = [[Model alloc] init];
-        allModelsItem.modelID = -1;
-        allModelsItem.brandID = selectedBrand.brandID;
-        allModelsItem.modelName = ALL_MODELS_TEXT;
-        
-        //create an array that has the 'all models' item first
-        NSMutableArray * tempArray = [NSMutableArray arrayWithObject:allModelsItem];
-        
-        //add the rest of models for this brand
-        [tempArray addObjectsFromArray:selectedBrand.models];
-        currentModels = tempArray;
+        if (self.tagOfCallXib!=2) {
+            // create an extra item for 'all models'
+            Model * allModelsItem = [[Model alloc] init];
+            allModelsItem.modelID = -1;
+            allModelsItem.brandID = selectedBrand.brandID;
+            allModelsItem.modelName = ALL_MODELS_TEXT;
+            
+            //create an array that has the 'all models' item first
+            NSMutableArray * tempArray = [NSMutableArray arrayWithObject:allModelsItem];
+            
+            //add the rest of models for this brand
+            [tempArray addObjectsFromArray:selectedBrand.models];
+            currentModels = tempArray;
+
+        }
         
         //currentModels = selectedBrand.models;
         if (selectedBrand.models!=nil) {
@@ -232,7 +234,13 @@
                                   text:@"جاري تحميل الموديلات"
                           detailedText:@"الرجاء الانتظار"
                               animated:YES];
-        [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
+        if (self.tagOfCallXib==2) {
+            [[BrandsManager sharedInstance] getBrandsAndModelsForPostAdWithDelegate:self];
+        }
+        else{
+            [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
+        }
+        
     }
     
     else if ((currentBrands) && (!currentBrands.count))
@@ -242,7 +250,13 @@
                                   text:@"جاري تحميل الموديلات"
                           detailedText:@"الرجاء الانتظار"
                               animated:YES];
-        [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
+        if (self.tagOfCallXib==2) {
+            [[BrandsManager sharedInstance] getBrandsAndModelsForPostAdWithDelegate:self];
+        }
+        else{
+            [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
+        }
+
     }
     
     else if ((currentModels) && (!currentModels.count))
@@ -252,7 +266,13 @@
                                   text:@"جاري تحميل الموديلات"
                           detailedText:@"الرجاء الانتظار"
                               animated:YES];
-        [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
+        if (self.tagOfCallXib==2) {
+            [[BrandsManager sharedInstance] getBrandsAndModelsForPostAdWithDelegate:self];
+        }
+        else{
+            [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
+        }
+
     }
 }
 
