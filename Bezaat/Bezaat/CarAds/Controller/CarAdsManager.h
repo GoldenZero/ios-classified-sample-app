@@ -88,8 +88,8 @@
                       Model:(NSInteger) modelID
                      InCity:(NSUInteger) cityID
                    textTerm:(NSString *) aTextTerm
-                   minPrice:(float) aMinPrice
-                   maxPrice:(float) aMaxPrice
+                   minPrice:(NSString *) aMinPrice
+                   maxPrice:(NSString *) aMaxPrice
             distanceRangeID:(NSInteger) aDistanceRangeID
                    fromYear:(NSString *) aFromYear
                      toYear:(NSString *) aToYear

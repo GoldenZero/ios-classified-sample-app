@@ -443,8 +443,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                       Model:(NSInteger) modelID
                      InCity:(NSUInteger) cityID
                    textTerm:(NSString *) aTextTerm
-                   minPrice:(float) aMinPrice
-                   maxPrice:(float) aMaxPrice
+                   minPrice:(NSString *) aMinPrice
+                   maxPrice:(NSString *) aMaxPrice
             distanceRangeID:(NSInteger) aDistanceRangeID
                    fromYear:(NSString *) aFromYear
                      toYear:(NSString *) aToYear
@@ -477,9 +477,9 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 aTextTerm,
                                 [NSString stringWithFormat:@"%@", (brandID == -1 ? @"" : [NSString stringWithFormat:@"%i", brandID])],
                                 [NSString stringWithFormat:@"%@", (modelID == -1 ? @"" : [NSString stringWithFormat:@"%i", modelID])],
-                                [NSString stringWithFormat:@"%i", (int) aMinPrice],
-                                [NSString stringWithFormat:@"%i", (int) aMaxPrice],
-                                [NSString stringWithFormat:@"%i", aDistanceRangeID],
+                                aMinPrice,
+                                aMaxPrice,
+                                [NSString stringWithFormat:@"%@", (aDistanceRangeID == -1 ? @"" : [NSString stringWithFormat:@"%i", aDistanceRangeID])],
                                 aFromYear,
                                 aToYear,
                                 [NSString stringWithFormat:@"%i", aAdsWithImages],
