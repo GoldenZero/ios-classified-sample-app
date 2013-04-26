@@ -231,7 +231,14 @@
 
 -(void)userDidRegisterWithData:(UserProfile *)resultProfile
 {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"تم التسجيل بنجاح"
+                                                    message:@""
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil, nil];
     
+    alert.tag = 2;
+    [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -249,6 +256,13 @@
         
         //present the next view controller
         ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+        
+        [self presentViewController:chooseActionVC animated:YES completion:nil];
+    }
+    else if (alertView.tag == 2){
+        
+        //present the next view controller
+        SignInViewController * chooseActionVC = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
         
         [self presentViewController:chooseActionVC animated:YES completion:nil];
     }

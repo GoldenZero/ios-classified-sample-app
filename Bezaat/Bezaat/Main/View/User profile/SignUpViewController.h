@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "ChooseActionViewController.h"
 #import "FacebookManager.h"
-
+#import "SignInViewController.h"
 #import "TwitterLoginPopupDelegate.h"
 #import "TwitterLoginUiFeedback.h"
 #import "OAuth.h"
