@@ -104,6 +104,9 @@
 }
 
 - (IBAction)AddNewStoreBtnPressed:(id)sender {
+    AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+
 }
 
 - (IBAction)sideMenuBtnPressed:(id)sender {
@@ -223,10 +226,8 @@
         switch (selectedIndex) {
             case 0:
             {
-                // TODO CODE
-                //_____________________
-                // My adds view
-                //_____________________
+                UserDetailsViewController *vc=[[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController" bundle:nil];
+                [self presentViewController:vc animated:YES completion:nil];
                 
             }
             case 1:
