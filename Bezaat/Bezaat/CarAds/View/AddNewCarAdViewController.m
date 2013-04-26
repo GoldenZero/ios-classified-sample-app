@@ -28,7 +28,8 @@
     IBOutlet  UISegmentedControl *kiloMile;
     IBOutlet  UIButton *countryCity;
     
-    UITapGestureRecognizer *tap;
+    UITapGestureRecognizer *tap1;
+    UITapGestureRecognizer *tap2;
     
     // Arrays
     NSArray *globalArray;
@@ -47,7 +48,7 @@
     SingleValue * chosenYear;
     SingleValue * chosenCity;
     SingleValue * chosenCountry;
-    
+    NSTimer *timer;
 }
 
 @end
@@ -76,12 +77,17 @@
     [self.modelNameLabel setText:self.currentModel.modelName];
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
+    timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(indicator:) userInfo:nil repeats:YES];
     
-    tap = [[UITapGestureRecognizer alloc]
+    tap1 = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
-    [self.verticalScrollView addGestureRecognizer:tap];
-    [self.horizontalScrollView addGestureRecognizer:tap];
+    [self.horizontalScrollView addGestureRecognizer:tap1];
+    
+    tap2 = [[UITapGestureRecognizer alloc]
+            initWithTarget:self
+            action:@selector(dismissKeyboard)];
+    [self.verticalScrollView addGestureRecognizer:tap2];
     
     [self.pickerView selectRow:0 inComponent:0 animated:YES];
 
@@ -94,11 +100,21 @@
     [self addButtonsToXib];
     [self setImagesArray];
     [self setImagesToXib];
+   
     [self closePicker:self.locationPickerView];
     [self closePicker:self.pickerView];
     
 }
 
+-(void)viewDidDisappear:(BOOL)animated{
+    [timer invalidate];
+}
+-(void)indicator:(BOOL)animated{
+    
+    [self.horizontalScrollView flashScrollIndicators];
+
+ 
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -113,7 +129,7 @@
 
 - (void) setImagesArray{
     
-    [self.horizontalScrollView setContentSize:CGSizeMake(960, 119)];
+    [self.horizontalScrollView setContentSize:CGSizeMake(640, 119)];
     [self.horizontalScrollView setScrollEnabled:YES];
     [self.horizontalScrollView setShowsHorizontalScrollIndicator:YES];
     
@@ -183,7 +199,7 @@
 - (void) addButtonsToXib{
     [self.verticalScrollView setContentSize:CGSizeMake(320 , 420)];
     [self.verticalScrollView setScrollEnabled:YES];
-    [self.verticalScrollView setShowsHorizontalScrollIndicator:YES];
+    [self.verticalScrollView setShowsVerticalScrollIndicator:YES];
     
     countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
     [countryCity setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
@@ -282,7 +298,7 @@
         [self.locationPickerView setHidden:YES];
         [UIView animateWithDuration:0.3 animations:^{
             _locationPickerView.frame = CGRectMake(_locationPickerView.frame.origin.x,
-                                                   480,
+                                                   [[UIScreen mainScreen] bounds].size.height,
                                                    _locationPickerView.frame.size.width,
                                                    _locationPickerView.frame.size.height);
         }];
@@ -292,7 +308,7 @@
         [self.pickerView setHidden:YES];
         [UIView animateWithDuration:0.3 animations:^{
             _pickerView.frame = CGRectMake(_pickerView.frame.origin.x,
-                                           480,
+                                           [[UIScreen mainScreen] bounds].size.height,
                                            _pickerView.frame.size.width,
                                            _pickerView.frame.size.height);
         }];
@@ -307,7 +323,7 @@
         [self.locationPickerView setHidden:NO];
         [UIView animateWithDuration:0.3 animations:^{
             _locationPickerView.frame = CGRectMake(_locationPickerView.frame.origin.x,
-                                           280,
+                                           [[UIScreen mainScreen] bounds].size.height-self.locationPickerView.frame.size.height,
                                            _locationPickerView.frame.size.width,
                                            _locationPickerView.frame.size.height);
         }];
@@ -317,7 +333,7 @@
         [self.pickerView setHidden:NO];
         [UIView animateWithDuration:0.3 animations:^{
             _pickerView.frame = CGRectMake(_pickerView.frame.origin.x,
-                                           280,
+                                           [[UIScreen mainScreen] bounds].size.height-self.locationPickerView.frame.size.height,
                                            _pickerView.frame.size.width,
                                            _pickerView.frame.size.height);
         }];

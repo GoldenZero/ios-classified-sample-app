@@ -86,7 +86,7 @@
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
     [self.tableView setSeparatorColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
-    tap = [[UITapGestureRecognizer alloc]
+       tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
     [self.searchPanelView addGestureRecognizer:tap];

@@ -91,12 +91,14 @@
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender {
+    [self hideMenu];
     ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
     vc.tagOfCallXib=1;
     [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
+    [self hideMenu];
     ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
     vc.tagOfCallXib=2;
     [self presentViewController:vc animated:YES completion:nil];
@@ -104,6 +106,7 @@
 }
 
 - (IBAction)AddNewStoreBtnPressed:(id)sender {
+    [self hideMenu];
     AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
 
@@ -220,7 +223,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    
+    [self hideMenu];
     if([menuArray containsObject:[custoMenuArray objectAtIndex:indexPath.row]]){
         NSInteger selectedIndex=[menuArray indexOfObject:[custoMenuArray objectAtIndex:indexPath.row]];
         switch (selectedIndex) {

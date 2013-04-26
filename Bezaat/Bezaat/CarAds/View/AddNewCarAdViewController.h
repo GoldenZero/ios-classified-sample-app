@@ -24,6 +24,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *modelNameLabel;
 @property (strong, nonatomic) IBOutlet UIPickerView *locationPickerView;
 
+
 #pragma mark - actions
 
 - (IBAction)homeBtnPrss:(id)sender;
