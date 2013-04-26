@@ -716,13 +716,10 @@
 		9E1CA25816F61D34001A7DA1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA25716F61D34001A7DA1 /* CoreLocation.framework */; };
 		9E1CA25B16F61D3C001A7DA1 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA25A16F61D3C001A7DA1 /* MessageUI.framework */; };
 		9E1CA26816F623CA001A7DA1 /* GenericFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA26716F623CA001A7DA1 /* GenericFonts.m */; };
-		9E1CA27716F625B9001A7DA1 /* SFLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA27416F625B9001A7DA1 /* SFLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9E1CA27816F625B9001A7DA1 /* SFLabelSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA27616F625B9001A7DA1 /* SFLabelSegment.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9E1CA27F16F62607001A7DA1 /* WinSoftPro-BItal.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA27B16F62607001A7DA1 /* WinSoftPro-BItal.otf */; };
 		9E1CA28016F62607001A7DA1 /* WinSoftPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA27C16F62607001A7DA1 /* WinSoftPro-Bold.otf */; };
 		9E1CA28116F62607001A7DA1 /* WinSoftPro-Med.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA27D16F62607001A7DA1 /* WinSoftPro-Med.otf */; };
 		9E1CA28216F62607001A7DA1 /* WinSoftPro-MItal.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA27E16F62607001A7DA1 /* WinSoftPro-MItal.otf */; };
-		9E1CA28516F62660001A7DA1 /* libsheenfigure.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA26516F62384001A7DA1 /* libsheenfigure.a */; };
 		9E1CA2DA16F62AC0001A7DA1 /* libAURosetteViewLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA2D716F62A96001A7DA1 /* libAURosetteViewLib.a */; };
 		9E1CA2F916F700C0001A7DA1 /* FacebookManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA2F816F700BF001A7DA1 /* FacebookManager.m */; };
 		9E1CA30616F7CA2C001A7DA1 /* SharedUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1CA30516F7CA2C001A7DA1 /* SharedUser.m */; };
@@ -835,20 +832,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9E1CA26416F62384001A7DA1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6EC20319157AD40B002666E9;
-			remoteInfo = sheenfigure;
-		};
-		9E1CA28316F6265A001A7DA1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6EC20318157AD40B002666E9;
-			remoteInfo = sheenfigure;
-		};
 		9E1CA2D616F62A96001A7DA1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */;
@@ -1656,13 +1639,8 @@
 		9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		9E1CA25716F61D34001A7DA1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9E1CA25A16F61D3C001A7DA1 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SheenFigureCG.xcodeproj; path = ../Libraries/SheenFigure/SheenFigureCG.xcodeproj; sourceTree = "<group>"; };
 		9E1CA26616F623CA001A7DA1 /* GenericFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericFonts.h; sourceTree = "<group>"; };
 		9E1CA26716F623CA001A7DA1 /* GenericFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericFonts.m; sourceTree = "<group>"; };
-		9E1CA27316F625B9001A7DA1 /* SFLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLabel.h; sourceTree = "<group>"; };
-		9E1CA27416F625B9001A7DA1 /* SFLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLabel.m; sourceTree = "<group>"; };
-		9E1CA27516F625B9001A7DA1 /* SFLabelSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLabelSegment.h; sourceTree = "<group>"; };
-		9E1CA27616F625B9001A7DA1 /* SFLabelSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLabelSegment.m; sourceTree = "<group>"; };
 		9E1CA27B16F62607001A7DA1 /* WinSoftPro-BItal.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WinSoftPro-BItal.otf"; sourceTree = "<group>"; };
 		9E1CA27C16F62607001A7DA1 /* WinSoftPro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WinSoftPro-Bold.otf"; sourceTree = "<group>"; };
 		9E1CA27D16F62607001A7DA1 /* WinSoftPro-Med.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "WinSoftPro-Med.otf"; sourceTree = "<group>"; };
@@ -1856,7 +1834,6 @@
 				9E1CA1F016F54E4F001A7DA1 /* FacebookSDK.framework in Frameworks */,
 				9E1CA31316F854F9001A7DA1 /* SystemConfiguration.framework in Frameworks */,
 				9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */,
-				9E1CA28516F62660001A7DA1 /* libsheenfigure.a in Frameworks */,
 				9E1CA2DA16F62AC0001A7DA1 /* libAURosetteViewLib.a in Frameworks */,
 				842127F517290CDF0070FD76 /* libGoogleAnalytics.a in Frameworks */,
 			);
@@ -2802,21 +2779,9 @@
 			path = "Cars_Logos By IDs";
 			sourceTree = "<group>";
 		};
-		9E1CA26016F62384001A7DA1 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9E1CA26516F62384001A7DA1 /* libsheenfigure.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		9E1CA27216F625B9001A7DA1 /* SFLabel */ = {
 			isa = PBXGroup;
 			children = (
-				9E1CA27316F625B9001A7DA1 /* SFLabel.h */,
-				9E1CA27416F625B9001A7DA1 /* SFLabel.m */,
-				9E1CA27516F625B9001A7DA1 /* SFLabelSegment.h */,
-				9E1CA27616F625B9001A7DA1 /* SFLabelSegment.m */,
 			);
 			path = SFLabel;
 			sourceTree = "<group>";
@@ -2956,7 +2921,6 @@
 			children = (
 				842127EE17290CD30070FD76 /* GA */,
 				9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */,
-				9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */,
 				9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */,
 				9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */,
 				9E10F484172184EE006F54BE /* StoreKit.framework */,
@@ -3406,7 +3370,6 @@
 			);
 			dependencies = (
 				9E1CA2D916F62ABC001A7DA1 /* PBXTargetDependency */,
-				9E1CA28416F6265A001A7DA1 /* PBXTargetDependency */,
 				9E4315B916EDFEEC0040359E /* PBXTargetDependency */,
 			);
 			name = Bezaat;
@@ -3442,10 +3405,6 @@
 					ProductGroup = 9E1CA2D016F62A95001A7DA1 /* Products */;
 					ProjectRef = 9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */;
 				},
-				{
-					ProductGroup = 9E1CA26016F62384001A7DA1 /* Products */;
-					ProjectRef = 9E1CA25F16F62384001A7DA1 /* SheenFigureCG.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -3455,13 +3414,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		9E1CA26516F62384001A7DA1 /* libsheenfigure.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libsheenfigure.a;
-			remoteRef = 9E1CA26416F62384001A7DA1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9E1CA2D716F62A96001A7DA1 /* libAURosetteViewLib.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -4225,8 +4177,6 @@
 				9E9F0A8A16ECA939000E8471 /* ViewController.m in Sources */,
 				243084AD16F609750050CDFF /* FriendsListViewController.m in Sources */,
 				9E1CA26816F623CA001A7DA1 /* GenericFonts.m in Sources */,
-				9E1CA27716F625B9001A7DA1 /* SFLabel.m in Sources */,
-				9E1CA27816F625B9001A7DA1 /* SFLabelSegment.m in Sources */,
 				9E1CA2F916F700C0001A7DA1 /* FacebookManager.m in Sources */,
 				9E1CA30616F7CA2C001A7DA1 /* SharedUser.m in Sources */,
 				9E1CA31D16F85C7C001A7DA1 /* fbUserData.m in Sources */,
@@ -4302,11 +4252,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9E1CA28416F6265A001A7DA1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = sheenfigure;
-			targetProxy = 9E1CA28316F6265A001A7DA1 /* PBXContainerItemProxy */;
-		};
 		9E1CA2D916F62ABC001A7DA1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AURosetteViewLib;
