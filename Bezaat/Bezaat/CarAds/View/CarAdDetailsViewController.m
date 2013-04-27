@@ -10,7 +10,7 @@
 #import "CarAdDetailsViewController.h"
 #import "labelAdViewController.h"
 
-#define FIXED_V_DISTANCE    8
+#define FIXED_V_DISTANCE    17
 #define FIXED_H_DISTANCE    20
 
 @interface CarAdDetailsViewController (){
@@ -198,16 +198,16 @@
             
         {
             
-            shareButton.frame=CGRectMake(35, 430, shareButton.frame.size.width ,shareButton.frame.size.height );
-            [shareButton setCenter:CGPointMake(35.0f, 430.0f)];
+            shareButton.frame=CGRectMake(35, 440, shareButton.frame.size.width ,shareButton.frame.size.height );
+            [shareButton setCenter:CGPointMake(35.0f, 440.0f)];
         }
         
         else
             
         {
             
-            shareButton.frame=CGRectMake(35, 520, shareButton.frame.size.width ,shareButton.frame.size.height );
-            [shareButton setCenter:CGPointMake(35.0f, 520.0f)];
+            shareButton.frame=CGRectMake(35, 530, shareButton.frame.size.width ,shareButton.frame.size.height );
+            [shareButton setCenter:CGPointMake(35.0f, 530.0f)];
             
         }
     }
@@ -466,7 +466,7 @@
             [self.scrollView setScrollEnabled:YES];
             [self.scrollView setShowsVerticalScrollIndicator:YES];
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
-
+            
         }
         
         //2- set attributes
@@ -482,69 +482,81 @@
             
             for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
             {
-                //attr label
-                NSString * attr_name_text = [NSString stringWithFormat:@"%@ :", attr.displayName];
-                
-                CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
-                
-                CGSize expectedLabelSize =
-                [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
-                
-                if (realTextSize.width > expectedLabelSize.width)
-                {
-                    int factor = (int) (realTextSize.width / expectedLabelSize.width);
-                    factor ++;
+                if (attr.categoryAttributeID != 502 &&
+                    attr.categoryAttributeID != 505 &&
+                    attr.categoryAttributeID != 508 &&
+                    attr.categoryAttributeID != 907 &&
+                    attr.categoryAttributeID != 1076) {
                     
-                    expectedLabelSize.height = expectedLabelSize.height * factor;
+                    if (![attr.attributeValue length] == 0) {
+                        
+                        
+                        //attr label
+                        NSString * attr_name_text = [NSString stringWithFormat:@"%@ :", attr.displayName];
+                        
+                        CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
+                        
+                        CGSize expectedLabelSize =
+                        [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
+                        
+                        if (realTextSize.width > expectedLabelSize.width)
+                        {
+                            int factor = (int) (realTextSize.width / expectedLabelSize.width);
+                            factor ++;
+                            
+                            expectedLabelSize.height = expectedLabelSize.height * factor;
+                        }
+                        
+                        CGFloat attr_x = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + FIXED_H_DISTANCE);
+                        
+                        CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
+                        
+                        UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(260 - expectedLabelSize.width, 8, expectedLabelSize.width, expectedLabelSize.height)];
+                        
+                        attrNameLabel.text = attr_name_text;
+                        attrNameLabel.textAlignment = NSTextAlignmentRight;
+                        attrNameLabel.font = [UIFont systemFontOfSize:15];
+                        attrNameLabel.backgroundColor = [UIColor clearColor];
+                        attrNameLabel.numberOfLines = 0;
+                        
+                        //value label
+                        CGFloat valueLabelWidth = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
+                        CGFloat valueLabelHeight = expectedLabelSize.height;
+                        
+                        //CGFloat val_x = self.labelsScrollView.frame.size.width - FIXED_H_DISTANCE;
+                        CGFloat val_x = FIXED_H_DISTANCE;
+                        CGFloat val_y  = attr_y;
+                        
+                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 8, 100, valueLabelHeight)];
+                        
+                        valuelabel.text = attr.attributeValue;
+                        valuelabel.textAlignment = NSTextAlignmentRight;
+                        valuelabel.font = [UIFont systemFontOfSize:15];
+                        valuelabel.textColor = [UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f];
+                        valuelabel.backgroundColor = [UIColor clearColor];
+                        /*
+                         // UITextField* backgroundText = [[UITextField alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
+                         UITableViewCell* myCell = [[UITableViewCell alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
+                         myCell.accessoryType = UITableViewCellAccessoryNone;
+                         myCell.backgroundColor = [UIColor whiteColor];
+                         myCell.textLabel.text = attrNameLabel.text;
+                         myCell.detailTextLabel.text = valuelabel.text;
+                         
+                         */
+                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(28, val_y - 20, valueLabelWidth + expectedLabelSize.width + 10, 35)];
+                        [v setBackgroundColor:[UIColor whiteColor]];
+                        [v addSubview:attrNameLabel];
+                        [v addSubview:valuelabel];
+                        
+                        //[self.labelsScrollView addSubview:attrNameLabel];
+                        //[self.labelsScrollView addSubview:valuelabel];
+                        [self.labelsScrollView addSubview:v];
+                        
+                        
+                        lastY = attr_y + valueLabelHeight;
+                        addedHeightValue = addedHeightValue + valueLabelHeight + FIXED_V_DISTANCE;
+                    }
                 }
-                
-                CGFloat attr_x = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + FIXED_H_DISTANCE);
-                
-                CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
-                
-                UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, expectedLabelSize.width, expectedLabelSize.height)];
-                
-                attrNameLabel.text = attr_name_text;
-                attrNameLabel.textAlignment = NSTextAlignmentRight;
-                attrNameLabel.font = [UIFont systemFontOfSize:15];
-                attrNameLabel.backgroundColor = [UIColor clearColor];
-                attrNameLabel.numberOfLines = 0;
-                
-                //value label
-                CGFloat valueLabelWidth = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
-                CGFloat valueLabelHeight = expectedLabelSize.height;
-                
-                //CGFloat val_x = self.labelsScrollView.frame.size.width - FIXED_H_DISTANCE;
-                CGFloat val_x = FIXED_H_DISTANCE;
-                CGFloat val_y  = attr_y;
-                
-                UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 5, valueLabelWidth, valueLabelHeight)];
-                
-                valuelabel.text = attr.attributeValue;
-                valuelabel.textAlignment = NSTextAlignmentRight;
-                valuelabel.font = [UIFont systemFontOfSize:15];
-                valuelabel.backgroundColor = [UIColor clearColor];
-              /*
-               // UITextField* backgroundText = [[UITextField alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
-                UITableViewCell* myCell = [[UITableViewCell alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
-                myCell.accessoryType = UITableViewCellAccessoryNone;
-                myCell.backgroundColor = [UIColor whiteColor];
-                myCell.textLabel.text = attrNameLabel.text;
-                myCell.detailTextLabel.text = valuelabel.text;
-                
-                */
-                UIView* v = [[UIView alloc]initWithFrame:CGRectMake(30, val_y, valueLabelWidth + expectedLabelSize.width, valueLabelHeight)];
-                [v setBackgroundColor:[UIColor whiteColor]];
-                [v addSubview:attrNameLabel];
-                [v addSubview:valuelabel];
-                
-                //[self.labelsScrollView addSubview:attrNameLabel];
-                //[self.labelsScrollView addSubview:valuelabel];
-                [self.labelsScrollView addSubview:v];
-                
-                
-                lastY = attr_y + valueLabelHeight;
-                addedHeightValue = addedHeightValue + valueLabelHeight + FIXED_V_DISTANCE;
             }
             
             addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
@@ -600,7 +612,7 @@
             [self.distinguishingImage setHidden:NO];
             NSLog(@"%c",currentDetailsObject.isFeatured);
             [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_Sp.png"]];
-            [self.priceLabel setTextColor:[UIColor orangeColor]];
+            [self.priceLabel setTextColor:[UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f]];
             [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
             [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar_Sp.png"]];
             
