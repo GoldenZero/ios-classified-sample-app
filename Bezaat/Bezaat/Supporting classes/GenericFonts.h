@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import "SSLabel.h"
+//#import "SSLabel.h"
 
 @interface GenericFonts : NSObject
 
-+(SSFont *) getCustomFont16;
+//+(SSFont *) getCustomFont16;
 
 @end

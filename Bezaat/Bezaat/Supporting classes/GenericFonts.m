@@ -10,6 +10,7 @@
 
 @implementation GenericFonts
 
+/*
 static SSFont * customFont16;
 
 
@@ -22,5 +23,5 @@ static SSFont * customFont16;
     }
     return customFont16;
 }
-
+*/
 @end
