@@ -132,6 +132,7 @@
     
 }
 
+#pragma mark - FacebookLogin Delegate
 - (void)fbDidFinishLogging:(FBSession *)session
                      state:(FBSessionState) state
                      error:(NSError *)error
@@ -145,7 +146,8 @@
                     [[FBRequest requestForMe] startWithCompletionHandler:
                      ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
                          if (!error) {
-                             //NSLog(@"User_Info: %@",user);
+                             NSLog(@"User_Info: %@",user);
+                             [[ProfileManager sharedInstance] loginWithFacebookDelegate:self email:@"" AndUserName:user.username andFacebookid:user.id];
                              /*
                               RXMLElement *rxml = [RXMLElement elementFromURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/account/SocialPluginLogin?skey=%@&email=%@&fullName=%@&providerName=facebook&providerUserId=%@",[[AppDelegate instance] getURLiPhone],[[AppDelegate instance] md5:API_SECRET_KEY],[user objectForKey:@"email"],[self htmlEntityEncode:user.name],[user objectForKey:@"id"]]]];
                               
@@ -228,6 +230,7 @@
     }
     
 }
+
 
 
 #pragma mark - TwitterLoginDialog Delegate

@@ -29,6 +29,9 @@
 - (void) userFailLoginWithTwitterError:(NSError*) error;
 - (void) userDidLoginWithTwitterData:(UserProfile *) resultProfile;
 
+- (void) userFailLoginWithFacebookError:(NSError*) error;
+- (void) userDidLoginWithFacebookData:(UserProfile *) resultProfile;
+
 @end
 
 @protocol ProfileRegisterDelegate <NSObject>
@@ -81,6 +84,10 @@
 
 // call login Twitter API
 - (void) loginWithTwitterDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress AndUserName:(NSString *) userName andTwitterid:(NSString*)twitterID;
+
+// call login Facebook API
+- (void) loginWithFacebookDelegate:(id <ProfileManagerDelegate>) del email:(NSString *) emailAdress AndUserName:(NSString *) userName andFacebookid:(NSString*)facebookID;
+
 
 // call register API
 - (void) registerWithDelegate:(id <ProfileRegisterDelegate>) del UserName:(NSString *) userName AndEmail:(NSString *) emailAdress andPassword:(NSString*)PWD;
