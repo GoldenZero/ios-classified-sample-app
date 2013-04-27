@@ -10,10 +10,6 @@
 
 @implementation GenericFonts
 
-<<<<<<< HEAD
-/*
-static SSFont * customFont16;
-=======
 + (GenericFonts*)sharedInstance {
     static GenericFonts* instance = nil;
     if (instance == nil) {
@@ -22,7 +18,6 @@ static SSFont * customFont16;
     
     return instance;
 }
->>>>>>> Modified GenericFonts class to be really generic and fixed warnings about text alignments
 
 - (id)init {
     if (self = [super init]) {
@@ -32,19 +27,19 @@ static SSFont * customFont16;
     return self;
 }
 
-- (SSLabel*)applyFont:(SSFont*)font toLabel:(SSLabel*)label {
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [UIColor blackColor];
-    label.textAlignment = NSTextAlignmentRight;
-    label.font = font;
-    
-    return label;
-}
+//- (SSLabel*)applyFont:(SSFont*)font toLabel:(SSLabel*)label {
+//    label.backgroundColor = [UIColor clearColor];
+//    label.textColor = [UIColor blackColor];
+//    label.textAlignment = NSTextAlignmentRight;
+//    label.font = font;
+//    
+//    return label;
+//}
+//
+//// The font for Bezaat is @"ge_ss_two_medium"
+//- (SSFont*)loadFont:(NSString*)fontName withSize:(int)fontSize {
+//    NSString * path = [[NSBundle mainBundle] pathForResource:fontName ofType:@"ttf"];
+//    return [SSFont fontWithPath:path size:fontSize];
+//}
 
-// The font for Bezaat is @"ge_ss_two_medium"
-- (SSFont*)loadFont:(NSString*)fontName withSize:(int)fontSize {
-    NSString * path = [[NSBundle mainBundle] pathForResource:fontName ofType:@"ttf"];
-    return [SSFont fontWithPath:path size:fontSize];
-}
-*/
 @end

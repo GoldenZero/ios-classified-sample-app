@@ -8,12 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-<<<<<<< HEAD
-//#import "SSLabel.h"
-=======
 
-#import "SSLabel.h"
->>>>>>> Modified GenericFonts class to be really generic and fixed warnings about text alignments
+//#import "SSLabel.h"
+//#import "SSFont.h"
 
 @interface GenericFonts : NSObject {
     // This dictionary contains the caching of the loaded fonts with their sizes
@@ -21,13 +18,9 @@
     NSMutableDictionary* cache;
 }
 
-- (SSFont*)loadFont:(NSString*)fontName withSize:(int)fontSize;
-- (SSLabel*)applyFont:(SSFont*)font toLabel:(SSLabel*)label;
+//- (SSFont*)loadFont:(NSString*)fontName withSize:(int)fontSize;
+//- (SSLabel*)applyFont:(SSFont*)font toLabel:(SSLabel*)label;
 
-<<<<<<< HEAD
-//+(SSFont *) getCustomFont16;
-=======
 + (GenericFonts*)sharedInstance;
->>>>>>> Modified GenericFonts class to be really generic and fixed warnings about text alignments
 
 @end
