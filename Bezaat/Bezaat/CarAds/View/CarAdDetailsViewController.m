@@ -502,7 +502,7 @@
                 
                 CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
                 
-                UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(attr_x, attr_y, expectedLabelSize.width, expectedLabelSize.height)];
+                UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, expectedLabelSize.width, expectedLabelSize.height)];
                 
                 attrNameLabel.text = attr_name_text;
                 attrNameLabel.textAlignment = NSTextAlignmentRight;
@@ -518,15 +518,30 @@
                 CGFloat val_x = FIXED_H_DISTANCE;
                 CGFloat val_y  = attr_y;
                 
-                UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(val_x, val_y, valueLabelWidth, valueLabelHeight)];
+                UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 5, valueLabelWidth, valueLabelHeight)];
                 
                 valuelabel.text = attr.attributeValue;
                 valuelabel.textAlignment = NSTextAlignmentRight;
                 valuelabel.font = [UIFont systemFontOfSize:15];
                 valuelabel.backgroundColor = [UIColor clearColor];
+              /*
+               // UITextField* backgroundText = [[UITextField alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
+                UITableViewCell* myCell = [[UITableViewCell alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
+                myCell.accessoryType = UITableViewCellAccessoryNone;
+                myCell.backgroundColor = [UIColor whiteColor];
+                myCell.textLabel.text = attrNameLabel.text;
+                myCell.detailTextLabel.text = valuelabel.text;
                 
-                [self.labelsScrollView addSubview:attrNameLabel];
-                [self.labelsScrollView addSubview:valuelabel];
+                */
+                UIView* v = [[UIView alloc]initWithFrame:CGRectMake(30, val_y, valueLabelWidth + expectedLabelSize.width, valueLabelHeight)];
+                [v setBackgroundColor:[UIColor whiteColor]];
+                [v addSubview:attrNameLabel];
+                [v addSubview:valuelabel];
+                
+                //[self.labelsScrollView addSubview:attrNameLabel];
+                //[self.labelsScrollView addSubview:valuelabel];
+                [self.labelsScrollView addSubview:v];
+                
                 
                 lastY = attr_y + valueLabelHeight;
                 addedHeightValue = addedHeightValue + valueLabelHeight + FIXED_V_DISTANCE;
