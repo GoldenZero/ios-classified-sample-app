@@ -60,11 +60,11 @@
         BrandCell* brandCell = (BrandCell*)cell;
         [brandCell reloadInformation:currentItem];
         if (self.tagOfCallXib!=2) {
-            if (indexPath.row == 0)
+            /*if (indexPath.row == 0)
             {
                 [brandCell.imgSelected  setImage:[UIImage imageNamed:@"Brands2_allcars_button.png"]];
                 [brandCell.imgUnselected  setImage:[UIImage imageNamed:@"Brands2_allcars_button.png"]];
-            }
+            }*/
             if ((!oneSelectionMade) && (indexPath.row == 1))
                 [brandCell selectCell];
         }
@@ -131,10 +131,11 @@
             [_tblModels reloadData];
         }
         else{
+            /*
                 BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
                 carAdsMenu.currentModel=nil;
                 [self presentViewController:carAdsMenu animated:YES completion:nil];
-
+*/
         }
     
     }
@@ -314,4 +315,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)allCarsInvoked:(id)sender {
+    
+    BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
+    carAdsMenu.currentModel=nil;
+    [self presentViewController:carAdsMenu animated:YES completion:nil];
+}
 @end

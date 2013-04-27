@@ -20,5 +20,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *blueBgImgV;
 @property (strong, nonatomic) IBOutlet UIImageView *blackBgImgV;
 @property int tagOfCallXib;
+- (IBAction)allCarsInvoked:(id)sender;
 
 @end
