@@ -33,14 +33,19 @@
     MBProgressHUD2 *loadingHUD;
     int chosenImgBtnTag;
     UIImage * currentImageToUpload;
-  
+    LocationManager * locationMngr;
+    CLLocationManager * deviceLocationDetector;
+    
+    NSUInteger defaultIndex;
+
     //These objects should be set bt selecting the drop down menus.
     SingleValue * chosenCurrency;
     SingleValue * chosenYear;
-    SingleValue * chosenCity;
-    SingleValue * chosenCountry;
+    City * chosenCity;
+    Country * chosenCountry;
     bool kiloChoosen;
 
+    
     NSTimer *timer;
 }
 
@@ -53,8 +58,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         globalArray=[[NSArray alloc] init];
-        countryArray =[[NSArray alloc] initWithObjects:@"سوريا",@"امارات",@"السعودية", nil];
-        cityArray=[[NSArray alloc] initWithObjects:@"دمشق",@"حمص",@"حلب",@"حماه", nil];
     }
     return self;
 }
@@ -63,6 +66,10 @@
 {
     [super viewDidLoad];
     
+    locationMngr = [LocationManager sharedInstance];
+    
+    [self loadData];
+
     // Set the image piacker
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
@@ -87,7 +94,7 @@
     [carPrice setDelegate:(id)self];
     [carDetails setDelegate:(id)self];
     
-    [self loadData];
+    [self loadDataArray];
     [self addButtonsToXib];
     [self setImagesArray];
     [self setImagesToXib];
@@ -105,7 +112,82 @@
     [self.horizontalScrollView flashScrollIndicators];
  
 }
-- (void) loadData{
+#pragma mark - location handler.
+- (void) didFinishLoadingWithData:(NSArray*) resultArray{
+    countryArray=resultArray;
+    [self hideLoadingIndicator];
+    
+    // Setting default country
+    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    if  (defaultIndex!= -1){
+        chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
+        cityArray=[chosenCountry cities];
+        if (cityArray && cityArray.count)
+            chosenCity=[cityArray objectAtIndex:0];//set initial chosen city
+        [self.locationPickerView reloadAllComponents];
+
+    }
+    
+}
+
+// This method loads the device location initialli, and afterwards the loading of country lists comes after
+- (void) loadData {
+    
+    if (![GenericMethods connectedToInternet])
+    {
+        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        return;
+    }
+    
+    if ([CLLocationManager locationServicesEnabled])
+    {
+        if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
+            ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized))
+        {
+            if (!deviceLocationDetector)
+                deviceLocationDetector = [[CLLocationManager alloc] init];
+            
+            [self showLoadingIndicator];
+            deviceLocationDetector.delegate = self;
+            deviceLocationDetector.distanceFilter = 500;
+            deviceLocationDetector.desiredAccuracy = kCLLocationAccuracyKilometer;
+            deviceLocationDetector.pausesLocationUpdatesAutomatically = YES;
+            
+            [deviceLocationDetector startUpdatingLocation];
+        }
+        else
+            [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+    }
+    else
+        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    
+    [deviceLocationDetector stopUpdatingLocation];
+    
+    //currentLocation = newLocation;
+    
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
+        NSString * code = mark.countryCode;
+
+        [LocationManager sharedInstance].deviceLocationCountryCode = code;
+        
+        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        
+        //self initialize drop down lists
+        [self.locationPickerView reloadAllComponents];
+
+    }];
+    
+}
+
+
+- (void) loadDataArray{
     productionYearArray=[[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadModelYearValues]];
     currencyArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
     kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
@@ -353,14 +435,14 @@
 {
     if (pickerView==_locationPickerView) {
         if (component==0) {
-            NSString *choosen=[countryArray objectAtIndex:row];
-           // SET cities array
-            [countryCity setTitle:choosen forState:UIControlStateNormal];
+           chosenCountry=(Country *)[countryArray objectAtIndex:row];
+            cityArray=[chosenCountry cities];
+            [countryCity setTitle:chosenCountry.countryName forState:UIControlStateNormal];
             [pickerView reloadAllComponents];
         }
         else{
-            NSString *choosen=[cityArray objectAtIndex:row];
-            [countryCity setTitle:choosen forState:UIControlStateNormal];
+            chosenCity=[cityArray objectAtIndex:row];
+            [countryCity setTitle:chosenCity.cityName forState:UIControlStateNormal];
             [pickerView reloadAllComponents];
         }
 
@@ -401,14 +483,16 @@
 {
     if (pickerView==_locationPickerView) {
         if (component==0) {
-            return [countryArray objectAtIndex:row];
+            Country *temp=(Country*)[countryArray objectAtIndex:row];
+            return temp.countryName;
         }
         else{
-            return [cityArray objectAtIndex:row];
+            City *temp=(City*)[cityArray objectAtIndex:row];
+            return temp.cityName;
         }
     }
     else {
-        return [globalArray objectAtIndex:row];
+        return [(SingleValue*)[globalArray objectAtIndex:row] valueString];
     }
     
     
@@ -466,8 +550,8 @@
     // CODE TODO for Roula
     // Variables are:
     //    kiloChoosen: bool;
-    //    chosenCity : SingleValue;
-    //    chosenCountry : SingleValue;
+    //    chosenCity : City;
+    //    chosenCountry : Country;
     //    chosenCurrency : SingleValue;
     //    chosenYear : SingleValue;
     //    carAdTitle :UITextField;
