@@ -210,7 +210,7 @@
     self.twitterEmail = [[UITextField alloc] initWithFrame:CGRectMake(12, 50, 260, 25)];
     [self.twitterEmail setBackgroundColor:[UIColor whiteColor]];
     [self.twitterEmail setPlaceholder:@"123@eample.com"];
-    [self.twitterEmail setTextAlignment:UITextAlignmentCenter];
+    [self.twitterEmail setTextAlignment:NSTextAlignmentCenter];
     self.twitterEmail.keyboardType = UIKeyboardTypeEmailAddress;
     [alert addSubview:self.twitterEmail];
     

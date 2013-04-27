@@ -178,7 +178,7 @@
                              [alertView show];
                              UILabel *theTitle = [alertView valueForKey:@"_titleLabel"];
                              [theTitle setFont:[UIFont fontWithName:@"Helvetica" size:20]];
-                             [theTitle setTextAlignment:UITextAlignmentCenter];
+                             [theTitle setTextAlignment:NSTextAlignmentCenter];
                              
                              //}
                          }
@@ -311,7 +311,7 @@
     self.twitterEmail = [[UITextField alloc] initWithFrame:CGRectMake(12, 50, 260, 25)];
     [self.twitterEmail setBackgroundColor:[UIColor whiteColor]];
     [self.twitterEmail setPlaceholder:@"123@eample.com"];
-    [self.twitterEmail setTextAlignment:UITextAlignmentCenter];
+    [self.twitterEmail setTextAlignment:NSTextAlignmentCenter];
     self.twitterEmail.keyboardType = UIKeyboardTypeEmailAddress;
     [alert addSubview:self.twitterEmail];
     

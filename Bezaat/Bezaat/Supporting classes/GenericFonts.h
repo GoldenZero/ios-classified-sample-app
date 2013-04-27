@@ -8,10 +8,26 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+<<<<<<< HEAD
 //#import "SSLabel.h"
+=======
 
-@interface GenericFonts : NSObject
+#import "SSLabel.h"
+>>>>>>> Modified GenericFonts class to be really generic and fixed warnings about text alignments
 
+@interface GenericFonts : NSObject {
+    // This dictionary contains the caching of the loaded fonts with their sizes
+    // The key is the fontName|fontSize and the value is the font object SSFont*
+    NSMutableDictionary* cache;
+}
+
+- (SSFont*)loadFont:(NSString*)fontName withSize:(int)fontSize;
+- (SSLabel*)applyFont:(SSFont*)font toLabel:(SSLabel*)label;
+
+<<<<<<< HEAD
 //+(SSFont *) getCustomFont16;
+=======
++ (GenericFonts*)sharedInstance;
+>>>>>>> Modified GenericFonts class to be really generic and fixed warnings about text alignments
 
 @end

@@ -401,7 +401,7 @@
             chosenCity = [citiesArray objectAtIndex:indexPath.row - 1];
             
             [[cell textLabel] setText:chosenCity.cityName];
-            cell.textLabel.textAlignment = UITextAlignmentRight;
+            cell.textLabel.textAlignment = NSTextAlignmentRight;
             //if ([defaultCityName isEqualToString:chosenCity.cityName]) {
             //  cell.selected = YES;
             //}

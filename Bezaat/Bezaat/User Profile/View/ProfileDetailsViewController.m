@@ -315,7 +315,7 @@
             [cell.iconImg setImage:[UIImage imageNamed:@"setting_signOut.png"]];
             cell.customLbl.text = @"تسجيل الخروج";
             cell.customTitle.text = @"";
-            cell.customLbl.textAlignment = UITextAlignmentLeft;
+            cell.customLbl.textAlignment = NSTextAlignmentLeft;
             cell.customLbl.textColor = [UIColor whiteColor];
             cell.customLbl.font = [UIFont boldSystemFontOfSize:25];
             cell.backgroundColor = [UIColor colorWithRed:114.0/255 green:115.0/255 blue:115.0/255 alpha:1.0f];
