@@ -9,7 +9,7 @@
 #import "AddNewCarAdViewController.h"
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
-
+#import "labelAdViewController.h"
 #pragma mark - literals for use in post ad
 //These literals should used for posting any ad
 #define AD_PERIOD_2_MONTHS_VALUE_ID     1189 //period = 2 months (fixed)
@@ -87,20 +87,12 @@
             action:@selector(dismissKeyboard)];
     [self.verticalScrollView addGestureRecognizer:tap2];
     
-    // Set delegates of text fields
-    [carAdTitle setDelegate:(id)self];
-    [mobileNum setDelegate:(id)self];
-    [distance setDelegate:(id)self];
-    [carPrice setDelegate:(id)self];
-    [carDetails setDelegate:(id)self];
-    
     [self loadDataArray];
     [self addButtonsToXib];
     [self setImagesArray];
     [self setImagesToXib];
    
-    [self closePicker:self.locationPickerView];
-    [self closePicker:self.pickerView];
+    [self closePicker];
     
 }
 
@@ -265,8 +257,7 @@
 }
 
 -(void)dismissKeyboard {
-    [self closePicker:self.pickerView];
-    [self closePicker:self.locationPickerView];
+    [self closePicker];
     [carAdTitle resignFirstResponder];
     [mobileNum resignFirstResponder];
     [carPrice resignFirstResponder];
@@ -293,11 +284,13 @@
     [carAdTitle setPlaceholder:@"عنوان الإعلان"];
     [carAdTitle setKeyboardType:UIKeyboardTypeAlphabet];
     [self.verticalScrollView addSubview:carAdTitle];
+    carAdTitle.delegate=self;
     
     carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,100 ,260 ,80 )];
     [carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
     [self.verticalScrollView addSubview:carDetails];
+    carDetails.delegate =self;
 
     carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,190 ,160 ,30)];
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
@@ -305,6 +298,7 @@
     [carPrice setPlaceholder:@"السعر"];
     [carPrice setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:carPrice];
+    carPrice.delegate=self;
     
     currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 190, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
@@ -319,11 +313,12 @@
     [distance setPlaceholder:@"المسافة"];
     [distance setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:distance];
+    distance.delegate=self;
 
     kiloMile = [[UISegmentedControl alloc] initWithItems:kiloMileArray];
     kiloMile.frame = CGRectMake(30, 240, 80, 30);
     kiloMile.segmentedControlStyle = UISegmentedControlStylePlain;
-    kiloMile.selectedSegmentIndex = 2;
+    kiloMile.selectedSegmentIndex = 0;
     [kiloMile addTarget:self action:@selector(chooseKiloMile) forControlEvents: UIControlEventValueChanged];
     [self.verticalScrollView addSubview:kiloMile];
     
@@ -341,7 +336,7 @@
     [mobileNum setPlaceholder:@"رقم الجوال"];
     [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
     [self.verticalScrollView addSubview:mobileNum];
-    
+    mobileNum.delegate=self;
 
        
 }
@@ -371,53 +366,27 @@
 
 #pragma mark - picker methods
 
--(IBAction)closePicker:(id)sender
+-(IBAction)closePicker
 {
-    if (sender==_locationPickerView) {
-        [self.locationPickerView setHidden:YES];
+        [self.pickersView setHidden:YES];
         [UIView animateWithDuration:0.3 animations:^{
-            _locationPickerView.frame = CGRectMake(_locationPickerView.frame.origin.x,
+            self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
                                                    [[UIScreen mainScreen] bounds].size.height,
-                                                   _locationPickerView.frame.size.width,
-                                                   _locationPickerView.frame.size.height);
+                                                  self.pickersView.frame.size.width,
+                                                  self.pickersView.frame.size.height);
         }];
-        
-    }
-    else {
-        [self.pickerView setHidden:YES];
-        [UIView animateWithDuration:0.3 animations:^{
-            _pickerView.frame = CGRectMake(_pickerView.frame.origin.x,
-                                           [[UIScreen mainScreen] bounds].size.height,
-                                           _pickerView.frame.size.width,
-                                           _pickerView.frame.size.height);
-        }];
-    }
-    
-
 }
 
--(IBAction)showPicker:(id)sender
+-(IBAction)showPicker
 {
-    if (sender==_locationPickerView) {
-        [self.locationPickerView setHidden:NO];
+    [self.pickersView setHidden:NO];
+        [self.pickersView setHidden:NO];
         [UIView animateWithDuration:0.3 animations:^{
-            _locationPickerView.frame = CGRectMake(_locationPickerView.frame.origin.x,
-                                           [[UIScreen mainScreen] bounds].size.height-self.locationPickerView.frame.size.height,
-                                           _locationPickerView.frame.size.width,
-                                           _locationPickerView.frame.size.height);
+            self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
+                                           [[UIScreen mainScreen] bounds].size.height-self.self.pickersView.frame.size.height,
+                                           self.pickersView.frame.size.width,
+                                           self.pickersView.frame.size.height);
         }];
-
-    }
-    else {
-        [self.pickerView setHidden:NO];
-        [UIView animateWithDuration:0.3 animations:^{
-            _pickerView.frame = CGRectMake(_pickerView.frame.origin.x,
-                                           [[UIScreen mainScreen] bounds].size.height-self.locationPickerView.frame.size.height,
-                                           _pickerView.frame.size.width,
-                                           _pickerView.frame.size.height);
-        }];
-    }
-
 }
 
 
@@ -437,26 +406,31 @@
         if (component==0) {
            chosenCountry=(Country *)[countryArray objectAtIndex:row];
             cityArray=[chosenCountry cities];
-            [countryCity setTitle:chosenCountry.countryName forState:UIControlStateNormal];
+            if (cityArray && cityArray.count)
+                chosenCity=[cityArray objectAtIndex:0];//set initial chosen city
+            NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
+            [countryCity setTitle:temp forState:UIControlStateNormal];
             [pickerView reloadAllComponents];
+            
         }
         else{
             chosenCity=[cityArray objectAtIndex:row];
-            [countryCity setTitle:chosenCity.cityName forState:UIControlStateNormal];
+             NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
+            [countryCity setTitle:temp forState:UIControlStateNormal];
             [pickerView reloadAllComponents];
         }
 
     }
 
     else {
-        NSString *choosen=[globalArray objectAtIndex:row];
+        SingleValue *choosen=[globalArray objectAtIndex:row];
         if ([currencyArray containsObject:choosen]) {
             chosenCurrency=[globalArray objectAtIndex:row];
-            [currency setTitle:choosen forState:UIControlStateNormal];
+            [currency setTitle:choosen.valueString forState:UIControlStateNormal];
         }
         else if ([productionYearArray containsObject:choosen]) {
             chosenYear=[globalArray objectAtIndex:row];
-            [productionYear setTitle:choosen forState:UIControlStateNormal];
+            [productionYear setTitle:chosenYear.valueString forState:UIControlStateNormal];
         }
     }
 
@@ -502,25 +476,33 @@
 
 
 - (void) chooseProductionYear{
-    [self showPicker:self.pickerView];
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
+    self.locationPickerView.hidden=YES;
+    self.pickerView.hidden=NO;
     // fill picker with production year
-    globalArray=productionYearArray;
-    
+    globalArray=[[NSArray alloc] initWithArray:productionYearArray];
     [self.pickerView reloadAllComponents];
+    [self showPicker];
+
 }
 
 - (void) chooseCurrency{
-    [self showPicker:self.pickerView];
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
-    // fill picker with currency options
-    globalArray=currencyArray;
+    self.locationPickerView.hidden=YES;
+    self.pickerView.hidden=NO;
     
+    // fill picker with currency options
+    globalArray=[[NSArray alloc] initWithArray:currencyArray];
     [self.pickerView reloadAllComponents];
+    [self showPicker];
+
 }
 
 - (void) chooseCountryCity{
-    [self showPicker:self.locationPickerView];
+    self.locationPickerView.hidden=NO;
+    self.pickerView.hidden=YES;
+    [self showPicker];
+    NSString *temp= [NSString stringWithFormat:@"%@ %@", chosenCountry.countryName , chosenCity.cityName];
+    [countryCity setTitle:temp forState:UIControlStateNormal];
+
     [self.locationPickerView selectRow:0 inComponent:0 animated:YES];
     
     [self.locationPickerView reloadAllComponents];
@@ -529,7 +511,7 @@
 }
 
 - (void) chooseKiloMile{
-    if (kiloMile.selectedSegmentIndex==2) {
+    if (kiloMile.selectedSegmentIndex==0) {
         kiloChoosen=true;
     }
     else if (kiloMile.selectedSegmentIndex==1){
@@ -537,6 +519,10 @@
         kiloChoosen=false;
     }
 
+}
+
+- (IBAction)doneBtnPrss:(id)sender {
+    [self closePicker];
 }
 
 - (IBAction)homeBtnPrss:(id)sender {
@@ -559,9 +545,8 @@
     //    distance : UITextField;
     //    mobileNum :UITextField;
     //    carPrice : UITextField;
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
+    labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 
 }
 
