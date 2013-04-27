@@ -19,6 +19,7 @@
 #import "SignInViewController.h"
 #import "AddNewStoreViewController.h"
 #import "BrowseStoresViewController.h"
+#import "AboutAppViewController.h"
 
 @interface ChooseActionViewController (){
     NSArray *menuArray;
@@ -170,7 +171,7 @@
     NSString *menuPlistPath = [[NSBundle mainBundle] pathForResource:@"HomeScreenChoices" ofType:@"plist"];
     
     menuArray = [[NSArray alloc] initWithContentsOfFile:menuPlistPath];
-    iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png", nil];
+    iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png",@"Menu_icon_10.png", nil];
 
      UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
        // gust
@@ -181,11 +182,13 @@
         [custoMenuArray addObject:[menuArray objectAtIndex:3]];
         [custoMenuArray addObject:[menuArray objectAtIndex:6]];
         [custoMenuArray addObject:[menuArray objectAtIndex:7]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:9]];
         
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:9]];
     }
     // member
     else if (savedProfile){
@@ -196,12 +199,14 @@
             [custoMenuArray addObject:[menuArray objectAtIndex:3]];
             [custoMenuArray addObject:[menuArray objectAtIndex:6]];
             [custoMenuArray addObject:[menuArray objectAtIndex:8]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:9]];
             
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:9]];
 
         }
         
@@ -211,12 +216,14 @@
             [custoMenuArray addObject:[menuArray objectAtIndex:3]];
             [custoMenuArray addObject:[menuArray objectAtIndex:6]];
             [custoMenuArray addObject:[menuArray objectAtIndex:8]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:9]];
         
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:0]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:9]];
         }
     
     }
@@ -308,6 +315,12 @@
                 [alert show];
 
                 break;
+            }
+            case 9:
+            {
+                AboutAppViewController *vc=[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController" bundle:nil];
+                [self presentViewController:vc animated:YES completion:nil];
+
             }
             default:
                 break;
