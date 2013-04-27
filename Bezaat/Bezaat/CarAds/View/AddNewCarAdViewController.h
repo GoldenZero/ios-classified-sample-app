@@ -24,6 +24,15 @@
 @property (strong, nonatomic) IBOutlet UILabel *modelNameLabel;
 @property (strong, nonatomic) IBOutlet UIPickerView *locationPickerView;
 
+@property (strong, nonatomic) IBOutlet  UITextField *carAdTitle;
+@property (strong, nonatomic) IBOutlet  UITextField *mobileNum;
+@property (strong, nonatomic) IBOutlet  UITextField *distance;
+@property (strong, nonatomic) IBOutlet  UITextField *carPrice;
+@property (strong, nonatomic) IBOutlet  UITextView *carDetails;
+@property (strong, nonatomic) IBOutlet  UIButton *productionYear;
+@property (strong, nonatomic) IBOutlet  UIButton *currency;
+@property (strong, nonatomic) IBOutlet  UISegmentedControl *kiloMile;
+@property (strong, nonatomic) IBOutlet  UIButton *countryCity;
 
 #pragma mark - actions
 

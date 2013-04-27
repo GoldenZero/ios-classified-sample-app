@@ -18,16 +18,7 @@
 
 
 @interface AddNewCarAdViewController (){
-    IBOutlet  UITextField *carAdTitle;
-    IBOutlet  UITextField *mobileNum;
-    IBOutlet  UITextField *distance;
-    IBOutlet  UITextField *carPrice;
-    IBOutlet  UITextView *carDetails;
-    IBOutlet  UIButton *productionYear;
-    IBOutlet  UIButton *currency;
-    IBOutlet  UISegmentedControl *kiloMile;
-    IBOutlet  UIButton *countryCity;
-    
+        
     UITapGestureRecognizer *tap1;
     UITapGestureRecognizer *tap2;
     
@@ -42,31 +33,28 @@
     MBProgressHUD2 *loadingHUD;
     int chosenImgBtnTag;
     UIImage * currentImageToUpload;
-    bool kiloChoosen;
+  
     //These objects should be set bt selecting the drop down menus.
     SingleValue * chosenCurrency;
     SingleValue * chosenYear;
     SingleValue * chosenCity;
     SingleValue * chosenCountry;
+    bool kiloChoosen;
+
     NSTimer *timer;
 }
 
 @end
 
 @implementation AddNewCarAdViewController
-
+@synthesize carAdTitle,mobileNum,distance,carDetails,carPrice,countryCity,currency,kiloMile,productionYear;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         globalArray=[[NSArray alloc] init];
-        currencyArray =[[NSArray alloc] initWithObjects:@"ريال",@"درهم",@"جنيه",@"دولار",@"يورو",@"دينار",@"ليرة",@"شيكل", nil];
         countryArray =[[NSArray alloc] initWithObjects:@"سوريا",@"امارات",@"السعودية", nil];
         cityArray=[[NSArray alloc] initWithObjects:@"دمشق",@"حمص",@"حلب",@"حماه", nil];
-        productionYearArray=[[NSArray alloc] initWithObjects:@"٢٠١٢",@"٢٠١١",@"٢٠١٠",@"٢٠٠٠", nil];
-        kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
-        kiloChoosen=true;
-        
     }
     return self;
 }
@@ -74,11 +62,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.modelNameLabel setText:self.currentModel.modelName];
+    
+    // Set the image piacker
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
+    // Set the scroll view indicator
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(indicator:) userInfo:nil repeats:YES];
     
+    // Set tapping gesture 
     tap1 = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
@@ -89,14 +80,14 @@
             action:@selector(dismissKeyboard)];
     [self.verticalScrollView addGestureRecognizer:tap2];
     
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
-
+    // Set delegates of text fields
     [carAdTitle setDelegate:(id)self];
     [mobileNum setDelegate:(id)self];
     [distance setDelegate:(id)self];
     [carPrice setDelegate:(id)self];
     [carDetails setDelegate:(id)self];
     
+    [self loadData];
     [self addButtonsToXib];
     [self setImagesArray];
     [self setImagesToXib];
@@ -112,8 +103,14 @@
 -(void)indicator:(BOOL)animated{
     
     [self.horizontalScrollView flashScrollIndicators];
-
  
+}
+- (void) loadData{
+    productionYearArray=[[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadModelYearValues]];
+    currencyArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
+    kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
+    [self.modelNameLabel setText:self.currentModel.modelName];
+    kiloChoosen=true;
 }
 - (void)didReceiveMemoryWarning
 {
@@ -372,9 +369,11 @@
     else {
         NSString *choosen=[globalArray objectAtIndex:row];
         if ([currencyArray containsObject:choosen]) {
+            chosenCurrency=[globalArray objectAtIndex:row];
             [currency setTitle:choosen forState:UIControlStateNormal];
         }
         else if ([productionYearArray containsObject:choosen]) {
+            chosenYear=[globalArray objectAtIndex:row];
             [productionYear setTitle:choosen forState:UIControlStateNormal];
         }
     }
@@ -464,8 +463,19 @@
 
 - (IBAction)addBtnprss:(id)sender {
     
-    // Add current Ad to the user's add
-    // CODE HERE
+    // CODE TODO for Roula
+    // Variables are:
+    //    kiloChoosen: bool;
+    //    chosenCity : SingleValue;
+    //    chosenCountry : SingleValue;
+    //    chosenCurrency : SingleValue;
+    //    chosenYear : SingleValue;
+    //    carAdTitle :UITextField;
+    //    carDetails : UITextView;
+    //    distance : UITextField;
+    //    mobileNum :UITextField;
+    //    carPrice : UITextField;
+    
     [self dismissViewControllerAnimated:YES completion:nil];
     
 
