@@ -12,8 +12,12 @@
 
 @protocol FacebookLoginDelegate <NSObject>
 @required
+
 // This method is called after the login is finished either successfully or with error.
-- (void) fbDidFinishLogging;
+- (void)fbDidFinishLogging:(FBSession *)session
+                     state:(FBSessionState) state
+                     error:(NSError *)error;
+
 
 // These methods are called after loading user's data in an FBRequest with success/failure
 - (void) fbDidLoadUserDataWithData:(NSDictionary *) userData;

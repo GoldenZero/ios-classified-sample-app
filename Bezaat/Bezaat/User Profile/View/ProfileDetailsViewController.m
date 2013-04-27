@@ -407,6 +407,7 @@
 {
     [self showLoadingIndicator];
     //[[LocationManager locationKeyChainItemSharedInstance] resetKeychainItem];
+    [FBSession.activeSession closeAndClearTokenInformation];
     [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
 
     

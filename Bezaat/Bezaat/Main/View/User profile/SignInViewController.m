@@ -117,22 +117,6 @@
 
 
 #pragma mark - FacebookLogin Delegate
-- (void) fbDidFinishLogging {
-    
-    [self hideLoadingIndicator];
-    
-    if ([SharedUser fbSharedSessionInstance].isOpen) {
-        NSLog(@"Logged successfully");
-        [fbManager getUserDataDictionary];
-        
-    } else {
-        if ([SharedUser fbSharedSessionInstance].accessTokenData)
-            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملية تسجيل الدخول" delegateVC:self];
-    }
-    
-}
-
-#pragma mark - FacebookLogin Delegate
 - (void)fbDidFinishLogging:(FBSession *)session
                      state:(FBSessionState) state
                      error:(NSError *)error
@@ -147,7 +131,7 @@
                      ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
                          if (!error) {
                              NSLog(@"User_Info: %@",user);
-                             [[ProfileManager sharedInstance] loginWithFacebookDelegate:self email:@"" AndUserName:user.username andFacebookid:user.id];
+                             [[ProfileManager sharedInstance] loginWithFacebookDelegate:self email:[user objectForKey:@"email"] AndUserName:user.name andFacebookid:user.id];
                              /*
                               RXMLElement *rxml = [RXMLElement elementFromURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/account/SocialPluginLogin?skey=%@&email=%@&fullName=%@&providerName=facebook&providerUserId=%@",[[AppDelegate instance] getURLiPhone],[[AppDelegate instance] md5:API_SECRET_KEY],[user objectForKey:@"email"],[self htmlEntityEncode:user.name],[user objectForKey:@"id"]]]];
                               
@@ -325,6 +309,34 @@
     // set cursor and show keyboard
     [self.twitterEmail becomeFirstResponder];
 
+}
+
+-(void)userDidLoginWithFacebookData:(UserProfile *)resultProfile
+{
+    NSLog(@"logged");
+    //save user's data
+    [[ProfileManager sharedInstance] storeUserProfile:resultProfile];
+    
+    //hide loading indicator
+    [self hideLoadingIndicator];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"تم تسجيل الدخول بنجاح"
+                                                    message:@""
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil, nil];
+    
+    alert.tag = 3;
+    [alert show];
+
+}
+
+-(void)userFailLoginWithFacebookError:(NSError *)error
+{
+    NSLog(@"failed");
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    [self hideLoadingIndicator];
 }
 
 

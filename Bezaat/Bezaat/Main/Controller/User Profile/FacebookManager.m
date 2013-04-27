@@ -29,7 +29,7 @@
     
     if ([SharedUser fbSharedSessionInstance].isOpen) {
         //user is already logged in
-        [delegate fbDidFinishLogging];
+        //[delegate fbDidFinishLogging];
         
     } else {
         NSLog(@"%i", [SharedUser fbSharedSessionInstance].state);
@@ -38,13 +38,29 @@
             [SharedUser initNewFbSession];
         }
         
-        // if the session isn't open, let's open it now and present the login UX to the user
-        [[SharedUser fbSharedSessionInstance] openWithCompletionHandler:^(FBSession *session,
-                                                         FBSessionState status,
-                                                         NSError *error) {
-            // and here we make sure to update our UX according to the new session state
-            [delegate fbDidFinishLogging];
-        }];
+        /*
+         
+         // if the session isn't open, let's open it now and present the login UX to the user
+         [[SharedUser fbSharedSessionInstance] openWithCompletionHandler:^(FBSession *session,
+         FBSessionState status,
+         NSError *error) {
+         // and here we make sure to update our UX according to the new session state
+         [delegate fbDidFinishLogging];
+         }];
+         */
+        NSArray *permissions = [[NSArray alloc] initWithObjects:
+                                @"email",
+                                nil];
+        //[SharedUser fbSharedSessionInstance]
+        [FBSession openActiveSessionWithReadPermissions:permissions
+                                           allowLoginUI:YES
+                                      completionHandler:^(FBSession *session,
+                                                          FBSessionState state,
+                                                          NSError *error) {
+                                          [delegate fbDidFinishLogging:session state:state error:error];
+                                          
+                                          //[delegate sessionStateChanged:session state:state error:error];
+                                      }];
     }
 }
 

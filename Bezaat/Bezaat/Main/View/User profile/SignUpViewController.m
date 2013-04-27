@@ -114,7 +114,91 @@
 }
 
 #pragma mark - FacebookLogin Delegate
-- (void) fbDidFinishLogging {
+
+- (void)fbDidFinishLogging:(FBSession *)session
+                     state:(FBSessionState) state
+                     error:(NSError *)error
+{
+    
+    switch (state) {
+        case FBSessionStateOpen:
+            if (!error) {
+                // NSLog(@"User session found");
+                if (FBSession.activeSession.isOpen) {
+                    [[FBRequest requestForMe] startWithCompletionHandler:
+                     ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+                         if (!error) {
+                             NSLog(@"User_Info: %@",user);
+                             [[ProfileManager sharedInstance] loginWithFacebookDelegate:self email:[user objectForKey:@"email"] AndUserName:user.name andFacebookid:user.id];
+                             /*
+                              RXMLElement *rxml = [RXMLElement elementFromURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/account/SocialPluginLogin?skey=%@&email=%@&fullName=%@&providerName=facebook&providerUserId=%@",[[AppDelegate instance] getURLiPhone],[[AppDelegate instance] md5:API_SECRET_KEY],[user objectForKey:@"email"],[self htmlEntityEncode:user.name],[user objectForKey:@"id"]]]];
+                              
+                              checkParenting = NO;
+                              __block NSString * userIdString=@"0";
+                              
+                              
+                              [rxml iterate:@"flipBlogIphone.user" with: ^(RXMLElement *sa) {
+                              
+                              userIdString = [[NSString alloc]initWithString:[NSString stringWithFormat:@"%@",[sa child:@"userid"]]];
+                              
+                              }];
+                              //Discuss the status here
+                              //NSLog(@"userIdString:): %@",userIdString);
+                              if([userIdString isEqualToString:@"0"]){
+                              //Do Nothing!!
+                              
+                              }
+                              else{*/
+                             //NSLog(@"Correct id= %@",userIdString);
+                             //[[NSUserDefaults standardUserDefaults] setValue:userIdString forKey:@"userid"];
+                             //[[NSUserDefaults standardUserDefaults] setValue:user.name forKey:@"username1"];
+                             //[[NSUserDefaults standardUserDefaults] synchronize];
+                             UIAlertView *alertView = [[UIAlertView alloc]
+                                                       initWithTitle:@"تم تسجيل دخولك بنجاح"
+                                                       message:@""
+                                                       delegate:nil
+                                                       cancelButtonTitle:@"متابعة"
+                                                       otherButtonTitles:nil];
+                             [alertView show];
+                             UILabel *theTitle = [alertView valueForKey:@"_titleLabel"];
+                             [theTitle setFont:[UIFont fontWithName:@"Helvetica" size:20]];
+                             [theTitle setTextAlignment:NSTextAlignmentCenter];
+                             
+                             //}
+                         }
+                     }];
+                }
+            }
+            break;
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed:
+            [FBSession.activeSession closeAndClearTokenInformation];
+            break;
+        default:
+            break;
+    }
+    
+    /*
+     [[NSNotificationCenter defaultCenter]
+     postNotificationName:FBSessionStateChangedNotification
+     object:session];
+     */
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Error"
+                                  message:error.localizedDescription
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+    
+    //
+    //
+    //old code
+    //
+    //
+    //
     
     [self hideLoadingIndicator];
     
@@ -223,6 +307,35 @@
     
 }
 
+-(void)userDidLoginWithFacebookData:(UserProfile *)resultProfile
+{
+    NSLog(@"logged");
+    //save user's data
+    [[ProfileManager sharedInstance] storeUserProfile:resultProfile];
+    
+    //hide loading indicator
+    [self hideLoadingIndicator];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"تم تسجيل الدخول بنجاح"
+                                                    message:@""
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil, nil];
+    
+    alert.tag = 3;
+    [alert show];
+    
+}
+
+-(void)userFailLoginWithFacebookError:(NSError *)error
+{
+    NSLog(@"failed");
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    [self hideLoadingIndicator];
+}
+
+
 
 -(void)userFailRegisterWithError:(NSError *)error
 {
@@ -231,13 +344,17 @@
 
 -(void)userDidRegisterWithData:(UserProfile *)resultProfile
 {
+    
+    //save user's data
+    [[ProfileManager sharedInstance] storeUserProfile:resultProfile];
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"تم التسجيل بنجاح"
                                                     message:@""
                                                    delegate:self
                                           cancelButtonTitle:@"موافق"
                                           otherButtonTitles:nil, nil];
     
-    alert.tag = 2;
+    alert.tag = 3;
     [alert show];
 }
 
