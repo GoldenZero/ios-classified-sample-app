@@ -179,10 +179,12 @@
         
         [custoMenuArray addObject:[menuArray objectAtIndex:1]];
         [custoMenuArray addObject:[menuArray objectAtIndex:3]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:6]];
         [custoMenuArray addObject:[menuArray objectAtIndex:7]];
         
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
     }
     // member
@@ -276,8 +278,14 @@
             }
             case 6:
             {
-                ProfileDetailsViewController *vc=[[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
-                [self presentViewController:vc animated:YES completion:nil];
+                if (!savedProfile) {
+                    GuestProfileViewController *vc=[[GuestProfileViewController alloc]initWithNibName:@"GuestProfileViewController" bundle:nil];
+                    [self presentViewController:vc animated:YES completion:nil];
+
+                }else{
+                    ProfileDetailsViewController *vc=[[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
+                    [self presentViewController:vc animated:YES completion:nil];
+                }
 
                 break;
             }
