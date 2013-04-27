@@ -131,9 +131,9 @@
 	[imageView setNeedsLayout];
 	[self setNeedsLayout];
     
-	//[loadingWheel stopAnimating];
-	//[loadingWheel removeFromSuperview];
-	//self.loadingWheel = nil;
+	[loadingWheel stopAnimating];
+	[loadingWheel removeFromSuperview];
+	self.loadingWheel = nil;
     
 	self.hidden=NO;
 	if (image!=nil) {

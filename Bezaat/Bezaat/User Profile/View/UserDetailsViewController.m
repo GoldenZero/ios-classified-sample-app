@@ -82,13 +82,20 @@
     // Do any additional setup after loading the view from its nib.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.adsTable reloadData];
+    self.adsTable.contentSize=CGSizeMake(320, self.adsTable.contentSize.height);
+}
+
 - (void) loadFirstData {
     
     //refresh table data
     [self.adsTable reloadData];
     //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     [self.adsTable setContentOffset:CGPointZero animated:YES];
-    
+    dataLoadedFromCache = NO;
     [[CarAdsManager sharedInstance] setCurrentPageNum:1];
     [[CarAdsManager sharedInstance] setPageSizeToDefault];
     [self loadPageOfAds];
@@ -154,7 +161,11 @@
     //1- hide the loading indicator
     [self hideLoadingIndicator];
     if ([resultArray count] == 0) {
-        [self.noAdsLbl setHidden:NO];
+        NSLog(@"%i",[self.adsTable numberOfRowsInSection:0]);
+        if ([self.adsTable numberOfRowsInSection:0] == 0) {
+            [self.noAdsLbl setHidden:NO];
+        }
+        dataLoadedFromCache = YES;
     }else{
         [self.noAdsLbl setHidden:YES];
     }
@@ -194,6 +205,7 @@
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
     [self.adsTable setNeedsDisplay];
+    [self.adsTable reloadData];
     
     [[CarAdsManager sharedInstance] setCurrentPageNum:1];
     [[CarAdsManager sharedInstance] setPageSizeToDefault];
@@ -216,6 +228,7 @@
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
     [self.adsTable setNeedsDisplay];
+    [self.adsTable reloadData];
     
     [[CarAdsManager sharedInstance] setCurrentPageNum:1];
     [[CarAdsManager sharedInstance] setPageSizeToDefault];
@@ -226,7 +239,7 @@
     [self showLoadingIndicator];
     
     //load a page of data
-    NSInteger page = 1;
+    NSInteger page = 0;
     NSInteger size = [[CarAdsManager sharedInstance] pageSize];
     [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"inactive" forPage:page andSize:size WithDelegate:self];
     
@@ -237,6 +250,7 @@
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
     [self.adsTable setNeedsDisplay];
+    [self.adsTable reloadData];
     
     [[CarAdsManager sharedInstance] setCurrentPageNum:1];
     [[CarAdsManager sharedInstance] setPageSizeToDefault];
@@ -259,6 +273,7 @@
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
     [self.adsTable setNeedsDisplay];
+    [self.adsTable reloadData];
     
     [[CarAdsManager sharedInstance] setCurrentPageNum:1];
     [[CarAdsManager sharedInstance] setPageSizeToDefault];
@@ -305,16 +320,16 @@
     
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     //ad with image
-    int separatorHeight = 5;//extra value for separating
+    int separatorHeight = 6;//extra value for separating
     if (carAdObject.thumbnailURL)
     {
         //store ad - with image
         if (carAdObject.storeID > 0)
-            return 100 + separatorHeight;
+            return 105 + separatorHeight;
         
         //individual ad - with image
         else
-            return 100 + separatorHeight;
+            return 105 + separatorHeight;
         
     }
     //ad with no image
@@ -322,10 +337,10 @@
     {
         //store ad - no image
         if (carAdObject.storeID > 0)
-            return 100 + separatorHeight;
+            return 105 + separatorHeight;
         //individual - no image
         else
-            return 100 + separatorHeight;
+            return 105 + separatorHeight;
     }
 }
 
