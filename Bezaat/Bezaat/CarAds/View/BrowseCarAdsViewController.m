@@ -1269,6 +1269,9 @@
 }
 
 - (IBAction)distanceBtnPrss:(id)sender {
+    [self.carNameText resignFirstResponder];
+    [self.lowerPriceText resignFirstResponder];
+    [self.higherPriceText resignFirstResponder];
     if (dropDownDistanceFlag==false) {
         dropDownDistanceFlag=true;
         [dropDownDistance openAnimation];
@@ -1280,6 +1283,9 @@
 }
 
 - (IBAction)fromYearBtnPrss:(id)sender {
+    [self.carNameText resignFirstResponder];
+    [self.lowerPriceText resignFirstResponder];
+    [self.higherPriceText resignFirstResponder];
     if (dropDownfromYearFlag==false) {
         dropDownfromYearFlag=true;
         [dropDownfromYear openAnimation];
@@ -1291,6 +1297,9 @@
 }
 
 - (IBAction)toYearBtnPrss:(id)sender {
+    [self.carNameText resignFirstResponder];
+    [self.lowerPriceText resignFirstResponder];
+    [self.higherPriceText resignFirstResponder];
     if (dropDowntoYearFlag==false) {
         dropDowntoYearFlag=true;
         [dropDowntoYear openAnimation];    }
