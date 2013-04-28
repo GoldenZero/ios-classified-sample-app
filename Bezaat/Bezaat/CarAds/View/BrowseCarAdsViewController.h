@@ -8,6 +8,7 @@
 // This UI is displayed to browse all ads of cars of a certain brand.
 
 #import <UIKit/UIKit.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "CarAdCell.h"
 #import "CarAdNoImageCell.h"
 #import "CarAdWithStoreCell.h"

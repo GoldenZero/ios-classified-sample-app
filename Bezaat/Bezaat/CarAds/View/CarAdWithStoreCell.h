@@ -12,9 +12,9 @@
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIImageView *cellBackgoundImage;
-@property (strong, nonatomic) IBOutlet HJManagedImageV *carImage;
+@property (strong, nonatomic) IBOutlet UIImageView *carImage;
 @property (strong, nonatomic) IBOutlet UIImageView *distingushingImage;
-@property (strong, nonatomic) IBOutlet HJManagedImageV *storeImage;
+@property (strong, nonatomic) IBOutlet UIImageView *storeImage;
 
 @property (strong, nonatomic) IBOutlet UILabel *storeNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *detailsLabel;

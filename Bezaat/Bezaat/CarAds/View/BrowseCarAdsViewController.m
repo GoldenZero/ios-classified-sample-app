@@ -26,7 +26,7 @@
     
     MBProgressHUD2 * loadingHUD;
     NSMutableArray * carAdsArray;
-    HJObjManager* asynchImgManager;   //asynchronous image loading manager
+    //HJObjManager* asynchImgManager;   //asynchronous image loading manager
     BOOL dataLoadedFromCache;
     ODRefreshControl *refreshControl;
     BOOL isRefreshing;
@@ -105,11 +105,13 @@
     if (!carAdsArray)
         carAdsArray = [NSMutableArray new];
     
+    /*
     //init the image load manager
     asynchImgManager = [[HJObjManager alloc] init];
 	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
 	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
 	asynchImgManager.fileCache = fileCache;
+    */
     
     //hide the scrolling indicator
     [self.tableView setShowsVerticalScrollIndicator:NO];
@@ -259,13 +261,19 @@
             
             
             //load image as URL
+            /*
             [cell.carImage clear];
             cell.carImage.url = carAdObject.thumbnailURL;
             
             [cell.carImage showLoadingWheel];
             [asynchImgManager manage:cell.carImage];
-            [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
-            [cell.carImage.imageView setClipsToBounds:YES];
+             */
+            
+            [cell.carImage setImageWithURL:carAdObject.thumbnailURL
+                           placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
+            
+            [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.carImage setClipsToBounds:YES];
             
             //customize storeName
             cell.storeNameLabel.text = carAdObject.storeName;
@@ -274,11 +282,15 @@
             if (carAdObject.storeLogoURL)
             {
                 [cell.storeImage setHidden:NO];
+                /*
                 [cell.storeImage clear];
                 cell.storeImage.url = carAdObject.storeLogoURL;
                 [asynchImgManager manage:cell.storeImage];
-                [cell.storeImage.imageView setContentMode:UIViewContentModeScaleToFill];
-                [cell.storeImage.imageView setClipsToBounds:YES];
+                 */
+                
+                [cell.storeImage setImageWithURL:carAdObject.storeLogoURL];
+                [cell.storeImage setContentMode:UIViewContentModeScaleToFill];
+                [cell.storeImage setClipsToBounds:YES];
             }
             else
                 [cell.storeImage setHidden:YES];
@@ -368,14 +380,19 @@
             
             
             //load image as URL
+            /*
             [cell.carImage clear];
             cell.carImage.url = carAdObject.thumbnailURL;
             
             [cell.carImage showLoadingWheel];
             
             [asynchImgManager manage:cell.carImage];
-            [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
-            [cell.carImage.imageView setClipsToBounds:YES];
+             */
+            [cell.carImage setImageWithURL:carAdObject.thumbnailURL
+                          placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
+            
+            [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.carImage setClipsToBounds:YES];
             
             //
             
@@ -474,11 +491,14 @@
             if (carAdObject.storeLogoURL)
             {
                 [cell.storeImage setHidden:NO];
+                /*
                 [cell.storeImage clear];
                 cell.storeImage.url = carAdObject.storeLogoURL;
                 [asynchImgManager manage:cell.storeImage];
-                [cell.storeImage.imageView setContentMode:UIViewContentModeScaleToFill];
-                [cell.storeImage.imageView setClipsToBounds:YES];
+                 */
+                [cell.storeImage setImageWithURL:carAdObject.storeLogoURL];
+                [cell.storeImage setContentMode:UIViewContentModeScaleToFill];
+                [cell.storeImage setClipsToBounds:YES];
             }
             else
                 [cell.storeImage setHidden:YES];
