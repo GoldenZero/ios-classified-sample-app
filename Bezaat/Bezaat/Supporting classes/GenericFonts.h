@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
-//#import "SSLabel.h"
+#import "SSLabel.h"
 //#import "SSFont.h"
 
 @interface GenericFonts : NSObject {
@@ -18,7 +18,7 @@
     NSMutableDictionary* cache;
 }
 
-//- (SSFont*)loadFont:(NSString*)fontName withSize:(int)fontSize;
+- (SSFont*)loadFont:(NSString*)fontName withSize:(int)fontSize;
 //- (SSLabel*)applyFont:(SSFont*)font toLabel:(SSLabel*)label;
 
 + (GenericFonts*)sharedInstance;

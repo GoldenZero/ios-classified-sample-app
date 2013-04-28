@@ -839,6 +839,11 @@
 		9EDF783716F1E57B00FB3BDD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E9F0A7316EC8248000E8471 /* Accounts.framework */; };
 		9EE86C2F172D22A700C1A013 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE86C2E172D22A700C1A013 /* SDWebImage.framework */; };
 		9EE86C31172D22D000C1A013 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE86C30172D22D000C1A013 /* ImageIO.framework */; };
+		9EE86C4A172D473000C1A013 /* SSFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE86C45172D473000C1A013 /* SSFont.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9EE86C4B172D473000C1A013 /* SSLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE86C47172D473000C1A013 /* SSLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9EE86C4C172D473000C1A013 /* SSText.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE86C49172D473000C1A013 /* SSText.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9EE86C50172D495300C1A013 /* ge_ss_two_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9EE86C4E172D495300C1A013 /* ge_ss_two_light.ttf */; };
+		9EE86C51172D495300C1A013 /* ge_ss_two_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9EE86C4F172D495300C1A013 /* ge_ss_two_medium.ttf */; };
 		9EFA08BC16FEE56800696B2C /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFA08BB16FEE56800696B2C /* LocationManager.m */; };
 		9EFA08D316FF1CC300696B2C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EFA08D216FF1CC300696B2C /* MapKit.framework */; };
 		9EFA092F17003FC400696B2C /* Brand.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFA092E17003FC400696B2C /* Brand.m */; };
@@ -1847,6 +1852,14 @@
 		9EAC7658172157EA001B1122 /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODRefreshControl.m; sourceTree = "<group>"; };
 		9EE86C2E172D22A700C1A013 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDWebImage.framework; sourceTree = "<group>"; };
 		9EE86C30172D22D000C1A013 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		9EE86C44172D473000C1A013 /* SSFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSFont.h; sourceTree = "<group>"; };
+		9EE86C45172D473000C1A013 /* SSFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSFont.m; sourceTree = "<group>"; };
+		9EE86C46172D473000C1A013 /* SSLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLabel.h; sourceTree = "<group>"; };
+		9EE86C47172D473000C1A013 /* SSLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSLabel.m; sourceTree = "<group>"; };
+		9EE86C48172D473000C1A013 /* SSText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSText.h; sourceTree = "<group>"; };
+		9EE86C49172D473000C1A013 /* SSText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSText.m; sourceTree = "<group>"; };
+		9EE86C4E172D495300C1A013 /* ge_ss_two_light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ge_ss_two_light.ttf; sourceTree = "<group>"; };
+		9EE86C4F172D495300C1A013 /* ge_ss_two_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ge_ss_two_medium.ttf; sourceTree = "<group>"; };
 		9EFA08BA16FEE56800696B2C /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		9EFA08BB16FEE56800696B2C /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		9EFA08D216FF1CC300696B2C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -2848,6 +2861,12 @@
 		9E1CA27216F625B9001A7DA1 /* SFLabel */ = {
 			isa = PBXGroup;
 			children = (
+				9EE86C44172D473000C1A013 /* SSFont.h */,
+				9EE86C45172D473000C1A013 /* SSFont.m */,
+				9EE86C46172D473000C1A013 /* SSLabel.h */,
+				9EE86C47172D473000C1A013 /* SSLabel.m */,
+				9EE86C48172D473000C1A013 /* SSText.h */,
+				9EE86C49172D473000C1A013 /* SSText.m */,
 			);
 			path = SFLabel;
 			sourceTree = "<group>";
@@ -3280,6 +3299,7 @@
 		9E9F082F16E4AFCF000E8471 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9EE86C4D172D495300C1A013 /* Fonts */,
 				9E64FB1A172B021F007883F4 /* home_sliced */,
 				24C6B73516FF28EF00615974 /* account_sliced */,
 				24B9CB32171FD97C00824475 /* AddNewCar */,
@@ -3412,6 +3432,15 @@
 				9EAC7658172157EA001B1122 /* ODRefreshControl.m */,
 			);
 			path = ODRefreshControl;
+			sourceTree = "<group>";
+		};
+		9EE86C4D172D495300C1A013 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9EE86C4E172D495300C1A013 /* ge_ss_two_light.ttf */,
+				9EE86C4F172D495300C1A013 /* ge_ss_two_medium.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		9EFA092C17003FAF00696B2C /* Brands and models */ = {
@@ -4248,6 +4277,8 @@
 				843FFFD7172CF9470081671C /* SignInViewController5.xib in Resources */,
 				843FFFDD172D25840081671C /* chooseCarBrand.png in Resources */,
 				843FFFDE172D25840081671C /* chooseCarBrand@2x.png in Resources */,
+				9EE86C50172D495300C1A013 /* ge_ss_two_light.ttf in Resources */,
+				9EE86C51172D495300C1A013 /* ge_ss_two_medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4358,6 +4389,9 @@
 				8439FE45172812B800CB1939 /* GuestProfileViewController.m in Sources */,
 				8421280117292CE90070FD76 /* ChooseLocationVC.m in Sources */,
 				068274BA172BF94A004D53D0 /* AboutAppViewController.m in Sources */,
+				9EE86C4A172D473000C1A013 /* SSFont.m in Sources */,
+				9EE86C4B172D473000C1A013 /* SSLabel.m in Sources */,
+				9EE86C4C172D473000C1A013 /* SSText.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4454,8 +4488,8 @@
 		9E78A7D716E34BA3000CA790 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: TARIQ ALASIRI (862C89FZ7B)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: TARIQ ALASIRI (862C89FZ7B)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4481,7 +4515,7 @@
 					"-DSF_IOS_CG",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0EECAF6B-148B-4FC0-8F7F-006DB698BFF4";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4490,8 +4524,8 @@
 		9E78A7D816E34BA3000CA790 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: TARIQ ALASIRI (862C89FZ7B)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: TARIQ ALASIRI (862C89FZ7B)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4517,7 +4551,7 @@
 					"-DSF_IOS_CG",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0EECAF6B-148B-4FC0-8F7F-006DB698BFF4";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
