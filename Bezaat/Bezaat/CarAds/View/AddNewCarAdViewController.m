@@ -99,6 +99,8 @@
 
 -(void)viewDidDisappear:(BOOL)animated{
     [timer invalidate];
+    [self closePicker];
+    [self.pickersView setHidden:YES];
 }
 -(void)indicator:(BOOL)animated{
     
@@ -461,9 +463,9 @@
             chosenCurrency=[globalArray objectAtIndex:row];
             [currency setTitle:choosen.valueString forState:UIControlStateNormal];
         }
-        else if ([productionYearArray containsObject:choosen]) {
+        else{
             chosenYear=[globalArray objectAtIndex:row];
-            [productionYear setTitle:chosenYear.valueString forState:UIControlStateNormal];
+            [productionYear setTitle:[NSString stringWithFormat:@"%@",choosen.valueString] forState:UIControlStateNormal];
         }
     }
 
@@ -498,7 +500,7 @@
         }
     }
     else {
-        return [(SingleValue*)[globalArray objectAtIndex:row] valueString];
+        return [NSString stringWithFormat:@"%@",[(SingleValue*)[globalArray objectAtIndex:row] valueString]];
     }
     
     
@@ -510,6 +512,9 @@
 - (void) chooseProductionYear{
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
+    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
+    [productionYear setTitle:temp forState:UIControlStateNormal];
+
     // fill picker with production year
     globalArray=productionYearArray;
     [self.pickerView reloadAllComponents];
@@ -520,7 +525,8 @@
 - (void) chooseCurrency{
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
-    
+    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[currencyArray objectAtIndex:0] valueString]];
+    [currency setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=currencyArray;
     [self.pickerView reloadAllComponents];
@@ -535,8 +541,9 @@
     NSString *temp= [NSString stringWithFormat:@"%@ :%@", chosenCountry.countryName , chosenCity.cityName];
     [countryCity setTitle:temp forState:UIControlStateNormal];
 
-    [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
-    
+    if (defaultIndex!=-1) {
+        [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
+    }
     [self.locationPickerView reloadAllComponents];
 
     
