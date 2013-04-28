@@ -32,7 +32,7 @@
 
 @implementation CarAdDetailsViewController
 @synthesize pageControl,scrollView, phoneNumberButton, favoriteButton, featureBtn, editBtn, topMostToolbar;
-@synthesize currentAdID;
+@synthesize currentAdID,parentVC;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -702,11 +702,16 @@
     if (resultStatus)//added successfully
     {
         [currentDetailsObject setIsFavorite:YES];
+        if (self.parentVC)
+            [self.parentVC updateFavStateForAdID:currentAdID withState:YES];
+        
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
     }
     else
     {
         [currentDetailsObject setIsFavorite:NO];
+        if (self.parentVC)
+            [self.parentVC updateFavStateForAdID:currentAdID withState:NO];
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
         
     }
@@ -724,11 +729,16 @@
     if (resultStatus)//removed successfully
     {
         [currentDetailsObject setIsFavorite:NO];
-        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
+        if (self.parentVC)
+            [self.parentVC updateFavStateForAdID:currentAdID withState:NO];
+                [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
     }
     else
     {
         [currentDetailsObject setIsFavorite:YES];
+        if (self.parentVC)
+            [self.parentVC updateFavStateForAdID:currentAdID withState:YES];
+
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
     }
     

@@ -14,10 +14,11 @@
 #import "AURosetteView.h"
 #import "AURosetteItem.h"
 #import "CarDetailsManager.h"
-
+#import "BrowseCarAdsViewController.h"
 @interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, CarDetailsManagerDelegate, FavoritesDelegate>
 
 #pragma mark - properties
+@property (strong, nonatomic) BrowseCarAdsViewController * parentVC;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;

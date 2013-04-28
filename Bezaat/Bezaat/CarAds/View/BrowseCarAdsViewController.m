@@ -211,6 +211,14 @@
     return 0;
 }
 
+- (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState {
+    NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:adID inArray:carAdsArray];
+    if (index > -1)
+    {
+        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:favState];
+    }
+}
+
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -650,6 +658,7 @@
         vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
     
     vc.currentAdID =  carAdObject.adID;
+    vc.parentVC = self;
     [self presentViewController:vc animated:YES completion:nil];
     
     
