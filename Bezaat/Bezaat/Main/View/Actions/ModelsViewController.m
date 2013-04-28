@@ -125,7 +125,9 @@
             currentModels = tempArray;
 
         }
-        
+        else{
+            currentModels=selectedBrand.models;
+        }
         //currentModels = selectedBrand.models;
         if (selectedBrand.models!=nil) {
             [_tblModels reloadData];
