@@ -584,6 +584,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     // add image data
     NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     if (imageData) {
+        //if (imageData.length)
         [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", FileParamConstant] dataUsingEncoding:NSUTF8StringEncoding]];
         [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];

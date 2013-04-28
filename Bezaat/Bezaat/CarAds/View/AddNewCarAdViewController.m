@@ -185,6 +185,17 @@
     
 }
 
+- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:error.localizedDescription delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+    [alert show];
+    
+    [deviceLocationDetector stopUpdatingLocation];
+    
+    [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+    
+    [locationMngr loadCountriesAndCitiesWithDelegate:self];
+}
 
 - (void) loadDataArray{
     productionYearArray=[[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadModelYearValues]];

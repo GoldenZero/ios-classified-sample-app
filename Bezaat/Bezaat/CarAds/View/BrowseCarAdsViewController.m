@@ -256,6 +256,8 @@
             
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
+            
+            
             //load image as URL
             [cell.carImage clear];
             cell.carImage.url = carAdObject.thumbnailURL;
@@ -281,7 +283,7 @@
             else
                 [cell.storeImage setHidden:YES];
             
-            //BLOCK FOR NOOR
+            //
             
             
             //check featured
@@ -364,16 +366,18 @@
             }
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
+            
             //load image as URL
             [cell.carImage clear];
             cell.carImage.url = carAdObject.thumbnailURL;
             
             [cell.carImage showLoadingWheel];
+            
             [asynchImgManager manage:cell.carImage];
             [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage.imageView setClipsToBounds:YES];
             
-            //BLOCK FOR NOOR
+            //
             
             //check featured
             if (carAdObject.isFeatured)
@@ -479,7 +483,7 @@
             else
                 [cell.storeImage setHidden:YES];
             
-            //BLOCK FOR NOOR
+            //
             
             
             //check featured
@@ -560,7 +564,7 @@
             }
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
-            //BLOCK FOR NOOR
+            //
             
             //check featured
             if (carAdObject.isFeatured)
