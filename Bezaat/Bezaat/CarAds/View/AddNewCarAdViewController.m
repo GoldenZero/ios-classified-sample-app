@@ -695,6 +695,12 @@
     }
     
     //check phone number
+    if (!mobileNum.text)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
+        return;
+    }
+    
     if ([[mobileNum.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
@@ -719,7 +725,7 @@
                                       description:carDetails.text
                                             price:carPrice.text
                                     periodValueID:AD_PERIOD_2_MONTHS_VALUE_ID
-                                           mobile:mobileNum.text
+                                           mobile: mobileNum.text
                                   currencyValueID:chosenCurrency.valueID
                                    serviceValueID:SERVICE_FOR_SALE_VALUE_ID
                                  modelYearValueID:chosenYear.valueID

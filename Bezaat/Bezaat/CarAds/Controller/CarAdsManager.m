@@ -571,7 +571,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [request setHTTPShouldHandleCookies:NO];
-    [request setTimeoutInterval:30];
+    [request setTimeoutInterval: 300];
     [request setHTTPMethod:@"POST"];
     
     // set Content-Type in HTTP header
@@ -583,6 +583,15 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     // add image data
     NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    if ((imageData) && (imageData.length > (5 * 1024 * 1024)))
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"لا يمكنك تحميل صورة بحجم يتجاوز ٥ ميغا بايت "];
+        
+        if (self.imageDelegate)
+            [self.imageDelegate imageDidFailUploadingWithError:error];
+        return ;
+    }
     if (imageData) {
         //if (imageData.length)
         [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -692,13 +701,18 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              brandKeyForModel.integerValue, [NSString stringWithFormat:@"%i",modelID],
                              IMAGES_ID_POST_KEY, [self getIDsStringFromArray:aImageIDsArray]
                              ];
+
         
+        /*
+        NSString * prePost = @"524=text&523=نص&507=987123&502=1189&520=3210987456&508=1235&505=830&509=1207&518=321789&528=&868=&907=1&1076=2675&952=1553&ImagesID=\"7730822, 7730862\"";
+
+         */
         NSString * post = [prePost stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setTimeoutInterval:20];
+        //[request setTimeoutInterval:60];
         
         [request setURL:correctURL];
         [request setHTTPMethod:@"POST"];
@@ -781,7 +795,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if (self.imageDelegate)
                 [imageDelegate imageDidFailUploadingWithError:error];
         }
-        else if (manager == adPostingDelegate)
+        else if (manager == postAdManager)
         {
             if (self.adPostingDelegate)
                 [adPostingDelegate adDidFailPostingWithError:error];
