@@ -23,6 +23,7 @@
 @end
 
 @implementation labelAdViewController
+@synthesize currentAdID;
 NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotification";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -57,7 +58,7 @@ NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotificatio
     //load the options
     [self loadPricingOptions];
     
-    [self purchaseProductWithIdentifier:@"com.bezaat.uae.25"];
+    //[self purchaseProductWithIdentifier:@"com.bezaat.uae.25"];
     //[self purchaseProductWithIdentifier:@"com.bezaat.uae.test"];
 }
 

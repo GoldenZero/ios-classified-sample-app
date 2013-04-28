@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "AddNewCarAdViewController.h"
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
@@ -46,6 +47,10 @@
     Country * chosenCountry;
     bool kiloChoosen;
 
+    NSMutableArray * currentImgsUploaded;
+    BOOL locationBtnPressedOnce;
+    BOOL currencyBtnPressedOnce;
+    BOOL yearBtnPressedOnce;
     
     NSTimer *timer;
 }
@@ -74,6 +79,8 @@
     // Set the image piacker
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
+    currentImgsUploaded = [NSMutableArray new];
+    
     // Set the scroll view indicator
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(indicator:) userInfo:nil repeats:YES];
     
@@ -88,12 +95,18 @@
             action:@selector(dismissKeyboard)];
     [self.verticalScrollView addGestureRecognizer:tap2];
     
+    
+    locationBtnPressedOnce = NO;
+    currencyBtnPressedOnce = NO;
+    yearBtnPressedOnce = NO;
+    
     [self loadDataArray];
     [self addButtonsToXib];
     [self setImagesArray];
     [self setImagesToXib];
    
     [self closePicker];
+    
     
 }
 
@@ -398,6 +411,30 @@
     //call the post ad back end method
 }
 
+- (NSInteger) idForKilometerAttribute {
+    NSArray * mileageAttrs = [[StaticAttrsLoader sharedInstance] loadDistanceValues];
+    
+    for (int i = 0; i < mileageAttrs.count; i++)
+    {
+        SingleValue * v = [mileageAttrs objectAtIndex:i];
+        if ([v.valueString rangeOfString:@"كم"].location != NSNotFound)
+            return v.valueID;
+    }
+    return -1;
+}
+
+
+- (NSInteger) idForMileAttribute {
+    NSArray * mileageAttrs = [[StaticAttrsLoader sharedInstance] loadDistanceValues];
+    
+    for (int i = 0; i < mileageAttrs.count; i++)
+    {
+        SingleValue * v = [mileageAttrs objectAtIndex:i];
+        if ([v.valueString rangeOfString:@"ميل"].location != NSNotFound)
+            return v.valueID;
+    }
+    return -1;
+}
 
 #pragma mark - picker methods
 
@@ -510,6 +547,7 @@
 
 
 - (void) chooseProductionYear{
+    
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
@@ -518,23 +556,41 @@
     // fill picker with production year
     globalArray=productionYearArray;
     [self.pickerView reloadAllComponents];
+    if (!yearBtnPressedOnce)
+    {
+        if (globalArray && globalArray.count)
+            chosenYear = (SingleValue *)[globalArray objectAtIndex:0];
+    }
+    
+    yearBtnPressedOnce = YES;
+    
     [self showPicker];
 
 }
 
 - (void) chooseCurrency{
+    
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[currencyArray objectAtIndex:0] valueString]];
     [currency setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=currencyArray;
+    if (!currencyBtnPressedOnce)
+    {
+        if (globalArray && globalArray.count)
+            chosenCurrency = (SingleValue *)[globalArray objectAtIndex:0];
+    }
+    
     [self.pickerView reloadAllComponents];
+    currencyBtnPressedOnce = YES;
+    
     [self showPicker];
 
 }
 
 - (void) chooseCountryCity{
+    
     self.locationPickerView.hidden=NO;
     self.pickerView.hidden=YES;
     [self showPicker];
@@ -545,7 +601,8 @@
         [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
     }
     [self.locationPickerView reloadAllComponents];
-
+    
+    locationBtnPressedOnce = YES;
     
 }
 
@@ -584,8 +641,96 @@
     //    distance : UITextField;
     //    mobileNum :UITextField;
     //    carPrice : UITextField;
-    labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
+    
+    //check country & city
+    if (!locationBtnPressedOnce)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بلد ومدينة مناسبين" delegateVC:self];
+        return;
+    }
+    
+    if ((!chosenCountry) || (!chosenCity))
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بيانات المكان صحيحة" delegateVC:self];
+        return;
+    }
+    
+    //check title
+    if ([[carAdTitle.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال عنوان صحيح للإعلان" delegateVC:self];
+        return;
+    }
+    
+    //check price
+    if ( ([[carPrice.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
+        ||
+        ([[carPrice.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] integerValue] == 0) )
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيمة سعر صحيحة للإعلان" delegateVC:self];
+        return;
+    }
+    
+    //check distance
+    if ( ([[distance.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
+        ||
+        ([[distance.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] integerValue] == 0) )
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيمة مسافة صحيحة للإعلان" delegateVC:self];
+        return;
+    }
+    
+    //check currency
+    if (!currencyBtnPressedOnce)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار عملة مناسبة" delegateVC:self];
+        return;
+    }
+    
+    //check year
+    if (!yearBtnPressedOnce)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار تاريخ للصنع" delegateVC:self];
+        return;
+    }
+    
+    //check phone number
+    if ([[mobileNum.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
+        return;
+    }
+    
+
+    
+    NSInteger distanceUnitID;
+    if (kiloChoosen)
+        distanceUnitID = [self idForKilometerAttribute];
+    else
+        distanceUnitID = [self idForMileAttribute];
+    
+    [self showLoadingIndicator];
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    [[CarAdsManager sharedInstance] postAdOfBrand:_currentModel.brandID
+                                            Model:_currentModel.modelID
+                                           InCity:chosenCity.cityID
+                                        userEmail:(savedProfile ? savedProfile.emailAddress : @"")
+                                            title:carAdTitle.text
+                                      description:carDetails.text
+                                            price:carPrice.text
+                                    periodValueID:AD_PERIOD_2_MONTHS_VALUE_ID
+                                           mobile:mobileNum.text
+                                  currencyValueID:chosenCurrency.valueID
+                                   serviceValueID:SERVICE_FOR_SALE_VALUE_ID
+                                 modelYearValueID:chosenYear.valueID
+                                         distance:distance.text
+                                            color:@""
+                                       phoneNumer:@""
+                                  adCommentsEmail:YES
+                                 kmVSmilesValueID:distanceUnitID
+                                         imageIDs:currentImgsUploaded
+                                     withDelegate:self];
+
 
 }
 
@@ -634,6 +779,7 @@
     if (chosenImgBtnTag > -1)
     {
         UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+        
         [tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
     }
     
@@ -651,10 +797,16 @@
     //1- show the image on the button
     if ((chosenImgBtnTag > -1) && (currentImageToUpload))
     {
+        
         UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
-        [tappedBtn setImage:currentImageToUpload forState:UIControlStateNormal];
+        UIImageView * imgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tappedBtn.frame.size.width, tappedBtn.frame.size.height)];
+        
+        //[tappedBtn setImage:currentImageToUpload forState:UIControlStateNormal];
+        [tappedBtn addSubview:imgv];
+        [imgv setImageWithURL:url placeholderImage:[UIImage imageNamed:@"AddCar_Car_logo.png"]];
     }
     //2- add image data to this ad
+    [currentImgsUploaded addObject:[NSNumber numberWithInteger:ID]];
     
     //reset 'current' data
     chosenImgBtnTag = -1;
@@ -674,7 +826,11 @@
     
     [self hideLoadingIndicator];
     
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
+    //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
+    
+    labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+    vc.currentAdID = adID;
+    [self presentViewController:vc animated:YES completion:nil];
     
 }
 @end

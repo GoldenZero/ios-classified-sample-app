@@ -882,7 +882,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     NSString * output = @"";
     for (int i = 0; i < input.count; i++)
-        output = [output stringByAppendingFormat:@"%i,", (NSInteger)input[i]];
+    {
+        NSNumber * value = (NSNumber *) input[i];
+        output = [output stringByAppendingFormat:@"%i,", value.integerValue];
+    }
     
     output = [output substringToIndex:(output.length - 1)];
     return output;
