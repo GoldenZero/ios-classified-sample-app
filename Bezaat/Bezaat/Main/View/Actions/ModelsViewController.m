@@ -65,7 +65,7 @@
                 [brandCell.imgSelected  setImage:[UIImage imageNamed:@"Brands2_allcars_button.png"]];
                 [brandCell.imgUnselected  setImage:[UIImage imageNamed:@"Brands2_allcars_button.png"]];
             }*/
-            if ((!oneSelectionMade) && (indexPath.row ==0))
+            if ((!oneSelectionMade) && (indexPath.row == 1))
                 [brandCell selectCell];
         }
         else{
@@ -175,8 +175,18 @@
     
     // Browse car ads call this xib
     else{
-        currentBrands=resultArray;
-      
+        // create an extra item for 'all barnds'
+        Brand * allBrandsItem = [[Brand alloc] init];
+        allBrandsItem.brandID = -1;
+        allBrandsItem.models=nil;
+        
+        //create an array that has the 'all brands' item first
+        NSMutableArray * tempBrandsArray = [NSMutableArray arrayWithObject:allBrandsItem];
+        
+        //add the rest of models for this brand
+        [tempBrandsArray addObjectsFromArray:resultArray];
+        currentBrands = tempBrandsArray;
+        
         // create an extra item for 'all models'
         Model * allModelsItem = [[Model alloc] init];
         allModelsItem.modelID = -1;
@@ -217,6 +227,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    if (self.tagOfCallXib == 2) {
+        [self.allBrandsBtn setHidden:NO];
+        [self.allCarsBtn setHidden:YES];
+    }
     // Get the brands and models
     if ((!currentBrands) || (!currentModels))
     {

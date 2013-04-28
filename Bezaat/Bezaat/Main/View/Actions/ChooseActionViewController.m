@@ -50,7 +50,7 @@
 
     [super viewDidLoad];
     //[self customizeMenu];
-       self.menuTableView.separatorColor = [UIColor whiteColor];
+       self.menuTableView.separatorColor = [UIColor colorWithRed:42.0/255 green:93.0/255 blue:109.0/255 alpha:1.0f];
     self.trackedViewName = @"Home Screen";
     [self prepareImages];
     [self customGestures];
