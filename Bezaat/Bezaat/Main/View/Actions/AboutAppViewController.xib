@@ -16,7 +16,6 @@
 			<string>IBUIImageView</string>
 			<string>IBUILabel</string>
 			<string>IBUIView</string>
-			<string>IBUIWebView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -41,16 +40,16 @@
 					<object class="IBUIImageView" id="737772283">
 						<reference key="NSNextResponder" ref="870116431"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrameSize">{320, 460}</string>
+						<string key="NSFrame">{{0, 28}, {320, 453}}</string>
 						<reference key="NSSuperview" ref="870116431"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="74348887"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">SignUp_Bottom_bg.png</string>
+							<string key="NSResourceName">aboutApp.png</string>
 						</object>
 					</object>
 					<object class="IBUIView" id="74348887">
@@ -78,7 +77,7 @@
 								<string key="NSFrame">{{50, -5}, {219, 43}}</string>
 								<reference key="NSSuperview" ref="74348887"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="698283551"/>
+								<reference key="NSNextKeyView" ref="737772283"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -149,22 +148,11 @@
 						<int key="IBUIContentMode">1</int>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
-					<object class="IBUIWebView" id="698283551">
-						<reference key="NSNextResponder" ref="870116431"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{0, 39}, {320, 421}}</string>
-						<reference key="NSSuperview" ref="870116431"/>
-						<reference key="NSWindow"/>
-						<string key="NSReuseIdentifierKey">_NS:9</string>
-						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBUIDataDetectorTypes">1</int>
-						<bool key="IBUIDetectsPhoneNumbers">YES</bool>
-					</object>
 				</array>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="737772283"/>
+				<reference key="NSNextKeyView" ref="74348887"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
@@ -204,14 +192,6 @@
 					<int key="connectionID">46</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">webView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="698283551"/>
-					</object>
-					<int key="connectionID">100</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">backInvoked:</string>
 						<reference key="source" ref="536615144"/>
@@ -246,7 +226,6 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="74348887"/>
 							<reference ref="737772283"/>
-							<reference ref="698283551"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -283,12 +262,6 @@
 						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="74348887"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">47</int>
-						<reference key="object" ref="698283551"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="870116431"/>
-					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -302,7 +275,6 @@
 				<string key="20.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="22.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
@@ -353,7 +325,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="Nav_bar.png">{320, 41}</string>
-			<string key="SignUp_Bottom_bg.png">{320, 480}</string>
+			<string key="aboutApp.png">{640, 1182}</string>
 			<string key="searchView_home_buttom.png">{47, 40}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
