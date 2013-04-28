@@ -480,6 +480,8 @@
 		61713F90172D7C5A00BB256D /* MyStore_top_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 61713F64172D7C5A00BB256D /* MyStore_top_bg@2x.png */; };
 		61713F91172D7C5A00BB256D /* MyStore_top_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 61713F65172D7C5A00BB256D /* MyStore_top_box.png */; };
 		61713F92172D7C5A00BB256D /* MyStore_top_box@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 61713F66172D7C5A00BB256D /* MyStore_top_box@2x.png */; };
+		61713F95172D7CF500BB256D /* StoreAdvTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61713F94172D7CF500BB256D /* StoreAdvTableViewCell.m */; };
+		61713F97172D7D0900BB256D /* StoreAdvTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61713F96172D7D0900BB256D /* StoreAdvTableViewCell.xib */; };
 		842127F517290CDF0070FD76 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842127F417290CDF0070FD76 /* libGoogleAnalytics.a */; };
 		842127F717290D360070FD76 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 842127F617290D360070FD76 /* CoreData.framework */; };
 		8421280117292CE90070FD76 /* ChooseLocationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 842127FF17292CE90070FD76 /* ChooseLocationVC.m */; };
@@ -1440,6 +1442,9 @@
 		61713F64172D7C5A00BB256D /* MyStore_top_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyStore_top_bg@2x.png"; sourceTree = "<group>"; };
 		61713F65172D7C5A00BB256D /* MyStore_top_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyStore_top_box.png; sourceTree = "<group>"; };
 		61713F66172D7C5A00BB256D /* MyStore_top_box@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyStore_top_box@2x.png"; sourceTree = "<group>"; };
+		61713F93172D7CF500BB256D /* StoreAdvTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreAdvTableViewCell.h; sourceTree = "<group>"; };
+		61713F94172D7CF500BB256D /* StoreAdvTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreAdvTableViewCell.m; sourceTree = "<group>"; };
+		61713F96172D7D0900BB256D /* StoreAdvTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreAdvTableViewCell.xib; sourceTree = "<group>"; };
 		842127EF17290CDF0070FD76 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		842127F017290CDF0070FD76 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
 		842127F117290CDF0070FD76 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
@@ -3506,6 +3511,9 @@
 				613522A21725CB1800011D7D /* StoreTableViewCell.h */,
 				613522A31725CB1800011D7D /* StoreTableViewCell.m */,
 				613522A01725C90400011D7D /* StoreTableViewCell.xib */,
+				61713F93172D7CF500BB256D /* StoreAdvTableViewCell.h */,
+				61713F94172D7CF500BB256D /* StoreAdvTableViewCell.m */,
+				61713F96172D7D0900BB256D /* StoreAdvTableViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -4467,6 +4475,7 @@
 				61713F90172D7C5A00BB256D /* MyStore_top_bg@2x.png in Resources */,
 				61713F91172D7C5A00BB256D /* MyStore_top_box.png in Resources */,
 				61713F92172D7C5A00BB256D /* MyStore_top_box@2x.png in Resources */,
+				61713F97172D7D0900BB256D /* StoreAdvTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4580,6 +4589,7 @@
 				9EE86C4A172D473000C1A013 /* SSFont.m in Sources */,
 				9EE86C4B172D473000C1A013 /* SSLabel.m in Sources */,
 				9EE86C4C172D473000C1A013 /* SSText.m in Sources */,
+				61713F95172D7CF500BB256D /* StoreAdvTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
