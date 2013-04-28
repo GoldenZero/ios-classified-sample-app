@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 - (IBAction)backInvoked:(id)sender;
+@property (weak, nonatomic) IBOutlet UIScrollView *imageScroll;
 
 @end

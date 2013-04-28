@@ -27,8 +27,9 @@
 {
     [super viewDidLoad];
     //TODO load from web
-    NSString* htmlString = @"to be load from web";
-    [self.webView loadHTMLString:htmlString baseURL:nil];
+   // NSString* htmlString = @"to be load from web";
+    //[self.webView loadHTMLString:htmlString baseURL:nil];
+    self.imageScroll.contentSize = CGSizeMake(320, 534);
 
     // Do any additional setup after loading the view from its nib.
 }
