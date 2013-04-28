@@ -527,7 +527,7 @@
                         CGFloat val_x = FIXED_H_DISTANCE;
                         CGFloat val_y  = attr_y;
                         
-                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 8, 100, valueLabelHeight)];
+                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 8, 120, valueLabelHeight)];
                         
                         valuelabel.text = attr.attributeValue;
                         valuelabel.textAlignment = NSTextAlignmentRight;
@@ -543,7 +543,7 @@
                          myCell.detailTextLabel.text = valuelabel.text;
                          
                          */
-                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(28, val_y - 20, valueLabelWidth + expectedLabelSize.width + 10, 35)];
+                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(28, val_y, valueLabelWidth + expectedLabelSize.width + 10, 35)];
                         [v setBackgroundColor:[UIColor whiteColor]];
                         [v addSubview:attrNameLabel];
                         [v addSubview:valuelabel];
