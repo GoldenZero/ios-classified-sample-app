@@ -50,11 +50,11 @@
 @synthesize pricingDelegate;
 @synthesize orderDelegate;
 
-static NSString * pricing_options_url = @"http://gfctest.edanat.com/v1.0/json/featured-ad-pricing?countryId=%i";
+static NSString * pricing_options_url = @"/json/featured-ad-pricing?countryId=%i";
 
-static NSString * create_order_url = @"http://gfctest.edanat.com/v1.0/json/process-for-featurad";
-static NSString * confirm_order_url = @"http://gfctest.edanat.com/v1.0/json/confirm-featured-ad";
-static NSString * cancel_order_url = @"http://gfctest.edanat.com/v1.0/json/cancel-featured-ad";
+static NSString * create_order_url = @"/json/process-for-featurad";
+static NSString * confirm_order_url = @"/json/confirm-featured-ad";
+static NSString * cancel_order_url = @"/json/cancel-featured-ad";
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
@@ -63,6 +63,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     if (self) {
         self.pricingDelegate = nil;
         self.orderDelegate = nil;
+        pricing_options_url = [API_MAIN_URL stringByAppendingString:pricing_options_url];
+        create_order_url = [API_MAIN_URL stringByAppendingString:create_order_url];
+        confirm_order_url = [API_MAIN_URL stringByAppendingString:confirm_order_url];
+        cancel_order_url = [API_MAIN_URL stringByAppendingString:cancel_order_url];
     }
     return self;
 }

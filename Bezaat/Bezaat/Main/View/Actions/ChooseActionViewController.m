@@ -50,7 +50,7 @@
 
     [super viewDidLoad];
     //[self customizeMenu];
-       self.menuTableView.separatorColor = [UIColor clearColor];
+       self.menuTableView.separatorColor = [UIColor whiteColor];
     self.trackedViewName = @"Home Screen";
     [self prepareImages];
     [self customGestures];
@@ -238,6 +238,7 @@
         switch (selectedIndex) {
             case 0:
             {
+                [self hideMenu];
                 UserDetailsViewController *vc=[[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];
                 
@@ -245,6 +246,7 @@
             case 1:
                 
             {
+                [self hideMenu];
                 ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
                 vc.tagOfCallXib=2;
                 [self presentViewController:vc animated:YES completion:nil];
@@ -253,6 +255,7 @@
             }
             case 2:
             {
+                [self hideMenu];
                 BrowseStoresViewController *vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];
              
@@ -260,6 +263,7 @@
             }
             case 3:
             {
+                [self hideMenu];
                 AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];
 
@@ -286,10 +290,12 @@
             case 6:
             {
                 if (!savedProfile) {
+                    [self hideMenu];
                     GuestProfileViewController *vc=[[GuestProfileViewController alloc]initWithNibName:@"GuestProfileViewController" bundle:nil];
                     [self presentViewController:vc animated:YES completion:nil];
 
                 }else{
+                    [self hideMenu];
                     ProfileDetailsViewController *vc=[[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
                     [self presentViewController:vc animated:YES completion:nil];
                 }
@@ -298,6 +304,7 @@
             }
             case 7:
             {
+                [self hideMenu];
                 SignInViewController *vc=[[SignInViewController alloc]initWithNibName:@"SignInViewController" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];
 
@@ -305,6 +312,7 @@
             }
             case 8:
             {
+                [self hideMenu];
                 [self showLoadingIndicator];
                 [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
                 
@@ -318,6 +326,7 @@
             }
             case 9:
             {
+                [self hideMenu];
                 AboutAppViewController *vc=[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];
 
@@ -332,6 +341,7 @@
 
 -(void)logout
 {
+    [self hideMenu];
     [self showLoadingIndicator];
     //[[LocationManager locationKeyChainItemSharedInstance] resetKeychainItem];
     [FBSession.activeSession closeAndClearTokenInformation];
@@ -410,6 +420,11 @@
         SignInViewController *vc=[[SignInViewController alloc]initWithNibName:@"SignInViewController" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
         
+    }else if (alertView.tag == 0)
+    {
+        ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 

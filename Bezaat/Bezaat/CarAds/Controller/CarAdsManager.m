@@ -63,10 +63,11 @@
 @synthesize pageSize;
 
 
-static NSString * ads_url = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&brandId=%@&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@";
-static NSString * upload_image_url = @"http://gfctest.edanat.com/v1.0/json/upload-image?theFile=";
-static NSString * post_ad_url = @"http://gfctest.edanat.com/v1.0/json/post-an-ad?brandId=%@&cityId=%@&fromPhone=%i&userEmail=%@&collection=%@";
-static NSString * user_ads_url = @"http://gfctest.edanat.com/v1.0/json/myads?status=%@&pageNo=%@&pageSize=%@";
+static NSString * ads_url = @"/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&brandId=%@&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@";
+
+static NSString * upload_image_url = @"/json/upload-image?theFile=";
+static NSString * post_ad_url = @"/json/post-an-ad?brandId=%@&cityId=%@&fromPhone=%i&userEmail=%@&collection=%@";
+static NSString * user_ads_url = @"/json/myads?status=%@&pageNo=%@&pageSize=%@";
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
@@ -78,6 +79,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         self.adPostingDelegate = nil;
         self.pageNumber = 0;
         self.pageSize = DEFAULT_PAGE_SIZE;
+        ads_url = [API_MAIN_URL stringByAppendingString:ads_url];
+        upload_image_url = [API_MAIN_URL stringByAppendingString:upload_image_url];
+        post_ad_url = [API_MAIN_URL stringByAppendingString:post_ad_url];
+        user_ads_url = [API_MAIN_URL stringByAppendingString:user_ads_url];
+        
     }
     return self;
 }
@@ -88,6 +94,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         instance = [[CarAdsManager alloc] init];
     }
     return instance;
+    
 }
 
 - (NSUInteger) nextPage {
@@ -117,7 +124,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 }
 
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del {
-    
+
     //1- set the delegate
     self.delegate = del;
     

@@ -12,7 +12,7 @@
 #import "ProfileCell.h"
 #import "ChangePasswordViewController.h"
 #import "ChangeNameViewController.h"
-
+#import "ChooseActionViewController.h"
 
 @interface ProfileDetailsViewController : UIViewController<ProfileManagerDelegate,UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate>
 {

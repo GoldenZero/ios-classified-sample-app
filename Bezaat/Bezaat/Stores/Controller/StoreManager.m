@@ -22,9 +22,9 @@ typedef enum {
 
 @implementation StoreManager
 
-static NSString *create_store_url = @"http://gfctest.edanat.com/v1.0/json/create-store";
-static NSString *upload_logo_url = @"http://gfctest.edanat.com/v1.0/json/upload-logo";
-static NSString *get_user_stores_url = @"http://gfctest.edanat.com/v1.0/json/user-stores";
+static NSString *create_store_url = @"/json/create-store";
+static NSString *upload_logo_url = @"/json/upload-logo";
+static NSString *get_user_stores_url = @"/json/user-stores";
 static NSString *create_store_temp_file = @"createStoreTmpFile";
 static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
 static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
@@ -35,11 +35,17 @@ static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
     static StoreManager * instance = nil;
     if (instance == nil) {
         instance = [[StoreManager alloc] init];
+        create_store_url = [API_MAIN_URL stringByAppendingString:create_store_url];
+        upload_logo_url = [API_MAIN_URL stringByAppendingString:upload_logo_url];
+        get_user_stores_url = [API_MAIN_URL stringByAppendingString:get_user_stores_url];
+        
     }
     return instance;
 }
 
 - (void)uploadLOGO:(UIImage *)image {
+    
+
     requestInProgress = RequestInProgressUploadLOGO;
     
     //1- check connectivity

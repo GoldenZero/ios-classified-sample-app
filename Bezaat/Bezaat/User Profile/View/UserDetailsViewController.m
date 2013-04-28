@@ -8,6 +8,7 @@
 
 #import "UserDetailsViewController.h"
 
+
 @interface UserDetailsViewController (){
     
     bool searchBtnFlag;

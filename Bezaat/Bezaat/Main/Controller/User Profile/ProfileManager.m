@@ -57,14 +57,14 @@
 @synthesize updateDelegate;
 
 //the login url is a POST url
-static NSString * login_url = @"http://gfctest.edanat.com/v1.0/json/user-login";
-static NSString * login_twitter_url = @"http://gfctest.edanat.com/v1.0/json/user-twitter-login";
-static NSString * login_facebook_url = @"http://gfctest.edanat.com/v1.0/json/user-facebook-login";
-static NSString * register_url = @"http://gfctest.edanat.com/v1.0/json/register-user";
-static NSString * device_reg_url = @"http://gfctest.edanat.com/v1.0/json/register-device?deviceTpe=%@&version=%@&osVersion=%@";
-static NSString * add_to_fav_url = @"http://gfctest.edanat.com/v1.0/json/add-to-favorite";
-static NSString * remove_from_fav_url = @"http://gfctest.edanat.com/v1.0/json/remove-from-favorite";
-static NSString * update_user_url = @"http://gfctest.edanat.com/v1.0/json/modify-user";
+static NSString * login_url = @"/json/user-login";
+static NSString * login_twitter_url = @"/json/user-twitter-login";
+static NSString * login_facebook_url = @"/json/user-facebook-login";
+static NSString * register_url = @"/json/register-user";
+static NSString * device_reg_url = @"/json/register-device?deviceTpe=%@&version=%@&osVersion=%@";
+static NSString * add_to_fav_url = @"/json/add-to-favorite";
+static NSString * remove_from_fav_url = @"/json/remove-from-favorite";
+static NSString * update_user_url = @"/json/modify-user";
 
 static NSString * login_email_post_key = @"EmailAddress";
 static NSString * update_user_post_key = @"UserName";
@@ -90,6 +90,17 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
         self.RegisterDelegate = nil;
         dataSoFar = nil;
         currentAdIDForFav= 0;
+        
+        login_url = [API_MAIN_URL stringByAppendingString:login_url];
+        login_twitter_url = [API_MAIN_URL stringByAppendingString:login_twitter_url];
+        login_facebook_url = [API_MAIN_URL stringByAppendingString:login_facebook_url];
+        register_url = [API_MAIN_URL stringByAppendingString:register_url];
+        device_reg_url = [API_MAIN_URL stringByAppendingString:device_reg_url];
+        add_to_fav_url = [API_MAIN_URL stringByAppendingString:add_to_fav_url];
+        remove_from_fav_url = [API_MAIN_URL stringByAppendingString:remove_from_fav_url];
+        update_user_url = [API_MAIN_URL stringByAppendingString:update_user_url];
+        
+
     }
     return self;
 }

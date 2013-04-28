@@ -73,13 +73,14 @@
 
 @synthesize delegate;
 
-static NSString * details_url = @"http://gfctest.edanat.com/v1.0/json/ad-details?adId=%li";
+static NSString * details_url = @"/json/ad-details?adId=%li";
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
 - (id) init {
     self = [super init];
     if (self) {
         self.delegate = nil;
+        details_url = [API_MAIN_URL stringByAppendingString:details_url];
     }
     return self;
 }
