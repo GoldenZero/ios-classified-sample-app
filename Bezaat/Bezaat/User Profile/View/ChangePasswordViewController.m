@@ -58,8 +58,7 @@
                                               otherButtonTitles:nil, nil];
         [alert show];
         return;
-        [alert show];
-        return;
+       
     }
     
     if (![newPassword isEqualToString:newPassword2]) {
@@ -68,8 +67,7 @@
                                               otherButtonTitles:nil, nil];
         [alert show];
         return;
-        [alert show];
-        return;
+       
     }
 
     [self showLoadingIndicator];

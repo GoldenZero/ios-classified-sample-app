@@ -35,6 +35,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *passwordText;
 @property (strong, nonatomic) IBOutlet UITextField *confirmPasswordText;
 @property (strong, nonatomic) UITextField* twitterEmail;
+- (IBAction)backInvoked:(id)sender;
 
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 

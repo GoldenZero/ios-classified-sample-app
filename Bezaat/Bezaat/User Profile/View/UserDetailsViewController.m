@@ -76,9 +76,9 @@
     
     dataLoadedFromCache = NO;
     isRefreshing = NO;
-    
+    currentStatus = @"active";
     //load the first page of data
-    [self loadFirstData];
+    [self loadFirstDataOfStatus:currentStatus andPage:1];
     
     // Do any additional setup after loading the view from its nib.
 }
@@ -90,7 +90,7 @@
     self.adsTable.contentSize=CGSizeMake(320, self.adsTable.contentSize.height);
 }
 
-- (void) loadFirstData {
+- (void) loadFirstDataOfStatus:(NSString*)status andPage:(NSInteger)pageNumb {
     
     //refresh table data
     [self.adsTable reloadData];
@@ -99,20 +99,25 @@
     dataLoadedFromCache = NO;
     [[CarAdsManager sharedInstance] setCurrentPageNum:1];
     [[CarAdsManager sharedInstance] setPageSizeToDefault];
-    [self loadPageOfAds];
+    [self loadPageOfAdsOfStatus:status andPage:pageNumb];
     
 }
-- (void) loadPageOfAds {
+- (void) loadPageOfAdsOfStatus:(NSString*)status andPage:(NSInteger)pageNum {
     dataLoadedFromCache = NO;
     
     //show loading indicator
     [self showLoadingIndicator];
+    NSInteger page;
+    if (!pageNum) {
+        //load a page of data
+        page = [[CarAdsManager sharedInstance] nextPage];
+    }else{
+        page = pageNum;
+    }
     
-    //load a page of data
-    NSInteger page = [[CarAdsManager sharedInstance] nextPage];
     //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
     
-    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"active" forPage:page andSize:[[CarAdsManager sharedInstance] getCurrentPageSize] WithDelegate:self];
+    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:status forPage:page andSize:[[CarAdsManager sharedInstance] getCurrentPageSize] WithDelegate:self];
 }
 
 
@@ -159,8 +164,8 @@
 }
 
 - (void) adsDidFinishLoadingWithData:(NSArray *)resultArray {
-    //1- hide the loading indicator
-    [self hideLoadingIndicator];
+    
+    
     if ([resultArray count] == 0) {
         NSLog(@"%i",[self.adsTable numberOfRowsInSection:0]);
         if ([self.adsTable numberOfRowsInSection:0] == 0) {
@@ -188,6 +193,8 @@
         [self.adsTable scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         [self.adsTable setContentOffset:CGPointZero animated:YES]; 
     }
+    //1- hide the loading indicator
+    [self hideLoadingIndicator];
         
 }
 
@@ -214,12 +221,14 @@
     dataLoadedFromCache = NO;
     
     //show loading indicator
-    [self showLoadingIndicator];
+    //[self showLoadingIndicator];
     
     //load a page of data
-    NSInteger page = 1;
-    NSInteger size = [[CarAdsManager sharedInstance] pageSize];
-    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"active" forPage:page andSize:size WithDelegate:self];
+    //NSInteger page = 1;
+    //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
+//    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"active" forPage:page andSize:size WithDelegate:self];
+    currentStatus = @"active";
+    [self loadFirstDataOfStatus:@"active" andPage:1];
    
 }
 
@@ -237,12 +246,14 @@
     dataLoadedFromCache = NO;
     
     //show loading indicator
-    [self showLoadingIndicator];
+    //[self showLoadingIndicator];
     
     //load a page of data
-    NSInteger page = 0;
-    NSInteger size = [[CarAdsManager sharedInstance] pageSize];
-    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"inactive" forPage:page andSize:size WithDelegate:self];
+    //NSInteger page = 0;
+    //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
+    //[[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"inactive" forPage:page andSize:size WithDelegate:self];
+    currentStatus = @"featured-ads";
+    [self loadFirstDataOfStatus:@"featured-ads" andPage:1];
     
 }
 
@@ -259,12 +270,14 @@
     dataLoadedFromCache = NO;
     
     //show loading indicator
-    [self showLoadingIndicator];
+    //[self showLoadingIndicator];
     
     //load a page of data
-    NSInteger page = 1;
-    NSInteger size = [[CarAdsManager sharedInstance] pageSize];
-    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"featured-ads" forPage:page andSize:size WithDelegate:self];
+    //NSInteger page = 1;
+    //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
+    //[[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"featured-ads" forPage:page andSize:size WithDelegate:self];
+    currentStatus = @"inactive";
+    [self loadFirstDataOfStatus:@"inactive" andPage:1];
     
 }
 
@@ -282,13 +295,16 @@
     dataLoadedFromCache = NO;
     
     //show loading indicator
-    [self showLoadingIndicator];
+    //[self showLoadingIndicator];
     
     //load a page of data
-    NSInteger page = 1;
-    NSInteger size = [[CarAdsManager sharedInstance] pageSize];
+   // NSInteger page = 1;
+   // NSInteger size = [[CarAdsManager sharedInstance] pageSize];
     
-    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"favourite" forPage:page andSize:size WithDelegate:self];
+    //[[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"favorites" forPage:page andSize:size WithDelegate:self];
+    currentStatus = @"favorites";
+    [self loadFirstDataOfStatus:@"favorites" andPage:1];
+
     
     
 }
@@ -593,7 +609,7 @@
     if (indexPath.row == ([self.adsTable numberOfRowsInSection:0] - 1))
     {
         if (!dataLoadedFromCache)
-            [self loadPageOfAds];
+            [self loadPageOfAdsOfStatus:currentStatus andPage:nil];
     }
 }
 

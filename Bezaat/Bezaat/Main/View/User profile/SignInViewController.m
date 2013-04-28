@@ -59,6 +59,29 @@
 
 - (IBAction)signInBtnPressed:(id)sender {
     
+    [self.userNameText resignFirstResponder];
+    [self.passwordText resignFirstResponder];
+    
+    
+    NSString* userName = self.userNameText.text;
+    NSString* newPassword = self.passwordText.text;
+    
+    
+    if ([userName length] < 1) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من إدخال اسم المستخدم"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }    
+    if ([newPassword length] < 1) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من كلمة السر"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+
     //The manager checks for internet connectivity
     //show loading indicator
     [self showLoadingIndicator];

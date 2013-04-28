@@ -509,6 +509,7 @@
 		8439FE3B1727F50100CB1939 /* twotabe_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FE251727F50100CB1939 /* twotabe_white@2x.png */; };
 		8439FE45172812B800CB1939 /* GuestProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8439FE43172812B700CB1939 /* GuestProfileViewController.m */; };
 		8439FE46172812B800CB1939 /* GuestProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8439FE44172812B700CB1939 /* GuestProfileViewController.xib */; };
+		843FFFD7172CF9470081671C /* SignInViewController5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 843FFFD6172CF9470081671C /* SignInViewController5.xib */; };
 		845D8CCC172C154900C37217 /* bezaat_flag_129.png in Resources */ = {isa = PBXBuildFile; fileRef = 845D8CCA172C154900C37217 /* bezaat_flag_129.png */; };
 		845D8CCD172C154900C37217 /* bezaat_flag@2x_129.png in Resources */ = {isa = PBXBuildFile; fileRef = 845D8CCB172C154900C37217 /* bezaat_flag@2x_129.png */; };
 		84D0D2991729434B00503CF3 /* iphone5_addcar.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0D2931729434B00503CF3 /* iphone5_addcar.png */; };
@@ -1429,6 +1430,7 @@
 		8439FE42172812B600CB1939 /* GuestProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuestProfileViewController.h; sourceTree = "<group>"; };
 		8439FE43172812B700CB1939 /* GuestProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuestProfileViewController.m; sourceTree = "<group>"; };
 		8439FE44172812B700CB1939 /* GuestProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuestProfileViewController.xib; sourceTree = "<group>"; };
+		843FFFD6172CF9470081671C /* SignInViewController5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignInViewController5.xib; sourceTree = "<group>"; };
 		845D8CCA172C154900C37217 /* bezaat_flag_129.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bezaat_flag_129.png; sourceTree = "<group>"; };
 		845D8CCB172C154900C37217 /* bezaat_flag@2x_129.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bezaat_flag@2x_129.png"; sourceTree = "<group>"; };
 		84D0D2931729434B00503CF3 /* iphone5_addcar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone5_addcar.png; sourceTree = "<group>"; };
@@ -3198,6 +3200,7 @@
 				9E78A7F916E35556000CA790 /* SignInViewController.h */,
 				9E78A7FA16E35556000CA790 /* SignInViewController.m */,
 				9E78A7FB16E35556000CA790 /* SignInViewController.xib */,
+				843FFFD6172CF9470081671C /* SignInViewController5.xib */,
 				9E78A80216E35573000CA790 /* SignUpViewController.h */,
 				9E78A80316E35573000CA790 /* SignUpViewController.m */,
 				9E78A80416E35573000CA790 /* SignUpViewController.xib */,
@@ -4228,6 +4231,7 @@
 				068274BD172C04DC004D53D0 /* aboutApp.html in Resources */,
 				845D8CCC172C154900C37217 /* bezaat_flag_129.png in Resources */,
 				845D8CCD172C154900C37217 /* bezaat_flag@2x_129.png in Resources */,
+				843FFFD7172CF9470081671C /* SignInViewController5.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4461,8 +4465,8 @@
 					"-DSF_IOS_CG",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1B2DBC35-BB51-4335-A80C-DD7F9EDD05C7";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1B2DBC35-BB51-4335-A80C-DD7F9EDD05C7";
+				PROVISIONING_PROFILE = "0EECAF6B-148B-4FC0-8F7F-006DB698BFF4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4497,8 +4501,8 @@
 					"-DSF_IOS_CG",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1B2DBC35-BB51-4335-A80C-DD7F9EDD05C7";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1B2DBC35-BB51-4335-A80C-DD7F9EDD05C7";
+				PROVISIONING_PROFILE = "0EECAF6B-148B-4FC0-8F7F-006DB698BFF4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

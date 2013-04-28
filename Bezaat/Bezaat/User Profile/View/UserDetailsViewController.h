@@ -26,6 +26,7 @@
     Country* chosenCountry;
     NSArray * countriesArray;
     NSArray * citiesArray;
+    NSString* currentStatus;
 }
 
 - (IBAction)backInvoked:(id)sender;

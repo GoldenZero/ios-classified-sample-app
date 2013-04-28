@@ -305,13 +305,20 @@
             case 7:
             {
                 [self hideMenu];
-                SignInViewController *vc=[[SignInViewController alloc]initWithNibName:@"SignInViewController" bundle:nil];
-                [self presentViewController:vc animated:YES completion:nil];
+                if ([[UIScreen mainScreen] bounds].size.height == 568){
+                    SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+                    [self presentViewController:vc animated:YES completion:nil];
+                }else {
+                    SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+                    [self presentViewController:vc animated:YES completion:nil];
+                }
 
                 break;
             }
             case 8:
             {
+                [self logout];
+                /*
                 [self hideMenu];
                 [self showLoadingIndicator];
                 [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
@@ -321,7 +328,7 @@
                 alert.tag = 1;
                 [self hideLoadingIndicator];
                 [alert show];
-
+*/
                 break;
             }
             case 9:
@@ -349,7 +356,7 @@
     
     
     UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تم تسجيل الخروج" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
-    alert.tag = 0;
+    alert.tag = 1;
     [self hideLoadingIndicator];
     [alert show];
     return;
@@ -417,14 +424,13 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (alertView.tag == 1) {
-        SignInViewController *vc=[[SignInViewController alloc]initWithNibName:@"SignInViewController" bundle:nil];
+        ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:vc animated:YES completion:nil];
         
     }else if (alertView.tag == 0)
     {
-        ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
-        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        [self presentViewController:vc animated:YES completion:nil];
+        
     }
 }
 

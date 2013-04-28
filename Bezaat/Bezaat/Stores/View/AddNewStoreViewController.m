@@ -61,8 +61,13 @@
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     if (savedProfile == nil) {
         // goto login view
-        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        if ([[UIScreen mainScreen] bounds].size.height == 568){
+        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
+        }else {
+            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
     }
 }
 

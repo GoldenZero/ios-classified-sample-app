@@ -103,6 +103,53 @@
 
 - (IBAction)saveButtonPressed:(id)sender {
     
+    [self.userText resignFirstResponder];
+    [self.emailText resignFirstResponder];
+    [self.passwordText resignFirstResponder];
+    [self.confirmPasswordText resignFirstResponder];
+    
+    
+    NSString* userName = self.userText.text;
+    NSString* email = self.emailText.text;
+    NSString* newPassword = self.passwordText.text;
+    NSString* newPassword2 = self.confirmPasswordText.text;
+    
+    
+    if ([userName length] < 1) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من إدخال اسم المستخدم"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    if ([email length] < 1) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من إدخال البريد الإلكتروني"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+
+    if ([newPassword length] < 1) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من كلمة السر"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    if (![newPassword isEqualToString:newPassword2]) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"كلمة السر غير متوافقة"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+      
+    }
+    
+    [self showLoadingIndicator];
+
+    
     [[ProfileManager sharedInstance] registerWithDelegate:self UserName:self.userText.text AndEmail:self.emailText.text andPassword:self.passwordText.text];
     
     
@@ -339,11 +386,13 @@
 
 -(void)userFailRegisterWithError:(NSError *)error
 {
+    [self hideLoadingIndicator];
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
 }
 
 -(void)userDidRegisterWithData:(UserProfile *)resultProfile
 {
+    [self hideLoadingIndicator];
     
     //save user's data
     [[ProfileManager sharedInstance] storeUserProfile:resultProfile];
@@ -379,16 +428,19 @@
     else if (alertView.tag == 2){
         
         //present the next view controller
-        SignInViewController * chooseActionVC = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-        
-        [self presentViewController:chooseActionVC animated:YES completion:nil];
-    }
+        if ([[UIScreen mainScreen] bounds].size.height == 568){
+            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        }else {
+            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        }    }
     
 }
 
 #pragma mark -- custom methods
 - (void) setBackgroundImages{
-    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+   // [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
    }
 
@@ -416,4 +468,7 @@
     loadingHUD = nil;
 }
 
+- (IBAction)backInvoked:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end

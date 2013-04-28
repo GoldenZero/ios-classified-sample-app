@@ -209,6 +209,11 @@
 }
 
  + (MBProgressHUD2 *)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
+     if ([[UIScreen mainScreen] bounds].size.height == 568){
+         view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width, 568); }
+     else{
+         view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width, 480);
+     }
  MBProgressHUD2 *hud = [[MBProgressHUD2 alloc] initWithView:view];
  [view addSubview:hud];
  [hud show:animated];
