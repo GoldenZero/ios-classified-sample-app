@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
 @property (strong, nonatomic) IBOutlet UIImageView *blueBgImgV;
 @property (strong, nonatomic) IBOutlet UIImageView *blackBgImgV;
+@property (weak, nonatomic) IBOutlet UIButton *allCarsBtn;
+@property (weak, nonatomic) IBOutlet UIButton *allBrandsBtn;
 @property int tagOfCallXib;
 - (IBAction)allCarsInvoked:(id)sender;
 
