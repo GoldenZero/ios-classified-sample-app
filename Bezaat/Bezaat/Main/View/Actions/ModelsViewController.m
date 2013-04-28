@@ -217,10 +217,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if (self.tagOfCallXib == 2) {
-        [self.allBrandsBtn setHidden:NO];
-        [self.allCarsBtn setHidden:YES];
-    }
     // Get the brands and models
     if ((!currentBrands) || (!currentModels))
     {
