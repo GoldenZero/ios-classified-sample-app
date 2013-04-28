@@ -31,6 +31,7 @@
     NSArray *kiloMileArray;
     
     MBProgressHUD2 *loadingHUD;
+    MBProgressHUD2 *imgsLoadingHUD;
     int chosenImgBtnTag;
     UIImage * currentImageToUpload;
     LocationManager * locationMngr;
@@ -149,10 +150,16 @@
             [deviceLocationDetector startUpdatingLocation];
         }
         else
+        {
             [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+            [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        }
     }
     else
+    {
         [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
@@ -252,7 +259,7 @@
 - (void) useImage:(UIImage *) image {
     
     currentImageToUpload = image;
-    [self showLoadingIndicator];
+    [self showLoadingIndicatorOnImages];
     [[CarAdsManager sharedInstance] uploadImage:image WithDelegate:self];
 }
 
@@ -351,6 +358,14 @@
     
 }
 
+- (void) showLoadingIndicatorOnImages {
+    imgsLoadingHUD = [MBProgressHUD2 showHUDAddedTo:self.horizontalScrollView animated:YES];
+    imgsLoadingHUD.mode = MBProgressHUDModeCustomView2;
+    imgsLoadingHUD.labelText = @"";
+    imgsLoadingHUD.detailsLabelText = @"";
+    imgsLoadingHUD.dimBackground = YES;
+}
+
 - (void) hideLoadingIndicator {
     
     if (loadingHUD)
@@ -359,6 +374,13 @@
     
 }
 
+- (void) hideLoadingIndicatorOnImages {
+    
+    if (imgsLoadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.horizontalScrollView  animated:YES];
+    imgsLoadingHUD = nil;
+    
+}
 - (void) postTheAd {
     //call the post ad back end method
 }
@@ -591,7 +613,7 @@
     
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
     
-    [self hideLoadingIndicator];
+    [self hideLoadingIndicatorOnImages];
     if (chosenImgBtnTag > -1)
     {
         UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
@@ -607,7 +629,7 @@
 
 - (void) imageDidFinishUploadingWithURL:(NSURL *)url CreativeID:(NSInteger)ID {
     
-    [self hideLoadingIndicator];
+    [self hideLoadingIndicatorOnImages];
     
     //1- show the image on the button
     if ((chosenImgBtnTag > -1) && (currentImageToUpload))

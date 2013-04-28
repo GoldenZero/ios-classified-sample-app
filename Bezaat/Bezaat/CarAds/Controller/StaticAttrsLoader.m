@@ -153,7 +153,7 @@
                              ];
             [result addObject:val];
         }
-        NSArray * temp = [NSArray arrayWithArray:[self sortValuesArray:result]];
+        NSArray * temp = [self sortValuesArray:result];
         addPeriodValues = temp;
     }
     return addPeriodValues;
@@ -177,7 +177,7 @@
                                  ];
             [result addObject:val];
         }
-        NSArray * temp = [NSArray arrayWithArray:[self sortValuesArray:result]];
+        NSArray * temp = [self sortValuesArray:result];
         currencyValues = temp;
     }
     return currencyValues;
@@ -201,7 +201,7 @@
                                  ];
             [result addObject:val];
         }
-        NSArray * temp = [NSArray arrayWithArray:[self sortValuesArray:result]];
+        NSArray * temp = [self sortValuesArray:result];
         distanceValues = temp;
         
     }
@@ -226,7 +226,7 @@
                                  ];
             [result addObject:val];
         }
-        NSArray * temp = [NSArray arrayWithArray:[self sortValuesArray:result]];
+        NSArray * temp = [self sortValuesArray:result];
         modelYearValues = temp;
         
     }
@@ -250,7 +250,7 @@
                                  ];
             [result addObject:val];
         }
-        NSArray * temp = [NSArray arrayWithArray:[self sortValuesArray:result]];
+        NSArray * temp = [self sortValuesArray:result];
         serviceValues = temp;
     }
     return serviceValues;

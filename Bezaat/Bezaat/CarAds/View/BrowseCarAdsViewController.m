@@ -1001,6 +1001,12 @@
 #pragma mark - animation
 
 - (void) showSearchPanel{
+    // Init search panels attributes before next search
+    searchWithImage=false;
+    distanceObj=nil;
+    fromYearString=@"";
+    toYearString=@"";
+    
     [UIView animateWithDuration:.5
                      animations:^{
                          self.searchPanelView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);

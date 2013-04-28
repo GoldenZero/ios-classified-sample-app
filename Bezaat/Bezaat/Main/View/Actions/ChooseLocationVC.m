@@ -62,10 +62,16 @@
             [_locationManager startUpdatingLocation];
         }
         else
+        {
             [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+            [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        }
     }
     else
+    {
         [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+    }
 }
 
 

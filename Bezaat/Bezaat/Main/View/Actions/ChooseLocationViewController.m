@@ -285,10 +285,16 @@
             [deviceLocationDetector startUpdatingLocation];
         }
         else
+        {
             [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+            [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        }
     }
     else
+    {
         [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+    }
 }
 
 #pragma  mark - CLLocationManager Delegate
