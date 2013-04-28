@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">11G63b</string>
+		<string key="IBDocument.SystemVersion">11G63</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1138.51</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
@@ -17,6 +17,7 @@
 			<string>IBUIImageView</string>
 			<string>IBUILabel</string>
 			<string>IBUITableViewCell</string>
+			<string>IBUIView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -173,11 +174,7 @@
 								<string key="NSFrame">{{20, 51}, {281, 36}}</string>
 								<reference key="NSSuperview" ref="109246128"/>
 								<reference key="NSWindow"/>
-<<<<<<< HEAD
-								<reference key="NSNextKeyView" ref="732179300"/>
-=======
 								<reference key="NSNextKeyView" ref="944460187"/>
->>>>>>> updating and modyfing the cellAds in browse page
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -212,11 +209,7 @@
 								<string key="NSFrame">{{20, 78}, {281, 19}}</string>
 								<reference key="NSSuperview" ref="109246128"/>
 								<reference key="NSWindow"/>
-<<<<<<< HEAD
-								<reference key="NSNextKeyView" ref="904595320"/>
-=======
 								<reference key="NSNextKeyView" ref="597385691"/>
->>>>>>> updating and modyfing the cellAds in browse page
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -248,10 +241,6 @@
 								<string key="NSFrame">{{242, 104}, {59, 21}}</string>
 								<reference key="NSSuperview" ref="109246128"/>
 								<reference key="NSWindow"/>
-<<<<<<< HEAD
-								<reference key="NSNextKeyView"/>
-=======
->>>>>>> updating and modyfing the cellAds in browse page
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -405,19 +394,21 @@
 								<reference key="IBUIFontDescription" ref="290384517"/>
 								<reference key="IBUIFont" ref="690848428"/>
 							</object>
-							<object class="IBUIImageView" id="904595320">
+							<object class="IBUIView" id="652709411">
 								<reference key="NSNextResponder" ref="109246128"/>
-								<int key="NSvFlags">274</int>
+								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{167, 15}, {42, 25}}</string>
 								<reference key="NSSuperview" ref="109246128"/>
 								<reference key="NSWindow"/>
-<<<<<<< HEAD
-								<reference key="NSNextKeyView" ref="944460187"/>
-=======
 								<reference key="NSNextKeyView" ref="853616254"/>
->>>>>>> updating and modyfing the cellAds in browse page
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<object class="NSColor" key="IBUIBackgroundColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+									<object class="NSColorSpace" key="NSCustomColorSpace">
+										<int key="NSID">2</int>
+									</object>
+								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
 							<object class="IBUILabel" id="280515504">
@@ -426,11 +417,7 @@
 								<string key="NSFrame">{{44, 15}, {120, 21}}</string>
 								<reference key="NSSuperview" ref="109246128"/>
 								<reference key="NSWindow"/>
-<<<<<<< HEAD
-								<reference key="NSNextKeyView" ref="853616254"/>
-=======
 								<reference key="NSNextKeyView" ref="652709411"/>
->>>>>>> updating and modyfing the cellAds in browse page
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -459,11 +446,7 @@
 								<string key="NSFrame">{{11, 95}, {33, 28}}</string>
 								<reference key="NSSuperview" ref="109246128"/>
 								<reference key="NSWindow"/>
-<<<<<<< HEAD
-								<reference key="NSNextKeyView" ref="597385691"/>
-=======
 								<reference key="NSNextKeyView" ref="732179300"/>
->>>>>>> updating and modyfing the cellAds in browse page
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -600,6 +583,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">storeImage</string>
+						<reference key="source" ref="89862751"/>
+						<reference key="destination" ref="652709411"/>
+					</object>
+					<int key="connectionID">584</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">helpButton</string>
 						<reference key="source" ref="89862751"/>
 						<reference key="destination" ref="506530081"/>
@@ -613,14 +604,6 @@
 						<reference key="destination" ref="646328445"/>
 					</object>
 					<int key="connectionID">693</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">storeImage</string>
-						<reference key="source" ref="89862751"/>
-						<reference key="destination" ref="904595320"/>
-					</object>
-					<int key="connectionID">1152</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -746,7 +729,7 @@
 								<reference key="firstItem" ref="853616254"/>
 								<int key="firstAttribute">5</int>
 								<int key="relation">0</int>
-								<reference key="secondItem" ref="904595320"/>
+								<reference key="secondItem" ref="652709411"/>
 								<int key="secondAttribute">6</int>
 								<float key="multiplier">1</float>
 								<object class="IBNSLayoutSymbolicConstant" key="constant">
@@ -790,8 +773,6 @@
 								<float key="scoringTypeFloat">9</float>
 								<int key="contentType">3</int>
 							</object>
-<<<<<<< HEAD
-=======
 							<object class="IBNSLayoutConstraint" id="817508940">
 								<reference key="firstItem" ref="853616254"/>
 								<int key="firstAttribute">3</int>
@@ -840,7 +821,6 @@
 								<float key="scoringTypeFloat">40</float>
 								<int key="contentType">2</int>
 							</object>
->>>>>>> updating and modyfing the cellAds in browse page
 							<object class="IBNSLayoutConstraint" id="752058748">
 								<reference key="firstItem" ref="383158490"/>
 								<int key="firstAttribute">3</int>
@@ -857,41 +837,31 @@
 								<float key="scoringTypeFloat">40</float>
 								<int key="contentType">2</int>
 							</object>
-<<<<<<< HEAD
-							<object class="IBNSLayoutConstraint" id="648375639">
-								<reference key="firstItem" ref="904595320"/>
-								<int key="firstAttribute">3</int>
-=======
 							<object class="IBNSLayoutConstraint" id="838952622">
 								<reference key="firstItem" ref="89862751"/>
 								<int key="firstAttribute">4</int>
->>>>>>> updating and modyfing the cellAds in browse page
 								<int key="relation">0</int>
-								<reference key="secondItem" ref="280515504"/>
-								<int key="secondAttribute">3</int>
+								<reference key="secondItem" ref="652709411"/>
+								<int key="secondAttribute">4</int>
 								<float key="multiplier">1</float>
 								<object class="IBLayoutConstant" key="constant">
-<<<<<<< HEAD
-									<double key="value">0.0</double>
-=======
 									<double key="value">105</double>
->>>>>>> updating and modyfing the cellAds in browse page
 								</object>
 								<float key="priority">1000</float>
 								<reference key="containingView" ref="89862751"/>
-								<int key="scoringType">6</int>
-								<float key="scoringTypeFloat">24</float>
-								<int key="contentType">2</int>
+								<int key="scoringType">3</int>
+								<float key="scoringTypeFloat">9</float>
+								<int key="contentType">3</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="396144181">
-								<reference key="firstItem" ref="904595320"/>
-								<int key="firstAttribute">3</int>
+							<object class="IBNSLayoutConstraint" id="658582578">
+								<reference key="firstItem" ref="652709411"/>
+								<int key="firstAttribute">5</int>
 								<int key="relation">0</int>
 								<reference key="secondItem" ref="89862751"/>
-								<int key="secondAttribute">3</int>
+								<int key="secondAttribute">5</int>
 								<float key="multiplier">1</float>
 								<object class="IBLayoutConstant" key="constant">
-									<double key="value">15</double>
+									<double key="value">167</double>
 								</object>
 								<float key="priority">1000</float>
 								<reference key="containingView" ref="89862751"/>
@@ -900,7 +870,7 @@
 								<int key="contentType">3</int>
 							</object>
 							<object class="IBNSLayoutConstraint" id="655939862">
-								<reference key="firstItem" ref="904595320"/>
+								<reference key="firstItem" ref="652709411"/>
 								<int key="firstAttribute">9</int>
 								<int key="relation">0</int>
 								<reference key="secondItem" ref="383158490"/>
@@ -1107,46 +1077,28 @@
 								<float key="scoringTypeFloat">9</float>
 								<int key="contentType">3</int>
 							</object>
-<<<<<<< HEAD
-							<object class="IBNSLayoutConstraint" id="323771793">
-=======
 							<object class="IBNSLayoutConstraint" id="455401923">
->>>>>>> updating and modyfing the cellAds in browse page
 								<reference key="firstItem" ref="506530081"/>
 								<int key="firstAttribute">6</int>
 								<int key="relation">0</int>
-<<<<<<< HEAD
-								<reference key="secondItem" ref="89862751"/>
-								<int key="secondAttribute">5</int>
-=======
 								<reference key="secondItem" ref="185605608"/>
 								<int key="secondAttribute">6</int>
->>>>>>> updating and modyfing the cellAds in browse page
 								<float key="multiplier">1</float>
 								<object class="IBLayoutConstant" key="constant">
-									<double key="value">11</double>
+									<double key="value">0.0</double>
 								</object>
 								<float key="priority">1000</float>
 								<reference key="containingView" ref="89862751"/>
-								<int key="scoringType">3</int>
-								<float key="scoringTypeFloat">9</float>
-								<int key="contentType">3</int>
+								<int key="scoringType">6</int>
+								<float key="scoringTypeFloat">24</float>
+								<int key="contentType">2</int>
 							</object>
-<<<<<<< HEAD
-							<object class="IBNSLayoutConstraint" id="586738281">
-=======
 							<object class="IBNSLayoutConstraint" id="356788558">
->>>>>>> updating and modyfing the cellAds in browse page
 								<reference key="firstItem" ref="506530081"/>
 								<int key="firstAttribute">4</int>
 								<int key="relation">0</int>
-<<<<<<< HEAD
-								<reference key="secondItem" ref="667127314"/>
-								<int key="secondAttribute">5</int>
-=======
 								<reference key="secondItem" ref="944460187"/>
 								<int key="secondAttribute">4</int>
->>>>>>> updating and modyfing the cellAds in browse page
 								<float key="multiplier">1</float>
 								<object class="IBLayoutConstant" key="constant">
 									<double key="value">0.0</double>
@@ -1173,27 +1125,7 @@
 								<float key="scoringTypeFloat">24</float>
 								<int key="contentType">3</int>
 							</object>
-<<<<<<< HEAD
-							<object class="IBNSLayoutConstraint" id="98956645">
-								<reference key="firstItem" ref="944460187"/>
-								<int key="firstAttribute">5</int>
-								<int key="relation">0</int>
-								<reference key="secondItem" ref="185605608"/>
-								<int key="secondAttribute">5</int>
-								<float key="multiplier">1</float>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">0.0</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="89862751"/>
-								<int key="scoringType">6</int>
-								<float key="scoringTypeFloat">24</float>
-								<int key="contentType">2</int>
-							</object>
-							<object class="IBNSLayoutConstraint" id="455401923">
-=======
 							<object class="IBNSLayoutConstraint" id="1027015976">
->>>>>>> updating and modyfing the cellAds in browse page
 								<reference key="firstItem" ref="944460187"/>
 								<int key="firstAttribute">6</int>
 								<int key="relation">0</int>
@@ -1273,8 +1205,6 @@
 								<float key="scoringTypeFloat">24</float>
 								<int key="contentType">2</int>
 							</object>
-<<<<<<< HEAD
-=======
 							<object class="IBNSLayoutConstraint" id="739507473">
 								<reference key="firstItem" ref="185605608"/>
 								<int key="firstAttribute">5</int>
@@ -1291,7 +1221,6 @@
 								<float key="scoringTypeFloat">24</float>
 								<int key="contentType">2</int>
 							</object>
->>>>>>> updating and modyfing the cellAds in browse page
 							<object class="IBNSLayoutConstraint" id="511015950">
 								<reference key="firstItem" ref="185605608"/>
 								<int key="firstAttribute">3</int>
@@ -1356,22 +1285,6 @@
 								<float key="scoringTypeFloat">24</float>
 								<int key="contentType">2</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="851085577">
-								<reference key="firstItem" ref="765226296"/>
-								<int key="firstAttribute">9</int>
-								<int key="relation">0</int>
-								<reference key="secondItem" ref="314860003"/>
-								<int key="secondAttribute">9</int>
-								<float key="multiplier">1</float>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">0.0</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="89862751"/>
-								<int key="scoringType">6</int>
-								<float key="scoringTypeFloat">24</float>
-								<int key="contentType">2</int>
-							</object>
 							<object class="IBNSLayoutConstraint" id="1070474947">
 								<reference key="firstItem" ref="765226296"/>
 								<int key="firstAttribute">3</int>
@@ -1404,6 +1317,22 @@
 								<float key="scoringTypeFloat">29</float>
 								<int key="contentType">3</int>
 							</object>
+							<object class="IBNSLayoutConstraint" id="542822300">
+								<reference key="firstItem" ref="765226296"/>
+								<int key="firstAttribute">9</int>
+								<int key="relation">0</int>
+								<reference key="secondItem" ref="314860003"/>
+								<int key="secondAttribute">9</int>
+								<float key="multiplier">1</float>
+								<object class="IBLayoutConstant" key="constant">
+									<double key="value">0.0</double>
+								</object>
+								<float key="priority">1000</float>
+								<reference key="containingView" ref="89862751"/>
+								<int key="scoringType">6</int>
+								<float key="scoringTypeFloat">24</float>
+								<int key="contentType">2</int>
+							</object>
 							<object class="IBNSLayoutConstraint" id="242525916">
 								<reference key="firstItem" ref="280515504"/>
 								<int key="firstAttribute">5</int>
@@ -1419,6 +1348,22 @@
 								<int key="scoringType">3</int>
 								<float key="scoringTypeFloat">9</float>
 								<int key="contentType">3</int>
+							</object>
+							<object class="IBNSLayoutConstraint" id="648375639">
+								<reference key="firstItem" ref="280515504"/>
+								<int key="firstAttribute">3</int>
+								<int key="relation">0</int>
+								<reference key="secondItem" ref="652709411"/>
+								<int key="secondAttribute">3</int>
+								<float key="multiplier">1</float>
+								<object class="IBLayoutConstant" key="constant">
+									<double key="value">0.0</double>
+								</object>
+								<float key="priority">1000</float>
+								<reference key="containingView" ref="89862751"/>
+								<int key="scoringType">6</int>
+								<float key="scoringTypeFloat">24</float>
+								<int key="contentType">2</int>
 							</object>
 							<object class="IBNSLayoutConstraint" id="322994475">
 								<reference key="firstItem" ref="507368317"/>
@@ -1502,6 +1447,7 @@
 							</object>
 							<reference ref="507368317"/>
 							<reference ref="314860003"/>
+							<reference ref="652709411"/>
 							<reference ref="280515504"/>
 							<reference ref="732179300"/>
 							<reference ref="873507132"/>
@@ -1517,7 +1463,6 @@
 							<reference ref="944460187"/>
 							<reference ref="667127314"/>
 							<reference ref="765226296"/>
-							<reference ref="904595320"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -1576,32 +1521,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">19</int>
 						<reference key="object" ref="944460187"/>
-<<<<<<< HEAD
-						<array class="NSMutableArray" key="children">
-							<object class="IBNSLayoutConstraint" id="329335951">
-								<reference key="firstItem" ref="944460187"/>
-								<int key="firstAttribute">8</int>
-								<int key="relation">0</int>
-								<nil key="secondItem"/>
-								<int key="secondAttribute">0</int>
-								<float key="multiplier">1</float>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">31</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="944460187"/>
-								<int key="scoringType">3</int>
-								<float key="scoringTypeFloat">9</float>
-								<int key="contentType">1</int>
-							</object>
-						</array>
-						<reference key="parent" ref="89862751"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">18</int>
-						<reference key="object" ref="185605608"/>
-=======
->>>>>>> updating and modyfing the cellAds in browse page
 						<array class="NSMutableArray" key="children">
 							<object class="IBNSLayoutConstraint" id="718811399">
 								<reference key="firstItem" ref="944460187"/>
@@ -1925,11 +1844,13 @@
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
+						<int key="objectID">569</int>
+						<reference key="object" ref="652709411"/>
+						<reference key="parent" ref="89862751"/>
+					</object>
+					<object class="IBObjectRecord">
 						<int key="objectID">585</int>
 						<reference key="object" ref="506530081"/>
-<<<<<<< HEAD
-						<array class="NSMutableArray" key="children"/>
-=======
 						<array class="NSMutableArray" key="children">
 							<object class="IBNSLayoutConstraint" id="4255152">
 								<reference key="firstItem" ref="506530081"/>
@@ -1948,7 +1869,6 @@
 								<int key="contentType">1</int>
 							</object>
 						</array>
->>>>>>> updating and modyfing the cellAds in browse page
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -1969,6 +1889,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">736</int>
 						<reference key="object" ref="867176427"/>
+						<reference key="parent" ref="89862751"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">803</int>
+						<reference key="object" ref="542822300"/>
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2032,6 +1957,21 @@
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
+						<int key="objectID">959</int>
+						<reference key="object" ref="655939862"/>
+						<reference key="parent" ref="89862751"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">969</int>
+						<reference key="object" ref="658582578"/>
+						<reference key="parent" ref="89862751"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">972</int>
+						<reference key="object" ref="648375639"/>
+						<reference key="parent" ref="89862751"/>
+					</object>
+					<object class="IBObjectRecord">
 						<int key="objectID">983</int>
 						<reference key="object" ref="853616254"/>
 						<array class="NSMutableArray" key="children">
@@ -2086,8 +2026,23 @@
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
+						<int key="objectID">992</int>
+						<reference key="object" ref="817508940"/>
+						<reference key="parent" ref="89862751"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">993</int>
+						<reference key="object" ref="722693774"/>
+						<reference key="parent" ref="89862751"/>
+					</object>
+					<object class="IBObjectRecord">
 						<int key="objectID">994</int>
 						<reference key="object" ref="266782973"/>
+						<reference key="parent" ref="89862751"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">995</int>
+						<reference key="object" ref="144570899"/>
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2151,11 +2106,6 @@
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
-<<<<<<< HEAD
-						<int key="objectID">1089</int>
-						<reference key="object" ref="403418491"/>
-						<reference key="parent" ref="89862751"/>
-=======
 						<int key="objectID">1156</int>
 						<reference key="object" ref="532214153"/>
 						<reference key="parent" ref="646328445"/>
@@ -2164,7 +2114,6 @@
 						<int key="objectID">1158</int>
 						<reference key="object" ref="235756831"/>
 						<reference key="parent" ref="383158490"/>
->>>>>>> updating and modyfing the cellAds in browse page
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1160</int>
@@ -2192,10 +2141,6 @@
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
-<<<<<<< HEAD
-						<int key="objectID">1101</int>
-						<reference key="object" ref="488442618"/>
-=======
 						<int key="objectID">1188</int>
 						<reference key="object" ref="1070474947"/>
 						<reference key="parent" ref="89862751"/>
@@ -2203,7 +2148,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">1189</int>
 						<reference key="object" ref="455401923"/>
->>>>>>> updating and modyfing the cellAds in browse page
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2222,10 +2166,6 @@
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
-<<<<<<< HEAD
-						<int key="objectID">1117</int>
-						<reference key="object" ref="994009416"/>
-=======
 						<int key="objectID">1206</int>
 						<reference key="object" ref="906258923"/>
 						<reference key="parent" ref="89862751"/>
@@ -2248,7 +2188,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">1235</int>
 						<reference key="object" ref="138324953"/>
->>>>>>> updating and modyfing the cellAds in browse page
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -2277,102 +2216,8 @@
 						<reference key="parent" ref="89862751"/>
 					</object>
 					<object class="IBObjectRecord">
-<<<<<<< HEAD
-						<int key="objectID">993</int>
-						<reference key="object" ref="722693774"/>
-						<reference key="parent" ref="89862751"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1137</int>
-						<reference key="object" ref="904595320"/>
-						<array class="NSMutableArray" key="children">
-							<object class="IBNSLayoutConstraint" id="999776883">
-								<reference key="firstItem" ref="904595320"/>
-								<int key="firstAttribute">7</int>
-								<int key="relation">0</int>
-								<nil key="secondItem"/>
-								<int key="secondAttribute">0</int>
-								<float key="multiplier">1</float>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">42</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="904595320"/>
-								<int key="scoringType">3</int>
-								<float key="scoringTypeFloat">9</float>
-								<int key="contentType">1</int>
-							</object>
-							<object class="IBNSLayoutConstraint" id="284724022">
-								<reference key="firstItem" ref="904595320"/>
-								<int key="firstAttribute">8</int>
-								<int key="relation">0</int>
-								<nil key="secondItem"/>
-								<int key="secondAttribute">0</int>
-								<float key="multiplier">1</float>
-								<object class="IBLayoutConstant" key="constant">
-									<double key="value">25</double>
-								</object>
-								<float key="priority">1000</float>
-								<reference key="containingView" ref="904595320"/>
-								<int key="scoringType">3</int>
-								<float key="scoringTypeFloat">9</float>
-								<int key="contentType">1</int>
-							</object>
-						</array>
-						<reference key="parent" ref="89862751"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1138</int>
-						<reference key="object" ref="999776883"/>
-						<reference key="parent" ref="904595320"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1139</int>
-						<reference key="object" ref="284724022"/>
-						<reference key="parent" ref="904595320"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1144</int>
-						<reference key="object" ref="655939862"/>
-						<reference key="parent" ref="89862751"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1145</int>
-						<reference key="object" ref="851085577"/>
-						<reference key="parent" ref="89862751"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1146</int>
-						<reference key="object" ref="329335951"/>
-						<reference key="parent" ref="944460187"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1147</int>
-						<reference key="object" ref="98956645"/>
-						<reference key="parent" ref="89862751"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1148</int>
-						<reference key="object" ref="396144181"/>
-						<reference key="parent" ref="89862751"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1149</int>
-						<reference key="object" ref="144570899"/>
-						<reference key="parent" ref="89862751"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1150</int>
-						<reference key="object" ref="648375639"/>
-						<reference key="parent" ref="89862751"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1151</int>
-						<reference key="object" ref="323771793"/>
-=======
 						<int key="objectID">1245</int>
 						<reference key="object" ref="986323446"/>
->>>>>>> updating and modyfing the cellAds in browse page
 						<reference key="parent" ref="89862751"/>
 					</object>
 				</array>
@@ -2392,12 +2237,6 @@
 				<string key="1077.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1078.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1082.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-<<<<<<< HEAD
-				<string key="1089.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1091.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1092.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-=======
->>>>>>> updating and modyfing the cellAds in browse page
 				<string key="1094.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1095.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1097.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2406,34 +2245,6 @@
 					<reference ref="594860253"/>
 				</array>
 				<boolean value="NO" key="11.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
-<<<<<<< HEAD
-				<string key="1101.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1113.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1114.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1115.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1117.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1118.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1119.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1120.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1121.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1122.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1137.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<array key="1137.IBViewMetadataConstraints">
-					<reference ref="284724022"/>
-					<reference ref="999776883"/>
-				</array>
-				<boolean value="NO" key="1137.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
-				<string key="1138.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1139.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1144.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1145.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1146.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1147.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1148.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1149.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1150.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="1151.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-=======
 				<string key="1115.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1121.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1122.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2448,7 +2259,6 @@
 				<string key="1189.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1190.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="1191.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
->>>>>>> updating and modyfing the cellAds in browse page
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<array class="NSMutableArray" key="12.IBViewMetadataConstraints">
 					<reference ref="1015929692"/>
@@ -2496,13 +2306,8 @@
 				<string key="18.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<boolean value="NO" key="18.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-<<<<<<< HEAD
-				<array key="19.IBViewMetadataConstraints">
-					<reference ref="329335951"/>
-=======
 				<array class="NSMutableArray" key="19.IBViewMetadataConstraints">
 					<reference ref="718811399"/>
->>>>>>> updating and modyfing the cellAds in browse page
 				</array>
 				<boolean value="NO" key="19.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="224.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2520,24 +2325,15 @@
 					<reference ref="765925978"/>
 					<reference ref="580413091"/>
 					<reference ref="322994475"/>
+					<reference ref="648375639"/>
 					<reference ref="242525916"/>
+					<reference ref="542822300"/>
 					<reference ref="591680467"/>
 					<reference ref="1070474947"/>
-					<reference ref="851085577"/>
 					<reference ref="362743966"/>
 					<reference ref="453680181"/>
 					<reference ref="598531183"/>
 					<reference ref="511015950"/>
-<<<<<<< HEAD
-					<reference ref="488442618"/>
-					<reference ref="986323446"/>
-					<reference ref="317700095"/>
-					<reference ref="455401923"/>
-					<reference ref="98956645"/>
-					<reference ref="455935213"/>
-					<reference ref="586738281"/>
-					<reference ref="323771793"/>
-=======
 					<reference ref="739507473"/>
 					<reference ref="586738281"/>
 					<reference ref="317700095"/>
@@ -2547,7 +2343,6 @@
 					<reference ref="455935213"/>
 					<reference ref="356788558"/>
 					<reference ref="455401923"/>
->>>>>>> updating and modyfing the cellAds in browse page
 					<reference ref="193318853"/>
 					<reference ref="506462354"/>
 					<reference ref="470466693"/>
@@ -2561,18 +2356,12 @@
 					<reference ref="444410469"/>
 					<reference ref="275970128"/>
 					<reference ref="655939862"/>
-<<<<<<< HEAD
-					<reference ref="396144181"/>
-					<reference ref="648375639"/>
-					<reference ref="752058748"/>
-=======
 					<reference ref="658582578"/>
 					<reference ref="838952622"/>
 					<reference ref="752058748"/>
 					<reference ref="670766504"/>
 					<reference ref="906258923"/>
 					<reference ref="817508940"/>
->>>>>>> updating and modyfing the cellAds in browse page
 					<reference ref="722693774"/>
 					<reference ref="266782973"/>
 					<reference ref="144570899"/>
@@ -2587,13 +2376,13 @@
 				<string key="447.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="493.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="495.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="569.CustomClassName">HJManagedImageV</string>
+				<string key="569.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<boolean value="NO" key="569.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="585.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-<<<<<<< HEAD
-=======
 				<array key="585.IBViewMetadataConstraints">
 					<reference ref="4255152"/>
 				</array>
->>>>>>> updating and modyfing the cellAds in browse page
 				<boolean value="NO" key="585.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<array key="6.IBViewMetadataConstraints">
@@ -2617,6 +2406,7 @@
 					<reference ref="726804595"/>
 				</array>
 				<boolean value="NO" key="8.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
+				<string key="803.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="804.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="809.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="810.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2631,6 +2421,9 @@
 				<boolean value="NO" key="9.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="908.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="917.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="959.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="969.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="972.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="974.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="983.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<array key="983.IBViewMetadataConstraints">
@@ -2640,19 +2433,17 @@
 				<boolean value="NO" key="983.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="984.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="987.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="992.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="993.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="994.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="995.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="996.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-<<<<<<< HEAD
-			<int key="maxID">1152</int>
-=======
 			<int key="maxID">1245</int>
->>>>>>> updating and modyfing the cellAds in browse page
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2670,11 +2461,7 @@
 						<string key="favoriteButton">UIButton</string>
 						<string key="helpButton">UIButton</string>
 						<string key="specailButton">UIButton</string>
-<<<<<<< HEAD
-						<string key="storeImage">UIImageView</string>
-=======
 						<string key="storeImage">HJManagedImageV</string>
->>>>>>> updating and modyfing the cellAds in browse page
 						<string key="storeNameLabel">UILabel</string>
 						<string key="watchingCountsLabel">UILabel</string>
 						<string key="yearLabel">UILabel</string>
@@ -2722,11 +2509,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="storeImage">
 							<string key="name">storeImage</string>
-<<<<<<< HEAD
-							<string key="candidateClassName">UIImageView</string>
-=======
 							<string key="candidateClassName">HJManagedImageV</string>
->>>>>>> updating and modyfing the cellAds in browse page
 						</object>
 						<object class="IBToOneOutletInfo" key="storeNameLabel">
 							<string key="name">storeNameLabel</string>
@@ -2747,8 +2530,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-<<<<<<< HEAD
-=======
 					<string key="className">HJManagedImageV</string>
 					<string key="superclassName">UIView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -2757,7 +2538,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
->>>>>>> updating and modyfing the cellAds in browse page
 					<string key="className">NSLayoutConstraint</string>
 					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
