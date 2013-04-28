@@ -469,7 +469,7 @@
 
 }
 
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component;
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (pickerView==_locationPickerView) {
         if (component==0) {
@@ -486,8 +486,7 @@
     
 }
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component;
-{
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     if (pickerView==_locationPickerView) {
         if (component==0) {
             Country *temp=(Country*)[countryArray objectAtIndex:row];
@@ -512,7 +511,7 @@
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
     // fill picker with production year
-    globalArray=[[NSArray alloc] initWithArray:productionYearArray];
+    globalArray=productionYearArray;
     [self.pickerView reloadAllComponents];
     [self showPicker];
 
@@ -523,7 +522,7 @@
     self.pickerView.hidden=NO;
     
     // fill picker with currency options
-    globalArray=[[NSArray alloc] initWithArray:currencyArray];
+    globalArray=currencyArray;
     [self.pickerView reloadAllComponents];
     [self showPicker];
 
@@ -533,10 +532,10 @@
     self.locationPickerView.hidden=NO;
     self.pickerView.hidden=YES;
     [self showPicker];
-    NSString *temp= [NSString stringWithFormat:@"%@ %@", chosenCountry.countryName , chosenCity.cityName];
+    NSString *temp= [NSString stringWithFormat:@"%@ :%@", chosenCountry.countryName , chosenCity.cityName];
     [countryCity setTitle:temp forState:UIControlStateNormal];
 
-    [self.locationPickerView selectRow:0 inComponent:0 animated:YES];
+    [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
     
     [self.locationPickerView reloadAllComponents];
 
