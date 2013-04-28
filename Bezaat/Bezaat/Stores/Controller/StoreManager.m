@@ -266,6 +266,10 @@ static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
         }
     }
     else if (requestInProgress == RequestInProgressCreateStore) {
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        if (!savedProfile.hasStores) {
+            [[ProfileManager sharedInstance] updateStoreStateForCurrentUser:YES];
+        }
         if ([delegate respondsToSelector:@selector(storeCreationDidSucceedWithStoreID:)]) {
             [delegate storeCreationDidSucceedWithStoreID:((NSArray *)result)[0][@"Data"]];
         }
