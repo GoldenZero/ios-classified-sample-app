@@ -10,7 +10,7 @@
 
 @interface sideMenuCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UILabel *titleLable;
+@property (strong, nonatomic) IBOutlet SSLabel *titleLable;
 @property (strong, nonatomic) IBOutlet UIImageView *cellImage;
 
 @end
