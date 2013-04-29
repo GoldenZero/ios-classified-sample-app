@@ -164,7 +164,7 @@
         }
     }
     [self.searchPanelView setHidden:YES];
-    
+    [self.searchImageButton setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -228,9 +228,11 @@
     CarAd * carAdObject;
     if ((carAdsArray) && (carAdsArray.count))
         carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
-    else
+    else{
+        
         return [UITableViewCell new];
-    
+    }
+
     //ad with image
     if (carAdObject.thumbnailURL)
     {
@@ -1130,7 +1132,10 @@
 
 - (IBAction)searchInPanelBtnPrss:(id)sender {
     
-    
+    [self.carNameText resignFirstResponder];
+    [self.lowerPriceText resignFirstResponder];
+    [self.higherPriceText resignFirstResponder];
+
     BOOL validYears ;
     //1- validate year values
     if (( ([fromYearString isEqualToString:@""])
@@ -1278,6 +1283,10 @@
 }
 
 - (IBAction)clearInPanelBtnPrss:(id)sender {
+    [self.carNameText resignFirstResponder];
+    [self.lowerPriceText resignFirstResponder];
+    [self.higherPriceText resignFirstResponder];
+
     [self.carNameText setText:@""];
     [self.lowerPriceText setText:@""];
     [self.higherPriceText setText:@""];
@@ -1361,6 +1370,7 @@
         isRefreshing = NO;
         [refreshControl endRefreshing];
     }
+    [self.nocarImg setHidden:NO];
 }
 
 - (void) adsDidFinishLoadingWithData:(NSArray *)resultArray {
@@ -1375,6 +1385,7 @@
     //2- append the newly loaded ads
     if (resultArray)
     {
+        [self.nocarImg setHidden:YES];
         for (CarAd * newAd in resultArray)
         {
             NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:newAd.adID inArray:carAdsArray];
@@ -1382,6 +1393,9 @@
                 [carAdsArray addObject:newAd];
         }
         
+    }
+    if ((resultArray.count==0) ||(!resultArray)){
+        [self.nocarImg setHidden:NO];
     }
     
     //3- refresh table data
