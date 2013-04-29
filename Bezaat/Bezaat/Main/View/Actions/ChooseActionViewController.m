@@ -174,16 +174,7 @@
         }
     }
     cell.cellImage.image=[UIImage imageNamed:[custoIconMenuArray objectAtIndex:indexPath.row]];
-   
-    // Set the font for side menu cells
-    [cell.titleLable setBackgroundColor:[UIColor clearColor]];
-    [cell.titleLable setTextColor:[UIColor whiteColor]];
-    [cell.titleLable setTextAlignment:SSTextAlignmentRight];
     [cell.titleLable setText:[custoMenuArray objectAtIndex:indexPath.row]];
-    
-    // font kind ge_ss_two_light
-    [cell.titleLable  setFont:[[GenericFonts sharedInstance] loadFont:@"ge_ss_two_light" withSize:14.0]];
- 
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -195,21 +186,8 @@
     iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png",@"Menu_icon_10.png", nil];
 
      UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-   
-    // Set the font for user name 
-    [self.userNameLabel setBackgroundColor:[UIColor clearColor]];
-    [self.userNameLabel setTextColor:[UIColor whiteColor]];
-    [self.userNameLabel setTextAlignment:SSTextAlignmentRight];
-    [self.userNameLabel  setFont:[[GenericFonts sharedInstance] loadFont:@"ge_ss_two_light" withSize:14.0]];
 
-    // Set the font for solution message
-    [self.solutionMsg setBackgroundColor:[UIColor clearColor]];
-    [self.solutionMsg setTextColor:[UIColor lightGrayColor]];
-    [self.solutionMsg setTextAlignment:SSTextAlignmentRight];
-    [self.solutionMsg  setFont:[[GenericFonts sharedInstance] loadFont:@"ge_ss_two_medium" withSize:14.5]];
-    [self.solutionMsg setText:@"أهلا بك"];
-    //[self.solutionMsg setText:@"Welcom"];
-       // gust
+    // gust
     if(!savedProfile){
         [self.userNameLabel setText:@"زائر"];
         

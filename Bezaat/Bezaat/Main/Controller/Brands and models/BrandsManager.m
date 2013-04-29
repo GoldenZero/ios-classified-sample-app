@@ -70,6 +70,7 @@
     NSDictionary * brandsOrderDict;
     NSUInteger defaultCountryIDForOrdering;
     NSArray * totalBrands;
+    NSArray * totalBrandsForPostAd;
     NSArray * distanceRanges;
     BOOL sortedOnce;
     BOOL isLoadingForPostAd;
@@ -87,6 +88,7 @@
         brandsOrderDict = nil;              //initial value
         defaultCountryIDForOrdering = -1;   //initial value
         totalBrands = nil;
+        totalBrandsForPostAd = nil;
         distanceRanges = nil;
         sortedOnce = NO;
         isLoadingForPostAd = NO;
@@ -195,76 +197,79 @@
         self.delegate = del;
     
     //check if brands has been loaded before
-    
-    //1- load models
-    NSData * modelsData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:POST_MODELS_FILE_NAME]];
-    
-    NSArray * modelsParsedArray = [[JSONParser sharedInstance] parseJSONData:modelsData];
-    
-    //2- store models in a dictionary with brandID as key
-    NSString * brandIdKey;
-    NSMutableDictionary * modelsDictionary = [NSMutableDictionary new];
-    for (NSDictionary * modelDict in modelsParsedArray)
+    if (!totalBrandsForPostAd)
     {
-        //create model object
-        Model * model = [[Model alloc]
-                         initWithModelIDString:[modelDict objectForKey:MODEL_ID_JSONK]
-                         brandIDString:[modelDict objectForKey:MODEL_BRAND_ID_JSONK]
-                         modelName:[modelDict objectForKey:MODEL_NAME_JSONK]
-                         ];
+        //1- load models
+        NSData * modelsData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:POST_MODELS_FILE_NAME]];
         
-        brandIdKey = [NSString stringWithFormat:@"%i", model.brandID];
+        NSArray * modelsParsedArray = [[JSONParser sharedInstance] parseJSONData:modelsData];
         
-        //add model to models dictionary
-        if (![modelsDictionary objectForKey:brandIdKey])
-            [modelsDictionary setObject:[NSMutableArray new] forKey:brandIdKey];
-        [(NSMutableArray *)[modelsDictionary objectForKey:brandIdKey] addObject:model];
+        //2- store models in a dictionary with brandID as key
+        NSString * brandIdKey;
+        NSMutableDictionary * modelsDictionary = [NSMutableDictionary new];
+        for (NSDictionary * modelDict in modelsParsedArray)
+        {
+            //create model object
+            Model * model = [[Model alloc]
+                             initWithModelIDString:[modelDict objectForKey:MODEL_ID_JSONK]
+                             brandIDString:[modelDict objectForKey:MODEL_BRAND_ID_JSONK]
+                             modelName:[modelDict objectForKey:MODEL_NAME_JSONK]
+                             ];
+            
+            brandIdKey = [NSString stringWithFormat:@"%i", model.brandID];
+            
+            //add model to models dictionary
+            if (![modelsDictionary objectForKey:brandIdKey])
+                [modelsDictionary setObject:[NSMutableArray new] forKey:brandIdKey];
+            [(NSMutableArray *)[modelsDictionary objectForKey:brandIdKey] addObject:model];
+            
+        }
         
+        //3- load brands
+        NSData * brandsData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:BRANDS_FILE_NAME]];
+        NSArray * brandsParsedArray = [[JSONParser sharedInstance] parseJSONData:brandsData];
+        
+        //4- store brands in array (This array holds countries and their models **INSIDE**)
+        NSMutableArray * resultBrands = [NSMutableArray new];
+        for (NSDictionary * brandDict in brandsParsedArray)
+        {
+            NSString * brandIdStr = [brandDict objectForKey:BRAND_ID_JSONK];
+            NSUInteger theBrandID = brandIdStr.integerValue;
+            
+            UIImage * theBrandImage = [self loadImageOfBrand:theBrandID imageState:NO];
+            UIImage * theBrandInvertedImage = [self loadImageOfBrand:theBrandID imageState:YES];
+            
+            //create brand object
+            Brand * brand = [[Brand alloc]
+                             initWithBrandIDString:brandIdStr
+                             brandNameAr:[brandDict objectForKey:BRAND_NAME_AR_JSONK]
+                             urlName:[brandDict objectForKey:BRAND_URL_NAME_JSONK]
+                             brandImage:theBrandImage
+                             brandInvertedImage:theBrandInvertedImage
+                             ];
+            brandIdKey = [NSString stringWithFormat:@"%i", brand.brandID];
+            
+            //get array of models
+            NSArray * modelsOfBrand = [NSArray arrayWithArray:[modelsDictionary objectForKey:brandIdKey]];
+            
+            //set models of brand
+            brand.models = modelsOfBrand;
+            
+            //add brand
+            [resultBrands addObject:brand];
+        }
+        
+        totalBrandsForPostAd = resultBrands;
+        NSArray * temp;
+        if ([[SharedUser sharedInstance] getUserCountryID] > -1)
+        {
+            //sort brands according to chosen country
+            temp = [NSArray arrayWithArray:[self sortBrandsArray:resultBrands]];
+            totalBrandsForPostAd = temp;
+        }
     }
-    
-    //3- load brands
-    NSData * brandsData = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:BRANDS_FILE_NAME]];
-    NSArray * brandsParsedArray = [[JSONParser sharedInstance] parseJSONData:brandsData];
-    
-    //4- store brands in array (This array holds countries and their models **INSIDE**)
-    NSMutableArray * resultBrands = [NSMutableArray new];
-    for (NSDictionary * brandDict in brandsParsedArray)
-    {
-        NSString * brandIdStr = [brandDict objectForKey:BRAND_ID_JSONK];
-        NSUInteger theBrandID = brandIdStr.integerValue;
-        
-        UIImage * theBrandImage = [self loadImageOfBrand:theBrandID imageState:NO];
-        UIImage * theBrandInvertedImage = [self loadImageOfBrand:theBrandID imageState:YES];
-        
-        //create brand object
-        Brand * brand = [[Brand alloc]
-                         initWithBrandIDString:brandIdStr
-                         brandNameAr:[brandDict objectForKey:BRAND_NAME_AR_JSONK]
-                         urlName:[brandDict objectForKey:BRAND_URL_NAME_JSONK]
-                         brandImage:theBrandImage
-                         brandInvertedImage:theBrandInvertedImage
-                         ];
-        brandIdKey = [NSString stringWithFormat:@"%i", brand.brandID];
-        
-        //get array of models
-        NSArray * modelsOfBrand = [NSArray arrayWithArray:[modelsDictionary objectForKey:brandIdKey]];
-        
-        //set models of brand
-        brand.models = modelsOfBrand;
-        
-        //add brand
-        [resultBrands addObject:brand];
-    }
-    
-    NSArray * temp;
-    if ([[SharedUser sharedInstance] getUserCountryID] > -1)
-    {
-        //sort brands according to chosen country
-        temp = [NSArray arrayWithArray:[self sortBrandsArray:resultBrands]];
-    }
-    
     if (del)
-        [self.delegate didFinishLoadingWithData:temp];
+        [self.delegate didFinishLoadingWithData:totalBrandsForPostAd];
 }
 
 - (NSArray *) getDistanceRangesArray {

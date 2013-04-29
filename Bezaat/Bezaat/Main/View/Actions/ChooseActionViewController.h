@@ -24,11 +24,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *AddCarButton;
 @property (strong, nonatomic) IBOutlet UIButton *BuyCarButton;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
-@property (strong, nonatomic) IBOutlet SSLabel *userNameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (strong, nonatomic) IBOutlet UITableView *menuTableView;
 @property (strong, nonatomic) IBOutlet UIView *menuView;
 @property (strong, nonatomic) IBOutlet UIView *content;
-@property (strong, nonatomic) IBOutlet SSLabel *solutionMsg;
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender;
