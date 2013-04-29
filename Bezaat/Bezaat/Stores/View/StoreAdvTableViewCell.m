@@ -8,7 +8,84 @@
 
 #import "StoreAdvTableViewCell.h"
 
+@interface StoreAdvTableViewCell () {
+    NSString *title;
+    NSString *price;
+    NSString *imageURL;
+    BOOL isFeatured;
+}
+
+@end
+
 @implementation StoreAdvTableViewCell
+
+@synthesize bgImageView;
+@synthesize featureTagImageView;
+@synthesize AdvImageView;
+@synthesize titleLabel;
+@synthesize priceLabel;
+@synthesize featureButton;
+
+- (NSString *)imageURL {
+    return imageURL;
+}
+
+- (void)setImageURL:(NSString *)_imageURL {
+    imageURL = _imageURL;
+    if (imageURL == nil) {
+        self.AdvImageView.image = nil;
+        [self.AdvImageView setNeedsDisplay];
+    }
+    else {
+        NSURL *loadURL = [NSURL URLWithString:imageURL];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfURL:loadURL];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Update the UI
+                self.AdvImageView.image = [UIImage imageWithData:imageData];
+                [self.AdvImageView setNeedsDisplay];
+            });
+        });
+    }
+}
+
+- (NSString *) title {
+    return title;
+}
+
+- (void)setTitle:(NSString *)_title {
+    title = _title;
+    titleLabel.text = title;
+}
+
+- (NSString *) price {
+    return price;
+}
+
+- (void) setPrice:(NSString *)_price {
+    price = _price;
+    priceLabel.text = price;
+}
+
+- (BOOL) isFeatured {
+    return isFeatured;
+}
+
+- (void) setIsFeatured:(BOOL)_isFeatured {
+    isFeatured = _isFeatured;
+    if (isFeatured) {
+        [featureButton setImage:[UIImage imageNamed:@"MyStore_special_help"] forState:UIControlStateNormal];
+        bgImageView.image = [UIImage imageNamed:@"MyStore_special_bg"];
+        featureTagImageView.hidden = NO;
+    }
+    else {
+        [featureButton setImage:[UIImage imageNamed:@"MyStore_icon_dollar"] forState:UIControlStateNormal];
+        bgImageView.image = [UIImage imageNamed:@"MyStore_box_bg"];
+        featureTagImageView.hidden = YES;
+    }
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -24,6 +101,12 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+#pragma mark - Actions
+
+- (IBAction)featureBtnPress:(id)sender {
+    
 }
 
 @end
