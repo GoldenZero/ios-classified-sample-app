@@ -12,7 +12,7 @@
 
 @interface ModelCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *lblModel;
+@property (weak, nonatomic) IBOutlet SSLabel *lblModel;
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 
 - (void) reloadInformation:(Model*)model;

@@ -13,7 +13,11 @@
 @implementation ModelCell
 
 - (void) reloadInformation:(Model*)model {
-    _lblModel.text = model.modelName;
+    [self.lblModel setBackgroundColor:[UIColor clearColor]];
+    [self.lblModel setTextColor:[UIColor blackColor]];
+    [self.lblModel setTextAlignment:SSTextAlignmentRight];
+    [self.lblModel  setFont:[[GenericFonts sharedInstance] loadFont:@"ge_ss_two_medium" withSize:14.5]];
+    [self.lblModel setText:model.modelName];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
