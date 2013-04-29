@@ -249,6 +249,24 @@ static NSString * location_key_chain_identifier = @"BezaatLocation";
 }
 
 
+- (Country *) getCountryByID:(NSInteger) cID {
+    
+    if (!sortedCountryiesArray)
+        return nil;
+    
+    if (sortedCountryiesArray.count == 0)
+        return nil;
+    
+    for (int index = 0; index < sortedCountryiesArray.count; index++) {
+        Country * ctr = (Country *) sortedCountryiesArray[index];
+        if (ctr.countryID == cID)
+            return ctr;
+    }
+    
+    //Not found
+    return nil;
+}
+
 #pragma mark - helper methods
 
 // This method gets the file path ofthe specified file.

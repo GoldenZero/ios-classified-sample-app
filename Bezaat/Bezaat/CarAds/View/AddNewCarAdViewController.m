@@ -773,6 +773,10 @@
 
 }
 
+- (void) dismissSelfAfterFeaturing {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - UIActionSheet Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -862,6 +866,7 @@
     
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
     vc.currentAdID = adID;
+    vc.parentNewCarVC = self;
     [self presentViewController:vc animated:YES completion:nil];
     
 }

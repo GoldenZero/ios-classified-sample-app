@@ -9,6 +9,7 @@
 #import "labelAdViewController.h"
 #import "labelAdCell.h"
 #import "whyLabelAdViewController.h"
+#import "AddNewCarAdViewController.h"
 
 
 @interface labelAdViewController ()
@@ -28,7 +29,7 @@
 
 @implementation labelAdViewController
 @synthesize currentAdID;
-@synthesize laterBtn, nowBtn;
+@synthesize laterBtn, nowBtn, parentNewCarVC;
 
 static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 
@@ -357,7 +358,10 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 }
 
 - (void) orderDidFinishConfirmingWithStatus:(BOOL) status {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (self.parentNewCarVC)
+            [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
+    }];
 }
 //-----------------------------------------------------------
 
@@ -367,7 +371,10 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 }
 
 - (void) orderDidFinishCancellingWithStatus:(BOOL) status {
-    [self dismissViewControllerAnimated:YES completion:nil];    
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (self.parentNewCarVC)
+            [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
+    }];
 }
 
 

@@ -25,4 +25,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *laterBtn;
 @property (weak, nonatomic) IBOutlet UIButton *nowBtn;
 
+@property (strong, nonatomic) AddNewCarAdViewController * parentNewCarVC;
+
 @end
