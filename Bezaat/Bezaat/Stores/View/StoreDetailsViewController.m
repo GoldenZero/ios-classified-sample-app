@@ -11,6 +11,8 @@
 #import "CarAd.h"
 
 @interface StoreDetailsViewController () {
+    StoreManager *storeStatusManager;
+    
     MBProgressHUD2 *loadingHUD;
     IBOutlet UIToolbar *toolBar;
     IBOutlet UITableView *tableView;
@@ -21,7 +23,8 @@
     IBOutlet UIImageView *storeImage;
     IBOutlet UILabel *storeTitleLabel;
     IBOutlet UILabel *storeCityLabel;
-    IBOutlet UILabel *storeMailLabel;
+    IBOutlet UILabel *remainingFeatureAdsLabel;
+    IBOutlet UILabel *remainingDaysLabel;
     
     NSArray *currentStoreAds;
     NSString *storeAdsCurrentStatus;
@@ -35,8 +38,6 @@
 @implementation StoreDetailsViewController
 
 static NSString *storeAdsTableCellIdentifier = @"storeAdsTableCellIdentifier";
-static NSString *backTableCellIdentifier = @"backTableCellIdentifier";
-static NSString *forwardTableCellIdentifier = @"forwardTableCellIdentifier";
 
 static NSString *StoreAdsStatusAll = @"all";
 static NSString *StoreAdsStatusActive = @"active";
@@ -67,8 +68,8 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     currentPage = 1;
     [menueBtn1 setImage:[UIImage imageNamed:@"MyStore_menu1_select"] forState:UIControlStateNormal];
     
-    NSURL *imageURL = [NSURL URLWithString:currentStore.imageURL];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSURL *imageURL = [NSURL URLWithString:currentStore.imageURL];
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -78,9 +79,12 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
         });
     });
 
+    storeStatusManager = [[StoreManager alloc] init];
+    storeStatusManager.delegate = self;
+    [storeStatusManager getStoreStatus:currentStore];
+    
     storeTitleLabel.text = currentStore.name;
     storeCityLabel.text = currentStore.countryName;
-    storeMailLabel.text = currentStore.ownerEmail;
 
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:currentPage status:storeAdsCurrentStatus];
@@ -229,6 +233,16 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
         [alert show];
         allAdsLoaded = YES;
     }
+}
+
+- (void) storeStatusRetrieveDidFailWithError:(NSError *)error {
+    [storeStatusManager getStoreStatus:currentStore];
+}
+
+- (void) storeStatusRetrieveDidSucceedWithStatus:(Store *)store {
+    currentStore = store;
+    remainingFeatureAdsLabel.text = [NSString stringWithFormat:@". %@ إعلانات مميزة باقية",currentStore.remainingFreeFeatureAds];
+    remainingDaysLabel.text = [NSString stringWithFormat:@". %@ أيام متبقية",currentStore.remainingDays];
 }
 
 @end

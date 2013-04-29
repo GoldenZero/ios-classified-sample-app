@@ -19,6 +19,8 @@
 - (void) userStoresRetrieveDidSucceedWithStores:(NSArray *)stores;
 - (void) storeAdsRetrieveDidFailWithError:(NSError *)error;
 - (void) storeAdsRetrieveDidSucceedWithAds:(NSArray *)ads;
+- (void) storeStatusRetrieveDidFailWithError:(NSError *)error;
+- (void) storeStatusRetrieveDidSucceedWithStatus:(Store *)store;
 @end
 
 @interface StoreManager : NSObject <DataDelegate>
@@ -38,5 +40,7 @@
 - (void)getUserStores;
 
 - (void)getStoreAds:(NSInteger)storeID page:(NSInteger)pageNumber status:(NSString *)status;
+
+- (void)getStoreStatus:(Store *)store;
 
 @end

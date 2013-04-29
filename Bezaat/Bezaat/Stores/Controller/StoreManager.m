@@ -13,12 +13,15 @@ typedef enum {
     RequestInProgressCreateStore,
     RequestInProgressUploadLOGO,
     RequestInProgressGetUserStores,
-    RequestInProgressGetStoreAds
+    RequestInProgressGetStoreAds,
+    RequestInProgressGetStoreStatus
 } RequestInProgress;
 
 @interface StoreManager () {
     InternetManager *internetManager;
     RequestInProgress requestInProgress;
+    
+    Store *storeForStatus;
 }
 @end
 
@@ -28,10 +31,13 @@ static NSString *create_store_url = @"/json/create-store";
 static NSString *upload_logo_url = @"/json/upload-logo";
 static NSString *get_user_stores_url = @"/json/user-stores";
 static NSString *my_store_ads_url = @"/json/my-store-ads";
+static NSString *store_status_url = @"/json/user-store-status";
 static NSString *create_store_temp_file = @"createStoreTmpFile";
 static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
 static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
 static NSString *my_store_ads_temp_file = @"myStoreAdsTmpFile";
+static NSString *store_status_temp_file = @"StoreStatusTmpFile";
+
 
 @synthesize delegate;
 
@@ -43,13 +49,12 @@ static NSString *my_store_ads_temp_file = @"myStoreAdsTmpFile";
         upload_logo_url = [API_MAIN_URL stringByAppendingString:upload_logo_url];
         get_user_stores_url = [API_MAIN_URL stringByAppendingString:get_user_stores_url];
         my_store_ads_url = [API_MAIN_URL stringByAppendingString:my_store_ads_url];
+        store_status_url = [API_MAIN_URL stringByAppendingString:store_status_url];
     }
     return instance;
 }
 
 - (void)uploadLOGO:(UIImage *)image {
-    
-
     requestInProgress = RequestInProgressUploadLOGO;
     
     //1- check connectivity
@@ -207,7 +212,34 @@ static NSString *my_store_ads_temp_file = @"myStoreAdsTmpFile";
                                                    startImmediately:YES
                                                        responseType:@"JSON"
                        ];
+}
+
+- (void) getStoreStatus:(Store *)store {
+    requestInProgress = RequestInProgressGetStoreStatus;
+    storeForStatus = store;
     
+    //1- check connectivity
+    if (![self checkConnectivity]) {
+        return;
+    }
+    
+    //2- start the request
+    NSMutableURLRequest *request = [self request];
+    
+    if (request == nil) {
+        [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
+        return;
+    }
+    NSString *urlString = [NSString stringWithFormat:@"%@?storeid=%d",store_status_url,store.identifier];
+    [request setURL:[NSURL URLWithString:urlString]];
+    
+    // start the request
+    internetManager = [[InternetManager alloc] initWithTempFileName:store_status_temp_file
+                                                         urlRequest:request
+                                                           delegate:self
+                                                   startImmediately:YES
+                                                       responseType:@"JSON"
+                       ];
 }
 
 #pragma mark - Private Methods
@@ -289,6 +321,11 @@ static NSString *my_store_ads_temp_file = @"myStoreAdsTmpFile";
             [delegate storeAdsRetrieveDidFailWithError:error];
         }
     }
+    else if (requestInProgress == RequestInProgressGetStoreStatus) {
+        if ([delegate respondsToSelector:@selector(storeStatusRetrieveDidFailWithError:)]) {
+            [delegate storeStatusRetrieveDidFailWithError:error];
+        }
+    }
 
 }
 
@@ -335,6 +372,16 @@ static NSString *my_store_ads_temp_file = @"myStoreAdsTmpFile";
         NSArray *ads = [[CarAdsManager sharedInstance] createCarAdsArrayWithData:(NSArray *)result];
         if ([delegate respondsToSelector:@selector(storeAdsRetrieveDidSucceedWithAds:)]) {
             [delegate storeAdsRetrieveDidSucceedWithAds:ads];
+        }
+    }
+    else if (requestInProgress == RequestInProgressGetStoreStatus) {
+        NSDictionary *dataDic = ((NSArray *)result)[0][@"Data"];
+        storeForStatus.remainingDays = dataDic[@"RemainingDays"];
+        storeForStatus.remainingFreeFeatureAds = dataDic[@"RemainingFreeFeatureAds"];
+        
+        NSLog(@"%@",storeForStatus);
+        if ([delegate respondsToSelector:@selector(storeStatusRetrieveDidFailWithError:)]) {
+            [delegate storeStatusRetrieveDidSucceedWithStatus:storeForStatus];
         }
     }
 }
