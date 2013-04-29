@@ -9,7 +9,6 @@
 #import "labelAdViewController.h"
 #import "labelAdCell.h"
 #import "whyLabelAdViewController.h"
-#import "AddNewCarAdViewController.h"
 
 
 @interface labelAdViewController ()
@@ -85,6 +84,11 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 }
 
 - (IBAction)laterBtnPressed:(id)sender {
+    /*
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (self.parentNewCarVC)
+            [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
+    }];*/
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -358,10 +362,12 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 }
 
 - (void) orderDidFinishConfirmingWithStatus:(BOOL) status {
+    /*
     [self dismissViewControllerAnimated:YES completion:^{
         if (self.parentNewCarVC)
             [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
-    }];
+    }];*/
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 //-----------------------------------------------------------
 
@@ -371,10 +377,12 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 }
 
 - (void) orderDidFinishCancellingWithStatus:(BOOL) status {
+    /*
     [self dismissViewControllerAnimated:YES completion:^{
         if (self.parentNewCarVC)
             [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
-    }];
+    }];*/
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
