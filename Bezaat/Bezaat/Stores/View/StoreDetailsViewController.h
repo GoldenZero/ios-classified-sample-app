@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StoreManager.h"
 
-@interface StoreDetailsViewController : UIViewController
+@interface StoreDetailsViewController : UIViewController<UITableViewDataSource,StoreManagerDelegate>
+
+@property (nonatomic, strong) Store *currentStore;
+
+- (IBAction)backBtnPress:(id)sender;
+- (IBAction)segmentedControllerValueChanged:(id)sender;
 
 @end
