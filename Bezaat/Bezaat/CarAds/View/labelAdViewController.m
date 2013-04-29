@@ -10,6 +10,7 @@
 #import "labelAdCell.h"
 #import "whyLabelAdViewController.h"
 
+
 @interface labelAdViewController ()
 {
     NSArray * productsArr;
@@ -19,12 +20,17 @@
     
     MBProgressHUD2 * loadingHUD;
     NSArray * pricingOptions;
+    NSString * currentOrderID;
+    NSString * currentProductID;
+    PricingOption * chosenPricingOption;
 }
 @end
 
 @implementation labelAdViewController
 @synthesize currentAdID;
-NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotification";
+@synthesize laterBtn, nowBtn;
+
+static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,8 +52,7 @@ NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotificatio
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
     //register the current class as transaction observer
-    [[SKPaymentQueue defaultQueue]
-     addTransactionObserver:self];
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     
     //init the productsArr
     productsArr = [NSArray new];
@@ -58,14 +63,13 @@ NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotificatio
     //load the options
     [self loadPricingOptions];
     
-    //[self purchaseProductWithIdentifier:@"com.bezaat.uae.25"];
-    //[self purchaseProductWithIdentifier:@"com.bezaat.uae.test"];
+    currentOrderID = @"";
+    currentProductID = @"";
+    chosenPricingOption = nil;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:MyProductPurchasedNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -84,6 +88,22 @@ NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotificatio
 }
 
 - (IBAction)labelAdBtnPressed:(id)sender {
+    
+    if (chosenPricingOption)
+    {
+        //1- extract product ID from pricing option
+        //Form is: com.bezaat.cars.[country_id].[pricing_id]
+        currentProductID = [NSString stringWithFormat:product_id_form,
+                            [[SharedUser sharedInstance] getUserCountryID],
+                            chosenPricingOption.pricingID
+                            ];
+        
+        //2- carete the order
+        [[FeaturingManager sharedInstance]
+         createOrderForFeaturingAdID:currentAdID
+         withPricingID:chosenPricingOption.pricingID WithDelegate:self];
+    }
+    
 }
 
 - (IBAction)explainAdBtnPrss:(id)sender {
@@ -134,60 +154,33 @@ NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotificatio
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     choosenCell=indexPath.row;
-    if (productsArr && productsArr.count)
-    {
-        SKProduct *product = [productsArr objectAtIndex:indexPath.row];
-        [self purchaseProductWithIdentifier:product.productIdentifier];
-    }
+    chosenPricingOption = [pricingOptions objectAtIndex:indexPath.row];
     [self.tableView reloadData];
 }
 
+/*
 - (void) chosenPeriodPressed{
-    
+ 
 }
-
-- (void) purchaseProductWithIdentifier:(NSString *) identifier {
-    
-    
-    if ([SKPaymentQueue canMakePayments])
-    {
-        
-        SKProductsRequest *request = [[SKProductsRequest alloc]
-                                      initWithProductIdentifiers:
-                                      [NSArray arrayWithObjects:identifier, nil]];
-        request.delegate = self;
-        [request start];
-    }
-    else
-        NSLog(@"Please enable In App Purchase in Settings");
-
-}
+*/
 
 #pragma mark - SKProductsRequestDelegate
 
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
 {
     productsArr = response.products;
-    
     if (productsArr.count != 0)
     {
-        for (SKProduct * prod in productsArr)
-        {
-            NSLog(@"ID: %@, title: %@, desc: %@, ", prod.productIdentifier, prod.localizedTitle, prod.localizedDescription);
-            SKPayment * payment = [SKPayment paymentWithProduct:prod];
-            [[SKPaymentQueue defaultQueue] addPayment:payment];
-        }
-    } else {
-        NSLog(@"No product found");
+        SKProduct * prod = productsArr[0];
+        SKPayment * payment = [SKPayment paymentWithProduct:prod];
+        [[SKPaymentQueue defaultQueue] addPayment:payment];
+
     }
+    else
+        [GenericMethods throwAlertWithTitle:@"" message:@"فشل العملية" delegateVC:self];
     
-    NSArray * invalidProducts = response.invalidProductIdentifiers;
-    
-    for (SKProduct * product in invalidProducts)
-    {
-        NSLog(@"Product not found: %@", product);
-    }
 }
+
 
 #pragma mark - SKPaymentTransactionObserver
 
@@ -196,17 +189,40 @@ NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotificatio
     for (SKPaymentTransaction *transaction in transactions)
     {
         switch (transaction.transactionState) {
-            case SKPaymentTransactionStatePurchased:
-                NSLog(@"Purchased successfully");
-                [[SKPaymentQueue defaultQueue]
-                 finishTransaction:transaction];
-                [[NSNotificationCenter defaultCenter] postNotificationName:MyProductPurchasedNotification object:transaction.payment.productIdentifier userInfo:nil];
-                break;
+            case SKPaymentTransactionStatePurchasing:
+				break;
                 
+            case SKPaymentTransactionStatePurchased:
+                //NSLog(@"Purchased successfully");
+                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                
+                //confirm order
+                [self confirmCurrentOrderWithResponse:transaction.transactionIdentifier];
+                
+                break;
+            
+            /*
+            case SKPaymentTransactionStateRestored:
+				[[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                
+                //confirm order
+                [self confirmCurrentOrderWithResponse:transaction.transactionIdentifier];
+                
+				break;
+            */
             case SKPaymentTransactionStateFailed:
                 NSLog(@"Transaction Failed");
-                [[SKPaymentQueue defaultQueue]
-                 finishTransaction:transaction];
+                
+                if (transaction.error.code != SKErrorPaymentCancelled) // error!
+                    [GenericMethods throwAlertWithTitle:@"خطأ" message:transaction.error.localizedDescription delegateVC:self];
+                
+                //else // this is fine, the user just cancelled
+                
+                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                
+                //cancel order
+                [self cancelCurrentOrder];
+                
                 break;
                 
             default:
@@ -215,14 +231,8 @@ NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotificatio
     }
 }
 
-- (void)productPurchased:(NSNotification *)notification {
-    
-    NSString * productIdentifier = notification.object;
-    NSLog(@"product is purchased: %@", productIdentifier);
-    
-}
-
 #pragma mark - helper methods
+
 - (void) loadPricingOptions {
     
     [self showLoadingIndicator];
@@ -233,7 +243,7 @@ NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotificatio
     
     loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
     loadingHUD.mode = MBProgressHUDModeIndeterminate2;
-    loadingHUD.labelText = @"جاري تحميل البيانات";
+    loadingHUD.labelText = @"";
     loadingHUD.detailsLabelText = @"";
     loadingHUD.dimBackground = YES;
     
@@ -244,8 +254,44 @@ NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotificatio
     if (loadingHUD)
         [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
     loadingHUD = nil;
-    
 }
+
+- (void) purchaseProductWithIdentifier:(NSString *) identifier {
+    
+    if ([SKPaymentQueue canMakePayments])
+    {
+        SKProductsRequest *request = [[SKProductsRequest alloc]
+                                      initWithProductIdentifiers:
+                                      [NSArray arrayWithObjects:identifier, nil]];
+        request.delegate = self;
+        [request start];
+    }
+    else
+    {
+        [GenericMethods throwAlertWithTitle:@"" message:@"الرجاء تفعيل إعدادات الشراء في الجهاز" delegateVC:self];
+    }
+}
+
+- (void) confirmCurrentOrderWithResponse:(NSString *) responseString {
+    if (![currentOrderID isEqualToString:@""])
+    {
+        [self showLoadingIndicator];
+        
+        [[FeaturingManager sharedInstance] confirmOrderID:currentOrderID
+                                          gatewayResponse:responseString
+                                             withDelegate:self];
+    }
+}
+
+- (void) cancelCurrentOrder {
+    if (![currentOrderID isEqualToString:@""])
+    {
+        [self showLoadingIndicator];
+        [[FeaturingManager sharedInstance] cancelOrderID:currentOrderID
+                                            withDelegate:self];
+    }
+}
+
 
 #pragma mark - PricingOptions Delegate
 
@@ -254,12 +300,75 @@ NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotificatio
     [self hideLoadingIndicator];
     
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    currentOrderID = @"";
+    currentProductID = @"";
+    chosenPricingOption = nil;
+    
+    [self.laterBtn setEnabled:NO];
+    [self.nowBtn setEnabled:NO];
+    
 }
 
 - (void) optionsDidFinishLoadingWithData:(NSArray *)resultArray {
+    
     [self hideLoadingIndicator];
     
     pricingOptions = [NSArray arrayWithArray:resultArray];
-    [self.tableView reloadData];
+    
+    if (resultArray && resultArray.count)
+    {
+        chosenPricingOption = [resultArray objectAtIndex:0];
+        [self.laterBtn setEnabled:YES];
+        [self.nowBtn setEnabled:YES];
+        [self.tableView reloadData];
+    }
+    else
+    {
+        //NOOR: set the background of sad face
+    }
 }
+
+#pragma mark -  FeaturingOrder Delegate
+
+//creation
+- (void) orderDidFailCreationWithError:(NSError *) error {
+    [self hideLoadingIndicator];
+    
+    //COME BACK HERE LATER TO ADD A RETRY BUTTON
+}
+
+- (void) orderDidFinishCreationWithID:(NSString *) orderID {
+    
+    //1- store the ID
+    currentOrderID = orderID;
+    
+    //2- in app purchase
+    if (![currentProductID isEqualToString:@""])
+        [self purchaseProductWithIdentifier:currentProductID];
+}
+//-----------------------------------------------------------
+//confirmation
+- (void) orderDidFailConfirmingWithError:(NSError *) error {
+    
+    [self hideLoadingIndicator];
+    
+    //COME BACK HERE LATER TO ADD A RETRY BUTTON
+}
+
+- (void) orderDidFinishConfirmingWithStatus:(BOOL) status {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+//-----------------------------------------------------------
+
+//cancellation
+- (void) orderDidFailCancellingWithError:(NSError *) error {
+    [self hideLoadingIndicator];
+}
+
+- (void) orderDidFinishCancellingWithStatus:(BOOL) status {
+    [self dismissViewControllerAnimated:YES completion:nil];    
+}
+
+
 @end
