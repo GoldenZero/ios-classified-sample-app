@@ -923,7 +923,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         if (statusCode == 200)
         {
             NSArray * dataAdsArray = [totalDict objectForKey:LISTING_DATA_JKEY];
-            if ((dataAdsArray) && (dataAdsArray.count))
+            if ((dataAdsArray) && (![@"" isEqualToString:(NSString *)dataAdsArray]) && (dataAdsArray.count))
             {
                 for (NSDictionary * adDict in dataAdsArray)
                 {
