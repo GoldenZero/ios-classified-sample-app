@@ -11,7 +11,7 @@
 @interface StoreAdvTableViewCell () {
     NSString *title;
     NSString *price;
-    NSString *imageURL;
+    NSURL *imageURL;
     BOOL isFeatured;
 }
 
