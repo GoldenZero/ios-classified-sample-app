@@ -197,7 +197,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setTimeoutInterval:20];
+        [request setTimeoutInterval:60];
         
         [request setURL:correctURL];
         [request setHTTPMethod:@"POST"];
@@ -277,7 +277,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setTimeoutInterval:20];
+        [request setTimeoutInterval:60];
         
         [request setURL:correctURL];
         [request setHTTPMethod:@"POST"];
@@ -354,7 +354,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setTimeoutInterval:20];
+        [request setTimeoutInterval:60];
         
         [request setURL:correctURL];
         [request setHTTPMethod:@"POST"];

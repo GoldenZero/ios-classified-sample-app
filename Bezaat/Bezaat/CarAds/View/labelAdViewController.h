@@ -21,5 +21,6 @@
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (nonatomic) NSInteger currentAdID;
 
 @end

@@ -145,7 +145,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setTimeoutInterval:20];
+    [request setTimeoutInterval:60];
     
     [request setURL:[NSURL URLWithString:login_url]];
     [request setHTTPMethod:@"POST"];
@@ -182,7 +182,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setTimeoutInterval:20];
+    [request setTimeoutInterval:60];
     
     [request setURL:[NSURL URLWithString:login_twitter_url]];
     [request setHTTPMethod:@"POST"];
@@ -224,7 +224,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setTimeoutInterval:20];
+    [request setTimeoutInterval:60];
     
     [request setURL:[NSURL URLWithString:login_facebook_url]];
     [request setHTTPMethod:@"POST"];
@@ -267,7 +267,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setTimeoutInterval:20];
+    [request setTimeoutInterval:60];
     
     [request setURL:[NSURL URLWithString:register_url]];
     [request setHTTPMethod:@"POST"];
@@ -381,7 +381,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
                                                                   length]];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setTimeoutInterval:20];
+        [request setTimeoutInterval:60];
         
         [request setURL:correctURL];
         [request setHTTPMethod:@"POST"];
@@ -460,7 +460,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setTimeoutInterval:20];
+        [request setTimeoutInterval:60];
         
         [request setURL:correctURL];
         [request setHTTPMethod:@"POST"];
@@ -609,7 +609,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
                                                                   length]];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setTimeoutInterval:20];
+        [request setTimeoutInterval:60];
         
         [request setURL:correctURL];
         [request setHTTPMethod:@"POST"];
