@@ -104,7 +104,14 @@
 #pragma mark - Actions
 
 - (IBAction)featureBtnPress:(id)sender {
-    
+    if (self.delegate) {
+        if (isFeatured) {
+            [self.delegate unfeatureAdv:self.advID];
+        }
+        else {
+            [self.delegate featureAdv:self.advID];
+        }
+    }
 }
 
 @end

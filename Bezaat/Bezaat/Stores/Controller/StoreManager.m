@@ -14,7 +14,9 @@ typedef enum {
     RequestInProgressUploadLOGO,
     RequestInProgressGetUserStores,
     RequestInProgressGetStoreAds,
-    RequestInProgressGetStoreStatus
+    RequestInProgressGetStoreStatus,
+    RequestInProgressFeatureAdv,
+    RequestInProgressUnfeatureAdv
 } RequestInProgress;
 
 @interface StoreManager () {
@@ -32,11 +34,15 @@ static NSString *upload_logo_url = @"/json/upload-logo";
 static NSString *get_user_stores_url = @"/json/user-stores";
 static NSString *my_store_ads_url = @"/json/my-store-ads";
 static NSString *store_status_url = @"/json/user-store-status";
+static NSString *feature_adv_url = @"/json/make-store-ad-featured";
+static NSString *unfeature_adv_url = @"/json/stop-store-ad-featured";
 static NSString *create_store_temp_file = @"createStoreTmpFile";
 static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
 static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
 static NSString *my_store_ads_temp_file = @"myStoreAdsTmpFile";
 static NSString *store_status_temp_file = @"StoreStatusTmpFile";
+static NSString *feature_adv_temp_file = @"FeatureAdvTmpFile";
+static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
 
 
 @synthesize delegate;
@@ -50,6 +56,8 @@ static NSString *store_status_temp_file = @"StoreStatusTmpFile";
         get_user_stores_url = [API_MAIN_URL stringByAppendingString:get_user_stores_url];
         my_store_ads_url = [API_MAIN_URL stringByAppendingString:my_store_ads_url];
         store_status_url = [API_MAIN_URL stringByAppendingString:store_status_url];
+        feature_adv_url = [API_MAIN_URL stringByAppendingString:feature_adv_url];
+        unfeature_adv_url = [API_MAIN_URL stringByAppendingString:unfeature_adv_url];
     }
     return instance;
 }
@@ -242,6 +250,85 @@ static NSString *store_status_temp_file = @"StoreStatusTmpFile";
                        ];
 }
 
+- (void)unfeatureAdv:(NSInteger)advID inStore:(NSInteger)storeID {
+    requestInProgress = RequestInProgressUnfeatureAdv;
+    
+    //1- check connectivity
+    if (![self checkConnectivity]) {
+        return;
+    }
+    
+    //2- start the request
+    NSMutableURLRequest *request = [self request];
+    
+    if (request == nil) {
+        [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
+        return;
+    }
+    [request setURL:[NSURL URLWithString:unfeature_adv_url]];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    NSString * post =[NSString stringWithFormat:@"%@=%d&%@=%d"
+                      ,@"StoreID",storeID
+                      ,@"AdID", advID
+                      ];
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    // start the request
+    [request setHTTPBody:postData];
+    
+    internetManager = [[InternetManager alloc] initWithTempFileName:unfeature_adv_temp_file
+                                                         urlRequest:request
+                                                           delegate:self
+                                                   startImmediately:YES
+                                                       responseType:@"JSON"
+                       ];
+}
+
+- (void)featureAdv:(NSInteger)advID inStore:(NSInteger)storeID featureDays:(NSInteger)featureDays {
+    requestInProgress = RequestInProgressFeatureAdv;
+    
+    //1- check connectivity
+    if (![self checkConnectivity]) {
+        return;
+    }
+    
+    //2- start the request
+    NSMutableURLRequest *request = [self request];
+    
+    if (request == nil) {
+        [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
+        return;
+    }
+    [request setURL:[NSURL URLWithString:feature_adv_url]];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    NSString * post =[NSString stringWithFormat:@"%@=%d&%@=%d&%@=%d"
+                      ,@"StoreID",storeID
+                      ,@"AdID", advID
+                      ,@"NoOfFeaturedDays", featureDays
+                      ];
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    // start the request
+    [request setHTTPBody:postData];
+    
+    internetManager = [[InternetManager alloc] initWithTempFileName:feature_adv_temp_file
+                                                         urlRequest:request
+                                                           delegate:self
+                                                   startImmediately:YES
+                                                       responseType:@"JSON"
+                       ];
+}
+
 #pragma mark - Private Methods
 
 - (NSMutableURLRequest *)request {
@@ -326,6 +413,16 @@ static NSString *store_status_temp_file = @"StoreStatusTmpFile";
             [delegate storeStatusRetrieveDidFailWithError:error];
         }
     }
+    else if (requestInProgress == RequestInProgressFeatureAdv) {
+        if ([delegate respondsToSelector:@selector(featureAdvDidFailWithError:)]) {
+            [delegate featureAdvDidFailWithError:error];
+        }
+    }
+    else if (requestInProgress == RequestInProgressUnfeatureAdv) {
+        if ([delegate respondsToSelector:@selector(unfeatureAdvDidFailWithError:)]) {
+            [delegate unfeatureAdvDidFailWithError:error];
+        }
+    }
 
 }
 
@@ -376,14 +473,25 @@ static NSString *store_status_temp_file = @"StoreStatusTmpFile";
     }
     else if (requestInProgress == RequestInProgressGetStoreStatus) {
         NSDictionary *dataDic = ((NSArray *)result)[0][@"Data"];
-        storeForStatus.remainingDays = dataDic[@"RemainingDays"];
-        storeForStatus.remainingFreeFeatureAds = dataDic[@"RemainingFreeFeatureAds"];
+        storeForStatus.remainingDays = [dataDic[@"RemainingDays"] integerValue];
+        storeForStatus.remainingFreeFeatureAds = [dataDic[@"RemainingFreeFeatureAds"] integerValue];
         
         NSLog(@"%@",storeForStatus);
         if ([delegate respondsToSelector:@selector(storeStatusRetrieveDidFailWithError:)]) {
             [delegate storeStatusRetrieveDidSucceedWithStatus:storeForStatus];
         }
     }
+    else if (requestInProgress == RequestInProgressFeatureAdv) {
+        if ([delegate respondsToSelector:@selector(featureAdvDidSucceed)]) {
+            [delegate featureAdvDidSucceed];
+        }
+    }
+    else if (requestInProgress == RequestInProgressUnfeatureAdv) {
+        if ([delegate respondsToSelector:@selector(unfeatureAdvDidSucceed)]) {
+            [delegate unfeatureAdvDidSucceed];
+        }
+    }
+
 }
 
 @end

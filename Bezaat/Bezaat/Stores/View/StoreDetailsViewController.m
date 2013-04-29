@@ -7,11 +7,11 @@
 //
 
 #import "StoreDetailsViewController.h"
-#import "StoreAdvTableViewCell.h"
 #import "CarAd.h"
 
 @interface StoreDetailsViewController () {
     StoreManager *storeStatusManager;
+    StoreManager *advFeatureManager;
     
     MBProgressHUD2 *loadingHUD;
     IBOutlet UIToolbar *toolBar;
@@ -31,6 +31,8 @@
     BOOL loading;
     BOOL allAdsLoaded;
     NSInteger currentPage;
+    
+    NSInteger currentAdvID;
 }
 
 @end
@@ -78,6 +80,9 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
             [storeImage setNeedsDisplay];
         });
     });
+    
+    advFeatureManager = [[StoreManager alloc] init];
+    advFeatureManager.delegate = self;
 
     storeStatusManager = [[StoreManager alloc] init];
     storeStatusManager.delegate = self;
@@ -140,6 +145,10 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     [menueBtn4 setImage:[UIImage imageNamed:@"MyStore_menu4"] forState:UIControlStateNormal];
 }
 
+-(void) refereshRemainingFreeFreatureAdsLabel {
+    remainingFeatureAdsLabel.text = [NSString stringWithFormat:@". %d إعلانات مميزة باقية",currentStore.remainingFreeFeatureAds];
+}
+
 - (void) showLoadingIndicator {
     loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
     loadingHUD.mode = MBProgressHUDModeIndeterminate2;
@@ -161,7 +170,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     loading = YES;
 }
 
-#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)tableView:(UITableView *)_tableView numberOfRowsInSection:(NSInteger)section {
     return [currentStoreAds count];
@@ -174,9 +183,11 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreAdvTableViewCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
+        cell.delegate = self;
     }
     
     CarAd *adv = currentStoreAds[indexPath.row];
+    cell.advID = adv.adID;
     cell.imageURL = adv.thumbnailURL;
     cell.title = adv.title;
     cell.price = [NSString stringWithFormat:@"%f %@",adv.price,(adv.currencyString == nil)?@"":adv.currencyString];
@@ -196,7 +207,82 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     }
 }
 
-#pragma mark - StoreManagerDelegate
+#pragma mark - FeatureingDelegate Methods
+
+- (void)featureAdv:(NSInteger)advID {
+    if (currentStore.remainingFreeFeatureAds <= 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
+                                                        message:@"لقد تجاوزت عدد الإعلانات المحجوزة، بإمكانك إلغاء إعلان آخر ثم تمييز هذا الإعلان."
+                                                       delegate:self
+                                              cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if (currentStore.remainingDays < 3) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
+                                                        message:@"عدد الأيام المتبقية لديك غير كاف، قم بتجديد اشتراكك لتستطيع تمييز هذا الإعلان."
+                                                       delegate:self
+                                              cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else {
+        UIActionSheet *actionSheet = nil;
+        currentAdvID = advID;
+        if (currentStore.remainingDays < 7) {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                      delegate:self
+                                             cancelButtonTitle:@"إلغاء"
+                                        destructiveButtonTitle:nil
+                                             otherButtonTitles:@"٣ أيام", nil];
+        }
+        else if (currentStore.remainingDays < 28) {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                      delegate:self
+                                             cancelButtonTitle:@"إلغاء"
+                                        destructiveButtonTitle:nil
+                                             otherButtonTitles:@"٣ أيام", @"اسبوع", nil];
+        }
+        else {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                      delegate:self
+                                             cancelButtonTitle:@"إلغاء"
+                                        destructiveButtonTitle:nil
+                                             otherButtonTitles:@"٣ أيام", @"اسبوع", @"شهر", nil];
+        }
+        [actionSheet showInView:self.view];
+    }
+}
+
+- (void)unfeatureAdv:(NSInteger)advID {
+    [advFeatureManager unfeatureAdv:advID inStore:currentStore.identifier];
+    [self showLoadingIndicator];
+}
+
+#pragma mark - UIActionSheetDelegate Method
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (currentAdvID == 0) {
+        return;
+    }
+    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    NSInteger featureDays = 3;
+    if ([@"٣ أيام" isEqualToString:buttonTitle]) {
+        featureDays = 3;
+    }
+    else if ([@"اسبوع" isEqualToString:buttonTitle]) {
+        featureDays = 7;
+    }
+    else if ([@"شهر" isEqualToString:buttonTitle]) {
+        featureDays = 28;
+    }
+    [advFeatureManager featureAdv:currentAdvID
+                          inStore:currentStore.identifier
+                      featureDays:featureDays];
+    [self showLoadingIndicator];
+}
+
+#pragma mark - StoreManagerDelegate Methods
 
 - (void) storeAdsRetrieveDidFailWithError:(NSError *)error {
     loading = NO;
@@ -241,8 +327,67 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 
 - (void) storeStatusRetrieveDidSucceedWithStatus:(Store *)store {
     currentStore = store;
-    remainingFeatureAdsLabel.text = [NSString stringWithFormat:@". %@ إعلانات مميزة باقية",currentStore.remainingFreeFeatureAds];
-    remainingDaysLabel.text = [NSString stringWithFormat:@". %@ أيام متبقية",currentStore.remainingDays];
+    [self refereshRemainingFreeFreatureAdsLabel];
+    remainingDaysLabel.text = [NSString stringWithFormat:@". %d أيام متبقية",currentStore.remainingDays];
+}
+
+- (void) featureAdvDidFailWithError:(NSError *)error {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                    message:@"حدث خطأ في تمييز الإعلان"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self hideLoadingIndicator];
+}
+
+- (void) featureAdvDidSucceed {
+    currentStore.remainingFreeFeatureAds--;
+    for (CarAd *adv in currentStoreAds) {
+        if (adv.adID == currentAdvID) {
+            adv.isFeatured = YES;
+        }
+    }
+    [tableView reloadData];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"تم تمييز الإعلان"
+                                                    message:@"تم تمييز الإعلان بنجاح."
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self hideLoadingIndicator];
+}
+
+- (void) unfeatureAdvDidFailWithError:(NSError *)error {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                    message:@"حدث خطأ في إلغاء تمييز الإعلان"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self hideLoadingIndicator];
+}
+
+- (void) unfeatureAdvDidSucceed {
+    currentStore.remainingFreeFeatureAds++;
+    for (CarAd *adv in currentStoreAds) {
+        if (adv.adID == currentAdvID) {
+            adv.isFeatured = NO;
+        }
+    }
+    [tableView reloadData];
+    [self refereshRemainingFreeFreatureAdsLabel];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"تم إلغاء تمييز الإعلان"
+                                                    message:@"تم إلغاء تمييز الإعلان بنجاح."
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self hideLoadingIndicator];
 }
 
 @end

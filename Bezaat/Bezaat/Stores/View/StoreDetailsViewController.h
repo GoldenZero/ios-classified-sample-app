@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "StoreManager.h"
+#import "StoreAdvTableViewCell.h"
 
-@interface StoreDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,StoreManagerDelegate>
+@interface StoreDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,StoreManagerDelegate,FeatureingDelegate>
 
 @property (nonatomic, strong) Store *currentStore;
 

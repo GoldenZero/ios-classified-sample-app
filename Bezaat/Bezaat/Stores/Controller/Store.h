@@ -25,8 +25,8 @@
 
 @property (nonatomic, strong) NSString *desc;
 
-@property (nonatomic, strong) NSString *remainingDays;
-@property (nonatomic, strong) NSString *remainingFreeFeatureAds;
+@property (nonatomic) NSInteger remainingDays;
+@property (nonatomic) NSInteger remainingFreeFeatureAds;
 
 
 #pragma mark - actions
