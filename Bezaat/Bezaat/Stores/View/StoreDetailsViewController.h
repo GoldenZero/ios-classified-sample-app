@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "StoreManager.h"
 
-@interface StoreDetailsViewController : UIViewController<UITableViewDataSource,StoreManagerDelegate>
+@interface StoreDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,StoreManagerDelegate>
 
 @property (nonatomic, strong) Store *currentStore;
 

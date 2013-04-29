@@ -21,9 +21,12 @@
     IBOutlet UILabel *storeTitleLabel;
     IBOutlet UILabel *storeCityLabel;
     IBOutlet UILabel *storeMailLabel;
+    
     NSArray *currentStoreAds;
-    NSInteger pressedButtonIndex;
     NSString *storeAdsCurrentStatus;
+    BOOL loading;
+    BOOL allAdsLoaded;
+    NSInteger currentPage;
 }
 
 @end
@@ -56,6 +59,9 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     storeAdsCurrentStatus = StoreAdsStatusAll;
+    currentStoreAds = [NSArray array];
+    allAdsLoaded = NO;
+    currentPage = 1;
     [menueBtn1 setImage:[UIImage imageNamed:@"MyStore_menu1_select"] forState:UIControlStateNormal];
     
     NSURL *imageURL = [NSURL URLWithString:currentStore.imageURL];
@@ -74,8 +80,9 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     storeMailLabel.text = currentStore.ownerEmail;
 
     [StoreManager sharedInstance].delegate = self;
-    [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:1 status:storeAdsCurrentStatus];
+    [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:currentPage status:storeAdsCurrentStatus];
     [self showLoadingIndicator];
+    loading = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -110,7 +117,11 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
         storeAdsCurrentStatus = StoreAdsStatusInactive;
     }
     
-    
+    currentStoreAds = [NSArray array];
+    currentPage = 1;
+    allAdsLoaded = NO;
+    [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:currentPage status:storeAdsCurrentStatus];
+    [self showLoadingIndicator];
 }
 
 #pragma mark - Private Methods
@@ -134,6 +145,13 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     if (loadingHUD)
         [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
     loadingHUD = nil;
+}
+
+- (void)loadNextPage {
+    currentPage++;
+    
+    [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:currentPage status:storeAdsCurrentStatus];
+    loading = YES;
 }
 
 #pragma mark - UITableViewDataSource
@@ -160,9 +178,21 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     return cell;
 }
 
+#pragma mark - UITableViewDelegate Methods
+
+- (void) tableView:(UITableView *)_tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (allAdsLoaded || loading) {
+        return;
+    }
+    if (indexPath.row == ([_tableView numberOfRowsInSection:0] - 1)) {
+        [self loadNextPage];
+    }
+}
+
 #pragma mark - StoreManagerDelegate
 
 - (void) storeAdsRetrieveDidFailWithError:(NSError *)error {
+    loading = NO;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
                                                     message:@"حدث خطأ في تحميل المتاجر"
                                                    delegate:self
@@ -174,16 +204,27 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 }
 
 - (void) storeAdsRetrieveDidSucceedWithAds:(NSArray *)ads {
-    currentStoreAds = ads;
+    loading = NO;
+    currentStoreAds = [currentStoreAds arrayByAddingObjectsFromArray:ads];
     [tableView reloadData];
     [self hideLoadingIndicator];
-    if ([ads count] == 0) {
+    if ( ([ads count] == 0) && ([currentStoreAds count] == 0) ) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لا يوجد إعلانات"
                                                         message:@"لا يوجد إعلانات في هذا المتجر!"
                                                        delegate:self
                                               cancelButtonTitle:@"موافق"
                                               otherButtonTitles:nil];
         [alert show];
+        allAdsLoaded = YES;
+    }
+    if ( ([ads count] == 0) && ([currentStoreAds count] != 0) ) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لا يوجد إعلانات"
+                                                        message:@"تم تحميل جميع االإعلانات"
+                                                       delegate:self
+                                              cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil];
+        [alert show];
+        allAdsLoaded = YES;
     }
 }
 
