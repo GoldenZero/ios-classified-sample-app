@@ -100,9 +100,17 @@
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
     [self hideMenu];
-    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    vc.tagOfCallXib=2;
-    [self presentViewController:vc animated:YES completion:nil];
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (savedProfile) {
+        ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+        vc.tagOfCallXib=2;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else{
+        SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    
     
 }
 

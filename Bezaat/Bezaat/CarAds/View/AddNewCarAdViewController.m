@@ -53,6 +53,7 @@
     BOOL yearBtnPressedOnce;
     
     NSTimer *timer;
+    UIToolbar* numberToolbar;
 }
 
 @end
@@ -298,12 +299,30 @@
     [carDetails resignFirstResponder];
 }
 
+-(void)cancelNumberPad{
+    [mobileNum resignFirstResponder];
+    mobileNum.text = @"";
+}
+
+-(void)doneWithNumberPad{
+    [mobileNum resignFirstResponder];
+}
 
 - (void) addButtonsToXib{
     [self.verticalScrollView setContentSize:CGSizeMake(320 , 420)];
     [self.verticalScrollView setScrollEnabled:YES];
     [self.verticalScrollView setShowsVerticalScrollIndicator:YES];
     
+    numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
+    numberToolbar.barStyle = UIBarStyleBlackOpaque;
+    numberToolbar.items = [NSArray arrayWithObjects:
+                           [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelNumberPad)],
+                           [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                           [[UIBarButtonItem alloc]initWithTitle:@"Apply" style:UIBarButtonItemStyleDone target:self action:@selector(doneWithNumberPad)],
+                           nil];
+    [numberToolbar sizeToFit];
+    
+
     countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
     [countryCity setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
     [countryCity setTitle:@"اختر البلد" forState:UIControlStateNormal];
@@ -369,6 +388,7 @@
     [mobileNum setPlaceholder:@"رقم الجوال"];
     [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
     [self.verticalScrollView addSubview:mobileNum];
+     mobileNum.inputAccessoryView = numberToolbar;
     mobileNum.delegate=self;
 
        
@@ -451,6 +471,12 @@
 
 -(IBAction)showPicker
 {
+    [carAdTitle resignFirstResponder];
+    [mobileNum resignFirstResponder];
+    [carPrice resignFirstResponder];
+    [distance resignFirstResponder];
+    [carDetails resignFirstResponder];
+
     [self.pickersView setHidden:NO];
         [self.pickersView setHidden:NO];
         [UIView animateWithDuration:0.3 animations:^{
@@ -747,6 +773,10 @@
 
 }
 
+- (void) dismissSelfAfterFeaturing {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - UIActionSheet Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -836,6 +866,7 @@
     
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
     vc.currentAdID = adID;
+    vc.parentNewCarVC = self;
     [self presentViewController:vc animated:YES completion:nil];
     
 }
