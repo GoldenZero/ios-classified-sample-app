@@ -53,7 +53,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:1 status:storeAdsCurrentStatus];
-    [self showLoadingIndicator];
+//    [self showLoadingIndicator];
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,7 +71,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 - (IBAction)segmentedControllerValueChanged:(id)sender {
     [self resetSegmentedControlImages];
     
-    NSString *imageName = [NSString stringWithFormat:@"MyStore_menu%d_select",segmentedControl.selectedSegmentIndex];
+    NSString *imageName = [NSString stringWithFormat:@"MyStore_menu%d_select",segmentedControl.selectedSegmentIndex+1];
     [segmentedControl setImage:[UIImage imageNamed:imageName] forSegmentAtIndex:segmentedControl.selectedSegmentIndex];
     
     switch (segmentedControl.selectedSegmentIndex) {
@@ -97,7 +97,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 
 - (void) resetSegmentedControlImages {
     for (int i = 0; i < 4; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"MyStore_menu%d",i];
+        NSString *imageName = [NSString stringWithFormat:@"MyStore_menu%d",i+1];
         [segmentedControl setImage:[UIImage imageNamed:imageName] forSegmentAtIndex:i];
     }
 }
