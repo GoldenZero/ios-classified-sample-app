@@ -19,7 +19,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *priceLabel;
 @property (nonatomic, weak) IBOutlet UIButton *featureButton;
 
-@property (nonatomic, strong) NSString *imageURL;
+@property (nonatomic, strong) NSURL *imageURL;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *price;
 @property (nonatomic) BOOL isFeatured;

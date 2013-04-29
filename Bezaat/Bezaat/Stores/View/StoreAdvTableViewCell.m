@@ -26,21 +26,19 @@
 @synthesize priceLabel;
 @synthesize featureButton;
 
-- (NSString *)imageURL {
+- (NSURL *)imageURL {
     return imageURL;
 }
 
-- (void)setImageURL:(NSString *)_imageURL {
+- (void)setImageURL:(NSURL *)_imageURL {
     imageURL = _imageURL;
     if (imageURL == nil) {
         self.AdvImageView.image = nil;
         [self.AdvImageView setNeedsDisplay];
     }
     else {
-        NSURL *loadURL = [NSURL URLWithString:imageURL];
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSData *imageData = [NSData dataWithContentsOfURL:loadURL];
+            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 // Update the UI

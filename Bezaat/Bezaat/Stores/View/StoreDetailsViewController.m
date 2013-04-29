@@ -8,6 +8,7 @@
 
 #import "StoreDetailsViewController.h"
 #import "StoreAdvTableViewCell.h"
+#import "CarAd.h"
 
 @interface StoreDetailsViewController () {
     MBProgressHUD2 *loadingHUD;
@@ -53,7 +54,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:1 status:storeAdsCurrentStatus];
-//    [self showLoadingIndicator];
+    [self showLoadingIndicator];
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,8 +119,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+- (NSInteger)tableView:(UITableView *)_tableView numberOfRowsInSection:(NSInteger)section {
     return [currentStoreAds count];
 }
 
@@ -132,32 +132,40 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
         cell = [nib objectAtIndex:0];
     }
     
-//    currentStoreAds[indexPath.row];
-    cell.imageURL = currentStore.imageURL;
-    cell.title = @"نسيان ٩٧ رقم واحد خالي من الحوادث نهائيا , مكينة...";
-    cell.price = @"299,500 درهم";
-    cell.isFeatured = (indexPath.row % 2);
+    CarAd *adv = currentStoreAds[indexPath.row];
+    cell.imageURL = adv.thumbnailURL;
+    cell.title = adv.title;
+    cell.price = [NSString stringWithFormat:@"%f %@",adv.price,(adv.currencyString == nil)?@"":adv.currencyString];
+    cell.isFeatured = adv.isFeatured;
     
     return cell;
 }
 
 #pragma mark - StoreManagerDelegate
 
-//- (void) userStoresRetrieveDidFailWithError:(NSError *)error {
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
-//                                                    message:@"حدث خطأ في تحميل المتاجر"
-//                                                   delegate:self
-//                                          cancelButtonTitle:@"موافق"
-//                                          otherButtonTitles:nil];
-//    [alert show];
-//    
-//    [self hideLoadingIndicator];
-//}
-//
-//- (void) userStoresRetrieveDidSucceedWithStores:(NSArray *)stores {
-//    allUserStores = stores;
-//    [tableView reloadData];
-//    [self hideLoadingIndicator];
-//}
-//
+- (void) storeAdsRetrieveDidFailWithError:(NSError *)error {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                    message:@"حدث خطأ في تحميل المتاجر"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+
+    [self hideLoadingIndicator];
+}
+
+- (void) storeAdsRetrieveDidSucceedWithAds:(NSArray *)ads {
+    currentStoreAds = ads;
+    [tableView reloadData];
+    [self hideLoadingIndicator];
+    if ([ads count] == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لا يوجد إعلانات"
+                                                        message:@"لا يوجد إعلانات في هذا المتجر!"
+                                                       delegate:self
+                                              cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
 @end

@@ -81,6 +81,7 @@
 
 - (NSInteger) getIndexOfAd:(NSUInteger) adID inArray:(NSArray *) adsArray;
 
+- (NSArray * ) createCarAdsArrayWithData:(NSArray *) data;
 
 //search & filter
 - (void) searchCarAdsOfPage:(NSUInteger) pageNum

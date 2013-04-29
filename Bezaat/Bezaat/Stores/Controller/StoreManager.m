@@ -7,11 +7,13 @@
 //
 
 #import "StoreManager.h"
+#import "CarAdsManager.h"
 
 typedef enum {
     RequestInProgressCreateStore,
     RequestInProgressUploadLOGO,
-    RequestInProgressGetUserStores
+    RequestInProgressGetUserStores,
+    RequestInProgressGetStoreAds
 } RequestInProgress;
 
 @interface StoreManager () {
@@ -25,9 +27,11 @@ typedef enum {
 static NSString *create_store_url = @"/json/create-store";
 static NSString *upload_logo_url = @"/json/upload-logo";
 static NSString *get_user_stores_url = @"/json/user-stores";
+static NSString *my_store_ads_url = @"/json/my-store-ads";
 static NSString *create_store_temp_file = @"createStoreTmpFile";
 static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
 static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
+static NSString *my_store_ads_temp_file = @"myStoreAdsTmpFile";
 
 @synthesize delegate;
 
@@ -38,7 +42,7 @@ static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
         create_store_url = [API_MAIN_URL stringByAppendingString:create_store_url];
         upload_logo_url = [API_MAIN_URL stringByAppendingString:upload_logo_url];
         get_user_stores_url = [API_MAIN_URL stringByAppendingString:get_user_stores_url];
-        
+        my_store_ads_url = [API_MAIN_URL stringByAppendingString:my_store_ads_url];
     }
     return instance;
 }
@@ -179,6 +183,30 @@ static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
 }
 
 - (void)getStoreAds:(NSInteger)storeID page:(NSInteger)pageNumber status:(NSString *)status {
+    requestInProgress = RequestInProgressGetStoreAds;
+    
+    //1- check connectivity
+    if (![self checkConnectivity]) {
+        return;
+    }
+    
+    //2- start the request
+    NSMutableURLRequest *request = [self request];
+    
+    if (request == nil) {
+        [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
+        return;
+    }
+    NSString *urlString  = [NSString stringWithFormat:@"%@?pageno=%d&pagesize=10&status=%@&storeid=%d",my_store_ads_url,pageNumber,status,storeID];
+    [request setURL:[NSURL URLWithString:urlString]];
+    
+    // start the request
+    internetManager = [[InternetManager alloc] initWithTempFileName:my_store_ads_temp_file
+                                                         urlRequest:request
+                                                           delegate:self
+                                                   startImmediately:YES
+                                                       responseType:@"JSON"
+                       ];
     
 }
 
@@ -256,6 +284,12 @@ static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
             [delegate userStoresRetrieveDidFailWithError:error];
         }
     }
+    else if (requestInProgress == RequestInProgressGetStoreAds) {
+        if ([delegate respondsToSelector:@selector(storeAdsRetrieveDidFailWithError:)]) {
+            [delegate storeAdsRetrieveDidFailWithError:error];
+        }
+    }
+
 }
 
 - (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*)result {
@@ -295,6 +329,12 @@ static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
         }
         if ([delegate respondsToSelector:@selector(userStoresRetrieveDidSucceedWithStores:)]) {
             [delegate userStoresRetrieveDidSucceedWithStores:stores];
+        }
+    }
+    else if (requestInProgress == RequestInProgressGetStoreAds) {
+        NSArray *ads = [[CarAdsManager sharedInstance] createCarAdsArrayWithData:(NSArray *)result];
+        if ([delegate respondsToSelector:@selector(storeAdsRetrieveDidSucceedWithAds:)]) {
+            [delegate storeAdsRetrieveDidSucceedWithAds:ads];
         }
     }
 }

@@ -17,6 +17,8 @@
 - (void) storeLOGOUploadDidSucceedWithImageURL:(NSString *)imageURL;
 - (void) userStoresRetrieveDidFailWithError:(NSError *)error;
 - (void) userStoresRetrieveDidSucceedWithStores:(NSArray *)stores;
+- (void) storeAdsRetrieveDidFailWithError:(NSError *)error;
+- (void) storeAdsRetrieveDidSucceedWithAds:(NSArray *)ads;
 @end
 
 @interface StoreManager : NSObject <DataDelegate>
