@@ -13,6 +13,11 @@
     NSString *price;
     NSURL *imageURL;
     BOOL isFeatured;
+    
+    NSInteger postedSince;
+    NSInteger modelYear;
+    NSInteger distanceRange;
+    NSInteger viewCount;
 }
 
 @end
@@ -24,6 +29,10 @@
 @synthesize AdvImageView;
 @synthesize titleLabel;
 @synthesize priceLabel;
+@synthesize postedSinceLabel;
+@synthesize modelYearLabel;
+@synthesize distanceRangeLabel;
+@synthesize viewCountLabel;
 @synthesize featureButton;
 
 - (NSURL *)imageURL {
@@ -83,6 +92,54 @@
         bgImageView.image = [UIImage imageNamed:@"MyStore_box_bg"];
         featureTagImageView.hidden = YES;
     }
+}
+
+- (NSInteger)postedSince {
+    return postedSince;
+}
+
+- (void)setPostedSince:(NSInteger)since {
+    postedSince = since;
+    NSString *unit = @"ساعة";
+    if ( (postedSince <= 10) && (postedSince >= 3) ) {
+        unit = @"ساعات";
+    }
+    if (postedSince > 23) {
+        unit = @"يوم";
+        postedSince = postedSince/24;
+    }
+    postedSinceLabel.text = [NSString stringWithFormat:@"قبل %d %@", postedSince, unit];
+    [postedSinceLabel setNeedsDisplay];
+}
+
+- (NSInteger)modelYear {
+    return modelYear;
+}
+
+- (void)setModelYear:(NSInteger)year {
+    modelYear = year;
+    modelYearLabel.text = [NSString stringWithFormat:@"%d", modelYear];
+    [modelYearLabel setNeedsDisplay];
+}
+
+- (NSInteger)distanceRange {
+    return distanceRange;
+}
+
+- (void)setDistanceRange:(NSInteger)distance {
+    distanceRange = distance;
+    distanceRangeLabel.text = [NSString stringWithFormat:@"%d KM", distanceRange];
+    [distanceRangeLabel setNeedsDisplay];
+}
+
+- (NSInteger)viewCount {
+    return viewCount;
+}
+
+- (void)setViewCount:(NSInteger)count {
+    viewCount = count;
+    viewCountLabel.text = [NSString stringWithFormat:@"%d", viewCount];
+    [viewCountLabel setNeedsDisplay];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
