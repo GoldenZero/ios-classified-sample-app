@@ -13,6 +13,7 @@
 @interface BrowseStoresViewController () {
     NSArray *allUserStores;
     MBProgressHUD2 *loadingHUD;
+    IBOutlet UIToolbar *toolBar;
     IBOutlet UITableView *tableView;
 }
 
@@ -37,6 +38,8 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getUserStores];
     [self showLoadingIndicator];

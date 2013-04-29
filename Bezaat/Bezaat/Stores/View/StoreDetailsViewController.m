@@ -12,6 +12,7 @@
 
 @interface StoreDetailsViewController () {
     MBProgressHUD2 *loadingHUD;
+    IBOutlet UIToolbar *toolBar;
     IBOutlet UITableView *tableView;
     IBOutlet UIButton *menueBtn1;
     IBOutlet UIButton *menueBtn2;
@@ -58,6 +59,8 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+
     storeAdsCurrentStatus = StoreAdsStatusAll;
     currentStoreAds = [NSArray array];
     allAdsLoaded = NO;

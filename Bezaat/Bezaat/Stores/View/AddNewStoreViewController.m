@@ -18,6 +18,7 @@
     UITapGestureRecognizer *tap;
     MBProgressHUD2 *loadingHUD;
     
+    IBOutlet UIToolbar *toolBar;
     IBOutlet UIImageView *storeImageView;
     IBOutlet UITextField *nameField;
     IBOutlet UITextView *descriptionField;
@@ -43,6 +44,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+
     CGRect frame = placeholderTextField.frame;
     frame.size.height = descriptionField.frame.size.height;
     placeholderTextField.frame = frame;
