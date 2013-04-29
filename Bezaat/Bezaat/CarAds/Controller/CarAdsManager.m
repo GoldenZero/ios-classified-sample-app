@@ -603,6 +603,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     
+    //passing device token as a http header request
+    NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+    [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+    
     // setting the body of the post to the reqeust
     [request setHTTPBody:body];
     
@@ -703,10 +707,12 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              ];
 
         
+        
         /*
-        NSString * prePost = @"524=text&523=نص&507=987123&502=1189&520=3210987456&508=1235&505=830&509=1207&518=321789&528=&868=&907=1&1076=2675&952=1553&ImagesID=\"7730822, 7730862\"";
+        NSString * prePost = @"524=text&523=نص&507=987123&502=1189&520=3210987456&508=1235&505=830&509=1207&518=321789&528=&868=&907=1&1076=2675&952=1553&ImagesID=7730822,7730862";
+        */
 
-         */
+        
         NSString * post = [prePost stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
         NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];

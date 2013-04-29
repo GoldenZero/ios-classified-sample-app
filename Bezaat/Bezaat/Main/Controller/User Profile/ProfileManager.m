@@ -151,6 +151,11 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    //passing device token as a http header request
+    NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+    [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+    
     [request setHTTPBody:postData];
     
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
