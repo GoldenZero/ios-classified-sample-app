@@ -8,6 +8,7 @@
 
 #import "BrowseStoresViewController.h"
 #import "StoreTableViewCell.h"
+#import "StoreDetailsViewController.h"
 
 @interface BrowseStoresViewController () {
     NSArray *allUserStores;
@@ -69,7 +70,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     loadingHUD = nil;
 }
 
-#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [allUserStores count];
@@ -92,7 +93,16 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     return cell;
 }
 
-#pragma mark - StoreManagerDelegate
+#pragma mark - UITableViewDelegate Methods
+
+- (void)tableView:(UITableView *)_tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
+    vc.currentStore = allUserStores[indexPath.row];
+    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+#pragma mark - StoreManagerDelegate Methods
 
 - (void) userStoresRetrieveDidFailWithError:(NSError *)error {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
