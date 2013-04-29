@@ -35,4 +35,6 @@
 
 - (void)getUserStores;
 
+- (void)getStoreAds:(NSInteger)storeID page:(NSInteger)pageNumber status:(NSString *)status;
+
 @end

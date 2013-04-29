@@ -178,6 +178,10 @@ static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
                        ];
 }
 
+- (void)getStoreAds:(NSInteger)storeID page:(NSInteger)pageNumber status:(NSString *)status {
+    
+}
+
 #pragma mark - Private Methods
 
 - (NSMutableURLRequest *)request {
