@@ -39,6 +39,7 @@
     CLLocationManager * deviceLocationDetector;
     
     NSUInteger defaultIndex;
+    NSUInteger defaultCityIndex;
 
     //These objects should be set bt selecting the drop down menus.
     SingleValue * chosenCurrency;
@@ -122,93 +123,32 @@
  
 }
 #pragma mark - location handler.
+
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
     countryArray=resultArray;
     [self hideLoadingIndicator];
     
     // Setting default country
-    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    //defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
     if  (defaultIndex!= -1){
         chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
         cityArray=[chosenCountry cities];
         if (cityArray && cityArray.count)
-            chosenCity=[cityArray objectAtIndex:0];//set initial chosen city
+        {
+            defaultCityIndex = [locationMngr getIndexOfCity:[[SharedUser sharedInstance] getUserCityID] inCountry:chosenCountry];
+            if (defaultCityIndex != -1)
+                chosenCity=[cityArray objectAtIndex:defaultCityIndex];
+            else
+                chosenCity=[cityArray objectAtIndex:0];
+        }
         [self.locationPickerView reloadAllComponents];
-
     }
     
 }
 
 // This method loads the device location initialli, and afterwards the loading of country lists comes after
 - (void) loadData {
-    
-    if (![GenericMethods connectedToInternet])
-    {
-        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
-        [locationMngr loadCountriesAndCitiesWithDelegate:self];
-        return;
-    }
-    
-    if ([CLLocationManager locationServicesEnabled])
-    {
-        if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
-            ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized))
-        {
-            if (!deviceLocationDetector)
-                deviceLocationDetector = [[CLLocationManager alloc] init];
-            
-            [self showLoadingIndicator];
-            deviceLocationDetector.delegate = self;
-            deviceLocationDetector.distanceFilter = 500;
-            deviceLocationDetector.desiredAccuracy = kCLLocationAccuracyKilometer;
-            deviceLocationDetector.pausesLocationUpdatesAutomatically = YES;
-            
-            [deviceLocationDetector startUpdatingLocation];
-        }
-        else
-        {
-            [LocationManager sharedInstance].deviceLocationCountryCode = @"";
-            [locationMngr loadCountriesAndCitiesWithDelegate:self];
-        }
-    }
-    else
-    {
-        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
-        [locationMngr loadCountriesAndCitiesWithDelegate:self];
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
-    [deviceLocationDetector stopUpdatingLocation];
-    
-    //currentLocation = newLocation;
-    
-    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        
-        MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
-        NSString * code = mark.countryCode;
-
-        [LocationManager sharedInstance].deviceLocationCountryCode = code;
-        
-        [locationMngr loadCountriesAndCitiesWithDelegate:self];
-        
-        //self initialize drop down lists
-        [self.locationPickerView reloadAllComponents];
-
-    }];
-    
-}
-
-- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:error.localizedDescription delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-    [alert show];
-    
-    [deviceLocationDetector stopUpdatingLocation];
-    
-    [LocationManager sharedInstance].deviceLocationCountryCode = @"";
     
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
 }
@@ -625,7 +565,10 @@
 
     if (defaultIndex!=-1) {
         [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
+        if (defaultCityIndex != -1)
+            [self.locationPickerView selectRow:defaultCityIndex inComponent:1 animated:YES];
     }
+    
     [self.locationPickerView reloadAllComponents];
     
     locationBtnPressedOnce = YES;
