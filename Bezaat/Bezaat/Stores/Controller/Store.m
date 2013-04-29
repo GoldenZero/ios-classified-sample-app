@@ -21,4 +21,9 @@
 
 @synthesize desc;
 
+- (NSString *)countryName {
+    Country * ctr = [[LocationManager sharedInstance] getCountryByID:self.countryID];
+    return ctr.countryName;
+}
+
 @end

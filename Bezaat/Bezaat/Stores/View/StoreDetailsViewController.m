@@ -13,8 +13,16 @@
 @interface StoreDetailsViewController () {
     MBProgressHUD2 *loadingHUD;
     IBOutlet UITableView *tableView;
-    IBOutlet UISegmentedControl *segmentedControl;
+    IBOutlet UIButton *menueBtn1;
+    IBOutlet UIButton *menueBtn2;
+    IBOutlet UIButton *menueBtn3;
+    IBOutlet UIButton *menueBtn4;
+    IBOutlet UIImageView *storeImage;
+    IBOutlet UILabel *storeTitleLabel;
+    IBOutlet UILabel *storeCityLabel;
+    IBOutlet UILabel *storeMailLabel;
     NSArray *currentStoreAds;
+    NSInteger pressedButtonIndex;
     NSString *storeAdsCurrentStatus;
 }
 
@@ -47,11 +55,24 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    CGRect frame = segmentedControl.frame;
-    frame.size.height = 35;
-    segmentedControl.frame = frame;
     storeAdsCurrentStatus = StoreAdsStatusAll;
+    [menueBtn1 setImage:[UIImage imageNamed:@"MyStore_menu1_select"] forState:UIControlStateNormal];
     
+    NSURL *imageURL = [NSURL URLWithString:currentStore.imageURL];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Update the UI
+            storeImage.image = [UIImage imageWithData:imageData];
+            [storeImage setNeedsDisplay];
+        });
+    });
+
+    storeTitleLabel.text = currentStore.name;
+    storeCityLabel.text = currentStore.countryName;
+    storeMailLabel.text = currentStore.ownerEmail;
+
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:1 status:storeAdsCurrentStatus];
     [self showLoadingIndicator];
@@ -69,38 +90,36 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)segmentedControllerValueChanged:(id)sender {
-    [self resetSegmentedControlImages];
-    
-    NSString *imageName = [NSString stringWithFormat:@"MyStore_menu%d_select",segmentedControl.selectedSegmentIndex+1];
-    [segmentedControl setImage:[UIImage imageNamed:imageName] forSegmentAtIndex:segmentedControl.selectedSegmentIndex];
-    
-    switch (segmentedControl.selectedSegmentIndex) {
-        case 0:
-            storeAdsCurrentStatus = StoreAdsStatusAll;
-            break;
-        case 1:
-            storeAdsCurrentStatus = StoreAdsStatusFeaturedAds;
-            break;
-        case 2:
-            storeAdsCurrentStatus = StoreAdsStatusActive;
-            break;
-        case 3:
-            storeAdsCurrentStatus = StoreAdsStatusInactive;
-            break;
-            
-        default:
-            break;
+- (IBAction)menueBtnPress:(id)sender {
+    [self resetButtonsImages];
+
+    if (sender == menueBtn1) {
+        [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu1_select"] forState:UIControlStateNormal];
+        storeAdsCurrentStatus = StoreAdsStatusAll;
     }
+    else if (sender == menueBtn2) {
+        [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu2_select"] forState:UIControlStateNormal];
+        storeAdsCurrentStatus = StoreAdsStatusFeaturedAds;
+    }
+    else if (sender == menueBtn3) {
+        [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu3_select"] forState:UIControlStateNormal];
+        storeAdsCurrentStatus = StoreAdsStatusActive;
+    }
+    else if (sender == menueBtn4) {
+        [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu4_select"] forState:UIControlStateNormal];
+        storeAdsCurrentStatus = StoreAdsStatusInactive;
+    }
+    
+    
 }
 
 #pragma mark - Private Methods
 
-- (void) resetSegmentedControlImages {
-    for (int i = 0; i < 4; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"MyStore_menu%d",i+1];
-        [segmentedControl setImage:[UIImage imageNamed:imageName] forSegmentAtIndex:i];
-    }
+- (void) resetButtonsImages {
+    [menueBtn1 setImage:[UIImage imageNamed:@"MyStore_menu1"] forState:UIControlStateNormal];
+    [menueBtn2 setImage:[UIImage imageNamed:@"MyStore_menu2"] forState:UIControlStateNormal];
+    [menueBtn3 setImage:[UIImage imageNamed:@"MyStore_menu3"] forState:UIControlStateNormal];
+    [menueBtn4 setImage:[UIImage imageNamed:@"MyStore_menu4"] forState:UIControlStateNormal];
 }
 
 - (void) showLoadingIndicator {

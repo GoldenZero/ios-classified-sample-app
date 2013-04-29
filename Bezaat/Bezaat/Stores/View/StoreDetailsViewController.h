@@ -14,6 +14,6 @@
 @property (nonatomic, strong) Store *currentStore;
 
 - (IBAction)backBtnPress:(id)sender;
-- (IBAction)segmentedControllerValueChanged:(id)sender;
+- (IBAction)menueBtnPress:(id)sender;
 
 @end

@@ -87,7 +87,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     
     Store *store = [allUserStores objectAtIndex:indexPath.row];
     cell.name = store.name;
-    cell.country = [NSString stringWithFormat:@"c%d",store.countryID];
+    cell.country = store.countryName;
     cell.logoURL = store.imageURL;
     
     return cell;
