@@ -18,6 +18,7 @@
 - (IBAction)laterBtnPressed:(id)sender;
 - (IBAction)labelAdBtnPressed:(id)sender;
 - (IBAction)explainAdBtnPrss:(id)sender;
+- (IBAction)noServiceBackBtnPrss:(id)sender;
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -25,6 +26,7 @@
 @property (nonatomic) NSInteger currentAdID;
 @property (weak, nonatomic) IBOutlet UIButton *laterBtn;
 @property (weak, nonatomic) IBOutlet UIButton *nowBtn;
+@property (strong, nonatomic) IBOutlet UIView *noServiceView;
 
 @property (strong, nonatomic) AddNewCarAdViewController * parentNewCarVC;
 

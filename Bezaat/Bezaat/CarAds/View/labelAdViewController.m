@@ -116,6 +116,11 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     [self presentViewController:vc animated:YES completion:nil];
 }
 
+- (IBAction)noServiceBackBtnPrss:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+}
+
 
 
 #pragma mark - handle table
@@ -330,7 +335,7 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     }
     else
     {
-        //NOOR: set the background of sad face
+        [self.noServiceView setHidden:NO];
     }
 }
 
