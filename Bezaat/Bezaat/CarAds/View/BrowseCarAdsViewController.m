@@ -644,7 +644,7 @@
             //check featured
             if (carAdObject.isFeatured)
             {
-                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@""]];
+                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
@@ -737,7 +737,7 @@
             if (carAdObject.isFeatured)
             {
                 
-                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@""]];
+                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
