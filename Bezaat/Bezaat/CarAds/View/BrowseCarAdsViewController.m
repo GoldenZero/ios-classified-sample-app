@@ -19,6 +19,7 @@
 #import "whyLabelAdViewController.h"
 
 @interface BrowseCarAdsViewController (){
+    
     bool searchBtnFlag;
     float lastContentOffset;
     UITapGestureRecognizer *tap;
@@ -48,6 +49,11 @@
     DistanceRange *distanceObj;
     NSString *fromYearString;
     NSString *toYearString;
+    NSString *currentMinPriceString;
+    NSString *currentMaxPriceString;
+    NSInteger currentDistanceRangeID;
+    
+    CGSize tableDataSize;
     
     BOOL isSearching;
 }
@@ -56,6 +62,8 @@
 
 @implementation BrowseCarAdsViewController
 @synthesize tableView,currentModel;
+@synthesize lastScrollPosition, tableContainer;
+//@synthesize tableScrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -88,15 +96,19 @@
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
     [self.tableView setSeparatorColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
+    
+    
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
     [self.searchPanelView addGestureRecognizer:tap];
     
+    /*
     tapCloseSearch= [[UITapGestureRecognizer alloc]
                      initWithTarget:self
                      action:@selector(dismissSearch)];
     [self.forTapping addGestureRecognizer:tapCloseSearch];
+    */
     
     [super viewDidLoad];
     [self setButtonsToToolbar];
@@ -116,6 +128,8 @@
     //hide the scrolling indicator
     [self.tableView setShowsVerticalScrollIndicator:NO];
     //[self.tableView setScrollEnabled:NO];
+    tableDataSize = CGSizeZero;
+    self.lastScrollPosition = CGPointZero;
     
     dataLoadedFromCache = NO;
     isRefreshing = NO;
@@ -135,14 +149,32 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    
+    //[self.tableView setScrollEnabled:NO];
+    [self.tableView setNeedsDisplay];
     [self.tableView reloadData];
-    self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
+    
+    if (!CGSizeEqualToSize(tableDataSize, CGSizeZero))
+    {
+        /*
+        NSLog(@"size: h= %f, w =%f", self.tableView.frame.size.height, self.tableView.frame.size.width);
+        self.tableView.contentSize = tableDataSize;
+        NSLog(@"content size: h= %f, w =%f", self.tableView.contentSize.height, self.tableView.contentSize.width);
+        */
+        self.tableView.contentSize = tableDataSize;
+        self.tableView.contentOffset = self.lastScrollPosition;
+    }
+    
+
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
     
-    //4- cache the data
+    self.lastScrollPosition = self.tableView.contentOffset;
+    tableDataSize = self.tableView.contentSize;
+    
+    //cache the data
     if (carAdsArray && carAdsArray.count)
     {
         if (!isSearching)
@@ -163,8 +195,11 @@
                                                        forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
         }
     }
+    
     [self.searchPanelView setHidden:YES];
     [self.searchImageButton setHidden:YES];
+    
+    //[super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -173,7 +208,40 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+/*
+- (void) presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion {
+
+    NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
+    NSLog(@"content: w = %f, h = %f", self.tableView.contentSize.width, self.tableView.contentSize.height);
+    NSLog(@"(%f, %f)", self.tableView.contentOffset.x, self.tableView.contentOffset.y);
+    
+    self.lastScrollPosition = self.tableView.contentOffset;
+    tableDataSize = self.tableView.contentSize;
+    
+    [super presentViewController:viewControllerToPresent animated:flag completion:completion];
+}
+ */
+
+/*
+- (void) dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
+
+    NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
+    NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
+    NSLog(@"content: w = %f, h = %f", self.tableView.contentSize.width, self.tableView.contentSize.height);
+    NSLog(@"(%f, %f)", self.tableView.contentOffset.x, self.tableView.contentOffset.y);
+    
+    self.lastScrollPosition = self.tableView.contentOffset;
+    tableDataSize = self.tableView.contentSize;
+
+    
+    [super dismissViewControllerAnimated:flag completion:completion];
+}
+*/
 #pragma mark - tableView handlig
+
+
+
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     //ad with image
@@ -205,7 +273,6 @@
     
     if (carAdsArray)
     {
-        //[self scrollToTheBottom];
         return carAdsArray.count;
     }
     return 0;
@@ -661,16 +728,26 @@
     
     vc.currentAdID =  carAdObject.adID;
     vc.parentVC = self;
+    
+    
+    
     [self presentViewController:vc animated:YES completion:nil];
     
-    
 }
+
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.row == ([self.tableView numberOfRowsInSection:0] - 1))
     {
-        //if (!dataLoadedFromCache)
-        [self loadPageOfAds];
+        if (self.tableView.contentSize.height > self.tableView.frame.size.height)//to prevent continue loading if the page has returned less than 10 objects
+        {
+            if (isSearching) {
+                [self searchPageOfAds];
+            }
+            else {
+                [self loadPageOfAds];
+            }
+        }
     }
 }
 
@@ -707,6 +784,7 @@
 }
 - (void)featureAdSteps{
     whyLabelAdViewController *vc=[[whyLabelAdViewController alloc] initWithNibName:@"whyLabelAdViewController" bundle:nil];
+    
     [self presentViewController:vc animated:YES completion:nil];
     
 }
@@ -856,8 +934,11 @@
     //CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+    
     //COME BACK HERE
+    
     //set the ad ID according to indexPath
+    
     [self presentViewController:vc animated:YES completion:nil];
 }
 - (void) showLoadingIndicator {
@@ -878,6 +959,52 @@
     
 }
 
+- (void) searchPageOfAds {
+    dataLoadedFromCache = NO;
+    isSearching = YES;
+    
+    //show loading indicator
+    [self showLoadingIndicator];
+    
+    //load a page of data
+    NSInteger page = [[CarAdsManager sharedInstance] nextPage];
+    
+    if (currentModel)
+    {
+        [self searchOfPage:page
+                  forBrand:currentModel.brandID
+                     Model:currentModel.modelID
+                    InCity:[[SharedUser sharedInstance] getUserCityID]
+                  textTerm:self.carNameText.text
+                  minPrice:currentMinPriceString
+                  maxPrice:currentMaxPriceString
+           distanceRangeID:currentDistanceRangeID
+                  fromYear:fromYearString
+                    toYear:toYearString
+                      area:@""
+                   orderby:@""
+             lastRefreshed:@""];
+    }
+    else
+    {
+        
+        [self searchOfPage:page
+                  forBrand:-1
+                     Model:-1
+                    InCity:[[SharedUser sharedInstance] getUserCityID]
+                  textTerm:self.carNameText.text
+                  minPrice:currentMinPriceString
+                  maxPrice:currentMaxPriceString
+           distanceRangeID:currentDistanceRangeID
+                  fromYear:fromYearString
+                    toYear:toYearString
+                      area:@""
+                   orderby:@""
+             lastRefreshed:@""];
+    }
+    
+    
+}
 - (void) loadPageOfAds {
     dataLoadedFromCache = NO;
     
@@ -924,7 +1051,7 @@
         
         //refresh table data
         [self.tableView reloadData];
-        //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        //self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
         [self.tableView setContentOffset:CGPointZero animated:YES];
         
         dataLoadedFromCache = YES;
@@ -941,6 +1068,7 @@
 }
 
 - (void) refreshAds:(ODRefreshControl *)refreshControl {
+
     
     //NSLog(@"refresher released!");
     //1- clear cache
@@ -967,16 +1095,10 @@
     
     //4- reload
     isRefreshing = YES;
-    [self loadPageOfAds];
-}
-
-- (void)scrollToTheBottom
-{
-    if (self.tableView.contentSize.height > self.tableView.frame.size.height)
-    {
-        CGPoint offset = CGPointMake(0,self.tableView.contentSize.height-self.tableView.frame.size.height);
-        [self.tableView setContentOffset:offset animated:YES];
-    }
+    if (isSearching)
+        [self searchPageOfAds];
+    else
+        [self loadPageOfAds];
 }
 
 - (BOOL) validateStringYearsFrom:(NSString *) fromString To:(NSString *) toString {
@@ -1093,6 +1215,8 @@
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender {
     ChooseActionViewController *homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    
+    
     [self presentViewController:homeVC animated:YES completion:nil];
 }
 
@@ -1125,6 +1249,7 @@
     
     ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
     popover.tagOfCallXib=1;
+
     
     [self presentViewController:popover animated:YES completion:nil];
     
@@ -1179,18 +1304,15 @@
         return;
     }
     
-    NSString * minPriceString;
-    NSString * maxPriceString;
-    
     if ([self.lowerPriceText.text isEqualToString:@""])
-        minPriceString = self.lowerPriceText.text;
+        currentMinPriceString = self.lowerPriceText.text;
     else
-        minPriceString = [NSString stringWithFormat:@"%i", self.lowerPriceText.text.integerValue];
+        currentMinPriceString = [NSString stringWithFormat:@"%i", self.lowerPriceText.text.integerValue];
     
     if ([self.higherPriceText.text isEqualToString:@""])
-        maxPriceString = self.higherPriceText.text;
+        currentMaxPriceString = self.higherPriceText.text;
     else
-        maxPriceString = [NSString stringWithFormat:@"%i", self.higherPriceText.text.integerValue];
+        currentMaxPriceString = [NSString stringWithFormat:@"%i", self.higherPriceText.text.integerValue];
     
     //1- reset the pageNumber to 0 to start a new search
     [[CarAdsManager sharedInstance] setCurrentPageNum:0];
@@ -1198,9 +1320,9 @@
     
     NSInteger page = [[CarAdsManager sharedInstance] nextPage];
     
-    NSInteger distanceRangeID = -1;
+    currentDistanceRangeID = -1;
     if (distanceObj)
-        distanceRangeID = distanceObj.rangeID;
+        currentDistanceRangeID = distanceObj.rangeID;
     
     
     //2- load search data
@@ -1215,9 +1337,9 @@
                      Model:currentModel.modelID
                     InCity:[[SharedUser sharedInstance] getUserCityID]
                   textTerm:self.carNameText.text
-                  minPrice:minPriceString
-                  maxPrice:maxPriceString
-           distanceRangeID:distanceRangeID
+                  minPrice:currentMinPriceString
+                  maxPrice:currentMaxPriceString
+           distanceRangeID:currentDistanceRangeID
                   fromYear:fromYearString
                     toYear:toYearString
                       area:@""
@@ -1235,9 +1357,9 @@
                      Model:-1
                     InCity:[[SharedUser sharedInstance] getUserCityID]
                   textTerm:self.carNameText.text
-                  minPrice:minPriceString
-                  maxPrice:maxPriceString
-           distanceRangeID:distanceRangeID
+                  minPrice:currentMinPriceString
+                  maxPrice:currentMaxPriceString
+           distanceRangeID:currentDistanceRangeID
                   fromYear:fromYearString
                     toYear:toYearString
                       area:@""
@@ -1371,11 +1493,12 @@
         [refreshControl endRefreshing];
     }
     [self.nocarImg setHidden:NO];
+    [self.tableContainer setHidden:YES];
 }
 
 - (void) adsDidFinishLoadingWithData:(NSArray *)resultArray {
     //1- hide the loading indicator
-    [self hideLoadingIndicator];
+    
     if (isRefreshing)
     {
         isRefreshing = NO;
@@ -1383,25 +1506,35 @@
     }
     
     //2- append the newly loaded ads
-    if (resultArray)
+    if (resultArray && resultArray.count)
     {
         [self.nocarImg setHidden:YES];
+        [self.tableContainer setHidden:NO];
         for (CarAd * newAd in resultArray)
         {
             NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:newAd.adID inArray:carAdsArray];
             if (index == -1)
                 [carAdsArray addObject:newAd];
         }
-        
     }
-    if ((resultArray.count==0) ||(!resultArray)){
-        [self.nocarImg setHidden:NO];
+    else
+    {
+        if ((!carAdsArray) || (carAdsArray.count == 0))
+        {
+            [self.nocarImg setHidden:NO];
+            [self.tableContainer setHidden:YES];
+        }
     }
     
     //3- refresh table data
     [self.tableView reloadData];
-    //[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    //[self.tableView setContentOffset:CGPointZero animated:YES];
+    //self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
+    if ([carAdsArray count] <= 10 && [carAdsArray count] != 0) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [self.tableView setContentOffset:CGPointZero animated:YES];
+    }
+    
+    [self hideLoadingIndicator];
     
 }
 
@@ -1803,12 +1936,14 @@
         }
         case 2:{
             [self.fromYearLabel setText:[fromYearArray objectAtIndex:returnIndex ]];
-            fromYearString=[fromYearArray objectAtIndex:returnIndex];
+            fromYearString= [NSString stringWithFormat:@"%@",
+            [fromYearArray objectAtIndex:returnIndex]];
             break;
         }
         case 3:{
             [self.toYearLabel setText:[toYearArray objectAtIndex:returnIndex ]];
-            toYearString=[toYearArray objectAtIndex:returnIndex ];
+            toYearString=[NSString stringWithFormat:@"%@",
+            [toYearArray objectAtIndex:returnIndex ]];
             break;
         }
         default:

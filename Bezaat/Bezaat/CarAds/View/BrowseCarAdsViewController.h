@@ -45,6 +45,10 @@
 @property (strong, nonatomic) IBOutlet UIImageView *nocarImg;
 
 @property (strong, nonatomic) IBOutlet UIImageView *viewBgImg;
+//@property (weak, nonatomic) IBOutlet UIScrollView *tableScrollView;
+@property (weak, nonatomic) IBOutlet UIView *tableContainer;
+
+@property (assign) CGPoint lastScrollPosition;
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;
