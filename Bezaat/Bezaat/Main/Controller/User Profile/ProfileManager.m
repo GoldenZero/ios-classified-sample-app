@@ -151,11 +151,6 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    
-    //passing device token as a http header request
-    NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
-    [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
-    
     [request setHTTPBody:postData];
     
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -711,6 +706,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
         if (logged)
         {
             UserProfile * userData = [self getUserData:dataArray];
+            
             if (userData)
             {
                 if (self.delegate)
@@ -773,6 +769,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
         else
         {
             NSString * statusMessage = [self getStatusMessage:dataArray];
+            NSInteger mycode = [self getStatusCode:dataArray];
             if (self.delegate)
             {
                 CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
@@ -786,10 +783,18 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
             }
             if (self.updateDelegate)
             {
-                CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                CustomError * error = [CustomError errorWithDomain:@"" code:mycode userInfo:nil];
                 [error setDescMessage:statusMessage];
                 
                 [self.updateDelegate userFailUpdateWithError:error];
+            }
+            if (self.RegisterDelegate)
+            {
+                CustomError * error = [CustomError errorWithDomain:@"" code:mycode userInfo:nil];
+                [error setDescMessage:statusMessage];
+                
+                
+                [self.RegisterDelegate userFailRegisterWithError:error];
             }
         }
     }
@@ -854,6 +859,19 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
 
     }
     return @"";
+}
+
+-(NSInteger) getStatusCode:(NSArray*) responseDataArray
+{
+    if ((responseDataArray) && (responseDataArray.count > 0))
+    {
+        NSDictionary * totalDict = [responseDataArray objectAtIndex:0];
+        
+        NSInteger code = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+        return code;
+        
+    }
+    return -1;
 }
 
 - (DeviceRegistration *) parseRegistrationData:(NSArray *) data {

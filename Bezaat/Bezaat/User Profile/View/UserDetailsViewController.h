@@ -43,4 +43,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *favouriteBtn;
 @property (weak, nonatomic) IBOutlet UILabel *userNameTitle;
 @property (weak, nonatomic) IBOutlet UILabel *userCityTitle;
+@property (weak, nonatomic) IBOutlet UIButton *filterSpecialBtn;
+@property (weak, nonatomic) IBOutlet UIButton *filterTerminatedBtn;
 @end

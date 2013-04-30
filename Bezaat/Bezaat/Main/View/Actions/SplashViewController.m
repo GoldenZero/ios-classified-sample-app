@@ -56,7 +56,7 @@
 - (void) loadBrands {
     
     [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:nil];
-    [[BrandsManager sharedInstance] getBrandsAndModelsForPostAdWithDelegate:nil];
+    
     [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(stopAnimatingWheel) userInfo:nil repeats:NO];
 }
 

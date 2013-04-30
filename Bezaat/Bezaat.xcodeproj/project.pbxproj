@@ -141,8 +141,6 @@
 		24BB028F17295DC400755B2D /* Brands2_allcars_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24BB028D17295DC400755B2D /* Brands2_allcars_button@2x.png */; };
 		24BB02951729A5D900755B2D /* searchView_bg_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 24BB02931729A5D900755B2D /* searchView_bg_2.png */; };
 		24BB02961729A5D900755B2D /* searchView_bg_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24BB02941729A5D900755B2D /* searchView_bg_2@2x.png */; };
-		24C32688172E7C2D002CB239 /* noCarAdd.png in Resources */ = {isa = PBXBuildFile; fileRef = 24C32686172E7C2D002CB239 /* noCarAdd.png */; };
-		24C32689172E7C2D002CB239 /* noCarAdd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24C32687172E7C2D002CB239 /* noCarAdd@2x.png */; };
 		24C6B79616FF28EF00615974 /* account_blueGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 24C6B73616FF28EF00615974 /* account_blueGradient.png */; };
 		24C6B79716FF28EF00615974 /* account_blueGradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24C6B73716FF28EF00615974 /* account_blueGradient@2x.png */; };
 		24C6B79816FF28EF00615974 /* account_emailButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 24C6B73816FF28EF00615974 /* account_emailButton.png */; };
@@ -484,8 +482,22 @@
 		61713F92172D7C5A00BB256D /* MyStore_top_box@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 61713F66172D7C5A00BB256D /* MyStore_top_box@2x.png */; };
 		61713F95172D7CF500BB256D /* StoreAdvTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61713F94172D7CF500BB256D /* StoreAdvTableViewCell.m */; };
 		61713F97172D7D0900BB256D /* StoreAdvTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61713F96172D7D0900BB256D /* StoreAdvTableViewCell.xib */; };
-		61B0A7BE172EF91C00F95807 /* MyStore_dotList.png in Resources */ = {isa = PBXBuildFile; fileRef = 61B0A7BC172EF91C00F95807 /* MyStore_dotList.png */; };
-		61B0A7BF172EF91C00F95807 /* MyStore_dotList@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 61B0A7BD172EF91C00F95807 /* MyStore_dotList@2x.png */; };
+		841ECEAF172E3DE4001A56F1 /* AddNewStoreAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841ECEAD172E3DE4001A56F1 /* AddNewStoreAdViewController.m */; };
+		841ECEB0172E3DE4001A56F1 /* AddNewStoreAdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEAE172E3DE4001A56F1 /* AddNewStoreAdViewController.xib */; };
+		841ECEB3172E4225001A56F1 /* AddCar_text_SM.png in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEB1172E4225001A56F1 /* AddCar_text_SM.png */; };
+		841ECEB4172E4225001A56F1 /* AddCar_text_SM@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEB2172E4225001A56F1 /* AddCar_text_SM@2x.png */; };
+		841ECEBD172E4243001A56F1 /* add_period.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEB5172E4243001A56F1 /* add_period.json */; };
+		841ECEBE172E4243001A56F1 /* brand_models_key.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEB6172E4243001A56F1 /* brand_models_key.json */; };
+		841ECEBF172E4243001A56F1 /* category_attributes.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEB7172E4243001A56F1 /* category_attributes.json */; };
+		841ECEC0172E4243001A56F1 /* currency.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEB8172E4243001A56F1 /* currency.json */; };
+		841ECEC1172E4243001A56F1 /* km_mile.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEB9172E4243001A56F1 /* km_mile.json */; };
+		841ECEC2172E4243001A56F1 /* model_year.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEBA172E4243001A56F1 /* model_year.json */; };
+		841ECEC3172E4243001A56F1 /* post_models.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEBB172E4243001A56F1 /* post_models.json */; };
+		841ECEC4172E4243001A56F1 /* service.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEBC172E4243001A56F1 /* service.json */; };
+		841ECEC9172E6DF9001A56F1 /* car_body.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEC5172E6DF9001A56F1 /* car_body.json */; };
+		841ECECA172E6DF9001A56F1 /* car_condition.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEC6172E6DF9001A56F1 /* car_condition.json */; };
+		841ECECB172E6DF9001A56F1 /* car_type.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEC7172E6DF9001A56F1 /* car_type.json */; };
+		841ECECC172E6DF9001A56F1 /* gear_type.json in Resources */ = {isa = PBXBuildFile; fileRef = 841ECEC8172E6DF9001A56F1 /* gear_type.json */; };
 		842127F517290CDF0070FD76 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 842127F417290CDF0070FD76 /* libGoogleAnalytics.a */; };
 		842127F717290D360070FD76 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 842127F617290D360070FD76 /* CoreData.framework */; };
 		8421280117292CE90070FD76 /* ChooseLocationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 842127FF17292CE90070FD76 /* ChooseLocationVC.m */; };
@@ -575,14 +587,6 @@
 		9E06E49D1714205A006404F7 /* DistanceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E49C1714205A006404F7 /* DistanceRange.m */; };
 		9E06E4CF1715A091006404F7 /* DeviceRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E4CE1715A091006404F7 /* DeviceRegistration.m */; };
 		9E10D6A717256454009D1C06 /* UIImagePickerController+NonRotating.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E10D6A617256454009D1C06 /* UIImagePickerController+NonRotating.m */; };
-		9E10D6B717256545009D1C06 /* add_period.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6AF17256545009D1C06 /* add_period.json */; };
-		9E10D6B817256545009D1C06 /* brand_models_key.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B017256545009D1C06 /* brand_models_key.json */; };
-		9E10D6B917256545009D1C06 /* category_attributes.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B117256545009D1C06 /* category_attributes.json */; };
-		9E10D6BA17256545009D1C06 /* currency.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B217256545009D1C06 /* currency.json */; };
-		9E10D6BB17256545009D1C06 /* km_mile.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B317256545009D1C06 /* km_mile.json */; };
-		9E10D6BC17256545009D1C06 /* model_year.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B417256545009D1C06 /* model_year.json */; };
-		9E10D6BD17256545009D1C06 /* post_models.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B517256545009D1C06 /* post_models.json */; };
-		9E10D6BE17256545009D1C06 /* service.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E10D6B617256545009D1C06 /* service.json */; };
 		9E10D6C117256581009D1C06 /* StaticAttrsLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E10D6C017256581009D1C06 /* StaticAttrsLoader.m */; };
 		9E10F485172184EE006F54BE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E10F484172184EE006F54BE /* StoreKit.framework */; };
 		9E198E5F17096BFA002CECCE /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E198E2517096BF9002CECCE /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1100,8 +1104,6 @@
 		24BB028D17295DC400755B2D /* Brands2_allcars_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Brands2_allcars_button@2x.png"; sourceTree = "<group>"; };
 		24BB02931729A5D900755B2D /* searchView_bg_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = searchView_bg_2.png; sourceTree = "<group>"; };
 		24BB02941729A5D900755B2D /* searchView_bg_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "searchView_bg_2@2x.png"; sourceTree = "<group>"; };
-		24C32686172E7C2D002CB239 /* noCarAdd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noCarAdd.png; sourceTree = "<group>"; };
-		24C32687172E7C2D002CB239 /* noCarAdd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noCarAdd@2x.png"; sourceTree = "<group>"; };
 		24C6B73616FF28EF00615974 /* account_blueGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = account_blueGradient.png; sourceTree = "<group>"; };
 		24C6B73716FF28EF00615974 /* account_blueGradient@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "account_blueGradient@2x.png"; sourceTree = "<group>"; };
 		24C6B73816FF28EF00615974 /* account_emailButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = account_emailButton.png; sourceTree = "<group>"; };
@@ -1451,8 +1453,23 @@
 		61713F93172D7CF500BB256D /* StoreAdvTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreAdvTableViewCell.h; sourceTree = "<group>"; };
 		61713F94172D7CF500BB256D /* StoreAdvTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreAdvTableViewCell.m; sourceTree = "<group>"; };
 		61713F96172D7D0900BB256D /* StoreAdvTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreAdvTableViewCell.xib; sourceTree = "<group>"; };
-		61B0A7BC172EF91C00F95807 /* MyStore_dotList.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyStore_dotList.png; sourceTree = "<group>"; };
-		61B0A7BD172EF91C00F95807 /* MyStore_dotList@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyStore_dotList@2x.png"; sourceTree = "<group>"; };
+		841ECEAC172E3DE4001A56F1 /* AddNewStoreAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewStoreAdViewController.h; sourceTree = "<group>"; };
+		841ECEAD172E3DE4001A56F1 /* AddNewStoreAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewStoreAdViewController.m; sourceTree = "<group>"; };
+		841ECEAE172E3DE4001A56F1 /* AddNewStoreAdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddNewStoreAdViewController.xib; sourceTree = "<group>"; };
+		841ECEB1172E4225001A56F1 /* AddCar_text_SM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AddCar_text_SM.png; path = "attributes json files/AddCar_text_SM.png"; sourceTree = "<group>"; };
+		841ECEB2172E4225001A56F1 /* AddCar_text_SM@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AddCar_text_SM@2x.png"; path = "attributes json files/AddCar_text_SM@2x.png"; sourceTree = "<group>"; };
+		841ECEB5172E4243001A56F1 /* add_period.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = add_period.json; sourceTree = "<group>"; };
+		841ECEB6172E4243001A56F1 /* brand_models_key.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = brand_models_key.json; sourceTree = "<group>"; };
+		841ECEB7172E4243001A56F1 /* category_attributes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = category_attributes.json; sourceTree = "<group>"; };
+		841ECEB8172E4243001A56F1 /* currency.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = currency.json; sourceTree = "<group>"; };
+		841ECEB9172E4243001A56F1 /* km_mile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = km_mile.json; sourceTree = "<group>"; };
+		841ECEBA172E4243001A56F1 /* model_year.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = model_year.json; sourceTree = "<group>"; };
+		841ECEBB172E4243001A56F1 /* post_models.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_models.json; sourceTree = "<group>"; };
+		841ECEBC172E4243001A56F1 /* service.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = service.json; sourceTree = "<group>"; };
+		841ECEC5172E6DF9001A56F1 /* car_body.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car_body.json; sourceTree = "<group>"; };
+		841ECEC6172E6DF9001A56F1 /* car_condition.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car_condition.json; sourceTree = "<group>"; };
+		841ECEC7172E6DF9001A56F1 /* car_type.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = car_type.json; sourceTree = "<group>"; };
+		841ECEC8172E6DF9001A56F1 /* gear_type.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gear_type.json; sourceTree = "<group>"; };
 		842127EF17290CDF0070FD76 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		842127F017290CDF0070FD76 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
 		842127F117290CDF0070FD76 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
@@ -1560,14 +1577,6 @@
 		9E06E4CE1715A091006404F7 /* DeviceRegistration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceRegistration.m; sourceTree = "<group>"; };
 		9E10D6A517256454009D1C06 /* UIImagePickerController+NonRotating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+NonRotating.h"; sourceTree = "<group>"; };
 		9E10D6A617256454009D1C06 /* UIImagePickerController+NonRotating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+NonRotating.m"; sourceTree = "<group>"; };
-		9E10D6AF17256545009D1C06 /* add_period.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = add_period.json; sourceTree = "<group>"; };
-		9E10D6B017256545009D1C06 /* brand_models_key.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = brand_models_key.json; sourceTree = "<group>"; };
-		9E10D6B117256545009D1C06 /* category_attributes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = category_attributes.json; sourceTree = "<group>"; };
-		9E10D6B217256545009D1C06 /* currency.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = currency.json; sourceTree = "<group>"; };
-		9E10D6B317256545009D1C06 /* km_mile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = km_mile.json; sourceTree = "<group>"; };
-		9E10D6B417256545009D1C06 /* model_year.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = model_year.json; sourceTree = "<group>"; };
-		9E10D6B517256545009D1C06 /* post_models.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_models.json; sourceTree = "<group>"; };
-		9E10D6B617256545009D1C06 /* service.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = service.json; sourceTree = "<group>"; };
 		9E10D6BF17256581009D1C06 /* StaticAttrsLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticAttrsLoader.h; sourceTree = "<group>"; };
 		9E10D6C017256581009D1C06 /* StaticAttrsLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StaticAttrsLoader.m; sourceTree = "<group>"; };
 		9E10F484172184EE006F54BE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -2121,6 +2130,8 @@
 		24B9CB32171FD97C00824475 /* AddNewCar */ = {
 			isa = PBXGroup;
 			children = (
+				841ECEB1172E4225001A56F1 /* AddCar_text_SM.png */,
+				841ECEB2172E4225001A56F1 /* AddCar_text_SM@2x.png */,
 				9E10D6AE17256545009D1C06 /* attributes json files */,
 				24B9CB33171FD97C00824475 /* AddCar_Bottom_bg.png */,
 				24B9CB34171FD97C00824475 /* AddCar_Bottom_bg@2x.png */,
@@ -2327,8 +2338,6 @@
 		24DF4A8617154BE700F17825 /* SearchView */ = {
 			isa = PBXGroup;
 			children = (
-				24C32686172E7C2D002CB239 /* noCarAdd.png */,
-				24C32687172E7C2D002CB239 /* noCarAdd@2x.png */,
 				24BB02931729A5D900755B2D /* searchView_bg_2.png */,
 				24BB02941729A5D900755B2D /* searchView_bg_2@2x.png */,
 				24EDD5CF172577C10093AACA /* searchView_blue_buttom.png */,
@@ -2548,8 +2557,6 @@
 		61713F3A172D7C5A00BB256D /* MyStore */ = {
 			isa = PBXGroup;
 			children = (
-				61B0A7BC172EF91C00F95807 /* MyStore_dotList.png */,
-				61B0A7BD172EF91C00F95807 /* MyStore_dotList@2x.png */,
 				61713F3B172D7C5A00BB256D /* buttons_Add.png */,
 				61713F3C172D7C5A00BB256D /* buttons_add@2x.png */,
 				61713F3D172D7C5A00BB256D /* MyStore_bottom_bg.png */,
@@ -2722,14 +2729,18 @@
 		9E10D6AE17256545009D1C06 /* attributes json files */ = {
 			isa = PBXGroup;
 			children = (
-				9E10D6AF17256545009D1C06 /* add_period.json */,
-				9E10D6B017256545009D1C06 /* brand_models_key.json */,
-				9E10D6B117256545009D1C06 /* category_attributes.json */,
-				9E10D6B217256545009D1C06 /* currency.json */,
-				9E10D6B317256545009D1C06 /* km_mile.json */,
-				9E10D6B417256545009D1C06 /* model_year.json */,
-				9E10D6B517256545009D1C06 /* post_models.json */,
-				9E10D6B617256545009D1C06 /* service.json */,
+				841ECEC5172E6DF9001A56F1 /* car_body.json */,
+				841ECEC6172E6DF9001A56F1 /* car_condition.json */,
+				841ECEC7172E6DF9001A56F1 /* car_type.json */,
+				841ECEC8172E6DF9001A56F1 /* gear_type.json */,
+				841ECEB5172E4243001A56F1 /* add_period.json */,
+				841ECEB6172E4243001A56F1 /* brand_models_key.json */,
+				841ECEB7172E4243001A56F1 /* category_attributes.json */,
+				841ECEB8172E4243001A56F1 /* currency.json */,
+				841ECEB9172E4243001A56F1 /* km_mile.json */,
+				841ECEBA172E4243001A56F1 /* model_year.json */,
+				841ECEBB172E4243001A56F1 /* post_models.json */,
+				841ECEBC172E4243001A56F1 /* service.json */,
 			);
 			path = "attributes json files";
 			sourceTree = "<group>";
@@ -3514,6 +3525,9 @@
 				61201C4A171EF7F700B809C2 /* AddNewStoreViewController.h */,
 				61201C4B171EF7F700B809C2 /* AddNewStoreViewController.m */,
 				61201C4C171EF7F700B809C2 /* AddNewStoreViewController.xib */,
+				841ECEAC172E3DE4001A56F1 /* AddNewStoreAdViewController.h */,
+				841ECEAD172E3DE4001A56F1 /* AddNewStoreAdViewController.m */,
+				841ECEAE172E3DE4001A56F1 /* AddNewStoreAdViewController.xib */,
 				61201C4F171EF83F00B809C2 /* BrowseStoresViewController.h */,
 				61201C50171EF83F00B809C2 /* BrowseStoresViewController.m */,
 				61201C51171EF83F00B809C2 /* BrowseStoresViewController.xib */,
@@ -4254,14 +4268,6 @@
 				24EDD5C4172556EC0093AACA /* Brands2_dark_bg@2x.png in Resources */,
 				24EDD5C7172556FD0093AACA /* brands2_whiteRectangle.png in Resources */,
 				24EDD5C8172556FD0093AACA /* brands2_whiteRectangle@2x.png in Resources */,
-				9E10D6B717256545009D1C06 /* add_period.json in Resources */,
-				9E10D6B817256545009D1C06 /* brand_models_key.json in Resources */,
-				9E10D6B917256545009D1C06 /* category_attributes.json in Resources */,
-				9E10D6BA17256545009D1C06 /* currency.json in Resources */,
-				9E10D6BB17256545009D1C06 /* km_mile.json in Resources */,
-				9E10D6BC17256545009D1C06 /* model_year.json in Resources */,
-				9E10D6BD17256545009D1C06 /* post_models.json in Resources */,
-				9E10D6BE17256545009D1C06 /* service.json in Resources */,
 				24EDD5DB172577CA0093AACA /* searchView_blue_buttom.png in Resources */,
 				24EDD5DC172577CA0093AACA /* searchView_blue_buttom@2x.png in Resources */,
 				24EDD5DD172577CA0093AACA /* searchView_gray_buttom.png in Resources */,
@@ -4488,10 +4494,21 @@
 				61713F91172D7C5A00BB256D /* MyStore_top_box.png in Resources */,
 				61713F92172D7C5A00BB256D /* MyStore_top_box@2x.png in Resources */,
 				61713F97172D7D0900BB256D /* StoreAdvTableViewCell.xib in Resources */,
-				24C32688172E7C2D002CB239 /* noCarAdd.png in Resources */,
-				24C32689172E7C2D002CB239 /* noCarAdd@2x.png in Resources */,
-				61B0A7BE172EF91C00F95807 /* MyStore_dotList.png in Resources */,
-				61B0A7BF172EF91C00F95807 /* MyStore_dotList@2x.png in Resources */,
+				841ECEB0172E3DE4001A56F1 /* AddNewStoreAdViewController.xib in Resources */,
+				841ECEB3172E4225001A56F1 /* AddCar_text_SM.png in Resources */,
+				841ECEB4172E4225001A56F1 /* AddCar_text_SM@2x.png in Resources */,
+				841ECEBD172E4243001A56F1 /* add_period.json in Resources */,
+				841ECEBE172E4243001A56F1 /* brand_models_key.json in Resources */,
+				841ECEBF172E4243001A56F1 /* category_attributes.json in Resources */,
+				841ECEC0172E4243001A56F1 /* currency.json in Resources */,
+				841ECEC1172E4243001A56F1 /* km_mile.json in Resources */,
+				841ECEC2172E4243001A56F1 /* model_year.json in Resources */,
+				841ECEC3172E4243001A56F1 /* post_models.json in Resources */,
+				841ECEC4172E4243001A56F1 /* service.json in Resources */,
+				841ECEC9172E6DF9001A56F1 /* car_body.json in Resources */,
+				841ECECA172E6DF9001A56F1 /* car_condition.json in Resources */,
+				841ECECB172E6DF9001A56F1 /* car_type.json in Resources */,
+				841ECECC172E6DF9001A56F1 /* gear_type.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4606,6 +4623,7 @@
 				9EE86C4B172D473000C1A013 /* SSLabel.m in Sources */,
 				9EE86C4C172D473000C1A013 /* SSText.m in Sources */,
 				61713F95172D7CF500BB256D /* StoreAdvTableViewCell.m in Sources */,
+				841ECEAF172E3DE4001A56F1 /* AddNewStoreAdViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4702,8 +4720,8 @@
 		9E78A7D716E34BA3000CA790 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Aubada Taljo (9L55MVJZFG)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aubada Taljo (9L55MVJZFG)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4729,8 +4747,8 @@
 					"-DSF_IOS_CG",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "FEE4CEC9-8D3D-4C90-89B0-1C54CD8A84FD";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEE4CEC9-8D3D-4C90-89B0-1C54CD8A84FD";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4738,8 +4756,8 @@
 		9E78A7D816E34BA3000CA790 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Aubada Taljo (9L55MVJZFG)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aubada Taljo (9L55MVJZFG)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4765,8 +4783,8 @@
 					"-DSF_IOS_CG",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "FEE4CEC9-8D3D-4C90-89B0-1C54CD8A84FD";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEE4CEC9-8D3D-4C90-89B0-1C54CD8A84FD";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

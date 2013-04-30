@@ -51,13 +51,4 @@
 
 // get the stored city from keyChain
 - (NSInteger) getSavedUserCityID;
-
-//get country by ID
-- (Country *) getCountryByID:(NSInteger) cID;
-
-//get index of country
-- (NSInteger) getIndexOfCountry:(NSInteger) cID;
-
-//get index of city
-- (NSInteger) getIndexOfCity:(NSInteger) cID inCountry:(Country *) country ;
 @end
