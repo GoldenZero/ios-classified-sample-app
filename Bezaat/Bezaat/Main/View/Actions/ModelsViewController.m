@@ -14,7 +14,7 @@
 #import "Brand.h"
 #import "Model.h"
 #import "AddNewCarAdViewController.h"
-
+#import "AddNewStoreAdViewController.h"
 #import "BrowseCarAdsViewController.h"
 
 #define ALL_MODELS_TEXT     @"جميع الموديلات"
@@ -144,12 +144,20 @@
     else {
         // Get the model
         Model* selectedModel = (Model*)currentModels[indexPath.row];
-       
+        UserProfile* myStore = [[SharedUser sharedInstance] getUserProfileData];
+
         // TODO pass this information to the next view
         if (self.tagOfCallXib==2) {
-            AddNewCarAdViewController *adNewCar=[[AddNewCarAdViewController alloc] initWithNibName:@"AddNewCarAdViewController" bundle:nil];
-            adNewCar.currentModel=selectedModel;
-            [self presentViewController:adNewCar animated:YES completion:nil];
+            if (myStore.hasStores) {
+                AddNewStoreAdViewController *adNewCar=[[AddNewStoreAdViewController alloc] initWithNibName:@"AddNewStoreAdViewController" bundle:nil];
+                adNewCar.currentModel=selectedModel;
+                [self presentViewController:adNewCar animated:YES completion:nil];
+            }else {
+                AddNewCarAdViewController *adNewCar=[[AddNewCarAdViewController alloc] initWithNibName:@"AddNewCarAdViewController" bundle:nil];
+                adNewCar.currentModel=selectedModel;
+                [self presentViewController:adNewCar animated:YES completion:nil];
+                
+            }
         }
         else{
             BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];

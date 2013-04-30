@@ -9,9 +9,12 @@
 #import "AddNewStoreViewController.h"
 #import "ChooseActionViewController.h"
 #import "SignInViewController.h"
+#import "FeatureStoreAdViewController.h"
 
 @interface AddNewStoreViewController () {
     Store *store;
+    
+    NSString* myStore;
     
     BOOL uploadingLOGO;
     UIImage *storeImage;
@@ -171,6 +174,13 @@
 #pragma mark - UIAlertViewDelegate Methods
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.tag == 1) {
+        FeatureStoreAdViewController *vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+        //vc.currentAdID = adID;
+        vc.storeID = myStore;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
     NSLog(@"buttonIndex:%d",buttonIndex);
 }
 
@@ -193,6 +203,14 @@
 
 - (void) storeCreationDidSucceedWithStoreID:(NSString *)storeID {
     [self hideLoadingIndicator];
+    myStore = storeID;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"شكرا"
+                                                    message:@"لقد تم انشاء المتجر"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    alert.tag = 5;
+    [alert show];
 }
 
 - (void) storeLOGOUploadDidFailWithError:(NSError *)error {

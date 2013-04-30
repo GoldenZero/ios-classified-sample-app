@@ -1218,11 +1218,21 @@
     
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
     
-    FeatureStoreAdViewController *vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
-    vc.currentAdID = adID;
-    vc.storeID = myStore.identifier;
-    [self presentViewController:vc animated:YES completion:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"شكرا"
+                                                    message:@"تمت إضافة إعلانك بنجاج"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    alert.tag = 1;
+    [alert show];
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 1) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
 
 #pragma mark - StoreManagerDelegate Methods
 
