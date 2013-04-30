@@ -18,6 +18,7 @@
     UITapGestureRecognizer *tap;
     MBProgressHUD2 *loadingHUD;
     
+    IBOutlet UIToolbar *toolBar;
     IBOutlet UIImageView *storeImageView;
     IBOutlet UITextField *nameField;
     IBOutlet UITextView *descriptionField;
@@ -43,6 +44,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+
     CGRect frame = placeholderTextField.frame;
     frame.size.height = descriptionField.frame.size.height;
     placeholderTextField.frame = frame;
@@ -86,10 +89,13 @@
 }
 
 - (IBAction)chooseImageBtnPress:(id)sender {
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary | UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    imagePicker.delegate = self;
-    [self presentViewController:imagePicker animated:YES completion:nil];
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
+                                                    delegate:self
+                                           cancelButtonTitle:@"إلغاء"
+                                      destructiveButtonTitle:nil
+                                           otherButtonTitles:@"من الكاميرا", @"من مكتبة الصور", nil];
+    
+    [as showInView:self.view];
 }
 
 - (IBAction)cancelBtnPress:(id)sender {
@@ -132,6 +138,18 @@
     
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] createStore:store];
+}
+
+#pragma mark - UIActionSheetDelegate Method
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if ([@"من الكاميرا" isEqualToString:buttonTitle]) {
+        [self takePhotoWithCamera];
+    }
+    else if ([@"من مكتبة الصور" isEqualToString:buttonTitle]) {
+        [self selectPhotoFromLibrary];
+    }
 }
 
 #pragma mark - UITextFieldDelegate
@@ -241,6 +259,28 @@
     if (loadingHUD)
         [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
     loadingHUD = nil;
+}
+
+-(void) takePhotoWithCamera {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        picker.allowsEditing = YES;
+        picker.delegate = self;
+        [self presentViewController:picker animated:YES completion:nil];
+    }
+}
+
+-(void) selectPhotoFromLibrary {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
+    {
+        UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        picker.allowsEditing = YES;
+        picker.delegate = self;
+        [self presentViewController:picker animated:YES completion:nil];
+    }
 }
 
 @end

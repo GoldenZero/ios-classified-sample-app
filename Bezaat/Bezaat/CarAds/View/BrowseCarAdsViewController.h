@@ -42,7 +42,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *toYearLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *forTapping;
+@property (strong, nonatomic) IBOutlet UIImageView *nocarImg;
 
+@property (strong, nonatomic) IBOutlet UIImageView *viewBgImg;
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;

@@ -20,7 +20,6 @@
 #import "AddNewStoreViewController.h"
 #import "BrowseStoresViewController.h"
 #import "AboutAppViewController.h"
-#import "AddNewStoreAdViewController.h"
 
 @interface ChooseActionViewController (){
     NSArray *menuArray;
@@ -101,9 +100,17 @@
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
     [self hideMenu];
-    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    vc.tagOfCallXib=2;
-    [self presentViewController:vc animated:YES completion:nil];
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (savedProfile) {
+        ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+        vc.tagOfCallXib=2;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else{
+        SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    
     
 }
 
@@ -167,7 +174,7 @@
         }
     }
     cell.cellImage.image=[UIImage imageNamed:[custoIconMenuArray objectAtIndex:indexPath.row]];
-    cell.titleLable.text=[custoMenuArray objectAtIndex:indexPath.row];
+    [cell.titleLable setText:[custoMenuArray objectAtIndex:indexPath.row]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -179,7 +186,8 @@
     iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png",@"Menu_icon_10.png", nil];
 
      UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-       // gust
+
+    // gust
     if(!savedProfile){
         [self.userNameLabel setText:@"زائر"];
         
@@ -339,10 +347,9 @@
             case 9:
             {
                 [self hideMenu];
-                
                 AboutAppViewController *vc=[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];
-                 
+
             }
             default:
                 break;

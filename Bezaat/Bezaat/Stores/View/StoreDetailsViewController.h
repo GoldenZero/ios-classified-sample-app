@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "StoreManager.h"
+#import "StoreAdvTableViewCell.h"
 
-@interface StoreDetailsViewController : UIViewController<UITableViewDataSource,StoreManagerDelegate>
+@interface StoreDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,StoreManagerDelegate,FeatureingDelegate>
 
 @property (nonatomic, strong) Store *currentStore;
 
 - (IBAction)backBtnPress:(id)sender;
-- (IBAction)segmentedControllerValueChanged:(id)sender;
+- (IBAction)menueBtnPress:(id)sender;
 
 @end

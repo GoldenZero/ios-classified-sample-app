@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "Store.h"
-#import "StaticAttrsLoader.h"
 
 @protocol StoreManagerDelegate <NSObject>
 @optional
@@ -18,6 +17,14 @@
 - (void) storeLOGOUploadDidSucceedWithImageURL:(NSString *)imageURL;
 - (void) userStoresRetrieveDidFailWithError:(NSError *)error;
 - (void) userStoresRetrieveDidSucceedWithStores:(NSArray *)stores;
+- (void) storeAdsRetrieveDidFailWithError:(NSError *)error;
+- (void) storeAdsRetrieveDidSucceedWithAds:(NSArray *)ads;
+- (void) storeStatusRetrieveDidFailWithError:(NSError *)error;
+- (void) storeStatusRetrieveDidSucceedWithStatus:(Store *)store;
+- (void) featureAdvDidFailWithError:(NSError *)error;
+- (void) featureAdvDidSucceed;
+- (void) unfeatureAdvDidFailWithError:(NSError *)error;
+- (void) unfeatureAdvDidSucceed;
 @end
 
 @interface StoreManager : NSObject <DataDelegate>
@@ -37,5 +44,11 @@
 - (void)getUserStores;
 
 - (void)getStoreAds:(NSInteger)storeID page:(NSInteger)pageNumber status:(NSString *)status;
+
+- (void)getStoreStatus:(Store *)store;
+
+- (void)unfeatureAdv:(NSInteger)advID inStore:(NSInteger)storeID;
+
+- (void)featureAdv:(NSInteger)advID inStore:(NSInteger)storeID featureDays:(NSInteger)featureDays;
 
 @end

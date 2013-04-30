@@ -37,20 +37,12 @@
 - (void) adDidFailPostingWithError:(NSError *) error;
 - (void) adDidFinishPostingWithAdID:(NSInteger) adID;
 @end
-
-@protocol StorePostAdDelegate <NSObject>
-@required
-
-- (void) storeAdDidFailPostingWithError:(NSError *) error;
-- (void) storeAdDidFinishPostingWithAdID:(NSInteger) adID;
-@end
 @interface CarAdsManager : NSObject <DataDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) id <CarAdsManagerDelegate> delegate;
 @property (strong, nonatomic) id <UploadImageDelegate> imageDelegate;
 @property (strong, nonatomic) id <PostAdDelegate> adPostingDelegate;
-@property (strong, nonatomic) id <StorePostAdDelegate> storeaAdPostingDelegate;
 @property (nonatomic) NSUInteger pageNumber;
 @property (nonatomic) NSUInteger pageSize;
 
@@ -89,6 +81,7 @@
 
 - (NSInteger) getIndexOfAd:(NSUInteger) adID inArray:(NSArray *) adsArray;
 
+- (NSArray * ) createCarAdsArrayWithData:(NSArray *) data;
 
 //search & filter
 - (void) searchCarAdsOfPage:(NSUInteger) pageNum
@@ -131,31 +124,4 @@
       kmVSmilesValueID:(NSInteger) aKmVSmilesValueID
               imageIDs:(NSArray *) aImageIDsArray
           withDelegate:(id <PostAdDelegate>) del;
-
-
-//post store ad
-- (void) postStoreAdOfBrand:(NSInteger) brandID
-                    myStore:(NSInteger) StoreID
-                      Model:(NSInteger) modelID
-                     InCity:(NSInteger) cityID
-                  userEmail:(NSString *) usermail
-                      title:(NSString *) aTitle
-                description:(NSString *) aDescription
-                      price:(NSString *) aPrice
-              periodValueID:(NSInteger) aPeriodValueID
-                     mobile:(NSString *) aMobileNum
-            currencyValueID:(NSInteger) aCurrencyValueID
-             serviceValueID:(NSInteger) aServiceValueID
-           modelYearValueID:(NSInteger) aModelYearValueID
-                   distance:(NSString *) aDistance
-                      color:(NSString *) aColor
-                 phoneNumer:(NSString *) aPhoneNumer
-            adCommentsEmail:(BOOL) aAdCommentsEmail
-           kmVSmilesValueID:(NSInteger) aKmVSmilesValueID
-                   imageIDs:(NSArray *) aImageIDsArray
-                conditionID:(NSInteger) carConditionID      //new
-                 gearTypeID:(NSInteger) gearTypeID          //new
-                  carTypeID:(NSInteger)carTypeID            //new
-                  carBodyID:(NSInteger)carBodyID            //new
-               withDelegate:(id <StorePostAdDelegate>) del;
 @end

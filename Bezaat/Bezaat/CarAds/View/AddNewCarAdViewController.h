@@ -42,4 +42,6 @@
 - (IBAction)addBtnprss:(id)sender;
 - (IBAction)selectModelBtnPrss:(id)sender;
 
+- (void) dismissSelfAfterFeaturing;
+
 @end

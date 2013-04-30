@@ -21,4 +21,12 @@
 
 @synthesize desc;
 
+@synthesize remainingDays;
+@synthesize remainingFreeFeatureAds;
+
+- (NSString *)countryName {
+    Country * ctr = [[LocationManager sharedInstance] getCountryByID:self.countryID];
+    return ctr.countryName;
+}
+
 @end

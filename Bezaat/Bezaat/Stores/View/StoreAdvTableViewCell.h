@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol FeatureingDelegate <NSObject>
+@required
+- (void)featureAdv:(NSInteger)advID;
+- (void)unfeatureAdv:(NSInteger)advID;
+@end
+
 @class Store;
 
 @interface StoreAdvTableViewCell : UITableViewCell
@@ -23,7 +29,8 @@
 @property (nonatomic, weak) IBOutlet UILabel *viewCountLabel;
 @property (nonatomic, weak) IBOutlet UIButton *featureButton;
 
-@property (nonatomic, strong) NSString *imageURL;
+@property (nonatomic) NSInteger advID;
+@property (nonatomic, strong) NSURL *imageURL;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *price;
 @property (nonatomic) NSInteger postedSince;
@@ -31,6 +38,8 @@
 @property (nonatomic) NSInteger distanceRange;
 @property (nonatomic) NSInteger viewCount;
 @property (nonatomic) BOOL isFeatured;
+
+@property (nonatomic, weak) id<FeatureingDelegate>delegate;
 
 - (IBAction)featureBtnPress:(id)sender;
 

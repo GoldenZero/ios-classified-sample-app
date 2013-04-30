@@ -129,23 +129,7 @@
         [alert show];
         return;
     }
-    if (![self validateEmail:email]) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من إدخال البريد الإلكتروني بشكل صحيح"
-                                                       delegate:nil cancelButtonTitle:@"موافق"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
 
-    if ([newPassword length] < 5) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"كلمة السر يجب ان تكون 5 ارقام"
-                                                       delegate:nil cancelButtonTitle:@"موافق"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-
-    
     if ([newPassword length] < 1) {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من كلمة السر"
                                                        delegate:nil cancelButtonTitle:@"موافق"
@@ -170,13 +154,6 @@
     
     
     
-}
-
-- (BOOL) validateEmail: (NSString *) candidate {
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
-    
-    return [emailTest evaluateWithObject:candidate];
 }
 
 - (IBAction)backBtnPrss:(id)sender {
@@ -410,9 +387,6 @@
 -(void)userFailRegisterWithError:(NSError *)error
 {
     [self hideLoadingIndicator];
-    if (error.code == 320) {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"البريد الإلكتروني مسجل يرجى اعادة المحاولة" delegateVC:self];
-    }
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
 }
 

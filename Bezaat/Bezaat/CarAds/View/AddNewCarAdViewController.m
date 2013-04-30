@@ -39,6 +39,7 @@
     CLLocationManager * deviceLocationDetector;
     
     NSUInteger defaultIndex;
+    NSUInteger defaultCityIndex;
 
     //These objects should be set bt selecting the drop down menus.
     SingleValue * chosenCurrency;
@@ -53,6 +54,7 @@
     BOOL yearBtnPressedOnce;
     
     NSTimer *timer;
+    UIToolbar* numberToolbar;
 }
 
 @end
@@ -121,93 +123,32 @@
  
 }
 #pragma mark - location handler.
+
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
     countryArray=resultArray;
     [self hideLoadingIndicator];
     
     // Setting default country
-    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    //defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
     if  (defaultIndex!= -1){
         chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
         cityArray=[chosenCountry cities];
         if (cityArray && cityArray.count)
-            chosenCity=[cityArray objectAtIndex:0];//set initial chosen city
+        {
+            defaultCityIndex = [locationMngr getIndexOfCity:[[SharedUser sharedInstance] getUserCityID] inCountry:chosenCountry];
+            if (defaultCityIndex != -1)
+                chosenCity=[cityArray objectAtIndex:defaultCityIndex];
+            else
+                chosenCity=[cityArray objectAtIndex:0];
+        }
         [self.locationPickerView reloadAllComponents];
-
     }
     
 }
 
 // This method loads the device location initialli, and afterwards the loading of country lists comes after
 - (void) loadData {
-    
-    if (![GenericMethods connectedToInternet])
-    {
-        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
-        [locationMngr loadCountriesAndCitiesWithDelegate:self];
-        return;
-    }
-    
-    if ([CLLocationManager locationServicesEnabled])
-    {
-        if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
-            ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized))
-        {
-            if (!deviceLocationDetector)
-                deviceLocationDetector = [[CLLocationManager alloc] init];
-            
-            [self showLoadingIndicator];
-            deviceLocationDetector.delegate = self;
-            deviceLocationDetector.distanceFilter = 500;
-            deviceLocationDetector.desiredAccuracy = kCLLocationAccuracyKilometer;
-            deviceLocationDetector.pausesLocationUpdatesAutomatically = YES;
-            
-            [deviceLocationDetector startUpdatingLocation];
-        }
-        else
-        {
-            [LocationManager sharedInstance].deviceLocationCountryCode = @"";
-            [locationMngr loadCountriesAndCitiesWithDelegate:self];
-        }
-    }
-    else
-    {
-        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
-        [locationMngr loadCountriesAndCitiesWithDelegate:self];
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
-    [deviceLocationDetector stopUpdatingLocation];
-    
-    //currentLocation = newLocation;
-    
-    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        
-        MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
-        NSString * code = mark.countryCode;
-
-        [LocationManager sharedInstance].deviceLocationCountryCode = code;
-        
-        [locationMngr loadCountriesAndCitiesWithDelegate:self];
-        
-        //self initialize drop down lists
-        [self.locationPickerView reloadAllComponents];
-
-    }];
-    
-}
-
-- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:error.localizedDescription delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-    [alert show];
-    
-    [deviceLocationDetector stopUpdatingLocation];
-    
-    [LocationManager sharedInstance].deviceLocationCountryCode = @"";
     
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
 }
@@ -298,12 +239,30 @@
     [carDetails resignFirstResponder];
 }
 
+-(void)cancelNumberPad{
+    [mobileNum resignFirstResponder];
+    mobileNum.text = @"";
+}
+
+-(void)doneWithNumberPad{
+    [mobileNum resignFirstResponder];
+}
 
 - (void) addButtonsToXib{
     [self.verticalScrollView setContentSize:CGSizeMake(320 , 420)];
     [self.verticalScrollView setScrollEnabled:YES];
     [self.verticalScrollView setShowsVerticalScrollIndicator:YES];
     
+    numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
+    numberToolbar.barStyle = UIBarStyleBlackOpaque;
+    numberToolbar.items = [NSArray arrayWithObjects:
+                           [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelNumberPad)],
+                           [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                           [[UIBarButtonItem alloc]initWithTitle:@"Apply" style:UIBarButtonItemStyleDone target:self action:@selector(doneWithNumberPad)],
+                           nil];
+    [numberToolbar sizeToFit];
+    
+
     countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
     [countryCity setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
     [countryCity setTitle:@"اختر البلد" forState:UIControlStateNormal];
@@ -334,9 +293,8 @@
     carPrice.delegate=self;
     
     currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 190, 80, 30)];
-    [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_SM.png"] forState:UIControlStateNormal];
-    [currency setTitle:@"العملة    " forState:UIControlStateNormal];
-    
+    [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
+    [currency setTitle:@"العملة" forState:UIControlStateNormal];
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
@@ -370,6 +328,7 @@
     [mobileNum setPlaceholder:@"رقم الجوال"];
     [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
     [self.verticalScrollView addSubview:mobileNum];
+     mobileNum.inputAccessoryView = numberToolbar;
     mobileNum.delegate=self;
 
        
@@ -437,7 +396,6 @@
     return -1;
 }
 
-
 #pragma mark - picker methods
 
 -(IBAction)closePicker
@@ -453,6 +411,12 @@
 
 -(IBAction)showPicker
 {
+    [carAdTitle resignFirstResponder];
+    [mobileNum resignFirstResponder];
+    [carPrice resignFirstResponder];
+    [distance resignFirstResponder];
+    [carDetails resignFirstResponder];
+
     [self.pickersView setHidden:NO];
         [self.pickersView setHidden:NO];
         [UIView animateWithDuration:0.3 animations:^{
@@ -601,7 +565,10 @@
 
     if (defaultIndex!=-1) {
         [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
+        if (defaultCityIndex != -1)
+            [self.locationPickerView selectRow:defaultCityIndex inComponent:1 animated:YES];
     }
+    
     [self.locationPickerView reloadAllComponents];
     
     locationBtnPressedOnce = YES;
@@ -749,6 +716,10 @@
 
 }
 
+- (void) dismissSelfAfterFeaturing {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - UIActionSheet Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -838,6 +809,7 @@
     
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
     vc.currentAdID = adID;
+    vc.parentNewCarVC = self;
     [self presentViewController:vc animated:YES completion:nil];
     
 }

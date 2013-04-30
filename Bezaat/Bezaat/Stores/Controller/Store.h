@@ -18,11 +18,16 @@
 @property (nonatomic, strong) NSString *ownerEmail;
 @property (nonatomic, strong) NSString *phone;
 @property (nonatomic) NSInteger countryID;
+@property (nonatomic, readonly) NSString *countryName;
 @property (nonatomic) NSInteger activeAdsCount;
 @property (nonatomic) NSInteger status;
 @property (nonatomic, strong) NSString *contactNo;
 
 @property (nonatomic, strong) NSString *desc;
+
+@property (nonatomic) NSInteger remainingDays;
+@property (nonatomic) NSInteger remainingFreeFeatureAds;
+
 
 #pragma mark - actions
 

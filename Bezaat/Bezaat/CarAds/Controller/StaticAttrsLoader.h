@@ -24,10 +24,6 @@
 #define PHONE_NUMBER_ATTR_ID        868
 #define ADCOMMENTS_EMAIL_ATTR_ID    907
 #define KM_MILES_ATTR_ID            1076
-#define CAR_CONDITION_ATTR_ID       10097
-#define GEAR_TYPE_ATTR_ID           10098
-#define CAR_TYPE_ATTR_ID            10100
-#define CAR_BODY_ATTR_ID            10101
 #define IMAGES_ID_POST_KEY          @"ImagesID"
 #pragma mark -
 
@@ -65,18 +61,6 @@
 
 //load BRAND_MODELS file
 - (NSDictionary *) loadBrandKeys;
-
-//load CAR_CONDITION file
-- (NSArray *) loadConditionValues;
-
-//load GEAR_TYPE file
-- (NSArray *) loadGearValues;
-
-//load CAR_BODY file
-- (NSArray *) loadBodyValues;
-
-//load CAR_TYPE file
-- (NSArray *) loadCarTypeValues;
 
 //load CAT_ATTRS file
 //category attributes would be fixed in code without parsing the JSON file

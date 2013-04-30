@@ -13,7 +13,8 @@
 @implementation ModelCell
 
 - (void) reloadInformation:(Model*)model {
-    _lblModel.text = model.modelName;
+
+    [self.lblModel setText:model.modelName];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

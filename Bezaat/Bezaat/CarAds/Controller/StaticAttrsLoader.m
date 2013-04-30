@@ -17,10 +17,7 @@
 #define KM_MILE_FILE_NAME           @"km_mile.json"
 #define MODEL_YEAR_FILE_NAME        @"model_year.json"
 #define SERVICE_FILE_NAME           @"service.json"
-#define CAR_CONDITION_FILE_NAME     @"car_condition.json"
-#define GEAR_TYPE_FILE_NAME         @"gear_type.json"
-#define CAR_TYPE_FILE_NAME          @"car_type.json"
-#define CAR_BODY_FILE_NAME          @"car_body.json"
+
 //<BRAND_MODELS_ID --> ModelsKey : POST_MODELS --> ModelsID>
 
 #pragma mark - ADD_PERIOD json keys
@@ -72,35 +69,6 @@
 #define SERVICE_MASTER_VALUE_JKEY                 @"MasterValue" //the display name
 #define SERVICE_DISPLAY_ORDER_JKEY                @"DisplayOrder"
 
-//-----------------------------------
-#pragma mark - CAR_CONDITION json keys
-
-#define CAR_CONDITION_CAT_ATTR_MASTER_VALUE_ID_JKEY     @"CategoryAttributeMasterValueID"
-#define CAR_CONDITION_MASTER_VALUE_JKEY                 @"MasterValue" //the display name
-#define CAR_CONDITION_DISPLAY_ORDER_JKEY                @"DisplayOrder"
-
-//-----------------------------------
-#pragma mark - GEAR_TYPE json keys
-
-#define GEAR_TYPE_CAT_ATTR_MASTER_VALUE_ID_JKEY     @"CategoryAttributeMasterValueID"
-#define GEAR_TYPE_MASTER_VALUE_JKEY                 @"MasterValue" //the display name
-#define GEAR_TYPE_DISPLAY_ORDER_JKEY                @"DisplayOrder"
-
-//-----------------------------------
-#pragma mark - CAR_BODY json keys
-
-#define CAR_BODY_CAT_ATTR_MASTER_VALUE_ID_JKEY     @"CategoryAttributeMasterValueID"
-#define CAR_BODY_MASTER_VALUE_JKEY                 @"MasterValue" //the display name
-#define CAR_BODY_DISPLAY_ORDER_JKEY                @"DisplayOrder"
-
-//-----------------------------------
-#pragma mark - CAR_TYPE json keys
-
-#define CAR_TYPE_CAT_ATTR_MASTER_VALUE_ID_JKEY     @"CategoryAttributeMasterValueID"
-#define CAR_TYPE_MASTER_VALUE_JKEY                 @"MasterValue" //the display name
-#define CAR_TYPE_DISPLAY_ORDER_JKEY                @"DisplayOrder"
-
-
 @implementation SingleValue
 @synthesize valueID, valueString, displayOrder;
 
@@ -139,11 +107,6 @@
     NSArray * modelYearValues;
     NSArray * serviceValues;
     NSDictionary * brandKeys;
-    NSArray * conditionValues;
-    NSArray * gearValues;
-    NSArray * bodyValues;
-    NSArray * typeValues;
-
 }
 @end
 
@@ -160,10 +123,6 @@
         modelYearValues = nil;
         serviceValues = nil;
         brandKeys = nil;
-        conditionValues = nil;
-        gearValues = nil;
-        bodyValues = nil;
-        typeValues = nil;
     }
     return self;
 }
@@ -317,105 +276,6 @@
         brandKeys = result;
     }
     return brandKeys;
-}
-
-- (NSArray *) loadConditionValues {
-    
-    if (!conditionValues)
-    {
-        NSData * data = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:CAR_CONDITION_FILE_NAME]];
-        
-        NSArray * parsedArray = [[JSONParser sharedInstance] parseJSONData:data];
-        NSMutableArray * result = [NSMutableArray new];
-        for (NSDictionary * dict in parsedArray)
-        {
-            //create value object
-            SingleValue * val = [[SingleValue alloc]
-                                 initWithValueIDString:[dict objectForKey:CAR_CONDITION_CAT_ATTR_MASTER_VALUE_ID_JKEY]
-                                 valueString:[dict objectForKey:CAR_CONDITION_MASTER_VALUE_JKEY]
-                                 displayOrderString:[dict objectForKey:CAR_CONDITION_DISPLAY_ORDER_JKEY]
-                                 ];
-            [result addObject:val];
-        }
-        NSArray * temp = [self sortValuesArray:result];
-        conditionValues = temp;
-        
-    }
-    return conditionValues;
-}
-
-- (NSArray *) loadGearValues {
-    
-    if (!gearValues)
-    {
-        NSData * data = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:GEAR_TYPE_FILE_NAME]];
-        
-        NSArray * parsedArray = [[JSONParser sharedInstance] parseJSONData:data];
-        NSMutableArray * result = [NSMutableArray new];
-        for (NSDictionary * dict in parsedArray)
-        {
-            //create value object
-            SingleValue * val = [[SingleValue alloc]
-                                 initWithValueIDString:[dict objectForKey:GEAR_TYPE_CAT_ATTR_MASTER_VALUE_ID_JKEY]
-                                 valueString:[dict objectForKey:GEAR_TYPE_MASTER_VALUE_JKEY]
-                                 displayOrderString:[dict objectForKey:GEAR_TYPE_DISPLAY_ORDER_JKEY]
-                                 ];
-            [result addObject:val];
-        }
-        NSArray * temp = [self sortValuesArray:result];
-        gearValues = temp;
-        
-    }
-    return gearValues;
-}
-
-- (NSArray *) loadBodyValues {
-    
-    if (!bodyValues)
-    {
-        NSData * data = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:CAR_BODY_FILE_NAME]];
-        
-        NSArray * parsedArray = [[JSONParser sharedInstance] parseJSONData:data];
-        NSMutableArray * result = [NSMutableArray new];
-        for (NSDictionary * dict in parsedArray)
-        {
-            //create value object
-            SingleValue * val = [[SingleValue alloc]
-                                 initWithValueIDString:[dict objectForKey:CAR_BODY_CAT_ATTR_MASTER_VALUE_ID_JKEY]
-                                 valueString:[dict objectForKey:CAR_BODY_MASTER_VALUE_JKEY]
-                                 displayOrderString:[dict objectForKey:CAR_BODY_DISPLAY_ORDER_JKEY]
-                                 ];
-            [result addObject:val];
-        }
-        NSArray * temp = [self sortValuesArray:result];
-        bodyValues = temp;
-    }
-    return bodyValues;
-}
-
-- (NSArray *) loadCarTypeValues {
-    
-    if (!typeValues)
-    {
-        NSData * data = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:CAR_TYPE_FILE_NAME]];
-        
-        NSArray * parsedArray = [[JSONParser sharedInstance] parseJSONData:data];
-        NSMutableArray * result = [NSMutableArray new];
-        for (NSDictionary * dict in parsedArray)
-        {
-            //create value object
-            SingleValue * val = [[SingleValue alloc]
-                                 initWithValueIDString:[dict objectForKey:CAR_TYPE_CAT_ATTR_MASTER_VALUE_ID_JKEY]
-                                 valueString:[dict objectForKey:CAR_TYPE_MASTER_VALUE_JKEY]
-                                 displayOrderString:[dict objectForKey:CAR_TYPE_DISPLAY_ORDER_JKEY]
-                                 ];
-            [result addObject:val];
-        }
-        NSArray * temp = [self sortValuesArray:result];
-        typeValues = temp;
-        
-    }
-    return typeValues;
 }
 
 #pragma mark - helper methods
