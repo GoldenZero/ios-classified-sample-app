@@ -175,7 +175,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
-    if (alertView.tag == 1) {
+    if (alertView.tag == 5) {
         FeatureStoreAdViewController *vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
         //vc.currentAdID = adID;
         vc.storeID = myStore;
