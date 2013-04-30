@@ -18,6 +18,8 @@
     
     BOOL uploadingLOGO;
     UIImage *storeImage;
+    Country *chosenCountry;
+    NSArray *countryArray;
     UITapGestureRecognizer *tap;
     MBProgressHUD2 *loadingHUD;
     
@@ -28,6 +30,8 @@
     IBOutlet UITextField *emailField;
     IBOutlet UITextField *phoneField;
     IBOutlet UITextField *placeholderTextField;
+    IBOutlet UIPickerView *locationPickerView;
+    IBOutlet UIView *pickersView;
 }
 
 @end
@@ -59,6 +63,9 @@
     [self.view addGestureRecognizer:tap];
 
     loadingHUD = [[MBProgressHUD2 alloc] init];
+    [self showLoadingIndicator];
+    [[LocationManager sharedInstance] loadCountriesAndCitiesWithDelegate:self];
+    [self closePicker];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -101,8 +108,22 @@
     [as showInView:self.view];
 }
 
+- (IBAction)chooseCountry:(id)sender {
+    [self showPicker];
+    [locationPickerView reloadAllComponents];
+    int selectedCountryIndex = 0;
+    if (chosenCountry != nil) {
+        selectedCountryIndex = [countryArray indexOfObject:chosenCountry];
+    }
+    [locationPickerView selectRow:selectedCountryIndex inComponent:0 animated:YES];
+}
+
 - (IBAction)cancelBtnPress:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)doneBtnPrss:(id)sender {
+    [self closePicker];
 }
 
 - (IBAction)saveBtnPress:(id)sender {
@@ -137,7 +158,7 @@
     store.desc = descriptionField.text;
     store.ownerEmail = emailField.text;
     store.phone = phoneField.text;
-    store.countryID =   [[LocationManager sharedInstance] getSavedUserCountryID];
+    store.countryID = chosenCountry.countryID;
     
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] createStore:store];
@@ -196,7 +217,69 @@
     [[StoreManager sharedInstance] uploadLOGO:storeImage];
 }
 
+#pragma mark - picker methods
+
+-(void)closePicker
+{
+    [pickersView setHidden:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        pickersView.frame = CGRectMake(pickersView.frame.origin.x,
+                                       [[UIScreen mainScreen] bounds].size.height,
+                                       pickersView.frame.size.width,
+                                       pickersView.frame.size.height
+                                       );
+    }];
+}
+
+-(void)showPicker
+{
+    [self dismissKeyboard];
+    [pickersView setHidden:NO];
+    [UIView animateWithDuration:0.3 animations:^{
+        pickersView.frame = CGRectMake(pickersView.frame.origin.x,
+                                       [[UIScreen mainScreen] bounds].size.height-pickersView.frame.size.height,
+                                       pickersView.frame.size.width,
+                                       pickersView.frame.size.height
+                                       );
+    }];
+}
+
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
+{
+    return 1;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    chosenCountry=(Country *)[countryArray objectAtIndex:row];
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [countryArray count];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    Country *temp=(Country*)[countryArray objectAtIndex:row];
+    return temp.countryName;
+}
+#pragma mark - LocationManagerDelegate Methods
+
+- (void) didFinishLoadingWithData:(NSArray*) resultArray{
+    countryArray=resultArray;
+    [self hideLoadingIndicator];
+    
+    // Setting default country
+    //defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    int defaultIndex = [[LocationManager sharedInstance] getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
+    if  (defaultIndex!= -1){
+        chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
+    }
+}
+
 #pragma mark - StoreManagerDelegate
+
 - (void) storeCreationDidFailWithError:(NSError *)error {
     [self hideLoadingIndicator];
 }
