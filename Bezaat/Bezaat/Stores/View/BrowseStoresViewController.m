@@ -91,6 +91,14 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     Store *store = [allUserStores objectAtIndex:indexPath.row];
     cell.name = store.name;
     cell.country = store.countryName;
+    NSString *adsCount = [NSString stringWithFormat:@"%d",store.activeAdsCount];
+    if (store.activeAdsCount != 0) {
+        adsCount = [adsCount stringByAppendingString:@" إعلانات"];
+    }
+    else {
+        adsCount = [adsCount stringByAppendingString:@" إعلان"];
+    }
+    cell.adsCount = adsCount;
     cell.logoURL = store.imageURL;
     
     return cell;
