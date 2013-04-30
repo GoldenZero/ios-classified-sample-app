@@ -72,19 +72,6 @@
 								<reference key="IBUIToolbar" ref="23913745"/>
 								<int key="IBUISystemItemIdentifier">5</int>
 							</object>
-							<object class="IBUIBarButtonItem" id="228753407">
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">buttons_search.png</string>
-								</object>
-								<double key="IBUIImageInsets.top">0.0</double>
-								<double key="IBUIImageInsets.bottom">-2.5</double>
-								<double key="IBUIImageInsets.left">0.0</double>
-								<double key="IBUIImageInsets.right">0.0</double>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<float key="IBUIWidth">30</float>
-								<reference key="IBUIToolbar" ref="23913745"/>
-							</object>
 						</array>
 					</object>
 					<object class="IBUIImageView" id="610907901">
@@ -405,7 +392,6 @@
 						<string key="NSFrame">{{171, 398}, {108, 32}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -769,7 +755,6 @@
 						<reference key="object" ref="23913745"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="514773221"/>
-							<reference ref="228753407"/>
 							<reference ref="365157332"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
@@ -777,11 +762,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">7</int>
 						<reference key="object" ref="514773221"/>
-						<reference key="parent" ref="23913745"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">6</int>
-						<reference key="object" ref="228753407"/>
 						<reference key="parent" ref="23913745"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -937,7 +917,6 @@
 				<string key="296.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1058,7 +1037,6 @@
 			<string key="AddStore_cancel.png">{109, 32}</string>
 			<string key="AddStore_save.png">{108, 32}</string>
 			<string key="buttons_home.png">{51, 41}</string>
-			<string key="buttons_search.png">{51, 41}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
