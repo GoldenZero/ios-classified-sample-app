@@ -40,8 +40,11 @@
 
 @interface FeaturingManager () {
     InternetManager * pricingManager;
+    InternetManager * storePricingManager;
     InternetManager * createOrderManager;
+    InternetManager * createStoreOrderManager;
     InternetManager * confirmOrderManager;
+    InternetManager * confirmStoreOrderManager;
     InternetManager * cancelOrderManager;
 }
 @end
@@ -51,9 +54,12 @@
 @synthesize orderDelegate;
 
 static NSString * pricing_options_url = @"/json/featured-ad-pricing?countryId=%i";
+static NSString * store_pricing_options_url = @"/json/store-payment-scheme?countryid=%i";
 
 static NSString * create_order_url = @"/json/process-for-featurad";
+static NSString * create_store_order_url = @"/json/create-store-order";
 static NSString * confirm_order_url = @"/json/confirm-featured-ad";
+static NSString * confirm_store_order_url = @"/json/confirm-store-order";
 static NSString * cancel_order_url = @"/json/cancel-featured-ad";
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
@@ -64,7 +70,9 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         self.pricingDelegate = nil;
         self.orderDelegate = nil;
         pricing_options_url = [API_MAIN_URL stringByAppendingString:pricing_options_url];
+        store_pricing_options_url = [API_MAIN_URL stringByAppendingString:store_pricing_options_url];
         create_order_url = [API_MAIN_URL stringByAppendingString:create_order_url];
+        create_store_order_url = [API_MAIN_URL stringByAppendingString:create_store_order_url];
         confirm_order_url = [API_MAIN_URL stringByAppendingString:confirm_order_url];
         cancel_order_url = [API_MAIN_URL stringByAppendingString:cancel_order_url];
     }
@@ -150,6 +158,82 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         if (self.pricingDelegate)
             [self.pricingDelegate optionsDidFailLoadingWithError:error];
+        return ;
+    }
+    
+    
+}
+
+- (void) loadStorePricingOptionsForCountry:(NSInteger) countryID withDelegate:(id <PricingOptionsDelegate>) del {
+    
+    //1- set the delegate
+    self.pricingDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.pricingDelegate)
+            [self.pricingDelegate storeOptionsDidFailLoadingWithError:error];
+        return ;
+    }
+    
+    //3- check if valid country
+    else if (countryID <= 0)
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل خيارات التمييز في بلدك الحالي"];
+        
+        if (self.pricingDelegate)
+            [self.pricingDelegate storeOptionsDidFailLoadingWithError:error];
+        return ;
+    }
+    
+    //4- set the url string
+    NSString * fullURLString = [NSString stringWithFormat:store_pricing_options_url, countryID];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        //5- send the request
+        [request setURL:correctURL];
+        storePricingManager = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.pricingDelegate)
+            [self.pricingDelegate storeOptionsDidFailLoadingWithError:error];
         return ;
     }
     
@@ -242,6 +326,93 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
+- (void) createStoreOrderForStoreID:(NSInteger) storeID withcountryID:(NSInteger) countryID withShemaName:(NSInteger)shemaID WithDelegate:(id <FeaturingOrderDelegate>) del
+{ //(Payment method will be detected inside)
+    
+    //1- set the delegate
+    self.orderDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.orderDelegate)
+            [self.orderDelegate StoreOrderDidFailCreationWithError:error];
+        return ;
+    }
+    
+    NSString * fullURLString = create_store_order_url;
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        NSInteger paymentMethod;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            paymentMethod = IPHONE_PAYMENT_METHOD_NUMBER;
+        else
+            paymentMethod = IPAD_PAYMENT_METHOD_NUMBER;
+        
+        //3- start the request
+        NSString * post = [NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
+                           @"StoreID", [NSString stringWithFormat:@"%i", storeID],
+                           @"CountryID", [NSString stringWithFormat:@"%i", countryID],
+                           @"PaymentSchemeID", [NSString stringWithFormat:@"%i", shemaID],@"Device",[NSString stringWithFormat:@"%i", paymentMethod]
+                           ];
+        
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setTimeoutInterval:60];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        [request setHTTPBody:postData];
+        
+        createStoreOrderManager = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+        
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.orderDelegate)
+            [self.orderDelegate StoreOrderDidFailCreationWithError:error];
+        return ;
+    }
+    
+}
+
 - (void) confirmOrderID:(NSString *) orderID gatewayResponse:(NSString *) aGatewayResponse withDelegate:(id <FeaturingOrderDelegate>) del {
     
     //1- set the delegate
@@ -317,6 +488,85 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         if (self.orderDelegate)
             [self.orderDelegate orderDidFailConfirmingWithError:error];
+        return ;
+    }
+}
+
+
+- (void) confirmStoreOrderID:(NSString *) orderID withAppName:(NSString*)appName gatewayResponse:(NSString *) aGatewayResponse withDelegate:(id <FeaturingOrderDelegate>) del {
+    
+    //1- set the delegate
+    self.orderDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.orderDelegate)
+            [self.orderDelegate StoreOrderDidFailConfirmingWithError:error];
+        return ;
+    }
+    
+    NSString * fullURLString = confirm_store_order_url;
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        
+        //3- start the request
+        NSString * post = [NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@",
+                           ORDER_ID_POST_KEY, orderID,@"AppStoreName",appName,                           CONFIRM_ORDER_GATE_RESPONSE_POST_KEY, aGatewayResponse
+                           ];
+        
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setTimeoutInterval:60];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        [request setHTTPBody:postData];
+        
+        confirmStoreOrderManager = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+        
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل العملية"];
+        
+        if (self.orderDelegate)
+            [self.orderDelegate StoreOrderDidFailConfirmingWithError:error];
         return ;
     }
 }
@@ -406,15 +656,30 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         if (self.pricingDelegate)
             [pricingDelegate optionsDidFailLoadingWithError:error];
     }
+    else if (manager == storePricingManager)
+    {
+        if (self.pricingDelegate)
+            [pricingDelegate storeOptionsDidFailLoadingWithError:error];
+    }
     else if (manager == createOrderManager)
     {
         if (self.orderDelegate)
             [orderDelegate orderDidFailCreationWithError:error];
     }
+    else if (manager == createStoreOrderManager)
+    {
+        if (self.orderDelegate)
+            [orderDelegate StoreOrderDidFailCreationWithError:error];
+    }
     else if (manager == confirmOrderManager)
     {
         if (self.orderDelegate)
             [orderDelegate orderDidFailConfirmingWithError:error];
+    }
+    else if (manager == confirmStoreOrderManager)
+    {
+        if (self.orderDelegate)
+            [orderDelegate StoreOrderDidFailConfirmingWithError:error];
     }
     else if (manager == cancelOrderManager)
     {
@@ -433,15 +698,30 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if (self.pricingDelegate)
                 [pricingDelegate optionsDidFailLoadingWithError:error];
         }
+        else if (manager == storePricingManager)
+        {
+            if (self.pricingDelegate)
+                [pricingDelegate storeOptionsDidFailLoadingWithError:error];
+        }
         else if (manager == createOrderManager)
         {
             if (self.orderDelegate)
                 [orderDelegate orderDidFailCreationWithError:error];
         }
+        else if (manager == createStoreOrderManager)
+        {
+            if (self.orderDelegate)
+                [orderDelegate StoreOrderDidFailCreationWithError:error];
+        }
         else if (manager == confirmOrderManager)
         {
             if (self.orderDelegate)
                 [orderDelegate orderDidFailConfirmingWithError:error];
+        }
+        else if (manager == confirmStoreOrderManager)
+        {
+            if (self.orderDelegate)
+                [orderDelegate StoreOrderDidFailConfirmingWithError:error];
         }
         else if (manager == cancelOrderManager)
         {
@@ -455,6 +735,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         {
             NSArray * pricingOptions = [self createPricingOptionsArrayWithData:(NSArray *) result];
             [pricingDelegate optionsDidFinishLoadingWithData:pricingOptions];
+        }
+        else if (manager == storePricingManager)
+        {
+            NSArray * pricingOptions = [self createStorePricingOptionsArrayWithData:(NSArray *) result];
+            [pricingDelegate storeOptionsDidFinishLoadingWithData:pricingOptions];
         }
         else if (manager == createOrderManager)
         {
@@ -481,6 +766,35 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     
                     if (self.orderDelegate)
                         [orderDelegate orderDidFailCreationWithError:error];
+                }
+                
+            }
+        }
+        else if (manager == createStoreOrderManager)
+        {
+            NSArray * data = (NSArray *)result;
+            if ((data) && (data.count > 0))
+            {
+                NSDictionary * totalDict = [data objectAtIndex:0];
+                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSInteger statusCode = statusCodeString.integerValue;
+                
+                NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                
+                if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                {
+                    NSString * orderIdentifier = [totalDict objectForKey:PRICING_DATA_JKEY];
+                    
+                    if (self.orderDelegate)
+                        [orderDelegate StoreOrderDidFinishCreationWithID:orderIdentifier];
+                }
+                else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:statusMessageProcessed];
+                    
+                    if (self.orderDelegate)
+                        [orderDelegate StoreOrderDidFailCreationWithError:error];
                 }
                 
             }
@@ -523,6 +837,48 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     
                     if (self.orderDelegate)
                         [orderDelegate orderDidFailConfirmingWithError:error];
+                }
+                
+            }
+        }
+        else if (manager == confirmStoreOrderManager)
+        {
+            NSArray * data = (NSArray *)result;
+            if ((data) && (data.count > 0))
+            {
+                NSDictionary * totalDict = [data objectAtIndex:0];
+                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSInteger statusCode = statusCodeString.integerValue;
+                
+                NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                
+                if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                {
+                    NSString * data = [totalDict objectForKey:PRICING_DATA_JKEY];
+                    NSString * dataProcessed = [[data stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                    
+                    if ([dataProcessed isEqualToString:@"success"])
+                    {
+                        if (self.orderDelegate)
+                            [orderDelegate StoreOrderDidFinishConfirmingWithStatus:YES];
+                    }
+                    else
+                    {
+                        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                        [error setDescMessage:@"فشل العملية"];
+                        
+                        if (self.orderDelegate)
+                            [self.orderDelegate StoreOrderDidFailConfirmingWithError:error];
+                        return ;
+                    }
+                }
+                else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:statusMessageProcessed];
+                    
+                    if (self.orderDelegate)
+                        [orderDelegate StoreOrderDidFailConfirmingWithError:error];
                 }
                 
             }
@@ -573,40 +929,77 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 }
 
 #pragma mark - helper methods
-    - (NSArray * ) createPricingOptionsArrayWithData:(NSArray *) data {
+- (NSArray * ) createPricingOptionsArrayWithData:(NSArray *) data {
+    
+    if ((data) && (data.count > 0))
+    {
+        NSDictionary * totalDict = [data objectAtIndex:0];
+        NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+        NSInteger statusCode = statusCodeString.integerValue;
         
-        if ((data) && (data.count > 0))
+        NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+        
+        NSMutableArray * optionsArray = [NSMutableArray new];
+        if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
         {
-            NSDictionary * totalDict = [data objectAtIndex:0];
-            NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
-            NSInteger statusCode = statusCodeString.integerValue;
-            
-            NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
-            
-            NSMutableArray * optionsArray = [NSMutableArray new];
-            if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+            NSArray * dataOptionsArray = [totalDict objectForKey:PRICING_DATA_JKEY];
+            if ((dataOptionsArray) && (dataOptionsArray.count))
             {
-                NSArray * dataOptionsArray = [totalDict objectForKey:PRICING_DATA_JKEY];
-                if ((dataOptionsArray) && (dataOptionsArray.count))
+                for (NSDictionary * optionDict in dataOptionsArray)
                 {
-                    for (NSDictionary * optionDict in dataOptionsArray)
-                    {
-                        
-                        PricingOption * option = [[PricingOption alloc]
-                                                  initWithPricingIDString:[optionDict objectForKey:PRICING_OPTIONS_PRICING_ID_JKEY]
-                                                  countryID:[optionDict objectForKey:PRICING_OPTIONS_COUNTRY_ID_JKEY]
-                                                  adPeriodDaysString:[optionDict objectForKey:PRICING_OPTIONS_AD_PERIOD_DAYS_JKEY]
-                                                  price:[optionDict objectForKey:PRICING_OPTIONS_PRICE_JKEY]
-                                                  pricingName:[optionDict objectForKey:PRICING_OPTIONS_PRICING_NAME_JKEY]
-                                                  ];
-                        
-                        [optionsArray addObject:option];
-                        
-                    }
+                    
+                    PricingOption * option = [[PricingOption alloc]
+                                              initWithPricingIDString:[optionDict objectForKey:PRICING_OPTIONS_PRICING_ID_JKEY]
+                                              countryID:[optionDict objectForKey:PRICING_OPTIONS_COUNTRY_ID_JKEY]
+                                              adPeriodDaysString:[optionDict objectForKey:PRICING_OPTIONS_AD_PERIOD_DAYS_JKEY]
+                                              price:[optionDict objectForKey:PRICING_OPTIONS_PRICE_JKEY]
+                                              pricingName:[optionDict objectForKey:PRICING_OPTIONS_PRICING_NAME_JKEY]
+                                              ];
+                    
+                    [optionsArray addObject:option];
+                    
                 }
             }
-            return optionsArray;
         }
-        return [NSArray new];
+        return optionsArray;
     }
-    @end
+    return [NSArray new];
+}
+
+- (NSArray * ) createStorePricingOptionsArrayWithData:(NSArray *) data {
+    
+    if ((data) && (data.count > 0))
+    {
+        NSDictionary * totalDict = [data objectAtIndex:0];
+        NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+        NSInteger statusCode = statusCodeString.integerValue;
+        
+        NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+        
+        NSMutableArray * optionsArray = [NSMutableArray new];
+        if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+        {
+            NSArray * dataOptionsArray = [totalDict objectForKey:PRICING_DATA_JKEY];
+            if ((dataOptionsArray) && (dataOptionsArray.count))
+            {
+                for (NSDictionary * optionDict in dataOptionsArray)
+                {
+                    
+                    PricingOption * option = [[PricingOption alloc]
+                                              initWithPricingIDString:[optionDict objectForKey:@"StorePaymentSchemeID"]
+                                              countryID:[optionDict objectForKey:PRICING_OPTIONS_COUNTRY_ID_JKEY]
+                                              adPeriodDaysString:[optionDict objectForKey:@"DurationInDays"]
+                                              price:[optionDict objectForKey:PRICING_OPTIONS_PRICE_JKEY]
+                                              pricingName:[optionDict objectForKey:@"SchemeName"]
+                                              ];
+                    
+                    [optionsArray addObject:option];
+                    
+                }
+            }
+        }
+        return optionsArray;
+    }
+    return [NSArray new];
+}
+@end

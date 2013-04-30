@@ -586,6 +586,12 @@
 		84D0D29C1729434B00503CF3 /* iphone5_openstore.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0D2961729434B00503CF3 /* iphone5_openstore.png */; };
 		84D0D29D1729434B00503CF3 /* managestore.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0D2971729434B00503CF3 /* managestore.png */; };
 		84D0D29E1729434B00503CF3 /* managestore@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0D2981729434B00503CF3 /* managestore@2x.png */; };
+		84D84BC9173008E100ADDF8F /* AddNewStoreAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D84BC1173008E000ADDF8F /* AddNewStoreAdViewController.m */; };
+		84D84BCA173008E100ADDF8F /* AddNewStoreAdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84D84BC2173008E000ADDF8F /* AddNewStoreAdViewController.xib */; };
+		84D84BCB173008E100ADDF8F /* FeatureAdCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D84BC4173008E000ADDF8F /* FeatureAdCell.m */; };
+		84D84BCC173008E100ADDF8F /* FeatureAdCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84D84BC5173008E000ADDF8F /* FeatureAdCell.xib */; };
+		84D84BCD173008E100ADDF8F /* FeatureStoreAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D84BC7173008E000ADDF8F /* FeatureStoreAdViewController.m */; };
+		84D84BCE173008E100ADDF8F /* FeatureStoreAdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84D84BC8173008E000ADDF8F /* FeatureStoreAdViewController.xib */; };
 		9E06E49717141C25006404F7 /* DistanceRanges.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E06E49617141C25006404F7 /* DistanceRanges.json */; };
 		9E06E49D1714205A006404F7 /* DistanceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E49C1714205A006404F7 /* DistanceRange.m */; };
 		9E06E4CF1715A091006404F7 /* DeviceRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E4CE1715A091006404F7 /* DeviceRegistration.m */; };
@@ -1584,6 +1590,15 @@
 		84D0D2961729434B00503CF3 /* iphone5_openstore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone5_openstore.png; sourceTree = "<group>"; };
 		84D0D2971729434B00503CF3 /* managestore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = managestore.png; sourceTree = "<group>"; };
 		84D0D2981729434B00503CF3 /* managestore@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "managestore@2x.png"; sourceTree = "<group>"; };
+		84D84BC0173008E000ADDF8F /* AddNewStoreAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewStoreAdViewController.h; sourceTree = "<group>"; };
+		84D84BC1173008E000ADDF8F /* AddNewStoreAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewStoreAdViewController.m; sourceTree = "<group>"; };
+		84D84BC2173008E000ADDF8F /* AddNewStoreAdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddNewStoreAdViewController.xib; sourceTree = "<group>"; };
+		84D84BC3173008E000ADDF8F /* FeatureAdCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeatureAdCell.h; sourceTree = "<group>"; };
+		84D84BC4173008E000ADDF8F /* FeatureAdCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeatureAdCell.m; sourceTree = "<group>"; };
+		84D84BC5173008E000ADDF8F /* FeatureAdCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeatureAdCell.xib; sourceTree = "<group>"; };
+		84D84BC6173008E000ADDF8F /* FeatureStoreAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeatureStoreAdViewController.h; sourceTree = "<group>"; };
+		84D84BC7173008E000ADDF8F /* FeatureStoreAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeatureStoreAdViewController.m; sourceTree = "<group>"; };
+		84D84BC8173008E000ADDF8F /* FeatureStoreAdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeatureStoreAdViewController.xib; sourceTree = "<group>"; };
 		9E06E49617141C25006404F7 /* DistanceRanges.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DistanceRanges.json; sourceTree = "<group>"; };
 		9E06E49B17142059006404F7 /* DistanceRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceRange.h; sourceTree = "<group>"; };
 		9E06E49C1714205A006404F7 /* DistanceRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistanceRange.m; sourceTree = "<group>"; };
@@ -3565,6 +3580,15 @@
 		9E9F09FE16E7475B000E8471 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				84D84BC0173008E000ADDF8F /* AddNewStoreAdViewController.h */,
+				84D84BC1173008E000ADDF8F /* AddNewStoreAdViewController.m */,
+				84D84BC2173008E000ADDF8F /* AddNewStoreAdViewController.xib */,
+				84D84BC3173008E000ADDF8F /* FeatureAdCell.h */,
+				84D84BC4173008E000ADDF8F /* FeatureAdCell.m */,
+				84D84BC5173008E000ADDF8F /* FeatureAdCell.xib */,
+				84D84BC6173008E000ADDF8F /* FeatureStoreAdViewController.h */,
+				84D84BC7173008E000ADDF8F /* FeatureStoreAdViewController.m */,
+				84D84BC8173008E000ADDF8F /* FeatureStoreAdViewController.xib */,
 				61201C4A171EF7F700B809C2 /* AddNewStoreViewController.h */,
 				61201C4B171EF7F700B809C2 /* AddNewStoreViewController.m */,
 				61201C4C171EF7F700B809C2 /* AddNewStoreViewController.xib */,
@@ -4562,6 +4586,9 @@
 				2438F396172FE03B00465E79 /* sadeFace_text_3@2x.png in Resources */,
 				2438F397172FE03B00465E79 /* sadeFace_white.png in Resources */,
 				2438F398172FE03B00465E79 /* sadeFace_white@2x.png in Resources */,
+				84D84BCA173008E100ADDF8F /* AddNewStoreAdViewController.xib in Resources */,
+				84D84BCC173008E100ADDF8F /* FeatureAdCell.xib in Resources */,
+				84D84BCE173008E100ADDF8F /* FeatureStoreAdViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4676,6 +4703,9 @@
 				9EE86C4B172D473000C1A013 /* SSLabel.m in Sources */,
 				9EE86C4C172D473000C1A013 /* SSText.m in Sources */,
 				61713F95172D7CF500BB256D /* StoreAdvTableViewCell.m in Sources */,
+				84D84BC9173008E100ADDF8F /* AddNewStoreAdViewController.m in Sources */,
+				84D84BCB173008E100ADDF8F /* FeatureAdCell.m in Sources */,
+				84D84BCD173008E100ADDF8F /* FeatureStoreAdViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

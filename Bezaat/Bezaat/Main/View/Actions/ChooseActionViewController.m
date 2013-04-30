@@ -116,12 +116,12 @@
 
 - (IBAction)AddNewStoreBtnPressed:(id)sender {
     [self hideMenu];
-    /*
+    
     AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
-     */
-    NSString* launchUrl = @"http://bezaat.com/ksa/riyadh/account/create-store";
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: launchUrl]];
+     
+    //NSString* launchUrl = @"http://bezaat.com/ksa/riyadh/account/create-store";
+    //[[UIApplication sharedApplication] openURL:[NSURL URLWithString: launchUrl]];
 
 }
 

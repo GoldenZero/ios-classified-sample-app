@@ -14,15 +14,26 @@
 @required
 - (void) optionsDidFailLoadingWithError:(NSError *) error;
 - (void) optionsDidFinishLoadingWithData:(NSArray*) resultArray;
+
+- (void) storeOptionsDidFailLoadingWithError:(NSError *) error;
+- (void) storeOptionsDidFinishLoadingWithData:(NSArray*) resultArray;
 @end
 
 @protocol FeaturingOrderDelegate <NSObject>
 @required
 - (void) orderDidFailCreationWithError:(NSError *) error;
 - (void) orderDidFinishCreationWithID:(NSString *) orderID;
+//store
+- (void) StoreOrderDidFailCreationWithError:(NSError *) error;
+- (void) StoreOrderDidFinishCreationWithID:(NSString *) orderID;
+
 
 - (void) orderDidFailConfirmingWithError:(NSError *) error;
 - (void) orderDidFinishConfirmingWithStatus:(BOOL) status;
+//store
+- (void) StoreOrderDidFailConfirmingWithError:(NSError *) error;
+- (void) StoreOrderDidFinishConfirmingWithStatus:(BOOL) status;
+
 
 - (void) orderDidFailCancellingWithError:(NSError *) error;
 - (void) orderDidFinishCancellingWithStatus:(BOOL) status;
@@ -39,9 +50,15 @@
 
 - (void) loadPricingOptionsForCountry:(NSInteger) countryID withDelegate:(id <PricingOptionsDelegate>) del;
 
+- (void) loadStorePricingOptionsForCountry:(NSInteger) countryID withDelegate:(id <PricingOptionsDelegate>) del;
+
 - (void) createOrderForFeaturingAdID:(NSInteger) adID withPricingID:(NSInteger) pricingID WithDelegate:(id <FeaturingOrderDelegate>) del;
 
+- (void) createStoreOrderForStoreID:(NSInteger) storeID withcountryID:(NSInteger) countryID withShemaName:(NSInteger)shemaID WithDelegate:(id <FeaturingOrderDelegate>) del;
+
 - (void) confirmOrderID:(NSString *) orderID gatewayResponse:(NSString *) aGatewayResponse withDelegate:(id <FeaturingOrderDelegate>) del;
+
+- (void) confirmStoreOrderID:(NSString *) orderID withAppName:(NSString*)appName gatewayResponse:(NSString *) aGatewayResponse withDelegate:(id <FeaturingOrderDelegate>) del;
 
 - (void) cancelOrderID:(NSString *) orderID withDelegate:(id <FeaturingOrderDelegate>) del;
 @end
