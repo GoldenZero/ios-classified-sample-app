@@ -83,8 +83,9 @@
 #pragma mark - Actions
 
 - (IBAction)homeBtnPress:(id)sender {
-    ChooseActionViewController *homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
-    [self presentViewController:homeVC animated:YES completion:nil];
+//    ChooseActionViewController *homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+//    [self presentViewController:homeVC animated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)chooseImageBtnPress:(id)sender {

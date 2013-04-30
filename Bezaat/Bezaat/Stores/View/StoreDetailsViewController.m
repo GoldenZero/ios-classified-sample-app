@@ -190,7 +190,11 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     cell.advID = adv.adID;
     cell.imageURL = adv.thumbnailURL;
     cell.title = adv.title;
-    cell.price = [NSString stringWithFormat:@"%f %@",adv.price,(adv.currencyString == nil)?@"":adv.currencyString];
+    NSString *price = @"";
+    if (adv.price != 0) {
+        price = [NSString stringWithFormat:@"%f %@",adv.price,(adv.currencyString == nil)?@"":adv.currencyString];
+    }
+    cell.price = price;
     cell.isFeatured = adv.isFeatured;
     cell.viewCount = adv.viewCount;
     cell.distanceRange = adv.distanceRangeInKm;
