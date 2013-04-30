@@ -55,6 +55,29 @@
     [self prepareImages];
     [self customGestures];
     
+     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    
+    if (savedProfile.hasStores) {
+        if ([[UIScreen mainScreen] bounds].size.height == 568){
+            AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 30, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 78);
+            [AddStoreButton setImage:[UIImage imageNamed:@"iphone5_managestore.png"] forState:UIControlStateNormal];
+            
+            BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
+            [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
+            
+            AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x, AddCarButton.frame.origin.y, AddCarButton.frame.size.width, AddCarButton.frame.size.height + 30);
+            [AddCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
+        }else
+        {
+            AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 12, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
+            [AddStoreButton setImage:[UIImage imageNamed:@"managestore.png"] forState:UIControlStateNormal];
+            
+            BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x + 2, BuyCarButton.frame.origin.y + 7, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height);
+            
+            AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x - 1, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
+            
+        }
+    }else {
     
     if ([[UIScreen mainScreen] bounds].size.height == 568){
         AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 30, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 78);
@@ -73,6 +96,7 @@
         
         AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x - 1, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
 
+    }
     }
     
     // Do any additional setup after loading the view from its nib.
