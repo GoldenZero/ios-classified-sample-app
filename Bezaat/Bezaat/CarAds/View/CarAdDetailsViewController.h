@@ -23,8 +23,8 @@
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (strong, nonatomic) IBOutlet UIScrollView *labelsScrollView;
-@property (strong, nonatomic) IBOutlet UILabel *detailsLabel;
-@property (strong, nonatomic) IBOutlet UILabel *priceLabel;
+@property (strong, nonatomic) IBOutlet SSLabel *detailsLabel;
+@property (strong, nonatomic) IBOutlet SSLabel *priceLabel;
 @property (strong, nonatomic) IBOutlet UILabel *addTimeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *yearMiniLabel;
 @property (strong, nonatomic) IBOutlet UILabel *watchingCountLabel;
@@ -38,6 +38,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
 
+@property (strong, nonatomic) IBOutlet UIView *callBarView;
 @property (nonatomic) NSUInteger currentAdID;
 @property (strong, nonatomic) IBOutlet UIImageView *callBarImgBg;
 
@@ -46,8 +47,9 @@
 @property (strong, nonatomic) IBOutlet UIView *storeView;
 @property (strong, nonatomic) IBOutlet UIImageView *bgStoreView;
 @property (strong, nonatomic) IBOutlet UIImageView *brandStoreImg;
-@property (strong, nonatomic) IBOutlet UILabel *nameStoreLabel;
+@property (strong, nonatomic) IBOutlet SSLabel *nameStoreLabel;
 @property (strong, nonatomic) IBOutlet UIView *contentView;
+@property (strong, nonatomic) IBOutlet SSLabel *viewInStoreLabel;
 
 
 #pragma mark - actions

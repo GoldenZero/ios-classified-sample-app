@@ -612,7 +612,7 @@
             [self.distinguishingImage setHidden:NO];
             NSLog(@"%c",currentDetailsObject.isFeatured);
             [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_Sp.png"]];
-            [self.priceLabel setTextColor:[UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f]];
+           // [self.priceLabel setTextColor:[UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f]];
             [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
             [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar_Sp.png"]];
             
@@ -622,7 +622,19 @@
         if (currentDetailsObject.storeID!=0) {
             [self.storeView setHidden:NO];
             self.contentView.frame=CGRectMake(0,124 ,self.contentView.frame.size.width , self.contentView.frame.size.height);
+           
+            [self.nameStoreLabel setBackgroundColor:[UIColor clearColor]];
             [self.nameStoreLabel setText:currentDetailsObject.storeName];
+            [self.nameStoreLabel setTextAlignment:SSTextAlignmentRight];
+            [self.nameStoreLabel setTextColor:[UIColor grayColor]];
+            [self.nameStoreLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:16.0] ];
+            
+            [self.viewInStoreLabel setBackgroundColor:[UIColor clearColor]];
+            [self.viewInStoreLabel setText:@"معروض في متجر"];
+            [self.viewInStoreLabel setTextAlignment:SSTextAlignmentRight];
+            [self.viewInStoreLabel setTextColor:[UIColor grayColor]];
+            [self.viewInStoreLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:16.0] ];
+            
             NSURL* aURL = currentDetailsObject.storeLogoURL;
             UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:aURL]];
             [self.brandStoreImg setImage:image];
@@ -653,8 +665,18 @@
     //3- display data
     if (currentDetailsObject)
     {
-        self.detailsLabel.text = currentDetailsObject.title;
+        [self.detailsLabel setBackgroundColor:[UIColor clearColor]];
+        [self.detailsLabel setText:currentDetailsObject.title];
+        [self.detailsLabel setTextAlignment:SSTextAlignmentRight];
+        [self.detailsLabel setTextColor:[UIColor blackColor]];
+        [self.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:15.0] ];
+
         
+        [self.priceLabel setBackgroundColor:[UIColor clearColor]];
+        [self.priceLabel setTextAlignment:SSTextAlignmentRight];
+        [self.priceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
+        [self.priceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:13.0] ];
+
         NSString * priceStr = [GenericMethods formatPrice:currentDetailsObject.price];
         if ([priceStr isEqualToString:@""])
             self.priceLabel.text = priceStr;
