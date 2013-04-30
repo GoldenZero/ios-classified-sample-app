@@ -7,6 +7,7 @@
 //
 
 #import "StoreDetailsViewController.h"
+#import "StoreAdvTableViewCell.h"
 #import "CarAd.h"
 
 @interface StoreDetailsViewController () {

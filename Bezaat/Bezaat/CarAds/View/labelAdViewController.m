@@ -10,7 +10,6 @@
 #import "labelAdCell.h"
 #import "whyLabelAdViewController.h"
 
-
 @interface labelAdViewController ()
 {
     NSArray * productsArr;
@@ -20,17 +19,12 @@
     
     MBProgressHUD2 * loadingHUD;
     NSArray * pricingOptions;
-    NSString * currentOrderID;
-    NSString * currentProductID;
-    PricingOption * chosenPricingOption;
 }
 @end
 
 @implementation labelAdViewController
 @synthesize currentAdID;
-@synthesize laterBtn, nowBtn, parentNewCarVC;
-
-static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
+NSString *const MyProductPurchasedNotification = @"MyProductPurchasedNotification";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,7 +46,8 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
     //register the current class as transaction observer
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    [[SKPaymentQueue defaultQueue]
+     addTransactionObserver:self];
     
     //init the productsArr
     productsArr = [NSArray new];
@@ -63,13 +58,14 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     //load the options
     [self loadPricingOptions];
     
-    currentOrderID = @"";
-    currentProductID = @"";
-    chosenPricingOption = nil;
+    //[self purchaseProductWithIdentifier:@"com.bezaat.uae.25"];
+    //[self purchaseProductWithIdentifier:@"com.bezaat.uae.test"];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:MyProductPurchasedNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -84,31 +80,10 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 }
 
 - (IBAction)laterBtnPressed:(id)sender {
-    /*
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (self.parentNewCarVC)
-            [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
-    }];*/
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)labelAdBtnPressed:(id)sender {
-    
-    if (chosenPricingOption)
-    {
-        //1- extract product ID from pricing option
-        //Form is: com.bezaat.cars.[country_id].[pricing_id]
-        currentProductID = [NSString stringWithFormat:product_id_form,
-                            [[SharedUser sharedInstance] getUserCountryID],
-                            chosenPricingOption.pricingID
-                            ];
-        
-        //2- carete the order
-        [[FeaturingManager sharedInstance]
-         createOrderForFeaturingAdID:currentAdID
-         withPricingID:chosenPricingOption.pricingID WithDelegate:self];
-    }
-    
 }
 
 - (IBAction)explainAdBtnPrss:(id)sender {
@@ -159,33 +134,60 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     choosenCell=indexPath.row;
-    chosenPricingOption = [pricingOptions objectAtIndex:indexPath.row];
+    if (productsArr && productsArr.count)
+    {
+        SKProduct *product = [productsArr objectAtIndex:indexPath.row];
+        [self purchaseProductWithIdentifier:product.productIdentifier];
+    }
     [self.tableView reloadData];
 }
 
-/*
 - (void) chosenPeriodPressed{
- 
+    
 }
-*/
+
+- (void) purchaseProductWithIdentifier:(NSString *) identifier {
+    
+    
+    if ([SKPaymentQueue canMakePayments])
+    {
+        
+        SKProductsRequest *request = [[SKProductsRequest alloc]
+                                      initWithProductIdentifiers:
+                                      [NSArray arrayWithObjects:identifier, nil]];
+        request.delegate = self;
+        [request start];
+    }
+    else
+        NSLog(@"Please enable In App Purchase in Settings");
+
+}
 
 #pragma mark - SKProductsRequestDelegate
 
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
 {
     productsArr = response.products;
+    
     if (productsArr.count != 0)
     {
-        SKProduct * prod = productsArr[0];
-        SKPayment * payment = [SKPayment paymentWithProduct:prod];
-        [[SKPaymentQueue defaultQueue] addPayment:payment];
-
+        for (SKProduct * prod in productsArr)
+        {
+            NSLog(@"ID: %@, title: %@, desc: %@, ", prod.productIdentifier, prod.localizedTitle, prod.localizedDescription);
+            SKPayment * payment = [SKPayment paymentWithProduct:prod];
+            [[SKPaymentQueue defaultQueue] addPayment:payment];
+        }
+    } else {
+        NSLog(@"No product found");
     }
-    else
-        [GenericMethods throwAlertWithTitle:@"" message:@"فشل العملية" delegateVC:self];
     
+    NSArray * invalidProducts = response.invalidProductIdentifiers;
+    
+    for (SKProduct * product in invalidProducts)
+    {
+        NSLog(@"Product not found: %@", product);
+    }
 }
-
 
 #pragma mark - SKPaymentTransactionObserver
 
@@ -194,40 +196,17 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     for (SKPaymentTransaction *transaction in transactions)
     {
         switch (transaction.transactionState) {
-            case SKPaymentTransactionStatePurchasing:
-				break;
-                
             case SKPaymentTransactionStatePurchased:
-                //NSLog(@"Purchased successfully");
-                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                
-                //confirm order
-                [self confirmCurrentOrderWithResponse:transaction.transactionIdentifier];
-                
+                NSLog(@"Purchased successfully");
+                [[SKPaymentQueue defaultQueue]
+                 finishTransaction:transaction];
+                [[NSNotificationCenter defaultCenter] postNotificationName:MyProductPurchasedNotification object:transaction.payment.productIdentifier userInfo:nil];
                 break;
-            
-            /*
-            case SKPaymentTransactionStateRestored:
-				[[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 
-                //confirm order
-                [self confirmCurrentOrderWithResponse:transaction.transactionIdentifier];
-                
-				break;
-            */
             case SKPaymentTransactionStateFailed:
                 NSLog(@"Transaction Failed");
-                
-                if (transaction.error.code != SKErrorPaymentCancelled) // error!
-                    [GenericMethods throwAlertWithTitle:@"خطأ" message:transaction.error.localizedDescription delegateVC:self];
-                
-                //else // this is fine, the user just cancelled
-                
-                [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                
-                //cancel order
-                [self cancelCurrentOrder];
-                
+                [[SKPaymentQueue defaultQueue]
+                 finishTransaction:transaction];
                 break;
                 
             default:
@@ -236,8 +215,14 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     }
 }
 
-#pragma mark - helper methods
+- (void)productPurchased:(NSNotification *)notification {
+    
+    NSString * productIdentifier = notification.object;
+    NSLog(@"product is purchased: %@", productIdentifier);
+    
+}
 
+#pragma mark - helper methods
 - (void) loadPricingOptions {
     
     [self showLoadingIndicator];
@@ -248,7 +233,7 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     
     loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
     loadingHUD.mode = MBProgressHUDModeIndeterminate2;
-    loadingHUD.labelText = @"";
+    loadingHUD.labelText = @"جاري تحميل البيانات";
     loadingHUD.detailsLabelText = @"";
     loadingHUD.dimBackground = YES;
     
@@ -259,44 +244,8 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     if (loadingHUD)
         [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
     loadingHUD = nil;
-}
-
-- (void) purchaseProductWithIdentifier:(NSString *) identifier {
     
-    if ([SKPaymentQueue canMakePayments])
-    {
-        SKProductsRequest *request = [[SKProductsRequest alloc]
-                                      initWithProductIdentifiers:
-                                      [NSArray arrayWithObjects:identifier, nil]];
-        request.delegate = self;
-        [request start];
-    }
-    else
-    {
-        [GenericMethods throwAlertWithTitle:@"" message:@"الرجاء تفعيل إعدادات الشراء في الجهاز" delegateVC:self];
-    }
 }
-
-- (void) confirmCurrentOrderWithResponse:(NSString *) responseString {
-    if (![currentOrderID isEqualToString:@""])
-    {
-        [self showLoadingIndicator];
-        
-        [[FeaturingManager sharedInstance] confirmOrderID:currentOrderID
-                                          gatewayResponse:responseString
-                                             withDelegate:self];
-    }
-}
-
-- (void) cancelCurrentOrder {
-    if (![currentOrderID isEqualToString:@""])
-    {
-        [self showLoadingIndicator];
-        [[FeaturingManager sharedInstance] cancelOrderID:currentOrderID
-                                            withDelegate:self];
-    }
-}
-
 
 #pragma mark - PricingOptions Delegate
 
@@ -305,85 +254,12 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     [self hideLoadingIndicator];
     
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
-    
-    currentOrderID = @"";
-    currentProductID = @"";
-    chosenPricingOption = nil;
-    
-    [self.laterBtn setEnabled:NO];
-    [self.nowBtn setEnabled:NO];
-    
 }
 
 - (void) optionsDidFinishLoadingWithData:(NSArray *)resultArray {
-    
     [self hideLoadingIndicator];
     
     pricingOptions = [NSArray arrayWithArray:resultArray];
-    
-    if (resultArray && resultArray.count)
-    {
-        chosenPricingOption = [resultArray objectAtIndex:0];
-        [self.laterBtn setEnabled:YES];
-        [self.nowBtn setEnabled:YES];
-        [self.tableView reloadData];
-    }
-    else
-    {
-        //NOOR: set the background of sad face
-    }
+    [self.tableView reloadData];
 }
-
-#pragma mark -  FeaturingOrder Delegate
-
-//creation
-- (void) orderDidFailCreationWithError:(NSError *) error {
-    [self hideLoadingIndicator];
-    
-    //COME BACK HERE LATER TO ADD A RETRY BUTTON
-}
-
-- (void) orderDidFinishCreationWithID:(NSString *) orderID {
-    
-    //1- store the ID
-    currentOrderID = orderID;
-    
-    //2- in app purchase
-    if (![currentProductID isEqualToString:@""])
-        [self purchaseProductWithIdentifier:currentProductID];
-}
-//-----------------------------------------------------------
-//confirmation
-- (void) orderDidFailConfirmingWithError:(NSError *) error {
-    
-    [self hideLoadingIndicator];
-    
-    //COME BACK HERE LATER TO ADD A RETRY BUTTON
-}
-
-- (void) orderDidFinishConfirmingWithStatus:(BOOL) status {
-    /*
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (self.parentNewCarVC)
-            [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
-    }];*/
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-//-----------------------------------------------------------
-
-//cancellation
-- (void) orderDidFailCancellingWithError:(NSError *) error {
-    [self hideLoadingIndicator];
-}
-
-- (void) orderDidFinishCancellingWithStatus:(BOOL) status {
-    /*
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (self.parentNewCarVC)
-            [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
-    }];*/
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-
 @end

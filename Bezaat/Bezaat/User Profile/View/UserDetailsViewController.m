@@ -49,7 +49,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.filterAllBtn setHighlighted:YES];
+    //[self.filterAllBtn setHighlighted:YES];
     [self.noAdsLbl setHidden:YES];
     
     //initialize the user to get info
@@ -209,7 +209,23 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)filterAll:(id)sender {
+-(void)setHighlightedButton:(UIButton*)sender
+{
+    /*
+    [self.filterAllBtn setHighlighted:NO];
+    [self.filterSpecialBtn setHighlighted:NO];
+    [self.filterTerminatedBtn setHighlighted:NO];
+    [self.favouriteBtn setHighlighted:NO];
+    */
+    
+    
+    sender.highlighted = YES;
+    
+}
+
+- (IBAction)filterAll:(UIButton*)sender {
+   // [self setHighlightedButton:sender];
+    [self.filterAllBtn setHighlighted:YES];
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
     [self.adsTable setNeedsDisplay];
@@ -232,8 +248,9 @@
    
 }
 
-- (IBAction)filterSpecial:(id)sender {
-    [self.filterAllBtn setHighlighted:NO];
+- (IBAction)filterSpecial:(UIButton*)sender {
+    //[self setHighlightedButton:sender];
+    [self.filterSpecialBtn setHighlighted:YES];
     
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
@@ -257,9 +274,10 @@
     
 }
 
-- (IBAction)filterTerminated:(id)sender {
-    [self.filterAllBtn setHighlighted:NO];
-    //emptying the table and the Array
+- (IBAction)filterTerminated:(UIButton*)sender {
+    //[self setHighlightedButton:sender];
+    [self.filterTerminatedBtn setHighlighted:YES];
+        //emptying the table and the Array
     [carAdsArray removeAllObjects];
     [self.adsTable setNeedsDisplay];
     [self.adsTable reloadData];
@@ -281,8 +299,9 @@
     
 }
 
-- (IBAction)filterFavourite:(id)sender {
-    [self.filterAllBtn setHighlighted:NO];
+- (IBAction)filterFavourite:(UIButton*)sender {
+    //[self setHighlightedButton:sender];
+    [self.favouriteBtn setHighlighted:YES];
     
     //emptying the table and the Array
     [carAdsArray removeAllObjects];

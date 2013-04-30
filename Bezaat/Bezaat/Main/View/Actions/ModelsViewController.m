@@ -16,6 +16,7 @@
 #import "AddNewCarAdViewController.h"
 
 #import "BrowseCarAdsViewController.h"
+#import "AddNewStoreAdViewController.h"
 
 #define ALL_MODELS_TEXT     @"جميع الموديلات"
 
@@ -147,9 +148,13 @@
        
         // TODO pass this information to the next view
         if (self.tagOfCallXib==2) {
-            AddNewCarAdViewController *adNewCar=[[AddNewCarAdViewController alloc] initWithNibName:@"AddNewCarAdViewController" bundle:nil];
+            /*AddNewCarAdViewController *adNewCar=[[AddNewCarAdViewController alloc] initWithNibName:@"AddNewCarAdViewController" bundle:nil];
+            adNewCar.currentModel=selectedModel;
+            [self presentViewController:adNewCar animated:YES completion:nil];*/
+            AddNewStoreAdViewController *adNewCar=[[AddNewStoreAdViewController alloc] initWithNibName:@"AddNewStoreAdViewController" bundle:nil];
             adNewCar.currentModel=selectedModel;
             [self presentViewController:adNewCar animated:YES completion:nil];
+            
         }
         else{
             BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];

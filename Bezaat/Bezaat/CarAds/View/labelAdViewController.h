@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 #import "FeaturingManager.h"
-#import "AddNewCarAdViewController.h"
 
-@interface labelAdViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate, PricingOptionsDelegate, FeaturingOrderDelegate>
+@interface labelAdViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate, PricingOptionsDelegate>
 
 #pragma mark - actions
 - (IBAction)backBtnPressed:(id)sender;
@@ -23,9 +22,5 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (nonatomic) NSInteger currentAdID;
-@property (weak, nonatomic) IBOutlet UIButton *laterBtn;
-@property (weak, nonatomic) IBOutlet UIButton *nowBtn;
-
-@property (strong, nonatomic) AddNewCarAdViewController * parentNewCarVC;
 
 @end

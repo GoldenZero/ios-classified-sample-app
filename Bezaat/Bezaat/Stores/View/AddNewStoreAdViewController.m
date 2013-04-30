@@ -1,16 +1,18 @@
 //
-//  AddNewCarAdViewController.m
+//  AddNewStoreAdViewController.m
 //  Bezaat
 //
-//  Created by Roula Misrabi on 3/3/13.
+//  Created by GALMarei on 4/29/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
+#import "AddNewStoreAdViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "AddNewCarAdViewController.h"
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
 #import "labelAdViewController.h"
+#import "StaticAttrsLoader.h"
+
 #pragma mark - literals for use in post ad
 //These literals should used for posting any ad
 #define AD_PERIOD_2_MONTHS_VALUE_ID     1189 //period = 2 months (fixed)
@@ -18,8 +20,8 @@
 #define AD_COMMENTS_BY_MAIL             1    //always allow "true" receiving mails (fixed)
 
 
-@interface AddNewCarAdViewController (){
-        
+@interface AddNewStoreAdViewController (){
+    
     UITapGestureRecognizer *tap1;
     UITapGestureRecognizer *tap2;
     
@@ -30,6 +32,19 @@
     NSArray *countryArray;
     NSArray *cityArray;
     NSArray *kiloMileArray;
+
+    NSArray *carConditionArray;
+    NSArray *gearTypeArray;
+    NSArray *carTypeArray;
+    NSArray *carBodyArray;
+    
+    NSArray* allUserStore;
+    
+    NSInteger defaultCityID;
+    NSString* defaultCityName;
+    
+    NSInteger defaultCountryID;
+    NSString* defaultCountryName;
     
     MBProgressHUD2 *loadingHUD;
     MBProgressHUD2 *imgsLoadingHUD;
@@ -39,26 +54,38 @@
     CLLocationManager * deviceLocationDetector;
     
     NSUInteger defaultIndex;
-
+    
     //These objects should be set bt selecting the drop down menus.
     SingleValue * chosenCurrency;
     SingleValue * chosenYear;
     City * chosenCity;
     Country * chosenCountry;
+    Country * myCountry;
+    Store* myStore;
+    
     bool kiloChoosen;
-
+    bool conditionchoosen;
+    int gearchoosen;
+    int typechoosen;
+    SingleValue * chosenBody;
+    
     NSMutableArray * currentImgsUploaded;
     BOOL locationBtnPressedOnce;
     BOOL currencyBtnPressedOnce;
     BOOL yearBtnPressedOnce;
+    BOOL bodyBtnPressedOnce;
     
     NSTimer *timer;
 }
 
+
+
 @end
 
-@implementation AddNewCarAdViewController
-@synthesize carAdTitle,mobileNum,distance,carDetails,carPrice,countryCity,currency,kiloMile,productionYear;
+@implementation AddNewStoreAdViewController
+@synthesize carAdTitle,mobileNum,distance,carDetails,carPrice,countryCity,currency,kiloMile,productionYear,condition,gear,body,type,theStore;
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -71,11 +98,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    gearchoosen = 0;
+    typechoosen = 0;
+    
+    
+    [StoreManager sharedInstance].delegate = self;
+    [[StoreManager sharedInstance] getUserStores];
+
     
     locationMngr = [LocationManager sharedInstance];
     
-    [self loadData];
+    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    if  (defaultIndex!= -1){
+        chosenCountry =[countryArray objectAtIndex:defaultIndex];
+        cityArray=[chosenCountry cities];
+    }
 
+    defaultCityID =  [[LocationManager sharedInstance] getSavedUserCityID];
+    defaultCountryID = [[LocationManager sharedInstance] getSavedUserCountryID];
+    NSLog(@"%i",defaultCityID);
+    
+    [locationMngr loadCountriesAndCitiesWithDelegate:self];
+    
+    //[self loadData];
+    
     // Set the image piacker
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
@@ -84,10 +130,10 @@
     // Set the scroll view indicator
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(indicator:) userInfo:nil repeats:YES];
     
-    // Set tapping gesture 
+    // Set tapping gesture
     tap1 = [[UITapGestureRecognizer alloc]
-           initWithTarget:self
-           action:@selector(dismissKeyboard)];
+            initWithTarget:self
+            action:@selector(dismissKeyboard)];
     [self.horizontalScrollView addGestureRecognizer:tap1];
     
     tap2 = [[UITapGestureRecognizer alloc]
@@ -99,12 +145,13 @@
     locationBtnPressedOnce = NO;
     currencyBtnPressedOnce = NO;
     yearBtnPressedOnce = NO;
+    bodyBtnPressedOnce = NO;
     
     [self loadDataArray];
     [self addButtonsToXib];
     [self setImagesArray];
     [self setImagesToXib];
-   
+    
     [self closePicker];
     
     
@@ -118,24 +165,31 @@
 -(void)indicator:(BOOL)animated{
     
     [self.horizontalScrollView flashScrollIndicators];
- 
+    
 }
 #pragma mark - location handler.
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
-    countryArray=resultArray;
     [self hideLoadingIndicator];
-    
-    // Setting default country
-    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    if  (defaultIndex!= -1){
-        chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
-        cityArray=[chosenCountry cities];
-        if (cityArray && cityArray.count)
-            chosenCity=[cityArray objectAtIndex:0];//set initial chosen city
-        [self.locationPickerView reloadAllComponents];
-
+    countryArray=resultArray;
+    for (int i =0; i <= [countryArray count] - 1; i++) {
+        chosenCountry=[countryArray objectAtIndex:i];
+        if (chosenCountry.countryID == defaultCountryID) {
+            cityArray=[chosenCountry cities];
+            for (City* cit in cityArray) {
+                if (cit.cityID == defaultCityID)
+                {
+                    myCountry = [countryArray objectAtIndex:i];
+                    defaultCityID = [cityArray indexOfObject:cit];
+                    chosenCity =[cityArray objectAtIndex:defaultCityID];
+                    break;
+                    //return;
+                }
+            }
+        }
+        
     }
     
+    [self.locationPickerView reloadAllComponents];
 }
 
 // This method loads the device location initialli, and afterwards the loading of country lists comes after
@@ -188,14 +242,14 @@
         
         MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
         NSString * code = mark.countryCode;
-
+        
         [LocationManager sharedInstance].deviceLocationCountryCode = code;
         
         [locationMngr loadCountriesAndCitiesWithDelegate:self];
         
         //self initialize drop down lists
         [self.locationPickerView reloadAllComponents];
-
+        
     }];
     
 }
@@ -216,6 +270,11 @@
     productionYearArray=[[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadModelYearValues]];
     currencyArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
     kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
+    carConditionArray = [[NSArray alloc] initWithObjects:@"مستعمل",@"جديد", nil];
+    gearTypeArray = [[NSArray alloc] initWithObjects:@"عادي",@"اتوماتيك",@"تريبتونيك", nil];
+    carTypeArray = [[NSArray alloc] initWithObjects:@"امامي",@"خلفي",@"4x4", nil];
+    carBodyArray = [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadBodyValues]];
+    
     [self.modelNameLabel setText:self.currentModel.modelName];
     kiloChoosen=true;
 }
@@ -228,7 +287,7 @@
 #pragma mark - helper methods
 - (void) setImagesToXib{
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-
+    
 }
 
 - (void) setImagesArray{
@@ -238,7 +297,7 @@
     [self.horizontalScrollView setShowsHorizontalScrollIndicator:YES];
     
     for (int i=0; i<6; i++) {
-        UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
+        UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(95*i), 20, 77, 70)];
         [temp setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
         
         temp.tag = (i+1) * 10;
@@ -256,7 +315,7 @@
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@""
                                                              delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
                                                     otherButtonTitles:@"التقط صورة", @"اختر صورة", nil];
-
+    
     [actionSheet showInView:self.view];
 }
 
@@ -286,7 +345,7 @@
     
     currentImageToUpload = image;
     [self showLoadingIndicatorOnImages];
-    [[CarAdsManager sharedInstance] uploadImage:image WithDelegate:self];
+    //[[BrandsManager sharedInstance] uploadImage:image WithDelegate:self];
 }
 
 -(void)dismissKeyboard {
@@ -300,18 +359,25 @@
 
 
 - (void) addButtonsToXib{
-    [self.verticalScrollView setContentSize:CGSizeMake(320 , 420)];
+    [self.verticalScrollView setContentSize:CGSizeMake(320 , 650)];
     [self.verticalScrollView setScrollEnabled:YES];
     [self.verticalScrollView setShowsVerticalScrollIndicator:YES];
     
-    countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
+    theStore=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
+    [theStore setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
+    [theStore setTitle:@"اختر المتجر" forState:UIControlStateNormal];
+    [theStore setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [theStore addTarget:self action:@selector(chooseStore) forControlEvents:UIControlEventTouchUpInside];
+    [self.verticalScrollView addSubview:theStore];
+    
+    countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,60,260 ,30)];
     [countryCity setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
     [countryCity setTitle:@"اختر البلد" forState:UIControlStateNormal];
     [countryCity setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [countryCity addTarget:self action:@selector(chooseCountryCity) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:countryCity];
     
-    carAdTitle=[[UITextField alloc] initWithFrame:CGRectMake(30, 60,260 ,30)];
+    carAdTitle=[[UITextField alloc] initWithFrame:CGRectMake(30,100,260 ,30)];
     [carAdTitle setBorderStyle:UITextBorderStyleRoundedRect];
     [carAdTitle setTextAlignment:NSTextAlignmentRight];
     [carAdTitle setPlaceholder:@"عنوان الإعلان"];
@@ -319,13 +385,13 @@
     [self.verticalScrollView addSubview:carAdTitle];
     carAdTitle.delegate=self;
     
-    carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,100 ,260 ,80 )];
+    carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,140 ,260 ,80 )];
     [carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
     [self.verticalScrollView addSubview:carDetails];
     carDetails.delegate =self;
-
-    carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,190 ,160 ,30)];
+    
+    carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,240 ,160 ,30)];
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [carPrice setTextAlignment:NSTextAlignmentRight];
     [carPrice setPlaceholder:@"السعر"];
@@ -333,46 +399,79 @@
     [self.verticalScrollView addSubview:carPrice];
     carPrice.delegate=self;
     
-    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 190, 80, 30)];
+    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 240, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_SM.png"] forState:UIControlStateNormal];
     [currency setTitle:@"العملة    " forState:UIControlStateNormal];
-    
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
-
-    distance=[[UITextField alloc] initWithFrame:CGRectMake(130,240 ,160 ,30)];
+    
+    distance=[[UITextField alloc] initWithFrame:CGRectMake(130,290 ,160 ,30)];
     [distance setBorderStyle:UITextBorderStyleRoundedRect];
     [distance setTextAlignment:NSTextAlignmentRight];
     [distance setPlaceholder:@"المسافة"];
     [distance setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:distance];
     distance.delegate=self;
-
+    
     kiloMile = [[UISegmentedControl alloc] initWithItems:kiloMileArray];
-    kiloMile.frame = CGRectMake(30, 240, 80, 30);
+    kiloMile.frame = CGRectMake(30, 290, 80, 30);
     kiloMile.segmentedControlStyle = UISegmentedControlStylePlain;
     kiloMile.selectedSegmentIndex = 0;
+    UIFont *font = [UIFont systemFontOfSize:17.0f];
+    NSDictionary *attributes = [NSDictionary dictionaryWithObject:font forKey:UITextAttributeFont];
+    [kiloMile setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [kiloMile addTarget:self action:@selector(chooseKiloMile) forControlEvents: UIControlEventValueChanged];
     [self.verticalScrollView addSubview:kiloMile];
     
-    productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 280, 260, 30)];
+    condition = [[UISegmentedControl alloc] initWithItems:carConditionArray];
+    condition.frame = CGRectMake(30, 350, 260, 40);
+    condition.segmentedControlStyle = UISegmentedControlStylePlain;
+    condition.selectedSegmentIndex = 0;
+    [condition setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    [condition addTarget:self action:@selector(chooseCarCondition) forControlEvents: UIControlEventValueChanged];
+    [self.verticalScrollView addSubview:condition];
+    
+    gear = [[UISegmentedControl alloc] initWithItems:gearTypeArray];
+    gear.frame = CGRectMake(30, 410, 260, 40);
+    gear.segmentedControlStyle = UISegmentedControlStylePlain;
+    gear.selectedSegmentIndex = 0;
+    [gear setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    [gear addTarget:self action:@selector(chooseGearType) forControlEvents: UIControlEventValueChanged];
+    [self.verticalScrollView addSubview:gear];
+    
+    type = [[UISegmentedControl alloc] initWithItems:carTypeArray];
+    type.frame = CGRectMake(30, 470, 260, 40);
+    type.segmentedControlStyle = UISegmentedControlStylePlain;
+    type.selectedSegmentIndex = 0;
+    [type setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    [type addTarget:self action:@selector(chooseCarType) forControlEvents: UIControlEventValueChanged];
+    [self.verticalScrollView addSubview:type];
+    
+    body =[[UIButton alloc] initWithFrame:CGRectMake(30, 520, 260, 30)];
+    [body setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
+    [body setTitle:@"هيكل السيارة" forState:UIControlStateNormal];
+    [body addTarget:self action:@selector(chooseBody) forControlEvents:UIControlEventTouchUpInside];
+    [body setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [self.verticalScrollView addSubview:body];
+    
+    productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 570, 260, 30)];
     [productionYear setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
     [productionYear setTitle:@"عام الصنع" forState:UIControlStateNormal];
     [productionYear setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [productionYear addTarget:self action:@selector(chooseProductionYear) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:productionYear];
-
-
-    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,320 ,260 ,30)];
+    
+    
+    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,610 ,260 ,30)];
     [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
     [mobileNum setTextAlignment:NSTextAlignmentRight];
     [mobileNum setPlaceholder:@"رقم الجوال"];
     [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
     [self.verticalScrollView addSubview:mobileNum];
     mobileNum.delegate=self;
-
-       
+    
+    
 }
 
 - (void) showLoadingIndicator {
@@ -437,37 +536,140 @@
     return -1;
 }
 
+// for car condition
+- (NSInteger) idForConditionNewAttribute {
+    NSArray * mileageAttrs = [[StaticAttrsLoader sharedInstance] loadConditionValues];
+    
+    for (int i = 0; i < mileageAttrs.count; i++)
+    {
+        SingleValue * v = [mileageAttrs objectAtIndex:i];
+        if ([v.valueString rangeOfString:@"جديد"].location != NSNotFound)
+            return v.valueID;
+    }
+    return -1;
+}
+
+- (NSInteger) idForConditionUsedAttribute {
+    NSArray * mileageAttrs = [[StaticAttrsLoader sharedInstance] loadConditionValues];
+    
+    for (int i = 0; i < mileageAttrs.count; i++)
+    {
+        SingleValue * v = [mileageAttrs objectAtIndex:i];
+        if ([v.valueString rangeOfString:@"مستعمل"].location != NSNotFound)
+            return v.valueID;
+    }
+    return -1;
+}
+
+// for gear type
+- (NSInteger) idForGearNormalAttribute {
+    NSArray * mileageAttrs = [[StaticAttrsLoader sharedInstance] loadGearValues];
+    
+    for (int i = 0; i < mileageAttrs.count; i++)
+    {
+        SingleValue * v = [mileageAttrs objectAtIndex:i];
+        if ([v.valueString rangeOfString:@"عادي"].location != NSNotFound)
+            return v.valueID;
+    }
+    return -1;
+}
+
+- (NSInteger) idForGearAutoAttribute {
+    NSArray * mileageAttrs = [[StaticAttrsLoader sharedInstance] loadGearValues];
+    
+    for (int i = 0; i < mileageAttrs.count; i++)
+    {
+        SingleValue * v = [mileageAttrs objectAtIndex:i];
+        if ([v.valueString rangeOfString:@"اتوماتيك"].location != NSNotFound)
+            return v.valueID;
+    }
+    return -1;
+}
+
+- (NSInteger) idForGearTronicAttribute {
+    NSArray * mileageAttrs = [[StaticAttrsLoader sharedInstance] loadGearValues];
+    
+    for (int i = 0; i < mileageAttrs.count; i++)
+    {
+        SingleValue * v = [mileageAttrs objectAtIndex:i];
+        if ([v.valueString rangeOfString:@"تريبتونيك"].location != NSNotFound)
+            return v.valueID;
+    }
+    return -1;
+}
+
+
+// for car type
+- (NSInteger) idForTypeFrontAttribute {
+    NSArray * mileageAttrs = [[StaticAttrsLoader sharedInstance] loadCarTypeValues];
+    
+    for (int i = 0; i < mileageAttrs.count; i++)
+    {
+        SingleValue * v = [mileageAttrs objectAtIndex:i];
+        if ([v.valueString rangeOfString:@"امامي"].location != NSNotFound)
+            return v.valueID;
+    }
+    return -1;
+}
+
+- (NSInteger) idForTypeBackAttribute {
+    NSArray * mileageAttrs = [[StaticAttrsLoader sharedInstance] loadCarTypeValues];
+    
+    for (int i = 0; i < mileageAttrs.count; i++)
+    {
+        SingleValue * v = [mileageAttrs objectAtIndex:i];
+        if ([v.valueString rangeOfString:@"خلفي"].location != NSNotFound)
+            return v.valueID;
+    }
+    return -1;
+}
+
+- (NSInteger) idForTypeFourAttribute {
+    NSArray * mileageAttrs = [[StaticAttrsLoader sharedInstance] loadCarTypeValues];
+    
+    for (int i = 0; i < mileageAttrs.count; i++)
+    {
+        SingleValue * v = [mileageAttrs objectAtIndex:i];
+        if ([v.valueString rangeOfString:@"4x4"].location != NSNotFound)
+            return v.valueID;
+    }
+    return -1;
+}
 
 #pragma mark - picker methods
 
 -(IBAction)closePicker
 {
-        [self.pickersView setHidden:YES];
-        [UIView animateWithDuration:0.3 animations:^{
-            self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
-                                                   [[UIScreen mainScreen] bounds].size.height,
-                                                  self.pickersView.frame.size.width,
-                                                  self.pickersView.frame.size.height);
-        }];
+    [self.pickersView setHidden:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
+                                            [[UIScreen mainScreen] bounds].size.height,
+                                            self.pickersView.frame.size.width,
+                                            self.pickersView.frame.size.height);
+    }];
 }
 
 -(IBAction)showPicker
 {
     [self.pickersView setHidden:NO];
-        [self.pickersView setHidden:NO];
-        [UIView animateWithDuration:0.3 animations:^{
-            self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
-                                           [[UIScreen mainScreen] bounds].size.height-self.self.pickersView.frame.size.height,
-                                           self.pickersView.frame.size.width,
-                                           self.pickersView.frame.size.height);
-        }];
+    [self.pickersView setHidden:NO];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
+                                            [[UIScreen mainScreen] bounds].size.height-self.self.pickersView.frame.size.height,
+                                            self.pickersView.frame.size.width,
+                                            self.pickersView.frame.size.height);
+    }];
 }
 
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
 {
     if (pickerView==_locationPickerView) {
-        return 2;
+        return 1;
+    }else if (pickerView == _bodyPickerView){
+        return 1;
+    }else if (pickerView == _storePickerView){
+        return 1;
     }
     else {
         return 1;
@@ -477,25 +679,40 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     if (pickerView==_locationPickerView) {
-        if (component==0) {
-           chosenCountry=(Country *)[countryArray objectAtIndex:row];
+        //chosenCountry=(Country *)[countryArray objectAtIndex:row];
+        cityArray=[myCountry cities];
+        //if (cityArray && cityArray.count)
+          //  chosenCity=[cityArray objectAtIndex:0];//set initial chosen city
+
+       /* if (component==0) {
+            chosenCountry=(Country *)[countryArray objectAtIndex:row];
             cityArray=[chosenCountry cities];
             if (cityArray && cityArray.count)
                 chosenCity=[cityArray objectAtIndex:0];//set initial chosen city
             NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
             [countryCity setTitle:temp forState:UIControlStateNormal];
-            [pickerView reloadAllComponents];
+            //[pickerView reloadAllComponents];
             
         }
-        else{
+        else{*/
             chosenCity=[cityArray objectAtIndex:row];
-             NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
+            NSString *temp= [NSString stringWithFormat:@"%@ : %@", myCountry.countryName , chosenCity.cityName];
             [countryCity setTitle:temp forState:UIControlStateNormal];
-            [pickerView reloadAllComponents];
+            //[pickerView reloadAllComponents];
+       // }
+        
+    }else if (pickerView == _bodyPickerView)
+    {
+        SingleValue *choosen=[globalArray objectAtIndex:row];
+        if ([carBodyArray containsObject:choosen]) {
+            chosenBody=[globalArray objectAtIndex:row];
+            [body setTitle:choosen.valueString forState:UIControlStateNormal];
         }
 
+    }else if (pickerView == _storePickerView){
+        myStore = [allUserStore objectAtIndex:row];
+        [theStore setTitle:myStore.name forState:UIControlStateNormal];
     }
-
     else {
         SingleValue *choosen=[globalArray objectAtIndex:row];
         if ([currencyArray containsObject:choosen]) {
@@ -507,36 +724,43 @@
             [productionYear setTitle:[NSString stringWithFormat:@"%@",choosen.valueString] forState:UIControlStateNormal];
         }
     }
-
+    
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     if (pickerView==_locationPickerView) {
-        if (component==0) {
-            return [countryArray count];
-        }
-        else{
-            return [cityArray count];
-        }
+        // if (component==0) {
+        //   return [countryArray count];
+        // }
+        // else{
+        return [cityArray count];
+        //}
     }
-    else {
+    else if (pickerView==_bodyPickerView) {
+        return [globalArray count];
+        
+    }else if (pickerView == _storePickerView)
+    {
+        return [allUserStore count];
+    }
+    else
+    {
         return [globalArray count];
     }
-
+    
     
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    if (pickerView==_locationPickerView) {
-        if (component==0) {
-            Country *temp=(Country*)[countryArray objectAtIndex:row];
-            return temp.countryName;
-        }
-        else{
+    if (pickerView ==_locationPickerView) {
             City *temp=(City*)[cityArray objectAtIndex:row];
             return temp.cityName;
-        }
+    }else if (pickerView == _bodyPickerView){
+        return [NSString stringWithFormat:@"%@",[(SingleValue*)[globalArray objectAtIndex:row] valueString]];
+    }else if (pickerView == _storePickerView){
+        myStore = [allUserStore objectAtIndex:row];
+        return myStore.name;
     }
     else {
         return [NSString stringWithFormat:@"%@",[(SingleValue*)[globalArray objectAtIndex:row] valueString]];
@@ -548,13 +772,26 @@
 #pragma mark - Buttons Actions
 
 
+-(void)chooseStore
+{
+    self.locationPickerView.hidden=YES;
+    self.bodyPickerView.hidden = YES;
+    self.pickerView.hidden=YES;
+    self.storePickerView.hidden = NO;
+    
+    [self.storePickerView reloadAllComponents];
+    [self showPicker];
+}
+
 - (void) chooseProductionYear{
     
     self.locationPickerView.hidden=YES;
+    self.bodyPickerView.hidden = YES;
+    self.storePickerView.hidden = YES;
     self.pickerView.hidden=NO;
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
     [productionYear setTitle:temp forState:UIControlStateNormal];
-
+    
     // fill picker with production year
     globalArray=productionYearArray;
     [self.pickerView reloadAllComponents];
@@ -567,12 +804,14 @@
     yearBtnPressedOnce = YES;
     
     [self showPicker];
-
+    
 }
 
 - (void) chooseCurrency{
     
     self.locationPickerView.hidden=YES;
+    self.bodyPickerView.hidden = YES;
+    self.storePickerView.hidden = YES;
     self.pickerView.hidden=NO;
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[currencyArray objectAtIndex:0] valueString]];
     [currency setTitle:temp forState:UIControlStateNormal];
@@ -588,17 +827,19 @@
     currencyBtnPressedOnce = YES;
     
     [self showPicker];
-
+    
 }
 
 - (void) chooseCountryCity{
     
     self.locationPickerView.hidden=NO;
     self.pickerView.hidden=YES;
+    self.bodyPickerView.hidden = YES;
+    self.storePickerView.hidden = YES;
     [self showPicker];
-    NSString *temp= [NSString stringWithFormat:@"%@ :%@", chosenCountry.countryName , chosenCity.cityName];
+    NSString *temp= [NSString stringWithFormat:@"%@ :%@", myCountry.countryName , chosenCity.cityName];
     [countryCity setTitle:temp forState:UIControlStateNormal];
-
+    
     if (defaultIndex!=-1) {
         [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
     }
@@ -610,13 +851,75 @@
 
 - (void) chooseKiloMile{
     if (kiloMile.selectedSegmentIndex==0) {
-        kiloChoosen=true;
+        conditionchoosen=true;
     }
     else if (kiloMile.selectedSegmentIndex==1){
         
+        conditionchoosen=false;
+    }
+    
+}
+
+-(void)chooseCarCondition
+{
+    if (condition.selectedSegmentIndex==0) {
+        kiloChoosen=true;
+    }
+    else if (condition.selectedSegmentIndex==1){
+        
         kiloChoosen=false;
     }
+}
 
+-(void) chooseGearType
+{
+    if (gear.selectedSegmentIndex==0) {
+        gearchoosen = 0;
+    }
+    else if (gear.selectedSegmentIndex==1){
+        
+        gearchoosen = 1;
+    }
+    else if (gear.selectedSegmentIndex==2){
+        
+        gearchoosen = 2;
+    }
+}
+
+-(void) chooseCarType
+{
+    if (type.selectedSegmentIndex==0) {
+        typechoosen=0;
+    }
+    else if (type.selectedSegmentIndex==1){
+        
+        typechoosen=1;
+    }
+    else if (type.selectedSegmentIndex==2){
+        
+        typechoosen=2;
+    }
+}
+
+-(void) chooseBody
+{
+    self.locationPickerView.hidden=YES;
+    self.pickerView.hidden=YES;
+    self.bodyPickerView.hidden = NO;
+    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[carBodyArray objectAtIndex:0] valueString]];
+    [body setTitle:temp forState:UIControlStateNormal];
+    // fill picker with currency options
+    globalArray=carBodyArray;
+    if (!bodyBtnPressedOnce)
+    {
+        if (globalArray && globalArray.count)
+            chosenBody = (SingleValue *)[globalArray objectAtIndex:0];
+    }
+    
+    [self.bodyPickerView reloadAllComponents];
+    bodyBtnPressedOnce = YES;
+    
+    [self showPicker];
 }
 
 - (IBAction)doneBtnPrss:(id)sender {
@@ -651,7 +954,7 @@
         return;
     }
     
-    if ((!chosenCountry) || (!chosenCity))
+    if ((!myCountry) || (!chosenCity))
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بيانات المكان صحيحة" delegateVC:self];
         return;
@@ -709,17 +1012,69 @@
         return;
     }
     
-
+    
     
     NSInteger distanceUnitID;
+    int conditionID = 0;
+    int gearID = 0;
+    int typeID = 0;
+    
     if (kiloChoosen)
         distanceUnitID = [self idForKilometerAttribute];
     else
         distanceUnitID = [self idForMileAttribute];
     
+    if (conditionchoosen)
+        conditionID = [self idForConditionNewAttribute];
+    else
+        conditionID = [self idForConditionUsedAttribute];
+    
+    if (gearchoosen == 0) {
+        gearID = [self idForGearAutoAttribute];
+    }else if (gearchoosen == 1){
+        gearID = [self idForGearNormalAttribute];
+    }
+    else if (gearchoosen == 2){
+        gearID = [self idForGearTronicAttribute];
+    }
+    
+    if (typechoosen == 0) {
+        typeID = [self idForTypeFrontAttribute];
+    }else if (typechoosen == 1){
+        typeID = [self idForTypeBackAttribute];
+    }
+    else if (typechoosen == 2){
+        typeID = [self idForTypeFourAttribute];
+    }
+    
     [self showLoadingIndicator];
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    [[CarAdsManager sharedInstance] postAdOfBrand:_currentModel.brandID
+    
+    [[CarAdsManager sharedInstance] postStoreAdOfBrand:_currentModel.brandID myStore:myStore.identifier
+                                                 Model:_currentModel.modelID
+                                                InCity:chosenCity.cityID
+                                             userEmail:(savedProfile ? savedProfile.emailAddress : @"")
+                                                 title:carAdTitle.text
+                                           description:carDetails.text
+                                                 price:carPrice.text
+                                         periodValueID:AD_PERIOD_2_MONTHS_VALUE_ID
+                                                mobile: mobileNum.text
+                                       currencyValueID:chosenCurrency.valueID
+                                        serviceValueID:SERVICE_FOR_SALE_VALUE_ID
+                                      modelYearValueID:chosenYear.valueID
+                                              distance:distance.text
+                                                 color:@""
+                                            phoneNumer:@""
+                                       adCommentsEmail:YES
+                                      kmVSmilesValueID:distanceUnitID
+                                              imageIDs:currentImgsUploaded
+                                           conditionID:conditionID
+                                            gearTypeID:gearID
+                                             carTypeID:typeID
+                                             carBodyID:chosenBody.valueID
+                                          withDelegate:self];
+    
+    /*[[BrandsManager sharedInstance] postAdOfBrand:_currentModel.brandID
                                             Model:_currentModel.modelID
                                            InCity:chosenCity.cityID
                                         userEmail:(savedProfile ? savedProfile.emailAddress : @"")
@@ -737,16 +1092,16 @@
                                   adCommentsEmail:YES
                                  kmVSmilesValueID:distanceUnitID
                                          imageIDs:currentImgsUploaded
-                                     withDelegate:self];
-
-
+                                     withDelegate:self];*/
+    
+    
 }
 
 - (IBAction)selectModelBtnPrss:(id)sender {
     ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
     vc.tagOfCallXib=2;
     [self presentViewController:vc animated:YES completion:nil];
-
+    
 }
 
 #pragma mark - UIActionSheet Delegate
@@ -770,7 +1125,7 @@
     
     [self useImage:img];
     [picker dismissViewControllerAnimated:YES completion:nil];
-
+    
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -795,7 +1150,7 @@
     //reset 'current' data
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
-
+    
 }
 
 - (void) imageDidFinishUploadingWithURL:(NSURL *)url CreativeID:(NSInteger)ID {
@@ -819,19 +1174,20 @@
     //reset 'current' data
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
-
+    
 }
 
 
 #pragma mark - PostAd Delegate
-- (void) adDidFailPostingWithError:(NSError *)error {
+-(void)storeAdDidFailPostingWithError:(NSError *)error
+{
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
     
     [self hideLoadingIndicator];
 }
 
-- (void) adDidFinishPostingWithAdID:(NSInteger)adID {
-    
+-(void)storeAdDidFinishPostingWithAdID:(NSInteger)adID
+{
     [self hideLoadingIndicator];
     
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
@@ -839,6 +1195,25 @@
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
     vc.currentAdID = adID;
     [self presentViewController:vc animated:YES completion:nil];
-    
 }
+
+#pragma mark - StoreManagerDelegate Methods
+
+- (void) userStoresRetrieveDidFailWithError:(NSError *)error {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                    message:@"حدث خطأ في تحميل المتاجر"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self hideLoadingIndicator];
+}
+
+- (void) userStoresRetrieveDidSucceedWithStores:(NSArray *)stores {
+    allUserStore = stores;
+    [self hideLoadingIndicator];
+}
+
+
 @end
