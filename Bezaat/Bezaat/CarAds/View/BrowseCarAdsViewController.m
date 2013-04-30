@@ -93,6 +93,7 @@
 {
     
     [self.searchPanelView setHidden:YES];
+    
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
     [self.tableView setSeparatorColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
@@ -198,7 +199,7 @@
     
     [self.searchPanelView setHidden:YES];
     [self.searchImageButton setHidden:YES];
-    
+    searchBtnFlag=false;
     //[super viewWillDisappear:animated];
 }
 
@@ -316,7 +317,18 @@
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             
             //customize the carAdCell with actual data
+            [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.detailsLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.detailsLabel setTextColor:[UIColor blackColor]];
+            [cell.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
+
             cell.detailsLabel.text = carAdObject.title;
+            
+            [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.carPriceLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
+            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
+
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
                 cell.carPriceLabel.text = priceStr;
@@ -353,6 +365,16 @@
             [cell.carImage setClipsToBounds:YES];
             
             //customize storeName
+            [cell.showInStoreLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.showInStoreLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.showInStoreLabel setTextColor:[UIColor grayColor]];
+            [cell.showInStoreLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
+            cell.showInStoreLabel.text = @"معروض في متجر";
+
+            [cell.storeNameLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.storeNameLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.storeNameLabel setTextColor:[UIColor grayColor]];
+            [cell.storeNameLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:13.0] ];
             cell.storeNameLabel.text = carAdObject.storeName;
             
             //customize storeLogo
@@ -437,7 +459,19 @@
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             
             //customize the carAdCell with actual data
+            //customize the carAdCell with actual data
+            [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.detailsLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.detailsLabel setTextColor:[UIColor blackColor]];
+            [cell.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
+            
             cell.detailsLabel.text = carAdObject.title;
+            
+            [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.carPriceLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
+            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
+            
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
                 cell.carPriceLabel.text = priceStr;
@@ -540,7 +574,20 @@
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             
             //customize the carAdCell with actual data
+            //customize the carAdCell with actual data
+            [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.detailsLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.detailsLabel setTextColor:[UIColor blackColor]];
+            [cell.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
+            
             cell.detailsLabel.text = carAdObject.title;
+            
+            [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.carPriceLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
+            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
+            
+
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -562,7 +609,18 @@
             cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
             //customize carAdObject.storeName
+            [cell.showInStoreLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.showInStoreLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.showInStoreLabel setTextColor:[UIColor grayColor]];
+            [cell.showInStoreLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
+            cell.showInStoreLabel.text = @"معروض في متجر";
+            
+            [cell.storeNameLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.storeNameLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.storeNameLabel setTextColor:[UIColor grayColor]];
+            [cell.storeNameLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:13.0] ];
             cell.storeNameLabel.text = carAdObject.storeName;
+
             
             //customize storeLogo
             if (carAdObject.storeLogoURL)
@@ -586,7 +644,7 @@
             //check featured
             if (carAdObject.isFeatured)
             {
-                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@""]];
+                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
@@ -644,7 +702,19 @@
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             
             //customize the carAdCell with actual data
+            //customize the carAdCell with actual data
+            [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.detailsLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.detailsLabel setTextColor:[UIColor blackColor]];
+            [cell.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
+            
             cell.detailsLabel.text = carAdObject.title;
+            
+            [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
+            [cell.carPriceLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
+            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
+            
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
                 cell.carPriceLabel.text = priceStr;
@@ -667,7 +737,7 @@
             if (carAdObject.isFeatured)
             {
                 
-                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@""]];
+                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
