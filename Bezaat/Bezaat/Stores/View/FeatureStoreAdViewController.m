@@ -21,6 +21,8 @@
     NSArray * pricingOptions;
     NSString* OrderID;
     NSString* transactionID;
+    
+    NSString* theGatwayID;
 }
 
 @end
@@ -241,7 +243,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self hideLoadingIndicator];
     NSString * productIdentifier = notification.object;
     NSLog(@"product is purchased: %@", productIdentifier);
-    [[FeaturingManager sharedInstance] confirmStoreOrderID:OrderID withAppName:@"AppStore" gatewayResponse:[notification description] withDelegate:self];
+    [[FeaturingManager sharedInstance] confirmStoreOrderID:OrderID withAppName:@"AppStore" gatewayResponse:transactionID withDelegate:self];
     
 }
 
