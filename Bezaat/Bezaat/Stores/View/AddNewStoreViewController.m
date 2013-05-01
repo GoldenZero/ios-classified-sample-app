@@ -22,7 +22,8 @@
     NSArray *countryArray;
     UITapGestureRecognizer *tap;
     MBProgressHUD2 *loadingHUD;
-    
+    MBProgressHUD2 *imgsLoadingHUD;
+
     IBOutlet UIToolbar *toolBar;
     IBOutlet UIImageView *storeImageView;
     IBOutlet UITextField *nameField;
@@ -145,6 +146,13 @@
         [alert show];
         return;
     }
+    if (![self validateEmail:emailField.text]) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من إدخال البريد الإلكتروني بشكل صحيح"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
     
     [self showLoadingIndicator];
     if (store == nil) {
@@ -160,6 +168,14 @@
     [StoreManager sharedInstance].delegate = self;
    [[StoreManager sharedInstance] createStore:store];
 }
+
+- (BOOL) validateEmail: (NSString *) candidate {
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    
+    return [emailTest evaluateWithObject:candidate];
+}
+
 
 #pragma mark - UIActionSheetDelegate Method
 
@@ -209,7 +225,7 @@
     storeImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     NSLog(@"imagePickerController:didFinishPickingMediaWithInfo:%f",storeImage.size.width);
     uploadingLOGO = YES;
-
+    [self showLoadingIndicatorOnImages];
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] uploadLOGO:storeImage];
 }
@@ -297,6 +313,7 @@
 }
 
 - (void) storeLOGOUploadDidFailWithError:(NSError *)error {
+    [self hideLoadingIndicatorOnImages];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
                                                     message:@"حدث خطأ في تحميل الصورة"
                                                    delegate:self
@@ -307,6 +324,7 @@
 }
 
 - (void) storeLOGOUploadDidSucceedWithImageURL:(NSString *)imageURL {
+    
     if (store == nil) {
         store = [[Store alloc] init];
     }
@@ -324,7 +342,7 @@
             });
         });
     }
-    
+    [self hideLoadingIndicatorOnImages];
     uploadingLOGO = YES;
 }
 
@@ -356,11 +374,25 @@
     loadingHUD.detailsLabelText = @"";
     loadingHUD.dimBackground = YES;
 }
+- (void) showLoadingIndicatorOnImages {
+    imgsLoadingHUD = [MBProgressHUD2 showHUDAddedTo:storeImageView animated:YES];
+    imgsLoadingHUD.mode = MBProgressHUDModeCustomView2;
+    imgsLoadingHUD.labelText = @"";
+    imgsLoadingHUD.detailsLabelText = @"";
+    imgsLoadingHUD.dimBackground = YES;
+}
 
 - (void) hideLoadingIndicator {
     if (loadingHUD)
         [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
     loadingHUD = nil;
+}
+- (void) hideLoadingIndicatorOnImages {
+    
+    if (imgsLoadingHUD)
+        [MBProgressHUD2 hideHUDForView:storeImageView  animated:YES];
+    imgsLoadingHUD = nil;
+    
 }
 
 -(void) takePhotoWithCamera {

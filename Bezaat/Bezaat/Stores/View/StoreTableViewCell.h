@@ -14,6 +14,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *countryLabel;
 @property (nonatomic, strong) IBOutlet UILabel *adsCountLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *LOGOImageView;
+@property (strong, nonatomic) IBOutlet UILabel *remainingFeaturesLabel;
+@property (strong, nonatomic) IBOutlet UILabel *remainingDaysLabel;
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *country;

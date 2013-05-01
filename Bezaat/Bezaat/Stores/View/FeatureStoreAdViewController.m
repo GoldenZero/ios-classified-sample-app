@@ -249,7 +249,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 - (void) loadPricingOptions {
     
     [self showLoadingIndicator];
-    [[FeaturingManager sharedInstance] loadStorePricingOptionsForCountry:[[SharedUser sharedInstance] getUserCountryID] withDelegate:self];
+    [[FeaturingManager sharedInstance] loadStorePricingOptionsForCountry:self.storeID.countryID withDelegate:self];
 }
 
 - (void) showLoadingIndicator {

@@ -74,6 +74,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         create_order_url = [API_MAIN_URL stringByAppendingString:create_order_url];
         create_store_order_url = [API_MAIN_URL stringByAppendingString:create_store_order_url];
         confirm_order_url = [API_MAIN_URL stringByAppendingString:confirm_order_url];
+        confirm_store_order_url = [API_MAIN_URL stringByAppendingString:confirm_store_order_url];
         cancel_order_url = [API_MAIN_URL stringByAppendingString:cancel_order_url];
     }
     return self;

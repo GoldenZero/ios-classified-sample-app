@@ -117,6 +117,9 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     }
     cell.adsCount = adsCount;
     cell.logoURL = store.imageURL;
+    cell.remainingFeaturesLabel.text = [NSString stringWithFormat:@"%i إعلان متميز متبقي",store.remainingFreeFeatureAds];
+    cell.remainingDaysLabel.text = [NSString stringWithFormat:@"%i أيام متبقية",store.remainingDays];
+    
     
     return cell;
 }
