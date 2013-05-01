@@ -193,7 +193,7 @@ static NSString * documentsDirectoryPath;
     else
     {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
-                                                         message:msg
+                                                         message:@"فشل في تحميل البيانات الرجاء المحاولة مره اخره"
                                                         delegate:vc
                                                cancelButtonTitle:@"موافق"
                                                otherButtonTitles:nil ];

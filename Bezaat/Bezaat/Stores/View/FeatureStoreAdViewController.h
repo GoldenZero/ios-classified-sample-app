@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 #import "FeaturingManager.h"
+#import "StoreManager.h"
 
-@interface FeatureStoreAdViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate, PricingOptionsDelegate,FeaturingOrderDelegate>
+@interface FeatureStoreAdViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate, PricingOptionsDelegate,FeaturingOrderDelegate,StoreManagerDelegate>
 
 #pragma mark - actions
 - (IBAction)backBtnPressed:(id)sender;
@@ -22,7 +23,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (nonatomic) NSInteger currentAdID;
-@property (nonatomic) NSString* storeID;
+@property (nonatomic) Store* storeID;
 
 
 

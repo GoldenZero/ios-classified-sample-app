@@ -11,18 +11,6 @@
 
 @interface AddNewStoreViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource, UIPickerViewDelegate,LocationManagerDelegate,StoreManagerDelegate>
 
-
-@property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
-@property (strong, nonatomic) IBOutlet UIImageView *storeImageView;
-@property (strong, nonatomic) IBOutlet UITextField *nameField;
-@property (strong, nonatomic) IBOutlet UITextView *descriptionField;
-@property (strong, nonatomic) IBOutlet UITextField *emailField;
-@property (strong, nonatomic) IBOutlet UITextField *phoneField;
-@property (strong, nonatomic) IBOutlet UITextField *placeholderTextField;
-@property (strong, nonatomic) IBOutlet UIPickerView *locationPickerView;
-@property (strong, nonatomic) IBOutlet UIView *pickersView;
-
-
 - (IBAction)homeBtnPress:(id)sender;
 - (IBAction)chooseImageBtnPress:(id)sender;
 - (IBAction)chooseCountry:(id)sender;

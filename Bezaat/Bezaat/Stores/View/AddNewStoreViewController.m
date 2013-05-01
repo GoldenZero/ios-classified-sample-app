@@ -23,13 +23,20 @@
     UITapGestureRecognizer *tap;
     MBProgressHUD2 *loadingHUD;
     
-    
+    IBOutlet UIToolbar *toolBar;
+    IBOutlet UIImageView *storeImageView;
+    IBOutlet UITextField *nameField;
+    IBOutlet UITextView *descriptionField;
+    IBOutlet UITextField *emailField;
+    IBOutlet UITextField *phoneField;
+    IBOutlet UITextField *placeholderTextField;
+    IBOutlet UIPickerView *locationPickerView;
+    IBOutlet UIView *pickersView;
 }
 
 @end
 
 @implementation AddNewStoreViewController
-@synthesize toolBar,storeImageView,nameField,descriptionField,emailField,phoneField,placeholderTextField,locationPickerView,pickersView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -153,8 +160,8 @@
     store.phone = phoneField.text;
     store.countryID = chosenCountry.countryID;
     
-    [StoreManager sharedInstance].delegate = self;
-    [[StoreManager sharedInstance] createStore:store];
+    //[StoreManager sharedInstance].delegate = self;
+   // [[StoreManager sharedInstance] createStore:store];
 }
 
 #pragma mark - UIActionSheetDelegate Method
@@ -192,7 +199,7 @@
     if (alertView.tag == 5) {
         FeatureStoreAdViewController *vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
         //vc.currentAdID = adID;
-        vc.storeID = myStore;
+        vc.storeID = store;
         [self presentViewController:vc animated:YES completion:nil];
     }
     NSLog(@"buttonIndex:%d",buttonIndex);
@@ -217,9 +224,10 @@
     [pickersView setHidden:YES];
     [UIView animateWithDuration:0.3 animations:^{
         pickersView.frame = CGRectMake(pickersView.frame.origin.x,
-                                            [[UIScreen mainScreen] bounds].size.height,
-                                            pickersView.frame.size.width,
-                                            pickersView.frame.size.height);
+                                       [[UIScreen mainScreen] bounds].size.height,
+                                       pickersView.frame.size.width,
+                                       pickersView.frame.size.height
+                                       );
     }];
 }
 
@@ -334,8 +342,6 @@
 #pragma mark - Private Methods
 
 -(void)dismissKeyboard {
-    [self closePicker];
-
     [nameField resignFirstResponder];
     [descriptionField resignFirstResponder];
     [emailField resignFirstResponder];

@@ -155,30 +155,7 @@
                          if (!error) {
                              NSLog(@"User_Info: %@",user);
                              [[ProfileManager sharedInstance] loginWithFacebookDelegate:self email:[user objectForKey:@"email"] AndUserName:user.name andFacebookid:user.id];
-                             /*
-                              RXMLElement *rxml = [RXMLElement elementFromURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/account/SocialPluginLogin?skey=%@&email=%@&fullName=%@&providerName=facebook&providerUserId=%@",[[AppDelegate instance] getURLiPhone],[[AppDelegate instance] md5:API_SECRET_KEY],[user objectForKey:@"email"],[self htmlEntityEncode:user.name],[user objectForKey:@"id"]]]];
-                              
-                              checkParenting = NO;
-                              __block NSString * userIdString=@"0";
-                              
-                              
-                              [rxml iterate:@"flipBlogIphone.user" with: ^(RXMLElement *sa) {
-                              
-                              userIdString = [[NSString alloc]initWithString:[NSString stringWithFormat:@"%@",[sa child:@"userid"]]];
-                              
-                              }];
-                              //Discuss the status here
-                              //NSLog(@"userIdString:): %@",userIdString);
-                              if([userIdString isEqualToString:@"0"]){
-                              //Do Nothing!!
-                              
-                              }
-                              else{*/
-                             //NSLog(@"Correct id= %@",userIdString);
-                             //[[NSUserDefaults standardUserDefaults] setValue:userIdString forKey:@"userid"];
-                             //[[NSUserDefaults standardUserDefaults] setValue:user.name forKey:@"username1"];
-                             //[[NSUserDefaults standardUserDefaults] synchronize];
-                            //}
+                             
                          }
                      }];
                 }
@@ -196,7 +173,7 @@
      [[NSNotificationCenter defaultCenter]
      postNotificationName:FBSessionStateChangedNotification
      object:session];
-     */
+     
     if (error) {
         UIAlertView *alertView = [[UIAlertView alloc]
                                   initWithTitle:@"لم تتم عملية الدخول بنجاح"
@@ -205,15 +182,7 @@
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil];
         [alertView show];
-    }
-    
-    //
-    //
-    //old code
-    //
-    //
-    //
-    
+    }*/
     [self hideLoadingIndicator];
     
     if ([SharedUser fbSharedSessionInstance].isOpen) {
@@ -221,8 +190,9 @@
         [fbManager getUserDataDictionary];
         
     } else {
-        if ([SharedUser fbSharedSessionInstance].accessTokenData)
-            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملية تسجيل الدخول" delegateVC:self];
+        if ([SharedUser fbSharedSessionInstance].accessTokenData){
+            [fbManager getUserDataDictionary];
+        }
     }
     
 }
@@ -348,7 +318,7 @@
 -(void)userFailLoginWithFacebookError:(NSError *)error
 {
     NSLog(@"failed");
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithTitle:@"فشل العملية" message:[error description] delegateVC:self];
     
     [self hideLoadingIndicator];
 }

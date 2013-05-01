@@ -89,7 +89,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
-    [[FeaturingManager sharedInstance] createStoreOrderForStoreID:[self.storeID integerValue] withcountryID:[[SharedUser sharedInstance] getUserCountryID] withShemaName:option.pricingID WithDelegate:self];
+    [[FeaturingManager sharedInstance] createStoreOrderForStoreID:self.storeID.identifier withcountryID:[[SharedUser sharedInstance] getUserCountryID] withShemaName:option.pricingID WithDelegate:self];
 }
 
 - (IBAction)explainAdBtnPrss:(id)sender {
@@ -319,6 +319,13 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 -(void)StoreOrderDidFinishConfirmingWithStatus:(BOOL)status
 {
+    if (self.storeID == nil) {
+        self.storeID = [[Store alloc] init];
+    }
+    
+    [StoreManager sharedInstance].delegate = self;
+    [[StoreManager sharedInstance] createStore:self.storeID];
+    
     if (status) {
         [GenericMethods throwAlertWithTitle:@"شكرا" message:@"لقد تمت العملية بنجاح" delegateVC:self];
     }else{
