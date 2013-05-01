@@ -16,6 +16,8 @@
     MBProgressHUD2 *loadingHUD;
     IBOutlet UIToolbar *toolBar;
     IBOutlet UITableView *tableView;
+    LocationManager * locationMngr;
+
 }
 
 @end
@@ -41,10 +43,21 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
+    locationMngr = [LocationManager sharedInstance];
+    
+   
+    
+    [locationMngr loadCountriesAndCitiesWithDelegate:self];
+    
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getUserStores];
     [self showLoadingIndicator];
 }
+-(void)didFinishLoadingWithData:(NSArray *)resultArray
+{
+    
+}
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "StoreManager.h"
 
-@interface BrowseStoresViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,StoreManagerDelegate>
+@interface BrowseStoresViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,StoreManagerDelegate,LocationManagerDelegate>
 
 - (IBAction)backBtnPress:(id)sender;
 

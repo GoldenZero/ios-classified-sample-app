@@ -89,7 +89,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 }
 
 - (IBAction)labelAdBtnPressed:(id)sender {
-    
+    [self showLoadingIndicator];
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
     [[FeaturingManager sharedInstance] createStoreOrderForStoreID:self.storeID.identifier withcountryID:[[SharedUser sharedInstance] getUserCountryID] withShemaName:option.pricingID WithDelegate:self];
@@ -180,6 +180,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
 {
+    [self hideLoadingIndicator];
     productsArr = response.products;
     
     if (productsArr.count != 0)
@@ -210,6 +211,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
 {
+    [self hideLoadingIndicator];
     for (SKPaymentTransaction *transaction in transactions)
     {
         switch (transaction.transactionState) {
@@ -225,6 +227,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
                 NSLog(@"Transaction Failed");
                 [[SKPaymentQueue defaultQueue]
                  finishTransaction:transaction];
+                [GenericMethods throwAlertWithTitle:@"" message:@"فشلت العملية يرجى إعادة المحاولة" delegateVC:self];
                 
                 break;
                 
@@ -235,7 +238,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 }
 
 - (void)productPurchased:(NSNotification *)notification {
-    
+    [self hideLoadingIndicator];
     NSString * productIdentifier = notification.object;
     NSLog(@"product is purchased: %@", productIdentifier);
     [[FeaturingManager sharedInstance] confirmStoreOrderID:OrderID withAppName:@"AppStore" gatewayResponse:[notification description] withDelegate:self];
@@ -322,12 +325,11 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 -(void)StoreOrderDidFinishConfirmingWithStatus:(BOOL)status
 {
-    if (self.storeID == nil) {
-        self.storeID = [[Store alloc] init];
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (!savedProfile.hasStores) {
+        [[ProfileManager sharedInstance] updateStoreStateForCurrentUser:YES];
     }
-    
-    [StoreManager sharedInstance].delegate = self;
-    [[StoreManager sharedInstance] createStore:self.storeID];
+   
     
     if (status) {
         [GenericMethods throwAlertWithTitle:@"شكرا" message:@"لقد تمت العملية بنجاح" delegateVC:self];

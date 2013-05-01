@@ -62,7 +62,7 @@
             [self presentViewController:vc animated:YES completion:nil];
         }
     }
-    
+    uploadingLOGO = NO;
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
     CGRect frame = placeholderTextField.frame;
@@ -145,17 +145,17 @@
         [alert show];
         return;
     }
-    if (uploadingLOGO) {
+    if (!uploadingLOGO) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:@"هل أنت متأكد من حفظ المتجر بدون صورة؟"
+                                                        message:@"يجب ان يتم تحميل صورة"
                                                        delegate:self
-                                              cancelButtonTitle:@"لا"
-                                              otherButtonTitles:@"نعم", nil];
+                                              cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
         [alert show];
         return;
     }
     
-   // [self showLoadingIndicator];
+    [self showLoadingIndicator];
     if (store == nil) {
         store = [[Store alloc] init];
     }
@@ -164,15 +164,10 @@
     store.ownerEmail = emailField.text;
     store.phone = phoneField.text;
     store.countryID = chosenCountry.countryID;
+
     
-    
-    FeatureStoreAdViewController *vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
-    //vc.currentAdID = adID;
-    vc.storeID = store;
-    [self presentViewController:vc animated:YES completion:nil];
-    
-    //[StoreManager sharedInstance].delegate = self;
-   // [[StoreManager sharedInstance] createStore:store];
+    [StoreManager sharedInstance].delegate = self;
+   [[StoreManager sharedInstance] createStore:store];
 }
 
 #pragma mark - UIActionSheetDelegate Method
@@ -339,7 +334,7 @@
         });
     }
     
-    uploadingLOGO = NO;
+    uploadingLOGO = YES;
 }
 
 #pragma mark -
