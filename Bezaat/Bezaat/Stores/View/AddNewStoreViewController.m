@@ -225,6 +225,7 @@
     storeImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     NSLog(@"imagePickerController:didFinishPickingMediaWithInfo:%f",storeImage.size.width);
     uploadingLOGO = YES;
+    storeImageView.image = storeImage;
     [self showLoadingIndicatorOnImages];
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] uploadLOGO:storeImage];
@@ -324,7 +325,7 @@
 }
 
 - (void) storeLOGOUploadDidSucceedWithImageURL:(NSString *)imageURL {
-    
+    /*
     if (store == nil) {
         store = [[Store alloc] init];
     }
@@ -341,7 +342,7 @@
                 [storeImageView setNeedsDisplay];
             });
         });
-    }
+    }*/
     [self hideLoadingIndicatorOnImages];
     uploadingLOGO = YES;
 }
@@ -379,7 +380,8 @@
     imgsLoadingHUD.mode = MBProgressHUDModeCustomView2;
     imgsLoadingHUD.labelText = @"";
     imgsLoadingHUD.detailsLabelText = @"";
-    imgsLoadingHUD.dimBackground = YES;
+    imgsLoadingHUD.dimBackground = NO;
+    imgsLoadingHUD.opacity = 0.1;
 }
 
 - (void) hideLoadingIndicator {

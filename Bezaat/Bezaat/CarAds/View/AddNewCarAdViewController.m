@@ -350,6 +350,7 @@
     imgsLoadingHUD.labelText = @"";
     imgsLoadingHUD.detailsLabelText = @"";
     imgsLoadingHUD.dimBackground = YES;
+    imgsLoadingHUD.opacity = 0.5;
 }
 
 - (void) hideLoadingIndicator {
@@ -738,7 +739,9 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     //UIImage * img = [info objectForKey:@"UIImagePickerControllerEditedImage"];
     UIImage * img = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    
+    UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+    [tappedBtn setImage:img forState:UIControlStateNormal];
+
     [self useImage:img];
     [picker dismissViewControllerAnimated:YES completion:nil];
 
@@ -776,13 +779,14 @@
     //1- show the image on the button
     if ((chosenImgBtnTag > -1) && (currentImageToUpload))
     {
-        
+        /*
         UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
         UIImageView * imgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tappedBtn.frame.size.width, tappedBtn.frame.size.height)];
         
         //[tappedBtn setImage:currentImageToUpload forState:UIControlStateNormal];
         [tappedBtn addSubview:imgv];
         [imgv setImageWithURL:url placeholderImage:[UIImage imageNamed:@"AddCar_Car_logo.png"]];
+         */
     }
     //2- add image data to this ad
     [currentImgsUploaded addObject:[NSNumber numberWithInteger:ID]];
