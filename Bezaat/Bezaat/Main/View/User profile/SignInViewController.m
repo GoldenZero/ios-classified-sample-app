@@ -318,7 +318,8 @@
 -(void)userFailLoginWithFacebookError:(NSError *)error
 {
     NSLog(@"failed");
-    [GenericMethods throwAlertWithTitle:@"فشل العملية" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+    
     
     [self hideLoadingIndicator];
 }

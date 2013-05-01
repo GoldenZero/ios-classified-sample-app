@@ -10,6 +10,7 @@
 #import "StoreManager.h"
 
 @interface AddNewStoreViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource, UIPickerViewDelegate,LocationManagerDelegate,StoreManagerDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *countryCity;
 
 - (IBAction)homeBtnPress:(id)sender;
 - (IBAction)chooseImageBtnPress:(id)sender;

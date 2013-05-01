@@ -44,6 +44,141 @@
     return self;
 }
 
+
+/*
+- (void) resizeScrollView {
+    
+    CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
+    
+    //1- remove all subviews in scroll view, lower than lastY (number is took from nib)
+    for (UIView * subview in [self.labelsScrollView subviews]) {
+        if (subview.frame.origin.y > lastY) {
+            [subview removeFromSuperview];
+        }
+    }
+    
+    
+    
+    if (currentDetailsObject)
+    {
+        self.detailLbl.text =  currentDetailsObject.description;
+        //1- set car images
+        if ((currentDetailsObject.adImages) && (currentDetailsObject.adImages.count))
+        {
+            self.pageControl.currentPage = 0;
+            self.pageControl.numberOfPages = currentDetailsObject.adImages.count;
+            for (int i=0; i < currentDetailsObject.adImages.count; i++) {
+                NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
+                [self.scrollView addSubview:[self prepareImge:imgURL :i]];
+            }
+            [self.scrollView setScrollEnabled:YES];
+            [self.scrollView setShowsVerticalScrollIndicator:YES];
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
+            
+        }
+        
+        //2- set attributes
+        if ((currentDetailsObject.attributes) && (currentDetailsObject.attributes.count))
+        {
+            CGFloat addedHeightValue;   //initial value, distant from last labels
+            if (currentDetailsObject.storeID > 0)   //isStore
+                addedHeightValue = 80 + 30;
+            else
+                addedHeightValue = 35 + 30;
+            
+            lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height + addedHeightValue;
+            
+            for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
+            {
+                if (attr.categoryAttributeID != 502 &&
+                    attr.categoryAttributeID != 505 &&
+                    attr.categoryAttributeID != 508 &&
+                    attr.categoryAttributeID != 907 &&
+                    attr.categoryAttributeID != 1076) {
+                    
+                    if (![attr.attributeValue length] == 0) {
+                        
+                        
+                        //attr label
+                        NSString * attr_name_text = [NSString stringWithFormat:@"%@ :", attr.displayName];
+                        
+                        CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
+                        
+                        CGSize expectedLabelSize =
+                        [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
+                        
+                        if (realTextSize.width > expectedLabelSize.width)
+                        {
+                            int factor = (int) (realTextSize.width / expectedLabelSize.width);
+                            factor ++;
+                            
+                            expectedLabelSize.height = expectedLabelSize.height * factor;
+                        }
+                        
+                        CGFloat attr_x = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + FIXED_H_DISTANCE);
+                        
+                        CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
+                        
+                        UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(260 - expectedLabelSize.width, 8, expectedLabelSize.width, expectedLabelSize.height)];
+                        
+                        attrNameLabel.text = attr_name_text;
+                        attrNameLabel.textAlignment = NSTextAlignmentRight;
+                        attrNameLabel.font = [UIFont systemFontOfSize:15];
+                        attrNameLabel.backgroundColor = [UIColor clearColor];
+                        attrNameLabel.numberOfLines = 0;
+                        
+                        //value label
+                        CGFloat valueLabelWidth = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
+                        CGFloat valueLabelHeight = expectedLabelSize.height;
+                        
+                        //CGFloat val_x = self.labelsScrollView.frame.size.width - FIXED_H_DISTANCE;
+                        CGFloat val_x = FIXED_H_DISTANCE;
+                        CGFloat val_y  = attr_y;
+                        
+                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 8, 120, valueLabelHeight)];
+                        
+                        valuelabel.text = attr.attributeValue;
+                        valuelabel.textAlignment = NSTextAlignmentRight;
+                        valuelabel.font = [UIFont systemFontOfSize:15];
+                        valuelabel.textColor = [UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f];
+                        valuelabel.backgroundColor = [UIColor clearColor];
+                        
+                         // UITextField* backgroundText = [[UITextField alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
+                         //UITableViewCell* myCell = [[UITableViewCell alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
+                         //myCell.accessoryType = UITableViewCellAccessoryNone;
+                         //myCell.backgroundColor = [UIColor whiteColor];
+                         //myCell.textLabel.text = attrNameLabel.text;
+                         //myCell.detailTextLabel.text = valuelabel.text;
+                         
+                         
+                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y + 50, valueLabelWidth + expectedLabelSize.width + 13, 35)];
+                        [v setBackgroundColor:[UIColor whiteColor]];
+                        [v addSubview:attrNameLabel];
+                        [v addSubview:valuelabel];
+                        
+                        //[self.labelsScrollView addSubview:attrNameLabel];
+                        //[self.labelsScrollView addSubview:valuelabel];
+                        [self.labelsScrollView addSubview:v];
+                        
+                        
+                        lastY = attr_y + valueLabelHeight;
+                        addedHeightValue = addedHeightValue + valueLabelHeight + FIXED_V_DISTANCE;
+                    }
+                }
+            }
+            
+            addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
+            
+            CGFloat totalHeight = self.labelsScrollView.frame.size.height + addedHeightValue;
+            
+            [self.labelsScrollView setScrollEnabled:YES];
+            [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
+            [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
+        }
+    }
+    
+}
+*/
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -54,7 +189,7 @@
            action:@selector(dismissShareButton)];
     [self.scrollView addGestureRecognizer:tap];
     [self.labelsScrollView addGestureRecognizer:tap];
-
+    
     
     
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
@@ -66,7 +201,7 @@
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.bounces = NO;
-
+    
     self.labelsScrollView.showsHorizontalScrollIndicator = NO;
     self.labelsScrollView.showsVerticalScrollIndicator = NO;
     self.labelsScrollView.bounces = NO;
@@ -127,15 +262,15 @@
     [subView setBackgroundColor:[UIColor clearColor]];
     
     /*
-    UIImageView *imageView=[[UIImageView alloc] init];
-    CGRect imageFrame;
-    imageFrame.origin.x=10;
-    imageFrame.origin.y=10;
-    imageFrame.size.width=256;
-    imageFrame.size.height=256;
-    imageView.frame=imageFrame;
-    imageView.image=image;
-    */
+     UIImageView *imageView=[[UIImageView alloc] init];
+     CGRect imageFrame;
+     imageFrame.origin.x=10;
+     imageFrame.origin.y=10;
+     imageFrame.size.width=256;
+     imageFrame.size.height=256;
+     imageView.frame=imageFrame;
+     imageView.image=image;
+     */
     
     HJManagedImageV * imageView = [[HJManagedImageV alloc] init];
     CGRect imageFrame;
@@ -161,7 +296,7 @@
     if ((shareButton.on)) {
         [shareButton fold];
     }
-
+    
     
 }
 
@@ -211,7 +346,7 @@
             
         }
     }
-
+    
     
     
     CGAffineTransform transform =
@@ -296,11 +431,11 @@
     if (currentDetailsObject)
     {
         if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
-            {
-                NSString *phoneStr = [[NSString alloc] initWithFormat:@"tel:%@",currentDetailsObject.mobileNumber];
-                NSURL *phoneURL = [[NSURL alloc] initWithString:phoneStr];
-                [[UIApplication sharedApplication] openURL:phoneURL];
-            }
+        {
+            NSString *phoneStr = [[NSString alloc] initWithFormat:@"tel:%@",currentDetailsObject.mobileNumber];
+            NSURL *phoneURL = [[NSURL alloc] initWithString:phoneStr];
+            [[UIApplication sharedApplication] openURL:phoneURL];
+        }
     }
 }
 
@@ -337,16 +472,16 @@
             [self presentViewController:mySLComposerSheet animated:YES completion:nil];
         }
         /*
-        else
-            // no twitter account set in device settings
-            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر الحصول على بيانات تويتر في إعدادات جهازك" delegateVC:self];
+         else
+         // no twitter account set in device settings
+         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر الحصول على بيانات تويتر في إعدادات جهازك" delegateVC:self];
          */
     }
     
 }
 
 - (void)facebookAction:(id)sender{
-     [shareButton fold];
+    [shareButton fold];
     if (currentDetailsObject)
     {
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
@@ -377,16 +512,16 @@
             [self presentViewController:mySLComposerSheet animated:YES completion:nil];
         }
         /*
-        else
-            // no facebook account set in device settings
-            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر الحصول على بيانات تويتر في إعدادات جهازك" delegateVC:self];
+         else
+         // no facebook account set in device settings
+         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر الحصول على بيانات تويتر في إعدادات جهازك" delegateVC:self];
          */
     }
     
 }
 
 - (void)mailAction:(id)sender {
-     [shareButton fold];
+    [shareButton fold];
     if (currentDetailsObject)
     {
         if ([MFMailComposeViewController canSendMail])
@@ -543,7 +678,7 @@
                          myCell.detailTextLabel.text = valuelabel.text;
                          
                          */
-                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(28, val_y, valueLabelWidth + expectedLabelSize.width + 10, 35)];
+                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y + 50, valueLabelWidth + expectedLabelSize.width + 13, 35)];
                         [v setBackgroundColor:[UIColor whiteColor]];
                         [v addSubview:attrNameLabel];
                         [v addSubview:valuelabel];
@@ -579,7 +714,7 @@
             [self.phoneNumberButton setEnabled:YES];
         else
             [self.phoneNumberButton setEnabled:NO];
-    
+        
         if (currentDetailsObject.isFeatured)
             [self.featureBtn setEnabled:NO];
         
@@ -612,7 +747,7 @@
             [self.distinguishingImage setHidden:NO];
             NSLog(@"%c",currentDetailsObject.isFeatured);
             [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_Sp.png"]];
-           // [self.priceLabel setTextColor:[UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f]];
+            // [self.priceLabel setTextColor:[UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f]];
             [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
             [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar_Sp.png"]];
             
@@ -622,7 +757,7 @@
         if (currentDetailsObject.storeID!=0) {
             [self.storeView setHidden:NO];
             self.contentView.frame=CGRectMake(0,124 ,self.contentView.frame.size.width , self.contentView.frame.size.height);
-           
+            
             [self.nameStoreLabel setBackgroundColor:[UIColor clearColor]];
             [self.nameStoreLabel setText:currentDetailsObject.storeName];
             [self.nameStoreLabel setTextAlignment:SSTextAlignmentRight];
@@ -670,13 +805,13 @@
         [self.detailsLabel setTextAlignment:SSTextAlignmentRight];
         [self.detailsLabel setTextColor:[UIColor blackColor]];
         [self.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:15.0] ];
-
+        
         
         [self.priceLabel setBackgroundColor:[UIColor clearColor]];
         [self.priceLabel setTextAlignment:SSTextAlignmentRight];
         [self.priceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
         [self.priceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:13.0] ];
-
+        
         NSString * priceStr = [GenericMethods formatPrice:currentDetailsObject.price];
         if ([priceStr isEqualToString:@""])
             self.priceLabel.text = priceStr;
@@ -753,14 +888,14 @@
         [currentDetailsObject setIsFavorite:NO];
         if (self.parentVC)
             [self.parentVC updateFavStateForAdID:currentAdID withState:NO];
-                [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
+        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
     }
     else
     {
         [currentDetailsObject setIsFavorite:YES];
         if (self.parentVC)
             [self.parentVC updateFavStateForAdID:currentAdID withState:YES];
-
+        
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
     }
     
@@ -791,8 +926,8 @@
             
         }
     }
-
-       
+    
+    
     
 }
 

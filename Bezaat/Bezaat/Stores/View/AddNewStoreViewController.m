@@ -50,7 +50,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (savedProfile == nil) {
+        // goto login view
+        if ([[UIScreen mainScreen] bounds].size.height == 568){
+            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        }else {
+            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+    }
+    
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
     CGRect frame = placeholderTextField.frame;
@@ -65,23 +77,14 @@
     loadingHUD = [[MBProgressHUD2 alloc] init];
     [self showLoadingIndicator];
     [[LocationManager sharedInstance] loadCountriesAndCitiesWithDelegate:self];
+    chosenCountry = (Country*)[countryArray objectAtIndex:0];
     [self closePicker];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    if (savedProfile == nil) {
-        // goto login view
-        if ([[UIScreen mainScreen] bounds].size.height == 568){
-        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
-        [self presentViewController:vc animated:YES completion:nil];
-        }else {
-            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-            [self presentViewController:vc animated:YES completion:nil];
-        }
-    }
+   
 }
 
 - (void)didReceiveMemoryWarning
@@ -109,6 +112,8 @@
 }
 
 - (IBAction)chooseCountry:(id)sender {
+    locationPickerView.hidden = NO;
+   
     [self showPicker];
     [locationPickerView reloadAllComponents];
     int selectedCountryIndex = 0;
@@ -150,7 +155,7 @@
         return;
     }
     
-    [self showLoadingIndicator];
+   // [self showLoadingIndicator];
     if (store == nil) {
         store = [[Store alloc] init];
     }
@@ -159,6 +164,12 @@
     store.ownerEmail = emailField.text;
     store.phone = phoneField.text;
     store.countryID = chosenCountry.countryID;
+    
+    
+    FeatureStoreAdViewController *vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+    //vc.currentAdID = adID;
+    vc.storeID = store;
+    [self presentViewController:vc animated:YES completion:nil];
     
     //[StoreManager sharedInstance].delegate = self;
    // [[StoreManager sharedInstance] createStore:store];
@@ -235,6 +246,7 @@
 {
     [self dismissKeyboard];
     [pickersView setHidden:NO];
+    [pickersView setHidden:NO];
     [UIView animateWithDuration:0.3 animations:^{
         pickersView.frame = CGRectMake(pickersView.frame.origin.x,
                                        [[UIScreen mainScreen] bounds].size.height-pickersView.frame.size.height,
@@ -253,6 +265,8 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     chosenCountry=(Country *)[countryArray objectAtIndex:row];
+    NSString *temp= chosenCountry.countryName;
+    [self.countryCity setTitle:temp forState:UIControlStateNormal];
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
@@ -342,6 +356,7 @@
 #pragma mark - Private Methods
 
 -(void)dismissKeyboard {
+    [self closePicker];
     [nameField resignFirstResponder];
     [descriptionField resignFirstResponder];
     [emailField resignFirstResponder];
@@ -384,6 +399,17 @@
     }
 }
 
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self closePicker];
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+}
+
+
 @end
 
 @implementation UIImagePickerController (NonRotating)
@@ -397,5 +423,7 @@
 {
     return UIInterfaceOrientationPortrait;
 }
+
+
 
 @end

@@ -398,7 +398,7 @@
             
             
             //check featured
-            if (carAdObject.isFeatured)
+            if (!carAdObject.isFeatured)
             {
                 [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing_special_bg.png"]];
                 [cell.helpButton setHidden:NO];
@@ -1299,15 +1299,17 @@
         searchBtnFlag=false;
     }
     if (searchBtnFlag){
+        [self showSearchPanel];
         [self.searchPanelView setHidden:NO];
         [self.searchImageButton setHidden:NO];
-        [self showSearchPanel];
+        
     }
     
     else {
+        [self hideSearchPanel];
         [self.searchPanelView setHidden:YES];
         [self.searchImageButton setHidden:YES];
-        [self hideSearchPanel];
+        
         
     }
     

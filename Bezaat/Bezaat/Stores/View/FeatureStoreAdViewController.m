@@ -9,6 +9,7 @@
 #import "FeatureStoreAdViewController.h"
 #import "FeatureAdCell.h"
 #import "WhyFeatureStoreAdViewController.h"
+#import "ChooseActionViewController.h"
 
 @interface FeatureStoreAdViewController (){
     NSArray * productsArr;
@@ -82,7 +83,9 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 }
 
 - (IBAction)laterBtnPressed:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+   // [self dismissViewControllerAnimated:YES completion:nil];
+    ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)labelAdBtnPressed:(id)sender {
