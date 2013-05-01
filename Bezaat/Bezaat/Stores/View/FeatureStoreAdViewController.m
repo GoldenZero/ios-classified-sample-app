@@ -8,7 +8,7 @@
 
 #import "FeatureStoreAdViewController.h"
 #import "FeatureAdCell.h"
-#import "whyLabelAdViewController.h"
+#import "WhyFeatureStoreAdViewController.h"
 
 @interface FeatureStoreAdViewController (){
     NSArray * productsArr;
@@ -93,7 +93,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 }
 
 - (IBAction)explainAdBtnPrss:(id)sender {
-    whyLabelAdViewController *vc=[[whyLabelAdViewController alloc] initWithNibName:@"whyLabelAdViewController" bundle:nil];
+    WhyFeatureStoreAdViewController *vc=[[WhyFeatureStoreAdViewController alloc] initWithNibName:@"WhyFeatureStoreAdViewController" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
