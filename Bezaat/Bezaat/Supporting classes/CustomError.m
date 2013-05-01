@@ -10,10 +10,15 @@
 
 @implementation CustomError
 @synthesize descMessage;
+@synthesize Code;
 
 - (NSString *) description {
     
     return descMessage;
+}
+
+-(NSInteger) error {
+    return Code;
 }
 
 @end

@@ -1162,8 +1162,9 @@
 
 - (void) imageDidFailUploadingWithError:(NSError *)error {
     
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
-    
+    //[GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+
     [self hideLoadingIndicatorOnImages];
     if (chosenImgBtnTag > -1)
     {
@@ -1207,8 +1208,9 @@
 #pragma mark - PostAd Delegate
 -(void)storeAdDidFailPostingWithError:(NSError *)error
 {
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
-    
+    //[GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+
     [self hideLoadingIndicator];
 }
 
@@ -1239,13 +1241,13 @@
 #pragma mark - StoreManagerDelegate Methods
 
 - (void) userStoresRetrieveDidFailWithError:(NSError *)error {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+    /*UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
                                                     message:@"حدث خطأ في تحميل المتاجر"
                                                    delegate:self
                                           cancelButtonTitle:@"موافق"
                                           otherButtonTitles:nil];
-    [alert show];
-    
+    [alert show];*/
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     [self hideLoadingIndicator];
 }
 

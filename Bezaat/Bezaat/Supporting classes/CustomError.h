@@ -11,5 +11,6 @@
 @interface CustomError : NSError
 
 @property (strong, nonatomic) NSString * descMessage;
+@property (nonatomic) NSInteger Code;
 
 @end

@@ -752,7 +752,7 @@
 
 - (void) imageDidFailUploadingWithError:(NSError *)error {
     
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     
     [self hideLoadingIndicatorOnImages];
     if (chosenImgBtnTag > -1)
@@ -796,7 +796,7 @@
 
 #pragma mark - PostAd Delegate
 - (void) adDidFailPostingWithError:(NSError *)error {
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     
     [self hideLoadingIndicator];
 }

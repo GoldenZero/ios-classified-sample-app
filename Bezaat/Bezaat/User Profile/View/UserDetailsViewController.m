@@ -7,7 +7,7 @@
 //
 
 #import "UserDetailsViewController.h"
-
+#import "ModelsViewController.h"
 
 @interface UserDetailsViewController (){
     
@@ -317,10 +317,14 @@
 }
 
 - (IBAction)AddingAdsInvoked:(id)sender {
+    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    vc.tagOfCallXib=2;
+    [self presentViewController:vc animated:YES completion:nil];
+    /*
     AddNewCarAdViewController* vc = [[AddNewCarAdViewController alloc]initWithNibName:@"AddNewCarAdViewController" bundle:nil];
     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     //vc.ButtonCheck = YES;
-    [self presentViewController:vc animated:YES completion:nil];
+    [self presentViewController:vc animated:YES completion:nil];*/
 }
 
 - (void)scrollToTheBottom

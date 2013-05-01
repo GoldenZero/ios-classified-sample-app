@@ -129,7 +129,23 @@
         [alert show];
         return;
     }
-
+    if (![self validateEmail:email]) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من إدخال البريد الإلكتروني بشكل صحيح"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    if ([newPassword length] < 5) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"كلمة السر يجب ان تكون 5 ارقام"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    
     if ([newPassword length] < 1) {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من كلمة السر"
                                                        delegate:nil cancelButtonTitle:@"موافق"
@@ -144,16 +160,23 @@
                                               otherButtonTitles:nil, nil];
         [alert show];
         return;
-      
+        
     }
     
     [self showLoadingIndicator];
-
+    
     
     [[ProfileManager sharedInstance] registerWithDelegate:self UserName:self.userText.text AndEmail:self.emailText.text andPassword:self.passwordText.text];
     
     
     
+}
+
+- (BOOL) validateEmail: (NSString *) candidate {
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    
+    return [emailTest evaluateWithObject:candidate];
 }
 
 - (IBAction)backBtnPrss:(id)sender {
@@ -200,16 +223,6 @@
                              //[[NSUserDefaults standardUserDefaults] setValue:userIdString forKey:@"userid"];
                              //[[NSUserDefaults standardUserDefaults] setValue:user.name forKey:@"username1"];
                              //[[NSUserDefaults standardUserDefaults] synchronize];
-                             UIAlertView *alertView = [[UIAlertView alloc]
-                                                       initWithTitle:@"تم تسجيل دخولك بنجاح"
-                                                       message:@""
-                                                       delegate:nil
-                                                       cancelButtonTitle:@"متابعة"
-                                                       otherButtonTitles:nil];
-                             [alertView show];
-                             UILabel *theTitle = [alertView valueForKey:@"_titleLabel"];
-                             [theTitle setFont:[UIFont fontWithName:@"Helvetica" size:20]];
-                             [theTitle setTextAlignment:NSTextAlignmentCenter];
                              
                              //}
                          }
@@ -232,14 +245,14 @@
      */
     if (error) {
         UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Error"
-                                  message:error.localizedDescription
+                                  initWithTitle:@"لم تتم عملية الدخول بنجاح"
+                                  message:@""
                                   delegate:nil
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil];
         [alertView show];
     }
-    
+
     //
     //
     //old code
@@ -281,7 +294,7 @@
 -(void)twitterDidNotLogin:(BOOL)cancelled {
     [SharedUser setNewTwitterToken:nil];//set the token to nil if twitter sign in fails.
     
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملية تسجيل الدخول" delegateVC:self];
+    //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل عملية تسجيل الدخول" delegateVC:self];
 }
 
 #pragma mark - ProfileManager delegate methods
@@ -302,7 +315,8 @@
 
 - (void) userFailLoginWithError:(NSError *)error {
     
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    //[GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     
     [self hideLoadingIndicator];
 }
@@ -377,7 +391,7 @@
 -(void)userFailLoginWithFacebookError:(NSError *)error
 {
     NSLog(@"failed");
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     
     [self hideLoadingIndicator];
 }
@@ -387,7 +401,8 @@
 -(void)userFailRegisterWithError:(NSError *)error
 {
     [self hideLoadingIndicator];
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+    //[GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
 }
 
 -(void)userDidRegisterWithData:(UserProfile *)resultProfile
@@ -415,6 +430,14 @@
             alertView.hidden = YES;
         }else if (buttonIndex == 0)
         {
+            if (![self validateEmail:self.emailText.text]) {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من إدخال البريد الإلكتروني بشكل صحيح"
+                                                               delegate:nil cancelButtonTitle:@"موافق"
+                                                      otherButtonTitles:nil, nil];
+                [alert show];
+                return;
+            }
+            
             [[ProfileManager sharedInstance] loginWithTwitterDelegate:self email:self.twitterEmail.text AndUserName:twOAuthObj.screen_name andTwitterid:twOAuthObj.user_id];
         }
     }

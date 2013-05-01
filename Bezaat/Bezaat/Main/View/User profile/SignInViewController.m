@@ -178,18 +178,7 @@
                              //[[NSUserDefaults standardUserDefaults] setValue:userIdString forKey:@"userid"];
                              //[[NSUserDefaults standardUserDefaults] setValue:user.name forKey:@"username1"];
                              //[[NSUserDefaults standardUserDefaults] synchronize];
-                             UIAlertView *alertView = [[UIAlertView alloc]
-                                                       initWithTitle:@"تم تسجيل دخولك بنجاح"
-                                                       message:@""
-                                                       delegate:nil
-                                                       cancelButtonTitle:@"متابعة"
-                                                       otherButtonTitles:nil];
-                             [alertView show];
-                             UILabel *theTitle = [alertView valueForKey:@"_titleLabel"];
-                             [theTitle setFont:[UIFont fontWithName:@"Helvetica" size:20]];
-                             [theTitle setTextAlignment:NSTextAlignmentCenter];
-                             
-                             //}
+                            //}
                          }
                      }];
                 }
@@ -210,8 +199,8 @@
      */
     if (error) {
         UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Error"
-                                  message:error.localizedDescription
+                                  initWithTitle:@"لم تتم عملية الدخول بنجاح"
+                                  message:@""
                                   delegate:nil
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil];
@@ -282,7 +271,8 @@
 
 - (void) userFailLoginWithError:(NSError *)error {
     
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+//    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
     
     [self hideLoadingIndicator];
 }
@@ -351,6 +341,7 @@
     
     alert.tag = 3;
     [alert show];
+    return;
 
 }
 

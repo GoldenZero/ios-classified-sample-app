@@ -34,6 +34,174 @@ static NSString * documentsDirectoryPath;
     [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
 }
 
++ (void) throwAlertWithCode:(NSInteger)errorCode andMessageStatus:(NSString*)msg delegateVC:(UIViewController *) vc
+{
+    // for Post Ad
+    if (!(errorCode == 200) && ([msg isEqualToString:@"ok"]))
+    {
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                     message:@"تمت العملية بنجاح"
+                                                    delegate:vc
+                                           cancelButtonTitle:@"موافق"
+                                           otherButtonTitles:nil ];
+    //[alert show];
+    [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"VALIDATE_PASSWORD"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"الرجاء التأكد من كلمة السر"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"EMAIL_ADDRESS_NOT_FOUND"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"ايرجى ادخال لبريد الإلكتروني بشكل صحيح"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"USER_BLOCKED"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"لقد تم حجب المستخدم"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"TOO_QUICK"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"يرجى المحاولة مرة أخرى"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"PHONE_NUMBER_NOT_VALID"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"رقم الجوال غير صحيح"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"REQUIRED_ATTRIBUTE_MISSING"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"يرجى تعبئة جميع الحقول"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"NUMBER_VALIDATION_FAILED_OR_PRICE_VALUE_IS_NOT_VALID"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"يرجى التأكد من حقل السعر"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"ALPHA_BETIC_VALUE_IS_NOT_VALID"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"يرجى التأكد من تعبئة جميع الحقول بشكل صحيح"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"WHEN_AD_WILL_BE_EXPIRED_IS_UN_KNOWN"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"يرجى التأكد من الصلاحية"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"Max length exceeded"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"لقد تم تجاوز القيمة المحددة للحقل"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"GROUPED_VALUS_VALIDATION_FIALED"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"يرجى التأكد من السعر والعملة"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"SUCCESS"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"لقد تمت العمية"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    
+    
+    // for sign in/up
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"WRONG_PASSWORD"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"كلمة السر غير صحيحة"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"WRONG_EMAIL"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"البريد الإلكتروني غير صحيح"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:msg
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+}
+
 + (NSString *) handleArabicTaa : (NSString *) input {
     
     NSError *error = NULL;

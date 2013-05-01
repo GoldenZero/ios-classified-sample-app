@@ -132,7 +132,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     {
         CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
         [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
+                
         if (self.delegate)
             [self.delegate userFailLoginWithError:error];
         return ;
@@ -257,8 +257,9 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        CustomError * error = [CustomError errorWithDomain:@"" code:200 userInfo:nil];
         [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        [error setCode:200];
         
         if (self.RegisterDelegate)
             [self.RegisterDelegate userFailRegisterWithError:error];

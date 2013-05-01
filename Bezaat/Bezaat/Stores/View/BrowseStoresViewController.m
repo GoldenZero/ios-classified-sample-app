@@ -9,6 +9,7 @@
 #import "BrowseStoresViewController.h"
 #import "StoreTableViewCell.h"
 #import "StoreDetailsViewController.h"
+#import "ChooseActionViewController.h"
 
 @interface BrowseStoresViewController () {
     NSArray *allUserStores;
@@ -54,7 +55,10 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
 #pragma mark - Actions
 
 - (IBAction)backBtnPress:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self dismissViewControllerAnimated:YES completion:nil];
+    ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 #pragma mark - Private Methods
