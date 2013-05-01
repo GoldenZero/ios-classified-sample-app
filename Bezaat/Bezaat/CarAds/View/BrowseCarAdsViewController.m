@@ -499,9 +499,14 @@
             
             [asynchImgManager manage:cell.carImage];
              */
+            NSString* temp = [carAdObject.thumbnailURL absoluteString];
+            
+            if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
+                cell.carImage.image = [UIImage imageNamed:@"waitForApprove.png"];
+            }else{
             [cell.carImage setImageWithURL:carAdObject.thumbnailURL
                           placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
-            
+            }
             [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage setClipsToBounds:YES];
             
