@@ -51,17 +51,7 @@
 {
     [super viewDidLoad];
     
-    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    if (savedProfile == nil) {
-        // goto login view
-        if ([[UIScreen mainScreen] bounds].size.height == 568){
-            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
-            [self presentViewController:vc animated:YES completion:nil];
-        }else {
-            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-            [self presentViewController:vc animated:YES completion:nil];
-        }
-    }
+    
     uploadingLOGO = NO;
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
@@ -79,12 +69,13 @@
     [[LocationManager sharedInstance] loadCountriesAndCitiesWithDelegate:self];
     chosenCountry = (Country*)[countryArray objectAtIndex:0];
     [self closePicker];
+    
 }
+
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
-   
+      
 }
 
 - (void)didReceiveMemoryWarning
