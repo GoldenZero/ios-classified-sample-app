@@ -10,6 +10,7 @@
 #import "StoreManager.h"
 #import "CarAdsManager.h"
 #import "FeatureStoreAdViewController.h"
+#import "BrowseStoresViewController.h"
 
 @interface AddNewStoreAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, StoreManagerDelegate,LocationManagerDelegate,StorePostAdDelegate>
 {
