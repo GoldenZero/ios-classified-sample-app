@@ -293,8 +293,8 @@
     carPrice.delegate=self;
     
     currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 190, 80, 30)];
-    [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [currency setTitle:@"العملة" forState:UIControlStateNormal];
+    [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_SM.png"] forState:UIControlStateNormal];
+    [currency setTitle:@"العملة   " forState:UIControlStateNormal];
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];

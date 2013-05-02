@@ -374,7 +374,7 @@
             [cell.showInStoreLabel setBackgroundColor:[UIColor clearColor]];
             [cell.showInStoreLabel setTextAlignment:SSTextAlignmentRight];
             [cell.showInStoreLabel setTextColor:[UIColor grayColor]];
-            [cell.showInStoreLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
+            [cell.showInStoreLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
             cell.showInStoreLabel.text = @"معروض في متجر";
 
             [cell.storeNameLabel setBackgroundColor:[UIColor clearColor]];

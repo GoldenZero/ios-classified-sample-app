@@ -297,10 +297,22 @@
                 
             {
                 [self hideMenu];
+                if (!savedProfile.hasStores) {
+                    // goto login view
+                    if ([[UIScreen mainScreen] bounds].size.height == 568){
+                        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+                        [self presentViewController:vc animated:YES completion:nil];
+                    }else {
+                        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+                        [self presentViewController:vc animated:YES completion:nil];
+                    }
+                }else {
+                    
+                    
                 ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
                 vc.tagOfCallXib=2;
                 [self presentViewController:vc animated:YES completion:nil];
-
+                }
                 break;
             }
             case 2:

@@ -41,7 +41,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+   // [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
     locationMngr = [LocationManager sharedInstance];
     
