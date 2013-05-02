@@ -153,9 +153,7 @@
     
     
     //[self.tableView setScrollEnabled:NO];
-    [self.tableView setNeedsDisplay];
-    [self.tableView reloadData];
-    
+
     if (!CGSizeEqualToSize(tableDataSize, CGSizeZero))
     {
         /*
@@ -167,6 +165,8 @@
         self.tableView.contentOffset = self.lastScrollPosition;
     }
     
+    [self.tableView reloadData];
+    [self.tableView setNeedsDisplay];
 
 }
 
