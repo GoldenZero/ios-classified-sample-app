@@ -22,6 +22,7 @@
     IBOutlet UIButton *menueBtn2;
     IBOutlet UIButton *menueBtn3;
     IBOutlet UIButton *menueBtn4;
+    IBOutlet UIImageView *noAdsImage;
     IBOutlet UIImageView *storeImage;
     IBOutlet UILabel *storeTitleLabel;
     IBOutlet UILabel *storeCityLabel;
@@ -92,6 +93,8 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     
     storeTitleLabel.text = currentStore.name;
     storeCityLabel.text = currentStore.countryName;
+    
+    noAdsImage.hidden = YES;
 
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:currentPage status:storeAdsCurrentStatus];
@@ -321,22 +324,12 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     currentStoreAds = [currentStoreAds arrayByAddingObjectsFromArray:ads];
     [tableView reloadData];
     [self hideLoadingIndicator];
+    noAdsImage.hidden = YES;
     if ( ([ads count] == 0) && ([currentStoreAds count] == 0) ) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لا يوجد إعلانات"
-                                                        message:@"لا يوجد إعلانات في هذا المتجر!"
-                                                       delegate:self
-                                              cancelButtonTitle:@"موافق"
-                                              otherButtonTitles:nil];
-        [alert show];
+        noAdsImage.hidden = NO;
         allAdsLoaded = YES;
     }
     if ( ([ads count] == 0) && ([currentStoreAds count] != 0) ) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لا يوجد إعلانات"
-                                                        message:@"تم تحميل جميع االإعلانات"
-                                                       delegate:self
-                                              cancelButtonTitle:@"موافق"
-                                              otherButtonTitles:nil];
-        [alert show];
         allAdsLoaded = YES;
     }
 }

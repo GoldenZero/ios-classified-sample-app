@@ -121,7 +121,6 @@
 						<string key="NSFrame">{{8, 182}, {304, 281}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -356,6 +355,20 @@
 						<reference key="IBUIFontDescription" ref="1011208"/>
 						<reference key="IBUIFont" ref="273850042"/>
 					</object>
+					<object class="IBUIImageView" id="706160542">
+						<reference key="NSNextResponder" ref="191373211"/>
+						<int key="NSvFlags">-2147483374</int>
+						<string key="NSFrame">{{0, 182}, {320, 416}}</string>
+						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">noCarAdd.png</string>
+						</object>
+					</object>
 				</array>
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
@@ -472,6 +485,14 @@
 					<int key="connectionID">54</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">noAdsImage</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="706160542"/>
+					</object>
+					<int key="connectionID">63</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">addNewAdvBtnPress:</string>
 						<reference key="source" ref="787436817"/>
@@ -565,6 +586,7 @@
 							<reference ref="800051239"/>
 							<reference ref="174589219"/>
 							<reference ref="810020528"/>
+							<reference ref="706160542"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -664,6 +686,11 @@
 						<reference key="object" ref="810020528"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">62</int>
+						<reference key="object" ref="706160542"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -687,13 +714,14 @@
 				<string key="41.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="62.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">61</int>
+			<int key="maxID">63</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -724,6 +752,7 @@
 						<string key="menueBtn2">UIButton</string>
 						<string key="menueBtn3">UIButton</string>
 						<string key="menueBtn4">UIButton</string>
+						<string key="noAdsImage">UIImageView</string>
 						<string key="remainingDaysLabel">UILabel</string>
 						<string key="remainingFeatureAdsLabel">UILabel</string>
 						<string key="storeCityLabel">UILabel</string>
@@ -748,6 +777,10 @@
 						<object class="IBToOneOutletInfo" key="menueBtn4">
 							<string key="name">menueBtn4</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="noAdsImage">
+							<string key="name">noAdsImage</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="remainingDaysLabel">
 							<string key="name">remainingDaysLabel</string>
@@ -800,6 +833,7 @@
 			<string key="MyStore_top_box.png">{305, 90}</string>
 			<string key="buttons_Add.png">{51, 41}</string>
 			<string key="buttons_back.png">{51, 41}</string>
+			<string key="noCarAdd.png">{320, 438}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
