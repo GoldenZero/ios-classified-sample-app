@@ -25,6 +25,7 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *labelsScrollView;
 @property (strong, nonatomic) IBOutlet SSLabel *detailsLabel;
 @property (strong, nonatomic) IBOutlet SSLabel *priceLabel;
+@property (strong, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *addTimeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *yearMiniLabel;
 @property (strong, nonatomic) IBOutlet UILabel *watchingCountLabel;
