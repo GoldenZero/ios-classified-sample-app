@@ -393,7 +393,7 @@
     [carAdTitle setBorderStyle:UITextBorderStyleRoundedRect];
     [carAdTitle setTextAlignment:NSTextAlignmentRight];
     [carAdTitle setPlaceholder:@"عنوان الإعلان"];
-    [carAdTitle setKeyboardType:UIKeyboardTypeAlphabet];
+//    [carAdTitle setKeyboardType:UIKeyboardTypeAlphabet];
     [self.verticalScrollView addSubview:carAdTitle];
     carAdTitle.delegate=self;
     
