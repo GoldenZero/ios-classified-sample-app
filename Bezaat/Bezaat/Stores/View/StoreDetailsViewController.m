@@ -8,6 +8,7 @@
 
 #import "StoreDetailsViewController.h"
 #import "AddNewStoreAdViewController.h"
+#import "CarAdDetailsViewController.h"
 #import "CarAd.h"
 
 @interface StoreDetailsViewController () {
@@ -215,6 +216,14 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     if (indexPath.row == ([_tableView numberOfRowsInSection:0] - 1)) {
         [self loadNextPage];
     }
+}
+
+- (void)tableView:(UITableView *)_tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [_tableView deselectRowAtIndexPath:indexPath animated:NO];
+    CarAdDetailsViewController *vc = [[CarAdDetailsViewController alloc] initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    CarAd *adv = currentStoreAds[indexPath.row];
+    vc.currentAdID = adv.adID;
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 #pragma mark - FeatureingDelegate Methods
