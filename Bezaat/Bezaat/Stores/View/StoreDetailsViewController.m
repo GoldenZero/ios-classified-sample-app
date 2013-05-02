@@ -7,6 +7,7 @@
 //
 
 #import "StoreDetailsViewController.h"
+#import "AddNewStoreAdViewController.h"
 #import "CarAd.h"
 
 @interface StoreDetailsViewController () {
@@ -107,6 +108,11 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 
 - (IBAction)backBtnPress:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)addNewAdvBtnPress:(id)sender {
+    AddNewStoreAdViewController *vc = [[AddNewStoreAdViewController alloc] initWithNibName:@"AddNewStoreAdViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)menueBtnPress:(id)sender {

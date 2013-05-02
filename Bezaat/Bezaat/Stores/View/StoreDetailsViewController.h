@@ -15,6 +15,7 @@
 @property (nonatomic, strong) Store *currentStore;
 
 - (IBAction)backBtnPress:(id)sender;
+- (IBAction)addNewAdvBtnPress:(id)sender;
 - (IBAction)menueBtnPress:(id)sender;
 
 @end
