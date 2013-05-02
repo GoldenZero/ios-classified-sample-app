@@ -61,6 +61,11 @@
 // remove
 - (void) FavoriteFailRemovingWithError:(NSError*) error forAdID:(NSUInteger) adID;
 - (void) FavoriteDidRemoveWithStatus:(BOOL) resultStatus forAdID:(NSUInteger) adID;
+
+// remove Ad
+- (void) AdFailRemovingWithError:(NSError*) error;
+- (void) AdDidRemoveWithStatus:(NSString*) resultStatus;
+
 @end
 
 
@@ -100,6 +105,9 @@
 
 // call remove from favorite API
 - (void) removeCarAd:(NSUInteger ) adID fromFavoritesWithDelegate:(id <FavoritesDelegate>) del;
+
+// call remove from favorite API
+- (void) removeAd:(NSUInteger ) adID fromAdsWithDelegate:(id <FavoritesDelegate>) del;
 
 // update the stores status in keyChain
 - (BOOL) updateStoreStateForCurrentUser:(BOOL) storeState;

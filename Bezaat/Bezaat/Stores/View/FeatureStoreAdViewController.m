@@ -102,6 +102,11 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self presentViewController:vc animated:YES completion:nil];
 }
 
+- (IBAction)noServiceBackBtnPrss:(id)sender
+{
+    ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+}
 
 
 #pragma mark - handle table
@@ -134,7 +139,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         
         PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:indexPath.row];
         //cell.costLabel.text = [NSString stringWithFormat:@"%@ دولار",[GenericMethods formatPrice:option.price]];
-        cell.costLabel.text = [NSString stringWithFormat:@"%@ دولار",[GenericMethods formatPrice:option.price]];
+        cell.costLabel.text = [NSString stringWithFormat:@"%@",[GenericMethods formatPrice:option.price]];
         cell.periodLabel.text = option.pricingName;
         cell.detailsLabel.text = @"";
         
@@ -279,13 +284,34 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self hideLoadingIndicator];
     
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    [self.noServiceView setHidden:NO];
+    [self.laterBtn setHidden:YES];
+    [self.nowBtn setHidden:YES];
+
 }
 
 - (void) optionsDidFinishLoadingWithData:(NSArray *)resultArray {
     [self hideLoadingIndicator];
     
     pricingOptions = [NSArray arrayWithArray:resultArray];
-    [self.tableView reloadData];
+
+    if (resultArray && resultArray.count)
+    {
+        //chosenPricingOption = [resultArray objectAtIndex:0];
+        [self.laterBtn setEnabled:YES];
+        [self.nowBtn setEnabled:YES];
+        [self.tableView reloadData];
+    }
+    else
+    {
+        [self.noServiceView setHidden:NO];
+        [self.laterBtn setHidden:YES];
+        [self.nowBtn setHidden:YES];
+    }
+
+    
+   // [self.tableView reloadData];
 }
 
 -(void)storeOptionsDidFailLoadingWithError:(NSError *)error
@@ -293,6 +319,10 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self hideLoadingIndicator];
     
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    [self.noServiceView setHidden:NO];
+    [self.laterBtn setHidden:YES];
+    [self.nowBtn setHidden:YES];
 }
 
 -(void)storeOptionsDidFinishLoadingWithData:(NSArray *)resultArray
@@ -300,7 +330,20 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self hideLoadingIndicator];
     
     pricingOptions = [NSArray arrayWithArray:resultArray];
-    [self.tableView reloadData];
+    
+    if (resultArray && resultArray.count)
+    {
+        //chosenPricingOption = [resultArray objectAtIndex:0];
+        [self.laterBtn setEnabled:YES];
+        [self.nowBtn setEnabled:YES];
+        [self.tableView reloadData];
+    }
+    else
+    {
+        [self.noServiceView setHidden:NO];
+        [self.laterBtn setHidden:YES];
+        [self.nowBtn setHidden:YES];
+    }
 }
 
 -(void)StoreOrderDidFailCreationWithError:(NSError *)error

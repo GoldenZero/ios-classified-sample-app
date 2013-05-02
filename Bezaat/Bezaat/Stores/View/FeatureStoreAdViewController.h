@@ -18,13 +18,17 @@
 - (IBAction)laterBtnPressed:(id)sender;
 - (IBAction)labelAdBtnPressed:(id)sender;
 - (IBAction)explainAdBtnPrss:(id)sender;
+- (IBAction)noServiceBackBtnPrss:(id)sender;
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (nonatomic) NSInteger currentAdID;
 @property (nonatomic) Store* storeID;
+@property (weak, nonatomic) IBOutlet UIView *noServiceView;
 
+@property (weak, nonatomic) IBOutlet UIButton *laterBtn;
+@property (weak, nonatomic) IBOutlet UIButton *nowBtn;
 
 
 @end

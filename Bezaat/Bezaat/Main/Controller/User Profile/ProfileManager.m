@@ -43,6 +43,7 @@
     InternetManager * updateMngr;
     InternetManager * favoriteAddMngr;
     InternetManager * favoriteRemoveMngr;
+    InternetManager * removeAdMngr;
     NSUInteger currentAdIDForFav;
     NSString* twitterChecked;
     @protected
@@ -64,6 +65,9 @@ static NSString * register_url = @"/json/register-user";
 static NSString * device_reg_url = @"/json/register-device?deviceTpe=%@&version=%@&osVersion=%@";
 static NSString * add_to_fav_url = @"/json/add-to-favorite";
 static NSString * remove_from_fav_url = @"/json/remove-from-favorite";
+
+static NSString * remove_from_ad_url = @"/json/delete-ad";
+
 static NSString * update_user_url = @"/json/modify-user";
 
 static NSString * login_email_post_key = @"EmailAddress";
@@ -98,6 +102,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
         device_reg_url = [API_MAIN_URL stringByAppendingString:device_reg_url];
         add_to_fav_url = [API_MAIN_URL stringByAppendingString:add_to_fav_url];
         remove_from_fav_url = [API_MAIN_URL stringByAppendingString:remove_from_fav_url];
+        remove_from_ad_url = [API_MAIN_URL stringByAppendingString:remove_from_ad_url];
         update_user_url = [API_MAIN_URL stringByAppendingString:update_user_url];
         
 
@@ -512,6 +517,85 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     
 }
 
+- (void) removeAd:(NSUInteger ) adID fromAdsWithDelegate:(id <FavoritesDelegate>) del {
+    
+    currentAdIDForFav = adID;
+    
+    //1- set the delegate
+    self.favDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.favDelegate)
+            [self.favDelegate AdFailRemovingWithError:error];
+        return ;
+    }
+    //3- set the url string
+    NSString * fullURLString = remove_from_ad_url;
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        NSString * post =[NSString stringWithFormat:@"%@=%@",ad_id_post_key, [NSString stringWithFormat:@"%i",adID]];
+        
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setTimeoutInterval:60];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        //5- send the request
+        [request setHTTPBody:postData];
+        
+        
+        removeAdMngr = [[InternetManager alloc] initWithTempFileName:favMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.favDelegate)
+            [self.favDelegate AdFailRemovingWithError:error];
+        return ;
+    }
+    
+}
+
 - (BOOL) updateStoreStateForCurrentUser:(BOOL) storeState {
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     if (savedProfile)
@@ -679,15 +763,19 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     // Prepare the data object for the next request
     dataSoFar = nil;
     
-    if (self.delegate)
+    if (self.delegate){
         if ([twitterChecked isEqualToString:@"twitter"])
             [self.delegate userFailLoginWithTwitterError:error];
         else if ([twitterChecked isEqualToString:@"facebook"])
             [self.delegate userFailLoginWithFacebookError:error];
         else
             [self.delegate userFailLoginWithError:error];
+    }
     else if (self.updateDelegate) {
         [self.updateDelegate userFailUpdateWithError:error];
+    }
+    else if (self.RegisterDelegate) {
+        [self.RegisterDelegate userFailRegisterWithError:error];
     }
     else if (self.RegisterDelegate) {
         [self.RegisterDelegate userFailRegisterWithError:error];
@@ -933,6 +1021,11 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
         if (self.updateDelegate)
             [updateDelegate userFailUpdateWithError:error];
     }
+    else if (manager == removeAdMngr)
+    {   // remove from favorites
+        if (self.favDelegate)
+            [favDelegate AdFailRemovingWithError:error];
+    }
 }
 
 - (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*) result {
@@ -961,6 +1054,11 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
         {   // remove from favorites
             if (self.updateDelegate)
                 [updateDelegate userFailUpdateWithError:error];
+        }
+        else if (manager == removeAdMngr)
+        {   // remove from favorites
+            if (self.favDelegate)
+                [favDelegate AdFailRemovingWithError:error];
         }
         
     }
@@ -1019,6 +1117,31 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
                     [error setDescMessage:statusMessageProcessed];
                     if (self.favDelegate)
                         [favDelegate FavoriteFailRemovingWithError:error forAdID:currentAdIDForFav];
+                }
+            }
+        }
+        else if (manager == removeAdMngr)
+        {   // add to favorites
+            NSArray * data = (NSArray *) result;
+            if ((data) && (data.count > 0))
+            {
+                NSDictionary * totalDict = [data objectAtIndex:0];
+                NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+                NSInteger statusCode = statusCodeString.integerValue;
+                
+                NSString * statusMessageProcessed = [[[totalDict objectForKey:LOGIN_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                
+                if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                {
+                    if (self.favDelegate)
+                        [favDelegate AdDidRemoveWithStatus:statusMessageProcessed];
+                }
+                else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:statusMessageProcessed];
+                    if (self.favDelegate)
+                        [favDelegate AdFailRemovingWithError:error];
                 }
             }
         }

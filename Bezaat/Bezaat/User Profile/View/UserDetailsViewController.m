@@ -86,6 +86,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.adsTable setNeedsDisplay];
     [self.adsTable reloadData];
     self.adsTable.contentSize=CGSizeMake(320, self.adsTable.contentSize.height);
 }

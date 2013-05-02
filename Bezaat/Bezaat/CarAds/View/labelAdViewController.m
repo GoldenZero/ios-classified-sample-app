@@ -153,7 +153,7 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
         
         PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:indexPath.row];
         //cell.costLabel.text = [NSString stringWithFormat:@"%@ دولار",[GenericMethods formatPrice:option.price]];
-        cell.costLabel.text = [NSString stringWithFormat:@"%@ دولار",[GenericMethods formatPrice:1000]];
+        cell.costLabel.text = [NSString stringWithFormat:@"%@",[GenericMethods formatPrice:option.price]];
         cell.periodLabel.text = option.pricingName;
         cell.detailsLabel.text = @"";
         
@@ -318,6 +318,8 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     [self.laterBtn setEnabled:NO];
     [self.nowBtn setEnabled:NO];
     
+   
+
 }
 
 - (void) optionsDidFinishLoadingWithData:(NSArray *)resultArray {
@@ -329,13 +331,15 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     if (resultArray && resultArray.count)
     {
         chosenPricingOption = [resultArray objectAtIndex:0];
-        [self.laterBtn setEnabled:YES];
-        [self.nowBtn setEnabled:YES];
+        [self.laterBtn setHidden:NO];
+        [self.nowBtn setHidden:NO];
         [self.tableView reloadData];
     }
     else
     {
         [self.noServiceView setHidden:NO];
+        [self.laterBtn setHidden:YES];
+        [self.nowBtn setHidden:YES];
     }
 }
 

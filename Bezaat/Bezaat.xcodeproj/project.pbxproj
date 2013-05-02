@@ -593,6 +593,8 @@
 		846EE78B17314F3E009385F4 /* numberOfAd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE78717314F3C009385F4 /* numberOfAd@2x.png */; };
 		846EE7911731777E009385F4 /* waitForApprove.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE78F1731777E009385F4 /* waitForApprove.png */; };
 		846EE7921731777E009385F4 /* waitForApprove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE7901731777E009385F4 /* waitForApprove@2x.png */; };
+		849F398D173273620042BBC6 /* buttons_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 849F398B173273620042BBC6 /* buttons_delete.png */; };
+		849F398E173273620042BBC6 /* buttons_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 849F398C173273620042BBC6 /* buttons_delete@2x.png */; };
 		84B7A3B8172D6D8E00DEB322 /* aboutApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B7A3B7172D6D8E00DEB322 /* aboutApp.png */; };
 		84D0D2991729434B00503CF3 /* iphone5_addcar.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0D2931729434B00503CF3 /* iphone5_addcar.png */; };
 		84D0D29A1729434B00503CF3 /* iphone5_buycar.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0D2941729434B00503CF3 /* iphone5_buycar.png */; };
@@ -1627,6 +1629,8 @@
 		846EE78717314F3C009385F4 /* numberOfAd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "numberOfAd@2x.png"; sourceTree = "<group>"; };
 		846EE78F1731777E009385F4 /* waitForApprove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waitForApprove.png; sourceTree = "<group>"; };
 		846EE7901731777E009385F4 /* waitForApprove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waitForApprove@2x.png"; sourceTree = "<group>"; };
+		849F398B173273620042BBC6 /* buttons_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttons_delete.png; sourceTree = "<group>"; };
+		849F398C173273620042BBC6 /* buttons_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buttons_delete@2x.png"; sourceTree = "<group>"; };
 		84B7A3B7172D6D8E00DEB322 /* aboutApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aboutApp.png; sourceTree = "<group>"; };
 		84D0D2931729434B00503CF3 /* iphone5_addcar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone5_addcar.png; sourceTree = "<group>"; };
 		84D0D2941729434B00503CF3 /* iphone5_buycar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone5_buycar.png; sourceTree = "<group>"; };
@@ -2150,6 +2154,8 @@
 		247F2835171DA9A400EB2EEB /* buttons */ = {
 			isa = PBXGroup;
 			children = (
+				849F398B173273620042BBC6 /* buttons_delete.png */,
+				849F398C173273620042BBC6 /* buttons_delete@2x.png */,
 				247F2865171DAB5700EB2EEB /* buttons_settings.png */,
 				247F2866171DAB5700EB2EEB /* buttons_settings@2x.png */,
 				247F2836171DA9A400EB2EEB /* buttons_back.png */,
@@ -4716,6 +4722,8 @@
 				846EE78B17314F3E009385F4 /* numberOfAd@2x.png in Resources */,
 				846EE7911731777E009385F4 /* waitForApprove.png in Resources */,
 				846EE7921731777E009385F4 /* waitForApprove@2x.png in Resources */,
+				849F398D173273620042BBC6 /* buttons_delete.png in Resources */,
+				849F398E173273620042BBC6 /* buttons_delete@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4930,8 +4938,8 @@
 		9E78A7D716E34BA3000CA790 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4957,8 +4965,6 @@
 					"-DSF_IOS_CG",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4966,8 +4972,8 @@
 		9E78A7D816E34BA3000CA790 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4993,8 +4999,6 @@
 					"-DSF_IOS_CG",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -388,6 +388,10 @@
 }
 
 - (IBAction)editAdBtnPrss:(id)sender {
+   
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"معلومة" message:@"هل تريد تأكيد حذف هذا الإعلان ؟" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:@"إلغاء", nil];
+    alert.tag = 2;
+    [alert show];
 }
 
 - (IBAction)backBtnPrss:(id)sender {
@@ -720,6 +724,8 @@
     
     if (currentDetailsObject)
     {
+        [self.editBtn setEnabled:NO];
+        
         if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
             [self.phoneNumberButton setEnabled:YES];
         else
@@ -737,11 +743,15 @@
             if (currentDetailsObject.isFavorite) {
                 [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
             }
-        }
-        
+
+                // check if he own the Ad
+                if (savedProfile.userID == currentDetailsObject.ownerID){
+                        [self.editBtn setEnabled:YES];
+                    }
+            }
+
         if ((!savedProfile) || ((savedProfile) && (savedProfile.userID != currentDetailsObject.ownerID)))
         {
-            
             NSMutableArray * newItems = [NSMutableArray new];
             for (UIBarButtonItem * item in self.topMostToolbar.items)
             {
@@ -911,6 +921,42 @@
     
 }
 
+-(void)AdFailRemovingWithError:(NSError *)error
+{
+    [self hideLoadingIndicator];
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+}
+
+-(void)AdDidRemoveWithStatus:(NSString*)resultStatus{
+    
+   
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"" message:@"تم حذف الإعلان بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+        alert.tag = 3;
+    
+    [alert show];
+  
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 3) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        /*BrowseCarAdsViewController *homeVC=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
+        homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:homeVC animated:YES completion:nil];*/
+    }
+    else if (alertView.tag == 2){
+        if (buttonIndex == 0) {
+            // delete Ad
+            [self showLoadingIndicator];
+            [[ProfileManager sharedInstance] removeAd:currentDetailsObject.adID fromAdsWithDelegate:self];
+        }else if (buttonIndex == 1)
+        {
+            alertView.hidden = YES;
+        }
+    }
+    
+}
 - (void) setPlacesOfViews{
     self.toolBar.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin;
     self.labelsScrollView.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin;

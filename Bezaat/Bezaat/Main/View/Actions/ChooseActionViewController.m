@@ -142,7 +142,7 @@
     [self hideMenu];
     
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    if (savedProfile == nil) {
+    if (!savedProfile.hasStores) {
         // goto login view
         if ([[UIScreen mainScreen] bounds].size.height == 568){
             SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
@@ -315,7 +315,7 @@
             {
                 [self hideMenu];
                 UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-                if (savedProfile == nil) {
+                if (!savedProfile.hasStores) {
                     // goto login view
                     if ([[UIScreen mainScreen] bounds].size.height == 568){
                         SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
