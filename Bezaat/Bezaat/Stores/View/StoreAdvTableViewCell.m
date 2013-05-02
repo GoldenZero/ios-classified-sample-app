@@ -84,11 +84,17 @@
     isFeatured = _isFeatured;
     if (isFeatured) {
         [featureButton setImage:[UIImage imageNamed:@"MyStore_special_help"] forState:UIControlStateNormal];
+        CGRect frame = featureButton.frame;
+        frame.origin.y = 84;
+        featureButton.frame = frame;
         bgImageView.image = [UIImage imageNamed:@"MyStore_special_bg"];
         featureTagImageView.hidden = NO;
     }
     else {
         [featureButton setImage:[UIImage imageNamed:@"MyStore_icon_dollar"] forState:UIControlStateNormal];
+        CGRect frame = featureButton.frame;
+        frame.origin.y = 88;
+        featureButton.frame = frame;
         bgImageView.image = [UIImage imageNamed:@"MyStore_box_bg"];
         featureTagImageView.hidden = YES;
     }
