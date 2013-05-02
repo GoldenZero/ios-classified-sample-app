@@ -94,7 +94,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self showLoadingIndicator];
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
-    [[FeaturingManager sharedInstance] createStoreOrderForStoreID:self.storeID.identifier withcountryID:[[SharedUser sharedInstance] getUserCountryID] withShemaName:option.pricingID WithDelegate:self];
+    [[FeaturingManager sharedInstance] createStoreOrderForStoreID:self.storeID.identifier withcountryID:self.storeID.countryID withShemaName:option.pricingID WithDelegate:self];
 }
 
 - (IBAction)explainAdBtnPrss:(id)sender {
@@ -145,12 +145,12 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     choosenCell=indexPath.row;
-    if (productsArr && productsArr.count)
+    /*if (productsArr && productsArr.count)
     {
         SKProduct *product = [productsArr objectAtIndex:indexPath.row];
         [self purchaseProductWithIdentifier:product.productIdentifier];
-    }
-    [self.tableView reloadData];
+    }*/
+    //[self.tableView reloadData];
 }
 
 - (void) chosenPeriodPressed{
