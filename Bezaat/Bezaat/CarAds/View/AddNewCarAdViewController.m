@@ -401,14 +401,15 @@
 
 -(IBAction)closePicker
 {
-        [self.pickersView setHidden:YES];
-        [UIView animateWithDuration:0.3 animations:^{
-            self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
-                                                   [[UIScreen mainScreen] bounds].size.height,
-                                                  self.pickersView.frame.size.width,
-                                                  self.pickersView.frame.size.height);
-        }];
+    [self.pickersView setHidden:YES];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
+                                            [[UIScreen mainScreen] bounds].size.height,
+                                            self.pickersView.frame.size.width,
+                                            self.pickersView.frame.size.height);
+    }];
 }
+
 
 -(IBAction)showPicker
 {
@@ -417,16 +418,17 @@
     [carPrice resignFirstResponder];
     [distance resignFirstResponder];
     [carDetails resignFirstResponder];
-
+    
     [self.pickersView setHidden:NO];
-        [self.pickersView setHidden:NO];
-        [UIView animateWithDuration:0.3 animations:^{
-            self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
-                                           [[UIScreen mainScreen] bounds].size.height-self.self.pickersView.frame.size.height,
-                                           self.pickersView.frame.size.width,
-                                           self.pickersView.frame.size.height);
-        }];
+    [self.pickersView setHidden:NO];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
+                                            [[UIScreen mainScreen] bounds].size.height-self.self.pickersView.frame.size.height,
+                                            self.pickersView.frame.size.width,
+                                            self.pickersView.frame.size.height);
+    }];
 }
+
 
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;

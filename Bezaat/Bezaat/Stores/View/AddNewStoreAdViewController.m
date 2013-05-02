@@ -360,6 +360,15 @@
     [carDetails resignFirstResponder];
 }
 
+-(void)cancelNumberPad{
+    [mobileNum resignFirstResponder];
+    mobileNum.text = @"";
+}
+
+-(void)doneWithNumberPad{
+    [mobileNum resignFirstResponder];
+}
+
 
 - (void) addButtonsToXib{
     [self.verticalScrollView setContentSize:CGSizeMake(320 , 650)];
@@ -1257,7 +1266,7 @@
     allUserStore = stores;
     [self hideLoadingIndicator];
 }
-
+/*
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -1268,5 +1277,5 @@
 {
     [textField resignFirstResponder];
 }
-
+*/
 @end

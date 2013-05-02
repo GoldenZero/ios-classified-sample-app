@@ -442,10 +442,12 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     else if (requestInProgress == RequestInProgressCreateStore) {
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         if (!savedProfile.hasStores) {
-            [[ProfileManager sharedInstance] updateStoreStateForCurrentUser:YES];
+            //[[ProfileManager sharedInstance] updateStoreStateForCurrentUser:YES];
         }
         if ([delegate respondsToSelector:@selector(storeCreationDidSucceedWithStoreID:)]) {
-            [delegate storeCreationDidSucceedWithStoreID:((NSArray *)result)[0][@"Data"]];
+            NSLog(@"%@",((NSArray *)result)[0][@"Data"]);
+            id s = ((NSArray *)result)[0][@"Data"];
+            [delegate storeCreationDidSucceedWithStoreID:[s integerValue]];
         }
     }
     else if (requestInProgress == RequestInProgressGetUserStores) {

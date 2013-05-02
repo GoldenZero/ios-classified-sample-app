@@ -314,8 +314,22 @@
             case 3:
             {
                 [self hideMenu];
-                AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
-                [self presentViewController:vc animated:YES completion:nil];
+                UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+                if (savedProfile == nil) {
+                    // goto login view
+                    if ([[UIScreen mainScreen] bounds].size.height == 568){
+                        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+                        [self presentViewController:vc animated:YES completion:nil];
+                    }else {
+                        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+                        [self presentViewController:vc animated:YES completion:nil];
+                    }
+                }else {
+                    
+                    
+                    AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+                    [self presentViewController:vc animated:YES completion:nil];
+                }
 
                 break;
             }

@@ -281,10 +281,20 @@
     imageView.frame=imageFrame;
     
     [imageView clear];
-    imageView.url = imageURL;
     
-    [imageView showLoadingWheel];
-    [asynchImgManager manage:imageView];
+    NSString* temp = [imageURL absoluteString];
+    
+    if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
+        imageView.image = [UIImage imageNamed:@"waitForApprove.png"];
+    }else{
+       imageView.url = imageURL;
+        [imageView showLoadingWheel];
+        [asynchImgManager manage:imageView];
+    }
+
+    
+    
+    
     
     [subView addSubview:imageView];
     return subView;

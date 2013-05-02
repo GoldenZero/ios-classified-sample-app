@@ -856,9 +856,9 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                 if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
                 {
                     NSString * data = [totalDict objectForKey:PRICING_DATA_JKEY];
-                    NSString * dataProcessed = [[data stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                   // NSString * dataProcessed = [[data stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
                     
-                    if ([dataProcessed isEqualToString:@"success"])
+                    if (data)
                     {
                         if (self.orderDelegate)
                             [orderDelegate StoreOrderDidFinishConfirmingWithStatus:YES];

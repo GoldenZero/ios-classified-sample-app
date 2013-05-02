@@ -17,6 +17,7 @@
     NSString* myStore;
     
     BOOL uploadingLOGO;
+    NSString* myURL;
     UIImage *storeImage;
     Country *chosenCountry;
     NSArray *countryArray;
@@ -163,6 +164,7 @@
     store.ownerEmail = emailField.text;
     store.phone = phoneField.text;
     store.countryID = chosenCountry.countryID;
+    store.imageURL = myURL;
 
     
     [StoreManager sharedInstance].delegate = self;
@@ -301,9 +303,10 @@
     [self hideLoadingIndicator];
 }
 
-- (void) storeCreationDidSucceedWithStoreID:(NSString *)storeID {
+- (void) storeCreationDidSucceedWithStoreID:(NSInteger)storeID {
     [self hideLoadingIndicator];
-    myStore = storeID;
+   // myStore = storeID;
+    store.identifier = storeID;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"شكرا"
                                                     message:@"لقد تم انشاء المتجر"
                                                    delegate:self
@@ -325,6 +328,9 @@
 }
 
 - (void) storeLOGOUploadDidSucceedWithImageURL:(NSString *)imageURL {
+   store.imageURL = imageURL;
+    NSLog(@"%@",store.imageURL);
+    myURL = imageURL;
     /*
     if (store == nil) {
         store = [[Store alloc] init];

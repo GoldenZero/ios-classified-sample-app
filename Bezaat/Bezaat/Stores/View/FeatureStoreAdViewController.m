@@ -150,7 +150,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         SKProduct *product = [productsArr objectAtIndex:indexPath.row];
         [self purchaseProductWithIdentifier:product.productIdentifier];
     }*/
-    //[self.tableView reloadData];
+    [self.tableView reloadData];
 }
 
 - (void) chosenPeriodPressed{
@@ -327,6 +327,8 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 -(void)StoreOrderDidFinishConfirmingWithStatus:(BOOL)status
 {
+    [self hideLoadingIndicator];
+    
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     if (!savedProfile.hasStores) {
         [[ProfileManager sharedInstance] updateStoreStateForCurrentUser:YES];

@@ -12,7 +12,7 @@
 @protocol StoreManagerDelegate <NSObject>
 @optional
 - (void) storeCreationDidFailWithError:(NSError *)error;
-- (void) storeCreationDidSucceedWithStoreID:(NSString *)storeID;
+- (void) storeCreationDidSucceedWithStoreID:(NSInteger)storeID;
 - (void) storeLOGOUploadDidFailWithError:(NSError *)error;
 - (void) storeLOGOUploadDidSucceedWithImageURL:(NSString *)imageURL;
 - (void) userStoresRetrieveDidFailWithError:(NSError *)error;
