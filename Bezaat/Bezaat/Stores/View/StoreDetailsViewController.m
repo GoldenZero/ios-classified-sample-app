@@ -286,6 +286,12 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (currentAdvID == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                        message:@"لم يتم تحديد إعلان."
+                                                       delegate:self
+                                              cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil];
+        [alert show];
         return;
     }
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
