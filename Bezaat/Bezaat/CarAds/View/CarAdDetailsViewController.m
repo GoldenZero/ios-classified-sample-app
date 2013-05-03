@@ -190,7 +190,8 @@
     [self.scrollView addGestureRecognizer:tap];
     [self.labelsScrollView addGestureRecognizer:tap];
     
-    
+    [editBtn setEnabled:NO];
+    [featureBtn setEnabled:NO];
     
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
@@ -383,6 +384,8 @@
 
 - (IBAction)labelAdBtnPrss:(id)sender {
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+    vc.currentAdID = currentAdID;
+    
     [self presentViewController:vc animated:YES completion:nil];
     
 }
@@ -692,7 +695,7 @@
                          myCell.detailTextLabel.text = valuelabel.text;
                          
                          */
-                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y + 50, valueLabelWidth + expectedLabelSize.width + 13, 35)];
+                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y + 70, valueLabelWidth + expectedLabelSize.width + 13, 35)];
                         [v setBackgroundColor:[UIColor whiteColor]];
                         [v addSubview:attrNameLabel];
                         [v addSubview:valuelabel];
@@ -724,7 +727,7 @@
     
     if (currentDetailsObject)
     {
-        [self.editBtn setEnabled:NO];
+       
         
         if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
             [self.phoneNumberButton setEnabled:YES];
@@ -733,6 +736,8 @@
         
         if (currentDetailsObject.isFeatured)
             [self.featureBtn setEnabled:NO];
+        else
+            [self.featureBtn setEnabled:YES];
         
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
@@ -743,13 +748,14 @@
             if (currentDetailsObject.isFavorite) {
                 [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
             }
-
-                // check if he own the Ad
-                if (savedProfile.userID == currentDetailsObject.ownerID){
-                        [self.editBtn setEnabled:YES];
-                    }
-            }
-
+            
+            // check if he own the Ad
+            if (savedProfile.userID == currentDetailsObject.ownerID)
+                [self.editBtn setEnabled:YES];
+            else
+                [self.editBtn setEnabled:NO];
+        }
+        
         if ((!savedProfile) || ((savedProfile) && (savedProfile.userID != currentDetailsObject.ownerID)))
         {
             NSMutableArray * newItems = [NSMutableArray new];
@@ -824,11 +830,11 @@
         [self.detailsLabel setText:currentDetailsObject.title];
         [self.detailsLabel setTextAlignment:SSTextAlignmentRight];
         [self.detailsLabel setTextColor:[UIColor blackColor]];
-        [self.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:15.0] ];
+        [self.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:14.0] ];
         
         
         [self.priceLabel setBackgroundColor:[UIColor clearColor]];
-        [self.priceLabel setTextAlignment:SSTextAlignmentRight];
+        [self.priceLabel setTextAlignment:SSTextAlignmentLeft];
         [self.priceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
         [self.priceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:13.0] ];
         

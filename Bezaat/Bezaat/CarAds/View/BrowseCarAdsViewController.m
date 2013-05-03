@@ -325,9 +325,9 @@
             cell.detailsLabel.text = carAdObject.title;
             
             [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.carPriceLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
             [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
-            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
+            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
 
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -474,9 +474,9 @@
             cell.detailsLabel.text = carAdObject.title;
             
             [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.carPriceLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
             [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
-            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
+            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -594,9 +594,9 @@
             cell.detailsLabel.text = carAdObject.title;
             
             [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.carPriceLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
             [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
-            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
+            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
             
 
             
@@ -722,9 +722,9 @@
             cell.detailsLabel.text = carAdObject.title;
             
             [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.carPriceLabel setTextAlignment:SSTextAlignmentRight];
+            [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
             [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
-            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
+            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])

@@ -142,7 +142,7 @@
     [self hideMenu];
     
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    if (!savedProfile.hasStores) {
+    if (!savedProfile) {
         // goto login view
         if ([[UIScreen mainScreen] bounds].size.height == 568){
             SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
@@ -152,14 +152,19 @@
             [self presentViewController:vc animated:YES completion:nil];
         }
     }else {
-
-    
-    AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
+        
+        if (savedProfile.hasStores) {
+            BrowseStoresViewController *vc =[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+            
+        }else{
+            AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
     }
     //NSString* launchUrl = @"http://bezaat.com/ksa/riyadh/account/create-store";
     //[[UIApplication sharedApplication] openURL:[NSURL URLWithString: launchUrl]];
-
+    
 }
 
 - (IBAction)sideMenuBtnPressed:(id)sender {
@@ -297,7 +302,7 @@
                 
             {
                 [self hideMenu];
-                if (!savedProfile.hasStores) {
+                if (!savedProfile) {
                     // goto login view
                     if ([[UIScreen mainScreen] bounds].size.height == 568){
                         SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
@@ -327,7 +332,7 @@
             {
                 [self hideMenu];
                 UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-                if (!savedProfile.hasStores) {
+                if (!savedProfile) {
                     // goto login view
                     if ([[UIScreen mainScreen] bounds].size.height == 568){
                         SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
@@ -394,17 +399,6 @@
             case 8:
             {
                 [self logout];
-                /*
-                [self hideMenu];
-                [self showLoadingIndicator];
-                [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
-                
-                
-                UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تم تسجيل الخروج" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
-                alert.tag = 1;
-                [self hideLoadingIndicator];
-                [alert show];
-*/
                 break;
             }
             case 9:

@@ -357,8 +357,9 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 {
     OrderID = orderID;
     NSLog(@"%@",OrderID);
+    PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
-    [self purchaseProductWithIdentifier:@"com.bezaat.S.13"];
+    [self purchaseProductWithIdentifier:[NSString stringWithFormat:@"com.bezaat.S.%i",option.pricingID]];
 }
 
 -(void)StoreOrderDidFailConfirmingWithError:(NSError *)error

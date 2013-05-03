@@ -55,6 +55,7 @@
 
 #define ARABIC_BEFORE_TEXT          @"قبل"
 #define ARABIC_SECOND_TEXT          @"ثانية"
+#define ARABIC_LESS_MINUTE_TEXT     @"قبل دقيقة"
 #define ARABIC_MINUTE_TEXT          @"دقيقة"
 #define ARABIC_HOUR_TEXT            @"ساعة"
 #define ARABIC_DAY_TEXT             @"يوم"
@@ -195,7 +196,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInMinutes, ARABIC_MINUTE_TEXT];
     }
     else
-        result = [NSString stringWithFormat:@"%@ %i %@", ARABIC_BEFORE_TEXT, (int)diffInSeconds, ARABIC_SECOND_TEXT];
+        result = [NSString stringWithFormat:@"%@", ARABIC_LESS_MINUTE_TEXT];
     
     return result;
 }

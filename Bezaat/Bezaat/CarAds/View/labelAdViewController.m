@@ -96,6 +96,7 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     
     if (chosenPricingOption)
     {
+        [self showLoadingIndicator];
         //1- extract product ID from pricing option
         //Form is: com.bezaat.cars.[country_id].[pricing_id]
         currentProductID = [NSString stringWithFormat:product_id_form,
@@ -178,7 +179,7 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
 {
-    productsArr = response.products;
+ /*   productsArr = response.products;
     if (productsArr.count != 0)
     {
         SKProduct * prod = productsArr[0];
@@ -188,7 +189,32 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     }
     else
         [GenericMethods throwAlertWithTitle:@"" message:@"فشل العملية" delegateVC:self];
+    */
+    [self hideLoadingIndicator];
+    productsArr = response.products;
     
+    if (productsArr.count != 0)
+    {
+        for (SKProduct * prod in productsArr)
+        {
+            NSLog(@"ID: %@, title: %@, desc: %@, ", prod.productIdentifier, prod.localizedTitle, prod.localizedDescription);
+            SKPayment * payment = [SKPayment paymentWithProduct:prod];
+            [[SKPaymentQueue defaultQueue] addPayment:payment];
+        }
+    } else {
+        NSLog(@"No product found");
+        [GenericMethods throwAlertWithTitle:@"" message:@"المنتج غير موجود" delegateVC:self];
+        return;
+    }
+    
+    NSArray * invalidProducts = response.invalidProductIdentifiers;
+    
+    for (SKProduct * product in invalidProducts)
+    {
+        NSLog(@"Product not found: %@", product);
+        [GenericMethods throwAlertWithTitle:@"" message:@"المنتج غير موجود" delegateVC:self];
+        return;
+    }
 }
 
 
@@ -350,6 +376,7 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     [self hideLoadingIndicator];
     
     //COME BACK HERE LATER TO ADD A RETRY BUTTON
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
 }
 
 - (void) orderDidFinishCreationWithID:(NSString *) orderID {
@@ -366,7 +393,8 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 - (void) orderDidFailConfirmingWithError:(NSError *) error {
     
     [self hideLoadingIndicator];
-    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+
     //COME BACK HERE LATER TO ADD A RETRY BUTTON
 }
 
@@ -383,6 +411,8 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 //cancellation
 - (void) orderDidFailCancellingWithError:(NSError *) error {
     [self hideLoadingIndicator];
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+
 }
 
 - (void) orderDidFinishCancellingWithStatus:(BOOL) status {

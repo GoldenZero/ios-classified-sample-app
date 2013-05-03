@@ -38,6 +38,7 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *distinguishingImage;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
+@property (weak, nonatomic) IBOutlet UIView *detailsView;
 
 @property (strong, nonatomic) IBOutlet UIView *callBarView;
 @property (nonatomic) NSUInteger currentAdID;
