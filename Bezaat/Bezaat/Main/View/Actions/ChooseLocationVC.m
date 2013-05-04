@@ -63,13 +63,13 @@
         }
         else
         {
-            [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+            [LocationManager sharedInstance].deviceLocationCountryCode = @"2";
             [locationMngr loadCountriesAndCitiesWithDelegate:self];
         }
     }
     else
     {
-        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+        [LocationManager sharedInstance].deviceLocationCountryCode = @"2";
         [locationMngr loadCountriesAndCitiesWithDelegate:self];
     }
 }
@@ -117,7 +117,7 @@
     
     [_locationManager stopUpdatingLocation];
     
-    [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+    [LocationManager sharedInstance].deviceLocationCountryCode = @"2";
     
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
     

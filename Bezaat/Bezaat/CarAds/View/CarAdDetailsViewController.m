@@ -695,7 +695,7 @@
                          myCell.detailTextLabel.text = valuelabel.text;
                          
                          */
-                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y + 70, valueLabelWidth + expectedLabelSize.width + 13, 35)];
+                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y + 100, valueLabelWidth + expectedLabelSize.width + 13, 35)];
                         [v setBackgroundColor:[UIColor whiteColor]];
                         [v addSubview:attrNameLabel];
                         [v addSubview:valuelabel];
@@ -843,7 +843,11 @@
             self.priceLabel.text = priceStr;
         else
             self.priceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, currentDetailsObject.currencyString];
-        
+        self.descriptionScrollView.contentSize = CGSizeMake(273, 150);
+        [self.descriptionLabel setBackgroundColor:[UIColor clearColor]];
+        [self.descriptionLabel setTextAlignment:SSTextAlignmentRight];
+        [self.descriptionLabel setTextColor:[UIColor blackColor]];
+        [self.descriptionLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
         self.descriptionLabel.text = currentDetailsObject.description;
         
         self.addTimeLabel.text = [[CarDetailsManager sharedInstance] getDateDifferenceStringFromDate:currentDetailsObject.postedOnDate];

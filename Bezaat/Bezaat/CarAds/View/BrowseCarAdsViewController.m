@@ -1288,7 +1288,7 @@
                          if (finished)
                          {
                              [self.searchPanelView setHidden:YES];
-                             [self showLoadingIndicator];
+                             //[self showLoadingIndicator];
                          }
                      }];
     
@@ -1415,7 +1415,7 @@
         isSearching = YES;
         [carAdsArray removeAllObjects];
         [self dismissSearchAndShowLoading];
-        
+        [self showLoadingIndicator];
         [self searchOfPage:page
                   forBrand:currentModel.brandID
                      Model:currentModel.modelID
@@ -1435,7 +1435,8 @@
         isSearching = YES;
         [carAdsArray removeAllObjects];
         [self dismissSearchAndShowLoading];
-
+        [self showLoadingIndicator];
+        
         [self searchOfPage:page
                   forBrand:-1
                      Model:-1
@@ -1582,6 +1583,7 @@
 
 - (void) adsDidFinishLoadingWithData:(NSArray *)resultArray {
     //1- hide the loading indicator
+    [self hideLoadingIndicator];
     
     if (isRefreshing)
     {
@@ -1607,6 +1609,7 @@
         {
             [self.nocarImg setHidden:NO];
             [self.tableContainer setHidden:YES];
+            [self hideLoadingIndicator];
         }
     }
     
@@ -1618,7 +1621,7 @@
         [self.tableView setContentOffset:CGPointZero animated:YES];
     }
     
-    [self hideLoadingIndicator];
+    
     
 }
 
