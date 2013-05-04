@@ -408,7 +408,13 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
         if (self.parentNewCarVC)
             [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
     }];*/
-    [self dismissViewControllerAnimated:YES completion:nil];
+    UIAlertView* alert =[[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تم تمييز إعلانك بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+    
+    alert.tag = 5;
+    [alert show];
+    return;
+    
+
 }
 //-----------------------------------------------------------
 
@@ -425,7 +431,25 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
         if (self.parentNewCarVC)
             [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
     }];*/
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (status) {
+        UIAlertView* alert =[[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تم إلغاء طلبك" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+        
+        alert.tag = 5;
+        [alert show];
+        return;
+    }
+    
+   
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 5) {
+        ChooseActionViewController* vc = [[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    
+    
 }
 
 
