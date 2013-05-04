@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AubadaLibrary/JSONParser.h>
+#import "JSONParser.h"
 #import "Brand.h"
 #import "SharedUser.h"
 #import "DistanceRange.h"

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AubadaLibrary/JSONParser.h>
+#import "JSONParser.h"
 #import <CoreLocation/CoreLocation.h>
 #import <Social/Social.h>
 #import <MapKit/MapKit.h>
