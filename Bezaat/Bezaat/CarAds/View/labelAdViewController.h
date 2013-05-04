@@ -10,6 +10,7 @@
 #import <StoreKit/StoreKit.h>
 #import "FeaturingManager.h"
 #import "AddNewCarAdViewController.h"
+#import "ChooseActionViewController.h"
 
 @interface labelAdViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate, PricingOptionsDelegate, FeaturingOrderDelegate>
 

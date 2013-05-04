@@ -626,6 +626,8 @@
             
             [[LocationManager sharedInstance] storeDataOfCountry:chosenCountry.countryID city:chosenCity.cityID];
             
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];;
+            
             if ([[UIScreen mainScreen] bounds].size.height == 568){
                 SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];

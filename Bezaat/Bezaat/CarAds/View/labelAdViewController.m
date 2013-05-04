@@ -89,7 +89,11 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
         if (self.parentNewCarVC)
             [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
     }];*/
-    [self dismissViewControllerAnimated:YES completion:nil];
+    ChooseActionViewController* vc = [[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:vc animated:YES completion:nil];
+    
+    //[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)labelAdBtnPressed:(id)sender {

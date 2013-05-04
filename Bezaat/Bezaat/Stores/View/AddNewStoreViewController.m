@@ -138,7 +138,7 @@
         [alert show];
         return;
     }
-    if (uploadingLOGO) {
+    if (!uploadingLOGO) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
                                                         message:@"يجب ان يتم تحميل صورة"
                                                        delegate:self
@@ -164,8 +164,8 @@
     store.ownerEmail = emailField.text;
     store.phone = phoneField.text;
     store.countryID = chosenCountry.countryID;
-//    store.imageURL = myURL;
-store.imageURL = @"http://www.google.com/logos/2013/labor_day_2013-1410006-hp.png";
+    store.imageURL = myURL;
+//store.imageURL = @"http://www.google.com/logos/2013/labor_day_2013-1410006-hp.png";
     
     [StoreManager sharedInstance].delegate = self;
    [[StoreManager sharedInstance] createStore:store];

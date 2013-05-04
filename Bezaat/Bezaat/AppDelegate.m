@@ -63,7 +63,6 @@
     [self.splashVC.view removeFromSuperview];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
         self.window.rootViewController = self.chooseLocationVC1;
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];;
     }
     else{
         self.window.rootViewController = self.homeVC;
