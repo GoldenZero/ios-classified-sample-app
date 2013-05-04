@@ -156,7 +156,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
         post = [post stringByAppendingFormat:@"&%@=%@",@"LogoURL", store.imageURL];
     }
     
-    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];

@@ -380,10 +380,26 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
    
     
     if (status) {
-        [GenericMethods throwAlertWithTitle:@"شكرا" message:@"لقد تمت العملية بنجاح" delegateVC:self];
+       // [GenericMethods throwAlertWithTitle:@"شكرا" message:@"لقد تمت العملية بنجاح" delegateVC:self];
+        UIAlertView* alert =[[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تمت العملية بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+        
+        alert.tag = 5;
+        [alert show];
+        return;
     }else{
        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"لم تتم العملية يرجى اعادة المحاولة" delegateVC:self];
     }
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 5) {
+        ChooseActionViewController* vc = [[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    
+    
+}
+
 
 @end
