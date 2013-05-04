@@ -283,7 +283,7 @@
     
     [imageView clear];
     
-    NSString* temp = [imageURL absoluteString];
+    NSString* temp = [currentDetailsObject.thumbnailURL absoluteString];
     
     if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
         imageView.image = [UIImage imageNamed:@"waitForApprove.png"];
