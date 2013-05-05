@@ -1050,11 +1050,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"success"]))
                     {
                         NSDictionary * dataDict = [totalDict objectForKey:LISTING_DATA_JKEY];
-                        //NSString * adIdString = [dataDict objectForKey:LISTING_ADD_ID_JKEY];
+                        NSString * adIdString = [dataDict objectForKey:LISTING_ADD_ID_JKEY];
                         
-                        //  NSInteger adID = [adIdString integerValue];
+                          NSInteger adID = [adIdString integerValue];
                         
-                        [storeaAdPostingDelegate storeAdDidFinishPostingWithAdID:0];
+                        [storeaAdPostingDelegate storeAdDidFinishPostingWithAdID:adID];
                     }
                     else
                     {
