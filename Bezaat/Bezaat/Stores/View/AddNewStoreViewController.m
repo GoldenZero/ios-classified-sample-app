@@ -25,6 +25,8 @@
     MBProgressHUD2 *loadingHUD;
     MBProgressHUD2 *imgsLoadingHUD;
 
+    BOOL locationBtnPressedOnce;
+
     IBOutlet UIToolbar *toolBar;
     IBOutlet UIImageView *storeImageView;
     IBOutlet UITextField *nameField;
@@ -55,6 +57,8 @@
     
     
     uploadingLOGO = NO;
+    locationBtnPressedOnce = NO;
+    
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
     CGRect frame = placeholderTextField.frame;
@@ -112,8 +116,13 @@
     int selectedCountryIndex = 0;
     if (chosenCountry != nil) {
         selectedCountryIndex = [countryArray indexOfObject:chosenCountry];
+    }else{
+       selectedCountryIndex = [countryArray indexOfObject:0];
     }
     [locationPickerView selectRow:selectedCountryIndex inComponent:0 animated:YES];
+
+    locationBtnPressedOnce = YES;
+
 }
 
 - (IBAction)cancelBtnPress:(id)sender {
@@ -138,6 +147,12 @@
         [alert show];
         return;
     }
+        if (!locationBtnPressedOnce)
+        {
+            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار مدينة مناسبة" delegateVC:self];
+            return;
+        }
+    
     if (!uploadingLOGO) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
                                                         message:@"يجب ان يتم تحميل صورة"

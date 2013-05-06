@@ -626,6 +626,8 @@
 		84D851BB1730182E00ADDF8F /* storebackegeOff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D851B11730182E00ADDF8F /* storebackegeOff@2x.png */; };
 		84D851BC1730182E00ADDF8F /* storebackegeOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D851B21730182E00ADDF8F /* storebackegeOn.png */; };
 		84D851BD1730182E00ADDF8F /* storebackegeOn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D851B31730182E00ADDF8F /* storebackegeOn@2x.png */; };
+		84FF1CC9173661E2004F860D /* StoreExpiredTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1CC8173661E2004F860D /* StoreExpiredTableViewCell.m */; };
+		84FF1CCD17366217004F860D /* StoreExpiredTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FF1CCC17366216004F860D /* StoreExpiredTableViewCell.xib */; };
 		9E06E49717141C25006404F7 /* DistanceRanges.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E06E49617141C25006404F7 /* DistanceRanges.json */; };
 		9E06E49D1714205A006404F7 /* DistanceRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E49C1714205A006404F7 /* DistanceRange.m */; };
 		9E06E4CF1715A091006404F7 /* DeviceRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E06E4CE1715A091006404F7 /* DeviceRegistration.m */; };
@@ -1735,6 +1737,9 @@
 		84D851B11730182E00ADDF8F /* storebackegeOff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "storebackegeOff@2x.png"; sourceTree = "<group>"; };
 		84D851B21730182E00ADDF8F /* storebackegeOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = storebackegeOn.png; sourceTree = "<group>"; };
 		84D851B31730182E00ADDF8F /* storebackegeOn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "storebackegeOn@2x.png"; sourceTree = "<group>"; };
+		84FF1CC7173661E1004F860D /* StoreExpiredTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreExpiredTableViewCell.h; sourceTree = "<group>"; };
+		84FF1CC8173661E2004F860D /* StoreExpiredTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreExpiredTableViewCell.m; sourceTree = "<group>"; };
+		84FF1CCC17366216004F860D /* StoreExpiredTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreExpiredTableViewCell.xib; sourceTree = "<group>"; };
 		9E06E49617141C25006404F7 /* DistanceRanges.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DistanceRanges.json; sourceTree = "<group>"; };
 		9E06E49B17142059006404F7 /* DistanceRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceRange.h; sourceTree = "<group>"; };
 		9E06E49C1714205A006404F7 /* DistanceRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistanceRange.m; sourceTree = "<group>"; };
@@ -3855,6 +3860,9 @@
 				613522A21725CB1800011D7D /* StoreTableViewCell.h */,
 				613522A31725CB1800011D7D /* StoreTableViewCell.m */,
 				613522A01725C90400011D7D /* StoreTableViewCell.xib */,
+				84FF1CC7173661E1004F860D /* StoreExpiredTableViewCell.h */,
+				84FF1CC8173661E2004F860D /* StoreExpiredTableViewCell.m */,
+				84FF1CCC17366216004F860D /* StoreExpiredTableViewCell.xib */,
 				61713F93172D7CF500BB256D /* StoreAdvTableViewCell.h */,
 				61713F94172D7CF500BB256D /* StoreAdvTableViewCell.m */,
 				61713F96172D7D0900BB256D /* StoreAdvTableViewCell.xib */,
@@ -4876,6 +4884,7 @@
 				849F398E173273620042BBC6 /* buttons_delete@2x.png in Resources */,
 				84C3D248173558E5005EB44A /* screenNoAd.png in Resources */,
 				84C3D249173558E5005EB44A /* screenNoAd@2x.png in Resources */,
+				84FF1CCD17366217004F860D /* StoreExpiredTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4994,6 +5003,7 @@
 				84D84BCB173008E100ADDF8F /* FeatureAdCell.m in Sources */,
 				84D84BCD173008E100ADDF8F /* FeatureStoreAdViewController.m in Sources */,
 				846EE77F1730EA84009385F4 /* WhyFeatureStoreAdViewController.m in Sources */,
+				84FF1CC9173661E2004F860D /* StoreExpiredTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1230,7 +1230,7 @@
     [self hideLoadingIndicator];
     
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
-    
+    if (adID != 0) {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"شكرا"
                                                     message:@"تمت إضافة إعلانك بنجاج"
                                                    delegate:self
@@ -1238,6 +1238,16 @@
                                           otherButtonTitles:nil];
     alert.tag = 1;
     [alert show];
+        return;
+    }else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"نعتذر"
+                                                        message:@"يرجى إعادة المحاولة"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

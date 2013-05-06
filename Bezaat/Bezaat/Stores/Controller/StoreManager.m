@@ -463,6 +463,8 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
             store.imageURL = storeDic[@"StoreImageURL"];
             store.ownerEmail = storeDic[@"StoreOwnerEmail"];
             store.status = [storeDic[@"StoreStatus"] integerValue];
+            store.remainingFreeFeatureAds = [storeDic[@"RemainingFreeFeatureAds"] integerValue];
+            store.remainingDays = [storeDic[@"RemainingDays"] integerValue];
             [stores addObject:store];
         }
         if ([delegate respondsToSelector:@selector(userStoresRetrieveDidSucceedWithStores:)]) {

@@ -8,8 +8,10 @@
 
 #import "BrowseStoresViewController.h"
 #import "StoreTableViewCell.h"
+#import "StoreExpiredTableViewCell.h"
 #import "StoreDetailsViewController.h"
 #import "ChooseActionViewController.h"
+#import "FeatureStoreAdViewController.h"
 
 @interface BrowseStoresViewController () {
     NSArray *allUserStores;
@@ -98,6 +100,62 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+     Store *store = [allUserStores objectAtIndex:indexPath.row];
+    /*
+    if (store.status == 0) {
+        StoreTableViewCell *cell = (StoreTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
+        if (cell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreTableViewCell" owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        
+        
+        cell.name = store.name;
+        cell.country = store.countryName;
+        NSString *adsCount = [NSString stringWithFormat:@"%d",store.activeAdsCount];
+        if (store.activeAdsCount != 0) {
+            adsCount = [adsCount stringByAppendingString:@" إعلانات"];
+        }
+        else {
+            adsCount = [adsCount stringByAppendingString:@" إعلان"];
+        }
+        cell.adsCount = adsCount;
+        cell.logoURL = store.imageURL;
+        cell.remainingFeaturesLabel.text = [NSString stringWithFormat:@"%i إعلان متميز متبقي",store.remainingFreeFeatureAds];
+        cell.remainingDaysLabel.text = [NSString stringWithFormat:@"%i أيام متبقية",store.remainingDays];
+        
+        
+        return cell;
+
+    }else if (store.status == 1)
+    {
+        StoreExpiredTableViewCell *cell = (StoreExpiredTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
+        if (cell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreExpiredTableViewCell" owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        
+        
+        cell.name = store.name;
+        cell.country = store.countryName;
+        NSString *adsCount = [NSString stringWithFormat:@"%d",store.activeAdsCount];
+        if (store.activeAdsCount != 0) {
+            adsCount = [adsCount stringByAppendingString:@" إعلانات"];
+        }
+        else {
+            adsCount = [adsCount stringByAppendingString:@" إعلان"];
+        }
+        cell.adsCount = adsCount;
+        cell.logoURL = store.imageURL;
+        cell.remainingFeaturesLabel.text = [NSString stringWithFormat:@"%i إعلان متميز متبقي",store.remainingFreeFeatureAds];
+        cell.remainingDaysLabel.text = [NSString stringWithFormat:@"%i أيام متبقية",store.remainingDays];
+        
+        
+        return cell;
+
+    }*/
     StoreTableViewCell *cell = (StoreTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
     if (cell == nil)
     {
@@ -105,7 +163,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
         cell = [nib objectAtIndex:0];
     }
     
-    Store *store = [allUserStores objectAtIndex:indexPath.row];
+   
     cell.name = store.name;
     cell.country = store.countryName;
     NSString *adsCount = [NSString stringWithFormat:@"%d",store.activeAdsCount];
@@ -127,10 +185,18 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
 #pragma mark - UITableViewDelegate Methods
 
 - (void)tableView:(UITableView *)_tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    StoreExpiredTableViewCell *cell = (StoreExpiredTableViewCell*) [tableView cellForRowAtIndexPath:indexPath];
+//    if (cell) {
+//        FeatureStoreAdViewController *vc = [[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+//        vc.storeID = allUserStores[indexPath.row];
+//        [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+//        [self presentViewController:vc animated:YES completion:nil];
+//    }else {
     StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
     vc.currentStore = allUserStores[indexPath.row];
     [_tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self presentViewController:vc animated:YES completion:nil];
+//    }
 }
 
 #pragma mark - StoreManagerDelegate Methods
