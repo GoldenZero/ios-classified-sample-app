@@ -20,6 +20,7 @@
 - (IBAction)labelAdBtnPressed:(id)sender;
 - (IBAction)explainAdBtnPrss:(id)sender;
 - (IBAction)noServiceBackBtnPrss:(id)sender;
+- (IBAction)bankTransferBtnPressed:(id)sender;
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UITableView *tableView;

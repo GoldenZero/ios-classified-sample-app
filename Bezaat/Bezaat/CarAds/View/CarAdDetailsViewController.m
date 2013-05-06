@@ -448,6 +448,9 @@
             else
                 //remove from fav
                 [[ProfileManager sharedInstance] removeCarAd:currentDetailsObject.adID fromFavoritesWithDelegate:self];
+        }else if (!savedProfile){
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"نعتذر" message:@"لإضافة هذا الإعلان إلى المفضلة يجب ان تسجل الدخول" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+            [alert show];
         }
     }
 }
@@ -463,6 +466,7 @@
         }
     }
 }
+
 
 #pragma mark - sharing acions
 - (void)twitterAction:(id)sender{
@@ -688,7 +692,7 @@
                         CGFloat val_x = FIXED_H_DISTANCE;
                         CGFloat val_y  = attr_y;
                         
-                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 8, 120, valueLabelHeight)];
+                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 8, 130, valueLabelHeight)];
                         
                         valuelabel.text = attr.attributeValue;
                         valuelabel.textAlignment = NSTextAlignmentRight;
@@ -763,6 +767,8 @@
                 [self.editBtn setEnabled:YES];
             else
                 [self.editBtn setEnabled:NO];
+        }else {
+            [self.favoriteButton setEnabled:YES];
         }
         
         if ((!savedProfile) || ((savedProfile) && (savedProfile.userID != currentDetailsObject.ownerID)))
@@ -852,12 +858,13 @@
             self.priceLabel.text = priceStr;
         else
             self.priceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, currentDetailsObject.currencyString];
-        self.descriptionScrollView.contentSize = CGSizeMake(273, 150);
+        self.descriptionScrollView.contentSize = CGSizeMake(273, 160);
         [self.descriptionLabel setBackgroundColor:[UIColor clearColor]];
         [self.descriptionLabel setTextAlignment:SSTextAlignmentRight];
         [self.descriptionLabel setTextColor:[UIColor blackColor]];
-        [self.descriptionLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
+        [self.descriptionLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:13.0] ];
         self.descriptionLabel.text = currentDetailsObject.description;
+        
         
         self.addTimeLabel.text = [[CarDetailsManager sharedInstance] getDateDifferenceStringFromDate:currentDetailsObject.postedOnDate];
         self.yearMiniLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.modelYear];

@@ -9,7 +9,7 @@
 #import "labelAdViewController.h"
 #import "labelAdCell.h"
 #import "whyLabelAdViewController.h"
-
+#import "BankInfoViewController.h"
 
 @interface labelAdViewController ()
 {
@@ -123,6 +123,13 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 
 - (IBAction)noServiceBackBtnPrss:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+
+}
+
+- (IBAction)bankTransferBtnPressed:(id)sender {
+    [self showLoadingIndicator];
+    PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+    [[FeaturingManager sharedInstance] createOrderForBankWithStoreID:self.currentAdID withcountryID:[[SharedUser sharedInstance] getUserCountryID] withShemaName:option.pricingID andBanking:@"" WithDelegate:self];
 
 }
 
@@ -392,6 +399,23 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     if (![currentProductID isEqualToString:@""])
         [self purchaseProductWithIdentifier:currentProductID];
 }
+
+-(void)BankOrderDidFailCreationWithError:(NSError *)error
+{
+    [self hideLoadingIndicator];
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+}
+
+-(void)BankOrderDidFinishCreationWithID:(NSString *)orderID
+{
+    [self hideLoadingIndicator];
+    BankInfoViewController *vc=[[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
+    vc.Order = orderID;
+    [self presentViewController:vc animated:YES completion:nil];
+    
+}
+
 //-----------------------------------------------------------
 //confirmation
 - (void) orderDidFailConfirmingWithError:(NSError *) error {
