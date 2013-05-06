@@ -10,6 +10,7 @@
 #import "FeatureAdCell.h"
 #import "WhyFeatureStoreAdViewController.h"
 #import "ChooseActionViewController.h"
+#import "BankInfoViewController.h"
 
 @interface FeatureStoreAdViewController (){
     NSArray * productsArr;
@@ -106,6 +107,14 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 {
     ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (IBAction)bankTransferBtnPrss:(id)sender {
+    //TODO - make the create and confirm API
+    [self showLoadingIndicator];
+    PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+    [[FeaturingManager sharedInstance] createOrderForBankWithStoreID:self.storeID.identifier withcountryID:self.storeID.countryID withShemaName:option.pricingID andBanking:@"" WithDelegate:self];
+    
 }
 
 
@@ -362,6 +371,25 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self purchaseProductWithIdentifier:[NSString stringWithFormat:@"com.bezaat.S.%i",option.pricingID]];
 }
 
+-(void)BankOrderDidFailCreationWithError:(NSError *)error
+{
+    [self hideLoadingIndicator];
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+}
+
+-(void)BankOrderDidFinishCreationWithID:(NSString *)orderID
+{
+    [self hideLoadingIndicator];
+    
+    OrderID = orderID;
+    NSLog(@"%@",OrderID);
+    
+    BankInfoViewController *vc=[[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
+    vc.Order = orderID;
+    [self presentViewController:vc animated:YES completion:nil];
+    
+}
 -(void)StoreOrderDidFailConfirmingWithError:(NSError *)error
 {
     [self hideLoadingIndicator];

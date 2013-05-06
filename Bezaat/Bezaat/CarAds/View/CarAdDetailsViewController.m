@@ -283,6 +283,9 @@
     
     [imageView clear];
     
+    UIControl *mask = [[UIControl alloc] initWithFrame:imageView.frame];
+    [mask addTarget:self action:@selector(openImgs) forControlEvents:UIControlEventTouchUpInside];
+    
     NSString* temp = [currentDetailsObject.thumbnailURL absoluteString];
     
     if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
@@ -291,14 +294,19 @@
        imageView.url = imageURL;
         [imageView showLoadingWheel];
         [asynchImgManager manage:imageView];
+        
     }
 
-    
-    
-    
-    
-    [subView addSubview:imageView];
+    [mask addSubview:imageView];
+    [subView addSubview:mask];
     return subView;
+    
+}
+
+-(void)openImgs
+{
+    //NSLog(@"test img");
+   // UIView* sliderImages = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
     
 }
 
@@ -614,6 +622,7 @@
             for (int i=0; i < currentDetailsObject.adImages.count; i++) {
                 NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
                 [self.scrollView addSubview:[self prepareImge:imgURL :i]];
+                
             }
             [self.scrollView setScrollEnabled:YES];
             [self.scrollView setShowsVerticalScrollIndicator:YES];

@@ -43,6 +43,7 @@
     InternetManager * storePricingManager;
     InternetManager * createOrderManager;
     InternetManager * createStoreOrderManager;
+    InternetManager * createBankOrderManager;
     InternetManager * confirmOrderManager;
     InternetManager * confirmStoreOrderManager;
     InternetManager * cancelOrderManager;
@@ -58,6 +59,7 @@ static NSString * store_pricing_options_url = @"/json/store-payment-scheme?count
 
 static NSString * create_order_url = @"/json/process-for-featurad";
 static NSString * create_store_order_url = @"/json/create-store-order";
+static NSString * create_bank_order_url = @"";
 static NSString * confirm_order_url = @"/json/confirm-featured-ad";
 static NSString * confirm_store_order_url = @"/json/confirm-store-order";
 static NSString * cancel_order_url = @"/json/cancel-featured-ad";
@@ -75,6 +77,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         create_store_order_url = [API_MAIN_URL stringByAppendingString:create_store_order_url];
         confirm_order_url = [API_MAIN_URL stringByAppendingString:confirm_order_url];
         confirm_store_order_url = [API_MAIN_URL stringByAppendingString:confirm_store_order_url];
+        create_bank_order_url = [API_MAIN_URL stringByAppendingString:create_bank_order_url];
         cancel_order_url = [API_MAIN_URL stringByAppendingString:cancel_order_url];
     }
     return self;
@@ -414,6 +417,93 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
+-(void) createOrderForBankWithStoreID:(NSInteger) storeID withcountryID:(NSInteger) countryID withShemaName:(NSInteger)shemaID andBanking:(NSString*)banking WithDelegate:(id <FeaturingOrderDelegate>) del
+{ //(Payment method will be detected inside)
+    
+    //1- set the delegate
+    self.orderDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.orderDelegate)
+            [self.orderDelegate BankOrderDidFailCreationWithError:error];
+        return ;
+    }
+    
+    NSString * fullURLString = create_bank_order_url;
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        NSInteger paymentMethod;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+            paymentMethod = IPHONE_PAYMENT_METHOD_NUMBER;
+        else
+            paymentMethod = IPAD_PAYMENT_METHOD_NUMBER;
+        
+        //3- start the request
+        NSString * post = [NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",
+                           @"StoreID", [NSString stringWithFormat:@"%i", storeID],
+                           @"CountryID", [NSString stringWithFormat:@"%i", countryID],
+                           @"PaymentSchemeID", [NSString stringWithFormat:@"%i", shemaID],@"Device",[NSString stringWithFormat:@"%i", paymentMethod],@"Banking",banking
+                           ];
+        
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setTimeoutInterval:60];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        [request setHTTPBody:postData];
+        
+        createBankOrderManager = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+        
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.orderDelegate)
+            [self.orderDelegate BankOrderDidFailCreationWithError:error];
+        return ;
+    }
+    
+}
+
 - (void) confirmOrderID:(NSString *) orderID gatewayResponse:(NSString *) aGatewayResponse withDelegate:(id <FeaturingOrderDelegate>) del {
     
     //1- set the delegate
@@ -672,6 +762,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         if (self.orderDelegate)
             [orderDelegate StoreOrderDidFailCreationWithError:error];
     }
+    else if (manager == createBankOrderManager)
+    {
+        if (self.orderDelegate)
+            [orderDelegate BankOrderDidFailCreationWithError:error];
+    }
     else if (manager == confirmOrderManager)
     {
         if (self.orderDelegate)
@@ -713,6 +808,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         {
             if (self.orderDelegate)
                 [orderDelegate StoreOrderDidFailCreationWithError:error];
+        }
+        else if (manager == createBankOrderManager)
+        {
+            if (self.orderDelegate)
+                [orderDelegate BankOrderDidFailCreationWithError:error];
         }
         else if (manager == confirmOrderManager)
         {
@@ -796,6 +896,35 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     
                     if (self.orderDelegate)
                         [orderDelegate StoreOrderDidFailCreationWithError:error];
+                }
+                
+            }
+        }
+        else if (manager == createBankOrderManager)
+        {
+            NSArray * data = (NSArray *)result;
+            if ((data) && (data.count > 0))
+            {
+                NSDictionary * totalDict = [data objectAtIndex:0];
+                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSInteger statusCode = statusCodeString.integerValue;
+                
+                NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                
+                if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                {
+                    NSString * orderIdentifier = [totalDict objectForKey:PRICING_DATA_JKEY];
+                    
+                    if (self.orderDelegate)
+                        [orderDelegate BankOrderDidFinishCreationWithID:orderIdentifier];
+                }
+                else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:statusMessageProcessed];
+                    
+                    if (self.orderDelegate)
+                        [orderDelegate BankOrderDidFailCreationWithError:error];
                 }
                 
             }

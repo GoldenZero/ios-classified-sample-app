@@ -1100,7 +1100,7 @@
                                       modelYearValueID:chosenYear.valueID
                                               distance:distance.text
                                                  color:@""
-                                            phoneNumer:@""
+                                            phoneNumer:myStore.ownerEmail
                                        adCommentsEmail:YES
                                       kmVSmilesValueID:distanceUnitID
                                               imageIDs:currentImgsUploaded
