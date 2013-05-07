@@ -70,7 +70,11 @@
             }
         }
     }
-   
+    if (!defaultCityName) {
+        CountryListViewController* vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
     
 }
 - (void) userDidLoginWithData:(UserProfile *)resultProfile {

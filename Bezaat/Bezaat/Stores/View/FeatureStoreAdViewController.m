@@ -421,7 +421,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     
     if (status) {
        // [GenericMethods throwAlertWithTitle:@"شكرا" message:@"لقد تمت العملية بنجاح" delegateVC:self];
-        UIAlertView* alert =[[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تمت العملية بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+        UIAlertView* alert =[[UIAlertView alloc]initWithTitle:@"شكرا" message:[NSString stringWithFormat:@"تم الدفع بنجاح وتفعيل المتجر\n\nرقم الطلب : %@",OrderID] delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
         
         alert.tag = 5;
         [alert show];
