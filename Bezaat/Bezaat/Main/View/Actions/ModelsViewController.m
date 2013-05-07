@@ -27,6 +27,8 @@
 
 @implementation ModelsViewController
 
+static NSInteger lastBrandSelectedRow = -1;
+
 #pragma mark -
 #pragma mark UITableView Methods
 
@@ -98,6 +100,8 @@
     if (tableView == _tblBrands) {
         
         oneSelectionMade = YES;
+        lastBrandSelectedRow = indexPath.row;
+
         
         // Mark this brand as selected and all the others as not selected
         for (int counter=0; counter<[tableView numberOfRowsInSection:0]; counter++) {
@@ -142,6 +146,7 @@
     
     }
     else {
+        
         // Get the model
         Model* selectedModel = (Model*)currentModels[indexPath.row];
         UserProfile* myStore = [[SharedUser sharedInstance] getUserProfileData];
@@ -180,7 +185,10 @@
     // Add new car ad call this xib
     if (self.tagOfCallXib==2) {
         currentBrands=resultArray;
-        currentModels=((Brand*)resultArray[0]).models;
+        if (lastBrandSelectedRow > -1)
+            currentModels=((Brand*)resultArray[lastBrandSelectedRow]).models;
+        else
+            currentModels=((Brand*)resultArray[0]).models;
     }
     
     // Browse car ads call this xib
@@ -190,14 +198,21 @@
         // create an extra item for 'all models'
         Model * allModelsItem = [[Model alloc] init];
         allModelsItem.modelID = -1;
-        allModelsItem.brandID = ((Brand*)resultArray[0]).brandID;
+        if (lastBrandSelectedRow > -1)
+            allModelsItem.brandID = ((Brand*)resultArray[lastBrandSelectedRow]).brandID;
+        else
+            allModelsItem.brandID = ((Brand*)resultArray[0]).brandID;
         allModelsItem.modelName = ALL_MODELS_TEXT;
         
         //create an array that has the 'all models' item first
         NSMutableArray * tempArray = [NSMutableArray arrayWithObject:allModelsItem];
         
         //add the rest of models for this brand
-        [tempArray addObjectsFromArray:((Brand*)resultArray[0]).models];
+        if (lastBrandSelectedRow > -1)
+            [tempArray addObjectsFromArray:((Brand*)resultArray[lastBrandSelectedRow]).models];
+        else
+            [tempArray addObjectsFromArray:((Brand*)resultArray[0]).models];
+        
         currentModels = tempArray;
 
         
@@ -278,6 +293,17 @@
             [[BrandsManager sharedInstance] getBrandsAndModelsWithDelegate:self];
         }
 
+    }
+    
+    if ((currentBrands && currentBrands.count) && (currentModels && currentModels.count))
+    {
+        if (lastBrandSelectedRow > -1)
+        {
+            oneSelectionMade = YES;
+            BrandCell * brandCell = (BrandCell *)[_tblBrands cellForRowAtIndexPath:[NSIndexPath indexPathForRow:lastBrandSelectedRow inSection:0]];
+            [brandCell selectCell];
+            [_tblBrands selectRowAtIndexPath:[NSIndexPath indexPathForRow:lastBrandSelectedRow inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+        }
     }
 }
 
