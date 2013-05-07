@@ -25,5 +25,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *specailButton;
 @property (strong, nonatomic) IBOutlet UIButton *helpButton;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
+@property (strong, nonatomic) IBOutlet UIButton *favoriteBtn;
 # pragma mark - actions
 @end

@@ -315,10 +315,8 @@
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
-            
-            UIButton *favoriteBtn=[[UIButton alloc] initWithFrame:CGRectMake(cell.favoriteButton.frame.origin.x+33, cell.favoriteButton.frame.origin.y, cell.favoriteButton.frame.size.width, cell.favoriteButton.frame.size.height)];
-            [favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            [favoriteBtn setImage:[cell.favoriteButton backgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
+            [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+          
             
             //customize the carAdCell with actual data
             [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
@@ -414,10 +412,8 @@
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
-                [cell.favoriteButton setHidden:YES];
-                [cell addSubview:favoriteBtn];
-                //[favoriteBtn setHidden:NO];
-
+                [cell.favoriteBtn setHidden:NO];
+                [cell.favoriteButton setHidden:NO];
             }
             
             //check owner
@@ -426,6 +422,8 @@
             // Not logged in
             if(!savedProfile){
                 [cell.favoriteButton setHidden:YES];
+                [cell.favoriteBtn setHidden:YES];
+
             }
             if (savedProfile)   //logged in
             {
@@ -434,8 +432,7 @@
                     [cell.helpButton setHidden:YES];
                     [cell.specailButton setHidden:NO];
                     [cell.favoriteButton setHidden:YES];
-                    [cell addSubview:favoriteBtn];
-                    [favoriteBtn setHidden:NO];
+                    [cell.favoriteBtn setHidden:NO];
 
                 }
                 else {
@@ -443,8 +440,7 @@
                         [cell.helpButton setHidden:NO];
                         [cell.specailButton setHidden:YES];
                         [cell.favoriteButton setHidden:YES];
-                        [cell addSubview:favoriteBtn];
-                        [favoriteBtn setHidden:NO];
+                        [cell.favoriteBtn setHidden:NO];
 
                     }
                 }
@@ -453,11 +449,11 @@
                 {
                     if (carAdObject.isFeatured) {
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
                     }
                     else{
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn  setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
                     }
                     
                 }
@@ -465,11 +461,11 @@
                 {
                     if (carAdObject.isFeatured){
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn  setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
                     }
                     else{
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn  setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
                     }
                 }
             }
@@ -487,12 +483,7 @@
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
-            
-            
-            UIButton *favoriteBtn=[[UIButton alloc] initWithFrame:CGRectMake(cell.favoriteButton.frame.origin.x+33, cell.favoriteButton.frame.origin.y, cell.favoriteButton.frame.size.width, cell.favoriteButton.frame.size.height)];
-            [favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            [favoriteBtn setImage:[cell.favoriteButton backgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
-            
+            [cell.favoriteBtn  addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
 
             //customize the carAdCell with actual data
             //customize the carAdCell with actual data
@@ -555,9 +546,8 @@
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
-                [cell.favoriteButton setHidden:YES];
-                [cell addSubview:favoriteBtn];
-                [favoriteBtn setHidden:NO];
+                [cell.favoriteBtn setHidden:NO];
+                [cell.favoriteButton setHidden:NO];
 
             }
             
@@ -566,6 +556,8 @@
             // Not logged in
             if(!savedProfile){
                 [cell.favoriteButton setHidden:YES];
+                [cell.favoriteBtn setHidden:YES];
+
             }
             
             if (savedProfile)   //logged in
@@ -575,9 +567,7 @@
                     [cell.helpButton setHidden:YES];
                     [cell.specailButton setHidden:NO];
                     [cell.favoriteButton setHidden:YES];
-                    [cell addSubview:favoriteBtn];
-                    [favoriteBtn setHidden:NO];
-
+                    [cell.favoriteBtn setHidden:NO];
                     
                 }
                 else {
@@ -585,9 +575,7 @@
                         [cell.helpButton setHidden:NO];
                         [cell.specailButton setHidden:YES];
                         [cell.favoriteButton setHidden:YES];
-                        [cell addSubview:favoriteBtn];
-                        [favoriteBtn setHidden:NO];
-
+                        [cell.favoriteBtn setHidden:NO];
                     }
                 }
                 //check favorite
@@ -595,11 +583,11 @@
                 {
                     if (carAdObject.isFeatured) {
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
                     }
                     else{
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
                     }
                     
                 }
@@ -607,11 +595,11 @@
                 {
                     if (carAdObject.isFeatured){
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
                     }
                     else{
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
                     }
                 }
             }
@@ -632,12 +620,8 @@
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
+            [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             
-            UIButton *favoriteBtn=[[UIButton alloc] initWithFrame:CGRectMake(cell.favoriteButton.frame.origin.x+33, cell.favoriteButton.frame.origin.y, cell.favoriteButton.frame.size.width, cell.favoriteButton.frame.size.height)];
-            [favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            [favoriteBtn setImage:[cell.favoriteButton backgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
-            
-
             //customize the carAdCell with actual data
             //customize the carAdCell with actual data
             [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
@@ -713,10 +697,8 @@
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
-                [cell.favoriteButton setHidden:YES];
-                [cell addSubview:favoriteBtn];
-                [favoriteBtn setHidden:NO];
-
+                [cell.favoriteBtn setHidden:NO];
+                [cell.favoriteButton setHidden:NO];
             }
             
             //check owner
@@ -724,6 +706,8 @@
             // Not logged in
             if(!savedProfile){
                 [cell.favoriteButton setHidden:YES];
+                [cell.favoriteBtn setHidden:YES];
+
             }
             
             if (savedProfile)  //logged in
@@ -732,9 +716,7 @@
                 [cell.helpButton setHidden:YES];
                 [cell.specailButton setHidden:NO];
                 [cell.favoriteButton setHidden:YES];
-                [cell addSubview:favoriteBtn];
-                [favoriteBtn setHidden:NO];
-
+                [cell.favoriteBtn setHidden:NO];
                 
             }
             else {
@@ -742,8 +724,7 @@
                     [cell.helpButton setHidden:NO];
                     [cell.specailButton setHidden:YES];
                     [cell.favoriteButton setHidden:YES];
-                    [cell addSubview:favoriteBtn];
-                    [favoriteBtn setHidden:NO];
+                    [cell.favoriteBtn setHidden:NO];
 
                 }
             }
@@ -752,11 +733,11 @@
                 {
                     if (carAdObject.isFeatured) {
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
                     }
                     else{
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
                     }
                     
                 }
@@ -764,11 +745,11 @@
                 {
                     if (carAdObject.isFeatured){
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
                     }
                     else{
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
                     }
                 }
 
@@ -787,12 +768,7 @@
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
-            
-            
-            UIButton *favoriteBtn=[[UIButton alloc] initWithFrame:CGRectMake(cell.favoriteButton.frame.origin.x+33, cell.favoriteButton.frame.origin.y, cell.favoriteButton.frame.size.width, cell.favoriteButton.frame.size.height)];
-            [favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            [favoriteBtn setImage:[cell.favoriteButton backgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
-
+            [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             //customize the carAdCell with actual data
             //customize the carAdCell with actual data
             [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
@@ -833,11 +809,8 @@
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
-                [cell.favoriteButton setHidden:YES];
-                [cell addSubview:favoriteBtn];
-                [favoriteBtn setHidden:NO];
-
-                
+                [cell.favoriteBtn setHidden:NO];
+                [cell.favoriteButton setHidden:NO];
             }
             
             //check owner
@@ -845,6 +818,7 @@
             // Not logged in
             if(!savedProfile){
                 [cell.favoriteButton setHidden:YES];
+                [cell.favoriteBtn setHidden:YES];
             }
             
             if (savedProfile)   //logged in
@@ -854,9 +828,7 @@
                     [cell.helpButton setHidden:YES];
                     [cell.specailButton setHidden:NO];
                     [cell.favoriteButton setHidden:YES];
-                    [cell addSubview:favoriteBtn];
-                    [favoriteBtn setHidden:NO];
-
+                    [cell.favoriteBtn setHidden:NO];
                     
                 }
                 else {
@@ -864,8 +836,7 @@
                         [cell.helpButton setHidden:NO];
                         [cell.specailButton setHidden:YES];
                         [cell.favoriteButton setHidden:YES];
-                        [cell addSubview:favoriteBtn];
-                        [favoriteBtn setHidden:NO];
+                        [cell.favoriteBtn setHidden:NO];
 
                     }
                 }
@@ -874,11 +845,11 @@
                 {
                     if (carAdObject.isFeatured) {
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
                     }
                     else{
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
                     }
                     
                 }
@@ -886,11 +857,11 @@
                 {
                     if (carAdObject.isFeatured){
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
                     }
                     else{
                         [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                        [favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
                     }
                 }
             }
@@ -1000,23 +971,32 @@
             {
                 CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                 
-                if (carAdObject.isFeatured)
+                if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                else
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                }
+
+                else{
+                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                }
                 
             }
             //individual ad - with image
             else
             {
                 CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (carAdObject.isFeatured)
+                if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+
+                }
                 else
+                {
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                
-                
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+
+                }                
             }
         }
         //ad with no image
@@ -1027,24 +1007,31 @@
             {
                 CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                 
-                if (carAdObject.isFeatured)
+                if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                else
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                }
+                else{
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                
-                
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+   
+                }
             }
             //individual - no image
             else
             {
                 CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                 
-                if (carAdObject.isFeatured)
+                if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                else
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+
+                }
+                else{
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                
-                
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+
+                }
             }
         }
         //add from fav
@@ -1061,24 +1048,33 @@
                 
                 
                 if (carAdObject.isFeatured)
+                {
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+   
+                }
                 else
+                {
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                
-                
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+
+                }
             }
             //individual ad - with image
             else
             {
                 CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                 
-                
-                if (carAdObject.isFeatured)
+                if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                else
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+   
+                }
+                else{
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                
-                
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+
+                }
             }
         }
         //ad with no image
@@ -1089,25 +1085,31 @@
             {
                 CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                 
-                if (carAdObject.isFeatured)
+                if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                else
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+
+                }
+                else{
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                
-                
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+
+                }
             }
             //individual - no image
             else
             {
                 CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                
-                
-                if (carAdObject.isFeatured)
+                if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                else
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+
+                }
+                else{
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                
-                
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+
+                }
             }
         }
         //remove to fav

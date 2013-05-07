@@ -23,5 +23,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *distingushingImage;
 @property (strong, nonatomic) IBOutlet UIButton *helpButton;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
+@property (strong, nonatomic) IBOutlet UIButton *favoriteBtn;
 
 @end
