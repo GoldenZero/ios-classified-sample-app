@@ -58,6 +58,9 @@
     InternetManager * imageMngr;
     InternetManager * postAdManager;
     InternetManager * storePostAdManager;
+    InternetManager * requestEditMngr;
+    InternetManager * EditMngr;
+    
 
 }
 @end
@@ -77,7 +80,8 @@ static NSString * upload_image_url = @"/json/upload-image?theFile=";
 static NSString * post_ad_url = @"/json/post-an-ad?brandId=%@&cityId=%@&fromPhone=%i&userEmail=%@&collection=%@";
 static NSString * post_store_ad_url = @"/json/post-a-store-ad?brandid=%@&cityId=%@&storeid=%@&collection=%@";
 static NSString * user_ads_url = @"/json/myads?status=%@&pageNo=%@&pageSize=%@";
-
+static NSString * request_edit_ads_url = @"/json/request-to-edit?enceditid=%@";
+static NSString * edit_id_url = @"/json/update-ad?country=%@&city=%@&enceditid=%@&collection=%@";
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
 - (id) init {
@@ -93,6 +97,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         post_ad_url = [API_MAIN_URL stringByAppendingString:post_ad_url];
         post_store_ad_url = [API_MAIN_URL stringByAppendingString:post_store_ad_url];
         user_ads_url = [API_MAIN_URL stringByAppendingString:user_ads_url];
+        request_edit_ads_url = [API_MAIN_URL stringByAppendingString:request_edit_ads_url];
+        edit_id_url = [API_MAIN_URL stringByAppendingString:edit_id_url];
         
     }
     return self;
@@ -214,6 +220,73 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
     
 }
+
+- (void) requestToEditAdsOfEditID:(NSString*) EditID WithDelegate:(id <CarAdsManagerDelegate>) del {
+    
+    //1- set the delegate
+    self.delegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.delegate)
+            [self.delegate RequestToEditFailWithError:error];
+        return ;
+    }
+    
+    //3- set the url string
+    NSString * fullURLString = [NSString stringWithFormat:request_edit_ads_url,EditID];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=10&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
+    
+    //NSLog(@"%@", correctURLstring);
+    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[ProfileManager sharedInstance] getSavedUserProfile];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        //5- send the request
+        [request setURL:correctURL];
+        requestEditMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.delegate)
+            [self.delegate RequestToEditFailWithError:error];
+        return ;
+    }
+    
+}
+
 
 - (void) loadUserAdsOfStatus:(NSString*) status forPage:(NSUInteger) pageNum andSize:(NSInteger) pageSize WithDelegate:(id <CarAdsManagerDelegate>) del {
     
@@ -500,7 +573,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 aFromYear,
                                 aToYear,
                                 [NSString stringWithFormat:@"%i", aAdsWithImages],
-                                @"1",   //by default, load price
+                                [NSString stringWithFormat:@"%i", aAdsWithPrice],
                                 aArea,
                                 aOrderby,
                                 aLastRefreshed
@@ -773,6 +846,139 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
+- (void) editAdOfEditadID:(NSString*) editADID
+             inCountryID :(NSInteger)countryID
+                 Model:(NSInteger) modelID
+                InCity:(NSUInteger) cityID
+             userEmail:(NSString *) usermail
+                 title:(NSString *) aTitle
+           description:(NSString *) aDescription
+                 price:(NSString *) aPrice
+         periodValueID:(NSInteger) aPeriodValueID
+                mobile:(NSString *) aMobileNum
+       currencyValueID:(NSInteger) aCurrencyValueID
+        serviceValueID:(NSInteger) aServiceValueID
+      modelYearValueID:(NSInteger) aModelYearValueID
+              distance:(NSString *) aDistance
+                 color:(NSString *) aColor
+            phoneNumer:(NSString *) aPhoneNumer
+       adCommentsEmail:(BOOL) aAdCommentsEmail
+      kmVSmilesValueID:(NSInteger) aKmVSmilesValueID
+              category:(NSInteger) aCategoryID
+              imageIDs:(NSArray *) aImageIDsArray
+          withDelegate:(id <PostAdDelegate>) del {
+    
+    //1- set the delegate
+    self.adPostingDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.adPostingDelegate)
+            [self.adPostingDelegate adDidFailEditingWithError:error];
+        return ;
+    }
+    
+    //brandId=%@&cityId=%@&fromPhone=%i&userEmail=%@&collection=%@;
+    ///country=%@&city=%@&enceditid=%@&collection=%@;
+    NSString * fullURLString = [NSString stringWithFormat:edit_id_url,
+                                [NSString stringWithFormat:@"%i", countryID],
+                                [NSString stringWithFormat:@"%i", cityID],
+                                editADID,
+                                @""
+                                ];
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+       // NSDictionary * brandKeysDict = [[StaticAttrsLoader sharedInstance] loadBrandKeys];
+       // NSNumber * brandKeyForModel = [brandKeysDict objectForKey:[NSNumber numberWithInteger:brandID]];
+        
+        
+        //post keys
+        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@",
+                             TITLE_ATTR_ID, aTitle,
+                             DESCRIPTION_ATTR_ID, aDescription,
+                             PRICE_ATTR_ID, aPrice,
+                             ADVERTISING_PERIOD_ATTR_ID, [NSString stringWithFormat:@"%i", aPeriodValueID],
+                             MOBILE_NUMBER_ATTR_ID, aMobileNum,
+                             CURRENCY_NAME_ATTR_ID, [NSString stringWithFormat:@"%i",aCurrencyValueID],
+                             SERVICE_NAME_ATTR_ID, [NSString stringWithFormat:@"%i",aServiceValueID],
+                             MANUFACTURE_YEAR_ATTR_ID, [NSString stringWithFormat:@"%i",aModelYearValueID],
+                             DISTANCE_VALUE_ATTR_ID, aDistance,
+                             COLOR_ATTR_ID, aColor,
+                             PHONE_ATTR_ID,@"phone",
+                             PHONE_NUMBER_ATTR_ID, aPhoneNumer,
+                             ADCOMMENTS_EMAIL_ATTR_ID, [NSString stringWithFormat:@"%i",aAdCommentsEmail],
+                             KM_MILES_ATTR_ID, [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
+                             BRAND_ATTR_ID,[NSString stringWithFormat:@"%i",aCategoryID],
+                             MY_ATTR_ID,[NSString stringWithFormat:@"%i",cityID],
+                             IMAGES_ID_POST_KEY, [self getIDsStringFromArray:aImageIDsArray]
+                             ];
+        
+        
+        
+        /*
+         NSString * prePost = @"524=text&523=نص&507=987123&502=1189&520=3210987456&508=1235&505=830&509=1207&518=321789&528=&868=&907=1&1076=2675&952=1553&ImagesID=7730822,7730862";
+         */
+        
+        
+        NSString * post = [prePost stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        //[request setTimeoutInterval:60];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        
+        [request setHTTPBody:postData];
+        
+        EditMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.adPostingDelegate)
+            [self.adPostingDelegate adDidFailEditingWithError:error];
+        return ;
+    }
+    
+}
+
 - (void) postStoreAdOfBrand:(NSInteger) brandID
                     myStore:(NSInteger) StoreID
                       Model:(NSInteger) modelID
@@ -912,15 +1118,25 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         if (self.delegate)
             [delegate adsDidFailLoadingWithError:error];
     }
+    else if (manager == requestEditMngr)
+    {
+        if (self.delegate)
+            [delegate RequestToEditFailWithError:error];
+    }
     else if (manager == imageMngr)
     {
         if (self.imageDelegate)
             [imageDelegate imageDidFailUploadingWithError:error];
     }
-    else if (manager == adPostingDelegate)
+    else if (manager == postAdManager)
     {
         if (self.adPostingDelegate)
             [adPostingDelegate adDidFailPostingWithError:error];
+    }
+    else if (manager == EditMngr)
+    {
+        if (self.adPostingDelegate)
+            [adPostingDelegate adDidFailEditingWithError:error];
     }
     else if (manager == storePostAdManager)
     {
@@ -940,6 +1156,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if (self.delegate)
                 [delegate adsDidFailLoadingWithError:error];
         }
+        else if (manager == requestEditMngr)
+        {
+            if (self.delegate)
+                [delegate RequestToEditFailWithError:error];
+        }
         else if (manager == imageMngr)
         {
             if (self.imageDelegate)
@@ -949,6 +1170,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         {
             if (self.adPostingDelegate)
                 [adPostingDelegate adDidFailPostingWithError:error];
+        }
+        else if (manager == postAdManager)
+        {
+            if (self.adPostingDelegate)
+                [adPostingDelegate adDidFailEditingWithError:error];
         }
         else if (manager == storePostAdManager)
         {
@@ -964,6 +1190,15 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             {
                 NSArray * adsArray = [self createCarAdsArrayWithData:(NSArray *)result];
                 [delegate adsDidFinishLoadingWithData:adsArray];
+            }
+            
+        }
+        else if (manager == requestEditMngr)
+        {
+            if (self.delegate)
+            {
+                NSArray * adsArray = [self createEditAdsArrayWithData:(NSArray *)result];
+                [delegate RequestToEditFinishWithData:adsArray];
             }
             
         }
@@ -1034,7 +1269,40 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     
                 }
             }
-        }else if (manager == storePostAdManager)
+        }else if (manager == EditMngr)
+        {
+            if (self.adPostingDelegate)
+            {
+                NSArray * data = (NSArray *)result;
+                if ((data) && (data.count > 0))
+                {
+                    NSDictionary * totalDict = [data objectAtIndex:0];
+                    NSString * statusCodeString = [totalDict objectForKey:LISTING_STATUS_CODE_JKEY];
+                    NSInteger statusCode = statusCodeString.integerValue;
+                    
+                    NSString * statusMessageProcessed = [[[totalDict objectForKey:LISTING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                    
+                    if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"success"]))
+                    {
+                        NSDictionary * dataDict = [totalDict objectForKey:LISTING_DATA_JKEY];
+                        NSString * adIdString = [dataDict objectForKey:LISTING_ADD_ID_JKEY];
+                        
+                        NSInteger adID = [adIdString integerValue];
+                        
+                        [adPostingDelegate adDidFinishEditingWithAdID:adID];
+                    }
+                    else
+                    {
+                        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                        [error setDescMessage:statusMessageProcessed];
+                        if (self.adPostingDelegate)
+                            [adPostingDelegate adDidFailEditingWithError:error];
+                    }
+                    
+                }
+            }
+        }
+        else if (manager == storePostAdManager)
         {
             if (self.storeaAdPostingDelegate)
             {
@@ -1137,6 +1405,59 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
     return [NSArray new];
 }
+
+
+
+- (NSArray * ) createEditAdsArrayWithData:(NSArray *) data {
+    
+    if ((data) && (data.count > 0))
+    {
+        NSDictionary * totalDict = [data objectAtIndex:0];
+        NSString * statusCodeString = [totalDict objectForKey:LISTING_STATUS_CODE_JKEY];
+        NSInteger statusCode = statusCodeString.integerValue;
+        
+        NSMutableArray * adsArray = [NSMutableArray new];
+        if (statusCode == 200)
+        {
+            NSArray * dataAdsArray = [totalDict objectForKey:LISTING_DATA_JKEY];
+            if ((dataAdsArray) && (![@"" isEqualToString:(NSString *)dataAdsArray]) && (dataAdsArray.count))
+            {
+                for (NSDictionary * adDict in dataAdsArray)
+                {
+                    
+                    CarAd * ad =
+                    [[CarAd alloc]
+                     initWithAdIDString:[adDict objectForKey:[NSString stringWithFormat:@"%i",PRICE_ATTR_ID]]
+                     ownerIDString:[adDict objectForKey:[NSString stringWithFormat:@"%i",SERVICE_NAME_ATTR_ID]]
+                     storeIDString:[adDict objectForKey:[NSString stringWithFormat:@"%i",TITLE_ATTR_ID]]
+                     isFeaturedString:[adDict objectForKey:[NSString stringWithFormat:@"%i",DISTANCE_VALUE_ATTR_ID]]
+                     thumbnailURL:[adDict objectForKey:[NSString stringWithFormat:@"%i",DESCRIPTION_ATTR_ID]]
+                     title:[adDict objectForKey:[NSString stringWithFormat:@"%i",KM_MILES_ATTR_ID]]
+                     priceString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MANUFACTURE_YEAR_ATTR_ID]]
+                     currencyString:[adDict objectForKey:[NSString stringWithFormat:@"%i",COLOR_ATTR_ID]]
+                     postedOnDateString:[adDict objectForKey:[NSString stringWithFormat:@"%i",CURRENCY_NAME_ATTR_ID]]
+                     modelYearString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MOBILE_NUMBER_ATTR_ID]]
+                     distanceRangeInKmString:[adDict objectForKey:[NSString stringWithFormat:@"%i",ADVERTISING_PERIOD_ATTR_ID]]
+                     viewCountString:[adDict objectForKey:[NSString stringWithFormat:@"%i",ADCOMMENTS_EMAIL_ATTR_ID]]
+                     isFavoriteString:[adDict objectForKey:[NSString stringWithFormat:@"%i",CAR_CONDITION_ATTR_ID]]
+                     storeName:[adDict objectForKey:[NSString stringWithFormat:@"%i",GEAR_TYPE_ATTR_ID]]
+                     storeLogoURL:[adDict objectForKey:[NSString stringWithFormat:@"%i",CAR_ENGINE_ATTR_ID]]
+                     ];
+                    //CAR_CD_ATTR_ID
+                    //CAR_HEADS_ATTR_ID
+                    //MY_ATTR_ID
+                    //BRAND_ATTR_ID
+                    //PHONE_NUMBER_ATTR_ID
+                    [adsArray addObject:ad];
+                    
+                }
+            }
+        }
+        return adsArray;
+    }
+    return [NSArray new];
+}
+
 
 - (NSString *) getCacheFileNameForBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  {
     

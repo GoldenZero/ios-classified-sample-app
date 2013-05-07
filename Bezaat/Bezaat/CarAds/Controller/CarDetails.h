@@ -67,6 +67,7 @@
 @property (strong, nonatomic) NSDate * postedOnDate;
 @property (nonatomic) NSUInteger modelYear;
 @property (nonatomic) NSUInteger distanceRangeInKm;
+@property (strong, nonatomic) NSString * EncEditID;
 @property (nonatomic) NSUInteger viewCount;
 @property (nonatomic) BOOL isFavorite;
 @property (strong, nonatomic) NSString * storeName;
@@ -94,6 +95,7 @@
         postedOnDateString:(NSString *) aPostedOnDateString
            modelYearString:(NSString *) aModelYearString
    distanceRangeInKmString:(NSString *) aDistanceRangeInKmString
+          EncryptedEditID :(NSString *) aEndEditID
            viewCountString:(NSString *) aViewCountString
           isFavoriteString:(NSString *) aIsFavoriteString
                  storeName:(NSString *) aStoreName

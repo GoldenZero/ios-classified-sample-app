@@ -27,7 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     [self.bankWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"contact_us" ofType:@"html"] isDirectory:NO]]];
+     [self.bankWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"bankTransfer_ForBezaatApps" ofType:@"html"] isDirectory:NO]]];
     // Do any additional setup after loading the view from its nib.
 }
 

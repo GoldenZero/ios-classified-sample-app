@@ -1,13 +1,13 @@
 //
-//  AddNewCarAdViewController.m
+//  EditCarAdViewController.m
 //  Bezaat
 //
-//  Created by Roula Misrabi on 3/3/13.
+//  Created by GALMarei on 5/7/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
+#import "EditCarAdViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "AddNewCarAdViewController.h"
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
 #import "labelAdViewController.h"
@@ -18,8 +18,9 @@
 #define AD_COMMENTS_BY_MAIL             1    //always allow "true" receiving mails (fixed)
 
 
-@interface AddNewCarAdViewController (){
-        
+
+@interface EditCarAdViewController ()
+{
     UITapGestureRecognizer *tap1;
     UITapGestureRecognizer *tap2;
     
@@ -40,26 +41,33 @@
     
     NSUInteger defaultIndex;
     NSUInteger defaultCityIndex;
-
+    
     //These objects should be set bt selecting the drop down menus.
     SingleValue * chosenCurrency;
     SingleValue * chosenYear;
     City * chosenCity;
     Country * chosenCountry;
-    bool kiloChoosen;
-
+    
+    
     NSMutableArray * currentImgsUploaded;
+    BOOL titleChanged;
+    BOOL detailsChanged;
+    BOOL priceChanged;
+    BOOL kiloChoosen;
+    BOOL mobileChanged;
+    BOOL distanceChanged;
+    
     BOOL locationBtnPressedOnce;
     BOOL currencyBtnPressedOnce;
     BOOL yearBtnPressedOnce;
     
     NSTimer *timer;
     UIToolbar* numberToolbar;
-}
 
+}
 @end
 
-@implementation AddNewCarAdViewController
+@implementation EditCarAdViewController
 @synthesize carAdTitle,mobileNum,distance,carDetails,carPrice,countryCity,currency,kiloMile,productionYear;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -77,7 +85,7 @@
     locationMngr = [LocationManager sharedInstance];
     
     [self loadData];
-
+    
     // Set the image piacker
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
@@ -86,10 +94,10 @@
     // Set the scroll view indicator
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(indicator:) userInfo:nil repeats:YES];
     
-    // Set tapping gesture 
+    // Set tapping gesture
     tap1 = [[UITapGestureRecognizer alloc]
-           initWithTarget:self
-           action:@selector(dismissKeyboard)];
+            initWithTarget:self
+            action:@selector(dismissKeyboard)];
     [self.horizontalScrollView addGestureRecognizer:tap1];
     
     tap2 = [[UITapGestureRecognizer alloc]
@@ -106,7 +114,7 @@
     [self addButtonsToXib];
     [self setImagesArray];
     [self setImagesToXib];
-   
+    
     [self closePicker];
     
     
@@ -120,7 +128,7 @@
 -(void)indicator:(BOOL)animated{
     
     [self.horizontalScrollView flashScrollIndicators];
- 
+    
 }
 #pragma mark - location handler.
 
@@ -157,7 +165,6 @@
     productionYearArray=[[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadModelYearValues]];
     currencyArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
     kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
-    [self.modelNameLabel setText:self.currentModel.modelName];
     kiloChoosen=true;
 }
 - (void)didReceiveMemoryWarning
@@ -169,7 +176,7 @@
 #pragma mark - helper methods
 - (void) setImagesToXib{
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-
+    
 }
 
 - (void) setImagesArray{
@@ -181,6 +188,7 @@
     for (int i=0; i<6; i++) {
         UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
         [temp setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
+        //TODO get all images
         
         temp.tag = (i+1) * 10;
         [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
@@ -197,7 +205,7 @@
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@""
                                                              delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
                                                     otherButtonTitles:@"التقط صورة", @"اختر صورة", nil];
-
+    
     [actionSheet showInView:self.view];
 }
 
@@ -262,10 +270,10 @@
                            nil];
     [numberToolbar sizeToFit];
     
-
+    
     countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
     [countryCity setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [countryCity setTitle:@"اختر البلد" forState:UIControlStateNormal];
+    [countryCity setTitle:@"اختر البلد" forState:UIControlStateNormal]; //TODO chosen city
     [countryCity setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [countryCity addTarget:self action:@selector(chooseCountryCity) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:countryCity];
@@ -274,64 +282,68 @@
     [carAdTitle setBorderStyle:UITextBorderStyleRoundedRect];
     [carAdTitle setTextAlignment:NSTextAlignmentRight];
     [carAdTitle setPlaceholder:@"عنوان الإعلان"];
-//    [carAdTitle setKeyboardType:UIKeyboardTypeAlphabet];
+    [carAdTitle setText:@""]; //TODO ad Title
     [self.verticalScrollView addSubview:carAdTitle];
     carAdTitle.delegate=self;
     
     carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,100 ,260 ,80 )];
     [carDetails setTextAlignment:NSTextAlignmentRight];
+    [carDetails setText:@""]; //TODO get Description
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
     [self.verticalScrollView addSubview:carDetails];
     carDetails.delegate =self;
-
+    
     carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,190 ,160 ,30)];
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [carPrice setTextAlignment:NSTextAlignmentRight];
     [carPrice setPlaceholder:@"السعر (اختياري)"];
+    [carPrice setText:@""]; //TODO get Price
     [carPrice setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:carPrice];
     carPrice.delegate=self;
     
     currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 190, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_SM.png"] forState:UIControlStateNormal];
-    [currency setTitle:@"العملة   " forState:UIControlStateNormal];
+    [currency setTitle:@"العملة   " forState:UIControlStateNormal]; //TODO get currency
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
-
+    
     distance=[[UITextField alloc] initWithFrame:CGRectMake(130,240 ,160 ,30)];
     [distance setBorderStyle:UITextBorderStyleRoundedRect];
     [distance setTextAlignment:NSTextAlignmentRight];
     [distance setPlaceholder:@"المسافة المقطوعة"];
+    [distance setText:@""]; //TODO get distance
     [distance setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:distance];
     distance.delegate=self;
-
+    
     kiloMile = [[UISegmentedControl alloc] initWithItems:kiloMileArray];
     kiloMile.frame = CGRectMake(30, 240, 80, 30);
     kiloMile.segmentedControlStyle = UISegmentedControlStylePlain;
-    kiloMile.selectedSegmentIndex = 0;
+    kiloMile.selectedSegmentIndex = 0; // TODO get index of KM/MILE
     [kiloMile addTarget:self action:@selector(chooseKiloMile) forControlEvents: UIControlEventValueChanged];
     [self.verticalScrollView addSubview:kiloMile];
     
     productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 280, 260, 30)];
     [productionYear setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [productionYear setTitle:@"عام الصنع" forState:UIControlStateNormal];
+    [productionYear setTitle:@"عام الصنع" forState:UIControlStateNormal]; //TODO get the porduction year
     [productionYear setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [productionYear addTarget:self action:@selector(chooseProductionYear) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:productionYear];
-
-
+    
+    
     mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,320 ,260 ,30)];
     [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
     [mobileNum setTextAlignment:NSTextAlignmentRight];
     [mobileNum setPlaceholder:@"رقم الجوال"];
+    [mobileNum setText:@""]; //TODO get mobile number
     [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
     [self.verticalScrollView addSubview:mobileNum];
-     mobileNum.inputAccessoryView = numberToolbar;
+    mobileNum.inputAccessoryView = numberToolbar;
     mobileNum.delegate=self;
-
-       
+    
+    
 }
 
 - (void) showLoadingIndicator {
@@ -444,8 +456,9 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     if (pickerView==_locationPickerView) {
+        locationBtnPressedOnce = YES;
         if (component==0) {
-           chosenCountry=(Country *)[countryArray objectAtIndex:row];
+            chosenCountry=(Country *)[countryArray objectAtIndex:row];
             cityArray=[chosenCountry cities];
             if (cityArray && cityArray.count)
                 chosenCity=[cityArray objectAtIndex:0];//set initial chosen city
@@ -453,28 +466,31 @@
             [countryCity setTitle:temp forState:UIControlStateNormal];
             [pickerView reloadAllComponents];
             
+            
         }
         else{
             chosenCity=[cityArray objectAtIndex:row];
-             NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
+            NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
             [countryCity setTitle:temp forState:UIControlStateNormal];
             [pickerView reloadAllComponents];
         }
-
+        
     }
-
+    
     else {
         SingleValue *choosen=[globalArray objectAtIndex:row];
         if ([currencyArray containsObject:choosen]) {
             chosenCurrency=[globalArray objectAtIndex:row];
             [currency setTitle:choosen.valueString forState:UIControlStateNormal];
+            currencyBtnPressedOnce = YES;
         }
         else{
             chosenYear=[globalArray objectAtIndex:row];
             [productionYear setTitle:[NSString stringWithFormat:@"%@",choosen.valueString] forState:UIControlStateNormal];
+            yearBtnPressedOnce = YES;
         }
     }
-
+    
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
@@ -490,7 +506,7 @@
     else {
         return [globalArray count];
     }
-
+    
     
 }
 
@@ -521,7 +537,7 @@
     self.pickerView.hidden=NO;
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
     [productionYear setTitle:temp forState:UIControlStateNormal];
-
+    
     // fill picker with production year
     globalArray=productionYearArray;
     [self.pickerView reloadAllComponents];
@@ -534,7 +550,7 @@
     yearBtnPressedOnce = YES;
     
     [self showPicker];
-
+    
 }
 
 - (void) chooseCurrency{
@@ -555,7 +571,7 @@
     currencyBtnPressedOnce = YES;
     
     [self showPicker];
-
+    
 }
 
 - (void) chooseCountryCity{
@@ -565,7 +581,7 @@
     [self showPicker];
     NSString *temp= [NSString stringWithFormat:@"%@ :%@", chosenCountry.countryName , chosenCity.cityName];
     [countryCity setTitle:temp forState:UIControlStateNormal];
-
+    
     if (defaultIndex!=-1) {
         [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
         if (defaultCityIndex != -1)
@@ -586,7 +602,7 @@
         
         kiloChoosen=false;
     }
-
+    
 }
 
 - (IBAction)doneBtnPrss:(id)sender {
@@ -594,8 +610,7 @@
 }
 
 - (IBAction)homeBtnPrss:(id)sender {
-    ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 
@@ -634,39 +649,13 @@
         return;
     }
     
-    /*
-    //check price
-    if ( ([[carPrice.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
-        ||
-        ([[carPrice.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] integerValue] == 0) )
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيمة سعر صحيحة للإعلان" delegateVC:self];
-        return;
-    }
-    
-    //check distance
-    if ( ([[distance.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
-        ||
-        ([[distance.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] integerValue] == 0) )
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيمة مسافة صحيحة للإعلان" delegateVC:self];
-        return;
-    }
-    */
-    //check currency
+        //check currency
     if (!currencyBtnPressedOnce)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار عملة مناسبة" delegateVC:self];
         return;
     }
     
- /*   //check year
-    if (!yearBtnPressedOnce)
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار تاريخ للصنع" delegateVC:self];
-        return;
-    }
-   */
     //check phone number
     if (!mobileNum.text)
     {
@@ -680,7 +669,7 @@
         return;
     }
     
-
+    
     
     NSInteger distanceUnitID;
     if (kiloChoosen)
@@ -709,15 +698,8 @@
                                  kmVSmilesValueID:distanceUnitID
                                          imageIDs:currentImgsUploaded
                                      withDelegate:self];
-
-
-}
-
-- (IBAction)selectModelBtnPrss:(id)sender {
-    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    vc.tagOfCallXib=2;
-    [self presentViewController:vc animated:YES completion:nil];
-
+    
+    
 }
 
 - (void) dismissSelfAfterFeaturing {
@@ -744,10 +726,10 @@
     UIImage * img = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
     [tappedBtn setImage:img forState:UIControlStateNormal];
-
+    
     [self useImage:img];
     [picker dismissViewControllerAnimated:YES completion:nil];
-
+    
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -772,7 +754,7 @@
     //reset 'current' data
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
-
+    
 }
 
 - (void) imageDidFinishUploadingWithURL:(NSURL *)url CreativeID:(NSInteger)ID {
@@ -783,12 +765,12 @@
     if ((chosenImgBtnTag > -1) && (currentImageToUpload))
     {
         /*
-        UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
-        UIImageView * imgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tappedBtn.frame.size.width, tappedBtn.frame.size.height)];
-        
-        //[tappedBtn setImage:currentImageToUpload forState:UIControlStateNormal];
-        [tappedBtn addSubview:imgv];
-        [imgv setImageWithURL:url placeholderImage:[UIImage imageNamed:@"AddCar_Car_logo.png"]];
+         UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+         UIImageView * imgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tappedBtn.frame.size.width, tappedBtn.frame.size.height)];
+         
+         //[tappedBtn setImage:currentImageToUpload forState:UIControlStateNormal];
+         [tappedBtn addSubview:imgv];
+         [imgv setImageWithURL:url placeholderImage:[UIImage imageNamed:@"AddCar_Car_logo.png"]];
          */
     }
     //2- add image data to this ad
@@ -797,7 +779,7 @@
     //reset 'current' data
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
-
+    
 }
 
 
@@ -814,10 +796,9 @@
     
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
     
-    labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
-    vc.currentAdID = adID;
-    vc.parentNewCarVC = self;
+    ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
     
 }
+
 @end

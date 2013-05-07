@@ -15,7 +15,7 @@
 #import "AURosetteItem.h"
 #import "CarDetailsManager.h"
 #import "BrowseCarAdsViewController.h"
-@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, CarDetailsManagerDelegate, FavoritesDelegate>
+@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) BrowseCarAdsViewController * parentVC;
@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *featureBtn;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editBtn;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *editAdBtn;
 @property (weak, nonatomic) IBOutlet UIToolbar *topMostToolbar;
 @property (strong, nonatomic) IBOutlet UIScrollView *distinguishingImage;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
@@ -59,6 +60,7 @@
 - (IBAction)changePage:(id)sender;
 - (IBAction)labelAdBtnPrss:(id)sender;
 - (IBAction)editAdBtnPrss:(id)sender;
+- (IBAction)modifyAdBtnPrss:(id)sender;
 - (IBAction)backBtnPrss:(id)sender;
 - (IBAction)sendMailBtnPrss:(id)sender;
 - (IBAction)favoriteBtnPrss:(id)sender;

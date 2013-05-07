@@ -38,6 +38,7 @@
 #define DETAILS_STORE_NAME_JKEY      @"StoreName"
 #define DETAILS_STORE_LOGO_URL_JKEY  @"StoreLogoURL"
 #define DETAILS_AD_URL_JKEY          @"AdURL"
+#define DETAILS_AD_EDIT_ID_JKEY      @"EncEditID"
 
 //images array
 #define DETAILS_IMGS_IMAGE_ID_JKEY          @"ImageID"
@@ -317,7 +318,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                  currencyString:[dataDict objectForKey:DETAILS_CURRENCY_JKEY]
                  postedOnDateString:[dataDict objectForKey:DETAILS_POSTED_ON_JKEY]
                  modelYearString:[dataDict objectForKey:DETAILS_MODEL_YEAR_JKEY]
-                 distanceRangeInKmString:[dataDict objectForKey:DETAILS_DISTANCE_KM_JKEY]
+                 distanceRangeInKmString:[dataDict objectForKey:DETAILS_DISTANCE_KM_JKEY] EncryptedEditID:[dataDict objectForKey:DETAILS_AD_EDIT_ID_JKEY]
                  viewCountString:[dataDict objectForKey:DETAILS_VIEW_COUNT_JKEY]
                  isFavoriteString:[dataDict objectForKey:DETAILS_IS_FAVORITE_JKEY]
                  storeName:[dataDict objectForKey:DETAILS_STORE_NAME_JKEY]

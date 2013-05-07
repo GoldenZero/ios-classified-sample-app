@@ -124,16 +124,16 @@
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
     [self hideMenu];
-    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    if (savedProfile) {
+  //  UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    //if (savedProfile) {
         ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
         vc.tagOfCallXib=2;
         [self presentViewController:vc animated:YES completion:nil];
-    }
-    else{
-        SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-        [self presentViewController:vc animated:YES completion:nil];
-    }
+   // }
+   // else{
+     //   SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+       // [self presentViewController:vc animated:YES completion:nil];
+    //}
     
     
 }
@@ -142,7 +142,7 @@
     [self hideMenu];
     
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    if (!savedProfile) {
+   /* if (!savedProfile) {
         // goto login view
         if ([[UIScreen mainScreen] bounds].size.height == 568){
             SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
@@ -151,7 +151,7 @@
             SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
             [self presentViewController:vc animated:YES completion:nil];
         }
-    }else {
+    }else {*/
         
         if (savedProfile.hasStores) {
             BrowseStoresViewController *vc =[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
@@ -161,7 +161,7 @@
             AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
             [self presentViewController:vc animated:YES completion:nil];
         }
-    }
+    //}
     //NSString* launchUrl = @"http://bezaat.com/ksa/riyadh/account/create-store";
     //[[UIApplication sharedApplication] openURL:[NSURL URLWithString: launchUrl]];
     
@@ -225,7 +225,7 @@
     NSString *menuPlistPath = [[NSBundle mainBundle] pathForResource:@"HomeScreenChoices" ofType:@"plist"];
     
     menuArray = [[NSArray alloc] initWithContentsOfFile:menuPlistPath];
-    iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png",@"Menu_icon_10.png", nil];
+    iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png",@"Menu_icon_10.png",@"Menu_icon_11.png", nil];
 
      UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
 
@@ -234,16 +234,18 @@
         [self.userNameLabel setText:@"زائر"];
         
         [custoMenuArray addObject:[menuArray objectAtIndex:1]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:3]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:6]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:2]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:4]];
         [custoMenuArray addObject:[menuArray objectAtIndex:7]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:9]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:8]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:10]];
         
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:9]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:10]];
     }
     // member
     else if (savedProfile){
@@ -252,33 +254,37 @@
             [custoMenuArray addObject:[menuArray objectAtIndex:1]];
             [custoMenuArray addObject:[menuArray objectAtIndex:2]];
             [custoMenuArray addObject:[menuArray objectAtIndex:3]];
-            [custoMenuArray addObject:[menuArray objectAtIndex:6]];
-            [custoMenuArray addObject:[menuArray objectAtIndex:8]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:4]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:7]];
             [custoMenuArray addObject:[menuArray objectAtIndex:9]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:10]];
             
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
-            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
-            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:4]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:9]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:10]];
 
         }
         
         else{
             [custoMenuArray addObject:[menuArray objectAtIndex:0]];
             [custoMenuArray addObject:[menuArray objectAtIndex:1]];
-            [custoMenuArray addObject:[menuArray objectAtIndex:3]];
-            [custoMenuArray addObject:[menuArray objectAtIndex:6]];
-            [custoMenuArray addObject:[menuArray objectAtIndex:8]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:2]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:4]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:7]];
             [custoMenuArray addObject:[menuArray objectAtIndex:9]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:10]];
         
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:0]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
-            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
-            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:6]];
-            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:4]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:9]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:10]];
         }
     
     }
@@ -302,25 +308,23 @@
                 
             {
                 [self hideMenu];
-                if (!savedProfile) {
-                    // goto login view
-                    if ([[UIScreen mainScreen] bounds].size.height == 568){
-                        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
-                        [self presentViewController:vc animated:YES completion:nil];
-                    }else {
-                        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-                        [self presentViewController:vc animated:YES completion:nil];
-                    }
-                }else {
-                    
-                    
                 ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
                 vc.tagOfCallXib=2;
                 [self presentViewController:vc animated:YES completion:nil];
-                }
+                
                 break;
             }
             case 2:
+                
+            {
+                [self hideMenu];
+                ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+                vc.tagOfCallXib=1;
+                [self presentViewController:vc animated:YES completion:nil];
+                
+                break;
+            }
+            case 3:
             {
                 [self hideMenu];
                 BrowseStoresViewController *vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
@@ -328,29 +332,16 @@
              
                 break;
             }
-            case 3:
+            case 4:
             {
                 [self hideMenu];
-                UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-                if (!savedProfile) {
-                    // goto login view
-                    if ([[UIScreen mainScreen] bounds].size.height == 568){
-                        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
-                        [self presentViewController:vc animated:YES completion:nil];
-                    }else {
-                        SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-                        [self presentViewController:vc animated:YES completion:nil];
-                    }
-                }else {
-                    
-                    
-                    AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+                AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
                     [self presentViewController:vc animated:YES completion:nil];
-                }
+                
 
                 break;
             }
-            case 4:
+            case 5:
             {
                 // TODO CODE
                 //_____________________
@@ -359,7 +350,7 @@
 
                 break;
             }
-            case 5:
+            case 6:
             {
                 // TODO CODE
                 //_____________________
@@ -368,7 +359,7 @@
 
                 break;
             }
-            case 6:
+            case 7:
             {
                 if (!savedProfile) {
                     [self hideMenu];
@@ -383,7 +374,7 @@
 
                 break;
             }
-            case 7:
+            case 8:
             {
                 [self hideMenu];
                 if ([[UIScreen mainScreen] bounds].size.height == 568){
@@ -396,12 +387,12 @@
 
                 break;
             }
-            case 8:
+            case 9:
             {
                 [self logout];
                 break;
             }
-            case 9:
+            case 10:
             {
                 [self hideMenu];
                 AboutAppViewController *vc=[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController" bundle:nil];

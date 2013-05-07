@@ -99,6 +99,7 @@
 @synthesize postedOnDate;
 @synthesize modelYear;
 @synthesize distanceRangeInKm;
+@synthesize EncEditID;
 @synthesize viewCount;
 @synthesize isFavorite;
 @synthesize storeName;
@@ -124,6 +125,7 @@
         postedOnDateString:(NSString *) aPostedOnDateString
            modelYearString:(NSString *) aModelYearString
    distanceRangeInKmString:(NSString *) aDistanceRangeInKmString
+          EncryptedEditID :(NSString *) aEndEditID
            viewCountString:(NSString *) aViewCountString
           isFavoriteString:(NSString *) aIsFavoriteString
                  storeName:(NSString *) aStoreName
@@ -193,6 +195,9 @@
         
         // distanceRangeInKm
         self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
+        
+        //EncEditID
+        self.EncEditID = aEndEditID;
         
         // viewCount
         self.viewCount = aViewCountString.integerValue;

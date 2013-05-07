@@ -22,6 +22,7 @@
 #define DISTANCE_VALUE_ATTR_ID      518
 #define COLOR_ATTR_ID               528
 #define PHONE_NUMBER_ATTR_ID        -100
+#define PHONE_ATTR_ID               868
 #define ADCOMMENTS_EMAIL_ATTR_ID    907
 #define KM_MILES_ATTR_ID            1076
 #define CAR_CONDITION_ATTR_ID       10097
@@ -33,6 +34,7 @@
 #define CAR_HEADS_ATTR_ID           10103
 
 #define BRAND_ATTR_ID               -98
+#define MY_ATTR_ID                  -99
 #define CITY_ATTR_ID                -180
 #define IMAGES_ID_POST_KEY          @"ImagesID"
 

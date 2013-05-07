@@ -454,6 +454,22 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">bankBtn</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="139735473"/>
+					</object>
+					<int key="connectionID">78</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">bgBtns</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="166076623"/>
+					</object>
+					<int key="connectionID">79</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">dataSource</string>
 						<reference key="source" ref="434217009"/>
 						<reference key="destination" ref="372490531"/>
@@ -682,7 +698,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">77</int>
+			<int key="maxID">79</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -724,6 +740,8 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="bankBtn">UIButton</string>
+						<string key="bgBtns">UIImageView</string>
 						<string key="laterBtn">UIButton</string>
 						<string key="noServiceView">UIView</string>
 						<string key="nowBtn">UIButton</string>
@@ -731,6 +749,14 @@
 						<string key="toolBar">UIToolbar</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="bankBtn">
+							<string key="name">bankBtn</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="bgBtns">
+							<string key="name">bgBtns</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="laterBtn">
 							<string key="name">laterBtn</string>
 							<string key="candidateClassName">UIButton</string>

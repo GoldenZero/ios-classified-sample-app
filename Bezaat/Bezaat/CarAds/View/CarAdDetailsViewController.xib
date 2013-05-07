@@ -86,6 +86,20 @@
 								<reference key="IBUIToolbar" ref="721676571"/>
 								<int key="IBUISystemItemIdentifier">5</int>
 							</object>
+							<object class="IBUIBarButtonItem" id="394160304">
+								<int key="IBUITag">1</int>
+								<bool key="IBUIEnabled">NO</bool>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">buttons_edit.png</string>
+								</object>
+								<double key="IBUIImageInsets.top">0.0</double>
+								<double key="IBUIImageInsets.bottom">-2.5</double>
+								<double key="IBUIImageInsets.left">0.0</double>
+								<double key="IBUIImageInsets.right">0.0</double>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<reference key="IBUIToolbar" ref="721676571"/>
+							</object>
 							<object class="IBUIBarButtonItem" id="8867096">
 								<int key="IBUITag">1</int>
 								<bool key="IBUIEnabled">NO</bool>
@@ -98,7 +112,6 @@
 								<double key="IBUIImageInsets.left">0.0</double>
 								<double key="IBUIImageInsets.right">0.0</double>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<float key="IBUIWidth">58</float>
 								<reference key="IBUIToolbar" ref="721676571"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="594044823">
@@ -113,7 +126,6 @@
 								<double key="IBUIImageInsets.left">0.0</double>
 								<double key="IBUIImageInsets.right">0.0</double>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<float key="IBUIWidth">30</float>
 								<reference key="IBUIToolbar" ref="721676571"/>
 							</object>
 						</array>
@@ -901,6 +913,14 @@
 					<int key="connectionID">948</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">editAdBtn</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="394160304"/>
+					</object>
+					<int key="connectionID">951</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">backBtnPrss:</string>
 						<reference key="source" ref="832691083"/>
@@ -967,6 +987,14 @@
 					</object>
 					<int key="connectionID">397</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">modifyAdBtnPrss:</string>
+						<reference key="source" ref="394160304"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">952</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -1022,6 +1050,7 @@
 							<reference ref="8867096"/>
 							<reference ref="594044823"/>
 							<reference ref="185461091"/>
+							<reference ref="394160304"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -1236,6 +1265,11 @@
 						<reference key="object" ref="375353484"/>
 						<reference key="parent" ref="442172476"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">949</int>
+						<reference key="object" ref="394160304"/>
+						<reference key="parent" ref="721676571"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1285,12 +1319,13 @@
 				<string key="945.CustomClassName">SSLabel</string>
 				<string key="945.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="947.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="949.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">948</int>
+			<int key="maxID">952</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1304,6 +1339,7 @@
 						<string key="editAdBtnPrss:">id</string>
 						<string key="favoriteBtnPrss:">id</string>
 						<string key="labelAdBtnPrss:">id</string>
+						<string key="modifyAdBtnPrss:">id</string>
 						<string key="sendMailBtnPrss:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -1331,6 +1367,10 @@
 							<string key="name">labelAdBtnPrss:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="modifyAdBtnPrss:">
+							<string key="name">modifyAdBtnPrss:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="sendMailBtnPrss:">
 							<string key="name">sendMailBtnPrss:</string>
 							<string key="candidateClassName">id</string>
@@ -1350,6 +1390,7 @@
 						<string key="detailsLabel">SSLabel</string>
 						<string key="detailsView">UIView</string>
 						<string key="distinguishingImage">UIScrollView</string>
+						<string key="editAdBtn">UIBarButtonItem</string>
 						<string key="editBtn">UIBarButtonItem</string>
 						<string key="favoriteButton">UIButton</string>
 						<string key="featureBtn">UIBarButtonItem</string>
@@ -1419,6 +1460,10 @@
 						<object class="IBToOneOutletInfo" key="distinguishingImage">
 							<string key="name">distinguishingImage</string>
 							<string key="candidateClassName">UIScrollView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="editAdBtn">
+							<string key="name">editAdBtn</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="editBtn">
 							<string key="name">editBtn</string>
@@ -1518,6 +1563,7 @@
 			<string key="Listing_icon_eye.png">{21, 20}</string>
 			<string key="buttons_back.png">{51, 41}</string>
 			<string key="buttons_delete.png">{40, 41}</string>
+			<string key="buttons_edit.png">{51, 41}</string>
 			<string key="buttons_ok.png">{51, 41}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>

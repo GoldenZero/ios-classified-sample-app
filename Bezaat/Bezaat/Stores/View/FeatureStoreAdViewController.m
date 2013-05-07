@@ -112,9 +112,12 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 - (IBAction)bankTransferBtnPrss:(id)sender {
     //TODO - make the create and confirm API
     [self showLoadingIndicator];
-    PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+   /* PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     [[FeaturingManager sharedInstance] createOrderForBankWithStoreID:self.storeID.identifier withcountryID:self.storeID.countryID withShemaName:option.pricingID andBanking:@"" WithDelegate:self];
-    
+    */
+    BankInfoViewController *vc=[[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
+    //vc.Order = orderID;
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 
@@ -297,6 +300,8 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self.noServiceView setHidden:NO];
     [self.laterBtn setHidden:YES];
     [self.nowBtn setHidden:YES];
+    [self.bankBtn setHidden:YES];
+    [self.bgBtns setHidden:YES];
 
 }
 
@@ -310,6 +315,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         //chosenPricingOption = [resultArray objectAtIndex:0];
         [self.laterBtn setEnabled:YES];
         [self.nowBtn setEnabled:YES];
+        [self.bankBtn setEnabled:YES];
         [self.tableView reloadData];
     }
     else
@@ -317,6 +323,8 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         [self.noServiceView setHidden:NO];
         [self.laterBtn setHidden:YES];
         [self.nowBtn setHidden:YES];
+        [self.bankBtn setHidden:YES];
+        [self.bgBtns setHidden:YES];
     }
 
     
@@ -332,6 +340,8 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self.noServiceView setHidden:NO];
     [self.laterBtn setHidden:YES];
     [self.nowBtn setHidden:YES];
+    [self.bankBtn setHidden:YES];
+    [self.bgBtns setHidden:YES];
 }
 
 -(void)storeOptionsDidFinishLoadingWithData:(NSArray *)resultArray
@@ -352,6 +362,8 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         [self.noServiceView setHidden:NO];
         [self.laterBtn setHidden:YES];
         [self.nowBtn setHidden:YES];
+        [self.bankBtn setHidden:YES];
+        [self.bgBtns setHidden:YES];
     }
 }
 

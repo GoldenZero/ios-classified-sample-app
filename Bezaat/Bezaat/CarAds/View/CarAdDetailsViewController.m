@@ -31,7 +31,7 @@
 @end
 
 @implementation CarAdDetailsViewController
-@synthesize pageControl,scrollView, phoneNumberButton, favoriteButton, featureBtn, editBtn, topMostToolbar;
+@synthesize pageControl,scrollView, phoneNumberButton, favoriteButton, featureBtn, editBtn, topMostToolbar,editAdBtn;
 @synthesize currentAdID,parentVC;
 
 
@@ -191,6 +191,7 @@
     [self.labelsScrollView addGestureRecognizer:tap];
     
     [editBtn setEnabled:NO];
+    [editAdBtn setEnabled:NO];
     [featureBtn setEnabled:NO];
     
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
@@ -405,6 +406,14 @@
     [alert show];
 }
 
+- (IBAction)modifyAdBtnPrss:(id)sender {
+    
+    // Request To Edit Ad
+    [[CarAdsManager sharedInstance] requestToEditAdsOfEditID:@"dfOnULJXFjQEQUAL"/*currentDetailsObject.EncEditID*/ WithDelegate:self];
+}
+
+
+
 - (IBAction)backBtnPrss:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -500,11 +509,33 @@
             
             [self presentViewController:mySLComposerSheet animated:YES completion:nil];
         }
-        /*
-         else
+        else{
          // no twitter account set in device settings
-         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر الحصول على بيانات تويتر في إعدادات جهازك" delegateVC:self];
-         */
+            SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+            [mySLComposerSheet setInitialText:currentDetailsObject.title];
+            
+            //[mySLComposerSheet addImage:[UIImage imageNamed:@"myImage.png"]];
+            
+            if (currentDetailsObject.adURL)
+                [mySLComposerSheet addURL:currentDetailsObject.adURL];
+            
+            [mySLComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+                
+                switch (result) {
+                    case SLComposeViewControllerResultCancelled:
+                        NSLog(@"Post Canceled");
+                        break;
+                    case SLComposeViewControllerResultDone:
+                        NSLog(@"Post Sucessful");
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }];
+            
+            [self presentViewController:mySLComposerSheet animated:YES completion:nil];
+        }
     }
     
 }
@@ -540,11 +571,34 @@
             
             [self presentViewController:mySLComposerSheet animated:YES completion:nil];
         }
-        /*
-         else
+        else{
          // no facebook account set in device settings
-         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر الحصول على بيانات تويتر في إعدادات جهازك" delegateVC:self];
-         */
+         
+            SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+            [mySLComposerSheet setInitialText:currentDetailsObject.title];
+            
+            //[mySLComposerSheet addImage:[UIImage imageNamed:@"myImage.png"]];
+            
+            if (currentDetailsObject.adURL)
+                [mySLComposerSheet addURL:currentDetailsObject.adURL];
+            
+            [mySLComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+                
+                switch (result) {
+                    case SLComposeViewControllerResultCancelled:
+                        NSLog(@"Post Canceled");
+                        break;
+                    case SLComposeViewControllerResultDone:
+                        NSLog(@"Post Sucessful");
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }];
+            
+            [self presentViewController:mySLComposerSheet animated:YES completion:nil];
+        }
     }
     
 }
@@ -763,10 +817,13 @@
             }
             
             // check if he own the Ad
-            if (savedProfile.userID == currentDetailsObject.ownerID)
+            if (savedProfile.userID == currentDetailsObject.ownerID){
                 [self.editBtn setEnabled:YES];
-            else
+            [self.editAdBtn setEnabled:YES];
+            } else{
                 [self.editBtn setEnabled:NO];
+                [self.editAdBtn setEnabled:NO];
+            }
         }else {
             [self.favoriteButton setEnabled:YES];
         }
@@ -962,6 +1019,19 @@
     
     [alert show];
   
+}
+
+-(void)RequestToEditFailWithError:(NSError *)error
+{
+    [self hideLoadingIndicator];
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+}
+
+-(void)RequestToEditFinishWithData:(NSArray *)resultArray
+{
+    //TODO fill down the array and then move to next page "Edit Ad"
+    NSLog(@"loading result Array : %@",resultArray);
+    
 }
 
 

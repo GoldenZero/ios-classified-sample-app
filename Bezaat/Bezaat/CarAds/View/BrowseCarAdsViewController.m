@@ -45,6 +45,7 @@
     
     // Search panels attributes
     bool searchWithImage;
+    bool searchWithPrice;
     NSArray *distanceRangeArray;
     DistanceRange *distanceObj;
     NSString *fromYearString;
@@ -72,6 +73,7 @@
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         searchWithImage=false;
+        searchWithPrice = false;
         lastContentOffset=0;
         
         // Init search panels attributes
@@ -95,6 +97,7 @@
     [self.searchPanelView setHidden:YES];
     
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
+    [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
     [self.tableView setSeparatorColor:[UIColor clearColor]];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
     
@@ -406,7 +409,7 @@
             
             
             //check featured
-            if (!carAdObject.isFeatured)
+            if (carAdObject.isFeatured)
             {
                 [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing_special_bg.png"]];
                 [cell.helpButton setHidden:NO];
@@ -1348,6 +1351,7 @@
 - (void) showSearchPanel{
     // Init search panels attributes before next search
     searchWithImage=false;
+    searchWithPrice = false;
     distanceObj=nil;
     fromYearString=@"";
     toYearString=@"";
@@ -1587,7 +1591,7 @@
                                               fromYear:aFromYearString
                                                 toYear:aToYearString
                                          adsWithImages:searchWithImage
-                                          adsWithPrice:YES
+                                          adsWithPrice:searchWithPrice
                                                   area:aArea
                                                orderby:orderByString
                                          lastRefreshed:lasRefreshedString
@@ -1607,9 +1611,11 @@
     [self.fromYearLabel setText:@"من سنة "];
     [self.toYearLabel setText:@"إلى سنة"];
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
+    [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
     
     // Init search panels attributes
     searchWithImage=false;
+    searchWithPrice = false;
     distanceObj=nil;
     fromYearString=@"";
     toYearString=@"";
@@ -1627,6 +1633,21 @@
         searchWithImage=false;
         
     }
+}
+
+- (IBAction)adWithPriceBtnPress:(id)sender {
+    if(searchWithPrice==false){
+        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg5.png"] forState:UIControlStateNormal];
+        searchWithPrice=true;
+        
+    }
+    else{
+        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
+        searchWithPrice=false;
+        
+    }
+
+    
 }
 
 - (IBAction)distanceBtnPrss:(id)sender {

@@ -48,5 +48,6 @@
 - (IBAction)skipBtnPressed:(id)sender;
 - (IBAction)fbBtnPressed:(id)sender;
 - (IBAction)twBtnPressed:(id)sender;
+- (IBAction)forgetPwdBtnPressed:(id)sender;
 
 @end

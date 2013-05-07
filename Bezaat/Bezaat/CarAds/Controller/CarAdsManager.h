@@ -22,6 +22,10 @@
 //load, search & filter
 - (void) adsDidFailLoadingWithError:(NSError *) error;
 - (void) adsDidFinishLoadingWithData:(NSArray*) resultArray;
+
+- (void) RequestToEditFailWithError:(NSError *) error;
+- (void) RequestToEditFinishWithData:(NSArray*) resultArray;
+
 @end
 
 @protocol UploadImageDelegate <NSObject>
@@ -36,6 +40,10 @@
 
 - (void) adDidFailPostingWithError:(NSError *) error;
 - (void) adDidFinishPostingWithAdID:(NSInteger) adID;
+
+- (void) adDidFailEditingWithError:(NSError *) error;
+- (void) adDidFinishEditingWithAdID:(NSInteger) adID;
+
 @end
 
 @protocol StorePostAdDelegate <NSObject>
@@ -73,6 +81,9 @@
 - (void) loadCarAdsOfPage:(NSUInteger) pageNum forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID WithDelegate:(id <CarAdsManagerDelegate>) del;
 
 - (void) loadUserAdsOfStatus:(NSString*) status forPage:(NSUInteger) pageNum andSize:(NSInteger) pageSize WithDelegate:(id <CarAdsManagerDelegate>) del;
+
+//request to edit
+- (void) requestToEditAdsOfEditID:(NSString*) EditID WithDelegate:(id <CarAdsManagerDelegate>) del;
 
 
 //cache
@@ -134,6 +145,32 @@
       kmVSmilesValueID:(NSInteger) aKmVSmilesValueID
               imageIDs:(NSArray *) aImageIDsArray
           withDelegate:(id <PostAdDelegate>) del;
+
+
+//edit an ad
+- (void) editAdOfEditadID:(NSString*) editADID
+             inCountryID :(NSInteger)countryID
+                    Model:(NSInteger) modelID
+                   InCity:(NSUInteger) cityID
+                userEmail:(NSString *) usermail
+                    title:(NSString *) aTitle
+              description:(NSString *) aDescription
+                    price:(NSString *) aPrice
+            periodValueID:(NSInteger) aPeriodValueID
+                   mobile:(NSString *) aMobileNum
+          currencyValueID:(NSInteger) aCurrencyValueID
+           serviceValueID:(NSInteger) aServiceValueID
+         modelYearValueID:(NSInteger) aModelYearValueID
+                 distance:(NSString *) aDistance
+                    color:(NSString *) aColor
+               phoneNumer:(NSString *) aPhoneNumer
+          adCommentsEmail:(BOOL) aAdCommentsEmail
+         kmVSmilesValueID:(NSInteger) aKmVSmilesValueID
+                 category:(NSInteger) aCategoryID
+                 imageIDs:(NSArray *) aImageIDsArray
+             withDelegate:(id <PostAdDelegate>) del;
+
+
 
 //post store ad
 - (void) postStoreAdOfBrand:(NSInteger) brandID

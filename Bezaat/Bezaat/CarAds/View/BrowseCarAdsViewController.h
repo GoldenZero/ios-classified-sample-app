@@ -28,6 +28,8 @@
 @property (strong, nonatomic) Model *currentModel;
 @property (strong, nonatomic) IBOutlet UIView *topBarView;
 @property (strong, nonatomic) IBOutlet UIButton *adWithImageButton;
+@property (strong, nonatomic) IBOutlet UIButton *adWithPriceButton;
+
 @property (strong, nonatomic) IBOutlet UIView *searchPanelView;
 @property (strong, nonatomic) IBOutlet UITextField *carNameText;
 @property (strong, nonatomic) IBOutlet UITextField *lowerPriceText;
@@ -57,6 +59,7 @@
 - (IBAction)searchInPanelBtnPrss:(id)sender;
 - (IBAction)clearInPanelBtnPrss:(id)sender;
 - (IBAction)adWithImageBtnPrss:(id)sender;
+- (IBAction)adWithPriceBtnPress:(id)sender;
 - (IBAction)distanceBtnPrss:(id)sender;
 - (IBAction)fromYearBtnPrss:(id)sender;
 - (IBAction)toYearBtnPrss:(id)sender;

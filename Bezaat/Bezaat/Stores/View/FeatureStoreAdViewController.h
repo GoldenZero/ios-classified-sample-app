@@ -27,6 +27,8 @@
 @property (nonatomic) NSInteger currentAdID;
 @property (nonatomic) Store* storeID;
 @property (weak, nonatomic) IBOutlet UIView *noServiceView;
+@property (strong, nonatomic) IBOutlet UIButton *bankBtn;
+@property (strong, nonatomic) IBOutlet UIImageView *bgBtns;
 
 @property (weak, nonatomic) IBOutlet UIButton *laterBtn;
 @property (weak, nonatomic) IBOutlet UIButton *nowBtn;

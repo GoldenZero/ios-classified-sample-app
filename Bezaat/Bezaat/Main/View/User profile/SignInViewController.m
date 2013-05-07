@@ -138,6 +138,11 @@
     [td show];
 }
 
+- (IBAction)forgetPwdBtnPressed:(id)sender {
+    NSString* launchUrl = @"http://www.bezaat.com/ksa/riyadh/account/forgot-password";
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: launchUrl]];
+}
+
 
 #pragma mark - FacebookLogin Delegate
 - (void)fbDidFinishLogging:(FBSession *)session
