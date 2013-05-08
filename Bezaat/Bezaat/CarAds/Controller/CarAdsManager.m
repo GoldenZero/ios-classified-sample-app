@@ -848,7 +848,6 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 
 - (void) editAdOfEditadID:(NSString*) editADID
              inCountryID :(NSInteger)countryID
-                 Model:(NSInteger) modelID
                 InCity:(NSUInteger) cityID
              userEmail:(NSString *) usermail
                  title:(NSString *) aTitle
@@ -913,8 +912,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              MANUFACTURE_YEAR_ATTR_ID, [NSString stringWithFormat:@"%i",aModelYearValueID],
                              DISTANCE_VALUE_ATTR_ID, aDistance,
                              COLOR_ATTR_ID, aColor,
-                             PHONE_ATTR_ID,@"phone",
-                             PHONE_NUMBER_ATTR_ID, aPhoneNumer,
+                             PHONE_ATTR_ID,aPhoneNumer,
+                             PHONE_NUMBER_ATTR_ID, usermail,
                              ADCOMMENTS_EMAIL_ATTR_ID, [NSString stringWithFormat:@"%i",aAdCommentsEmail],
                              KM_MILES_ATTR_ID, [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
                              BRAND_ATTR_ID,[NSString stringWithFormat:@"%i",aCategoryID],
@@ -1198,7 +1197,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if (self.delegate)
             {
                 NSArray * adsArray = [self createEditAdsArrayWithData:(NSArray *)result];
-                [delegate RequestToEditFinishWithData:adsArray];
+                NSArray * imgIDArray = [self createImageIDArrayWithData:(NSArray*) result];
+                [delegate RequestToEditFinishWithData:adsArray imagesArray:imgIDArray];
             }
             
         }
@@ -1394,6 +1394,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                      isFavoriteString:[adDict objectForKey:LISTING_IS_FAVORITE_JKEY]
                      storeName:[adDict objectForKey:LISTING_STORE_NAME_JKEY]
                      storeLogoURL:[adDict objectForKey:LISTING_STORE_LOGO_URL_JKEY]
+                     EncryptedEditID:[adDict objectForKey:@"EncEditID"]
                      ];
                     
                     [adsArray addObject:ad];
@@ -1420,31 +1421,62 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         if (statusCode == 200)
         {
             NSDictionary * dataAdsArray = [totalDict objectForKey:LISTING_DATA_JKEY];
+            NSArray * adImagesArray = [dataAdsArray objectForKey:@"AdImages"];
+            
             if ((dataAdsArray) && (![@"" isEqualToString:(NSString *)dataAdsArray]) && (dataAdsArray.count))
             {
-               // for (NSDictionary * adDict in dataAdsArray)
-                //{
-                    NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",TITLE_ATTR_ID]]);
-                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",PHONE_NUMBER_ATTR_ID]]);
-                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",DESCRIPTION_ATTR_ID]]);
-                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",PRICE_ATTR_ID]]);
-                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MY_ATTR_ID]]);
-                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",CURRENCY_NAME_ATTR_ID]]);
-                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",KM_MILES_ATTR_ID]]);
-                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MANUFACTURE_YEAR_ATTR_ID]]);
-                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",DISTANCE_VALUE_ATTR_ID]]);
-                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MOBILE_NUMBER_ATTR_ID]]);
+                NSDictionary * adDict = [dataAdsArray objectForKey:@"AdData"];
+                //for (NSDictionary * adDict in dataAdsArray)
+               // {
+               
                     
-                    CarAd *ad = [[CarAd alloc] initWithAdIDTitle:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",TITLE_ATTR_ID]]
-                                                     EmailString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",PHONE_NUMBER_ATTR_ID]]
-                                               descriptionString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",DESCRIPTION_ATTR_ID]]
-                                                     priceString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",PRICE_ATTR_ID]]
-                                                      cityString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MY_ATTR_ID]]
-                                                  currencyString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",CURRENCY_NAME_ATTR_ID]] distanceRangeInKmString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",KM_MILES_ATTR_ID]] modelYearString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MANUFACTURE_YEAR_ATTR_ID]] distanceString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",DISTANCE_VALUE_ATTR_ID]] mobileNumberString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MOBILE_NUMBER_ATTR_ID]] thumbnailURL:@""];
+                
+                    
+                    CarAd *ad = [[CarAd alloc] initWithAdIDTitle:[adDict objectForKey:[NSString stringWithFormat:@"%i",TITLE_ATTR_ID]]
+                                                     EmailString:[adDict objectForKey:[NSString stringWithFormat:@"%i",PHONE_NUMBER_ATTR_ID]]
+                                               descriptionString:[adDict objectForKey:[NSString stringWithFormat:@"%i",DESCRIPTION_ATTR_ID]]
+                                                     priceString:[adDict objectForKey:[NSString stringWithFormat:@"%i",PRICE_ATTR_ID]]
+                                                      cityString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MY_ATTR_ID]]
+                                                  currencyString:[adDict objectForKey:[NSString stringWithFormat:@"%i",CURRENCY_NAME_ATTR_ID]] distanceRangeInKmString:[adDict objectForKey:[NSString stringWithFormat:@"%i",KM_MILES_ATTR_ID]] modelYearString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MANUFACTURE_YEAR_ATTR_ID]] distanceString:[adDict objectForKey:[NSString stringWithFormat:@"%i",DISTANCE_VALUE_ATTR_ID]] mobileNumberString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MOBILE_NUMBER_ATTR_ID]] thumbnailURL:@""];
                     
                    [adsArray addObject:ad];
-                    
+                
                 //}
+            }
+        }
+        return adsArray;
+    }
+    return [NSArray new];
+}
+
+- (NSArray * ) createImageIDArrayWithData:(NSArray *) data {
+    
+    if ((data) && (data.count > 0))
+    {
+        NSDictionary * totalDict = [data objectAtIndex:0];
+        NSString * statusCodeString = [totalDict objectForKey:LISTING_STATUS_CODE_JKEY];
+        NSInteger statusCode = statusCodeString.integerValue;
+        
+        NSMutableArray * adsArray = [NSMutableArray new];
+        if (statusCode == 200)
+        {
+            NSDictionary * dataAdsArray = [totalDict objectForKey:LISTING_DATA_JKEY];
+            NSArray * adImagesArray = [dataAdsArray objectForKey:@"AdImages"];
+            
+            if ((dataAdsArray) && (![@"" isEqualToString:(NSString *)dataAdsArray]) && (dataAdsArray.count))
+            {
+               // NSDictionary * adDict = [dataAdsArray objectForKey:@"AdData"];
+                for (NSDictionary * adImgDict in adImagesArray)
+                 {
+               
+                    
+                    
+                     NSString* temp = [NSString stringWithFormat:@"%@", [adImgDict objectForKey:@"ImageID"]];
+                     CarAd* myImage = [[CarAd alloc]initWithImageID:temp andImageURL:[adImgDict objectForKey:@"ImageURL"]];
+                    
+                    [adsArray addObject:myImage];
+                
+                }
             }
         }
         return adsArray;

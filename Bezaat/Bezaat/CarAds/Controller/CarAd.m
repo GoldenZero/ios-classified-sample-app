@@ -39,7 +39,9 @@
           viewCountString:(NSString *) aViewCountString
          isFavoriteString:(NSString *) aIsFavoriteString
                 storeName:(NSString *) aStoreName
-             storeLogoURL:(NSString *) aStoreLogoURLString {
+             storeLogoURL:(NSString *) aStoreLogoURLString
+EncryptedEditID: (NSString*)aEncEditID
+{
     
     self = [super init];
     if (self) {
@@ -89,6 +91,8 @@
         
         // storeName
         self.storeName = aStoreName;
+        
+        self.EncEditID = aEncEditID;
         
         // storeLogoURL
         if ([aStoreLogoURLString isEqualToString:@""])
@@ -157,6 +161,15 @@
     return self;
 }
 
+- (id)initWithImageID: (NSString *)aImageID andImageURL:(NSString*)aImageURL
+{
+    self = [super init];
+    if (self) {
+        self.thumbnailID = aImageID;
+        self.ImageURL = aImageURL;
+    }
+    return self;
+}
 
 #pragma mark - NSCoding methods
 
@@ -206,7 +219,7 @@
 }
 
 - (NSString *) description {
-    return [NSString stringWithFormat:@"adID:%i, ownerID:%i, storeID:%i, isFeatured:%i, thumbnailURL:%@, title:%@, price:%f, currencyString:%@, postedOnDate:%@, modelYear:%i, distanceRangeInKm:%i, viewCount:%i, isFavorite:%i, storeName:%@, storeLogoURL:%@",
+    return [NSString stringWithFormat:@"adID:%i, ownerID:%i, storeID:%i, isFeatured:%i, thumbnailURL:%@, title:%@, price:%f, currencyString:%@, postedOnDate:%@, modelYear:%i, distanceRangeInKm:%i, viewCount:%i, isFavorite:%i, storeName:%@, storeLogoURL:%@, Email:%@, details:%@, cityName:%@, distance:%@, mobileNumber:%@",
             self.adID,
             self.ownerID,
             self.storeID,
@@ -221,7 +234,12 @@
             self.viewCount,
             self.isFavorite,
             self.storeName,
-            self.storeLogoURL
+            self.storeLogoURL,
+            self.emailAddress,
+            self.desc,
+            self.cityName,
+            self.distance,
+            self.mobileNum
             ];
 }
 @end

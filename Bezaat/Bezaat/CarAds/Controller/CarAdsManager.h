@@ -10,6 +10,7 @@
 #import "CarAd.h"
 #import "CustomError.h"
 #import "StaticAttrsLoader.h"
+#import "CarDetailsManager.h"
 
 #pragma mark - FILTERS LITERALS
 
@@ -24,7 +25,7 @@
 - (void) adsDidFinishLoadingWithData:(NSArray*) resultArray;
 
 - (void) RequestToEditFailWithError:(NSError *) error;
-- (void) RequestToEditFinishWithData:(NSArray*) resultArray;
+- (void) RequestToEditFinishWithData:(NSArray*) resultArray imagesArray:(NSArray *)resultIDs;
 
 @end
 
@@ -150,7 +151,6 @@
 //edit an ad
 - (void) editAdOfEditadID:(NSString*) editADID
              inCountryID :(NSInteger)countryID
-                    Model:(NSInteger) modelID
                    InCity:(NSUInteger) cityID
                 userEmail:(NSString *) usermail
                     title:(NSString *) aTitle

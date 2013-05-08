@@ -129,7 +129,8 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 - (IBAction)bankTransferBtnPressed:(id)sender {
     [self showLoadingIndicator];
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
-    [[FeaturingManager sharedInstance] createOrderForBankWithStoreID:self.currentAdID withcountryID:[[SharedUser sharedInstance] getUserCountryID] withShemaName:option.pricingID andBanking:@"" WithDelegate:self];
+    
+    [[FeaturingManager sharedInstance] createOrderForBankWithAdID:self.currentAdID withShemaName:option.pricingID WithDelegate:self];
 
 }
 

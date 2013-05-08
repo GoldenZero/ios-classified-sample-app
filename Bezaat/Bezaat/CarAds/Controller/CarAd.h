@@ -32,6 +32,11 @@
 @property (strong, nonatomic) NSString * cityName;
 @property (strong, nonatomic) NSString * distance;
 @property (strong, nonatomic) NSString * mobileNum;
+@property (strong, nonatomic) NSString * thumbnailID;
+@property (strong, nonatomic) NSString * ImageURL;
+@property (strong, nonatomic) NSString* EncEditID;
+
+
 
 
 #pragma mark - actions
@@ -50,7 +55,8 @@
           viewCountString:(NSString *) aViewCountString
          isFavoriteString:(NSString *) aIsFavoriteString
                 storeName:(NSString *) aStoreName
-             storeLogoURL:(NSString *) aStoreLogoURLString;
+             storeLogoURL:(NSString *) aStoreLogoURLString
+EncryptedEditID: (NSString*)aEncEditID;
 
 
 - (id) initWithAdIDTitle:(NSString *) aAdIDTitle                //524
@@ -64,5 +70,7 @@
           distanceString:(NSString*) aDistanceString            //518
       mobileNumberString:(NSString *) aMobileString             //520
             thumbnailURL:(NSString *) aThumbnailURLString;
+
+- (id)initWithImageID: (NSString *)aImageID andImageURL:(NSString*)aImageURL;
 
 @end

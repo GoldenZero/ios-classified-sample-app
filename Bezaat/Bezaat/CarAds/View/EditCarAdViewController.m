@@ -48,8 +48,12 @@
     City * chosenCity;
     Country * chosenCountry;
     
+    NSString* defaultCityName;
+    CarAd* myAdInfo;
     
     NSMutableArray * currentImgsUploaded;
+    NSMutableArray* CopyImageArr;
+    
     BOOL titleChanged;
     BOOL detailsChanged;
     BOOL priceChanged;
@@ -83,8 +87,9 @@
     [super viewDidLoad];
     
     locationMngr = [LocationManager sharedInstance];
+    myAdInfo = [[CarAd alloc]init];
     
-    [self loadData];
+    
     
     // Set the image piacker
     chosenImgBtnTag = -1;
@@ -110,7 +115,10 @@
     currencyBtnPressedOnce = NO;
     yearBtnPressedOnce = NO;
     
+    
+    
     [self loadDataArray];
+    [self loadData];
     [self addButtonsToXib];
     [self setImagesArray];
     [self setImagesToXib];
@@ -153,7 +161,7 @@
         [self.locationPickerView reloadAllComponents];
     }
     
-}
+ }
 
 // This method loads the device location initialli, and afterwards the loading of country lists comes after
 - (void) loadData {
@@ -162,6 +170,10 @@
 }
 
 - (void) loadDataArray{
+    
+    myAdInfo = (CarAd*)[self.myAdArray objectAtIndex:0];
+    CopyImageArr = [[NSMutableArray alloc] initWithArray:self.myImageIDArray];
+    
     productionYearArray=[[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadModelYearValues]];
     currencyArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
     kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
@@ -184,15 +196,28 @@
     [self.horizontalScrollView setContentSize:CGSizeMake(640, 119)];
     [self.horizontalScrollView setScrollEnabled:YES];
     [self.horizontalScrollView setShowsHorizontalScrollIndicator:YES];
-    
+    CarAd* cardADS;
+    int remainingImg = [self.myImageIDArray count];
     for (int i=0; i<6; i++) {
+        if ([self.myImageIDArray count] == 0 || remainingImg == 0) {
+            UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
+            [temp setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
+            
+            temp.tag = (i+1) * 10;
+            [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
+            [self.horizontalScrollView addSubview:temp];
+        }else{
+        cardADS = (CarAd*)[self.myImageIDArray objectAtIndex:i];
         UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
-        [temp setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
+        [temp setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:cardADS.ImageURL]]] forState:UIControlStateNormal];
+        
         //TODO get all images
         
         temp.tag = (i+1) * 10;
         [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
         [self.horizontalScrollView addSubview:temp];
+            remainingImg-=1;
+        }
     }
 }
 
@@ -257,6 +282,20 @@
 }
 
 - (void) addButtonsToXib{
+    NSArray* citiesArray;
+    for (int i =0; i <= [countryArray count] - 1; i++) {
+        chosenCountry=[countryArray objectAtIndex:i];
+        citiesArray = [chosenCountry cities];
+        for (City* cit in citiesArray) {
+            if (cit.cityID == myAdInfo.cityName.integerValue)
+            {
+                defaultCityName = cit.cityName;
+                break;
+                //return;
+            }
+        }
+    }
+    
     [self.verticalScrollView setContentSize:CGSizeMake(320 , 420)];
     [self.verticalScrollView setScrollEnabled:YES];
     [self.verticalScrollView setShowsVerticalScrollIndicator:YES];
@@ -273,7 +312,8 @@
     
     countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
     [countryCity setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [countryCity setTitle:@"اختر البلد" forState:UIControlStateNormal]; //TODO chosen city
+    
+    [countryCity setTitle:defaultCityName forState:UIControlStateNormal]; //TODO chosen city
     [countryCity setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [countryCity addTarget:self action:@selector(chooseCountryCity) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:countryCity];
@@ -282,13 +322,13 @@
     [carAdTitle setBorderStyle:UITextBorderStyleRoundedRect];
     [carAdTitle setTextAlignment:NSTextAlignmentRight];
     [carAdTitle setPlaceholder:@"عنوان الإعلان"];
-    [carAdTitle setText:@""]; //TODO ad Title
+    [carAdTitle setText:myAdInfo.title]; //TODO ad Title
     [self.verticalScrollView addSubview:carAdTitle];
     carAdTitle.delegate=self;
     
     carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,100 ,260 ,80 )];
     [carDetails setTextAlignment:NSTextAlignmentRight];
-    [carDetails setText:@""]; //TODO get Description
+    [carDetails setText:myAdInfo.desc]; //TODO get Description
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
     [self.verticalScrollView addSubview:carDetails];
     carDetails.delegate =self;
@@ -297,14 +337,14 @@
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [carPrice setTextAlignment:NSTextAlignmentRight];
     [carPrice setPlaceholder:@"السعر (اختياري)"];
-    [carPrice setText:@""]; //TODO get Price
+    [carPrice setText:[NSString stringWithFormat:@"%f",myAdInfo.price]]; //TODO get Price
     [carPrice setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:carPrice];
     carPrice.delegate=self;
     
     currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 190, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_SM.png"] forState:UIControlStateNormal];
-    [currency setTitle:@"العملة   " forState:UIControlStateNormal]; //TODO get currency
+    [currency setTitle:myAdInfo.currencyString forState:UIControlStateNormal]; //TODO get currency
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
@@ -313,7 +353,7 @@
     [distance setBorderStyle:UITextBorderStyleRoundedRect];
     [distance setTextAlignment:NSTextAlignmentRight];
     [distance setPlaceholder:@"المسافة المقطوعة"];
-    [distance setText:@""]; //TODO get distance
+    [distance setText:myAdInfo.distance]; //TODO get distance
     [distance setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:distance];
     distance.delegate=self;
@@ -321,13 +361,16 @@
     kiloMile = [[UISegmentedControl alloc] initWithItems:kiloMileArray];
     kiloMile.frame = CGRectMake(30, 240, 80, 30);
     kiloMile.segmentedControlStyle = UISegmentedControlStylePlain;
-    kiloMile.selectedSegmentIndex = 0; // TODO get index of KM/MILE
+    if (myAdInfo.distanceRangeInKm == 0)
+    kiloMile.selectedSegmentIndex = 0;
+    else
+       kiloMile.selectedSegmentIndex = 1; // TODO get index of KM/MILE
     [kiloMile addTarget:self action:@selector(chooseKiloMile) forControlEvents: UIControlEventValueChanged];
     [self.verticalScrollView addSubview:kiloMile];
     
     productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 280, 260, 30)];
     [productionYear setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [productionYear setTitle:@"عام الصنع" forState:UIControlStateNormal]; //TODO get the porduction year
+    [productionYear setTitle:[NSString stringWithFormat:@"%i",myAdInfo.modelYear ] forState:UIControlStateNormal]; //TODO get the porduction year
     [productionYear setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [productionYear addTarget:self action:@selector(chooseProductionYear) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:productionYear];
@@ -337,7 +380,7 @@
     [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
     [mobileNum setTextAlignment:NSTextAlignmentRight];
     [mobileNum setPlaceholder:@"رقم الجوال"];
-    [mobileNum setText:@""]; //TODO get mobile number
+    [mobileNum setText:myAdInfo.mobileNum]; //TODO get mobile number
     [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
     [self.verticalScrollView addSubview:mobileNum];
     mobileNum.inputAccessoryView = numberToolbar;
@@ -679,7 +722,7 @@
     
     [self showLoadingIndicator];
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    [[CarAdsManager sharedInstance] postAdOfBrand:_currentModel.brandID
+   /* [[CarAdsManager sharedInstance] postAdOfBrand:_currentModel.brandID
                                             Model:_currentModel.modelID
                                            InCity:chosenCity.cityID
                                         userEmail:(savedProfile ? savedProfile.emailAddress : @"")
@@ -697,7 +740,9 @@
                                   adCommentsEmail:YES
                                  kmVSmilesValueID:distanceUnitID
                                          imageIDs:currentImgsUploaded
-                                     withDelegate:self];
+                                     withDelegate:self];*/
+    
+    [[CarAdsManager sharedInstance] editAdOfEditadID:self.myDetails.EncEditID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:carAdTitle.text description:carDetails.text price:carPrice.text periodValueID:AD_PERIOD_2_MONTHS_VALUE_ID mobile:mobileNum.text currencyValueID:chosenCurrency.valueID serviceValueID:SERVICE_FOR_SALE_VALUE_ID modelYearValueID:chosenYear.valueID  distance:distance.text color:@"" phoneNumer:@"" adCommentsEmail:YES kmVSmilesValueID:distanceUnitID category:1 imageIDs:currentImgsUploaded withDelegate:self];
     
     
 }
@@ -764,14 +809,17 @@
     //1- show the image on the button
     if ((chosenImgBtnTag > -1) && (currentImageToUpload))
     {
-        /*
+        
          UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
-         UIImageView * imgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tappedBtn.frame.size.width, tappedBtn.frame.size.height)];
-         
-         //[tappedBtn setImage:currentImageToUpload forState:UIControlStateNormal];
-         [tappedBtn addSubview:imgv];
-         [imgv setImageWithURL:url placeholderImage:[UIImage imageNamed:@"AddCar_Car_logo.png"]];
-         */
+        int indexOfBtn = tappedBtn.tag / 10 - 1;
+        if (indexOfBtn >= [CopyImageArr count]) {
+            CarAd* adTest = [[CarAd alloc]initWithImageID:[NSString stringWithFormat:@"%i",ID] andImageURL:[url absoluteString]];
+            [CopyImageArr addObject:adTest];
+        }else {
+        CarAd* adTest = [[CarAd alloc]initWithImageID:[NSString stringWithFormat:@"%i",ID] andImageURL:[url absoluteString]];
+        [CopyImageArr replaceObjectAtIndex:indexOfBtn withObject:adTest];
+        }
+        
     }
     //2- add image data to this ad
     [currentImgsUploaded addObject:[NSNumber numberWithInteger:ID]];
@@ -798,6 +846,16 @@
     
     ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
+    
+}
+
+-(void)adDidFailEditingWithError:(NSError *)error
+{
+    [self hideLoadingIndicator];
+}
+
+-(void)adDidFinishEditingWithAdID:(NSInteger)adID
+{
     
 }
 

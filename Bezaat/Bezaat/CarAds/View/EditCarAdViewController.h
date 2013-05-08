@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CarAdsManager.h"
+#import "CarDetails.h"
 
 @interface EditCarAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate>
 
@@ -32,6 +33,10 @@
 @property (strong, nonatomic) IBOutlet  UIButton *currency;
 @property (strong, nonatomic) IBOutlet  UISegmentedControl *kiloMile;
 @property (strong, nonatomic) IBOutlet  UIButton *countryCity;
+
+@property (strong,nonatomic) NSArray* myAdArray;
+@property (strong,nonatomic) NSArray* myImageIDArray;
+@property (strong, nonatomic) CarDetails* myDetails;
 
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;

@@ -59,7 +59,7 @@
 
 - (void) createStoreOrderForStoreID:(NSInteger) storeID withcountryID:(NSInteger) countryID withShemaName:(NSInteger)shemaID WithDelegate:(id <FeaturingOrderDelegate>) del;
 
-- (void) createOrderForBankWithStoreID:(NSInteger) storeID withcountryID:(NSInteger) countryID withShemaName:(NSInteger)shemaID andBanking:(NSString*)banking WithDelegate:(id <FeaturingOrderDelegate>) del;
+- (void) createOrderForBankWithAdID:(NSInteger) AdID withShemaName:(NSInteger)shemaID WithDelegate:(id <FeaturingOrderDelegate>) del;
 
 - (void) confirmOrderID:(NSString *) orderID gatewayResponse:(NSString *) aGatewayResponse withDelegate:(id <FeaturingOrderDelegate>) del;
 

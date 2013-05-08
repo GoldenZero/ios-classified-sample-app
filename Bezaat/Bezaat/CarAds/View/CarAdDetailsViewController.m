@@ -9,6 +9,7 @@
 
 #import "CarAdDetailsViewController.h"
 #import "labelAdViewController.h"
+#import "EditCarAdViewController.h"
 
 #define FIXED_V_DISTANCE    17
 #define FIXED_H_DISTANCE    20
@@ -408,8 +409,9 @@
 
 - (IBAction)modifyAdBtnPrss:(id)sender {
     
+    [self showLoadingIndicator];
     // Request To Edit Ad
-    [[CarAdsManager sharedInstance] requestToEditAdsOfEditID:@"cGv7YJkDhOUEQUAL"/*currentDetailsObject.EncEditID*/ WithDelegate:self];
+    [[CarAdsManager sharedInstance] requestToEditAdsOfEditID:currentDetailsObject.EncEditID WithDelegate:self];
 }
 
 
@@ -1027,10 +1029,20 @@
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
 }
 
--(void)RequestToEditFinishWithData:(NSArray *)resultArray
+-(void)RequestToEditFinishWithData:(NSArray *)resultArray imagesArray:(NSArray *)resultIDs
 {
+    
     //TODO fill down the array and then move to next page "Edit Ad"
     NSLog(@"loading result Array : %@",resultArray);
+    
+    EditCarAdViewController *homeVC=[[EditCarAdViewController alloc] initWithNibName:@"EditCarAdViewController" bundle:nil];
+    homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    homeVC.myAdArray = resultArray;
+    homeVC.myImageIDArray = resultIDs;
+    homeVC.myDetails = currentDetailsObject;
+    [self hideLoadingIndicator];
+    
+    [self presentViewController:homeVC animated:YES completion:nil];
     
 }
 

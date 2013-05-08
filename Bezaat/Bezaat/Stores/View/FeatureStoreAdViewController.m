@@ -112,12 +112,8 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 - (IBAction)bankTransferBtnPrss:(id)sender {
     //TODO - make the create and confirm API
     [self showLoadingIndicator];
-   /* PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
-    [[FeaturingManager sharedInstance] createOrderForBankWithStoreID:self.storeID.identifier withcountryID:self.storeID.countryID withShemaName:option.pricingID andBanking:@"" WithDelegate:self];
-    */
-    BankInfoViewController *vc=[[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
-    //vc.Order = orderID;
-    [self presentViewController:vc animated:YES completion:nil];
+    PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+   // [[FeaturingManager sharedInstance] createOrderForBankWithStoreID:self.storeID.identifier withcountryID:self.storeID.countryID withShemaName:option.pricingID andBanking:@"" WithDelegate:self];
 }
 
 

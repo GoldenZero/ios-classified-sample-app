@@ -59,7 +59,7 @@ static NSString * store_pricing_options_url = @"/json/store-payment-scheme?count
 
 static NSString * create_order_url = @"/json/process-for-featurad";
 static NSString * create_store_order_url = @"/json/create-store-order";
-static NSString * create_bank_order_url = @"";
+static NSString * create_bank_order_url = @"/json/process-for-featurad";
 static NSString * confirm_order_url = @"/json/confirm-featured-ad";
 static NSString * confirm_store_order_url = @"/json/confirm-store-order";
 static NSString * cancel_order_url = @"/json/cancel-featured-ad";
@@ -417,7 +417,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
--(void) createOrderForBankWithStoreID:(NSInteger) storeID withcountryID:(NSInteger) countryID withShemaName:(NSInteger)shemaID andBanking:(NSString*)banking WithDelegate:(id <FeaturingOrderDelegate>) del
+- (void) createOrderForBankWithAdID:(NSInteger) AdID withShemaName:(NSInteger)shemaID WithDelegate:(id <FeaturingOrderDelegate>) del
 { //(Payment method will be detected inside)
     
     //1- set the delegate
@@ -449,10 +449,9 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             paymentMethod = IPAD_PAYMENT_METHOD_NUMBER;
         
         //3- start the request
-        NSString * post = [NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",
-                           @"StoreID", [NSString stringWithFormat:@"%i", storeID],
-                           @"CountryID", [NSString stringWithFormat:@"%i", countryID],
-                           @"PaymentSchemeID", [NSString stringWithFormat:@"%i", shemaID],@"Device",[NSString stringWithFormat:@"%i", paymentMethod],@"Banking",banking
+        NSString * post = [NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@",
+                           @"AdID", [NSString stringWithFormat:@"%i", AdID],
+                           @"PricingID", [NSString stringWithFormat:@"%i", shemaID],@"PaymentMethod", [NSString stringWithFormat:@"%i", 2]
                            ];
         
         NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];

@@ -14,7 +14,7 @@
 //plist file names
 #define CAR_MODELS_PLIST_FILE_NAME  @"CarModels"
 #define LOCATIONS_PLIST_FILE_NAME   @"Locations"
-#define API_MAIN_URL                @"http://gfctest.edanat.com/v1.0"
+#define API_MAIN_URL                @"http://gfctest.edanat.com/v1.1"
 //#define API_MAIN_URL                @"http://carsapi.bezaat.com/v1.0"
 
 
