@@ -98,6 +98,66 @@
     }
     return self;
 }
+
+- (id) initWithAdIDTitle:(NSString *) aAdIDTitle                //524
+             EmailString:(NSString *) aEmailString              //-100
+       descriptionString:(NSString *) aDescriptionString        //523
+             priceString:(NSString *) aPriceString              //507
+              cityString:(NSString *) aCityString               //-99
+          currencyString:(NSString *) aCurrencyString           //508
+ distanceRangeInKmString:(NSString *) aDistanceRangeInKmString  //1076
+         modelYearString:(NSString *) aModelYearString          //509
+          distanceString:(NSString*) aDistanceString            //518
+      mobileNumberString:(NSString *) aMobileString             //520
+            thumbnailURL:(NSString *) aThumbnailURLString
+{
+    self = [super init];
+    if (self) {
+        
+        // title
+        self.title = aAdIDTitle;
+        
+        // email
+        self.emailAddress = aEmailString;
+        
+        // description
+        self.desc = aDescriptionString;
+        
+        // price
+        self.price = aPriceString.floatValue;
+        
+        // city
+        self.cityName = aCityString;
+        
+        // currencyString
+        self.currencyString = aCurrencyString;
+        
+        // distanceRangeInKm
+        self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
+        
+        // modelYear
+        self.modelYear = aModelYearString.integerValue;
+
+        // currencyString
+        self.currencyString = aCurrencyString;
+        
+        // distance
+        self.distance = aDistanceString;
+
+        // mobile number
+        self.mobileNum = aMobileString;
+        
+        // thumbnailURL
+        if ([aThumbnailURLString isEqualToString:@""])
+            self.thumbnailURL = nil;
+        else
+            self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
+        
+    }
+    return self;
+}
+
+
 #pragma mark - NSCoding methods
 
 - (id)initWithCoder:(NSCoder *)decoder  {

@@ -326,11 +326,16 @@
             }
             case 3:
             {
-                [self hideMenu];
+               /* [self hideMenu];
                 BrowseStoresViewController *vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];
              
                 break;
+                */
+                [self hideMenu];
+                UserDetailsViewController *vc=[[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController" bundle:nil];
+                [self presentViewController:vc animated:YES completion:nil];
+                
             }
             case 4:
             {

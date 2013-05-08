@@ -1419,38 +1419,32 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         NSMutableArray * adsArray = [NSMutableArray new];
         if (statusCode == 200)
         {
-            NSArray * dataAdsArray = [totalDict objectForKey:LISTING_DATA_JKEY];
+            NSDictionary * dataAdsArray = [totalDict objectForKey:LISTING_DATA_JKEY];
             if ((dataAdsArray) && (![@"" isEqualToString:(NSString *)dataAdsArray]) && (dataAdsArray.count))
             {
-                for (NSDictionary * adDict in dataAdsArray)
-                {
+               // for (NSDictionary * adDict in dataAdsArray)
+                //{
+                    NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",TITLE_ATTR_ID]]);
+                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",PHONE_NUMBER_ATTR_ID]]);
+                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",DESCRIPTION_ATTR_ID]]);
+                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",PRICE_ATTR_ID]]);
+                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MY_ATTR_ID]]);
+                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",CURRENCY_NAME_ATTR_ID]]);
+                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",KM_MILES_ATTR_ID]]);
+                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MANUFACTURE_YEAR_ATTR_ID]]);
+                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",DISTANCE_VALUE_ATTR_ID]]);
+                NSLog(@"%@",[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MOBILE_NUMBER_ATTR_ID]]);
                     
-                    CarAd * ad =
-                    [[CarAd alloc]
-                     initWithAdIDString:[adDict objectForKey:[NSString stringWithFormat:@"%i",PRICE_ATTR_ID]]
-                     ownerIDString:[adDict objectForKey:[NSString stringWithFormat:@"%i",SERVICE_NAME_ATTR_ID]]
-                     storeIDString:[adDict objectForKey:[NSString stringWithFormat:@"%i",TITLE_ATTR_ID]]
-                     isFeaturedString:[adDict objectForKey:[NSString stringWithFormat:@"%i",DISTANCE_VALUE_ATTR_ID]]
-                     thumbnailURL:[adDict objectForKey:[NSString stringWithFormat:@"%i",DESCRIPTION_ATTR_ID]]
-                     title:[adDict objectForKey:[NSString stringWithFormat:@"%i",KM_MILES_ATTR_ID]]
-                     priceString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MANUFACTURE_YEAR_ATTR_ID]]
-                     currencyString:[adDict objectForKey:[NSString stringWithFormat:@"%i",COLOR_ATTR_ID]]
-                     postedOnDateString:[adDict objectForKey:[NSString stringWithFormat:@"%i",CURRENCY_NAME_ATTR_ID]]
-                     modelYearString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MOBILE_NUMBER_ATTR_ID]]
-                     distanceRangeInKmString:[adDict objectForKey:[NSString stringWithFormat:@"%i",ADVERTISING_PERIOD_ATTR_ID]]
-                     viewCountString:[adDict objectForKey:[NSString stringWithFormat:@"%i",ADCOMMENTS_EMAIL_ATTR_ID]]
-                     isFavoriteString:[adDict objectForKey:[NSString stringWithFormat:@"%i",CAR_CONDITION_ATTR_ID]]
-                     storeName:[adDict objectForKey:[NSString stringWithFormat:@"%i",GEAR_TYPE_ATTR_ID]]
-                     storeLogoURL:[adDict objectForKey:[NSString stringWithFormat:@"%i",CAR_ENGINE_ATTR_ID]]
-                     ];
-                    //CAR_CD_ATTR_ID
-                    //CAR_HEADS_ATTR_ID
-                    //MY_ATTR_ID
-                    //BRAND_ATTR_ID
-                    //PHONE_NUMBER_ATTR_ID
-                    [adsArray addObject:ad];
+                    CarAd *ad = [[CarAd alloc] initWithAdIDTitle:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",TITLE_ATTR_ID]]
+                                                     EmailString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",PHONE_NUMBER_ATTR_ID]]
+                                               descriptionString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",DESCRIPTION_ATTR_ID]]
+                                                     priceString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",PRICE_ATTR_ID]]
+                                                      cityString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MY_ATTR_ID]]
+                                                  currencyString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",CURRENCY_NAME_ATTR_ID]] distanceRangeInKmString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",KM_MILES_ATTR_ID]] modelYearString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MANUFACTURE_YEAR_ATTR_ID]] distanceString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",DISTANCE_VALUE_ATTR_ID]] mobileNumberString:[dataAdsArray objectForKey:[NSString stringWithFormat:@"%i",MOBILE_NUMBER_ATTR_ID]] thumbnailURL:@""];
                     
-                }
+                   [adsArray addObject:ad];
+                    
+                //}
             }
         }
         return adsArray;

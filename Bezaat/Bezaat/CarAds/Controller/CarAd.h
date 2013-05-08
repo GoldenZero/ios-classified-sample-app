@@ -27,6 +27,12 @@
 @property (nonatomic) BOOL isFavorite;
 @property (strong, nonatomic) NSString * storeName;
 @property (strong, nonatomic) NSURL * storeLogoURL;
+@property (strong, nonatomic) NSString * emailAddress;
+@property (strong, nonatomic) NSString * desc;
+@property (strong, nonatomic) NSString * cityName;
+@property (strong, nonatomic) NSString * distance;
+@property (strong, nonatomic) NSString * mobileNum;
+
 
 #pragma mark - actions
 
@@ -45,5 +51,18 @@
          isFavoriteString:(NSString *) aIsFavoriteString
                 storeName:(NSString *) aStoreName
              storeLogoURL:(NSString *) aStoreLogoURLString;
+
+
+- (id) initWithAdIDTitle:(NSString *) aAdIDTitle                //524
+             EmailString:(NSString *) aEmailString              //-100
+       descriptionString:(NSString *) aDescriptionString        //523
+             priceString:(NSString *) aPriceString              //507
+              cityString:(NSString *) aCityString               //-99
+          currencyString:(NSString *) aCurrencyString           //508
+ distanceRangeInKmString:(NSString *) aDistanceRangeInKmString  //1076
+         modelYearString:(NSString *) aModelYearString          //509
+          distanceString:(NSString*) aDistanceString            //518
+      mobileNumberString:(NSString *) aMobileString             //520
+            thumbnailURL:(NSString *) aThumbnailURLString;
 
 @end

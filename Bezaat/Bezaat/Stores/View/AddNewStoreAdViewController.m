@@ -406,7 +406,7 @@
     carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,240 ,160 ,30)];
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [carPrice setTextAlignment:NSTextAlignmentRight];
-    [carPrice setPlaceholder:@"السعر"];
+    [carPrice setPlaceholder:@"السعر (اختياري)"];
     [carPrice setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:carPrice];
     carPrice.delegate=self;
@@ -421,7 +421,7 @@
     distance=[[UITextField alloc] initWithFrame:CGRectMake(130,290 ,160 ,30)];
     [distance setBorderStyle:UITextBorderStyleRoundedRect];
     [distance setTextAlignment:NSTextAlignmentRight];
-    [distance setPlaceholder:@"المسافة"];
+    [distance setPlaceholder:@"المسافة المقطوعة"];
     [distance setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:distance];
     distance.delegate=self;
@@ -991,38 +991,15 @@
         return;
     }
     
-    //check price
-    if ( ([[carPrice.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
-        ||
-        ([[carPrice.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] integerValue] == 0) )
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيمة سعر صحيحة للإعلان" delegateVC:self];
-        return;
-    }
-    
-    //check distance
-    if ( ([[distance.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
-        ||
-        ([[distance.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] integerValue] == 0) )
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيمة مسافة صحيحة للإعلان" delegateVC:self];
-        return;
-    }
-    
-    //check currency
+       
+      //check currency
     if (!currencyBtnPressedOnce)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار عملة مناسبة" delegateVC:self];
         return;
     }
     
-    //check year
-    if (!yearBtnPressedOnce)
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار تاريخ للصنع" delegateVC:self];
-        return;
-    }
-
+   
     if (!storeBtnPressedOnce)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار المتجر" delegateVC:self];
@@ -1109,27 +1086,6 @@
                                              carTypeID:typeID
                                              carBodyID:chosenBody.valueID withCategory:_currentModel.brandID withCity1:chosenCity.cityID
                                           withDelegate:self];
-     
-    /*[[BrandsManager sharedInstance] postAdOfBrand:_currentModel.brandID
-                                            Model:_currentModel.modelID
-                                           InCity:chosenCity.cityID
-                                        userEmail:(savedProfile ? savedProfile.emailAddress : @"")
-                                            title:carAdTitle.text
-                                      description:carDetails.text
-                                            price:carPrice.text
-                                    periodValueID:AD_PERIOD_2_MONTHS_VALUE_ID
-                                           mobile: mobileNum.text
-                                  currencyValueID:chosenCurrency.valueID
-                                   serviceValueID:SERVICE_FOR_SALE_VALUE_ID
-                                 modelYearValueID:chosenYear.valueID
-                                         distance:distance.text
-                                            color:@""
-                                       phoneNumer:@""
-                                  adCommentsEmail:YES
-                                 kmVSmilesValueID:distanceUnitID
-                                         imageIDs:currentImgsUploaded
-                                     withDelegate:self];*/
-    
     
 }
 
