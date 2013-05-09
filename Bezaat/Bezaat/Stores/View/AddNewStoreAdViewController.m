@@ -78,6 +78,7 @@
     BOOL storeBtnPressedOnce;
     
     NSTimer *timer;
+    IBOutlet UITextField *placeholderTextField;
 }
 
 
@@ -399,10 +400,20 @@
     
     carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,140 ,260 ,80 )];
     [carDetails setTextAlignment:NSTextAlignmentRight];
+    [carDetails setBackgroundColor:[UIColor clearColor]];
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
-    [self.verticalScrollView addSubview:carDetails];
     carDetails.delegate =self;
     
+    placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,140 ,260 ,30)];
+    [placeholderTextField setTextAlignment:NSTextAlignmentRight];
+    [placeholderTextField setBorderStyle:UITextBorderStyleRoundedRect];
+    CGRect frame = placeholderTextField.frame;
+    frame.size.height = carDetails.frame.size.height;
+    placeholderTextField.frame = frame;
+    placeholderTextField.placeholder = @"تفاصيل الإعلان";
+    [self.verticalScrollView addSubview:placeholderTextField];
+    [self.verticalScrollView addSubview:carDetails];
+
     carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,240 ,160 ,30)];
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [carPrice setTextAlignment:NSTextAlignmentRight];
@@ -1244,4 +1255,14 @@
     [textField resignFirstResponder];
 }
 */
+#pragma mark - UITextView
+- (void)textViewDidChange:(UITextView *)textView {
+    if ([@"" isEqualToString:textView.text]) {
+        placeholderTextField.placeholder = @"تفاصيل الإعلان";
+    }
+    else {
+        placeholderTextField.placeholder = @"";
+    }
+}
+
 @end

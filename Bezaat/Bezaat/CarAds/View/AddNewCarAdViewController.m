@@ -31,6 +31,8 @@
     NSArray *cityArray;
     NSArray *kiloMileArray;
     
+    IBOutlet UITextField *placeholderTextField;
+
     MBProgressHUD2 *loadingHUD;
     MBProgressHUD2 *imgsLoadingHUD;
     int chosenImgBtnTag;
@@ -166,6 +168,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UITextView 
+- (void)textViewDidChange:(UITextView *)textView {
+    if ([@"" isEqualToString:textView.text]) {
+        placeholderTextField.placeholder = @"تفاصيل الإعلان";
+    }
+    else {
+        placeholderTextField.placeholder = @"";
+    }
+}
+
 #pragma mark - helper methods
 - (void) setImagesToXib{
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
@@ -281,9 +293,19 @@
     carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,100 ,260 ,80 )];
     [carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
-    [self.verticalScrollView addSubview:carDetails];
+    [carDetails setBackgroundColor:[UIColor clearColor]];
     carDetails.delegate =self;
-
+    
+    placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,100 ,260 ,30)];
+    [placeholderTextField setTextAlignment:NSTextAlignmentRight];
+    [placeholderTextField setBorderStyle:UITextBorderStyleRoundedRect];
+    CGRect frame = placeholderTextField.frame;
+    frame.size.height = carDetails.frame.size.height;
+    placeholderTextField.frame = frame;
+    placeholderTextField.placeholder = @"تفاصيل الإعلان";
+    [self.verticalScrollView addSubview:placeholderTextField];
+    [self.verticalScrollView addSubview:carDetails];
+   
     carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,190 ,160 ,30)];
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [carPrice setTextAlignment:NSTextAlignmentRight];
