@@ -383,6 +383,8 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
         [self.noServiceView setHidden:NO];
         [self.laterBtn setHidden:YES];
         [self.nowBtn setHidden:YES];
+        [self.bankTransBtn setHidden:YES];
+        [self.whiteRectImg setHidden:YES];
     }
 }
 

@@ -107,12 +107,12 @@
            action:@selector(dismissKeyboard)];
     [self.searchPanelView addGestureRecognizer:tap];
     
-    /*
+    
     tapCloseSearch= [[UITapGestureRecognizer alloc]
                      initWithTarget:self
                      action:@selector(dismissSearch)];
     [self.forTapping addGestureRecognizer:tapCloseSearch];
-    */
+    
     
     [super viewDidLoad];
     [self setButtonsToToolbar];
@@ -1348,6 +1348,7 @@
 - (void) dismissSearch{
     [self hideSearchPanel];
     [self.searchImageButton setHidden:YES];
+    [self.searchPanelView setHidden:YES];
     searchBtnFlag=false;
 }
 

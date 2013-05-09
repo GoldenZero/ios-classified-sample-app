@@ -29,6 +29,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *laterBtn;
 @property (weak, nonatomic) IBOutlet UIButton *nowBtn;
 @property (strong, nonatomic) IBOutlet UIView *noServiceView;
+@property (strong, nonatomic) IBOutlet UIButton *bankTransBtn;
+@property (strong, nonatomic) IBOutlet UIImageView *whiteRectImg;
 
 @property (strong, nonatomic) AddNewCarAdViewController * parentNewCarVC;
 
