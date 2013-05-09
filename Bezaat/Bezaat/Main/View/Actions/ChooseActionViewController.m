@@ -28,6 +28,9 @@
     NSMutableArray *custoIconMenuArray;
     MBProgressHUD2 * loadingHUD;
 
+    // Gestures
+    UISwipeGestureRecognizer *rightRecognizer;
+    UISwipeGestureRecognizer *leftRecognizer;
 }
 
 @end
@@ -54,7 +57,7 @@
     self.trackedViewName = @"Home Screen";
     [self prepareImages];
     [self customGestures];
-    
+    [self prepareGestures];
      UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     
     if (savedProfile.hasStores) {
@@ -114,6 +117,40 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Gesture handling
+- (void) prepareGestures{
+    rightRecognizer = [[UISwipeGestureRecognizer alloc]
+                       
+                       initWithTarget:self action:@selector(rightSwipeHandle:)];
+    
+    rightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    
+    [rightRecognizer setNumberOfTouchesRequired:1];
+        
+    [self.view addGestureRecognizer:rightRecognizer];
+    
+    leftRecognizer = [[UISwipeGestureRecognizer alloc]
+                      
+                      initWithTarget:self action:@selector(leftSwipeHandle:)];
+    
+    leftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    
+    [leftRecognizer setNumberOfTouchesRequired:1];
+    
+    [self.view addGestureRecognizer:leftRecognizer];
+
+}
+
+
+- (void)rightSwipeHandle:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    [self hideMenu];
+}
+
+- (void)leftSwipeHandle:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    [self showMenu];
+}
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender {
     [self hideMenu];
