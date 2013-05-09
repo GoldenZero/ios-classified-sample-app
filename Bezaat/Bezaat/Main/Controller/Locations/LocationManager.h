@@ -60,4 +60,7 @@
 
 //get index of city
 - (NSInteger) getIndexOfCity:(NSInteger) cID inCountry:(Country *) country ;
+
+//get all previously loaded countries
+- (NSArray *) getTotalCountries;
 @end

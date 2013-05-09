@@ -305,6 +305,10 @@ static NSString * location_key_chain_identifier = @"BezaatLocation";
     return -1;
 }
 
+
+- (NSArray *) getTotalCountries {
+    return sortedCountryiesArray;
+}
 #pragma mark - helper methods
 
 // This method gets the file path ofthe specified file.

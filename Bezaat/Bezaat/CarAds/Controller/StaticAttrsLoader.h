@@ -89,4 +89,7 @@
 
 //load CAT_ATTRS file
 //category attributes would be fixed in code without parsing the JSON file
+
+//This method retuns -1 for error
+- (NSInteger) getCurrencyIdOfCountry:(NSInteger) countryID;
 @end

@@ -418,6 +418,25 @@
     return typeValues;
 }
 
+
+- (NSInteger) getCurrencyIdOfCountry:(NSInteger) countryID {
+    
+    if ((!currencyValues) || (!currencyValues.count))
+        return -1;
+    
+    if (countryID == -1)
+        return -1;
+    
+    NSArray * allCountries = [[LocationManager sharedInstance] getTotalCountries];
+    if (!allCountries)
+        return -1;
+    else
+    {
+        Country * cntry = [[LocationManager sharedInstance] getCountryByID:countryID];
+        return cntry.currencyID;
+    }
+}
+
 #pragma mark - helper methods
 
 // This method gets the file path ofthe specified file.
