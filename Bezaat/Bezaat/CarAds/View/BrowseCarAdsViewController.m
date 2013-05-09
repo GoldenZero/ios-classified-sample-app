@@ -951,8 +951,15 @@
 - (void) setButtonsToToolbar{
     
     //  set the model label name
-    if (currentModel)
-        [self.modelNameLabel setText:currentModel.modelName];
+    if (currentModel){
+        if (currentModel.modelID!=-1) {
+            [self.modelNameLabel setText:currentModel.modelName];
+        }
+        else{
+            [self.modelNameLabel setText:_currentBrand.brandNameAr];
+        }
+        
+    }
     else
         [self.modelNameLabel setText:@"جميع السيارات"];
     

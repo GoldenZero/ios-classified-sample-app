@@ -22,6 +22,7 @@
 @interface ModelsViewController ()
 {
     BOOL oneSelectionMade;
+    Brand * choosenBrand;
 }
 @end
 
@@ -114,6 +115,7 @@ static NSInteger lastBrandSelectedRow = -1;
         
         // Reload the models table
         Brand* selectedBrand = (Brand*)currentBrands[indexPath.row];
+        choosenBrand=selectedBrand;
         if (self.tagOfCallXib!=2) {
             // create an extra item for 'all models'
             Model * allModelsItem = [[Model alloc] init];
@@ -167,6 +169,7 @@ static NSInteger lastBrandSelectedRow = -1;
         else{
             BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
             carAdsMenu.currentModel=selectedModel;
+            carAdsMenu.currentBrand=choosenBrand;
             [self presentViewController:carAdsMenu animated:YES completion:nil];
         }
        
@@ -219,7 +222,7 @@ static NSInteger lastBrandSelectedRow = -1;
     }
         
     //currentModels = ((Brand*)resultArray[0]).models;
-    
+    choosenBrand=(Brand*)[currentBrands objectAtIndex:0];
     // Reload the tables
     [_tblBrands reloadData];
     [_tblModels reloadData];
@@ -312,6 +315,7 @@ static NSInteger lastBrandSelectedRow = -1;
 {
     [super viewDidLoad];
     self.trackedViewName = @"Choose Model";
+    
     self.tblModels.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin;
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         
