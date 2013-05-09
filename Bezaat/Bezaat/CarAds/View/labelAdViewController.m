@@ -10,7 +10,7 @@
 #import "labelAdCell.h"
 #import "whyLabelAdViewController.h"
 #import "BankInfoViewController.h"
-
+#import "CarAdDetailsViewController.h"
 @interface labelAdViewController ()
 {
     NSArray * productsArr;
@@ -89,10 +89,15 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
         if (self.parentNewCarVC)
             [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
     }];*/
-    ChooseActionViewController* vc = [[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
-    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:vc animated:YES completion:nil];
-    
+    CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    details.currentAdID=currentAdID;
+    [self presentViewController:details animated:YES completion:nil];
+   
+//    ChooseActionViewController* vc = [[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+//    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    [self presentViewController:vc animated:YES completion:nil];
+//    
     //[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -469,9 +474,14 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 5) {
-        ChooseActionViewController* vc = [[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
-        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        [self presentViewController:vc animated:YES completion:nil];
+//        ChooseActionViewController* vc = [[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+//        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//        [self presentViewController:vc animated:YES completion:nil];
+        CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        details.currentAdID=currentAdID;
+        [self presentViewController:details animated:YES completion:nil];
+
     }
     
     
