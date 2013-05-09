@@ -79,6 +79,9 @@
     
     NSTimer *timer;
     IBOutlet UITextField *placeholderTextField;
+    NSUInteger defaultCurrencyID;
+    NSUInteger defaultcurrecncyIndex;
+
 }
 
 
@@ -277,7 +280,17 @@
     gearTypeArray = [[NSArray alloc] initWithObjects:@"عادي",@"اتوماتيك",@"تريبتونيك", nil];
     carTypeArray = [[NSArray alloc] initWithObjects:@"امامي",@"خلفي",@"4x4", nil];
     carBodyArray = [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadBodyValues]];
-    
+   
+    defaultCurrencyID=[[StaticAttrsLoader sharedInstance] getCurrencyIdOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
+    defaultcurrecncyIndex=0;
+    while (defaultcurrecncyIndex<currencyArray.count) {
+        if (defaultCurrencyID==[(SingleValue*)[currencyArray objectAtIndex:defaultcurrecncyIndex] valueID]) {
+            break;
+        }
+        defaultcurrecncyIndex++;
+    }
+    chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex];
+
     [self.modelNameLabel setText:self.currentModel.modelName];
     kiloChoosen=true;
 }
@@ -830,7 +843,8 @@
     }
     
     yearBtnPressedOnce = YES;
-    
+    [self.pickerView selectRow:0 inComponent:0 animated:YES];
+
     [self showPicker];
     
 }
@@ -843,7 +857,7 @@
     self.pickerView.hidden=NO;
     [self dismissKeyboard];
 
-    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[currencyArray objectAtIndex:0] valueString]];
+   NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)chosenCurrency valueString]];
     [currency setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=currencyArray;
@@ -854,6 +868,8 @@
     }
     
     [self.pickerView reloadAllComponents];
+    [self.pickerView selectRow:defaultcurrecncyIndex inComponent:0 animated:YES];
+
     currencyBtnPressedOnce = YES;
     
     [self showPicker];
