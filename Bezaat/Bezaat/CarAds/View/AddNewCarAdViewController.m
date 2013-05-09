@@ -42,7 +42,8 @@
     
     NSUInteger defaultIndex;
     NSUInteger defaultCityIndex;
-
+    NSUInteger defaultCurrencyID;
+    NSUInteger defaultcurrecncyIndex;
     //These objects should be set bt selecting the drop down menus.
     SingleValue * chosenCurrency;
     SingleValue * chosenYear;
@@ -129,7 +130,11 @@
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
     countryArray=resultArray;
     [self hideLoadingIndicator];
-    
+    productionYearArray=[[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadModelYearValues]];
+    currencyArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
+    kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
+    [self.modelNameLabel setText:self.currentModel.modelName];
+    kiloChoosen=true;
     // Setting default country
     //defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
     defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
@@ -145,8 +150,17 @@
                 chosenCity=[cityArray objectAtIndex:0];
         }
         [self.locationPickerView reloadAllComponents];
+        defaultCurrencyID=[[StaticAttrsLoader sharedInstance] getCurrencyIdOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
+        defaultcurrecncyIndex=0;
+        while (defaultcurrecncyIndex<currencyArray.count) {
+            if (defaultCurrencyID==[(SingleValue*)[currencyArray objectAtIndex:defaultcurrecncyIndex] valueID]) {
+                break;
+            }
+            defaultcurrecncyIndex++;
+        }
+        chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex];
     }
-    
+   
 }
 
 // This method loads the device location initialli, and afterwards the loading of country lists comes after
@@ -156,11 +170,7 @@
 }
 
 - (void) loadDataArray{
-    productionYearArray=[[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadModelYearValues]];
-    currencyArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
-    kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
-    [self.modelNameLabel setText:self.currentModel.modelName];
-    kiloChoosen=true;
+    
 }
 - (void)didReceiveMemoryWarning
 {
@@ -554,7 +564,8 @@
     }
     
     yearBtnPressedOnce = YES;
-    
+    [self.pickerView selectRow:0 inComponent:0 animated:YES];
+
     [self showPicker];
 
 }
@@ -563,20 +574,25 @@
     
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
-    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[currencyArray objectAtIndex:0] valueString]];
+    [self showPicker];
+    
+    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)chosenCurrency valueString]];
     [currency setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=currencyArray;
+    
     if (!currencyBtnPressedOnce)
     {
+        
         if (globalArray && globalArray.count)
-            chosenCurrency = (SingleValue *)[globalArray objectAtIndex:0];
+            chosenCurrency = (SingleValue *)[globalArray objectAtIndex:defaultcurrecncyIndex];
     }
     
     [self.pickerView reloadAllComponents];
+    [self.pickerView selectRow:defaultcurrecncyIndex inComponent:0 animated:YES];
     currencyBtnPressedOnce = YES;
     
-    [self showPicker];
+    
 
 }
 
