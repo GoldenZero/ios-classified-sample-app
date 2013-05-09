@@ -434,7 +434,7 @@
             NSString * mailBody = currentDetailsObject.description;
             
             //set the recipients to the car ad owner
-            //mailer setToRecipients:
+            [mailer setToRecipients:[NSArray arrayWithObjects:currentDetailsObject.emailAddress, nil]];
             
             [mailer setMessageBody:mailBody isHTML:NO];
             mailer.modalPresentationStyle = UIModalPresentationPageSheet;

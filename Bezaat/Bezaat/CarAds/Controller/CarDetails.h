@@ -56,6 +56,7 @@
 @property (nonatomic) double longitude;
 @property (nonatomic) double latitude;
 @property (strong, nonatomic) NSString * area;
+@property (strong, nonatomic) NSString * emailAddress;
 @property (nonatomic) NSUInteger adID;
 @property (nonatomic) NSUInteger ownerID;
 @property (nonatomic) NSUInteger storeID;
@@ -84,6 +85,7 @@
            longitudeString:(NSString *) aLongitudeString
             latitudeString:(NSString *) aLatitudeString
                       area:(NSString *)aArea
+              emailAddress:(NSString *) aEmailAddress
                 adIDString:(NSString *) aAdIDString
              ownerIDString:(NSString *) aOwnerIDString
              storeIDString:(NSString *) aStoreIDString

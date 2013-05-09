@@ -22,6 +22,7 @@
 #define DETAILS_LONGITUDE_JKEY       @"Longitude"
 #define DETAILS_LATITUDE_JKEY        @"Latitude"
 #define DETAILS_AREA_JKEY            @"Area"
+#define DETAILS_EMAIL_JKEY            @"EmailAddress"
 #define DETAILS_AD_ID_JKEY           @"AdID"
 #define DETAILS_OWNER_ID_JKEY        @"OwnerID"
 #define DETAILS_STORE_ID_JKEY        @"StoreID"
@@ -308,6 +309,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                  longitudeString:[dataDict objectForKey:DETAILS_LONGITUDE_JKEY]
                  latitudeString:[dataDict objectForKey:DETAILS_LATITUDE_JKEY]
                  area:[dataDict objectForKey:DETAILS_AREA_JKEY]
+                 emailAddress:[dataDict objectForKey:DETAILS_EMAIL_JKEY]
                  adIDString:[dataDict objectForKey:DETAILS_AD_ID_JKEY]
                  ownerIDString:[dataDict objectForKey:DETAILS_OWNER_ID_JKEY]
                  storeIDString:[dataDict objectForKey:DETAILS_STORE_ID_JKEY]

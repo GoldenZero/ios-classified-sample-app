@@ -88,6 +88,7 @@
 @synthesize longitude;
 @synthesize latitude;
 @synthesize area;
+@synthesize emailAddress;
 @synthesize adID;
 @synthesize ownerID;
 @synthesize storeID;
@@ -114,6 +115,7 @@
            longitudeString:(NSString *) aLongitudeString
             latitudeString:(NSString *) aLatitudeString
                       area:(NSString *)aArea
+              emailAddress:(NSString *) aEmailAddress
                 adIDString:(NSString *) aAdIDString
              ownerIDString:(NSString *) aOwnerIDString
              storeIDString:(NSString *) aStoreIDString
@@ -158,6 +160,9 @@
         
         // area
         self.area = aArea;
+        
+        // emailAddress
+        self.emailAddress = aEmailAddress;
 
         // adID
         self.adID = aAdIDString.integerValue;
