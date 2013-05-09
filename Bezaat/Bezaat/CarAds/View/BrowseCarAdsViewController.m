@@ -974,6 +974,7 @@
     
     if (!carAdObject.isFavorite)
     {
+        [(CarAd *)[carAdsArray objectAtIndex:indexPath.row] setIsFavorite:YES];
         if (carAdObject.thumbnailURL)
         {
             //store ad - with image
@@ -989,6 +990,7 @@
                 else{
                      [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
                      [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+
                 }
                 
             }
@@ -999,6 +1001,7 @@
                 if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    
 
                 }
                 else
@@ -1049,6 +1052,7 @@
     }
     else
     {
+        [(CarAd *)[carAdsArray objectAtIndex:indexPath.row] setIsFavorite:NO];
         if (carAdObject.thumbnailURL)
         {
             //store ad - with image
