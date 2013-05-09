@@ -418,8 +418,13 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 -(void)BankOrderDidFinishCreationWithID:(NSString *)orderID
 {
     [self hideLoadingIndicator];
+    PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+    
     BankInfoViewController *vc=[[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
     vc.Order = orderID;
+    vc.AdID = self.currentAdID;
+    vc.ProductName = option.pricingName;
+    vc.type = 1;
     [self presentViewController:vc animated:YES completion:nil];
     
 }

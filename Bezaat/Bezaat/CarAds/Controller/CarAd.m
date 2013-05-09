@@ -114,6 +114,13 @@ EncryptedEditID: (NSString*)aEncEditID
           distanceString:(NSString*) aDistanceString            //518
       mobileNumberString:(NSString *) aMobileString             //520
             thumbnailURL:(NSString *) aThumbnailURLString
+                  nine52:(NSString*)anine52
+                  five06:(NSString*)afive06
+                  five02:(NSString*)afive02
+                  nine06:(NSString*)anine06
+                   one01:(NSString*)aone01
+ninty8:(NSString*)aninty8
+
 {
     self = [super init];
     if (self) {
@@ -150,6 +157,15 @@ EncryptedEditID: (NSString*)aEncEditID
 
         // mobile number
         self.mobileNum = aMobileString;
+        
+        self.nine52 = anine52.integerValue;
+
+        self.five06 = afive06.integerValue;
+        self.five02 = afive02.integerValue;
+        
+        self.nine06 = anine06;
+        self.one01 = aone01;
+        self.ninty8 = aninty8.integerValue;
         
         // thumbnailURL
         if ([aThumbnailURLString isEqualToString:@""])

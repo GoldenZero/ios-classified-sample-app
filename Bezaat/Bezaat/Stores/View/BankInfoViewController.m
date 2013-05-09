@@ -27,7 +27,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     [self.bankWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"bankTransfer_ForBezaatApps" ofType:@"html"] isDirectory:NO]]];
+    self.bankScrollView.contentSize = CGSizeMake(320, 675);
+    UserProfile* profile = [[SharedUser sharedInstance] getUserProfileData];
+   
+    if (self.type == 1) {
+        self.titleTextView.text = [NSString stringWithFormat:@"عزيزنا العميل: %@\nشكرا لتعاملكم مع بيزات، لقد تم استلام طلبك رقم %@ الخاص بالإعلان رقم %i للإشتراك في باقة %@, وسيتم إنهاء الطلب بعد إتمام عملية الدفع يرجى استخدام احد حساباتنا التالية",profile.userName,self.Order,self.AdID,self.ProductName];
+    }else {
+    self.titleTextView.text = [NSString stringWithFormat:@"عزيزنا العميل: %@\nشكرا لتعاملكم مع بيزات، لقد تم استلام طلبك رقم %@ الخاص بمتجر %@ للإشتراك في باقة %@, وسيتم إنهاء الطلب بعد إتمام عملية الدفع يرجى استخدام احد حساباتنا التالية",profile.userName,self.Order,self.StoreName,self.ProductName];
+    }
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -41,5 +48,21 @@
     ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
 
+}
+
+- (IBAction)saudiCopy:(id)sender {
+    UIPasteboard* paste = [UIPasteboard generalPasteboard];
+    paste.string = self.saudiTextView.text;
+
+}
+
+- (IBAction)uaeCopy:(id)sender {
+    UIPasteboard* paste = [UIPasteboard generalPasteboard];
+    paste.string = self.uaeTextView.text;
+}
+
+- (IBAction)egyptCopy:(id)sender {
+    UIPasteboard* paste = [UIPasteboard generalPasteboard];
+    paste.string = self.egyptTextView.text;
 }
 @end

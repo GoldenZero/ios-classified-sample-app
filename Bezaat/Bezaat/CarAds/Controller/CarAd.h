@@ -36,8 +36,12 @@
 @property (strong, nonatomic) NSString * ImageURL;
 @property (strong, nonatomic) NSString* EncEditID;
 
-
-
+@property (nonatomic) NSUInteger nine52;
+@property (nonatomic) NSUInteger five06;
+@property (nonatomic) NSUInteger five02;
+@property (strong, nonatomic) NSString * nine06;
+@property (strong, nonatomic) NSString * one01;
+@property (nonatomic) NSUInteger ninty8;
 
 #pragma mark - actions
 
@@ -69,7 +73,13 @@ EncryptedEditID: (NSString*)aEncEditID;
          modelYearString:(NSString *) aModelYearString          //509
           distanceString:(NSString*) aDistanceString            //518
       mobileNumberString:(NSString *) aMobileString             //520
-            thumbnailURL:(NSString *) aThumbnailURLString;
+            thumbnailURL:(NSString *) aThumbnailURLString
+                  nine52:(NSString*)anine52
+                  five06:(NSString*)afive06
+                  five02:(NSString*)afive02
+                  nine06:(NSString*)anine06
+                   one01:(NSString*)aone01
+                  ninty8:(NSString*)aninty8;
 
 - (id)initWithImageID: (NSString *)aImageID andImageURL:(NSString*)aImageURL;
 

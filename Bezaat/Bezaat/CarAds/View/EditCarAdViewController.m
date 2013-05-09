@@ -174,6 +174,10 @@
     myAdInfo = (CarAd*)[self.myAdArray objectAtIndex:0];
     CopyImageArr = [[NSMutableArray alloc] initWithArray:self.myImageIDArray];
     
+    for (CarAd* temp in CopyImageArr) {
+        [currentImgsUploaded addObject:temp.thumbnailID];
+    }
+    
     productionYearArray=[[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadModelYearValues]];
     currencyArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
     kiloMileArray=[[NSArray alloc] initWithObjects:@"كم",@"ميل", nil];
@@ -337,7 +341,7 @@
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [carPrice setTextAlignment:NSTextAlignmentRight];
     [carPrice setPlaceholder:@"السعر (اختياري)"];
-    [carPrice setText:[NSString stringWithFormat:@"%f",myAdInfo.price]]; //TODO get Price
+    [carPrice setText:[NSString stringWithFormat:@"%i",(int)myAdInfo.price]]; //TODO get Price
     [carPrice setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:carPrice];
     carPrice.delegate=self;
@@ -742,7 +746,7 @@
                                          imageIDs:currentImgsUploaded
                                      withDelegate:self];*/
     
-    [[CarAdsManager sharedInstance] editAdOfEditadID:self.myDetails.EncEditID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:carAdTitle.text description:carDetails.text price:carPrice.text periodValueID:AD_PERIOD_2_MONTHS_VALUE_ID mobile:mobileNum.text currencyValueID:chosenCurrency.valueID serviceValueID:SERVICE_FOR_SALE_VALUE_ID modelYearValueID:chosenYear.valueID  distance:distance.text color:@"" phoneNumer:@"" adCommentsEmail:YES kmVSmilesValueID:distanceUnitID category:1 imageIDs:currentImgsUploaded withDelegate:self];
+    [[CarAdsManager sharedInstance] editAdOfEditadID:self.myDetails.EncEditID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:carAdTitle.text description:carDetails.text price:carPrice.text periodValueID:AD_PERIOD_2_MONTHS_VALUE_ID mobile:mobileNum.text currencyValueID:chosenCurrency.valueID serviceValueID:SERVICE_FOR_SALE_VALUE_ID modelYearValueID:chosenYear.valueID  distance:distance.text color:@"" phoneNumer:@"" adCommentsEmail:YES kmVSmilesValueID:distanceUnitID nine52:myAdInfo.nine52 five06:myAdInfo.five06 five02:myAdInfo.five02 nine06:myAdInfo.nine06 one01:myAdInfo.one01 ninty8:myAdInfo.ninty8 imageIDs:currentImgsUploaded withDelegate:self];
     
     
 }
@@ -815,14 +819,16 @@
         if (indexOfBtn >= [CopyImageArr count]) {
             CarAd* adTest = [[CarAd alloc]initWithImageID:[NSString stringWithFormat:@"%i",ID] andImageURL:[url absoluteString]];
             [CopyImageArr addObject:adTest];
+            [currentImgsUploaded addObject:[NSNumber numberWithInteger:ID]];
         }else {
         CarAd* adTest = [[CarAd alloc]initWithImageID:[NSString stringWithFormat:@"%i",ID] andImageURL:[url absoluteString]];
         [CopyImageArr replaceObjectAtIndex:indexOfBtn withObject:adTest];
+        [currentImgsUploaded replaceObjectAtIndex:indexOfBtn withObject:[NSNumber numberWithInteger:ID]];
         }
         
     }
     //2- add image data to this ad
-    [currentImgsUploaded addObject:[NSNumber numberWithInteger:ID]];
+    //[currentImgsUploaded addObject:[NSNumber numberWithInteger:ID]];
     
     //reset 'current' data
     chosenImgBtnTag = -1;
@@ -852,11 +858,15 @@
 -(void)adDidFailEditingWithError:(NSError *)error
 {
     [self hideLoadingIndicator];
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشلت العملية يرجى المحاولة مرة أخرى" delegateVC:self];
 }
 
 -(void)adDidFinishEditingWithAdID:(NSInteger)adID
 {
-    
+    [self hideLoadingIndicator];
+    NSLog(@"just finished");
+    ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 @end

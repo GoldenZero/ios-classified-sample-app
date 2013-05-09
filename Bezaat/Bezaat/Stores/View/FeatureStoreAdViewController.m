@@ -392,9 +392,13 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     
     OrderID = orderID;
     NSLog(@"%@",OrderID);
+    PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
     BankInfoViewController *vc=[[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
     vc.Order = orderID;
+    vc.StoreName = self.storeID.name;
+    vc.ProductName = option.pricingName;
+    vc.type = 2;
     [self presentViewController:vc animated:YES completion:nil];
     
 }

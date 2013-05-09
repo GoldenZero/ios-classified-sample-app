@@ -863,7 +863,12 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             phoneNumer:(NSString *) aPhoneNumer
        adCommentsEmail:(BOOL) aAdCommentsEmail
       kmVSmilesValueID:(NSInteger) aKmVSmilesValueID
-              category:(NSInteger) aCategoryID
+                   nine52:(NSInteger)anine52
+                   five06:(NSInteger)afive06
+                   five02:(NSInteger)afive02
+                   nine06:(NSString*)anine06
+                    one01:(NSString*)aone01
+                   ninty8:(NSInteger)aninty8
               imageIDs:(NSArray *) aImageIDsArray
           withDelegate:(id <PostAdDelegate>) del {
     
@@ -901,7 +906,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         
         //post keys
-        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@",
+        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@",
                              TITLE_ATTR_ID, aTitle,
                              DESCRIPTION_ATTR_ID, aDescription,
                              PRICE_ATTR_ID, aPrice,
@@ -911,12 +916,16 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              SERVICE_NAME_ATTR_ID, [NSString stringWithFormat:@"%i",aServiceValueID],
                              MANUFACTURE_YEAR_ATTR_ID, [NSString stringWithFormat:@"%i",aModelYearValueID],
                              DISTANCE_VALUE_ATTR_ID, aDistance,
-                             COLOR_ATTR_ID, aColor,
                              PHONE_ATTR_ID,aPhoneNumer,
                              PHONE_NUMBER_ATTR_ID, usermail,
                              ADCOMMENTS_EMAIL_ATTR_ID, [NSString stringWithFormat:@"%i",aAdCommentsEmail],
                              KM_MILES_ATTR_ID, [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
-                             BRAND_ATTR_ID,[NSString stringWithFormat:@"%i",aCategoryID],
+                             952,[NSString stringWithFormat:@"%i",anine52],
+                             //528,[NSString stringWithFormat:@"%i",anine52],
+                             506,aPrice,
+                             906,anine06,
+                             -101,aone01,
+                             -98,[NSString stringWithFormat:@"%i",aninty8],
                              MY_ATTR_ID,[NSString stringWithFormat:@"%i",cityID],
                              IMAGES_ID_POST_KEY, [self getIDsStringFromArray:aImageIDsArray]
                              ];
@@ -1421,7 +1430,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         if (statusCode == 200)
         {
             NSDictionary * dataAdsArray = [totalDict objectForKey:LISTING_DATA_JKEY];
-            NSArray * adImagesArray = [dataAdsArray objectForKey:@"AdImages"];
+            //NSArray * adImagesArray = [dataAdsArray objectForKey:@"AdImages"];
             
             if ((dataAdsArray) && (![@"" isEqualToString:(NSString *)dataAdsArray]) && (dataAdsArray.count))
             {
@@ -1437,7 +1446,14 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                                descriptionString:[adDict objectForKey:[NSString stringWithFormat:@"%i",DESCRIPTION_ATTR_ID]]
                                                      priceString:[adDict objectForKey:[NSString stringWithFormat:@"%i",PRICE_ATTR_ID]]
                                                       cityString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MY_ATTR_ID]]
-                                                  currencyString:[adDict objectForKey:[NSString stringWithFormat:@"%i",CURRENCY_NAME_ATTR_ID]] distanceRangeInKmString:[adDict objectForKey:[NSString stringWithFormat:@"%i",KM_MILES_ATTR_ID]] modelYearString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MANUFACTURE_YEAR_ATTR_ID]] distanceString:[adDict objectForKey:[NSString stringWithFormat:@"%i",DISTANCE_VALUE_ATTR_ID]] mobileNumberString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MOBILE_NUMBER_ATTR_ID]] thumbnailURL:@""];
+                                                  currencyString:[adDict objectForKey:[NSString stringWithFormat:@"%i",CURRENCY_NAME_ATTR_ID]] distanceRangeInKmString:[adDict objectForKey:[NSString stringWithFormat:@"%i",KM_MILES_ATTR_ID]] modelYearString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MANUFACTURE_YEAR_ATTR_ID]] distanceString:[adDict objectForKey:[NSString stringWithFormat:@"%i",DISTANCE_VALUE_ATTR_ID]] mobileNumberString:[adDict objectForKey:[NSString stringWithFormat:@"%i",MOBILE_NUMBER_ATTR_ID]]
+                                                    thumbnailURL:@""
+                                                          nine52:[adDict objectForKey:[NSString stringWithFormat:@"%i",952]]
+                                                          five06:[adDict objectForKey:[NSString stringWithFormat:@"%i",506]]
+                                                          five02:[adDict objectForKey:[NSString stringWithFormat:@"%i",502]]
+                                                          nine06:[adDict objectForKey:[NSString stringWithFormat:@"%i",906]]
+                                                           one01:[adDict objectForKey:[NSString stringWithFormat:@"%i",-101]]
+                                                          ninty8:[adDict objectForKey:[NSString stringWithFormat:@"%i",-98]]];
                     
                    [adsArray addObject:ad];
                 

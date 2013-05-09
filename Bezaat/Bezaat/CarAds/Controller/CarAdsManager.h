@@ -166,7 +166,12 @@
                phoneNumer:(NSString *) aPhoneNumer
           adCommentsEmail:(BOOL) aAdCommentsEmail
          kmVSmilesValueID:(NSInteger) aKmVSmilesValueID
-                 category:(NSInteger) aCategoryID
+                   nine52:(NSInteger)anine52
+                   five06:(NSInteger)afive06
+                   five02:(NSInteger)afive02
+                   nine06:(NSString*)anine06
+                    one01:(NSString*)aone01
+                   ninty8:(NSInteger)aninty8
                  imageIDs:(NSArray *) aImageIDsArray
              withDelegate:(id <PostAdDelegate>) del;
 
