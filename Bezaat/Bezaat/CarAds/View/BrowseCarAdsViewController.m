@@ -87,16 +87,14 @@
         dropDownDistanceFlag=false;
         dropDownfromYearFlag=false;
         dropDowntoYearFlag=false;
-        
+        self.searchPanelView.frame = CGRectMake(0,-self.searchPanelView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
-    
-    [self.searchPanelView setHidden:YES];
-    
+   
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
     [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
     [self.tableView setSeparatorColor:[UIColor clearColor]];
@@ -116,6 +114,7 @@
     
     
     [super viewDidLoad];
+
     [self setButtonsToToolbar];
     
     //init the array if it is still nullable
@@ -170,6 +169,7 @@
         self.tableView.contentOffset = self.lastScrollPosition;
     }
     
+
     userDidScroll = NO;
     [self.tableView reloadData];
     [self.tableView setNeedsDisplay];
@@ -202,8 +202,6 @@
                                                        forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
         }
     }
-    
-    [self.searchPanelView setHidden:YES];
     [self.searchImageButton setHidden:YES];
     searchBtnFlag=false;
     //[super viewWillDisappear:animated];
@@ -1390,7 +1388,6 @@
 - (void) dismissSearch{
     [self hideSearchPanel];
     [self.searchImageButton setHidden:YES];
-    [self.searchPanelView setHidden:YES];
     searchBtnFlag=false;
 }
 
@@ -1409,7 +1406,8 @@
     distanceObj=nil;
     fromYearString=@"";
     toYearString=@"";
-    
+    [self.searchPanelView setHidden:NO];
+    self.searchPanelView.frame = CGRectMake(0,-self.searchPanelView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
     [UIView animateWithDuration:.5
                      animations:^{
                          self.searchPanelView.frame = CGRectMake(0,self.topBarView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
@@ -1432,6 +1430,10 @@
                          self.searchPanelView.frame = CGRectMake(0,-self.searchPanelView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
                      }
                      completion:^(BOOL finished){
+                         if (finished)
+                         {
+                             [self.searchPanelView setHidden:YES];
+                         }                         
                          
                      }];
     
@@ -1476,14 +1478,12 @@
     }
     if (searchBtnFlag){
         [self showSearchPanel];
-        [self.searchPanelView setHidden:NO];
         [self.searchImageButton setHidden:NO];
         
     }
     
     else {
         [self hideSearchPanel];
-        [self.searchPanelView setHidden:YES];
         [self.searchImageButton setHidden:YES];
         
         
