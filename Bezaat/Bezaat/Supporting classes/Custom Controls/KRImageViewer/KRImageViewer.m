@@ -18,6 +18,7 @@ static NSInteger krLoadingViewTag   = 1799;
 static NSInteger krLoadingButtonTag = 1800;
 static NSInteger krBrowseButtonTag  = 1801;
 
+
 @interface KRImageViewer (){
     UIPanGestureRecognizer *_panGestureRecognizer;
     NSOperationQueue *_operationQueues;
@@ -1034,7 +1035,8 @@ static NSInteger krBrowseButtonTag  = 1801;
 
 -(void)stop
 {
-    [self _appearStatus:YES];
+    //[self _appearStatus:YES];
+    [self _appearStatus:NO];
     [self _removeViewDragGesture];
     //[self _disapperAsSuckEffect];
     [self _removeAllViews];

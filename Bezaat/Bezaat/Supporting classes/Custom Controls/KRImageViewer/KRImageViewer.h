@@ -43,6 +43,7 @@ typedef enum _krImageViewerDisapper{
     krImageViewerDisapperNothing
 } krImageViewerDisapper;
 
+
 @interface KRImageViewer : NSObject<UIScrollViewDelegate>{
     //作用的 View
     UIView *view;
