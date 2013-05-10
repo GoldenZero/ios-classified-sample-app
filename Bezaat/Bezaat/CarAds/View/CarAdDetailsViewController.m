@@ -10,6 +10,7 @@
 #import "CarAdDetailsViewController.h"
 #import "labelAdViewController.h"
 #import "EditCarAdViewController.h"
+#import "KRImageViewer.h"
 
 #define FIXED_V_DISTANCE    17
 #define FIXED_H_DISTANCE    20
@@ -22,6 +23,8 @@
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
     AURosetteView *shareButton;
     UITapGestureRecognizer *tap;
+    NSMutableDictionary * allImagesDict;    //used in image browser
+    KRImageViewer *krImageViewer;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -188,8 +191,9 @@
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissShareButton)];
-    [self.scrollView addGestureRecognizer:tap];
+    //[self.scrollView addGestureRecognizer:tap];
     [self.labelsScrollView addGestureRecognizer:tap];
+    
     
     [editBtn setEnabled:NO];
     [editAdBtn setEnabled:NO];
@@ -219,6 +223,13 @@
     //set the original size of scroll view without loading any labels yet
     originalScrollViewHeight = self.labelsScrollView.frame.size.height;
     
+    //init the image browser
+    krImageViewer = [[KRImageViewer alloc] initWithDragMode:krImageViewerModeOfTopToBottom];
+    krImageViewer.maxConcurrentOperationCount = 1;
+    krImageViewer.dragDisapperMode            = krImageViewerDisapperAfterMiddle;
+    krImageViewer.allowOperationCaching       = NO;
+    krImageViewer.timeout                     = 30.0f;
+    
     [self prepareShareButton];
     
     [self startLoadingData];
@@ -228,6 +239,12 @@
     
     [super viewWillAppear:animated];
     
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [krImageViewer resetView:self.view.window];
 }
 
 - (void)didReceiveMemoryWarning
@@ -286,7 +303,7 @@
     [imageView clear];
     
     UIControl *mask = [[UIControl alloc] initWithFrame:imageView.frame];
-    [mask addTarget:self action:@selector(openImgs) forControlEvents:UIControlEventTouchUpInside];
+    [mask addTarget:self action:@selector(openImgs:) forControlEvents:UIControlEventTouchUpInside];
     
     NSString* temp = [currentDetailsObject.thumbnailURL absoluteString];
     
@@ -299,16 +316,31 @@
         
     }
 
+    /*
+    mask.tag = (i+1) * 10;
     [mask addSubview:imageView];
+    [subView setUserInteractionEnabled:YES];
     [subView addSubview:mask];
+    */
+    //set the tag to observe the image ID
+    UITapGestureRecognizer * imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openImgs:)];
+    subView.tag = (i+1) * 10;
+    [subView addGestureRecognizer:imgTap];
+    [subView setUserInteractionEnabled:YES];
+    [subView addSubview:imageView];
     return subView;
     
-}
+}////
 
--(void)openImgs
-{
+-(void)openImgs:(id) sender {
+   
     //NSLog(@"test img");
-   // UIView* sliderImages = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
+    
+    NSInteger imageIDForDict = [(UITapGestureRecognizer *) sender view].tag/ 10;
+    NSString * dictionaryKey = [NSString stringWithFormat:@"%i", imageIDForDict];
+    
+    if (allImagesDict && allImagesDict.count)
+        [krImageViewer browsePageByPageImageURLs:allImagesDict firstShowImageId:dictionaryKey];
     
 }
 
@@ -318,6 +350,10 @@
         [shareButton fold];
     }
     
+    
+}
+
+- (void) browsePhotos {
     
 }
 
@@ -677,13 +713,26 @@
         //1- set car images
         if ((currentDetailsObject.adImages) && (currentDetailsObject.adImages.count))
         {
+            
             self.pageControl.currentPage = 0;
             self.pageControl.numberOfPages = currentDetailsObject.adImages.count;
+            
+            [self.scrollView setUserInteractionEnabled:YES];
+            
+            allImagesDict = [NSMutableDictionary new];
             for (int i=0; i < currentDetailsObject.adImages.count; i++) {
-                NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
-                [self.scrollView addSubview:[self prepareImge:imgURL :i]];
+                //1- add images in horizontal scroll view
+                NSURL * imgThumbURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
+                [self.scrollView addSubview:[self prepareImge:imgThumbURL :i]];
                 
+                NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] imageURL];
+                //2- init the dictionary for the image browser
+                [allImagesDict setObject:imgURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
             }
+            
+            //preload the images in the browser
+            [krImageViewer preloadImageURLs:allImagesDict];
+            
             [self.scrollView setScrollEnabled:YES];
             [self.scrollView setShowsVerticalScrollIndicator:YES];
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);

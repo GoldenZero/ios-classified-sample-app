@@ -327,7 +327,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                  storeLogoURL:[dataDict objectForKey:DETAILS_STORE_LOGO_URL_JKEY]
                  adURL:[dataDict objectForKey:DETAILS_AD_URL_JKEY]
                  ];
-                NSLog(@"%@",[dataDict objectForKey:DETAILS_AD_EDIT_ID_JKEY]);
+                //NSLog(@"%@",[dataDict objectForKey:DETAILS_AD_EDIT_ID_JKEY]);
                 return detailsObject;
             }
         }
