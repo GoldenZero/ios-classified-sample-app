@@ -40,8 +40,8 @@
 
 #pragma mark - literals
 
-//#define DEFAULT_PAGE_SIZE           20
-#define DEFAULT_PAGE_SIZE           10
+#define DEFAULT_PAGE_SIZE           50
+//#define DEFAULT_PAGE_SIZE           10
 #define ARABIC_BEFORE_TEXT          @"قبل"
 #define ARABIC_SECOND_TEXT          @"ثانية"
 #define ARABIC_MINUTE_TEXT          @"دقيقة"
@@ -176,7 +176,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=10&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
+    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=50&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
     
     //NSLog(@"%@", correctURLstring);
     NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
@@ -242,7 +242,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=10&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
+    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=50&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
     
     //NSLog(@"%@", correctURLstring);
     NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
@@ -312,7 +312,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=10&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
+    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=50&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
     
     //NSLog(@"%@", correctURLstring);
     NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
@@ -581,7 +581,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=10&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
+    //NSString * correctURLstring = @"http://gfctest.edanat.com/v1.0/json/searchads?pageNo=1&pageSize=50&cityId=13&textTerm=&brandId=208&modelId=2008&minPrice=&maxPrice=&destanceRange=&fromYear=&toYear=&adsWithImages=&adsWithPrice=&area=&orderby=";
     
     //NSLog(@"%@", correctURLstring);
     NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
