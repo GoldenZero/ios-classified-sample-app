@@ -23,6 +23,7 @@
 {
     BOOL oneSelectionMade;
     Brand * choosenBrand;
+    NSIndexPath * selectedBrandIndexPath;
 }
 @end
 
@@ -62,6 +63,9 @@ static NSInteger lastBrandSelectedRow = -1;
         // Update the cell information
         BrandCell* brandCell = (BrandCell*)cell;
         [brandCell reloadInformation:currentItem];
+        if ((selectedBrandIndexPath) && (indexPath.row == selectedBrandIndexPath.row) && (indexPath.section == selectedBrandIndexPath.section))
+            [brandCell selectCell];
+            
         if (self.tagOfCallXib!=2) {
             /*if (indexPath.row == 0)
             {
@@ -102,7 +106,7 @@ static NSInteger lastBrandSelectedRow = -1;
         
         oneSelectionMade = YES;
         lastBrandSelectedRow = indexPath.row;
-
+        selectedBrandIndexPath = indexPath;
         
         // Mark this brand as selected and all the others as not selected
         for (int counter=0; counter<[tableView numberOfRowsInSection:0]; counter++) {
@@ -303,7 +307,7 @@ static NSInteger lastBrandSelectedRow = -1;
         if (lastBrandSelectedRow > -1)
         {
             oneSelectionMade = YES;
-            
+            selectedBrandIndexPath = [NSIndexPath indexPathForRow:lastBrandSelectedRow inSection:0];
             [_tblBrands selectRowAtIndexPath:[NSIndexPath indexPathForRow:lastBrandSelectedRow inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
             [_tblBrands scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastBrandSelectedRow inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
             BrandCell * brandCell = (BrandCell *)[_tblBrands cellForRowAtIndexPath:[NSIndexPath indexPathForRow:lastBrandSelectedRow inSection:0]];
@@ -318,6 +322,7 @@ static NSInteger lastBrandSelectedRow = -1;
     [super viewDidLoad];
     self.trackedViewName = @"Choose Model";
     
+    selectedBrandIndexPath = nil;
     self.tblModels.autoresizingMask=UIViewAutoresizingFlexibleBottomMargin;
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         
