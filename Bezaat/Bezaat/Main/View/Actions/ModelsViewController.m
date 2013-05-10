@@ -303,9 +303,11 @@ static NSInteger lastBrandSelectedRow = -1;
         if (lastBrandSelectedRow > -1)
         {
             oneSelectionMade = YES;
+            
+            [_tblBrands selectRowAtIndexPath:[NSIndexPath indexPathForRow:lastBrandSelectedRow inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+            [_tblBrands scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastBrandSelectedRow inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
             BrandCell * brandCell = (BrandCell *)[_tblBrands cellForRowAtIndexPath:[NSIndexPath indexPathForRow:lastBrandSelectedRow inSection:0]];
             [brandCell selectCell];
-            [_tblBrands selectRowAtIndexPath:[NSIndexPath indexPathForRow:lastBrandSelectedRow inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
         }
     }
 }

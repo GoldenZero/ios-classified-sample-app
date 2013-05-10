@@ -57,6 +57,7 @@
     CGSize tableDataSize;
     
     BOOL isSearching;
+    BOOL userDidScroll;
 }
 
 @end
@@ -122,12 +123,12 @@
         carAdsArray = [NSMutableArray new];
     
     /*
-    //init the image load manager
-    asynchImgManager = [[HJObjManager alloc] init];
-	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
-	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
-	asynchImgManager.fileCache = fileCache;
-    */
+     //init the image load manager
+     asynchImgManager = [[HJObjManager alloc] init];
+     NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
+     HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
+     asynchImgManager.fileCache = fileCache;
+     */
     
     //hide the scrolling indicator
     [self.tableView setShowsVerticalScrollIndicator:NO];
@@ -138,6 +139,7 @@
     dataLoadedFromCache = NO;
     isRefreshing = NO;
     isSearching = NO;
+    userDidScroll = NO;
     
     //set up the refresher
     refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
@@ -156,21 +158,22 @@
     
     
     //[self.tableView setScrollEnabled:NO];
-
+    
     if (!CGSizeEqualToSize(tableDataSize, CGSizeZero))
     {
         /*
-        NSLog(@"size: h= %f, w =%f", self.tableView.frame.size.height, self.tableView.frame.size.width);
-        self.tableView.contentSize = tableDataSize;
-        NSLog(@"content size: h= %f, w =%f", self.tableView.contentSize.height, self.tableView.contentSize.width);
-        */
+         NSLog(@"size: h= %f, w =%f", self.tableView.frame.size.height, self.tableView.frame.size.width);
+         self.tableView.contentSize = tableDataSize;
+         NSLog(@"content size: h= %f, w =%f", self.tableView.contentSize.height, self.tableView.contentSize.width);
+         */
         self.tableView.contentSize = tableDataSize;
         self.tableView.contentOffset = self.lastScrollPosition;
     }
     
+    userDidScroll = NO;
     [self.tableView reloadData];
     [self.tableView setNeedsDisplay];
-
+    
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -214,34 +217,34 @@
 
 
 /*
-- (void) presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion {
-
-    NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
-    NSLog(@"content: w = %f, h = %f", self.tableView.contentSize.width, self.tableView.contentSize.height);
-    NSLog(@"(%f, %f)", self.tableView.contentOffset.x, self.tableView.contentOffset.y);
-    
-    self.lastScrollPosition = self.tableView.contentOffset;
-    tableDataSize = self.tableView.contentSize;
-    
-    [super presentViewController:viewControllerToPresent animated:flag completion:completion];
-}
+ - (void) presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion {
+ 
+ NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
+ NSLog(@"content: w = %f, h = %f", self.tableView.contentSize.width, self.tableView.contentSize.height);
+ NSLog(@"(%f, %f)", self.tableView.contentOffset.x, self.tableView.contentOffset.y);
+ 
+ self.lastScrollPosition = self.tableView.contentOffset;
+ tableDataSize = self.tableView.contentSize;
+ 
+ [super presentViewController:viewControllerToPresent animated:flag completion:completion];
+ }
  */
 
 /*
-- (void) dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
-
-    NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
-    NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
-    NSLog(@"content: w = %f, h = %f", self.tableView.contentSize.width, self.tableView.contentSize.height);
-    NSLog(@"(%f, %f)", self.tableView.contentOffset.x, self.tableView.contentOffset.y);
-    
-    self.lastScrollPosition = self.tableView.contentOffset;
-    tableDataSize = self.tableView.contentSize;
-
-    
-    [super dismissViewControllerAnimated:flag completion:completion];
-}
-*/
+ - (void) dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
+ 
+ NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
+ NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
+ NSLog(@"content: w = %f, h = %f", self.tableView.contentSize.width, self.tableView.contentSize.height);
+ NSLog(@"(%f, %f)", self.tableView.contentOffset.x, self.tableView.contentOffset.y);
+ 
+ self.lastScrollPosition = self.tableView.contentOffset;
+ tableDataSize = self.tableView.contentSize;
+ 
+ 
+ [super dismissViewControllerAnimated:flag completion:completion];
+ }
+ */
 #pragma mark - tableView handlig
 
 
@@ -303,7 +306,7 @@
         
         return [UITableViewCell new];
     }
-
+    
     //ad with image
     if (carAdObject.thumbnailURL)
     {
@@ -319,21 +322,21 @@
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-          
+            
             
             //customize the carAdCell with actual data
             [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
             [cell.detailsLabel setTextAlignment:SSTextAlignmentRight];
             [cell.detailsLabel setTextColor:[UIColor blackColor]];
             [cell.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
-
+            
             cell.detailsLabel.text = carAdObject.title;
             
             [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
             [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
             [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
             [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
-
+            
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
                 cell.carPriceLabel.text = priceStr;
@@ -356,11 +359,11 @@
             
             //load image as URL
             /*
-            [cell.carImage clear];
-            cell.carImage.url = carAdObject.thumbnailURL;
-            
-            [cell.carImage showLoadingWheel];
-            [asynchImgManager manage:cell.carImage];
+             [cell.carImage clear];
+             cell.carImage.url = carAdObject.thumbnailURL;
+             
+             [cell.carImage showLoadingWheel];
+             [asynchImgManager manage:cell.carImage];
              */
             NSString* temp = [carAdObject.thumbnailURL absoluteString];
             
@@ -381,7 +384,7 @@
             [cell.showInStoreLabel setTextColor:[UIColor grayColor]];
             [cell.showInStoreLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:11.0] ];
             cell.showInStoreLabel.text = @"معروض في متجر";
-
+            
             [cell.storeNameLabel setBackgroundColor:[UIColor clearColor]];
             [cell.storeNameLabel setTextAlignment:SSTextAlignmentRight];
             [cell.storeNameLabel setTextColor:[UIColor grayColor]];
@@ -393,9 +396,9 @@
             {
                 [cell.storeImage setHidden:NO];
                 /*
-                [cell.storeImage clear];
-                cell.storeImage.url = carAdObject.storeLogoURL;
-                [asynchImgManager manage:cell.storeImage];
+                 [cell.storeImage clear];
+                 cell.storeImage.url = carAdObject.storeLogoURL;
+                 [asynchImgManager manage:cell.storeImage];
                  */
                 
                 [cell.storeImage setImageWithURL:carAdObject.storeLogoURL];
@@ -426,7 +429,7 @@
             if(!savedProfile){
                 [cell.favoriteButton setHidden:YES];
                 [cell.favoriteBtn setHidden:YES];
-
+                
             }
             if (savedProfile)   //logged in
             {
@@ -436,7 +439,7 @@
                     [cell.specailButton setHidden:NO];
                     [cell.favoriteButton setHidden:YES];
                     [cell.favoriteBtn setHidden:NO];
-
+                    
                 }
                 else {
                     if (carAdObject.isFeatured) {
@@ -444,7 +447,7 @@
                         [cell.specailButton setHidden:YES];
                         [cell.favoriteButton setHidden:YES];
                         [cell.favoriteBtn setHidden:NO];
-
+                        
                     }
                 }
                 //check favorite
@@ -487,7 +490,7 @@
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             [cell.favoriteBtn  addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-
+            
             //customize the carAdCell with actual data
             //customize the carAdCell with actual data
             [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
@@ -522,20 +525,20 @@
             
             //load image as URL
             /*
-            [cell.carImage clear];
-            cell.carImage.url = carAdObject.thumbnailURL;
-            
-            [cell.carImage showLoadingWheel];
-            
-            [asynchImgManager manage:cell.carImage];
+             [cell.carImage clear];
+             cell.carImage.url = carAdObject.thumbnailURL;
+             
+             [cell.carImage showLoadingWheel];
+             
+             [asynchImgManager manage:cell.carImage];
              */
             NSString* temp = [carAdObject.thumbnailURL absoluteString];
             
             if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
                 cell.carImage.image = [UIImage imageNamed:@"waitForApprove.png"];
             }else{
-            [cell.carImage setImageWithURL:carAdObject.thumbnailURL
-                          placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
+                [cell.carImage setImageWithURL:carAdObject.thumbnailURL
+                              placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
             }
             [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage setClipsToBounds:YES];
@@ -551,7 +554,7 @@
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
                 [cell.favoriteBtn setHidden:NO];
                 [cell.favoriteButton setHidden:NO];
-
+                
             }
             
             //check owner
@@ -560,7 +563,7 @@
             if(!savedProfile){
                 [cell.favoriteButton setHidden:YES];
                 [cell.favoriteBtn setHidden:YES];
-
+                
             }
             
             if (savedProfile)   //logged in
@@ -639,7 +642,7 @@
             [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
             [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
             
-
+            
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -672,16 +675,16 @@
             [cell.storeNameLabel setTextColor:[UIColor grayColor]];
             [cell.storeNameLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:13.0] ];
             cell.storeNameLabel.text = carAdObject.storeName;
-
+            
             
             //customize storeLogo
             if (carAdObject.storeLogoURL)
             {
                 [cell.storeImage setHidden:NO];
                 /*
-                [cell.storeImage clear];
-                cell.storeImage.url = carAdObject.storeLogoURL;
-                [asynchImgManager manage:cell.storeImage];
+                 [cell.storeImage clear];
+                 cell.storeImage.url = carAdObject.storeLogoURL;
+                 [asynchImgManager manage:cell.storeImage];
                  */
                 [cell.storeImage setImageWithURL:carAdObject.storeLogoURL];
                 [cell.storeImage setContentMode:UIViewContentModeScaleToFill];
@@ -710,7 +713,7 @@
             if(!savedProfile){
                 [cell.favoriteButton setHidden:YES];
                 [cell.favoriteBtn setHidden:YES];
-
+                
             }
             
             if (savedProfile)  //logged in
@@ -728,7 +731,7 @@
                     [cell.specailButton setHidden:YES];
                     [cell.favoriteButton setHidden:YES];
                     [cell.favoriteBtn setHidden:NO];
-
+                    
                 }
             }
                 //check favorite
@@ -755,7 +758,7 @@
                         [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
                     }
                 }
-
+                
             }
             
             return cell;
@@ -840,7 +843,7 @@
                         [cell.specailButton setHidden:YES];
                         [cell.favoriteButton setHidden:YES];
                         [cell.favoriteBtn setHidden:NO];
-
+                        
                     }
                 }
                 //check favorite
@@ -894,22 +897,60 @@
     
 }
 
+
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.row == ([self.tableView numberOfRowsInSection:0] - 1))
+    if ((indexPath.row == ([self.tableView numberOfRowsInSection:0] - 1)) && (userDidScroll))
     {
-        if (self.tableView.contentSize.height > self.tableView.frame.size.height)//to prevent continue loading if the page has returned less than 10 objects
+        if (carAdsArray && carAdsArray.count)
         {
-            if (isSearching) {
-                [self searchPageOfAds];
+            CGFloat heightDiff = self.tableView.contentSize.height - self.tableView.frame.size.height;
+            CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+            
+            CGFloat minDiff ;
+            //ad with image
+            int separatorHeight = 5;//extra value for separating
+            if (carAdObject.thumbnailURL)
+            {
+                //store ad - with image
+                if (carAdObject.storeID > 0)
+                    minDiff = 270 + separatorHeight;
+                
+                //individual ad - with image
+                else
+                    minDiff = 270 + separatorHeight;
+                
             }
-            else {
-                [self loadPageOfAds];
+            //ad with no image
+            else
+            {
+                //store ad - no image
+                if (carAdObject.storeID > 0)
+                    minDiff = 150 + separatorHeight;
+                //individual - no image
+                else
+                    minDiff = 110 + separatorHeight;
+            }
+            if (heightDiff > minDiff)//to prevent continue loading if the page has returned less than 10 objects
+            {
+                if (isSearching) {
+                    [self searchPageOfAds];
+                }
+                else {
+                    [self loadPageOfAds];
+                }
             }
         }
     }
+    
 }
 
+
+- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
+    
+    if (aScrollView == self.tableView)
+        userDidScroll = YES;
+}
 
 
 # pragma mark - hide bars while scrolling
@@ -986,11 +1027,11 @@
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
                 }
-
+                
                 else{
-                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                    
                 }
                 
             }
@@ -1002,14 +1043,14 @@
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
                     
-
+                    
                 }
                 else
                 {
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-
-                }                
+                    
+                }
             }
         }
         //ad with no image
@@ -1027,7 +1068,7 @@
                 else{
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-   
+                    
                 }
             }
             //individual - no image
@@ -1038,12 +1079,12 @@
                 if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-
+                    
                 }
                 else{
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-
+                    
                 }
             }
         }
@@ -1065,13 +1106,13 @@
                 {
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-   
+                    
                 }
                 else
                 {
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-
+                    
                 }
             }
             //individual ad - with image
@@ -1082,12 +1123,12 @@
                 if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-   
+                    
                 }
                 else{
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-
+                    
                 }
             }
         }
@@ -1102,12 +1143,12 @@
                 if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-
+                    
                 }
                 else{
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-
+                    
                 }
             }
             //individual - no image
@@ -1117,12 +1158,12 @@
                 if (carAdObject.isFeatured){
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-
+                    
                 }
                 else{
                     [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
                     [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-
+                    
                 }
             }
         }
@@ -1252,6 +1293,7 @@
         [carAdsArray addObjectsFromArray:cachedArray];
         
         //refresh table data
+        userDidScroll = NO;
         [self.tableView reloadData];
         //self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
         [self.tableView setContentOffset:CGPointZero animated:YES];
@@ -1270,7 +1312,7 @@
 }
 
 - (void) refreshAds:(ODRefreshControl *)refreshControl {
-
+    
     
     //NSLog(@"refresher released!");
     //1- clear cache
@@ -1448,14 +1490,14 @@
     }
     
     
-
+    
 }
 
 - (IBAction)modelBtnPress:(id)sender {
     
     ModelsViewController *popover=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
     popover.tagOfCallXib=1;
-
+    
     
     [self presentViewController:popover animated:YES completion:nil];
     
@@ -1466,7 +1508,7 @@
     [self.carNameText resignFirstResponder];
     [self.lowerPriceText resignFirstResponder];
     [self.higherPriceText resignFirstResponder];
-
+    
     BOOL validYears ;
     //1- validate year values
     if (( ([fromYearString isEqualToString:@""])
@@ -1579,17 +1621,17 @@
 
 - (void) searchOfPage:(NSInteger) page
              forBrand:(NSInteger) brandID
-                  Model:(NSInteger) modelID
-                 InCity:(NSInteger) cityID
-               textTerm:(NSString *) aTextTerm
-               minPrice:(NSString *) aMinPriceString
-               maxPrice:(NSString *) aMaxPriceString
-        distanceRangeID:(NSInteger) aDistanceRangeID
-               fromYear:(NSString *) aFromYearString
-                 toYear:(NSString *) aToYearString
-                   area:(NSString *) aArea
-                orderby:(NSString *) orderByString
-          lastRefreshed:(NSString *) lasRefreshedString {
+                Model:(NSInteger) modelID
+               InCity:(NSInteger) cityID
+             textTerm:(NSString *) aTextTerm
+             minPrice:(NSString *) aMinPriceString
+             maxPrice:(NSString *) aMaxPriceString
+      distanceRangeID:(NSInteger) aDistanceRangeID
+             fromYear:(NSString *) aFromYearString
+               toYear:(NSString *) aToYearString
+                 area:(NSString *) aArea
+              orderby:(NSString *) orderByString
+        lastRefreshed:(NSString *) lasRefreshedString {
     
     
     [[CarAdsManager sharedInstance] searchCarAdsOfPage:page
@@ -1615,7 +1657,7 @@
     [self.carNameText resignFirstResponder];
     [self.lowerPriceText resignFirstResponder];
     [self.higherPriceText resignFirstResponder];
-
+    
     [self.carNameText setText:@""];
     [self.lowerPriceText setText:@""];
     [self.higherPriceText setText:@""];
@@ -1658,7 +1700,7 @@
         searchWithPrice=false;
         
     }
-
+    
     
 }
 
@@ -1753,6 +1795,7 @@
     }
     
     //3- refresh table data
+    userDidScroll = NO;
     [self.tableView reloadData];
     //self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
     if ([carAdsArray count] <= 10 && [carAdsArray count] != 0) {
@@ -2163,13 +2206,13 @@
         case 2:{
             [self.fromYearLabel setText:[fromYearArray objectAtIndex:returnIndex ]];
             fromYearString= [NSString stringWithFormat:@"%@",
-            [fromYearArray objectAtIndex:returnIndex]];
+                             [fromYearArray objectAtIndex:returnIndex]];
             break;
         }
         case 3:{
             [self.toYearLabel setText:[toYearArray objectAtIndex:returnIndex ]];
             toYearString=[NSString stringWithFormat:@"%@",
-            [toYearArray objectAtIndex:returnIndex ]];
+                          [toYearArray objectAtIndex:returnIndex ]];
             break;
         }
         default:
