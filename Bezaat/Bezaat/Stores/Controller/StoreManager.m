@@ -9,6 +9,20 @@
 #import "StoreManager.h"
 #import "CarAdsManager.h"
 
+#define LOGIN_STATUS_CODE_JKEY      @"StatusCode"
+#define LOGIN_STATUS_MSG_JKEY       @"StatusMessage"
+#define LOGIN_DATA_JKEY             @"Data"
+
+#define LOGIN_USER_ID_JKEY          @"UserID"
+#define LOGIN_USER_NAME_JKEY        @"UserName"
+#define LOGIN_EMAIL_ADDRESS_JKEY    @"EmailAddress"
+#define LOGIN_PASSWORD_JKEY         @"Password"
+#define LOGIN_DEFAULT_CITY_ID_JKEY  @"DefaultCityID"
+#define LOGIN_IS_VERIFIED_JKEY      @"IsVerified"
+#define LOGIN_IS_ACTIVE_JKEY        @"IsActive"
+#define LOGIN_HAS_STORES_JKEY       @"HasStores"
+
+
 typedef enum {
     RequestInProgressCreateStore,
     RequestInProgressUploadLOGO,
@@ -77,15 +91,45 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
 	 getting the image back out of the UIImageView
 	 setting the quality to 90
      */
+    
 	NSData *imageData = UIImageJPEGRepresentation(image, 90);
 	
 	// setting up the request object now
-    NSMutableURLRequest *request = [self request];
-
+   // NSMutableURLRequest *request = [self request];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setTimeoutInterval:30];
+    [request setHTTPMethod:@"POST"];
+    
+    /// set user credentials in HTTP header
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    
+    //passing device token as a http header request
+    NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+    [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+    
+    //passing user id as a http header request
+    NSString * userIDString = @"";
+    if (savedProfile) { //if user is logged and not a visitor --> set the ID
+        userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+    }
+    else {
+        userIDString = nil;
+    }
+    
+    [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+    
+    //passing password as a http header request
+    NSString * passwordMD5String = savedProfile.passwordMD5;
+    
+    [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+/*
     if (request == nil) {
         [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
         return;
     }
+ */
 	/*
 	 add some header info now
 	 we always need a boundary when we post a file
@@ -136,21 +180,51 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     }
     
     //2- start the request
-    NSMutableURLRequest *request = [self request];
-    
+    //NSMutableURLRequest *request = [self request];
+    /*
     if (request == nil) {
         [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
         return;
+    }*/
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setTimeoutInterval:30];
+    [request setHTTPMethod:@"POST"];
+    
+    /// set user credentials in HTTP header
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    
+    //passing device token as a http header request
+    NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+    [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+    
+    //passing user id as a http header request
+    NSString * userIDString = @"";
+    if (savedProfile) { //if user is logged and not a visitor --> set the ID
+        userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
     }
+    else {
+        userIDString = nil;
+    }
+    
+    [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+    
+    //passing password as a http header request
+    NSString * passwordMD5String = savedProfile.passwordMD5;
+    
+    [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+    
     [request setURL:[NSURL URLWithString:create_store_url]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
 
-    NSString * post =[NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%d&%@=%@"
+    NSString * post =[NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%d&%@=%@&%@=%@"
                       ,@"StoreName", store.name
                       ,@"Description", store.desc
                       ,@"EmailAddress", store.ownerEmail
                       ,@"CountryID", store.countryID
                       ,@"MobileNumber", store.phone
+                      ,@"Password",store.storePassword
                       ];
     if (store.imageURL != nil) {
         post = [post stringByAppendingFormat:@"&%@=%@",@"LogoURL", store.imageURL];
@@ -302,6 +376,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     //2- start the request
     NSMutableURLRequest *request = [self request];
     
+    
     if (request == nil) {
         [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
         return;
@@ -444,10 +519,26 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
         if (!savedProfile.hasStores) {
             //[[ProfileManager sharedInstance] updateStoreStateForCurrentUser:YES];
         }
-        if ([delegate respondsToSelector:@selector(storeCreationDidSucceedWithStoreID:)]) {
+        if ([delegate respondsToSelector:@selector(storeCreationDidSucceedWithStoreID: andUser:)]) {
             NSLog(@"%@",((NSArray *)result)[0][@"Data"]);
-            id s = ((NSArray *)result)[0][@"Data"];
-            [delegate storeCreationDidSucceedWithStoreID:[s integerValue]];
+            NSDictionary *s = ((NSArray *)result)[0][@"Data"];
+            NSString * statusCodeString = ((NSArray *)result)[0][LOGIN_STATUS_CODE_JKEY] ;
+            NSInteger statusCode = statusCodeString.integerValue;
+            NSString * message = ((NSArray *)result)[0][LOGIN_STATUS_MSG_JKEY];
+            if (statusCode == 320) {
+                CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
+                [error setDescMessage:message];
+                [delegate storeCreationDidFailWithError:error];
+            }else {
+            NSDictionary* storeDict = [s objectForKey:@"Store"];
+            NSDictionary* userDict = [s objectForKey:@"User"];
+            NSString* ID = [storeDict objectForKey:@"StoreID"];
+            UserProfile* newUser = [self getUserData:userDict];
+             [delegate storeCreationDidSucceedWithStoreID:[ID integerValue] andUser:newUser];
+            
+            }
+            
+           
         }
     }
     else if (requestInProgress == RequestInProgressGetUserStores) {
@@ -499,5 +590,36 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     }
 
 }
+
+- (UserProfile *) getUserData: (NSDictionary *) responseDataArray {
+    
+    if ((responseDataArray) && (responseDataArray.count > 0))
+    {
+        //NSDictionary * totalDict = [responseDataArray objectAtIndex:0];
+        //NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+       // NSInteger statusCode = statusCodeString.integerValue;
+       // if (statusCode == 200)
+        //{
+           // NSDictionary * dataDict = [totalDict objectForKey:LOGIN_DATA_JKEY];
+            if (responseDataArray)
+            {
+                UserProfile * p = [[UserProfile alloc]
+                                   initWithUserIDString:[responseDataArray objectForKey:LOGIN_USER_ID_JKEY]
+                                   userName:[responseDataArray objectForKey:LOGIN_USER_NAME_JKEY]
+                                   emailAddress:[responseDataArray objectForKey:LOGIN_EMAIL_ADDRESS_JKEY]
+                                   passwordMD5:[responseDataArray objectForKey:LOGIN_PASSWORD_JKEY]
+                                   defaultCityIDString:[responseDataArray objectForKey:LOGIN_DEFAULT_CITY_ID_JKEY]
+                                   isVerifiedString:[responseDataArray objectForKey:LOGIN_IS_VERIFIED_JKEY]
+                                   isActiveString:[responseDataArray objectForKey:LOGIN_IS_ACTIVE_JKEY]
+                                   hasStoresString:[responseDataArray objectForKey:LOGIN_HAS_STORES_JKEY]
+                                   ];
+                return p;
+            }
+        //}
+    }
+    return nil;
+    
+}
+
 
 @end

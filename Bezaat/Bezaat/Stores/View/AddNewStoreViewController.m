@@ -26,7 +26,7 @@
     MBProgressHUD2 *imgsLoadingHUD;
 
     BOOL locationBtnPressedOnce;
-
+    BOOL guestCheck;
     IBOutlet UIToolbar *toolBar;
     IBOutlet UIImageView *storeImageView;
     IBOutlet UITextField *nameField;
@@ -58,6 +58,7 @@
     
     uploadingLOGO = NO;
     locationBtnPressedOnce = NO;
+    guestCheck = NO;
     
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
@@ -169,8 +170,6 @@
         [alert show];
         return;
     }
-    
-    [self showLoadingIndicator];
     if (store == nil) {
         store = [[Store alloc] init];
     }
@@ -180,12 +179,41 @@
     store.phone = phoneField.text;
     store.countryID = chosenCountry.countryID;
     store.imageURL = myURL;
-//store.imageURL = @"http://www.google.com/logos/2013/labor_day_2013-1410006-hp.png";
     
+    UserProfile* savedPofile = [[SharedUser sharedInstance] getUserProfileData];
+    if (!savedPofile && !guestCheck) {
+        [self PasswordRequire];
+        return;
+    }
+    [self showLoadingIndicator];
+   
     [StoreManager sharedInstance].delegate = self;
    [[StoreManager sharedInstance] createStore:store];
 }
 
+
+-(void)PasswordRequire{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"الرجاء تزويدنا بكلمة سر"
+                                                    message:@"\n\n"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:@"إلغاء", nil];
+    
+    self.userPassword = [[UITextField alloc] initWithFrame:CGRectMake(12, 50, 260, 25)];
+    [self.userPassword setBackgroundColor:[UIColor whiteColor]];
+    [self.userPassword setTextAlignment:NSTextAlignmentCenter];
+    self.userPassword.keyboardType = UIKeyboardTypeEmailAddress;
+    self.userPassword.secureTextEntry = YES;
+    
+    [alert addSubview:self.userPassword];
+    
+    // show the dialog box
+    alert.tag = 4;
+    [alert show];
+    
+    // set cursor and show keyboard
+    [self.userPassword becomeFirstResponder];
+}
 - (BOOL) validateEmail: (NSString *) candidate {
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
@@ -231,8 +259,12 @@
         //vc.currentAdID = adID;
         vc.storeID = store;
         [self presentViewController:vc animated:YES completion:nil];
+    }else if (alertView.tag == 4){
+        store.storePassword = self.userPassword.text;
+        guestCheck = YES;
+        [StoreManager sharedInstance].delegate = self;
+        [[StoreManager sharedInstance] createStore:store];
     }
-    NSLog(@"buttonIndex:%d",buttonIndex);
 }
 
 #pragma mark - UIImagePickerControllerDelegate Methods
@@ -316,12 +348,19 @@
 
 - (void) storeCreationDidFailWithError:(NSError *)error {
     [self hideLoadingIndicator];
+    guestCheck = NO;
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+    
 }
 
-- (void) storeCreationDidSucceedWithStoreID:(NSInteger)storeID {
+- (void) storeCreationDidSucceedWithStoreID:(NSInteger)storeID andUser:(UserProfile *)theUser {
     [self hideLoadingIndicator];
    // myStore = storeID;
     store.identifier = storeID;
+    UserProfile* newUser = theUser;
+    //save user's data
+    [[ProfileManager sharedInstance] storeUserProfile:newUser];
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"شكرا"
                                                     message:@"لقد تم انشاء المتجر"
                                                    delegate:self

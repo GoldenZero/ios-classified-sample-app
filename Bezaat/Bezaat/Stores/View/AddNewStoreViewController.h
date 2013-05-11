@@ -11,6 +11,7 @@
 
 @interface AddNewStoreViewController : BaseViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource, UIPickerViewDelegate,LocationManagerDelegate,StoreManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *countryCity;
+@property (strong, nonatomic) UITextField* userPassword;
 
 - (IBAction)homeBtnPress:(id)sender;
 - (IBAction)chooseImageBtnPress:(id)sender;

@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSString *contactNo;
 
 @property (nonatomic, strong) NSString *desc;
+@property (nonatomic, strong) NSString *storePassword;
 
 @property (nonatomic) NSInteger remainingDays;
 @property (nonatomic) NSInteger remainingFreeFeatureAds;

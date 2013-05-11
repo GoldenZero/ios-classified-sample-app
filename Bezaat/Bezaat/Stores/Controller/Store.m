@@ -20,7 +20,7 @@
 @synthesize  contactNo;
 
 @synthesize desc;
-
+@synthesize storePassword;
 @synthesize remainingDays;
 @synthesize remainingFreeFeatureAds;
 
