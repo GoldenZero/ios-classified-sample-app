@@ -535,9 +535,22 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
                 [delegate storeCreationDidFailWithError:error];
             }else {
             NSDictionary* storeDict = [s objectForKey:@"Store"];
-            NSDictionary* userDict = [s objectForKey:@"User"];
-            NSString* ID = [storeDict objectForKey:@"StoreID"];
-            UserProfile* newUser = [self getUserData:userDict];
+                NSDictionary* userDict;
+                NSString* ID;
+                if (!storeDict.count == 0) {
+            userDict = [s objectForKey:@"User"];
+            ID = [storeDict objectForKey:@"StoreID"];
+                }else {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
+                    [error setDescMessage:message];
+                    [delegate storeCreationDidFailWithError:error];
+                }
+                UserProfile* newUser;
+                if (!userDict && userDict.count == 0) {
+                    newUser = [self getUserData:userDict];
+                }else{
+                    newUser = [[SharedUser sharedInstance] getUserProfileData];
+                }
              [delegate storeCreationDidSucceedWithStoreID:[ID integerValue] andUser:newUser];
             
             }
