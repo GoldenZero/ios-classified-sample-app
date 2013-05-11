@@ -9,6 +9,8 @@
 #import "BrowseStoresViewController.h"
 #import "StoreTableViewCell.h"
 #import "StoreExpiredTableViewCell.h"
+#import "StoreCreatedTableViewCell.h"
+#import "StoreRejectedTableViewCell.h"
 #import "StoreDetailsViewController.h"
 #import "ChooseActionViewController.h"
 #import "FeatureStoreAdViewController.h"
@@ -101,8 +103,8 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
      Store *store = [allUserStores objectAtIndex:indexPath.row];
-    /*
-    if (store.status == 0) {
+    
+    if (store.status == 2) {   //approved
         StoreTableViewCell *cell = (StoreTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
         if (cell == nil)
         {
@@ -110,7 +112,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
             cell = [nib objectAtIndex:0];
         }
         
-        
+        cell.myTag = 2;
         cell.name = store.name;
         cell.country = store.countryName;
         NSString *adsCount = [NSString stringWithFormat:@"%d",store.activeAdsCount];
@@ -128,16 +130,16 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
         
         return cell;
 
-    }else if (store.status == 1)
+    }else if (store.status == 0)    //created
     {
-        StoreExpiredTableViewCell *cell = (StoreExpiredTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
+        StoreCreatedTableViewCell *cell = (StoreCreatedTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
         if (cell == nil)
         {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreExpiredTableViewCell" owner:self options:nil];
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreCreatedTableViewCell" owner:self options:nil];
             cell = [nib objectAtIndex:0];
         }
         
-        
+        cell.myTag = 0;
         cell.name = store.name;
         cell.country = store.countryName;
         NSString *adsCount = [NSString stringWithFormat:@"%d",store.activeAdsCount];
@@ -155,7 +157,61 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
         
         return cell;
 
-    }*/
+     }else if (store.status == 3)    //rejected
+     {
+     StoreRejectedTableViewCell *cell = (StoreRejectedTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
+     if (cell == nil)
+     {
+     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreRejectedTableViewCell" owner:self options:nil];
+     cell = [nib objectAtIndex:0];
+     }
+     
+         cell.myTag = 3;
+     cell.name = store.name;
+     cell.country = store.countryName;
+     NSString *adsCount = [NSString stringWithFormat:@"%d",store.activeAdsCount];
+     if (store.activeAdsCount != 0) {
+     adsCount = [adsCount stringByAppendingString:@" إعلانات"];
+     }
+     else {
+     adsCount = [adsCount stringByAppendingString:@" إعلان"];
+     }
+     cell.adsCount = adsCount;
+     cell.logoURL = store.imageURL;
+     cell.remainingFeaturesLabel.text = [NSString stringWithFormat:@"%i إعلان متميز متبقي",store.remainingFreeFeatureAds];
+     cell.remainingDaysLabel.text = [NSString stringWithFormat:@"%i أيام متبقية",store.remainingDays];
+     
+     
+     return cell;
+     
+     }else if (store.status == 5)    //deactivated
+     {
+     StoreExpiredTableViewCell *cell = (StoreExpiredTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
+     if (cell == nil)
+     {
+     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreExpiredTableViewCell" owner:self options:nil];
+     cell = [nib objectAtIndex:0];
+     }
+     
+         cell.myTag = 5;
+     cell.name = store.name;
+     cell.country = store.countryName;
+     NSString *adsCount = [NSString stringWithFormat:@"%d",store.activeAdsCount];
+     if (store.activeAdsCount != 0) {
+     adsCount = [adsCount stringByAppendingString:@" إعلانات"];
+     }
+     else {
+     adsCount = [adsCount stringByAppendingString:@" إعلان"];
+     }
+     cell.adsCount = adsCount;
+     cell.logoURL = store.imageURL;
+     cell.remainingFeaturesLabel.text = [NSString stringWithFormat:@"%i إعلان متميز متبقي",store.remainingFreeFeatureAds];
+     cell.remainingDaysLabel.text = [NSString stringWithFormat:@"%i أيام متبقية",store.remainingDays];
+     
+     
+     return cell;
+     
+     }/*
     StoreTableViewCell *cell = (StoreTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
     if (cell == nil)
     {
@@ -179,24 +235,40 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     cell.remainingDaysLabel.text = [NSString stringWithFormat:@"%i أيام متبقية",store.remainingDays];
     
     
-    return cell;
+    return cell;*/
 }
 
 #pragma mark - UITableViewDelegate Methods
 
 - (void)tableView:(UITableView *)_tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    StoreExpiredTableViewCell *cell = (StoreExpiredTableViewCell*) [tableView cellForRowAtIndexPath:indexPath];
-//    if (cell) {
-//        FeatureStoreAdViewController *vc = [[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
-//        vc.storeID = allUserStores[indexPath.row];
-//        [_tableView deselectRowAtIndexPath:indexPath animated:YES];
-//        [self presentViewController:vc animated:YES completion:nil];
-//    }else {
-    StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
-    vc.currentStore = allUserStores[indexPath.row];
-    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self presentViewController:vc animated:YES completion:nil];
-//    }
+    
+    StoreTableViewCell *cell = (StoreTableViewCell*) [tableView cellForRowAtIndexPath:indexPath];
+   /* StoreExpiredTableViewCell *cell1 = (StoreExpiredTableViewCell*) [tableView cellForRowAtIndexPath:indexPath];
+    StoreRejectedTableViewCell *cell2 = (StoreRejectedTableViewCell*) [tableView cellForRowAtIndexPath:indexPath];
+    StoreCreatedTableViewCell *cell3 = (StoreCreatedTableViewCell*) [tableView cellForRowAtIndexPath:indexPath];*/
+    
+    
+    if (cell.myTag == 2) {
+
+        StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
+        vc.currentStore = allUserStores[indexPath.row];
+        [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self presentViewController:vc animated:YES completion:nil];
+
+    }else if (cell.myTag == 0){
+        FeatureStoreAdViewController *vc = [[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+        vc.storeID = allUserStores[indexPath.row];
+        [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self presentViewController:vc animated:YES completion:nil];
+    }else if (cell.myTag == 5){
+        FeatureStoreAdViewController *vc = [[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+        vc.storeID = allUserStores[indexPath.row];
+        [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self presentViewController:vc animated:YES completion:nil];
+    }else if (cell.myTag == 3){
+        [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    }
 }
 
 #pragma mark - StoreManagerDelegate Methods

@@ -1,15 +1,14 @@
 //
-//  StoreExpiredTableViewCell.m
+//  StoreCreatedTableViewCell.m
 //  Bezaat
 //
-//  Created by GALMarei on 5/5/13.
+//  Created by GALMarei on 5/11/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-#import "StoreExpiredTableViewCell.h"
-#import "FeatureStoreAdViewController.h"
+#import "StoreCreatedTableViewCell.h"
 
-@interface StoreExpiredTableViewCell () {
+@interface StoreCreatedTableViewCell (){
     UILabel *_nameLabel;
     UILabel *countryLabel;
     UILabel *adsCountLabel;
@@ -20,15 +19,17 @@
     NSString *adsCount;
     NSString *logoURL;
 }
+
+
 @end
 
-@implementation StoreExpiredTableViewCell
-
+@implementation StoreCreatedTableViewCell
 @synthesize nameLabel;
 @synthesize countryLabel;
 @synthesize adsCountLabel;
 @synthesize LOGOImageView;
 @synthesize defaultImage;
+
 
 - (NSString *)name {
     return name;
@@ -99,7 +100,6 @@
 }
 
 
-- (IBAction)activateStoreBtnPress:(id)sender {
-    
+- (IBAction)subscribeBtnPress:(id)sender {
 }
 @end

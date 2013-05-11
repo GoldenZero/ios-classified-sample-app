@@ -16,12 +16,13 @@
 @property (nonatomic, strong) IBOutlet UIImageView *LOGOImageView;
 @property (strong, nonatomic) IBOutlet UILabel *remainingFeaturesLabel;
 @property (strong, nonatomic) IBOutlet UILabel *remainingDaysLabel;
-
+@property (nonatomic) int myTag;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *country;
 @property (nonatomic, strong) NSString *adsCount;
 @property (nonatomic, strong) NSString *logoURL;
 @property (nonatomic, strong) UIImage *defaultImage;
+- (IBAction)activateStoreBtnPress:(id)sender;
 
 
 @end

@@ -346,9 +346,22 @@
     [self.verticalScrollView addSubview:carPrice];
     carPrice.delegate=self;
     
+   // NSInteger defaultCurrencyID=[[StaticAttrsLoader sharedInstance] getCurrencyIdOfCountry:myAdInfo.currencyString.integerValue];
+    NSInteger defaultCurrencyID = myAdInfo.currencyString.integerValue;
+    NSInteger defaultcurrecncyIndex=0;
+    while (defaultcurrecncyIndex<currencyArray.count) {
+        if (defaultCurrencyID==[(SingleValue*)[currencyArray objectAtIndex:defaultcurrecncyIndex] valueID]) {
+            chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex];
+            break;
+        }
+        defaultcurrecncyIndex++;
+    }
+    
+    
+    
     currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 190, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_SM.png"] forState:UIControlStateNormal];
-    [currency setTitle:myAdInfo.currencyString forState:UIControlStateNormal]; //TODO get currency
+    [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal]; //TODO get currency
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
@@ -365,16 +378,28 @@
     kiloMile = [[UISegmentedControl alloc] initWithItems:kiloMileArray];
     kiloMile.frame = CGRectMake(30, 240, 80, 30);
     kiloMile.segmentedControlStyle = UISegmentedControlStylePlain;
-    if (myAdInfo.distanceRangeInKm == 0)
+    if (myAdInfo.distanceRangeInKm == 2675)
     kiloMile.selectedSegmentIndex = 0;
     else
        kiloMile.selectedSegmentIndex = 1; // TODO get index of KM/MILE
     [kiloMile addTarget:self action:@selector(chooseKiloMile) forControlEvents: UIControlEventValueChanged];
     [self.verticalScrollView addSubview:kiloMile];
     
+    
+    NSInteger defaultModelID = myAdInfo.modelYear;
+    NSInteger defaultModelIndex=0;
+    NSString* modelString;
+    while (defaultModelIndex<productionYearArray.count) {
+        if (defaultModelID==[(SingleValue*)[productionYearArray objectAtIndex:defaultModelIndex] valueID]) {
+            modelString =[NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:defaultModelIndex] valueString]];
+            break;
+        }
+        defaultModelIndex++;
+    }
+
     productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 280, 260, 30)];
     [productionYear setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [productionYear setTitle:[NSString stringWithFormat:@"%i",myAdInfo.modelYear ] forState:UIControlStateNormal]; //TODO get the porduction year
+    [productionYear setTitle:modelString forState:UIControlStateNormal]; //TODO get the porduction year
     [productionYear setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [productionYear addTarget:self action:@selector(chooseProductionYear) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:productionYear];
@@ -865,8 +890,20 @@
 {
     [self hideLoadingIndicator];
     NSLog(@"just finished");
-    ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد قمت بتحديث إعلانك بنجاح ،لن يظهر اعلانك في القائمة حتى يتم الموافقة على التحديث" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+    alert.tag = 2;
+    [alert show];
+    
+    
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 2) {
+        ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    
+}
+
 
 @end

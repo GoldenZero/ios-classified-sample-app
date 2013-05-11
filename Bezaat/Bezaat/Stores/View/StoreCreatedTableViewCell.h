@@ -1,14 +1,14 @@
 //
-//  StoreTableViewCell.h
+//  StoreCreatedTableViewCell.h
 //  Bezaat
 //
-//  Created by Alaa Al-Zaibak on 4/22/13.
+//  Created by GALMarei on 5/11/13.
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface StoreTableViewCell : UITableViewCell
+@interface StoreCreatedTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) IBOutlet UILabel *nameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *countryLabel;
@@ -22,5 +22,7 @@
 @property (nonatomic, strong) NSString *adsCount;
 @property (nonatomic, strong) NSString *logoURL;
 @property (nonatomic, strong) UIImage *defaultImage;
+
+- (IBAction)subscribeBtnPress:(id)sender;
 
 @end
