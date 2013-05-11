@@ -31,6 +31,11 @@
 - (void) BankOrderDidFailCreationWithError:(NSError *) error;
 - (void) BankOrderDidFinishCreationWithID:(NSString *) orderID;
 
+//Bank store
+- (void) BankStoreOrderDidFailCreationWithError:(NSError *) error;
+- (void) BankStoreOrderDidFinishCreationWithID:(NSString *) orderID;
+
+
 - (void) orderDidFailConfirmingWithError:(NSError *) error;
 - (void) orderDidFinishConfirmingWithStatus:(BOOL) status;
 //store
@@ -60,6 +65,8 @@
 - (void) createStoreOrderForStoreID:(NSInteger) storeID withcountryID:(NSInteger) countryID withShemaName:(NSInteger)shemaID WithDelegate:(id <FeaturingOrderDelegate>) del;
 
 - (void) createOrderForBankWithAdID:(NSInteger) AdID withShemaName:(NSInteger)shemaID WithDelegate:(id <FeaturingOrderDelegate>) del;
+
+-(void) createOrderForBankWithStoreID:(NSInteger)storeID withcountryID:(NSInteger)countryID withShemaName:(NSInteger)schemaID WithDelegate:(id <FeaturingOrderDelegate>) del;
 
 - (void) confirmOrderID:(NSString *) orderID gatewayResponse:(NSString *) aGatewayResponse withDelegate:(id <FeaturingOrderDelegate>) del;
 

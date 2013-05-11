@@ -178,7 +178,8 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     if (![self checkConnectivity]) {
         return;
     }
-    
+    UserProfile *s = [[SharedUser sharedInstance] getUserProfileData];
+    NSMutableURLRequest *request;
     //2- start the request
     //NSMutableURLRequest *request = [self request];
     /*
@@ -186,7 +187,8 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
         [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
         return;
     }*/
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    if (!s) {
+    request = [[NSMutableURLRequest alloc] init];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [request setHTTPShouldHandleCookies:NO];
     [request setTimeoutInterval:30];
@@ -214,7 +216,9 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     NSString * passwordMD5String = savedProfile.passwordMD5;
     
     [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
-    
+    }else {
+        request = [self request];
+    }
     [request setURL:[NSURL URLWithString:create_store_url]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
 

@@ -184,6 +184,8 @@
     if (!savedPofile && !guestCheck) {
         [self PasswordRequire];
         return;
+    }else{
+        store.storePassword = @"";
     }
     [self showLoadingIndicator];
    

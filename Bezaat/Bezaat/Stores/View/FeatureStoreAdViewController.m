@@ -113,7 +113,8 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     //TODO - make the create and confirm API
     [self showLoadingIndicator];
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
-   // [[FeaturingManager sharedInstance] createOrderForBankWithStoreID:self.storeID.identifier withcountryID:self.storeID.countryID withShemaName:option.pricingID andBanking:@"" WithDelegate:self];
+    [[FeaturingManager sharedInstance] createOrderForBankWithStoreID:self.storeID.identifier withcountryID:self.storeID.countryID withShemaName:option.pricingID WithDelegate:self];
+    //[[FeaturingManager sharedInstance] createOrderForBankWithAdID:self.storeID.identifier withShemaName:option.pricingID WithDelegate:self];
 }
 
 
