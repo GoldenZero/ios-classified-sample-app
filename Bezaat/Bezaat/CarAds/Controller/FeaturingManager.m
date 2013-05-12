@@ -1044,7 +1044,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                 
                 if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
                 {
-                    NSString * orderIdentifier = [totalDict objectForKey:PRICING_DATA_JKEY];
+                    NSDictionary * orderIdentifierDict = [totalDict objectForKey:PRICING_DATA_JKEY];
+                    NSString *orderIdentifier = [orderIdentifierDict objectForKey:@"OrderID"];
                     
                     if (self.orderDelegate)
                         [orderDelegate BankStoreOrderDidFinishCreationWithID:orderIdentifier];

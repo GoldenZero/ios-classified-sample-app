@@ -736,8 +736,7 @@
         [self EmailRequire];
         return;
     }
-    NSLog(@"%@",carDetails.text);
-    NSLog(@"%@",placeholderTextField.text);
+    
     if ([carDetails.text isEqualToString:@""]) {
         carDetails.text = placeholderTextField.text;
     }

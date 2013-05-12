@@ -535,7 +535,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
                 [delegate storeCreationDidFailWithError:error];
             }else {
             NSDictionary* storeDict = [s objectForKey:@"Store"];
-                NSDictionary* userDict;
+                NSDictionary* userDict = [[NSDictionary alloc]init];
                 NSString* ID;
                 if (!storeDict.count == 0) {
             userDict = [s objectForKey:@"User"];
@@ -546,7 +546,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
                     [delegate storeCreationDidFailWithError:error];
                 }
                 UserProfile* newUser;
-                if (!userDict && userDict.count == 0) {
+                if (userDict && userDict == NULL) {
                     newUser = [self getUserData:userDict];
                 }else{
                     newUser = [[SharedUser sharedInstance] getUserProfileData];
