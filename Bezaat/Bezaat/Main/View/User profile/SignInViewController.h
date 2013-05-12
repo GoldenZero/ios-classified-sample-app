@@ -40,6 +40,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (strong, nonatomic) UITextField* twitterEmail;
 
+@property (nonatomic) BOOL returnPage;
 
 #pragma mark - actions
 

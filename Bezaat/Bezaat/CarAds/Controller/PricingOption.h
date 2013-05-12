@@ -16,6 +16,7 @@
 @property (nonatomic) NSInteger adPeriodDays;
 @property (nonatomic) float price;
 @property (strong, nonatomic) NSString * pricingName;
+@property (nonatomic) NSInteger pricingTierID;
 
 //@property (nonatomic) NSInteger categoryID;
 //@property (nonatomic) NSInteger currencyID;
@@ -26,7 +27,8 @@
                      countryID:(NSString *) aCountryIDString
             adPeriodDaysString:(NSString *) aAdPeriodDaysString
                          price:(NSString *) aPriceString
-                   pricingName:(NSString *) aPricingName;
+                   pricingName:(NSString *) aPricingName
+                   pricingTier:(NSString*)aPricingTierID;
                     //categoryID:(NSString *) aCategoryIDString
                     //currencyID:(NSString *) aCurrencyIDString
                   //currencyName:(NSString *) aCurrencyName

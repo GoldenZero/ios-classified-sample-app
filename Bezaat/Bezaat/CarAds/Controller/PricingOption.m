@@ -14,6 +14,7 @@
 @synthesize adPeriodDays;
 @synthesize price;
 @synthesize pricingName;
+@synthesize pricingTierID;
 //@synthesize categoryID;
 //@synthesize currencyID;
 //@synthesize currencyName;
@@ -24,7 +25,8 @@
                      countryID:(NSString *) aCountryIDString
             adPeriodDaysString:(NSString *) aAdPeriodDaysString
                          price:(NSString *) aPriceString
-                   pricingName:(NSString *) aPricingName {
+                   pricingName:(NSString *) aPricingName
+                   pricingTier:(NSString*)aPricingTierID{
     self = [super init];
     if (self) {
         // pricingID
@@ -45,6 +47,9 @@
         //pricingName
         self.pricingName = aPricingName;
         
+        //priceTier
+        self.pricingTierID = aPricingTierID.integerValue;
+        
         /*
         // currencyID
         self.currencyID = [aCurrencyIDString integerValue];
@@ -61,12 +66,13 @@
 }
 
 - (NSString *) description {
-    return [NSString stringWithFormat:@"pricingID:%i, countryID:%i, adPeriodDays:%i, price:%f, pricingName:%@",
+    return [NSString stringWithFormat:@"pricingID:%i, countryID:%i, adPeriodDays:%i, price:%f, pricingName:%@, pricingTier:%i",
             self.pricingID,
             self.countryID,
             self.adPeriodDays,
             self.price,
-            self.pricingName
+            self.pricingName,
+            self.pricingTierID
             ];
 }
 

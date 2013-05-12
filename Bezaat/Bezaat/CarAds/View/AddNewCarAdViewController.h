@@ -35,6 +35,8 @@
 @property (strong, nonatomic) IBOutlet  UISegmentedControl *kiloMile;
 @property (strong, nonatomic) IBOutlet  UIButton *countryCity;
 
+@property (strong, nonatomic) UITextField *emailAddress;
+
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;
 

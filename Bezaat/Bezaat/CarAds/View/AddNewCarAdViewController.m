@@ -11,6 +11,8 @@
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
 #import "labelAdViewController.h"
+#import "SignInViewController.h"
+
 #pragma mark - literals for use in post ad
 //These literals should used for posting any ad
 #define AD_PERIOD_2_MONTHS_VALUE_ID     1189 //period = 2 months (fixed)
@@ -50,7 +52,9 @@
     City * chosenCity;
     Country * chosenCountry;
     bool kiloChoosen;
-
+    BOOL guestCheck;
+    NSString* guestEmail;
+    
     NSMutableArray * currentImgsUploaded;
     BOOL locationBtnPressedOnce;
     BOOL currencyBtnPressedOnce;
@@ -728,10 +732,20 @@
     
     [self showLoadingIndicator];
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (!savedProfile && !guestCheck) {
+        [self EmailRequire];
+        return;
+    }
+    NSLog(@"%@",carDetails.text);
+    NSLog(@"%@",placeholderTextField.text);
+    if ([carDetails.text isEqualToString:@""]) {
+        carDetails.text = placeholderTextField.text;
+    }
+    
     [[CarAdsManager sharedInstance] postAdOfBrand:_currentModel.brandID
                                             Model:_currentModel.modelID
                                            InCity:chosenCity.cityID
-                                        userEmail:(savedProfile ? savedProfile.emailAddress : @"")
+                                        userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail)
                                             title:carAdTitle.text
                                       description:carDetails.text
                                             price:carPrice.text
@@ -742,7 +756,7 @@
                                  modelYearValueID:chosenYear.valueID
                                          distance:distance.text
                                             color:@""
-                                       phoneNumer:@""
+                                       phoneNumer:guestEmail
                                   adCommentsEmail:YES
                                  kmVSmilesValueID:distanceUnitID
                                          imageIDs:currentImgsUploaded
@@ -750,6 +764,47 @@
 
 
 }
+
+-(void)EmailRequire{
+    [self hideLoadingIndicator];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"الرجاء تزويدنا بالبريد الإلكتروني"
+                                                    message:@"\n\n"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:@"إلغاء", nil];
+    
+    self.emailAddress = [[UITextField alloc] initWithFrame:CGRectMake(12, 50, 260, 25)];
+    [self.emailAddress setBackgroundColor:[UIColor whiteColor]];
+    [self.emailAddress setPlaceholder:@"123@eample.com"];
+    [self.emailAddress setTextAlignment:NSTextAlignmentCenter];
+    self.emailAddress.keyboardType = UIKeyboardTypeEmailAddress;
+    
+    [alert addSubview:self.emailAddress];
+    
+    // show the dialog box
+    alert.tag = 4;
+    [alert show];
+    
+    // set cursor and show keyboard
+    [self.emailAddress becomeFirstResponder];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.tag == 4){
+        if (buttonIndex == 0) {
+        guestEmail = self.emailAddress.text;
+        guestCheck = YES;
+            [self addBtnprss:self];
+           
+        }else if (buttonIndex == 1){
+            alertView.hidden = YES;
+        }
+       
+    }
+}
+
 
 - (IBAction)selectModelBtnPrss:(id)sender {
     ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
@@ -841,9 +896,15 @@
 
 #pragma mark - PostAd Delegate
 - (void) adDidFailPostingWithError:(NSError *)error {
+    [self hideLoadingIndicator];
+    NSLog(@"%@",[error description]);
+    if ([[error description] isEqualToString:@"validate_password"]) {
+        SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        vc.returnPage = YES;
+        [self presentViewController:vc animated:YES completion:nil];
+    }else 
     [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     
-    [self hideLoadingIndicator];
 }
 
 - (void) adDidFinishPostingWithAdID:(NSInteger)adID {

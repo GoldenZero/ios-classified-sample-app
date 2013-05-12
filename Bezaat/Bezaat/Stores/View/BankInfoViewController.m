@@ -54,11 +54,13 @@
     UIPasteboard* paste = [UIPasteboard generalPasteboard];
     paste.string = self.saudiTextView.text;
 
+    
 }
 
 - (IBAction)uaeCopy:(id)sender {
     UIPasteboard* paste = [UIPasteboard generalPasteboard];
     paste.string = self.uaeTextView.text;
+
 }
 
 - (IBAction)egyptCopy:(id)sender {

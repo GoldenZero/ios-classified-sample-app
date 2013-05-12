@@ -377,17 +377,17 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     NSLog(@"%@",OrderID);
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
-    [self purchaseProductWithIdentifier:[NSString stringWithFormat:@"com.bezaat.S.%i",option.pricingID]];
+    [self purchaseProductWithIdentifier:[NSString stringWithFormat:@"com.bezaat.S.%i",option.pricingTierID]];
 }
 
--(void)BankOrderDidFailCreationWithError:(NSError *)error
+-(void)BankStoreOrderDidFailCreationWithError:(NSError *)error
 {
     [self hideLoadingIndicator];
     
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
 }
 
--(void)BankOrderDidFinishCreationWithID:(NSString *)orderID
+-(void)BankStoreOrderDidFinishCreationWithID:(NSString *)orderID
 {
     [self hideLoadingIndicator];
     

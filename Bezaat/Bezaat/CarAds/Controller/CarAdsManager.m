@@ -1270,7 +1270,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     }
                     else
                     {
-                        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                        CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
                         [error setDescMessage:statusMessageProcessed];
                         if (self.adPostingDelegate)
                             [adPostingDelegate adDidFailPostingWithError:error];

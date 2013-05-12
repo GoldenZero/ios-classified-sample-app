@@ -237,11 +237,14 @@
     //hide loading indicator
     [self hideLoadingIndicator];
     
+    if (self.returnPage) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else {
     //present the next view controller
     ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     
     [self presentViewController:chooseActionVC animated:YES completion:nil];
-    
+    }
 }
 
 - (void) userFailLoginWithError:(NSError *)error {
@@ -342,11 +345,14 @@
         }
     }
     else if (alertView.tag == 3){
-    
+        if (self.returnPage) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }else {
     //present the next view controller
     ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     
     [self presentViewController:chooseActionVC animated:YES completion:nil];
+        }
 }
 
 }

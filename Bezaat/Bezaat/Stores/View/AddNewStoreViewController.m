@@ -121,7 +121,8 @@
        selectedCountryIndex = [countryArray indexOfObject:0];
     }
     [locationPickerView selectRow:selectedCountryIndex inComponent:0 animated:YES];
-
+    NSString* temp = [(Country*)[countryArray objectAtIndex:selectedCountryIndex] countryName];
+    [self.countryCity setTitle:temp forState:UIControlStateNormal];
     locationBtnPressedOnce = YES;
 
 }
@@ -262,10 +263,14 @@
         vc.storeID = store;
         [self presentViewController:vc animated:YES completion:nil];
     }else if (alertView.tag == 4){
+        if (buttonIndex == 0) {
         store.storePassword = self.userPassword.text;
         guestCheck = YES;
         [StoreManager sharedInstance].delegate = self;
         [[StoreManager sharedInstance] createStore:store];
+        }else if (buttonIndex == 1){
+            alertView.hidden = YES;
+        }
     }
 }
 

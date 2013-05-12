@@ -110,7 +110,7 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
         //Form is: com.bezaat.cars.[country_id].[pricing_id]
         currentProductID = [NSString stringWithFormat:product_id_form,
                             [[SharedUser sharedInstance] getUserCountryID],
-                            chosenPricingOption.pricingID
+                            chosenPricingOption.pricingTierID
                             ];
         
         //2- carete the order
