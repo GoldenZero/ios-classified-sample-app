@@ -43,6 +43,11 @@ typedef enum _krImageViewerDisapper{
     krImageViewerDisapperNothing
 } krImageViewerDisapper;
 
+@interface RotatingView : UIView
+
+@property (nonatomic) UIDeviceOrientation currentOrientation;
+
+@end
 
 @interface KRImageViewer : NSObject<UIScrollViewDelegate>{
     //作用的 View

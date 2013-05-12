@@ -13,6 +13,58 @@
 #import "KRImageScrollView.h"
 
 
+
+@implementation RotatingView
+
+- (id) init {
+    self = [super init];
+    if (self)
+    {
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(deviceOrientationDidChange:) name: UIDeviceOrientationDidChangeNotification object: nil];
+    }
+    return self;
+}
+
+- (void)deviceOrientationDidChange:(NSNotification *)notification {
+    
+    //Obtaining the current device orientation
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    
+    
+    if ((UIDeviceOrientationIsPortrait(_currentOrientation) && UIDeviceOrientationIsPortrait(orientation)) ||
+        (UIDeviceOrientationIsLandscape(_currentOrientation) && UIDeviceOrientationIsLandscape(orientation))) {
+        //still saving the current orientation
+        _currentOrientation = orientation;
+        return;
+    }
+    
+    //Ignoring specific orientations
+    if (orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown || orientation == UIDeviceOrientationUnknown || _currentOrientation == orientation) {
+        return;
+    }
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(relayoutLayers) object:nil];
+    //Responding only to changes in landscape or portrait
+    _currentOrientation = orientation;
+    
+    [self performSelector:@selector(orientationChangedMethod) withObject:nil afterDelay:0];
+}
+
+- (void) orientationChangedMethod {
+    
+    CGFloat rotationAngle = 0;
+    if (_currentOrientation == UIDeviceOrientationPortraitUpsideDown) rotationAngle = M_PI;
+    else if (_currentOrientation == UIDeviceOrientationLandscapeLeft) rotationAngle = M_PI_2;
+    else if (_currentOrientation == UIDeviceOrientationLandscapeRight) rotationAngle = -M_PI_2;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.transform = CGAffineTransformMakeRotation(rotationAngle);
+        
+    } completion:nil];
+}
+
+@end
+
 static CGFloat _backgroundViewBlackColor = 0.0f;
 static NSInteger krLoadingViewTag   = 1799;
 static NSInteger krLoadingButtonTag = 1800;
