@@ -168,8 +168,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 @"",
                                 @"",
                                 @"",
-                                @"1",   //by default, load images
-                                @"1",   //by default, load images
+                                @"",
+                                @"",
                                 @"",
                                 @"",
                                 @""];
@@ -1516,8 +1516,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 @"",
                                 @"",
                                 @"",
-                                @"1",   //by default, load images
-                                @"1",   //by default, load images
+                                @"",
+                                @"",
                                 @"",
                                 @"",
                                 @""
