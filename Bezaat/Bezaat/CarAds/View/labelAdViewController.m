@@ -395,6 +395,9 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     [self hideLoadingIndicator];
     
     //COME BACK HERE LATER TO ADD A RETRY BUTTON
+    if ([[error description] isEqualToString:@"input string was not in a correct format."]) {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"لا يمكنك تمييز اعلانك لأنك زائر ،يرجى تسجيل الدخول لتمييز إعلانك" delegateVC:self];
+    }else
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
 }
 
@@ -411,7 +414,9 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 -(void)BankOrderDidFailCreationWithError:(NSError *)error
 {
     [self hideLoadingIndicator];
-    
+    if ([[error description] isEqualToString:@"input string was not in a correct format."]) {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"لا يمكنك تمييز اعلانك لأنك زائر ،يرجى تسجيل الدخول لتمييز إعلانك" delegateVC:self];
+    }else
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
 }
 
