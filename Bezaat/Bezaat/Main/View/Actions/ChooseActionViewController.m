@@ -159,6 +159,13 @@
     ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
     vc.tagOfCallXib=1;
     [self presentViewController:vc animated:YES completion:nil];
+    
+    //GA
+    [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"sell car"
+                         withValue:[NSNumber numberWithInt:100]];
+
 }
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
@@ -173,7 +180,12 @@
      //   SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
        // [self presentViewController:vc animated:YES completion:nil];
     //}
-    
+    //GA
+    [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
+                                                    withAction:@"buttonPress"
+                                                     withLabel:@"buy car"
+                                                     withValue:[NSNumber numberWithInt:100]];
+
     
 }
 
@@ -181,16 +193,6 @@
     [self hideMenu];
     
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-   /* if (!savedProfile) {
-        // goto login view
-        if ([[UIScreen mainScreen] bounds].size.height == 568){
-            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
-            [self presentViewController:vc animated:YES completion:nil];
-        }else {
-            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-            [self presentViewController:vc animated:YES completion:nil];
-        }
-    }else {*/
         
         if (savedProfile.hasStores) {
             BrowseStoresViewController *vc =[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
@@ -200,9 +202,13 @@
             AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
             [self presentViewController:vc animated:YES completion:nil];
         }
-    //}
-    //NSString* launchUrl = @"http://bezaat.com/ksa/riyadh/account/create-store";
-    //[[UIApplication sharedApplication] openURL:[NSURL URLWithString: launchUrl]];
+
+    //GA
+    [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
+                                                    withAction:@"buttonPress"
+                                                     withLabel:@"Add new store"
+                                                     withValue:[NSNumber numberWithInt:100]];
+
     
 }
 
@@ -382,6 +388,11 @@
                 AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
                     [self presentViewController:vc animated:YES completion:nil];
                 
+                //GA
+                [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
+                                                                withAction:@"buttonPress"
+                                                                 withLabel:@"Add new store (menu)"
+                                                                 withValue:[NSNumber numberWithInt:100]];
 
                 break;
             }
