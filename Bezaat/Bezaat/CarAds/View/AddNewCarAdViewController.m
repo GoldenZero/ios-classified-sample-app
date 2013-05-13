@@ -750,6 +750,9 @@
     if ([carDetails.text isEqualToString:@""]) {
         carDetails.text = placeholderTextField.text;
     }
+    if ([distance.text length] == 0) {
+        distance.text = @"";
+    }
     
     [[CarAdsManager sharedInstance] postAdOfBrand:_currentModel.brandID
                                             Model:_currentModel.modelID

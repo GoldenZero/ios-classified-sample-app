@@ -1113,6 +1113,10 @@
     [self showLoadingIndicator];
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     
+    if ([distance.text length] == 0) {
+        distance.text = @"";
+    }
+    
     [[CarAdsManager sharedInstance] postStoreAdOfBrand:_currentModel.brandID myStore:myStore.identifier
                                                  Model:_currentModel.modelID
                                                 InCity:chosenCity.cityID
