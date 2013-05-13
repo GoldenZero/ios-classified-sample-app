@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-@interface AboutAppViewController : UIViewController
+@interface AboutAppViewController : GAITrackedViewController
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 - (IBAction)backInvoked:(id)sender;

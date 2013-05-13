@@ -29,7 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.trackedViewName = @"Splash Screen";
     [self rotationWheel:self.wheelView];
     
     //clear keychain data if first launch before any loading of brands data

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-@interface SplashViewController : UIViewController
+@interface SplashViewController : GAITrackedViewController
 @property (strong, nonatomic) IBOutlet UIImageView *splashView;
 @property (strong, nonatomic) IBOutlet UIImageView *wheelView;
 

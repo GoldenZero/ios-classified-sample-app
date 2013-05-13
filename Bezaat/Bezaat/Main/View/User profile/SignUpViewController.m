@@ -42,6 +42,9 @@
     [self.contentView addGestureRecognizer:tap];
     [self setBackgroundImages];
     
+    //GA
+    [[GAI sharedInstance].defaultTracker  sendView:@"Register screen"];
+    // end GA
     //initialize facebook manager
     fbManager = [[FacebookManager alloc] initWithDelegate:self];
     

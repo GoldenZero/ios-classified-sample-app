@@ -40,6 +40,9 @@
            action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
  
+    //GA
+    [[GAI sharedInstance].defaultTracker  sendView:@"Login screen"];
+    // end GA
     //initialize facebook manager
     fbManager = [[FacebookManager alloc] initWithDelegate:self];
 }
