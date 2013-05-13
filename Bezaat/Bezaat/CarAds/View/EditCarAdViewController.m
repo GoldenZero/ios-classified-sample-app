@@ -35,6 +35,10 @@
     MBProgressHUD2 *loadingHUD;
     MBProgressHUD2 *imgsLoadingHUD;
     int chosenImgBtnTag;
+    int chosenRemoveImgBtnTag;
+    int removeCounter;
+    BOOL firstRemove;
+    
     UIImage * currentImageToUpload;
     LocationManager * locationMngr;
     CLLocationManager * deviceLocationDetector;
@@ -93,6 +97,9 @@
     
     // Set the image piacker
     chosenImgBtnTag = -1;
+    chosenRemoveImgBtnTag = -1;
+    removeCounter = 1;
+    
     currentImageToUpload = nil;
     currentImgsUploaded = [NSMutableArray new];
     
@@ -212,16 +219,19 @@
             [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
             [self.horizontalScrollView addSubview:temp];
         }else{
-        cardADS = (CarAd*)[self.myImageIDArray objectAtIndex:i];
-        UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
-        [temp setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:cardADS.ImageURL]]] forState:UIControlStateNormal];
-        
-        //TODO get all images
-        
-        temp.tag = (i+1) * 10;
-        [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
-        [self.horizontalScrollView addSubview:temp];
+            cardADS = (CarAd*)[self.myImageIDArray objectAtIndex:i];
+            UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
+            [temp setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:cardADS.ImageURL]]] forState:UIControlStateNormal];
+            temp.tag = (i+1) * 10;
+            [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
+            [self.horizontalScrollView addSubview:temp];
             remainingImg-=1;
+            
+            UIButton* removeImg = [[UIButton alloc] initWithFrame:CGRectMake(47+(104*i), 92, 20, 20)];
+            [removeImg setImage:[UIImage imageNamed:@"list_remove.png"] forState:UIControlStateNormal];
+            removeImg.tag = (i+1) * 100;
+            [removeImg addTarget:self action:@selector(ImageDelete:) forControlEvents:UIControlEventTouchUpInside];
+            [self.horizontalScrollView addSubview:removeImg];
         }
     }
 }
@@ -237,6 +247,33 @@
                                                     otherButtonTitles:@"التقط صورة", @"اختر صورة", nil];
     
     [actionSheet showInView:self.view];
+}
+
+-(void) ImageDelete:(id)sender {
+    UIButton* senderBtn = (UIButton *)sender;
+    chosenRemoveImgBtnTag = senderBtn.tag / 10;
+    
+    UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenRemoveImgBtnTag];
+    [tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
+    if (firstRemove) {
+        
+    if (chosenRemoveImgBtnTag/10 - removeCounter <= 0) {
+        removeCounter--;
+        while (chosenRemoveImgBtnTag/10 - removeCounter < 0) {
+            removeCounter--;
+        }
+        
+    }
+        
+    }
+    if ([currentImgsUploaded count] == 1)
+        [currentImgsUploaded removeObjectAtIndex:0];
+    else
+    [currentImgsUploaded removeObjectAtIndex:chosenRemoveImgBtnTag/10 - removeCounter];
+    
+    firstRemove = YES;
+    [senderBtn setHidden:YES];
+    removeCounter++;
 }
 
 -(void) TakePhotoWithCamera {
