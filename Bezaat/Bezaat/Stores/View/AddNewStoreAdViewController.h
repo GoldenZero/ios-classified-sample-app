@@ -12,6 +12,7 @@
 #import "FeatureStoreAdViewController.h"
 #import "BrowseStoresViewController.h"
 #import "FeaturingManager.h"
+#import "Store.h"
 #import "CarAdDetailsViewController.h"
 #import "GAI.h"
 

@@ -38,7 +38,7 @@
     NSArray *carTypeArray;
     NSArray *carBodyArray;
     
-    NSArray* allUserStore;
+    NSMutableArray* allUserStore;
     
     NSInteger defaultCityID;
     NSString* defaultCityName;
@@ -110,6 +110,7 @@
     gearchoosen = 0;
     typechoosen = 0;
     
+    allUserStore = [[NSMutableArray alloc]init];
     
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getUserStores];
@@ -1299,7 +1300,16 @@
 }
 
 - (void) userStoresRetrieveDidSucceedWithStores:(NSArray *)stores {
-    allUserStore = stores;
+   
+    for (int i =0; i<[stores count]; i++) {
+        Store* temp = [stores objectAtIndex:i];
+
+        if (temp.status == 2) {
+            [allUserStore addObject:temp];
+        }
+    }
+     //  allUserStore = st;
+    
     if (self.currentStore) {
         for (int i =0; i < [allUserStore count]; i++) {
             if (self.currentStore.identifier == [(Store *)[allUserStore objectAtIndex:i] identifier]) {
@@ -1309,6 +1319,7 @@
         }
         [theStore setTitle:self.currentStore.name forState:UIControlStateNormal];
     }
+    [self.storePickerView reloadAllComponents];
     [self hideLoadingIndicator];
 }
 /*

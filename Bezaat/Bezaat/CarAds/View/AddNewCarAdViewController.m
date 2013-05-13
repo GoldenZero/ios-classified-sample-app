@@ -825,6 +825,10 @@
             alertView.hidden = YES;
         }
        
+    }else if (alertView.tag == 5){
+        SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        vc.returnPage = YES;
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 
@@ -922,9 +926,9 @@
     [self hideLoadingIndicator];
     NSLog(@"%@",[error description]);
     if ([[error description] isEqualToString:@"validate_password"]) {
-        SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-        vc.returnPage = YES;
-        [self presentViewController:vc animated:YES completion:nil];
+        UIAlertView* alert =[ [UIAlertView alloc]initWithTitle:@"" message:@"البريد الإلكنروني مسجل لدينا يرجى تسجيل الدخول" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:@"", nil];
+        alert.tag = 5;
+        [alert show];
     }else 
     [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     
