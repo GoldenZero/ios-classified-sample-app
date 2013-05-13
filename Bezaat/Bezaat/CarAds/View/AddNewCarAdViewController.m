@@ -753,6 +753,9 @@
     if ([distance.text length] == 0) {
         distance.text = @"";
     }
+    if ([carPrice.text length] == 0) {
+        carPrice.text = @"";
+    }
     
     [[CarAdsManager sharedInstance] postAdOfBrand:_currentModel.brandID
                                             Model:_currentModel.modelID
