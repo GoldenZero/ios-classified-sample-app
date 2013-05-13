@@ -538,7 +538,11 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
                 NSDictionary* userDict = [[NSDictionary alloc]init];
                 NSString* ID;
                 if (!storeDict.count == 0) {
-            userDict = [s objectForKey:@"User"];
+                    if ([[[s objectForKey:@"User"] description] isEqualToString:@""]) {
+                        //[userDict setValue:@"0" forKey:@"0"];
+                        //[userDict set]
+                    }else {
+                        userDict = [s objectForKey:@"User"];}
             ID = [storeDict objectForKey:@"StoreID"];
                 }else {
                     CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
@@ -546,7 +550,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
                     [delegate storeCreationDidFailWithError:error];
                 }
                 UserProfile* newUser;
-                if (userDict && userDict == NULL) {
+                if (userDict.count > 0) {
                     newUser = [self getUserData:userDict];
                 }else{
                     newUser = [[SharedUser sharedInstance] getUserProfileData];

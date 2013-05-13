@@ -1011,6 +1011,16 @@
     //    mobileNum :UITextField;
     //    carPrice : UITextField;
     
+    if (!storeBtnPressedOnce)
+    {
+        if (self.currentStore) {
+            myStore = self.currentStore;
+        }else {
+            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار المتجر" delegateVC:self];
+            return;
+        }
+    }
+    
     //check country & city
     if (!locationBtnPressedOnce)
     {
@@ -1025,13 +1035,25 @@
     }
     
     //check title
-    if ([[carAdTitle.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
+    if ([carAdTitle.text length] == 0)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال عنوان صحيح للإعلان" delegateVC:self];
         return;
     }
     
-       
+    //check description
+    if ([carDetails.text length] == 0)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال تفاصيل للإعلان" delegateVC:self];
+        return;
+    }
+    
+    if ([[mobileNum.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
+        return;
+    }
+    
     //check currency
     if (!currencyBtnPressedOnce)
     {
@@ -1044,15 +1066,7 @@
         }
     }
    
-    if (!storeBtnPressedOnce)
-    {
-        if (self.currentStore) {
-            myStore = self.currentStore;
-        }else {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار المتجر" delegateVC:self];
-        return;
-        }
-    }
+   
     
     if (!bodyBtnPressedOnce)
     {
@@ -1069,11 +1083,7 @@
         return;
     }
     
-    if ([[mobileNum.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
-        return;
-    }
+   
     
     
     
@@ -1115,6 +1125,9 @@
     
     if ([distance.text length] == 0) {
         distance.text = @"";
+    }
+    if ([carPrice.text length] == 0) {
+        carPrice.text = @"";
     }
     
     [[CarAdsManager sharedInstance] postStoreAdOfBrand:_currentModel.brandID myStore:myStore.identifier

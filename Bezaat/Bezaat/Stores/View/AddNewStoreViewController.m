@@ -32,6 +32,7 @@
     IBOutlet UITextField *nameField;
     IBOutlet UITextView *descriptionField;
     IBOutlet UITextField *emailField;
+    IBOutlet UITextField *passwordField;
     IBOutlet UITextField *phoneField;
     IBOutlet UITextField *placeholderTextField;
     IBOutlet UIPickerView *locationPickerView;
@@ -61,7 +62,18 @@
     guestCheck = NO;
     
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-
+    
+    self.mainScrollView.contentSize = CGSizeMake(278, 342);
+    UserProfile* currentUser = [[SharedUser sharedInstance] getUserProfileData];
+    if (currentUser) {
+        [passwordField setHidden:YES];
+        phoneField.frame = CGRectMake(phoneField.frame.origin.x, 177, phoneField.frame.size.width, phoneField.frame.size.height);
+        self.countryCity.frame = CGRectMake(self.countryCity.frame.origin.x, 215, self.countryCity.frame.size.width, self.countryCity.frame.size.height);
+        self.saveBtn.frame = CGRectMake(self.saveBtn.frame.origin.x, 253, self.saveBtn.frame.size.width, self.saveBtn.frame.size.height);
+        self.cancelBtn.frame = CGRectMake(self.cancelBtn.frame.origin.x, 253, self.cancelBtn.frame.size.width, self.cancelBtn.frame.size.height);
+       self.mainScrollView.contentSize = CGSizeMake(278, 312);
+    }
+    
     CGRect frame = placeholderTextField.frame;
     frame.size.height = descriptionField.frame.size.height;
     placeholderTextField.frame = frame;
@@ -186,9 +198,11 @@
     store.imageURL = myURL;
     
     UserProfile* savedPofile = [[SharedUser sharedInstance] getUserProfileData];
-    if (!savedPofile && !guestCheck) {
-        [self PasswordRequire];
-        return;
+    if (!savedPofile && !guestCheck) { //guest
+        //[self PasswordRequire];
+        //return;
+        store.storePassword = passwordField.text;
+        guestCheck = YES;
     }else{
         store.storePassword = @"";
     }
@@ -249,6 +263,9 @@
     }
     else if (textField == emailField) {
         [phoneField becomeFirstResponder];
+    }
+    else if (textField == passwordField) {
+        [passwordField becomeFirstResponder];
     }
     else {
         [textField resignFirstResponder];
@@ -360,6 +377,9 @@
 - (void) storeCreationDidFailWithError:(NSError *)error {
     [self hideLoadingIndicator];
     guestCheck = NO;
+    if ([[error description] isEqualToString:@"WRONG_PASSWORD"]) {
+        [GenericMethods throwAlertWithTitle:@"" message:@"البريد الإلكتروني مسجل لدينا مسبقا يرجى التأكد من كلمة السر" delegateVC:self];
+    }else
     [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     
 }
@@ -437,6 +457,7 @@
     [descriptionField resignFirstResponder];
     [emailField resignFirstResponder];
     [phoneField resignFirstResponder];
+    [passwordField resignFirstResponder];
 }
 
 - (void) showLoadingIndicator {
