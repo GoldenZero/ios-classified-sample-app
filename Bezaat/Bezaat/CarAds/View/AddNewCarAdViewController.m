@@ -917,6 +917,7 @@
     
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
     vc.currentAdID = adID;
+    vc.countryAdID = chosenCountry.countryID;
     vc.parentNewCarVC = self;
     [self presentViewController:vc animated:YES completion:nil];
     

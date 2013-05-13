@@ -49,6 +49,7 @@
 @property (strong, nonatomic) IBOutlet  UIButton *body;
 
 @property (strong, nonatomic) IBOutlet  UIButton *countryCity;
+@property (strong, nonatomic) Store* currentStore;
 
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;

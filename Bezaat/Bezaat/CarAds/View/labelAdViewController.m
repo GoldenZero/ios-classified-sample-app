@@ -30,7 +30,7 @@
 @synthesize currentAdID;
 @synthesize laterBtn, nowBtn, parentNewCarVC;
 
-static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
+static NSString * product_id_form = @"com.bezaat.cars.c.%i";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -109,7 +109,6 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
         //1- extract product ID from pricing option
         //Form is: com.bezaat.cars.[country_id].[pricing_id]
         currentProductID = [NSString stringWithFormat:product_id_form,
-                            [[SharedUser sharedInstance] getUserCountryID],
                             chosenPricingOption.pricingTierID
                             ];
         
@@ -249,6 +248,7 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
                 //NSLog(@"Purchased successfully");
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 
+                [self GAIonPurchaseCompletedFA];
                 //confirm order
                 [self confirmCurrentOrderWithResponse:transaction.transactionIdentifier];
                 
@@ -284,12 +284,48 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
     }
 }
 
+-(void) GAIonPurchaseCompletedFA
+{
+    GAITransaction *transaction =
+    [GAITransaction transactionWithId:currentOrderID
+                      withAffiliation:@"In-App Store"];
+    transaction.shippingMicros = (int64_t)(0);
+    transaction.revenueMicros = (int64_t)(chosenPricingOption.price * 1000000);
+    
+    [transaction addItemWithCode:[NSString stringWithFormat:@"%i_%i",self.countryAdID,chosenPricingOption.pricingID]
+                            name:chosenPricingOption.pricingName
+                        category:@"Featured Ads"
+                     priceMicros:(int64_t)(chosenPricingOption.price * 1000000)
+                        quantity:1];
+    
+    
+    [[GAI sharedInstance].defaultTracker sendTransaction:transaction];
+}
+
+-(void) GAIonPurchaseCompletedBT
+{
+    GAITransaction *transaction =
+    [GAITransaction transactionWithId:currentOrderID
+                      withAffiliation:@"Bank Transfer"];
+    transaction.shippingMicros = (int64_t)(0);
+    transaction.revenueMicros = (int64_t)(chosenPricingOption.price * 1000000);
+    
+    [transaction addItemWithCode:[NSString stringWithFormat:@"%i_%i",self.countryAdID,chosenPricingOption.pricingID]
+                            name:chosenPricingOption.pricingName
+                        category:@"Featured Ads"
+                     priceMicros:(int64_t)(chosenPricingOption.price * 1000000)
+                        quantity:1];
+    
+    
+    [[GAI sharedInstance].defaultTracker sendTransaction:transaction];
+}
+
 #pragma mark - helper methods
 
 - (void) loadPricingOptions {
     
     [self showLoadingIndicator];
-    [[FeaturingManager sharedInstance] loadPricingOptionsForCountry:[[SharedUser sharedInstance] getUserCountryID] withDelegate:self];
+    [[FeaturingManager sharedInstance] loadPricingOptionsForCountry:self.countryAdID withDelegate:self];
 }
 
 - (void) showLoadingIndicator {
@@ -424,6 +460,7 @@ static NSString * product_id_form = @"com.bezaat.cars.%i.%i";
 {
     [self hideLoadingIndicator];
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+    [self GAIonPurchaseCompletedBT];
     
     BankInfoViewController *vc=[[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
     vc.Order = orderID;

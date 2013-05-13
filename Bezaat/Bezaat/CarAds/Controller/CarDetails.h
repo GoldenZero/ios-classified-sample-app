@@ -75,6 +75,8 @@
 @property (strong, nonatomic) NSURL * storeLogoURL;
 @property (strong, nonatomic) NSURL * adURL;
 
+@property (nonatomic) NSUInteger countryID;
+
 #pragma mark - methods
 
 - (id) initWithDescription:(NSString *) aDescription
@@ -102,7 +104,8 @@
           isFavoriteString:(NSString *) aIsFavoriteString
                  storeName:(NSString *) aStoreName
               storeLogoURL:(NSString *) aStoreLogoURLString
-                       adURL:(NSString *) aAdURLString;
+                       adURL:(NSString *) aAdURLString
+               adCountryID:(NSString *)aCountryID;
 
 
 @end

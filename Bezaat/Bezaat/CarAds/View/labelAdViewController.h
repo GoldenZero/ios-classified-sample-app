@@ -26,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (nonatomic) NSInteger currentAdID;
+@property (nonatomic) NSInteger countryAdID;
 @property (weak, nonatomic) IBOutlet UIButton *laterBtn;
 @property (weak, nonatomic) IBOutlet UIButton *nowBtn;
 @property (strong, nonatomic) IBOutlet UIView *noServiceView;

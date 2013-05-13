@@ -162,6 +162,7 @@ static NSInteger lastBrandSelectedRow = -1;
             if (myStore.hasStores) {
                 AddNewStoreAdViewController *adNewCar=[[AddNewStoreAdViewController alloc] initWithNibName:@"AddNewStoreAdViewController" bundle:nil];
                 adNewCar.currentModel=selectedModel;
+                adNewCar.currentStore = self.sentStore;
                 [self presentViewController:adNewCar animated:YES completion:nil];
             }else {
                 AddNewCarAdViewController *adNewCar=[[AddNewCarAdViewController alloc] initWithNibName:@"AddNewCarAdViewController" bundle:nil];

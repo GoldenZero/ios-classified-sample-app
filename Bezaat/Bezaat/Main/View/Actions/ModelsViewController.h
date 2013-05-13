@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GAITrackedViewController.h"
+#import "Store.h"
 
 @interface ModelsViewController : GAITrackedViewController<BrandManagerDelegate> {
     NSArray* currentBrands;
@@ -22,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *allCarsBtn;
 @property (weak, nonatomic) IBOutlet UIButton *allBrandsBtn;
 @property int tagOfCallXib;
+@property (strong, nonatomic) Store* sentStore;
 - (IBAction)allCarsInvoked:(id)sender;
 
 @end

@@ -106,6 +106,7 @@
 @synthesize storeName;
 @synthesize storeLogoURL;
 @synthesize adURL;
+@synthesize countryID;
 
 - (id) initWithDescription:(NSString *) aDescription
                   adImages:(NSArray *)aAdImages
@@ -132,7 +133,8 @@
           isFavoriteString:(NSString *) aIsFavoriteString
                  storeName:(NSString *) aStoreName
               storeLogoURL:(NSString *) aStoreLogoURLString
-                     adURL:(NSString *) aAdURLString {
+                     adURL:(NSString *) aAdURLString
+               adCountryID:(NSString *)aCountryID{
     
     self = [super init];
     if (self) {
@@ -212,6 +214,8 @@
         
         // storeName
         self.storeName = aStoreName;
+        
+        self.countryID = aCountryID.integerValue;
         
         // storeLogoURL
         if ([aStoreLogoURLString isEqualToString:@""])

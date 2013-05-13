@@ -46,6 +46,8 @@
     NSInteger defaultCountryID;
     NSString* defaultCountryName;
     
+    NSInteger defaultStoreIndex;
+    
     MBProgressHUD2 *loadingHUD;
     MBProgressHUD2 *imgsLoadingHUD;
     int chosenImgBtnTag;
@@ -394,6 +396,10 @@
     theStore=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
     [theStore setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
     [theStore setTitle:@"اختر المتجر" forState:UIControlStateNormal];
+    // TODO set the Store to the current
+    if (self.currentStore) {
+        
+    }
     [theStore setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [theStore addTarget:self action:@selector(chooseStore) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:theStore];
@@ -805,6 +811,7 @@
     self.storePickerView.hidden = NO;
     [self dismissKeyboard];
     
+    [self.storePickerView selectRow:defaultStoreIndex inComponent:0 animated:YES];
         
     NSString *temp= [NSString stringWithFormat:@"%@",[(Store*)[allUserStore objectAtIndex:0] name]];
     [theStore setTitle:temp forState:UIControlStateNormal];
@@ -1031,14 +1038,20 @@
    
     if (!storeBtnPressedOnce)
     {
+        if (self.currentStore) {
+            myStore = self.currentStore;
+        }else {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار المتجر" delegateVC:self];
         return;
+        }
     }
     
     if (!bodyBtnPressedOnce)
     {
+        
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار هيكل السيارة" delegateVC:self];
         return;
+        
     }
 
     //check phone number
@@ -1259,6 +1272,15 @@
 
 - (void) userStoresRetrieveDidSucceedWithStores:(NSArray *)stores {
     allUserStore = stores;
+    if (self.currentStore) {
+        for (int i =0; i < [allUserStore count]; i++) {
+            if (self.currentStore.identifier == [(Store *)[allUserStore objectAtIndex:i] identifier]) {
+            defaultStoreIndex = [(Store *)[allUserStore objectAtIndex:i] identifier];
+                break;
+            }
+        }
+        [theStore setTitle:self.currentStore.name forState:UIControlStateNormal];
+    }
     [self hideLoadingIndicator];
 }
 /*

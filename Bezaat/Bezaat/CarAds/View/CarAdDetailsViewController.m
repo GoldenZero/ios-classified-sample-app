@@ -435,7 +435,7 @@
 - (IBAction)labelAdBtnPrss:(id)sender {
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
     vc.currentAdID = currentAdID;
-    
+    vc.countryAdID = currentDetailsObject.countryID;
     [self presentViewController:vc animated:YES completion:nil];
     
 }

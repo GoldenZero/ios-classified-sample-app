@@ -240,6 +240,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
                  finishTransaction:transaction];
                 [[NSNotificationCenter defaultCenter] postNotificationName:MyStorePurchasedNotification object:transaction.payment.productIdentifier userInfo:nil];
                transactionID = transaction.transactionIdentifier;
+                [self GAIonPurchaseCompletedFA];
                 break;
                 
             case SKPaymentTransactionStateFailed:
@@ -260,9 +261,51 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self hideLoadingIndicator];
     NSString * productIdentifier = notification.object;
     NSLog(@"product is purchased: %@", productIdentifier);
+    
     [[FeaturingManager sharedInstance] confirmStoreOrderID:OrderID withAppName:@"AppStore" gatewayResponse:transactionID withDelegate:self];
     
 }
+
+-(void) GAIonPurchaseCompletedFA
+{
+    PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+    
+    GAITransaction *transaction =
+    [GAITransaction transactionWithId:OrderID
+                      withAffiliation:@"In-App Store"];
+    transaction.shippingMicros = (int64_t)(0);
+    transaction.revenueMicros = (int64_t)(option.price * 1000000);
+    
+    [transaction addItemWithCode:[NSString stringWithFormat:@"%i_%i",self.storeID.countryID,option.pricingID]
+                            name:option.pricingName
+                        category:@"Store Subscribtion"
+                     priceMicros:(int64_t)(option.price * 1000000)
+                        quantity:1];
+    
+    
+    [[GAI sharedInstance].defaultTracker sendTransaction:transaction];
+}
+
+-(void) GAIonPurchaseCompletedBT
+{
+    PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+    
+    GAITransaction *transaction =
+    [GAITransaction transactionWithId:OrderID
+                      withAffiliation:@"Bank Transfer"];
+    transaction.shippingMicros = (int64_t)(0);
+    transaction.revenueMicros = (int64_t)(option.price * 1000000);
+    
+    [transaction addItemWithCode:[NSString stringWithFormat:@"%i_%i",self.storeID.countryID,option.pricingID]
+                            name:option.pricingName
+                        category:@"Store Subscribtion"
+                     priceMicros:(int64_t)(option.price * 1000000)
+                        quantity:1];
+    
+    
+    [[GAI sharedInstance].defaultTracker sendTransaction:transaction];
+}
+
 
 #pragma mark - helper methods
 - (void) loadPricingOptions {
@@ -380,7 +423,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     NSLog(@"%@",OrderID);
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
-    [self purchaseProductWithIdentifier:[NSString stringWithFormat:@"com.bezaat.S.%i",option.pricingTierID]];
+    [self purchaseProductWithIdentifier:[NSString stringWithFormat:@"com.bezaat.cars.ns.%i",option.pricingTierID]];
 }
 
 -(void)BankStoreOrderDidFailCreationWithError:(NSError *)error
@@ -397,6 +440,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     OrderID = orderID;
     NSLog(@"%@",OrderID);
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+    [self GAIonPurchaseCompletedBT];
     
     BankInfoViewController *vc=[[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
     vc.Order = orderID;

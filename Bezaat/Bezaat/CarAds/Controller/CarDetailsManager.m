@@ -40,6 +40,7 @@
 #define DETAILS_STORE_LOGO_URL_JKEY  @"StoreLogoURL"
 #define DETAILS_AD_URL_JKEY          @"AdURL"
 #define DETAILS_AD_EDIT_ID_JKEY      @"EncEditID"
+#define DETAILS_AD_COUNTRY_ID_JKEY   @"CountryID"
 
 //images array
 #define DETAILS_IMGS_IMAGE_ID_JKEY          @"ImageID"
@@ -326,6 +327,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                  storeName:[dataDict objectForKey:DETAILS_STORE_NAME_JKEY]
                  storeLogoURL:[dataDict objectForKey:DETAILS_STORE_LOGO_URL_JKEY]
                  adURL:[dataDict objectForKey:DETAILS_AD_URL_JKEY]
+                 adCountryID:[dataDict objectForKey:DETAILS_AD_COUNTRY_ID_JKEY]
                  ];
                 //NSLog(@"%@",[dataDict objectForKey:DETAILS_AD_EDIT_ID_JKEY]);
                 return detailsObject;
