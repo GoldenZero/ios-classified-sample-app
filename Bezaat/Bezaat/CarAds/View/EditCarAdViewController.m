@@ -212,7 +212,7 @@
     int remainingImg = [self.myImageIDArray count];
     for (int i=0; i<6; i++) {
         if ([self.myImageIDArray count] == 0 || remainingImg == 0) {
-            UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
+            UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 15, 77, 70)];
             [temp setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
             
             temp.tag = (i+1) * 10;
@@ -220,14 +220,14 @@
             [self.horizontalScrollView addSubview:temp];
         }else{
             cardADS = (CarAd*)[self.myImageIDArray objectAtIndex:i];
-            UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 20, 77, 70)];
+            UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 15, 77, 70)];
             [temp setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:cardADS.ImageURL]]] forState:UIControlStateNormal];
             temp.tag = (i+1) * 10;
             [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
             [self.horizontalScrollView addSubview:temp];
             remainingImg-=1;
             
-            UIButton* removeImg = [[UIButton alloc] initWithFrame:CGRectMake(47+(104*i), 92, 20, 20)];
+            UIButton* removeImg = [[UIButton alloc] initWithFrame:CGRectMake(20+(104*i), 85, 79, 25)];
             [removeImg setImage:[UIImage imageNamed:@"list_remove.png"] forState:UIControlStateNormal];
             removeImg.tag = (i+1) * 100;
             [removeImg addTarget:self action:@selector(ImageDelete:) forControlEvents:UIControlEventTouchUpInside];

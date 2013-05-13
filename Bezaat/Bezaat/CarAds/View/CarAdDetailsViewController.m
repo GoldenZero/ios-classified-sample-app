@@ -457,6 +457,10 @@
 
 
 - (IBAction)backBtnPrss:(id)sender {
+    if (self.checkPage) {
+        ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }else
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

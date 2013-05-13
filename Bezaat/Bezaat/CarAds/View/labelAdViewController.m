@@ -92,6 +92,7 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
     CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
     details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     details.currentAdID=currentAdID;
+    details.checkPage = YES;
     [self presentViewController:details animated:YES completion:nil];
    
 //    ChooseActionViewController* vc = [[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
@@ -529,6 +530,7 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
         CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
         details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         details.currentAdID=currentAdID;
+        details.checkPage = YES;
         [self presentViewController:details animated:YES completion:nil];
 
     }

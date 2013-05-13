@@ -46,6 +46,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *callBarView;
 @property (nonatomic) NSUInteger currentAdID;
+@property (nonatomic) BOOL checkPage;
 @property (strong, nonatomic) IBOutlet UIImageView *callBarImgBg;
 
 // Store Bar content

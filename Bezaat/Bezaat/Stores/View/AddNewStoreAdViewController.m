@@ -47,7 +47,8 @@
     NSString* defaultCountryName;
     
     NSInteger defaultStoreIndex;
-    
+    NSInteger myAdID;
+
     MBProgressHUD2 *loadingHUD;
     MBProgressHUD2 *imgsLoadingHUD;
     int chosenImgBtnTag;
@@ -423,6 +424,7 @@
     [carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setBackgroundColor:[UIColor clearColor]];
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
+    [carDetails setFont:[UIFont systemFontOfSize:17]];
     carDetails.delegate =self;
     
     placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,140 ,260 ,30)];
@@ -435,7 +437,15 @@
     [self.verticalScrollView addSubview:placeholderTextField];
     [self.verticalScrollView addSubview:carDetails];
 
-    carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,240 ,160 ,30)];
+    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,240 ,260 ,30)];  //610
+    [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
+    [mobileNum setTextAlignment:NSTextAlignmentRight];
+    [mobileNum setPlaceholder:@"رقم الجوال"];
+    [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
+    [self.verticalScrollView addSubview:mobileNum];
+    mobileNum.delegate=self;
+    
+    carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,290 ,160 ,30)];
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [carPrice setTextAlignment:NSTextAlignmentRight];
     [carPrice setPlaceholder:@"السعر (اختياري)"];
@@ -443,14 +453,14 @@
     [self.verticalScrollView addSubview:carPrice];
     carPrice.delegate=self;
     
-    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 240, 80, 30)];
+    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 290, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_SM.png"] forState:UIControlStateNormal];
     [currency setTitle:@"العملة    " forState:UIControlStateNormal];
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
     
-    distance=[[UITextField alloc] initWithFrame:CGRectMake(130,290 ,160 ,30)];
+    distance=[[UITextField alloc] initWithFrame:CGRectMake(130,350 ,160 ,30)];
     [distance setBorderStyle:UITextBorderStyleRoundedRect];
     [distance setTextAlignment:NSTextAlignmentRight];
     [distance setPlaceholder:@"المسافة المقطوعة"];
@@ -459,7 +469,7 @@
     distance.delegate=self;
     
     kiloMile = [[UISegmentedControl alloc] initWithItems:kiloMileArray];
-    kiloMile.frame = CGRectMake(30, 290, 80, 30);
+    kiloMile.frame = CGRectMake(30, 350, 80, 30);
     kiloMile.segmentedControlStyle = UISegmentedControlStylePlain;
     kiloMile.selectedSegmentIndex = 0;
     UIFont *font = [UIFont systemFontOfSize:17.0f];
@@ -469,7 +479,7 @@
     [self.verticalScrollView addSubview:kiloMile];
     
     condition = [[UISegmentedControl alloc] initWithItems:carConditionArray];
-    condition.frame = CGRectMake(30, 350, 260, 40);
+    condition.frame = CGRectMake(30, 410, 260, 40);
     condition.segmentedControlStyle = UISegmentedControlStylePlain;
     condition.selectedSegmentIndex = 0;
     [condition setTitleTextAttributes:attributes forState:UIControlStateNormal];
@@ -477,7 +487,7 @@
     [self.verticalScrollView addSubview:condition];
     
     gear = [[UISegmentedControl alloc] initWithItems:gearTypeArray];
-    gear.frame = CGRectMake(30, 410, 260, 40);
+    gear.frame = CGRectMake(30, 470, 260, 40);
     gear.segmentedControlStyle = UISegmentedControlStylePlain;
     gear.selectedSegmentIndex = 0;
     [gear setTitleTextAttributes:attributes forState:UIControlStateNormal];
@@ -485,21 +495,21 @@
     [self.verticalScrollView addSubview:gear];
     
     type = [[UISegmentedControl alloc] initWithItems:carTypeArray];
-    type.frame = CGRectMake(30, 470, 260, 40);
+    type.frame = CGRectMake(30, 520, 260, 40);
     type.segmentedControlStyle = UISegmentedControlStylePlain;
     type.selectedSegmentIndex = 0;
     [type setTitleTextAttributes:attributes forState:UIControlStateNormal];
     [type addTarget:self action:@selector(chooseCarType) forControlEvents: UIControlEventValueChanged];
     [self.verticalScrollView addSubview:type];
     
-    body =[[UIButton alloc] initWithFrame:CGRectMake(30, 520, 260, 30)];
+    body =[[UIButton alloc] initWithFrame:CGRectMake(30, 570, 260, 30)];
     [body setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
     [body setTitle:@"هيكل السيارة" forState:UIControlStateNormal];
     [body addTarget:self action:@selector(chooseBody) forControlEvents:UIControlEventTouchUpInside];
     [body setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:body];
     
-    productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 570, 260, 30)];
+    productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 610, 260, 30)];
     [productionYear setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
     [productionYear setTitle:@"عام الصنع" forState:UIControlStateNormal];
     [productionYear setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -507,13 +517,7 @@
     [self.verticalScrollView addSubview:productionYear];
     
     
-    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,610 ,260 ,30)];
-    [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
-    [mobileNum setTextAlignment:NSTextAlignmentRight];
-    [mobileNum setPlaceholder:@"رقم الجوال"];
-    [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
-    [self.verticalScrollView addSubview:mobileNum];
-    mobileNum.delegate=self;
+   
     
     
 }
@@ -1028,13 +1032,17 @@
     }
     
        
-      //check currency
+    //check currency
     if (!currencyBtnPressedOnce)
     {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار عملة مناسبة" delegateVC:self];
-        return;
+        //check price
+         if ( [carPrice.text length] != 0 )
+        {
+            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار عملة مناسبة" delegateVC:self];
+            return;
+            
+        }
     }
-    
    
     if (!storeBtnPressedOnce)
     {
@@ -1225,8 +1233,9 @@
 
 -(void)storeAdDidFinishPostingWithAdID:(NSInteger)adID
 {
-    [self hideLoadingIndicator];
+    //[self hideLoadingIndicator];
     
+    myAdID = adID;
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
     if (adID != 0) {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"شكرا"
@@ -1250,9 +1259,11 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 1) {
+        [[FeaturingManager sharedInstance] loadPricingOptionsForCountry:chosenCountry.countryID withDelegate:self];
+        /*
         //[self dismissViewControllerAnimated:YES completion:nil];
         BrowseStoresViewController *vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
-        [self presentViewController:vc animated:YES completion:nil];
+        [self presentViewController:vc animated:YES completion:nil];*/
     }
 }
 
@@ -1304,5 +1315,38 @@
         placeholderTextField.placeholder = @"";
     }
 }
+
+#pragma mark - PricingOptions Delegate
+
+- (void) optionsDidFailLoadingWithError:(NSError *)error {
+    
+    [self hideLoadingIndicator];
+    CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    details.currentAdID = myAdID;
+    details.checkPage = YES;
+    [self presentViewController:details animated:YES completion:nil];
+    
+}
+
+- (void) optionsDidFinishLoadingWithData:(NSArray *)resultArray {
+    
+    [self hideLoadingIndicator];
+    
+    if (resultArray.count == 0) {
+        CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        details.currentAdID = myAdID;
+        details.checkPage = YES;
+        [self presentViewController:details animated:YES completion:nil];
+    }else {
+        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        vc.currentAdID = myAdID;
+        vc.countryAdID = chosenCountry.countryID;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    
+}
+
 
 @end
