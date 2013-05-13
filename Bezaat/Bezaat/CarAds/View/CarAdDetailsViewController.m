@@ -860,25 +860,21 @@
                             expectedLabelSize.height = expectedLabelSize.height * factor;
                         }
 
+                        expectedLabelSize.width = ((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2);
                         CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
                         
                         
-                        UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(260 - expectedLabelSize.width, 2, expectedLabelSize.width, expectedLabelSize.height)];
                         
-                        attrNameLabel.text = attr_name_text;
-                        attrNameLabel.textAlignment = NSTextAlignmentRight;
-                        attrNameLabel.font = [UIFont systemFontOfSize:15];
-                        attrNameLabel.backgroundColor = [UIColor clearColor];
-                        attrNameLabel.numberOfLines = 0;
                         
                         //value label
-                        CGFloat valueLabelWidth = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
+                        //CGFloat valueLabelWidth = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
+                        CGFloat valueLabelWidth = ((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2);
                         CGFloat valueLabelHeight = expectedLabelSize.height;
                         
 
                         CGFloat val_y  = attr_y;
                         
-                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 2, 130, valueLabelHeight)];
+                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 2, valueLabelWidth, valueLabelHeight)];
                         
                         valuelabel.text = attr.attributeValue;
                         valuelabel.textAlignment = NSTextAlignmentRight;
@@ -886,7 +882,17 @@
                         valuelabel.textColor = [UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f];
                         valuelabel.backgroundColor = [UIColor clearColor];
                         
-                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y, valueLabelWidth + expectedLabelSize.width + 13, valueLabelHeight + 4)];
+                        UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(valuelabel.frame.origin.x + valueLabelWidth + 3, 2, expectedLabelSize.width, expectedLabelSize.height)];
+                        
+                        attrNameLabel.text = attr_name_text;
+                        attrNameLabel.textAlignment = NSTextAlignmentRight;
+                        attrNameLabel.font = [UIFont systemFontOfSize:15];
+                        attrNameLabel.backgroundColor = [UIColor clearColor];
+                        attrNameLabel.numberOfLines = 0;
+                        
+                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(13, val_y, valueLabelWidth + expectedLabelSize.width + 15, valueLabelHeight + 4)];
+                        
+                        
                         [v setBackgroundColor:[UIColor whiteColor]];
                         [v addSubview:attrNameLabel];
                         [v addSubview:valuelabel];
