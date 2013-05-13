@@ -839,7 +839,8 @@
                     attr.categoryAttributeID != 505 &&
                     attr.categoryAttributeID != 508 &&
                     attr.categoryAttributeID != 907 &&
-                    attr.categoryAttributeID != 1076) {
+                    attr.categoryAttributeID != 1076 &&
+                    attr.categoryAttributeID != 10171) {
                     
                     if (![attr.attributeValue length] == 0) {
                         
