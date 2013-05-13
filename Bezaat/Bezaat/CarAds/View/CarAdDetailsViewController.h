@@ -17,7 +17,7 @@
 #import "BrowseCarAdsViewController.h"
 #import "GAI.h"
 
-@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate>
+@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, CarDetailsManagerDelegate, FavoritesDelegate/*,CarAdsManagerDelegate*/>
 
 #pragma mark - properties
 @property (strong, nonatomic) BrowseCarAdsViewController * parentVC;
@@ -27,7 +27,7 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *labelsScrollView;
 @property (strong, nonatomic) IBOutlet SSLabel *detailsLabel;
 @property (strong, nonatomic) IBOutlet SSLabel *priceLabel;
-@property (strong, nonatomic) IBOutlet SSLabel *descriptionLabel;
+
 @property (strong, nonatomic) IBOutlet UILabel *addTimeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *yearMiniLabel;
 @property (strong, nonatomic) IBOutlet UILabel *watchingCountLabel;
@@ -41,13 +41,13 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *distinguishingImage;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
-@property (weak, nonatomic) IBOutlet UIView *detailsView;
-@property (weak, nonatomic) IBOutlet UIScrollView *descriptionScrollView;
+@property (weak, nonatomic) IBOutlet UIScrollView *detailsView;
 
 @property (strong, nonatomic) IBOutlet UIView *callBarView;
 @property (nonatomic) NSUInteger currentAdID;
 @property (nonatomic) BOOL checkPage;
 @property (strong, nonatomic) IBOutlet UIImageView *callBarImgBg;
+@property (weak, nonatomic) IBOutlet UILabel *detailsTextLabel;
 
 // Store Bar content
 

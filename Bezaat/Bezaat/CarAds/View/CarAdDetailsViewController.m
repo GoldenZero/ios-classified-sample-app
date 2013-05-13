@@ -12,7 +12,8 @@
 #import "EditCarAdViewController.h"
 #import "KRImageViewer.h"
 
-#define FIXED_V_DISTANCE    17
+//#define FIXED_V_DISTANCE    17
+#define FIXED_V_DISTANCE    0
 #define FIXED_H_DISTANCE    20
 
 @interface CarAdDetailsViewController (){
@@ -25,6 +26,7 @@
     UITapGestureRecognizer *tap;
     NSMutableDictionary * allImagesDict;    //used in image browser
     KRImageViewer *krImageViewer;
+    UILabel * label;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -212,7 +214,9 @@
     self.labelsScrollView.showsHorizontalScrollIndicator = NO;
     self.labelsScrollView.showsVerticalScrollIndicator = NO;
     self.labelsScrollView.bounces = NO;
-    //self.labelsScrollView.delegate = self;
+    self.labelsScrollView.delegate = self;
+    
+    
     
     //init the image load manager
     asynchImgManager = [[HJObjManager alloc] init];
@@ -237,6 +241,7 @@
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Ad details screen"];
     //end GA
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -705,6 +710,15 @@
 
 - (void) resizeScrollView {
     
+    [self.labelsScrollView setUserInteractionEnabled:YES];
+    
+    //set the labelsScrollview height to fixed small value to avoid enlarging
+    //its frame height on iPhone 5, which causes the view not to scroll if it it larger than its content size
+    CGRect nibFrame = self.labelsScrollView.frame;
+    nibFrame.size.height = self.view.frame.size.height - self.labelsScrollView.frame.origin.y;
+    [self.labelsScrollView setFrame:nibFrame];
+    
+    /*
     CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
     
     //1- remove all subviews in scroll view, lower than lastY (number is took from nib)
@@ -713,8 +727,10 @@
             [subview removeFromSuperview];
         }
     }
+    */
     
-    
+    if (!currentDetailsObject)
+        [self.detailsView setHidden:YES];
     
     if (currentDetailsObject)
     {
@@ -753,16 +769,69 @@
               [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
         }
         
-        //2- set attributes
+        //2- set details
+        if (![currentDetailsObject.description isEqualToString:@""]) {
+            CGSize realTextSize = [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15]];
+            CGSize expectedLabelSizeNew =
+            [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15] forWidth:(self.detailsView.frame.size.width - (2 * 5)) lineBreakMode:NSLineBreakByWordWrapping];
+            
+            if (realTextSize.width >= expectedLabelSizeNew.width)
+            {
+                int factor = (int) (realTextSize.width / expectedLabelSizeNew.width);
+                factor ++;
+                
+                expectedLabelSizeNew.height = expectedLabelSizeNew.height * factor;
+            }
+            
+            label = [[UILabel alloc] initWithFrame:CGRectMake(
+                                self.detailsTextLabel.frame.origin.x,
+                                self.detailsTextLabel.frame.origin.y + self.detailsTextLabel.frame.size.height + 5,
+                                self.detailsView.frame.size.width - (2 * 5),
+                                expectedLabelSizeNew.height)];
+            
+            label.text = currentDetailsObject.description;
+            label.textAlignment = NSTextAlignmentRight;
+            label.font = [UIFont systemFontOfSize:15];
+            label.backgroundColor = [UIColor clearColor];
+            label.numberOfLines = 0;
+            label.textColor = [UIColor blackColor];
+            
+            //[label setLineBreakMode:NSLineBreakByWordWrapping];
+            [self.detailsView addSubview:label];
+            [self.detailsView setScrollEnabled:NO];
+            [self.detailsView setShowsVerticalScrollIndicator:NO];
+            [self.detailsView setContentSize:(CGSizeMake(self.detailsView.frame.size.width,
+                            self.detailsTextLabel.frame.origin.x + self.detailsTextLabel.frame.size.height + label.frame.size.height + 10))];
+            CGRect detailsVieworiginalFrame = self.detailsView.frame;
+            
+            
+            [self.detailsView setFrame:CGRectMake(detailsVieworiginalFrame.origin.x,
+                                                  detailsVieworiginalFrame.origin.y,
+                                                  detailsVieworiginalFrame.size.width,
+                                                  self.detailsView.contentSize.height)];
+        }
+        else
+            [self.detailsView setHidden:YES];
+            
+        
+        //3- set attributes
         if ((currentDetailsObject.attributes) && (currentDetailsObject.attributes.count))
         {
-            CGFloat addedHeightValue;   //initial value, distant from last labels
-            if (currentDetailsObject.storeID > 0)   //isStore
-                addedHeightValue = 80 + 30;
-            else
-                addedHeightValue = 35 + 30;
+            CGFloat addedHeightValue = self.contentView.frame.origin.y;   //initial value, distant from last labels
             
-            lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height + addedHeightValue;
+            CGFloat lastY;
+            CGFloat totalHeight;
+            if (self.detailsView.isHidden)
+            {
+                lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height +  addedHeightValue + 30;
+                totalHeight = lastY;
+            }
+            else
+            {
+                lastY = self.detailsView.frame.origin.y + self.detailsView.frame.size.height +  addedHeightValue + 30;
+                totalHeight = lastY + 20;
+            }
+            
             
             for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
             {
@@ -774,7 +843,6 @@
                     
                     if (![attr.attributeValue length] == 0) {
                         
-                        
                         //attr label
                         NSString * attr_name_text = [NSString stringWithFormat:@"%@ :", attr.displayName];
                         
@@ -783,19 +851,18 @@
                         CGSize expectedLabelSize =
                         [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
                         
-                        if (realTextSize.width > expectedLabelSize.width)
+                        if (realTextSize.width >= expectedLabelSize.width)
                         {
                             int factor = (int) (realTextSize.width / expectedLabelSize.width);
                             factor ++;
                             
                             expectedLabelSize.height = expectedLabelSize.height * factor;
                         }
-                        
-                        CGFloat attr_x = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + FIXED_H_DISTANCE);
-                        
+
                         CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
                         
-                        UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(260 - expectedLabelSize.width, 8, expectedLabelSize.width, expectedLabelSize.height)];
+                        
+                        UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(260 - expectedLabelSize.width, 2, expectedLabelSize.width, expectedLabelSize.height)];
                         
                         attrNameLabel.text = attr_name_text;
                         attrNameLabel.textAlignment = NSTextAlignmentRight;
@@ -807,49 +874,43 @@
                         CGFloat valueLabelWidth = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
                         CGFloat valueLabelHeight = expectedLabelSize.height;
                         
-                        //CGFloat val_x = self.labelsScrollView.frame.size.width - FIXED_H_DISTANCE;
-                        CGFloat val_x = FIXED_H_DISTANCE;
+
                         CGFloat val_y  = attr_y;
                         
-                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 8, 130, valueLabelHeight)];
+                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 2, 130, valueLabelHeight)];
                         
                         valuelabel.text = attr.attributeValue;
                         valuelabel.textAlignment = NSTextAlignmentRight;
                         valuelabel.font = [UIFont systemFontOfSize:15];
                         valuelabel.textColor = [UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f];
                         valuelabel.backgroundColor = [UIColor clearColor];
-                        /*
-                         // UITextField* backgroundText = [[UITextField alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
-                         UITableViewCell* myCell = [[UITableViewCell alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
-                         myCell.accessoryType = UITableViewCellAccessoryNone;
-                         myCell.backgroundColor = [UIColor whiteColor];
-                         myCell.textLabel.text = attrNameLabel.text;
-                         myCell.detailTextLabel.text = valuelabel.text;
-                         
-                         */
-                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y + 100, valueLabelWidth + expectedLabelSize.width + 13, 35)];
+                        
+                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y, valueLabelWidth + expectedLabelSize.width + 13, valueLabelHeight + 4)];
                         [v setBackgroundColor:[UIColor whiteColor]];
                         [v addSubview:attrNameLabel];
                         [v addSubview:valuelabel];
                         
-                        //[self.labelsScrollView addSubview:attrNameLabel];
-                        //[self.labelsScrollView addSubview:valuelabel];
                         [self.labelsScrollView addSubview:v];
                         
                         
                         lastY = attr_y + valueLabelHeight;
-                        addedHeightValue = addedHeightValue + valueLabelHeight + FIXED_V_DISTANCE;
+                        
+                        addedHeightValue = addedHeightValue + v.frame.size.height + FIXED_V_DISTANCE;
+                        
                     }
                 }
             }
             
             addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
             
-            CGFloat totalHeight = self.labelsScrollView.frame.size.height + addedHeightValue;
+            
+            totalHeight = totalHeight + addedHeightValue + 30;
+
             
             [self.labelsScrollView setScrollEnabled:YES];
             [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
             [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
+            
         }
     }
     
@@ -980,13 +1041,6 @@
             self.priceLabel.text = priceStr;
         else
             self.priceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, currentDetailsObject.currencyString];
-        self.descriptionScrollView.contentSize = CGSizeMake(273, 160);
-        [self.descriptionLabel setBackgroundColor:[UIColor clearColor]];
-        [self.descriptionLabel setTextAlignment:SSTextAlignmentRight];
-        [self.descriptionLabel setTextColor:[UIColor blackColor]];
-        [self.descriptionLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:13.0] ];
-        self.descriptionLabel.text = currentDetailsObject.description;
-        
         
         self.addTimeLabel.text = [[CarDetailsManager sharedInstance] getDateDifferenceStringFromDate:currentDetailsObject.postedOnDate];
         self.yearMiniLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.modelYear];

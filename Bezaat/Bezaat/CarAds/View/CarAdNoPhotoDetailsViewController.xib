@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12B19</string>
+		<string key="IBDocument.SystemVersion">11G63b</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187</string>
-		<string key="IBDocument.HIToolboxVersion">624.00</string>
+		<string key="IBDocument.AppKitVersion">1138.51</string>
+		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -448,37 +448,11 @@
 												</object>
 												<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 											</object>
-											<object class="IBUIScrollView" id="758331822">
-												<reference key="NSNextResponder" ref="39552556"/>
-												<int key="NSvFlags">268</int>
-												<array class="NSMutableArray" key="NSSubviews">
-													<object class="IBUIView" id="347529846">
-														<reference key="NSNextResponder" ref="758331822"/>
-														<int key="NSvFlags">292</int>
-														<string key="NSFrame">{{10, 5}, {258, 63}}</string>
-														<reference key="NSSuperview" ref="758331822"/>
-														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="117596258"/>
-														<string key="NSReuseIdentifierKey">_NS:9</string>
-														<reference key="IBUIBackgroundColor" ref="1030310295"/>
-														<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-													</object>
-												</array>
-												<string key="NSFrame">{{0, 21}, {273, 72}}</string>
-												<reference key="NSSuperview" ref="39552556"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="347529846"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<bool key="IBUIClipsSubviews">YES</bool>
-												<bool key="IBUIMultipleTouchEnabled">YES</bool>
-												<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-												<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
-											</object>
 										</array>
 										<string key="NSFrame">{{23, 232}, {273, 92}}</string>
 										<reference key="NSSuperview" ref="840400097"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="758331822"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<reference key="IBUIBackgroundColor" ref="277170800"/>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -611,6 +585,7 @@
 								<string key="NSFrame">{{1, 54}, {73, 34}}</string>
 								<reference key="NSSuperview" ref="990958099"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -858,27 +833,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">descriptionScrollView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="758331822"/>
-					</object>
-					<int key="connectionID">580</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">descriptionLabel</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="347529846"/>
-					</object>
-					<int key="connectionID">581</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">editAdBtn</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="727388909"/>
 					</object>
 					<int key="connectionID">583</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">detailsTextLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="117596258"/>
+					</object>
+					<int key="connectionID">587</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1162,7 +1129,6 @@
 						<reference key="object" ref="39552556"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="117596258"/>
-							<reference ref="758331822"/>
 						</array>
 						<reference key="parent" ref="840400097"/>
 					</object>
@@ -1170,19 +1136,6 @@
 						<int key="objectID">572</int>
 						<reference key="object" ref="117596258"/>
 						<reference key="parent" ref="39552556"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">578</int>
-						<reference key="object" ref="758331822"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="347529846"/>
-						</array>
-						<reference key="parent" ref="39552556"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">579</int>
-						<reference key="object" ref="347529846"/>
-						<reference key="parent" ref="758331822"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">582</int>
@@ -1239,11 +1192,9 @@
 				<string key="567.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="569.CustomClassName">SSLabel</string>
 				<string key="569.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="571.CustomClassName">UIScrollView</string>
 				<string key="571.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="572.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="578.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="579.CustomClassName">SSLabel</string>
-				<string key="579.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="582.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="585.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="586.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1252,7 +1203,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">586</int>
+			<int key="maxID">587</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1312,10 +1263,9 @@
 						<string key="callBarView">UIView</string>
 						<string key="contentView">UIView</string>
 						<string key="countOfViewsTinyImg">UIImageView</string>
-						<string key="descriptionLabel">SSLabel</string>
-						<string key="descriptionScrollView">UIScrollView</string>
 						<string key="detailsLabel">SSLabel</string>
-						<string key="detailsView">UIView</string>
+						<string key="detailsTextLabel">UILabel</string>
+						<string key="detailsView">UIScrollView</string>
 						<string key="distinguishingImage">UIScrollView</string>
 						<string key="editAdBtn">UIBarButtonItem</string>
 						<string key="editBtn">UIBarButtonItem</string>
@@ -1368,21 +1318,17 @@
 							<string key="name">countOfViewsTinyImg</string>
 							<string key="candidateClassName">UIImageView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="descriptionLabel">
-							<string key="name">descriptionLabel</string>
-							<string key="candidateClassName">SSLabel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="descriptionScrollView">
-							<string key="name">descriptionScrollView</string>
-							<string key="candidateClassName">UIScrollView</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="detailsLabel">
 							<string key="name">detailsLabel</string>
 							<string key="candidateClassName">SSLabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="detailsTextLabel">
+							<string key="name">detailsTextLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="detailsView">
 							<string key="name">detailsView</string>
-							<string key="candidateClassName">UIView</string>
+							<string key="candidateClassName">UIScrollView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="distinguishingImage">
 							<string key="name">distinguishingImage</string>
@@ -1491,7 +1437,7 @@
 			<string key="buttons_back.png">{51, 41}</string>
 			<string key="buttons_delete.png">{40, 41}</string>
 			<string key="buttons_edit.png">{51, 41}</string>
-			<string key="buttons_ok.png">{51, 41}</string>
+			<string key="buttons_ok.png">{34, 41}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
