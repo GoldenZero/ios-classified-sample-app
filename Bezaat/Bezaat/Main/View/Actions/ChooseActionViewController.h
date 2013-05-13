@@ -15,7 +15,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GAITrackedViewController.h"
-
+#import "GAI.h"
 
 @interface ChooseActionViewController : GAITrackedViewController<UITableViewDataSource,UITableViewDelegate>
 

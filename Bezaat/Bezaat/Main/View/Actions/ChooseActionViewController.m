@@ -80,6 +80,7 @@
             AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x - 1, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
             
         }
+        [[GAI sharedInstance].defaultTracker sendView:@"Home Screen (Store)"];
     }else {
     
     if ([[UIScreen mainScreen] bounds].size.height == 568){
@@ -100,6 +101,7 @@
         AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x - 1, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
 
     }
+        [[GAI sharedInstance].defaultTracker sendView:@"Home Screen (User)"];
     }
     
     // Do any additional setup after loading the view from its nib.
