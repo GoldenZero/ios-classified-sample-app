@@ -240,6 +240,12 @@
     //hide loading indicator
     [self hideLoadingIndicator];
     
+    [GAI sharedInstance].defaultTracker.sessionStart = YES;
+    [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"app_flow"
+                                                    withAction:@"sign_in"
+                                                     withLabel:@"bezaat"
+                                                     withValue:nil]; // First activity of new session.
+
     if (self.returnPage) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }else {
@@ -276,7 +282,12 @@
     
     alert.tag = 3;
     [alert show];
-    
+    [GAI sharedInstance].defaultTracker.sessionStart = YES;
+    [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"app_flow"
+                                                    withAction:@"sign_in"
+                                                     withLabel:@"twitter"
+                                                     withValue:nil]; // First activity of new session.
+
   
 }
 
@@ -322,6 +333,11 @@
     
     alert.tag = 3;
     [alert show];
+    [GAI sharedInstance].defaultTracker.sessionStart = YES;
+    [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"app_flow"
+                        withAction:@"sign_in"
+                         withLabel:@"facebook"
+                         withValue:nil]; // First activity of new session.
     return;
 
 }

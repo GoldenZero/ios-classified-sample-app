@@ -314,6 +314,12 @@
     
     [self presentViewController:chooseActionVC animated:YES completion:nil];
     
+    [GAI sharedInstance].defaultTracker.sessionStart = YES;
+    [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"app_flow"
+                                                    withAction:@"sign_in"
+                                                     withLabel:@"bezaat"
+                                                     withValue:nil]; // First activity of new session.
+
 }
 
 - (void) userFailLoginWithError:(NSError *)error {
@@ -342,7 +348,12 @@
     
     alert.tag = 3;
     [alert show];
-    
+    [GAI sharedInstance].defaultTracker.sessionStart = YES;
+    [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"app_flow"
+                                                    withAction:@"register"
+                                                     withLabel:@"twitter"
+                                                     withValue:nil]; // First activity of new session.
+
     
 }
 
@@ -388,6 +399,12 @@
     
     alert.tag = 3;
     [alert show];
+    [GAI sharedInstance].defaultTracker.sessionStart = YES;
+    [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"app_flow"
+                                                    withAction:@"register"
+                                                     withLabel:@"facebook"
+                                                     withValue:nil]; // First activity of new session.
+
     
 }
 
@@ -423,6 +440,12 @@
     
     alert.tag = 3;
     [alert show];
+    [GAI sharedInstance].defaultTracker.sessionStart = YES;
+    [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"app_flow"
+                                                    withAction:@"register"
+                                                     withLabel:@"bezaat"
+                                                     withValue:nil]; // First activity of new session.
+
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
