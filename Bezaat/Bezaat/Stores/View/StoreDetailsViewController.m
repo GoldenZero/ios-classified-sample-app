@@ -100,6 +100,10 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:currentPage status:storeAdsCurrentStatus];
     [self showLoadingIndicator];
     loading = YES;
+    
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"Manage store screen"];
+    //end GA
 }
 
 - (void)didReceiveMemoryWarning

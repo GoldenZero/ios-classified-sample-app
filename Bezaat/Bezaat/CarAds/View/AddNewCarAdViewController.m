@@ -80,7 +80,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     locationMngr = [LocationManager sharedInstance];
     
     [self loadData];
@@ -116,6 +116,9 @@
    
     [self closePicker];
     
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"Post Ad screen"];
+    //end GA
     
 }
 

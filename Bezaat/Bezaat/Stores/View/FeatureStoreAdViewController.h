@@ -10,6 +10,7 @@
 #import <StoreKit/StoreKit.h>
 #import "FeaturingManager.h"
 #import "StoreManager.h"
+#import "GAI.h"
 
 @interface FeatureStoreAdViewController : UIViewController<UITableViewDataSource,UITableViewDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate, PricingOptionsDelegate,FeaturingOrderDelegate,StoreManagerDelegate>
 

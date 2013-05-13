@@ -77,6 +77,10 @@
     chosenCountry = (Country*)[countryArray objectAtIndex:0];
     [self closePicker];
     
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"Create store screen"];
+    //end GA
+    
 }
 
 

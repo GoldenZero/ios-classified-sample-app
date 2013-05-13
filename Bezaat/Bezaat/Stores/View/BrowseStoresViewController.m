@@ -56,6 +56,10 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getUserStores];
     [self showLoadingIndicator];
+    
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"My Stores screen"];
+    //end GA
 }
 -(void)didFinishLoadingWithData:(NSArray *)resultArray
 {

@@ -33,6 +33,10 @@
    
     locationMngr = [LocationManager sharedInstance];
     
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"User profile screen"];
+    //end GA
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated

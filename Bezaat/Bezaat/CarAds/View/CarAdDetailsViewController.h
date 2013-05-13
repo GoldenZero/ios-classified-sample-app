@@ -15,6 +15,8 @@
 #import "AURosetteItem.h"
 #import "CarDetailsManager.h"
 #import "BrowseCarAdsViewController.h"
+#import "GAI.h"
+
 @interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate>
 
 #pragma mark - properties

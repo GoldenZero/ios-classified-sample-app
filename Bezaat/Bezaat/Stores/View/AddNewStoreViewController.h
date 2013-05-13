@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "StoreManager.h"
+#import "GAI.h"
 
 @interface AddNewStoreViewController : BaseViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource, UIPickerViewDelegate,LocationManagerDelegate,StoreManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *countryCity;

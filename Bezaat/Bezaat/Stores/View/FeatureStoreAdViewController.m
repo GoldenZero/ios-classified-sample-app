@@ -66,6 +66,9 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     
     //[self purchaseProductWithIdentifier:@"com.bezaat.uae.25"];
     //[self purchaseProductWithIdentifier:@"com.bezaat.uae.test"];
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"Store subscriptions screen"];
+    //end GA
 }
 
 - (void) viewWillAppear:(BOOL)animated {

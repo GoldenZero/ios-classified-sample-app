@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CountryListViewController.h"
 #import "ProfileCell.h"
-
+#import "GAI.h"
 
 @interface GuestProfileViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate>
 {

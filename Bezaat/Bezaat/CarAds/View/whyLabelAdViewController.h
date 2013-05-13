@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GAI.h"
 @interface whyLabelAdViewController : UIViewController <UIScrollViewDelegate>
 
 #pragma mark - properties

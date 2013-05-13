@@ -124,8 +124,9 @@
     [self setImagesToXib];
     
     [self closePicker];
-    
-    
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"Edit Ad screen"];
+    //end GA
 }
 
 -(void)viewDidDisappear:(BOOL)animated{

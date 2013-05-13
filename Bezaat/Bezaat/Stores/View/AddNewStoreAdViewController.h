@@ -11,6 +11,7 @@
 #import "CarAdsManager.h"
 #import "FeatureStoreAdViewController.h"
 #import "BrowseStoresViewController.h"
+#import "GAI.h"
 
 @interface AddNewStoreAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, StoreManagerDelegate,LocationManagerDelegate,StorePostAdDelegate>
 {

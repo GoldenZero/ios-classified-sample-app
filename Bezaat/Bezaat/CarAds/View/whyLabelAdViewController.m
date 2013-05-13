@@ -39,7 +39,9 @@
     [self.scrollView addSubview:[self prepareImge:@"featuresAd_steps_p4.png" :3]];
 
     [super viewDidLoad];
-    
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"Featured Ad Explain screen"];
+    //end GA
 }
 
 - (void)didReceiveMemoryWarning

@@ -159,7 +159,9 @@
     
     [self closePicker];
     
-    
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"Create Store Ad screen"];
+    //end GA
 }
 
 -(void)viewDidDisappear:(BOOL)animated{

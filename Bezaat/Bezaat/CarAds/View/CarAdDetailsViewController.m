@@ -233,6 +233,10 @@
     [self prepareShareButton];
     
     [self startLoadingData];
+    
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"Ad details screen"];
+    //end GA
 }
 
 - (void) viewWillAppear:(BOOL)animated {

@@ -39,6 +39,10 @@
     
     [super viewDidLoad];
     
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"Store explain screen"];
+    //end GA
+    
 }
 
 - (void)didReceiveMemoryWarning

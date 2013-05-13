@@ -14,7 +14,7 @@
 #import "CarAdWithStoreCell.h"
 #import "CarAdWithStoreNoImageCell.h"
 #import "DropDownView.h"
-
+#import "GAI.h"
 #import "Model.h"
 #import "Brand.h"
 #import "CarAdsManager.h"

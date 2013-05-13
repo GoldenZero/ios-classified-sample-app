@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CarAdsManager.h"
 #import "CarDetails.h"
+#import "GAI.h"
 
 @interface EditCarAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate>
 

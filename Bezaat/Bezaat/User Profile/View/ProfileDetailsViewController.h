@@ -13,6 +13,7 @@
 #import "ChangePasswordViewController.h"
 #import "ChangeNameViewController.h"
 #import "ChooseActionViewController.h"
+#import "GAI.h"
 
 @interface ProfileDetailsViewController : UIViewController<ProfileManagerDelegate,UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate>
 {

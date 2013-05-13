@@ -149,6 +149,9 @@
     distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
     [self prepareDropDownLists];
     
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
+    //end GA
     
 }
 

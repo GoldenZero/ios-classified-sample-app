@@ -81,6 +81,10 @@
     [self loadFirstDataOfStatus:currentStatus andPage:1];
     
     // Do any additional setup after loading the view from its nib.
+
+    //GA
+    [[GAI sharedInstance].defaultTracker sendView:@"User my ads screen"];
+    //end GA
 }
 
 -(void)viewWillAppear:(BOOL)animated
