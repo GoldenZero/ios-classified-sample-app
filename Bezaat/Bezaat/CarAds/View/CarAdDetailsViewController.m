@@ -630,7 +630,8 @@
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
             
         }else {
-            [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
+            if (currentDetailsObject.thumbnailURL)
+                [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
         }
         
         //2- set details

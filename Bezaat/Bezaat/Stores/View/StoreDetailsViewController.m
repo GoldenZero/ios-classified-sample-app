@@ -229,8 +229,16 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 
 - (void)tableView:(UITableView *)_tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
-    CarAdDetailsViewController *vc = [[CarAdDetailsViewController alloc] initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    //CarAdDetailsViewController *vc = [[CarAdDetailsViewController alloc] initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    CarAdDetailsViewController *vc;
     CarAd *adv = currentStoreAds[indexPath.row];
+    
+    if (adv.thumbnailURL)   //ad with image
+        vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    
+    else                            //ad with no image
+        vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+    
     vc.currentAdID = adv.adID;
     [self presentViewController:vc animated:YES completion:nil];
 }
