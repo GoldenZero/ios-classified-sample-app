@@ -475,7 +475,7 @@
     carAdTitle.delegate=self;
     
     carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,140 ,260 ,80 )];
-    [carDetails setTextAlignment:NSTextAlignmentRight];
+//[carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setBackgroundColor:[UIColor clearColor]];
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
     [carDetails setFont:[UIFont systemFontOfSize:17]];
