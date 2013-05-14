@@ -387,7 +387,8 @@
     {
         if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
         {
-            NSString *phoneStr = [[NSString alloc] initWithFormat:@"tel:%@",currentDetailsObject.mobileNumber];
+            NSString *phoneStr = [[NSString alloc] initWithFormat:@"telprompt://%@",currentDetailsObject.mobileNumber];
+            
             NSURL *phoneURL = [[NSURL alloc] initWithString:phoneStr];
             [[UIApplication sharedApplication] openURL:phoneURL];
         }
