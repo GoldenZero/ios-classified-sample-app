@@ -76,6 +76,7 @@
     
     CGRect frame = placeholderTextField.frame;
     frame.size.height = descriptionField.frame.size.height;
+    placeholderTextField.textAlignment=NSTextAlignmentRight;
     placeholderTextField.frame = frame;
     placeholderTextField.placeholder = @"وصف المتجر (نبذة مختصرة)";
     tap = [[UITapGestureRecognizer alloc]
@@ -272,6 +273,17 @@
         [self saveBtnPress:nil];
     }
     return NO;
+}
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    textField.textAlignment = NSTextAlignmentRight ;
+    return YES ;
+}
+#pragma mark - UITextViewDelegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    
+//textView.textAlignment=NSTextAlignmentRight;
 }
 
 #pragma mark - UIAlertViewDelegate Methods
