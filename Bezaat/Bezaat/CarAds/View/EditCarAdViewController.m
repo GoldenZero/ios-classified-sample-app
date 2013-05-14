@@ -154,13 +154,19 @@
     
     // Setting default country
     //defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
+    //defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
+    defaultIndex = [locationMngr getIndexOfCountry:self.myDetails.countryID];
     if  (defaultIndex!= -1){
         chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
         cityArray=[chosenCountry cities];
         if (cityArray && cityArray.count)
         {
-            defaultCityIndex = [locationMngr getIndexOfCity:[[SharedUser sharedInstance] getUserCityID] inCountry:chosenCountry];
+            //defaultCityIndex = [locationMngr getIndexOfCity:[[SharedUser sharedInstance] getUserCityID] inCountry:chosenCountry];
+            
+            defaultCityIndex = -1;
+            if (myAdInfo.cityName.integerValue > 0)
+                defaultCityIndex = [locationMngr getIndexOfCity:myAdInfo.cityName.integerValue inCountry:chosenCountry];
+            
             if (defaultCityIndex != -1)
                 chosenCity=[cityArray objectAtIndex:defaultCityIndex];
             else
@@ -326,8 +332,8 @@
 - (void) addButtonsToXib{
     NSArray* citiesArray;
     for (int i =0; i <= [countryArray count] - 1; i++) {
-        chosenCountry=[countryArray objectAtIndex:i];
-        citiesArray = [chosenCountry cities];
+
+        citiesArray = [(Country *)[countryArray objectAtIndex:i] cities];
         for (City* cit in citiesArray) {
             if (cit.cityID == myAdInfo.cityName.integerValue)
             {
@@ -383,6 +389,7 @@
     [carPrice setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:carPrice];
     carPrice.delegate=self;
+    
     
    // NSInteger defaultCurrencyID=[[StaticAttrsLoader sharedInstance] getCurrencyIdOfCountry:myAdInfo.currencyString.integerValue];
     NSInteger defaultCurrencyID = myAdInfo.currencyString.integerValue;
@@ -575,7 +582,7 @@
             NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
             [countryCity setTitle:temp forState:UIControlStateNormal];
             [pickerView reloadAllComponents];
-            
+            locationBtnPressedOnce = YES;
             
         }
         else{
@@ -583,6 +590,7 @@
             NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
             [countryCity setTitle:temp forState:UIControlStateNormal];
             [pickerView reloadAllComponents];
+            locationBtnPressedOnce = YES;
         }
         
     }
@@ -657,10 +665,7 @@
             chosenYear = (SingleValue *)[globalArray objectAtIndex:0];
     }
     
-    yearBtnPressedOnce = YES;
-    
     [self showPicker];
-    
 }
 
 - (void) chooseCurrency{
@@ -671,14 +676,12 @@
     [currency setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=currencyArray;
+    [self.pickerView reloadAllComponents];
     if (!currencyBtnPressedOnce)
     {
         if (globalArray && globalArray.count)
             chosenCurrency = (SingleValue *)[globalArray objectAtIndex:0];
     }
-    
-    [self.pickerView reloadAllComponents];
-    currencyBtnPressedOnce = YES;
     
     [self showPicker];
     
@@ -688,20 +691,19 @@
     
     self.locationPickerView.hidden=NO;
     self.pickerView.hidden=YES;
-    [self showPicker];
+    
     NSString *temp= [NSString stringWithFormat:@"%@ :%@", chosenCountry.countryName , chosenCity.cityName];
     [countryCity setTitle:temp forState:UIControlStateNormal];
-    
-    if (defaultIndex!=-1) {
-        [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
-        if (defaultCityIndex != -1)
-            [self.locationPickerView selectRow:defaultCityIndex inComponent:1 animated:YES];
-    }
-    
     [self.locationPickerView reloadAllComponents];
-    
-    locationBtnPressedOnce = YES;
-    
+    if (!locationBtnPressedOnce)
+    {
+        if (defaultIndex!=-1) {
+            [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
+            if (defaultCityIndex != -1)
+                [self.locationPickerView selectRow:defaultCityIndex inComponent:1 animated:YES];
+        }
+    }
+    [self showPicker];
 }
 
 - (void) chooseKiloMile{

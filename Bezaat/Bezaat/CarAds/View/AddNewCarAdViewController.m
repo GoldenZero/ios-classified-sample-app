@@ -493,13 +493,14 @@
             NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
             [countryCity setTitle:temp forState:UIControlStateNormal];
             [pickerView reloadAllComponents];
-            
+            locationBtnPressedOnce = YES;
         }
         else{
             chosenCity=[cityArray objectAtIndex:row];
              NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
             [countryCity setTitle:temp forState:UIControlStateNormal];
             [pickerView reloadAllComponents];
+            locationBtnPressedOnce = YES;
         }
 
     }
@@ -509,10 +510,12 @@
         if ([currencyArray containsObject:choosen]) {
             chosenCurrency=[globalArray objectAtIndex:row];
             [currency setTitle:choosen.valueString forState:UIControlStateNormal];
+            currencyBtnPressedOnce = YES;
         }
         else{
             chosenYear=[globalArray objectAtIndex:row];
             [productionYear setTitle:[NSString stringWithFormat:@"%@",choosen.valueString] forState:UIControlStateNormal];
+            yearBtnPressedOnce = YES;
         }
     }
 
@@ -568,13 +571,11 @@
     [self.pickerView reloadAllComponents];
     if (!yearBtnPressedOnce)
     {
+        [self.pickerView selectRow:0 inComponent:0 animated:YES];
         if (globalArray && globalArray.count)
             chosenYear = (SingleValue *)[globalArray objectAtIndex:0];
     }
     
-    yearBtnPressedOnce = YES;
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
-
     [self showPicker];
 
 }
@@ -583,46 +584,42 @@
     
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
-    [self showPicker];
+    
     
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)chosenCurrency valueString]];
     [currency setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=currencyArray;
-    
+    [self.pickerView reloadAllComponents];
     if (!currencyBtnPressedOnce)
     {
-        
+        [self.pickerView selectRow:defaultcurrecncyIndex inComponent:0 animated:YES];
         if (globalArray && globalArray.count)
             chosenCurrency = (SingleValue *)[globalArray objectAtIndex:defaultcurrecncyIndex];
     }
     
-    [self.pickerView reloadAllComponents];
-    [self.pickerView selectRow:defaultcurrecncyIndex inComponent:0 animated:YES];
-    currencyBtnPressedOnce = YES;
-    
-    
-
+    [self showPicker];
 }
 
 - (void) chooseCountryCity{
     
     self.locationPickerView.hidden=NO;
     self.pickerView.hidden=YES;
-    [self showPicker];
+    
     NSString *temp= [NSString stringWithFormat:@"%@ :%@", chosenCountry.countryName , chosenCity.cityName];
     [countryCity setTitle:temp forState:UIControlStateNormal];
 
-    if (defaultIndex!=-1) {
-        [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
-        if (defaultCityIndex != -1)
-            [self.locationPickerView selectRow:defaultCityIndex inComponent:1 animated:YES];
-    }
-    
     [self.locationPickerView reloadAllComponents];
-    
-    locationBtnPressedOnce = YES;
-    
+    if (!locationBtnPressedOnce)
+    {
+        if (defaultIndex!=-1) {
+            [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
+            if (defaultCityIndex != -1)
+                [self.locationPickerView selectRow:defaultCityIndex inComponent:1 animated:YES];
+        }
+    }
+    [self showPicker];
+
 }
 
 - (void) chooseKiloMile{
