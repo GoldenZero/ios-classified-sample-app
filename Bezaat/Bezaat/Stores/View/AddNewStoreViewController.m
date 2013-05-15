@@ -55,23 +55,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    UserProfile* currentUser = [[SharedUser sharedInstance] getUserProfileData];
     
     uploadingLOGO = NO;
     locationBtnPressedOnce = NO;
     guestCheck = NO;
-    
+     if ([[UIScreen mainScreen] bounds].size.height == 568){
+         self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height + 20);
+         if (!currentUser) {
+            self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height + 40);
+         }
+     }
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
-    self.mainScrollView.contentSize = CGSizeMake(278, 342);
-    UserProfile* currentUser = [[SharedUser sharedInstance] getUserProfileData];
+    self.mainScrollView.contentSize = CGSizeMake(278, 398);
+    
     if (currentUser) {
         [passwordField setHidden:YES];
         phoneField.frame = CGRectMake(phoneField.frame.origin.x, 177, phoneField.frame.size.width, phoneField.frame.size.height);
         self.countryCity.frame = CGRectMake(self.countryCity.frame.origin.x, 215, self.countryCity.frame.size.width, self.countryCity.frame.size.height);
         self.saveBtn.frame = CGRectMake(self.saveBtn.frame.origin.x, 253, self.saveBtn.frame.size.width, self.saveBtn.frame.size.height);
         self.cancelBtn.frame = CGRectMake(self.cancelBtn.frame.origin.x, 253, self.cancelBtn.frame.size.width, self.cancelBtn.frame.size.height);
-       self.mainScrollView.contentSize = CGSizeMake(278, 312);
+        self.whatIsStoreBtn.frame = CGRectMake(self.whatIsStoreBtn.frame.origin.x, 293, self.whatIsStoreBtn.frame.size.width, self.whatIsStoreBtn.frame.size.height);
+        self.whatIsStoreImg.frame = CGRectMake(self.whatIsStoreImg.frame.origin.x, 301, self.whatIsStoreImg.frame.size.width, self.whatIsStoreImg.frame.size.height);
+       self.mainScrollView.contentSize = CGSizeMake(278, 368);
+        
     }
     
     CGRect frame = placeholderTextField.frame;
@@ -219,6 +227,9 @@
    
     [StoreManager sharedInstance].delegate = self;
    [[StoreManager sharedInstance] createStore:store];
+}
+
+- (IBAction)whatIsStoreBtnPrss:(id)sender {
 }
 
 

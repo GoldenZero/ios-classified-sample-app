@@ -16,6 +16,8 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *saveBtn;
 @property (strong, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (strong, nonatomic) IBOutlet UIImageView *whatIsStoreImg;
+@property (strong, nonatomic) IBOutlet UIButton *whatIsStoreBtn;
 
 - (IBAction)homeBtnPress:(id)sender;
 - (IBAction)chooseImageBtnPress:(id)sender;
@@ -23,5 +25,6 @@
 - (IBAction)cancelBtnPress:(id)sender;
 - (IBAction)doneBtnPrss:(id)sender;
 - (IBAction)saveBtnPress:(id)sender;
+- (IBAction)whatIsStoreBtnPrss:(id)sender;
 
 @end
