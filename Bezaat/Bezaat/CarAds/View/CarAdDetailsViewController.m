@@ -10,6 +10,8 @@
 #import "CarAdDetailsViewController.h"
 #import "labelAdViewController.h"
 #import "EditCarAdViewController.h"
+#import "EditStoreAdViewController.h"
+
 #import "KRImageViewer.h"
 
 //#define FIXED_V_DISTANCE    17
@@ -51,7 +53,140 @@
 }
 
 
-
+/*
+- (void) resizeScrollView {
+    
+    CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
+    
+    //1- remove all subviews in scroll view, lower than lastY (number is took from nib)
+    for (UIView * subview in [self.labelsScrollView subviews]) {
+        if (subview.frame.origin.y > lastY) {
+            [subview removeFromSuperview];
+        }
+    }
+    
+    
+    
+    if (currentDetailsObject)
+    {
+        self.detailLbl.text =  currentDetailsObject.description;
+        //1- set car images
+        if ((currentDetailsObject.adImages) && (currentDetailsObject.adImages.count))
+        {
+            self.pageControl.currentPage = 0;
+            self.pageControl.numberOfPages = currentDetailsObject.adImages.count;
+            for (int i=0; i < currentDetailsObject.adImages.count; i++) {
+                NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
+                [self.scrollView addSubview:[self prepareImge:imgURL :i]];
+            }
+            [self.scrollView setScrollEnabled:YES];
+            [self.scrollView setShowsVerticalScrollIndicator:YES];
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
+            
+        }
+        
+        //2- set attributes
+        if ((currentDetailsObject.attributes) && (currentDetailsObject.attributes.count))
+        {
+            CGFloat addedHeightValue;   //initial value, distant from last labels
+            if (currentDetailsObject.storeID > 0)   //isStore
+                addedHeightValue = 80 + 30;
+            else
+                addedHeightValue = 35 + 30;
+            
+            lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height + addedHeightValue;
+            
+            for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
+            {
+                if (attr.categoryAttributeID != 502 &&
+                    attr.categoryAttributeID != 505 &&
+                    attr.categoryAttributeID != 508 &&
+                    attr.categoryAttributeID != 907 &&
+                    attr.categoryAttributeID != 1076) {
+                    
+                    if (![attr.attributeValue length] == 0) {
+                        
+                        
+                        //attr label
+                        NSString * attr_name_text = [NSString stringWithFormat:@"%@ :", attr.displayName];
+                        
+                        CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
+                        
+                        CGSize expectedLabelSize =
+                        [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
+                        
+                        if (realTextSize.width > expectedLabelSize.width)
+                        {
+                            int factor = (int) (realTextSize.width / expectedLabelSize.width);
+                            factor ++;
+                            
+                            expectedLabelSize.height = expectedLabelSize.height * factor;
+                        }
+                        
+                        CGFloat attr_x = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + FIXED_H_DISTANCE);
+                        
+                        CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
+                        
+                        UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(260 - expectedLabelSize.width, 8, expectedLabelSize.width, expectedLabelSize.height)];
+                        
+                        attrNameLabel.text = attr_name_text;
+                        attrNameLabel.textAlignment = NSTextAlignmentRight;
+                        attrNameLabel.font = [UIFont systemFontOfSize:15];
+                        attrNameLabel.backgroundColor = [UIColor clearColor];
+                        attrNameLabel.numberOfLines = 0;
+                        
+                        //value label
+                        CGFloat valueLabelWidth = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
+                        CGFloat valueLabelHeight = expectedLabelSize.height;
+                        
+                        //CGFloat val_x = self.labelsScrollView.frame.size.width - FIXED_H_DISTANCE;
+                        CGFloat val_x = FIXED_H_DISTANCE;
+                        CGFloat val_y  = attr_y;
+                        
+                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 8, 120, valueLabelHeight)];
+                        
+                        valuelabel.text = attr.attributeValue;
+                        valuelabel.textAlignment = NSTextAlignmentRight;
+                        valuelabel.font = [UIFont systemFontOfSize:15];
+                        valuelabel.textColor = [UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f];
+                        valuelabel.backgroundColor = [UIColor clearColor];
+                        
+                         // UITextField* backgroundText = [[UITextField alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
+                         //UITableViewCell* myCell = [[UITableViewCell alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
+                         //myCell.accessoryType = UITableViewCellAccessoryNone;
+                         //myCell.backgroundColor = [UIColor whiteColor];
+                         //myCell.textLabel.text = attrNameLabel.text;
+                         //myCell.detailTextLabel.text = valuelabel.text;
+                         
+                         
+                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y + 50, valueLabelWidth + expectedLabelSize.width + 13, 35)];
+                        [v setBackgroundColor:[UIColor whiteColor]];
+                        [v addSubview:attrNameLabel];
+                        [v addSubview:valuelabel];
+                        
+                        //[self.labelsScrollView addSubview:attrNameLabel];
+                        //[self.labelsScrollView addSubview:valuelabel];
+                        [self.labelsScrollView addSubview:v];
+                        
+                        
+                        lastY = attr_y + valueLabelHeight;
+                        addedHeightValue = addedHeightValue + valueLabelHeight + FIXED_V_DISTANCE;
+                    }
+                }
+            }
+            
+            addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
+            
+            CGFloat totalHeight = self.labelsScrollView.frame.size.height + addedHeightValue;
+            
+            [self.labelsScrollView setScrollEnabled:YES];
+            [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
+            [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
+        }
+    }
+    
+}
+*/
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -186,18 +321,18 @@
     if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
         imageView.image = [UIImage imageNamed:@"waitForApprove.png"];
     }else{
-        imageView.url = imageURL;
+       imageView.url = imageURL;
         [imageView showLoadingWheel];
         [asynchImgManager manage:imageView];
         
     }
-    
+
     /*
-     mask.tag = (i+1) * 10;
-     [mask addSubview:imageView];
-     [subView setUserInteractionEnabled:YES];
-     [subView addSubview:mask];
-     */
+    mask.tag = (i+1) * 10;
+    [mask addSubview:imageView];
+    [subView setUserInteractionEnabled:YES];
+    [subView addSubview:mask];
+    */
     //set the tag to observe the image ID
     UITapGestureRecognizer * imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openImgs:)];
     subView.tag = (i+1) * 10;
@@ -209,7 +344,7 @@
 }////
 
 -(void)openImgs:(id) sender {
-    
+   
     //NSLog(@"test img");
     
     NSInteger imageIDForDict = [(UITapGestureRecognizer *) sender view].tag/ 10;
@@ -305,6 +440,14 @@
 }
 
 - (IBAction)labelAdBtnPrss:(id)sender {
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Feature Ad"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
     vc.currentAdID = currentAdID;
     vc.countryAdID = currentDetailsObject.countryID;
@@ -313,6 +456,13 @@
 }
 
 - (IBAction)editAdBtnPrss:(id)sender {
+   
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Delete Ad"
+                         withValue:[NSNumber numberWithInt:100]];
     
     UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"معلومة" message:@"هل تريد تأكيد حذف هذا الإعلان ؟" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:@"إلغاء", nil];
     alert.tag = 2;
@@ -322,8 +472,22 @@
 - (IBAction)modifyAdBtnPrss:(id)sender {
     
     [self showLoadingIndicator];
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Edit Ad"
+                         withValue:[NSNumber numberWithInt:100]];
+    
+    UserProfile* savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    
+    if (savedProfile.hasStores) {
+        [[CarAdsManager sharedInstance] requestToEditStoreAdsOfEditID:currentDetailsObject.EncEditID andStore:[NSString stringWithFormat:@"%i",currentDetailsObject.storeID] WithDelegate:self];
+    }else {
     // Request To Edit Ad
     [[CarAdsManager sharedInstance] requestToEditAdsOfEditID:currentDetailsObject.EncEditID WithDelegate:self];
+    }
 }
 
 
@@ -333,10 +497,17 @@
         ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
     }else
-        [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)sendMailBtnPrss:(id)sender {
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Send email to Ad owner"
+                         withValue:[NSNumber numberWithInt:100]];
     
     if (currentDetailsObject)
     {
@@ -363,6 +534,14 @@
 }
 
 - (IBAction)favoriteBtnPrss:(id)sender {
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Add to favorites"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     if (currentDetailsObject)
     {
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
@@ -383,12 +562,19 @@
 }
 
 - (IBAction)callBtnPrss:(id)sender {
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Call Ad owner"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     if (currentDetailsObject)
     {
         if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
         {
-            NSString *phoneStr = [[NSString alloc] initWithFormat:@"telprompt://%@",currentDetailsObject.mobileNumber];
-            
+            NSString *phoneStr = [[NSString alloc] initWithFormat:@"tel:%@",currentDetailsObject.mobileNumber];
             NSURL *phoneURL = [[NSURL alloc] initWithString:phoneStr];
             [[UIApplication sharedApplication] openURL:phoneURL];
         }
@@ -398,6 +584,14 @@
 
 #pragma mark - sharing acions
 - (void)twitterAction:(id)sender{
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Twitter share"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     [shareButton fold];
     if (currentDetailsObject)
     {
@@ -429,7 +623,7 @@
             [self presentViewController:mySLComposerSheet animated:YES completion:nil];
         }
         else{
-            // no twitter account set in device settings
+         // no twitter account set in device settings
             SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
             [mySLComposerSheet setInitialText:currentDetailsObject.title];
             
@@ -460,6 +654,14 @@
 }
 
 - (void)facebookAction:(id)sender{
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Facebook Share"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     [shareButton fold];
     if (currentDetailsObject)
     {
@@ -491,8 +693,8 @@
             [self presentViewController:mySLComposerSheet animated:YES completion:nil];
         }
         else{
-            // no facebook account set in device settings
-            
+         // no facebook account set in device settings
+         
             SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
             [mySLComposerSheet setInitialText:currentDetailsObject.title];
             
@@ -523,6 +725,14 @@
 }
 
 - (void)mailAction:(id)sender {
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Mail share"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     [shareButton fold];
     if (currentDetailsObject)
     {
@@ -587,15 +797,15 @@
     [self.labelsScrollView setFrame:nibFrame];
     
     /*
-     CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
-     
-     //1- remove all subviews in scroll view, lower than lastY (number is took from nib)
-     for (UIView * subview in [self.labelsScrollView subviews]) {
-     if (subview.frame.origin.y > lastY) {
-     [subview removeFromSuperview];
-     }
-     }
-     */
+    CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
+    
+    //1- remove all subviews in scroll view, lower than lastY (number is took from nib)
+    for (UIView * subview in [self.labelsScrollView subviews]) {
+        if (subview.frame.origin.y > lastY) {
+            [subview removeFromSuperview];
+        }
+    }
+    */
     
     if (!currentDetailsObject)
         [self.detailsView setHidden:YES];
@@ -622,6 +832,9 @@
                 [allImagesDict setObject:imgURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
             }
             
+              
+
+          
             
             //preload the images in the browser
             [krImageViewer preloadImageURLs:allImagesDict];
@@ -631,36 +844,28 @@
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
             
         }else {
-            if (currentDetailsObject.thumbnailURL)
-                [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
+              [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
         }
         
         //2- set details
         if (![currentDetailsObject.description isEqualToString:@""]) {
-            CGSize realTextSize = [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake((self.detailsView.frame.size.width - (2 * 5)), CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+            CGSize realTextSize = [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15]];
+            CGSize expectedLabelSizeNew =
+            [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15] forWidth:(self.detailsView.frame.size.width - (2 * 5)) lineBreakMode:NSLineBreakByWordWrapping];
             
-            CGSize expectedLabelSizeNew = realTextSize;
-            expectedLabelSizeNew.width = (self.detailsView.frame.size.width - (2 * 5));
+            if (realTextSize.width >= expectedLabelSizeNew.width)
+            {
+                int factor = (int) (realTextSize.width / expectedLabelSizeNew.width);
+                factor ++;
+                
+                expectedLabelSizeNew.height = expectedLabelSizeNew.height * factor;
+            }
             
-            /*
-             CGSize expectedLabelSizeNew =
-             [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15] forWidth:(self.detailsView.frame.size.width - (2 * 5)) lineBreakMode:NSLineBreakByWordWrapping];
-             
-             if (realTextSize.width >= expectedLabelSizeNew.width)
-             {
-             int factor = (int) (realTextSize.width / expectedLabelSizeNew.width);
-             factor ++;
-             
-             expectedLabelSizeNew.height = realTextSize.height * factor;
-             }
-             */
             label = [[UILabel alloc] initWithFrame:CGRectMake(
-                                                              self.detailsTextLabel.frame.origin.x,
-                                                              self.detailsTextLabel.frame.origin.y + self.detailsTextLabel.frame.size.height + 5,
-                                                              expectedLabelSizeNew.width,
-                                                              expectedLabelSizeNew.height)];
-            
-            
+                                self.detailsTextLabel.frame.origin.x,
+                                self.detailsTextLabel.frame.origin.y + self.detailsTextLabel.frame.size.height + 5,
+                                self.detailsView.frame.size.width - (2 * 5),
+                                expectedLabelSizeNew.height)];
             
             label.text = currentDetailsObject.description;
             label.textAlignment = NSTextAlignmentRight;
@@ -674,7 +879,7 @@
             [self.detailsView setScrollEnabled:NO];
             [self.detailsView setShowsVerticalScrollIndicator:NO];
             [self.detailsView setContentSize:(CGSizeMake(self.detailsView.frame.size.width,
-                                                         self.detailsTextLabel.frame.origin.x + self.detailsTextLabel.frame.size.height + label.frame.size.height + 10))];
+                            self.detailsTextLabel.frame.origin.x + self.detailsTextLabel.frame.size.height + label.frame.size.height + 10))];
             CGRect detailsVieworiginalFrame = self.detailsView.frame;
             
             
@@ -685,7 +890,7 @@
         }
         else
             [self.detailsView setHidden:YES];
-        
+            
         
         //3- set attributes
         if ((currentDetailsObject.attributes) && (currentDetailsObject.attributes.count))
@@ -720,36 +925,31 @@
                         //attr label
                         NSString * attr_name_text = [NSString stringWithFormat:@"%@ :", attr.displayName];
                         
-                        //CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
-                        CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2), CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+                        CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
                         
-                        CGSize expectedLabelSize = realTextSize;
-                        /*
-                         CGSize expectedLabelSize =
-                         [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
-                         
-                         if (realTextSize.width >= expectedLabelSize.width)
-                         {
-                         int factor = (int) (realTextSize.width / expectedLabelSize.width);
-                         factor ++;
-                         
-                         expectedLabelSize.height = realTextSize.height * factor;
-                         }
-                         
-                         expectedLabelSize.width = ((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2);
-                         
-                         */
+                        CGSize expectedLabelSize =
+                        [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
+                        
+                        if (realTextSize.width >= expectedLabelSize.width)
+                        {
+                            int factor = (int) (realTextSize.width / expectedLabelSize.width);
+                            factor ++;
+                            
+                            expectedLabelSize.height = expectedLabelSize.height * factor;
+                        }
+
                         expectedLabelSize.width = ((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2);
-                        
-                        expectedLabelSize.height = expectedLabelSize.height + 5;
                         CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
+                        
+                        
+                        
                         
                         //value label
                         //CGFloat valueLabelWidth = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
                         CGFloat valueLabelWidth = ((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2);
                         CGFloat valueLabelHeight = expectedLabelSize.height;
                         
-                        
+
                         CGFloat val_y  = attr_y;
                         
                         UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 2, valueLabelWidth, valueLabelHeight)];
@@ -790,7 +990,7 @@
             
             
             totalHeight = totalHeight + addedHeightValue + 30;
-            
+
             
             [self.labelsScrollView setScrollEnabled:YES];
             [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
@@ -805,7 +1005,7 @@
     
     if (currentDetailsObject)
     {
-        
+       
         
         if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
             [self.phoneNumberButton setEnabled:YES];
@@ -830,7 +1030,7 @@
             // check if he own the Ad
             if (savedProfile.userID == currentDetailsObject.ownerID){
                 [self.editBtn setEnabled:YES];
-                [self.editAdBtn setEnabled:YES];
+            [self.editAdBtn setEnabled:YES];
             } else{
                 [self.editBtn setEnabled:NO];
                 [self.editAdBtn setEnabled:NO];
@@ -892,7 +1092,8 @@
 
 - (void) detailsDidFailLoadingWithError:(NSError *) error {
     
-    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    //[GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     
     [self hideLoadingIndicator];
     
@@ -1017,12 +1218,12 @@
 
 -(void)AdDidRemoveWithStatus:(NSString*)resultStatus{
     
-    
-    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"" message:@"تم حذف الإعلان بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
-    alert.tag = 3;
+   
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"" message:@"تم حذف الإعلان بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+        alert.tag = 3;
     
     [alert show];
-    
+  
 }
 
 -(void)RequestToEditFailWithError:(NSError *)error
@@ -1048,13 +1249,31 @@
     
 }
 
+-(void)RequestToEditStoreFailWithError:(NSError *)error{
+    [self hideLoadingIndicator];
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+}
+
+-(void)RequestToEditStoreFinishWithData:(NSArray *)resultArray imagesArray:(NSArray *)resultIDs{
+    //TODO fill down the array and then move to next page "Edit Ad"
+    NSLog(@"loading result Array : %@",resultArray);
+    
+    EditStoreAdViewController *homeVC=[[EditStoreAdViewController alloc] initWithNibName:@"EditStoreAdViewController" bundle:nil];
+    homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    homeVC.myAdArray = resultArray;
+    homeVC.myImageIDArray = resultIDs;
+    homeVC.myDetails = currentDetailsObject;
+    [self hideLoadingIndicator];
+    
+    [self presentViewController:homeVC animated:YES completion:nil];
+}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 3) {
         [self dismissViewControllerAnimated:YES completion:nil];
         /*BrowseCarAdsViewController *homeVC=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
-         homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-         [self presentViewController:homeVC animated:YES completion:nil];*/
+        homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:homeVC animated:YES completion:nil];*/
     }
     else if (alertView.tag == 2){
         if (buttonIndex == 0) {
