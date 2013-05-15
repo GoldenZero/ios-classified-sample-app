@@ -346,7 +346,8 @@
     
     currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 240, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_SM.png"] forState:UIControlStateNormal];
-    [currency setTitle:@"العملة   " forState:UIControlStateNormal];
+    //[currency setTitle:@"العملة   " forState:UIControlStateNormal];
+    [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];

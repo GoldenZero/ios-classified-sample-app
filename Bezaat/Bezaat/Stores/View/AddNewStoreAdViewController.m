@@ -118,18 +118,25 @@
 
     
     locationMngr = [LocationManager sharedInstance];
+    [locationMngr loadCountriesAndCitiesWithDelegate:self];
     
     countryArray=[locationMngr getTotalCountries];
     
     
     if (countryArray && countryArray.count)
     {
-        defaultIndex = [locationMngr getIndexOfCountry:self.currentStore.countryID];
+        if (self.currentStore) {
+            defaultIndex = [locationMngr getIndexOfCountry:self.currentStore.countryID];
+        }else
+        defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
         
         if  (defaultIndex!= -1){
             chosenCountry =[countryArray objectAtIndex:defaultIndex];
             cityArray=[chosenCountry cities];
-            defaultCountryID = self.currentStore.countryID;
+            if (self.currentStore) {
+               defaultCountryID = self.currentStore.countryID; 
+            }else
+            defaultCountryID = [[SharedUser sharedInstance] getUserCountryID];
             defaultCityID =  ((City *)chosenCountry.cities[0]).cityID;
         }
         
@@ -215,6 +222,11 @@
     
     [self.horizontalScrollView flashScrollIndicators];
     
+}
+#pragma mark - location handler.
+- (void) didFinishLoadingWithData:(NSArray*) resultArray{
+    [self hideLoadingIndicator];
+    countryArray=resultArray;
 }
 /*
 #pragma mark - location handler.

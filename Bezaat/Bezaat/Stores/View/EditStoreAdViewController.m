@@ -295,7 +295,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
             [self.horizontalScrollView addSubview:temp];
             remainingImg-=1;
             
-            UIButton* removeImg = [[UIButton alloc] initWithFrame:CGRectMake(19+(104*i), 85, 77, 25)];
+            UIButton* removeImg = [[UIButton alloc] initWithFrame:CGRectMake(19+(104*i), 82, 79, 25)];
             [removeImg setImage:[UIImage imageNamed:@"list_remove.png"] forState:UIControlStateNormal];
             removeImg.tag = (i+1) * 100;
             [removeImg addTarget:self action:@selector(ImageDelete:) forControlEvents:UIControlEventTouchUpInside];
@@ -449,6 +449,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     [carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setText:myAdInfo.desc]; //TODO get Description
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
+    [carDetails setFont:[UIFont systemFontOfSize:17]];
     [self.verticalScrollView addSubview:carDetails];
     carDetails.delegate =self;
     
@@ -566,9 +567,9 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     NSInteger defaultBodyID = myAdInfo.carBody;
     NSInteger defaultBodyIndex=0;
     NSString* bodyString;
-    while (defaultBodyIndex < productionYearArray.count) {
-        if (defaultBodyID==[(SingleValue*)[productionYearArray objectAtIndex:defaultBodyIndex] valueID]) {
-            bodyString =[NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:defaultBodyIndex] valueString]];
+    while (defaultBodyIndex < carBodyArray.count) {
+        if (defaultBodyID==[(SingleValue*)[carBodyArray objectAtIndex:defaultBodyIndex] valueID]) {
+            bodyString =[NSString stringWithFormat:@"%@",[(SingleValue*)[carBodyArray objectAtIndex:defaultBodyIndex] valueString]];
             break;
         }
         defaultBodyIndex++;
@@ -985,13 +986,14 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     [self showPicker];
     NSString *temp= [NSString stringWithFormat:@"%@ :%@", myCountry.countryName , chosenCity.cityName];
     [countryCity setTitle:temp forState:UIControlStateNormal];
-    
+    if (!locationBtnPressedOnce) {
     if (defaultIndex!=-1) {
-        [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
+        [self.locationPickerView selectRow:defaultCityID inComponent:0 animated:YES];
+    }
     }
     [self.locationPickerView reloadAllComponents];
     
-    locationBtnPressedOnce = YES;
+   // locationBtnPressedOnce = YES;
     
 }
 
@@ -1112,13 +1114,13 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بلد ومدينة مناسبين" delegateVC:self];
         return;
     }
-    
+    /*
     if (!chosenCity)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بيانات المكان صحيحة" delegateVC:self];
         return;
     }
-    
+    */
     //check title
     if ([carAdTitle.text length] == 0)
     {
@@ -1133,7 +1135,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         return;
     }
     
-    if ([[mobileNum.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
+    if ([mobileNum.text length] == 0)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
         return;
@@ -1161,13 +1163,6 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         
     }
     
-    //check phone number
-    if (!mobileNum.text)
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
-        return;
-    }
-    
     
     
     
@@ -1177,32 +1172,44 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     int gearID = 0;
     int typeID = 0;
     
-    if (kiloChoosen)
+    if (kiloChoosen){
         distanceUnitID = [self idForKilometerAttribute];
-    else
+        myAdInfo.distanceRangeInKm = [self idForKilometerAttribute];
+    }
+    else{
         distanceUnitID = [self idForMileAttribute];
+        myAdInfo.distanceRangeInKm = [self idForMileAttribute];
+    }
     
-    if (conditionchoosen)
+    if (conditionchoosen){
         conditionID = [self idForConditionNewAttribute];
-    else
+    myAdInfo.carCondition = [self idForConditionNewAttribute];
+    }else{
         conditionID = [self idForConditionUsedAttribute];
-    
+    myAdInfo.carCondition = [self idForConditionUsedAttribute];
+    }
     if (gearchoosen == 0) {
         gearID = [self idForGearAutoAttribute];
+        myAdInfo.gearType = [self idForGearAutoAttribute];
     }else if (gearchoosen == 1){
         gearID = [self idForGearNormalAttribute];
+        myAdInfo.gearType = [self idForGearNormalAttribute];
     }
     else if (gearchoosen == 2){
         gearID = [self idForGearTronicAttribute];
+        myAdInfo.gearType = [self idForGearTronicAttribute];
     }
     
     if (typechoosen == 0) {
         typeID = [self idForTypeFrontAttribute];
+        myAdInfo.carType = [self idForTypeFrontAttribute];
     }else if (typechoosen == 1){
         typeID = [self idForTypeBackAttribute];
+        myAdInfo.carType = [self idForTypeBackAttribute];
     }
     else if (typechoosen == 2){
         typeID = [self idForTypeFourAttribute];
+        myAdInfo.carType = [self idForTypeFourAttribute];
     }
     
     [self showLoadingIndicator];
