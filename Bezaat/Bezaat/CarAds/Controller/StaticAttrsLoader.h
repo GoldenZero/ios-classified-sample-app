@@ -27,8 +27,8 @@
 #define KM_MILES_ATTR_ID            1076
 #define CAR_CONDITION_ATTR_ID       10097
 #define GEAR_TYPE_ATTR_ID           10098
-#define CAR_TYPE_ATTR_ID            10100
-#define CAR_BODY_ATTR_ID            10101
+#define CAR_TYPE_ATTR_ID            10101
+#define CAR_BODY_ATTR_ID            10100
 #define CAR_ENGINE_ATTR_ID          10099
 #define CAR_CD_ATTR_ID              10102
 #define CAR_HEADS_ATTR_ID           10103

@@ -11,6 +11,7 @@
 #import "WhyFeatureStoreAdViewController.h"
 #import "ChooseActionViewController.h"
 #import "BankInfoViewController.h"
+#import "StoreDetailsViewController.h"
 
 @interface FeatureStoreAdViewController (){
     NSArray * productsArr;
@@ -89,9 +90,10 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 }
 
 - (IBAction)laterBtnPressed:(id)sender {
-   // [self dismissViewControllerAnimated:YES completion:nil];
-    ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
+    vc.currentStore = self.storeID;
     [self presentViewController:vc animated:YES completion:nil];
+    
 }
 
 - (IBAction)labelAdBtnPressed:(id)sender {
@@ -497,8 +499,8 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 5) {
-        ChooseActionViewController* vc = [[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
-        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
+        vc.currentStore = self.storeID;
         [self presentViewController:vc animated:YES completion:nil];
     }
     

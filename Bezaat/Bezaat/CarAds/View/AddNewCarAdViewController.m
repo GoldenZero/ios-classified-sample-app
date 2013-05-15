@@ -931,7 +931,7 @@
     [self hideLoadingIndicator];
     NSLog(@"%@",[error description]);
     if ([[error description] isEqualToString:@"validate_password"]) {
-        UIAlertView* alert =[ [UIAlertView alloc]initWithTitle:@"" message:@"البريد الإلكنروني مسجل لدينا يرجى تسجيل الدخول" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:@"", nil];
+        UIAlertView* alert =[ [UIAlertView alloc]initWithTitle:@"" message:@"البريد الإلكنروني مسجل لدينا يرجى تسجيل الدخول" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
         alert.tag = 5;
         [alert show];
     }else 
