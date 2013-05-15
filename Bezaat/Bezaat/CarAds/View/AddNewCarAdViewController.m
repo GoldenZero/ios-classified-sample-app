@@ -645,6 +645,13 @@
 
 - (IBAction)addBtnprss:(id)sender {
     
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Post Car Ad"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     // CODE TODO for Roula
     // Variables are:
     //    kiloChoosen: bool;

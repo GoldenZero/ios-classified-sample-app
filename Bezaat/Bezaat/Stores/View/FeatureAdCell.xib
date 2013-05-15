@@ -184,6 +184,24 @@
 								<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 								<double key="preferredMaxLayoutWidth">197</double>
 							</object>
+							<object class="IBUIImageView" id="406473770">
+								<reference key="NSNextResponder" ref="801185993"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{59, 7}, {20, 20}}</string>
+								<reference key="NSSuperview" ref="801185993"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							</object>
+							<object class="IBUIImageView" id="1055372574">
+								<reference key="NSNextResponder" ref="801185993"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{85, 7}, {20, 20}}</string>
+								<reference key="NSSuperview" ref="801185993"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							</object>
 						</array>
 						<string key="NSFrameSize">{320, 65}</string>
 						<reference key="NSSuperview" ref="533206465"/>
@@ -235,6 +253,22 @@
 					</object>
 					<int key="connectionID">31</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">itunesImg</string>
+						<reference key="source" ref="533206465"/>
+						<reference key="destination" ref="406473770"/>
+					</object>
+					<int key="connectionID">35</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">bankImg</string>
+						<reference key="source" ref="533206465"/>
+						<reference key="destination" ref="1055372574"/>
+					</object>
+					<int key="connectionID">36</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -264,6 +298,8 @@
 							<reference ref="99270280"/>
 							<reference ref="919271335"/>
 							<reference ref="307763800"/>
+							<reference ref="406473770"/>
+							<reference ref="1055372574"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -295,6 +331,16 @@
 						<reference key="object" ref="307763800"/>
 						<reference key="parent" ref="533206465"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">33</int>
+						<reference key="object" ref="406473770"/>
+						<reference key="parent" ref="533206465"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">34</int>
+						<reference key="object" ref="1055372574"/>
+						<reference key="parent" ref="533206465"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -304,6 +350,8 @@
 				<string key="3.CustomClassName">FeatureAdCell</string>
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="32.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="33.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="34.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -314,7 +362,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">32</int>
+			<int key="maxID">36</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

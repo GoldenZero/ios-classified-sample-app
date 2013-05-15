@@ -1175,12 +1175,15 @@
 
 - (void) handleFeaturingBtnForCellAtIndexPath:(NSIndexPath *) indexPath {
     
-    //CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+    CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
     
     //COME BACK HERE
-    
+    vc.currentAdID = carAdObject.adID;
+    vc.countryAdID = [[SharedUser sharedInstance] getUserCountryID];
+   // vc.parentNewCarVC = self;
+
     //set the ad ID according to indexPath
     
     [self presentViewController:vc animated:YES completion:nil];
@@ -1473,6 +1476,7 @@
 
 - (IBAction)searchBtnPress:(id)sender {
     
+    
     if (searchBtnFlag==false){
         searchBtnFlag=true;
     }
@@ -1507,6 +1511,13 @@
 }
 
 - (IBAction)searchInPanelBtnPrss:(id)sender {
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Search filter"
+                         withValue:[NSNumber numberWithInt:100]];
     
     [self.carNameText resignFirstResponder];
     [self.lowerPriceText resignFirstResponder];

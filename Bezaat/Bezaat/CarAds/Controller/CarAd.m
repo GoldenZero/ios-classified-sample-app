@@ -24,6 +24,15 @@
 @synthesize isFavorite;
 @synthesize storeName;
 @synthesize storeLogoURL;
+@synthesize serviceName;
+@synthesize adComments;
+@synthesize carCondition;
+@synthesize gearType;
+@synthesize carEngine;
+@synthesize carType;
+@synthesize carBody;
+@synthesize carCD;
+@synthesize carHeads;
 
 - (id) initWithAdIDString:(NSString *) aAdIDString
             ownerIDString:(NSString *) aOwnerIDString
@@ -176,6 +185,100 @@ ninty8:(NSString*)aninty8
     }
     return self;
 }
+
+- (id) initWithStoreAdIDTitle:(NSString *) aStoreAdIDTitle      //524
+                  EmailString:(NSString *) aEmailString              //-100
+            descriptionString:(NSString *) aDescriptionString        //523
+                  priceString:(NSString *) aPriceString              //507
+                   cityString:(NSString *) aCityString               //-99
+               currencyString:(NSString *) aCurrencyString           //508
+      distanceRangeInKmString:(NSString *) aDistanceRangeInKmString  //1076
+              modelYearString:(NSString *) aModelYearString          //509
+               distanceString:(NSString*) aDistanceString            //518
+           mobileNumberString:(NSString *) aMobileString             //520
+                 thumbnailURL:(NSString *) aThumbnailURLString
+                       nine52:(NSString*)anine52
+                       five06:(NSString*)afive06
+                    advPeriod:(NSString*)aAdvPeriod
+                       nine06:(NSString*)anine06
+                        one01:(NSString*)aone01
+                       ninty8:(NSString*)aninty8
+                  serviceName:(NSString*)aServiceName
+              adCommentsEmail:(NSString*)aAdcommentsEmail
+                 carCondition:(NSString*)aCondition
+                     gearType:(NSString*)aGearType
+                    carEngine:(NSString*)aCarEngine
+                      carType:(NSString*)aCarType
+                      carBody:(NSString*)aCarBody
+                        carCD:(NSString*)aCarCD
+                     carHeads:(NSString*)aCarHeads
+
+{
+    self = [super init];
+    if (self) {
+        
+        // title
+        self.title = aStoreAdIDTitle;
+        
+        // email
+        self.emailAddress = aEmailString;
+        
+        // description
+        self.desc = aDescriptionString;
+        
+        // price
+        self.price = aPriceString.floatValue;
+        
+        // city
+        self.cityName = aCityString;
+        
+        // currencyString
+        self.currencyString = aCurrencyString;
+        
+        // distanceRangeInKm
+        self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
+        
+        // modelYear
+        self.modelYear = aModelYearString.integerValue;
+        
+        // currencyString
+        self.currencyString = aCurrencyString;
+        
+        // distance
+        self.distance = aDistanceString;
+        
+        // mobile number
+        self.mobileNum = aMobileString;
+        
+        self.nine52 = anine52.integerValue;
+        
+        self.five06 = afive06.integerValue;
+        self.five02 = aAdvPeriod.integerValue;
+        
+        self.nine06 = anine06;
+        self.one01 = aone01;
+        self.ninty8 = aninty8.integerValue;
+        
+        self.serviceName = aServiceName;
+        self.adComments = aAdcommentsEmail.integerValue;
+        self.carCondition = aCondition.integerValue;
+        self.gearType = aGearType.integerValue;
+        self.carEngine = aCarEngine.integerValue;
+        self.carType = aCarType.integerValue;
+        self.carBody = aCarBody.integerValue;
+        self.carCD = aCarCD.integerValue;
+        self.carHeads = aCarHeads.integerValue;
+        
+        // thumbnailURL
+        if ([aThumbnailURLString isEqualToString:@""])
+            self.thumbnailURL = nil;
+        else
+            self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
+        
+    }
+    return self;
+}
+
 
 - (id)initWithImageID: (NSString *)aImageID andImageURL:(NSString*)aImageURL
 {

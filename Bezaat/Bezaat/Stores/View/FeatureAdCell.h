@@ -15,5 +15,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *periodLabel;
 @property (strong, nonatomic) IBOutlet UIButton *checkButton;
 @property (strong, nonatomic) IBOutlet UILabel *detailsLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *itunesImg;
+@property (strong, nonatomic) IBOutlet UIImageView *bankImg;
 
 @end

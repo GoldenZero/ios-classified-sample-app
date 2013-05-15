@@ -38,10 +38,22 @@
 
 @property (nonatomic) NSUInteger nine52;
 @property (nonatomic) NSUInteger five06;
-@property (nonatomic) NSUInteger five02;
+@property (nonatomic) NSUInteger five02; //adv period
 @property (strong, nonatomic) NSString * nine06;
 @property (strong, nonatomic) NSString * one01;
 @property (nonatomic) NSUInteger ninty8;
+
+@property (strong, nonatomic) NSString * serviceName;
+@property (nonatomic) NSUInteger adComments;
+@property (nonatomic) NSUInteger carCondition;
+@property (nonatomic) NSUInteger gearType;
+@property (nonatomic) NSUInteger carEngine;
+@property (nonatomic) NSUInteger carType;
+@property (nonatomic) NSUInteger carBody;
+@property (nonatomic) NSUInteger carCD;
+@property (nonatomic) NSUInteger carHeads;
+
+
 
 #pragma mark - actions
 
@@ -80,6 +92,35 @@ EncryptedEditID: (NSString*)aEncEditID;
                   nine06:(NSString*)anine06
                    one01:(NSString*)aone01
                   ninty8:(NSString*)aninty8;
+
+
+- (id) initWithStoreAdIDTitle:(NSString *) aStoreAdIDTitle      //524
+                  EmailString:(NSString *) aEmailString              //-100
+            descriptionString:(NSString *) aDescriptionString        //523
+                  priceString:(NSString *) aPriceString              //507
+                   cityString:(NSString *) aCityString               //-99
+               currencyString:(NSString *) aCurrencyString           //508
+      distanceRangeInKmString:(NSString *) aDistanceRangeInKmString  //1076
+              modelYearString:(NSString *) aModelYearString          //509
+               distanceString:(NSString*) aDistanceString            //518
+           mobileNumberString:(NSString *) aMobileString             //520
+                 thumbnailURL:(NSString *) aThumbnailURLString
+                       nine52:(NSString*)anine52
+                       five06:(NSString*)afive06
+                    advPeriod:(NSString*)aAdvPeriod
+                       nine06:(NSString*)anine06
+                        one01:(NSString*)aone01
+                       ninty8:(NSString*)aninty8
+                  serviceName:(NSString*)aServiceName
+              adCommentsEmail:(NSString*)aAdcommentsEmail
+                 carCondition:(NSString*)aCondition
+                     gearType:(NSString*)aGearType
+                    carEngine:(NSString*)aCarEngine
+                      carType:(NSString*)aCarType
+                      carBody:(NSString*)aCarBody
+                        carCD:(NSString*)aCarCD
+                     carHeads:(NSString*)aCarHeads;
+
 
 - (id)initWithImageID: (NSString *)aImageID andImageURL:(NSString*)aImageURL;
 

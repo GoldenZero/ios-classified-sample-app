@@ -95,6 +95,14 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 }
 
 - (IBAction)labelAdBtnPressed:(id)sender {
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Store feature Ad"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     [self showLoadingIndicator];
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
@@ -137,8 +145,11 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    
+    
     if ((pricingOptions) && (pricingOptions.count))
     {
+        
         FeatureAdCell * cell = (FeatureAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"FeatureAdCell" owner:self options:nil] objectAtIndex:0];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         //[cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -154,6 +165,10 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         cell.costLabel.text = [NSString stringWithFormat:@"%@",[GenericMethods formatPrice:option.price]];
         cell.periodLabel.text = option.pricingName;
         cell.detailsLabel.text = @"";
+        if (!option.pricingTierID || option.pricingTierID == 0)
+            [cell.itunesImg setHidden:YES];
+        else
+            [cell.itunesImg setHidden:NO];
         
         return cell;
     }
@@ -162,11 +177,12 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     choosenCell=indexPath.row;
-    /*if (productsArr && productsArr.count)
-    {
-        SKProduct *product = [productsArr objectAtIndex:indexPath.row];
-        [self purchaseProductWithIdentifier:product.productIdentifier];
-    }*/
+   PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+    if (!option.pricingTierID || option.pricingTierID == 0)
+        [self.nowBtn setEnabled:NO];
+    else
+        [self.nowBtn setEnabled:YES];
+    
     [self.tableView reloadData];
 }
 

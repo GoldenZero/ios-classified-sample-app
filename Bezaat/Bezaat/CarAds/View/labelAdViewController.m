@@ -104,6 +104,13 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
 
 - (IBAction)labelAdBtnPressed:(id)sender {
     
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Feature Ad iTunes"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     if (chosenPricingOption)
     {
         [self showLoadingIndicator];
@@ -132,6 +139,14 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
 }
 
 - (IBAction)bankTransferBtnPressed:(id)sender {
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Feature Ad bank transfer"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     [self showLoadingIndicator];
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     

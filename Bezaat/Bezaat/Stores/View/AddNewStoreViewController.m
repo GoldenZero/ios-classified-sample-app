@@ -153,6 +153,14 @@
 }
 
 - (IBAction)saveBtnPress:(id)sender {
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"buttonPress"
+                         withLabel:@"Create store"
+                         withValue:[NSNumber numberWithInt:100]];
+    
     BOOL notAllDataFilled = [@"" isEqualToString:nameField.text] ||
                             [@"" isEqualToString:descriptionField.text] ||
                             [@"" isEqualToString:emailField.text] ||

@@ -213,6 +213,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 }
 
 - (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*) result {
+   
+   
     
     if (!result)
     {
@@ -224,6 +226,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
     else
     {
+       
         //NSLog(@"%@", result.description);
         if (self.delegate)
         {
@@ -332,6 +335,12 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                 //NSLog(@"%@",[dataDict objectForKey:DETAILS_AD_EDIT_ID_JKEY]);
                 return detailsObject;
             }
+        }else{
+            CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
+            [error setDescMessage:statusCodeString];
+            
+            if (self.delegate)
+                [self.delegate detailsDidFailLoadingWithError:error];
         }
     }
     return nil;

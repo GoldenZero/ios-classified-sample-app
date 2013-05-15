@@ -333,6 +333,26 @@ static NSString * documentsDirectoryPath;
         //[alert show];
         [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
     }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"NOT_VERIFIED_USER_AD"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"لم يتم تفعيل الحساب ،يرجى تفعيل الحساب ثم المحاولة مرة أخرى"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:[@"NOT_VERIFIED_USER_AD" lowercaseString]]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"لم يتم تفعيل الحساب ،يرجى تفعيل الحساب ثم المحاولة مرة أخرى"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
     else
     {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""

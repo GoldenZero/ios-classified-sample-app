@@ -27,6 +27,10 @@
 - (void) RequestToEditFailWithError:(NSError *) error;
 - (void) RequestToEditFinishWithData:(NSArray*) resultArray imagesArray:(NSArray *)resultIDs;
 
+- (void) RequestToEditStoreFailWithError:(NSError *) error;
+- (void) RequestToEditStoreFinishWithData:(NSArray*) resultArray imagesArray:(NSArray *)resultIDs;
+
+
 @end
 
 @protocol UploadImageDelegate <NSObject>
@@ -45,6 +49,8 @@
 - (void) adDidFailEditingWithError:(NSError *) error;
 - (void) adDidFinishEditingWithAdID:(NSInteger) adID;
 
+
+
 @end
 
 @protocol StorePostAdDelegate <NSObject>
@@ -52,6 +58,10 @@
 
 - (void) storeAdDidFailPostingWithError:(NSError *) error;
 - (void) storeAdDidFinishPostingWithAdID:(NSInteger) adID;
+
+- (void) storeAdDidFailEditingWithError:(NSError *) error;
+- (void) storeAdDidFinishEditingWithAdID:(NSInteger) adID;
+
 @end
 
 @interface CarAdsManager : NSObject <DataDelegate>
@@ -83,8 +93,12 @@
 
 - (void) loadUserAdsOfStatus:(NSString*) status forPage:(NSUInteger) pageNum andSize:(NSInteger) pageSize WithDelegate:(id <CarAdsManagerDelegate>) del;
 
-//request to edit
+//request to edit ad
 - (void) requestToEditAdsOfEditID:(NSString*) EditID WithDelegate:(id <CarAdsManagerDelegate>) del;
+
+
+//request to edit store ad
+- (void) requestToEditStoreAdsOfEditID:(NSString*) EditID andStore:(NSString*)StoreID WithDelegate:(id <CarAdsManagerDelegate>) del;
 
 
 //cache
@@ -175,6 +189,44 @@
                  imageIDs:(NSArray *) aImageIDsArray
              withDelegate:(id <PostAdDelegate>) del;
 
+
+
+//edit an store ad
+- (void) editStoreAdOfEditadID:(NSString*) editADID
+             inCountryID :(NSInteger)countryID
+                   InCity:(NSUInteger) cityID
+                userEmail:(NSString *) usermail
+                    title:(NSString *) aTitle
+              description:(NSString *) aDescription
+                    price:(NSString *) aPrice
+            periodValueID:(NSInteger) aPeriodValueID
+                   mobile:(NSString *) aMobileNum
+          currencyValueID:(NSInteger) aCurrencyValueID
+           serviceValueID:(NSInteger) aServiceValueID
+         modelYearValueID:(NSInteger) aModelYearValueID
+                 distance:(NSString *) aDistance
+                    color:(NSString *) aColor
+               phoneNumer:(NSString *) aPhoneNumer
+          adCommentsEmail:(BOOL) aAdCommentsEmail
+         kmVSmilesValueID:(NSInteger) aKmVSmilesValueID
+                   nine52:(NSInteger)anine52
+                   five06:(NSInteger)afive06
+                   advPeriod:(NSInteger)aAdvPeriod
+                   nine06:(NSString*)anine06
+                    one01:(NSString*)aone01
+                   ninty8:(NSInteger)aninty8
+                   serviceName:(NSString*)aServiceName
+               adCommentsEmail:(NSInteger)aAdcommentsEmail
+                  carCondition:(NSInteger)aCondition
+                      gearType:(NSInteger)aGearType
+                     carEngine:(NSInteger)aCarEngine
+                       carType:(NSInteger)aCarType
+                       carBody:(NSInteger)aCarBody
+                         carCD:(NSInteger)aCarCD
+                      carHeads:(NSInteger)aCarHeads
+                      storeID:(NSInteger)aStoreID
+                      imageIDs:(NSArray *) aImageIDsArray
+             withDelegate:(id <StorePostAdDelegate>) del;
 
 
 //post store ad
