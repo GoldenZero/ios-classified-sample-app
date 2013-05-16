@@ -15,9 +15,10 @@
 #import "AURosetteItem.h"
 #import "CarDetailsManager.h"
 #import "BrowseCarAdsViewController.h"
+#import "StoreManager.h"
 #import "GAI.h"
 
-@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate>
+@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) BrowseCarAdsViewController * parentVC;
@@ -57,6 +58,7 @@
 @property (strong, nonatomic) IBOutlet SSLabel *nameStoreLabel;
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet SSLabel *viewInStoreLabel;
+@property (strong, nonatomic) Store * currentStore;
 
 
 #pragma mark - actions

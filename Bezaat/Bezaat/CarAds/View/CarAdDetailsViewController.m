@@ -29,6 +29,7 @@
     NSMutableDictionary * allImagesDict;    //used in image browser
     KRImageViewer *krImageViewer;
     UILabel * label;
+    StoreManager *advFeatureManager;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -39,7 +40,7 @@
 @end
 
 @implementation CarAdDetailsViewController
-@synthesize pageControl,scrollView, phoneNumberButton, favoriteButton, featureBtn, editBtn, topMostToolbar,editAdBtn;
+@synthesize pageControl,scrollView, phoneNumberButton, favoriteButton, featureBtn, editBtn, topMostToolbar,editAdBtn, currentStore;
 @synthesize currentAdID,parentVC;
 
 
@@ -53,140 +54,7 @@
 }
 
 
-/*
-- (void) resizeScrollView {
-    
-    CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
-    
-    //1- remove all subviews in scroll view, lower than lastY (number is took from nib)
-    for (UIView * subview in [self.labelsScrollView subviews]) {
-        if (subview.frame.origin.y > lastY) {
-            [subview removeFromSuperview];
-        }
-    }
-    
-    
-    
-    if (currentDetailsObject)
-    {
-        self.detailLbl.text =  currentDetailsObject.description;
-        //1- set car images
-        if ((currentDetailsObject.adImages) && (currentDetailsObject.adImages.count))
-        {
-            self.pageControl.currentPage = 0;
-            self.pageControl.numberOfPages = currentDetailsObject.adImages.count;
-            for (int i=0; i < currentDetailsObject.adImages.count; i++) {
-                NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
-                [self.scrollView addSubview:[self prepareImge:imgURL :i]];
-            }
-            [self.scrollView setScrollEnabled:YES];
-            [self.scrollView setShowsVerticalScrollIndicator:YES];
-            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
-            
-        }
-        
-        //2- set attributes
-        if ((currentDetailsObject.attributes) && (currentDetailsObject.attributes.count))
-        {
-            CGFloat addedHeightValue;   //initial value, distant from last labels
-            if (currentDetailsObject.storeID > 0)   //isStore
-                addedHeightValue = 80 + 30;
-            else
-                addedHeightValue = 35 + 30;
-            
-            lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height + addedHeightValue;
-            
-            for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
-            {
-                if (attr.categoryAttributeID != 502 &&
-                    attr.categoryAttributeID != 505 &&
-                    attr.categoryAttributeID != 508 &&
-                    attr.categoryAttributeID != 907 &&
-                    attr.categoryAttributeID != 1076) {
-                    
-                    if (![attr.attributeValue length] == 0) {
-                        
-                        
-                        //attr label
-                        NSString * attr_name_text = [NSString stringWithFormat:@"%@ :", attr.displayName];
-                        
-                        CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
-                        
-                        CGSize expectedLabelSize =
-                        [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
-                        
-                        if (realTextSize.width > expectedLabelSize.width)
-                        {
-                            int factor = (int) (realTextSize.width / expectedLabelSize.width);
-                            factor ++;
-                            
-                            expectedLabelSize.height = expectedLabelSize.height * factor;
-                        }
-                        
-                        CGFloat attr_x = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + FIXED_H_DISTANCE);
-                        
-                        CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
-                        
-                        UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(260 - expectedLabelSize.width, 8, expectedLabelSize.width, expectedLabelSize.height)];
-                        
-                        attrNameLabel.text = attr_name_text;
-                        attrNameLabel.textAlignment = NSTextAlignmentRight;
-                        attrNameLabel.font = [UIFont systemFontOfSize:15];
-                        attrNameLabel.backgroundColor = [UIColor clearColor];
-                        attrNameLabel.numberOfLines = 0;
-                        
-                        //value label
-                        CGFloat valueLabelWidth = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
-                        CGFloat valueLabelHeight = expectedLabelSize.height;
-                        
-                        //CGFloat val_x = self.labelsScrollView.frame.size.width - FIXED_H_DISTANCE;
-                        CGFloat val_x = FIXED_H_DISTANCE;
-                        CGFloat val_y  = attr_y;
-                        
-                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 8, 120, valueLabelHeight)];
-                        
-                        valuelabel.text = attr.attributeValue;
-                        valuelabel.textAlignment = NSTextAlignmentRight;
-                        valuelabel.font = [UIFont systemFontOfSize:15];
-                        valuelabel.textColor = [UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f];
-                        valuelabel.backgroundColor = [UIColor clearColor];
-                        
-                         // UITextField* backgroundText = [[UITextField alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
-                         //UITableViewCell* myCell = [[UITableViewCell alloc]initWithFrame:CGRectMake(attr_x, attr_y, 100,valueLabelHeight)];
-                         //myCell.accessoryType = UITableViewCellAccessoryNone;
-                         //myCell.backgroundColor = [UIColor whiteColor];
-                         //myCell.textLabel.text = attrNameLabel.text;
-                         //myCell.detailTextLabel.text = valuelabel.text;
-                         
-                         
-                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(23, val_y + 50, valueLabelWidth + expectedLabelSize.width + 13, 35)];
-                        [v setBackgroundColor:[UIColor whiteColor]];
-                        [v addSubview:attrNameLabel];
-                        [v addSubview:valuelabel];
-                        
-                        //[self.labelsScrollView addSubview:attrNameLabel];
-                        //[self.labelsScrollView addSubview:valuelabel];
-                        [self.labelsScrollView addSubview:v];
-                        
-                        
-                        lastY = attr_y + valueLabelHeight;
-                        addedHeightValue = addedHeightValue + valueLabelHeight + FIXED_V_DISTANCE;
-                    }
-                }
-            }
-            
-            addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
-            
-            CGFloat totalHeight = self.labelsScrollView.frame.size.height + addedHeightValue;
-            
-            [self.labelsScrollView setScrollEnabled:YES];
-            [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
-            [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
-        }
-    }
-    
-}
-*/
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -219,6 +87,8 @@
     self.labelsScrollView.delegate = self;
     
     
+    advFeatureManager = [[StoreManager alloc] init];
+    advFeatureManager.delegate = self;
     
     //init the image load manager
     asynchImgManager = [[HJObjManager alloc] init];
@@ -448,11 +318,26 @@
                          withLabel:@"Feature Ad"
                          withValue:[NSNumber numberWithInt:100]];
     
-    labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
-    vc.currentAdID = currentAdID;
-    vc.countryAdID = currentDetailsObject.countryID;
-    [self presentViewController:vc animated:YES completion:nil];
-    
+    if (currentDetailsObject)
+    {
+        if (currentStore && (currentDetailsObject.storeID == currentStore.identifier))
+        {
+            if (currentDetailsObject.isFeatured)
+                [self unfeaturecurrentStoreAd:currentAdID];
+            else
+                [self featurecurrentStoreAd:currentAdID];
+        }
+        else
+        {
+            labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+            vc.currentAdID = currentAdID;
+            vc.countryAdID = currentDetailsObject.countryID;
+            vc.currentAdHasImages = NO;
+            if (currentDetailsObject.thumbnailURL)
+                vc.currentAdHasImages = YES;
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+    }
 }
 
 - (IBAction)editAdBtnPrss:(id)sender {
@@ -797,15 +682,14 @@
     [self.labelsScrollView setFrame:nibFrame];
     
     /*
-    CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
-    
-    //1- remove all subviews in scroll view, lower than lastY (number is took from nib)
-    for (UIView * subview in [self.labelsScrollView subviews]) {
-        if (subview.frame.origin.y > lastY) {
-            [subview removeFromSuperview];
-        }
-    }
-    */
+     CGFloat lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height;
+     //1- remove all subviews in scroll view, lower than lastY (number is took from nib)
+     for (UIView * subview in [self.labelsScrollView subviews]) {
+     if (subview.frame.origin.y > lastY) {
+     [subview removeFromSuperview];
+     }
+     }
+     */
     
     if (!currentDetailsObject)
         [self.detailsView setHidden:YES];
@@ -832,9 +716,6 @@
                 [allImagesDict setObject:imgURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
             }
             
-              
-
-          
             
             //preload the images in the browser
             [krImageViewer preloadImageURLs:allImagesDict];
@@ -844,28 +725,33 @@
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
             
         }else {
-              [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
+            [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
         }
         
         //2- set details
         if (![currentDetailsObject.description isEqualToString:@""]) {
-            CGSize realTextSize = [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15]];
-            CGSize expectedLabelSizeNew =
-            [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15] forWidth:(self.detailsView.frame.size.width - (2 * 5)) lineBreakMode:NSLineBreakByWordWrapping];
+            CGSize realTextSize = [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake((self.detailsView.frame.size.width - (2 * 5)), CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
             
-            if (realTextSize.width >= expectedLabelSizeNew.width)
-            {
-                int factor = (int) (realTextSize.width / expectedLabelSizeNew.width);
-                factor ++;
-                
-                expectedLabelSizeNew.height = expectedLabelSizeNew.height * factor;
-            }
+            CGSize expectedLabelSizeNew = realTextSize;
+            expectedLabelSizeNew.width = (self.detailsView.frame.size.width - (2 * 5));
             
+            /*
+             CGSize expectedLabelSizeNew =
+             [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15] forWidth:(self.detailsView.frame.size.width - (2 * 5)) lineBreakMode:NSLineBreakByWordWrapping];
+             if (realTextSize.width >= expectedLabelSizeNew.width)
+             {
+             int factor = (int) (realTextSize.width / expectedLabelSizeNew.width);
+             factor ++;
+             expectedLabelSizeNew.height = realTextSize.height * factor;
+             }
+             */
             label = [[UILabel alloc] initWithFrame:CGRectMake(
-                                self.detailsTextLabel.frame.origin.x,
-                                self.detailsTextLabel.frame.origin.y + self.detailsTextLabel.frame.size.height + 5,
-                                self.detailsView.frame.size.width - (2 * 5),
-                                expectedLabelSizeNew.height)];
+                                                              self.detailsTextLabel.frame.origin.x,
+                                                              self.detailsTextLabel.frame.origin.y + self.detailsTextLabel.frame.size.height + 5,
+                                                              expectedLabelSizeNew.width,
+                                                              expectedLabelSizeNew.height)];
+            
+            
             
             label.text = currentDetailsObject.description;
             label.textAlignment = NSTextAlignmentRight;
@@ -879,7 +765,7 @@
             [self.detailsView setScrollEnabled:NO];
             [self.detailsView setShowsVerticalScrollIndicator:NO];
             [self.detailsView setContentSize:(CGSizeMake(self.detailsView.frame.size.width,
-                            self.detailsTextLabel.frame.origin.x + self.detailsTextLabel.frame.size.height + label.frame.size.height + 10))];
+                                                         self.detailsTextLabel.frame.origin.x + self.detailsTextLabel.frame.size.height + label.frame.size.height + 10))];
             CGRect detailsVieworiginalFrame = self.detailsView.frame;
             
             
@@ -890,23 +776,23 @@
         }
         else
             [self.detailsView setHidden:YES];
-            
+        
         
         //3- set attributes
         if ((currentDetailsObject.attributes) && (currentDetailsObject.attributes.count))
         {
-            CGFloat addedHeightValue = self.contentView.frame.origin.y;   //initial value, distant from last labels
+            CGFloat addedHeightValue = self.contentView.frame.origin.y; //initial value, distant from last labels
             
             CGFloat lastY;
             CGFloat totalHeight;
             if (self.detailsView.isHidden)
             {
-                lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height +  addedHeightValue + 30;
+                lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height + addedHeightValue + 30;
                 totalHeight = lastY;
             }
             else
             {
-                lastY = self.detailsView.frame.origin.y + self.detailsView.frame.size.height +  addedHeightValue + 30;
+                lastY = self.detailsView.frame.origin.y + self.detailsView.frame.size.height + addedHeightValue + 30;
                 totalHeight = lastY + 20;
             }
             
@@ -925,32 +811,33 @@
                         //attr label
                         NSString * attr_name_text = [NSString stringWithFormat:@"%@ :", attr.displayName];
                         
-                        CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
+                        //CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
+                        CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2), CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
                         
-                        CGSize expectedLabelSize =
-                        [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
-                        
-                        if (realTextSize.width >= expectedLabelSize.width)
-                        {
-                            int factor = (int) (realTextSize.width / expectedLabelSize.width);
-                            factor ++;
-                            
-                            expectedLabelSize.height = expectedLabelSize.height * factor;
-                        }
-
+                        CGSize expectedLabelSize = realTextSize;
+                        /*
+                         CGSize expectedLabelSize =
+                         [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] forWidth:((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2) lineBreakMode:NSLineBreakByWordWrapping];
+                         if (realTextSize.width >= expectedLabelSize.width)
+                         {
+                         int factor = (int) (realTextSize.width / expectedLabelSize.width);
+                         factor ++;
+                         expectedLabelSize.height = realTextSize.height * factor;
+                         }
+                         expectedLabelSize.width = ((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2);
+                         */
                         expectedLabelSize.width = ((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2);
-                        CGFloat attr_y  = lastY + FIXED_V_DISTANCE;
                         
-                        
-                        
+                        expectedLabelSize.height = expectedLabelSize.height + 5;
+                        CGFloat attr_y = lastY + FIXED_V_DISTANCE;
                         
                         //value label
                         //CGFloat valueLabelWidth = self.labelsScrollView.frame.size.width - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
                         CGFloat valueLabelWidth = ((self.labelsScrollView.frame.size.width - (2 * FIXED_H_DISTANCE)) / 2);
                         CGFloat valueLabelHeight = expectedLabelSize.height;
                         
-
-                        CGFloat val_y  = attr_y;
+                        
+                        CGFloat val_y = attr_y;
                         
                         UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 2, valueLabelWidth, valueLabelHeight)];
                         
@@ -990,7 +877,7 @@
             
             
             totalHeight = totalHeight + addedHeightValue + 30;
-
+            
             
             [self.labelsScrollView setScrollEnabled:YES];
             [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
@@ -1013,9 +900,21 @@
             [self.phoneNumberButton setEnabled:NO];
         
         if (currentDetailsObject.isFeatured)
-            [self.featureBtn setEnabled:NO];
+        {
+            if (currentStore && (currentDetailsObject.storeID == currentStore.identifier))
+            {
+                //set the design to deleted $;
+                [self.featureBtn setEnabled:YES];
+                //[self.featureBtn setImage:[UIImage imageNamed:@"deletedDollar.png"]];
+            }
+            else
+                [self.featureBtn setEnabled:NO];
+        }
         else
+        {
+            [self.featureBtn setImage:[UIImage imageNamed:@"buttons_ok.png"]];
             [self.featureBtn setEnabled:YES];
+        }
         
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
@@ -1313,8 +1212,165 @@
         }
     }
     
+}
+
+#pragma mark - featuring an ad related to a store
+
+- (void)featurecurrentStoreAd:(NSInteger)advID {
+    if (currentStore)
+    {
+        if (currentStore.remainingFreeFeatureAds <= 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
+                                                            message:@"لقد تجاوزت عدد الإعلانات المحجوزة، بإمكانك إلغاء إعلان آخر ثم تمييز هذا الإعلان."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"موافق"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+        else if (currentStore.remainingDays < 3) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
+                                                            message:@"عدد الأيام المتبقية لديك غير كاف، قم بتجديد اشتراكك لتستطيع تمييز هذا الإعلان."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"موافق"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+        else {
+            UIActionSheet *actionSheet = nil;
+            
+            if (currentStore.remainingDays < 7) {
+                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"إلغاء"
+                                            destructiveButtonTitle:nil
+                                                 otherButtonTitles:@"٣ أيام", nil];
+            }
+            else if (currentStore.remainingDays < 28) {
+                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"إلغاء"
+                                            destructiveButtonTitle:nil
+                                                 otherButtonTitles:@"٣ أيام", @"اسبوع", nil];
+            }
+            else {
+                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"إلغاء"
+                                            destructiveButtonTitle:nil
+                                                 otherButtonTitles:@"٣ أيام", @"اسبوع", @"شهر", nil];
+            }
+            [actionSheet showInView:self.view];
+        }
+    }
+}
+
+- (void)unfeaturecurrentStoreAd:(NSInteger)advID {
+    [advFeatureManager unfeatureAdv:advID inStore:currentStore.identifier];
+    [self showLoadingIndicator];
+}
+
+#pragma mark - UIActionSheetDelegate Method
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
+    if (buttonIndex == actionSheet.cancelButtonIndex)
+    {
+        [actionSheet ]
+        [actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
+        return;
+    }
+    if (currentDetailsObject)
+    {
+        if ((currentAdID == 0) || (currentAdID == -1)) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                            message:@"لم يتم تحديد إعلان."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"موافق"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+        NSInteger featureDays = 3;
+        if ([@"٣ أيام" isEqualToString:buttonTitle]) {
+            featureDays = 3;
+        }
+        else if ([@"اسبوع" isEqualToString:buttonTitle]) {
+            featureDays = 7;
+        }
+        else if ([@"شهر" isEqualToString:buttonTitle]) {
+            featureDays = 28;
+        }
+        if (currentStore)
+        {
+            [advFeatureManager featureAdv:currentAdID
+                              inStore:currentStore.identifier
+                          featureDays:featureDays];
+            [self showLoadingIndicator];
+        }
+    }
+}
+
+#pragma mark -featuring store ad delegate methods
+
+- (void) featureAdvDidFailWithError:(NSError *)error {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                    message:@"حدث خطأ في تمييز الإعلان"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
     
+    [self hideLoadingIndicator];
+    [self customizeButtonsByData];
+}
+
+- (void) featureAdvDidSucceed {
+    if (currentDetailsObject && currentStore)
+    {
+        currentStore.remainingFreeFeatureAds--;
+        currentDetailsObject.isFeatured = YES;
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"تم تمييز الإعلان"
+                                                    message:@"تم تمييز الإعلان بنجاح."
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self hideLoadingIndicator];
+    [self customizeButtonsByData];
+}
+
+- (void) unfeatureAdvDidFailWithError:(NSError *)error {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                    message:@"حدث خطأ في إلغاء تمييز الإعلان"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self hideLoadingIndicator];
+    [self customizeButtonsByData];
+}
+
+- (void) unfeatureAdvDidSucceed {
+    
+    if (currentDetailsObject && currentStore)
+    {
+        currentStore.remainingFreeFeatureAds++;
+        currentDetailsObject.isFeatured = NO;
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"تم إلغاء تمييز الإعلان"
+                                                    message:@"تم إلغاء تمييز الإعلان بنجاح."
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self hideLoadingIndicator];
+    [self customizeButtonsByData];
 }
 
 @end

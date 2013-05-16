@@ -1431,10 +1431,18 @@
 - (void) optionsDidFailLoadingWithError:(NSError *)error {
     
     [self hideLoadingIndicator];
-    CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    //CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    CarAdDetailsViewController *details;
+    
+    if (currentImgsUploaded && currentImgsUploaded.count)   //ad with image
+        details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    
+    else                            //ad with no image
+        details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
     details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     details.currentAdID = myAdID;
     details.checkPage = YES;
+    details.currentStore = self.currentStore;
     [self presentViewController:details animated:YES completion:nil];
     
 }
@@ -1444,15 +1452,28 @@
     [self hideLoadingIndicator];
     
     if (resultArray.count == 0) {
-        CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        //CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        
+        CarAdDetailsViewController *details;
+        if (currentImgsUploaded && currentImgsUploaded.count)   //ad with image
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        
+        else                            //ad with no image
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+        
         details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         details.currentAdID = myAdID;
         details.checkPage = YES;
+        details.currentStore = self.currentStore;
         [self presentViewController:details animated:YES completion:nil];
     }else {
         labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
         vc.currentAdID = myAdID;
         vc.countryAdID = chosenCountry.countryID;
+        vc.currentAdHasImages = NO;
+        if (currentImgsUploaded && currentImgsUploaded.count)
+            vc.currentAdHasImages = YES;
+        
         [self presentViewController:vc animated:YES completion:nil];
     }
     

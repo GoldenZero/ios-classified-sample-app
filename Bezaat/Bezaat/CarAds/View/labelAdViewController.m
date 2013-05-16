@@ -27,7 +27,7 @@
 @end
 
 @implementation labelAdViewController
-@synthesize currentAdID;
+@synthesize currentAdID, currentAdHasImages;
 @synthesize laterBtn, nowBtn, parentNewCarVC;
 
 static NSString * product_id_form = @"com.bezaat.cars.c.%i";
@@ -89,7 +89,14 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
         if (self.parentNewCarVC)
             [(AddNewCarAdViewController *)parentNewCarVC dismissSelfAfterFeaturing];
     }];*/
-    CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    //CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    
+    CarAdDetailsViewController *details;
+    if (currentAdHasImages)   //ad with image
+        details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    
+    else                            //ad with no image
+        details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
     details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     details.currentAdID=currentAdID;
     details.checkPage = YES;
@@ -542,7 +549,14 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
 //        ChooseActionViewController* vc = [[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
 //        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 //        [self presentViewController:vc animated:YES completion:nil];
-        CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        //CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        CarAdDetailsViewController *details;
+        if (currentAdHasImages)   //ad with image
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        
+        else                            //ad with no image
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+        
         details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         details.currentAdID=currentAdID;
         details.checkPage = YES;

@@ -959,7 +959,14 @@
 - (void) optionsDidFailLoadingWithError:(NSError *)error {
     
     [self hideLoadingIndicator];
-    CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    //CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    CarAdDetailsViewController *details;
+    if (currentImgsUploaded && currentImgsUploaded.count)   //ad with image
+        details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+    
+    else                            //ad with no image
+        details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+    
     details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     details.currentAdID = myAdID;
     details.checkPage = YES;
@@ -972,7 +979,15 @@
     [self hideLoadingIndicator];
     
     if (resultArray.count == 0) {
-        CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        //CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        CarAdDetailsViewController *details;
+        
+        if (currentImgsUploaded && currentImgsUploaded.count)   //ad with image
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        
+        else                            //ad with no image
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+        
         details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         details.currentAdID = myAdID;
         details.checkPage = YES;
@@ -982,6 +997,9 @@
         vc.currentAdID = myAdID;
         vc.countryAdID = chosenCountry.countryID;
         vc.parentNewCarVC = self;
+        vc.currentAdHasImages = NO;
+        if (currentImgsUploaded && currentImgsUploaded.count)
+            vc.currentAdHasImages = YES;
         [self presentViewController:vc animated:YES completion:nil];
     }
     

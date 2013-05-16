@@ -34,5 +34,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *whiteRectImg;
 
 @property (strong, nonatomic) AddNewCarAdViewController * parentNewCarVC;
+@property (nonatomic) BOOL currentAdHasImages;
 
 @end

@@ -240,6 +240,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
         vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
     
     vc.currentAdID = adv.adID;
+    vc.currentStore = self.currentStore;
     [self presentViewController:vc animated:YES completion:nil];
 }
 

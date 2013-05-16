@@ -1182,6 +1182,9 @@
     //COME BACK HERE
     vc.currentAdID = carAdObject.adID;
     vc.countryAdID = [[SharedUser sharedInstance] getUserCountryID];
+    vc.currentAdHasImages = NO;
+    if (carAdObject.thumbnailURL)
+        vc.currentAdHasImages = YES;
    // vc.parentNewCarVC = self;
 
     //set the ad ID according to indexPath

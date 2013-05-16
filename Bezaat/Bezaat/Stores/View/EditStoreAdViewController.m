@@ -1079,7 +1079,11 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
 }
 
 - (IBAction)homeBtnPrss:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self dismissViewControllerAnimated:YES completion:nil];
+    
+    ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+    vc.modalPresentationStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:vc animated:YES completion:nil];
     
 }
 
