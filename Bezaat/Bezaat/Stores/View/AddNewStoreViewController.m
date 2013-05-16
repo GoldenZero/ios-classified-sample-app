@@ -331,9 +331,10 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:nil];
     storeImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    NSLog(@"imagePickerController:didFinishPickingMediaWithInfo:%f",storeImage.size.width);
+    //NSLog(@"imagePickerController:didFinishPickingMediaWithInfo:%f",storeImage.size.width);
     uploadingLOGO = YES;
-    storeImageView.image = storeImage;
+    //storeImageView.image = storeImage;
+    storeImageView.image = [GenericMethods imageWithImage:storeImage scaledToSize:storeImageView.frame.size];
     [self showLoadingIndicatorOnImages];
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] uploadLOGO:storeImage];

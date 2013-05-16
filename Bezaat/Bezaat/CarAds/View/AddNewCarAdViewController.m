@@ -235,7 +235,9 @@
 -(void) TakePhotoWithCamera {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        static UIImagePickerController *picker = nil;
+        if (!picker)
+            picker = [[UIImagePickerController alloc] init];
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         picker.allowsEditing = YES;
         picker.delegate = self;
@@ -868,7 +870,8 @@
     //UIImage * img = [info objectForKey:@"UIImagePickerControllerEditedImage"];
     UIImage * img = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
-    [tappedBtn setImage:img forState:UIControlStateNormal];
+    
+    [tappedBtn setImage:[GenericMethods imageWithImage:img scaledToSize:tappedBtn.frame.size] forState:UIControlStateNormal];
 
     [self useImage:img];
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -915,6 +918,7 @@
         [tappedBtn addSubview:imgv];
         [imgv setImageWithURL:url placeholderImage:[UIImage imageNamed:@"AddCar_Car_logo.png"]];
          */
+        
     }
     //2- add image data to this ad
     [currentImgsUploaded addObject:[NSNumber numberWithInteger:ID]];

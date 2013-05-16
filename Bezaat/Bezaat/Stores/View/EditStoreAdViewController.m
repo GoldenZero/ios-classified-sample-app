@@ -1274,7 +1274,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     //UIImage * img = [info objectForKey:@"UIImagePickerControllerEditedImage"];
     UIImage * img = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
-    [tappedBtn setImage:img forState:UIControlStateNormal];
+    [tappedBtn setImage:[GenericMethods imageWithImage:img scaledToSize:tappedBtn.frame.size] forState:UIControlStateNormal];
     
     [self useImage:img];
     [picker dismissViewControllerAnimated:YES completion:nil];
