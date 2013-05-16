@@ -28,6 +28,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *distanceRangeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *viewCountLabel;
 @property (nonatomic, weak) IBOutlet UIButton *featureButton;
+@property (strong, nonatomic) IBOutlet UIView *bottomBarView;
 
 @property (nonatomic) NSInteger advID;
 @property (nonatomic, strong) NSURL *imageURL;

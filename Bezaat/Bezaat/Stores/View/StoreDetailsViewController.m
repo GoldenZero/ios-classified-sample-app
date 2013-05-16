@@ -230,6 +230,10 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
         price = [NSString stringWithFormat:@"%f %@",adv.price,(adv.currencyString == nil)?@"":adv.currencyString];
     }
     cell.price = price;
+    cell.postedSinceLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:adv.postedOnDate];
+    cell.modelYear = adv.modelYear;
+    cell.distanceRange = adv.distance.integerValue;
+    cell.viewCount = adv.viewCount;
     cell.isFeatured = adv.isFeatured;
     
     return cell;

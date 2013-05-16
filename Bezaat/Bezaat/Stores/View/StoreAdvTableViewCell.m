@@ -90,6 +90,7 @@
         featureButton.frame = frame;
         bgImageView.image = [UIImage imageNamed:@"MyStore_special_bg"];
         featureTagImageView.hidden = NO;
+        self.bottomBarView.frame = CGRectMake(self.bottomBarView.frame.origin.x, self.bottomBarView.frame.origin.y - 3, self.bottomBarView.frame.size.width, self.bottomBarView.frame.size.height);
     }
     else {
         [featureButton setImage:[UIImage imageNamed:@"MyStore_icon_dollar"] forState:UIControlStateNormal];
