@@ -10,6 +10,7 @@
 #import "ChooseActionViewController.h"
 #import "SignInViewController.h"
 #import "FeatureStoreAdViewController.h"
+#import "WhyFeatureStoreAdViewController.h"
 
 @interface AddNewStoreViewController () {
     Store *store;
@@ -230,6 +231,8 @@
 }
 
 - (IBAction)whatIsStoreBtnPrss:(id)sender {
+    WhyFeatureStoreAdViewController *vc=[[WhyFeatureStoreAdViewController alloc] initWithNibName:@"WhyFeatureStoreAdViewController" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 
