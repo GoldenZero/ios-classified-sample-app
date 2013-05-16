@@ -99,7 +99,7 @@
 								<string key="NSFrame">{{4, 27}, {53, 27}}</string>
 								<reference key="NSSuperview" ref="801185993"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="812186389"/>
+								<reference key="NSNextKeyView" ref="406473770"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -157,7 +157,7 @@
 								<string key="NSFrame">{{59, 15}, {197, 35}}</string>
 								<reference key="NSSuperview" ref="801185993"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="99270280"/>
+								<reference key="NSNextKeyView" ref="1055372574"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -191,22 +191,32 @@
 							<object class="IBUIImageView" id="406473770">
 								<reference key="NSNextResponder" ref="801185993"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{59, 7}, {20, 20}}</string>
+								<string key="NSFrame">{{59, 10}, {21, 20}}</string>
 								<reference key="NSSuperview" ref="801185993"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="812186389"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">bankTransfer.png</string>
+								</object>
 							</object>
 							<object class="IBUIImageView" id="1055372574">
 								<reference key="NSNextResponder" ref="801185993"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{85, 7}, {20, 20}}</string>
+								<string key="NSFrame">{{82, 10}, {21, 20}}</string>
 								<reference key="NSSuperview" ref="801185993"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="99270280"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">inAppPurchase.png</string>
+								</object>
 							</object>
 						</array>
 						<string key="NSFrameSize">{320, 65}</string>
@@ -265,17 +275,17 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">itunesImg</string>
 						<reference key="source" ref="533206465"/>
-						<reference key="destination" ref="406473770"/>
+						<reference key="destination" ref="1055372574"/>
 					</object>
-					<int key="connectionID">35</int>
+					<int key="connectionID">37</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">bankImg</string>
 						<reference key="source" ref="533206465"/>
-						<reference key="destination" ref="1055372574"/>
+						<reference key="destination" ref="406473770"/>
 					</object>
-					<int key="connectionID">36</int>
+					<int key="connectionID">38</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -370,7 +380,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">36</int>
+			<int key="maxID">38</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -422,10 +432,11 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NS.key.0">storebackege.png</string>
-			<string key="NS.object.0">{308, 56}</string>
-		</object>
+		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="bankTransfer.png">{21, 20}</string>
+			<string key="inAppPurchase.png">{21, 20}</string>
+			<string key="storebackege.png">{308, 56}</string>
+		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>
 </archive>

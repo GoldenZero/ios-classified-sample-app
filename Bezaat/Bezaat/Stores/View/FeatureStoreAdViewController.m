@@ -167,11 +167,13 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         cell.costLabel.text = [NSString stringWithFormat:@"%@",[GenericMethods formatPrice:option.price]];
         cell.periodLabel.text = option.pricingName;
         cell.detailsLabel.text = @"";
-        if (!option.pricingTierID || option.pricingTierID == 0)
+        if (!option.pricingTierID || option.pricingTierID == 0){
             [cell.itunesImg setHidden:YES];
-        else
+           // [self.nowBtn setEnabled:NO];
+        }else{
             [cell.itunesImg setHidden:NO];
-        
+           // [self.nowBtn setEnabled:YES];
+        }
         return cell;
     }
     return [UITableViewCell new];

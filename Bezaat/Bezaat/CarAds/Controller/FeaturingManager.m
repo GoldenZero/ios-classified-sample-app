@@ -18,7 +18,7 @@
 #define PRICING_OPTIONS_AD_PERIOD_DAYS_JKEY     @"AdPeriodDays"
 #define PRICING_OPTIONS_PRICE_JKEY              @"Price"
 #define PRICING_OPTIONS_PRICING_NAME_JKEY       @"PricingName"
-#define PRICING_OPTIONS_PRICING_TIER_JKEY       @"PricingTier"
+#define PRICING_OPTIONS_PRICING_TIER_JKEY       @"PriceTier"
 //#define PRICING_OPTIONS_CATEGORY_ID_JKEY        @"CategoryID"
 //#define PRICING_OPTIONS_CURRENCY_ID_JKEY        @"CurrencyID"
 //#define PRICING_OPTIONS_CURRENCY_NAME_JKEY      @"CurrencyName"
