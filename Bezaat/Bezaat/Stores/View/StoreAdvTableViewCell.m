@@ -83,7 +83,8 @@
 - (void) setIsFeatured:(BOOL)_isFeatured {
     isFeatured = _isFeatured;
     if (isFeatured) {
-        [featureButton setImage:[UIImage imageNamed:@"MyStore_special_help"] forState:UIControlStateNormal];
+        //[featureButton setImage:[UIImage imageNamed:@"MyStore_special_help"] forState:UIControlStateNormal];
+        [featureButton setImage:[UIImage imageNamed:@"scarified_dollar"] forState:UIControlStateNormal];
         CGRect frame = featureButton.frame;
         frame.origin.y = 84;
         featureButton.frame = frame;

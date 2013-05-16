@@ -59,6 +59,7 @@
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (strong, nonatomic) IBOutlet SSLabel *viewInStoreLabel;
 @property (strong, nonatomic) Store * currentStore;
+@property (strong, nonatomic) UIViewController * parentStoreDetailsView;
 
 
 #pragma mark - actions

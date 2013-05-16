@@ -112,6 +112,12 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     // Dispose of any resources that can be recreated.
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [tableView reloadData];
+}
+
 #pragma mark - Actions
 
 - (IBAction)backBtnPress:(id)sender {
@@ -152,6 +158,19 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     [self showLoadingIndicator];
 }
 
+- (void) updateAd:(NSInteger) theAdID WithFeaturedStatus:(BOOL) status{
+    if (currentStoreAds && currentStoreAds.count)
+    {
+        for (int i = 0; i < currentStoreAds.count; i++)
+        {
+            if (((CarAd *) currentStoreAds[i]).adID == theAdID)
+            {
+                [(CarAd *)[currentStoreAds objectAtIndex:i] setIsFeatured:status];
+            }
+        }
+    }
+    [tableView reloadData];
+}
 #pragma mark - Private Methods
 
 - (void) resetButtonsImages {
@@ -241,6 +260,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     
     vc.currentAdID = adv.adID;
     vc.currentStore = self.currentStore;
+    vc.parentStoreDetailsView = self;
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -299,6 +319,12 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 #pragma mark - UIActionSheetDelegate Method
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == actionSheet.cancelButtonIndex)
+    {
+        [actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
+        return;
+    }
+    
     if (currentAdvID == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
                                                         message:@"لم يتم تحديد إعلان."

@@ -11,6 +11,7 @@
 #import "labelAdViewController.h"
 #import "EditCarAdViewController.h"
 #import "EditStoreAdViewController.h"
+#import "StoreDetailsViewController.h"
 
 #import "KRImageViewer.h"
 
@@ -905,7 +906,7 @@
             {
                 //set the design to deleted $;
                 [self.featureBtn setEnabled:YES];
-                //[self.featureBtn setImage:[UIImage imageNamed:@"deletedDollar.png"]];
+                [self.featureBtn setImage:[UIImage imageNamed:@"buttons_dollar_deleted.png"]];
             }
             else
                 [self.featureBtn setEnabled:NO];
@@ -959,6 +960,17 @@
             [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
             [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar_Sp.png"]];
             
+        }
+        
+        else
+        {
+            
+            //[self.distinguishingImage setHidden:YES];
+            
+            [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg.png"]];
+            
+            [self.pageControl setCurrentPageIndicatorTintColor:[UIColor lightGrayColor]];
+            [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar.png"]];
         }
         
         // Check store
@@ -1275,7 +1287,6 @@
     
     if (buttonIndex == actionSheet.cancelButtonIndex)
     {
-        [actionSheet ]
         [actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
         return;
     }
@@ -1340,6 +1351,10 @@
     
     [self hideLoadingIndicator];
     [self customizeButtonsByData];
+    if (self.parentStoreDetailsView)
+    {
+        [(StoreDetailsViewController *)self.parentStoreDetailsView updateAd:currentAdID WithFeaturedStatus:YES];
+    }
 }
 
 - (void) unfeatureAdvDidFailWithError:(NSError *)error {
@@ -1371,6 +1386,10 @@
     
     [self hideLoadingIndicator];
     [self customizeButtonsByData];
+    if (self.parentStoreDetailsView)
+    {
+        [(StoreDetailsViewController *)self.parentStoreDetailsView updateAd:currentAdID WithFeaturedStatus:NO];
+    }
 }
 
 @end
