@@ -39,8 +39,8 @@
 		6EAEDF0F163C031F0054FF6F /* fribidi_tab_char_type_9.i in Sources */ = {isa = PBXBuildFile; fileRef = 6EAEDF0C163C031E0054FF6F /* fribidi_tab_char_type_9.i */; };
 		6EAEDF10163C031F0054FF6F /* interaction.c in Sources */ = {isa = PBXBuildFile; fileRef = 6EAEDF0D163C031E0054FF6F /* interaction.c */; };
 		6EAEDF11163C031F0054FF6F /* interaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EAEDF0E163C031E0054FF6F /* interaction.h */; };
-		6EC20373157AD461002666E9 /* SFConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC2034B157AD461002666E9 /* SFConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6EC2038B157ADA82002666E9 /* SFTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC20377157AD7E7002666E9 /* SFTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6EC20373157AD461002666E9 /* SFConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC2034B157AD461002666E9 /* SFConfig.h */; settings = {ATTRIBUTES = (); }; };
+		6EC2038B157ADA82002666E9 /* SFTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC20377157AD7E7002666E9 /* SFTypes.h */; settings = {ATTRIBUTES = (); }; };
 		6ED95B3C17114F8E004249C1 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6ED95B3B17114F8D004249C1 /* CoreFoundation.framework */; };
 		6EEAF2B117046AE400B1ED51 /* SFGSUBGPOSData.c in Sources */ = {isa = PBXBuildFile; fileRef = 6EEAF2AF17046AE400B1ED51 /* SFGSUBGPOSData.c */; };
 		6EEAF2B217046AE400B1ED51 /* SFGSUBGPOSData.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EEAF2B017046AE400B1ED51 /* SFGSUBGPOSData.h */; };
@@ -354,6 +354,7 @@
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -364,6 +365,7 @@
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};

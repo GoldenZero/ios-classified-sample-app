@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "GAITrackedViewController.h"
 
-@interface AboutAppViewController : GAITrackedViewController
+@interface AboutAppViewController : GAITrackedViewController<UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 - (IBAction)backInvoked:(id)sender;

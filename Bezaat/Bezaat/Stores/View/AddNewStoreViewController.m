@@ -487,12 +487,17 @@
 #pragma mark - Private Methods
 
 -(void)dismissKeyboard {
+    
     [self closePicker];
     [nameField resignFirstResponder];
     [descriptionField resignFirstResponder];
     [emailField resignFirstResponder];
     [phoneField resignFirstResponder];
     [passwordField resignFirstResponder];
+    if ([[UIScreen mainScreen] bounds].size.height == 568)
+        self.view.frame = CGRectMake(0, 0, 320, 568);
+    else
+        self.view.frame = CGRectMake(0, 0, 320, 480);
 }
 
 - (void) showLoadingIndicator {
