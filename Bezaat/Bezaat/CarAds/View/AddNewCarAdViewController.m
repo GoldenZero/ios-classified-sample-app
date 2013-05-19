@@ -622,6 +622,7 @@
         }
     }
     [self showPicker];
+    locationBtnPressedOnce = YES;
 
 }
 

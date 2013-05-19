@@ -17,7 +17,7 @@
 #import "GAITrackedViewController.h"
 #import "GAI.h"
 
-@interface ChooseActionViewController : GAITrackedViewController<UITableViewDataSource,UITableViewDelegate>
+@interface ChooseActionViewController : GAITrackedViewController<UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIButton *AddStoreButton;
@@ -28,11 +28,13 @@
 @property (strong, nonatomic) IBOutlet UITableView *menuTableView;
 @property (strong, nonatomic) IBOutlet UIView *menuView;
 @property (strong, nonatomic) IBOutlet UIView *content;
+@property (strong, nonatomic) IBOutlet UIButton *countryBtn;
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender;
 - (IBAction)BuyCarBtnPressed:(id)sender;
 - (IBAction)AddNewStoreBtnPressed:(id)sender;
 - (IBAction)sideMenuBtnPressed:(id)sender;
+- (IBAction)countryBtnPrss:(id)sender;
 
 @end

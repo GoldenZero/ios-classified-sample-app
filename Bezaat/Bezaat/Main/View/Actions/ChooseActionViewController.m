@@ -28,6 +28,13 @@
     NSMutableArray *custoIconMenuArray;
     MBProgressHUD2 * loadingHUD;
 
+    Country * chosenCountry;
+    Country * myCountry;
+    NSUInteger defaultIndex;
+    NSInteger defaultCountryID;
+    LocationManager * locationMngr;
+    NSArray * countriesArray;
+    
     // Gestures
     UISwipeGestureRecognizer *rightRecognizer;
     UISwipeGestureRecognizer *leftRecognizer;
@@ -48,6 +55,7 @@
 
 - (void)viewDidLoad
 {
+   
     custoMenuArray=[[NSMutableArray alloc]init];
     custoIconMenuArray=[[NSMutableArray alloc]init];
 
@@ -104,11 +112,21 @@
         [[GAI sharedInstance].defaultTracker sendView:@"Home Screen (User)"];
     }
     
+       
     // Do any additional setup after loading the view from its nib.
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    if  (defaultIndex!= -1){
+        chosenCountry =[countriesArray objectAtIndex:defaultIndex];
+    }
+    locationMngr = [LocationManager sharedInstance];
+    defaultCountryID =  [[LocationManager sharedInstance] getSavedUserCountryID];
+    [locationMngr loadCountriesAndCitiesWithDelegate:self];
+
     
     [self customizeMenu];
 }
@@ -117,6 +135,21 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void) didFinishLoadingWithData:(NSArray*) resultArray{
+    countriesArray=resultArray;
+    for (int i =0; i <= [countriesArray count] - 1; i++) {
+        chosenCountry=[countriesArray objectAtIndex:i];
+            if (chosenCountry.countryID == defaultCountryID)
+            {
+                myCountry = [countriesArray objectAtIndex:i];
+                [self.countryBtn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@.png",myCountry.countryNameEn]] forState:UIControlStateNormal];
+                break;
+                //return;
+            }
+        
+    }
 }
 
 #pragma mark - Gesture handling
@@ -218,6 +251,14 @@
         [self showMenu];
     else
         [self hideMenu];
+}
+
+- (IBAction)countryBtnPrss:(id)sender {
+    
+    CountryListViewController* vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:vc animated:YES completion:nil];
+    
 }
 
 - (void) prepareImages {

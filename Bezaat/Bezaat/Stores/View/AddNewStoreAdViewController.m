@@ -979,7 +979,7 @@
             
         }
     }
-    
+    locationBtnPressedOnce = YES;
     [self showPicker];
     
 }
