@@ -714,7 +714,7 @@
                 
                 NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] imageURL];
                 //2- init the dictionary for the image browser
-                [allImagesDict setObject:imgURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
+                [allImagesDict setObject:imgThumbURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
             }
             
             
