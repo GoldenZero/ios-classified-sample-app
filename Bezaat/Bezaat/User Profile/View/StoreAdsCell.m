@@ -41,6 +41,7 @@
         bgImageView.image = [UIImage imageNamed:@"MyStore_special_bg"];
         featureTagImageView.hidden = NO;
         self.bottomBarView.frame = CGRectMake(self.bottomBarView.frame.origin.x, self.bottomBarView.frame.origin.y - 3, self.bottomBarView.frame.size.width, self.bottomBarView.frame.size.height);
+        [self.bottomBarView setBackgroundColor:[UIColor colorWithRed:247.0/255 green:214.0/255 blue:185.0/255 alpha:1.0f]];
     }
     else {
         [featureButton setImage:[UIImage imageNamed:@"MyStore_icon_dollar"] forState:UIControlStateNormal];
@@ -49,6 +50,7 @@
         featureButton.frame = frame;
         bgImageView.image = [UIImage imageNamed:@"MyStore_box_bg"];
         featureTagImageView.hidden = YES;
+        [self.bottomBarView setBackgroundColor:[UIColor colorWithRed:235.0/255 green:235.0/255 blue:235.0/255 alpha:1.0f]];
     }
 }
 
