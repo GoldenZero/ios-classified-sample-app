@@ -178,7 +178,8 @@
         totalBrands = resultBrands;
     }
     
-    if ((!sortedOnce) && ([[SharedUser sharedInstance] getUserCountryID] > -1))
+    //if ((!sortedOnce) && ([[SharedUser sharedInstance] getUserCountryID] > -1))
+    if ([[SharedUser sharedInstance] getUserCountryID] > -1)
     {
         //sort brands according to chosen country
         NSArray * temp = [NSArray arrayWithArray:[self sortBrandsArray:totalBrands]];
