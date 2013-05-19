@@ -763,7 +763,7 @@
     }
     
         //check currency
-    if (!currencyBtnPressedOnce)
+    if (!chosenCurrency)
     {
         //check price
         if ( [carPrice.text length] != 0 && ![carPrice.text isEqualToString:@"0"])
