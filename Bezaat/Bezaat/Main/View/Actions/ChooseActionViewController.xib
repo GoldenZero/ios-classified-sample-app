@@ -318,13 +318,28 @@
 										<string key="NSFrame">{{51, -1}, {2, 44}}</string>
 										<reference key="NSSuperview" ref="518385867"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="141835910"/>
+										<reference key="NSNextKeyView" ref="379646742"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<object class="NSCustomResource" key="IBUIImage">
 											<string key="NSClassName">NSImage</string>
 											<string key="NSResourceName">line.png</string>
+										</object>
+									</object>
+									<object class="IBUIImageView" id="379646742">
+										<reference key="NSNextResponder" ref="518385867"/>
+										<int key="NSvFlags">274</int>
+										<string key="NSFrame">{{7, 8}, {35, 26}}</string>
+										<reference key="NSSuperview" ref="518385867"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="141835910"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIUserInteractionEnabled">NO</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<object class="NSCustomResource" key="IBUIImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">flag_border.png</string>
 										</object>
 									</object>
 									<object class="IBUIButton" id="141835910">
@@ -685,6 +700,7 @@
 							<reference ref="141835910"/>
 							<reference ref="669487998"/>
 							<reference ref="521217765"/>
+							<reference ref="379646742"/>
 						</array>
 						<reference key="parent" ref="593241271"/>
 					</object>
@@ -706,6 +722,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">444</int>
 						<reference key="object" ref="521217765"/>
+						<reference key="parent" ref="518385867"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">445</int>
+						<reference key="object" ref="379646742"/>
 						<reference key="parent" ref="518385867"/>
 					</object>
 				</array>
@@ -732,13 +753,14 @@
 				<string key="439.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="440.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="444.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="445.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">444</int>
+			<int key="maxID">445</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -848,6 +870,7 @@
 			<string key="Menu_top_bg.png">{269, 41}</string>
 			<string key="Nav_bar.png">{320, 41}</string>
 			<string key="buttons_settings.png">{37, 41}</string>
+			<string key="flag_border.png">{35, 26}</string>
 			<string key="home_addButton.png">{137, 204}</string>
 			<string key="home_buyButton.png">{137, 204}</string>
 			<string key="home_store.png">{289, 140}</string>
