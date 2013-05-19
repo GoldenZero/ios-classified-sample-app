@@ -312,10 +312,25 @@
 											<string key="NSResourceName">Nav_bar.png</string>
 										</object>
 									</object>
+									<object class="IBUIImageView" id="521217765">
+										<reference key="NSNextResponder" ref="518385867"/>
+										<int key="NSvFlags">274</int>
+										<string key="NSFrame">{{51, -1}, {2, 44}}</string>
+										<reference key="NSSuperview" ref="518385867"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="141835910"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIUserInteractionEnabled">NO</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<object class="NSCustomResource" key="IBUIImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">line.png</string>
+										</object>
+									</object>
 									<object class="IBUIButton" id="141835910">
 										<reference key="NSNextResponder" ref="518385867"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{261, -4}, {57, 49}}</string>
+										<string key="NSFrame">{{261, -3}, {57, 49}}</string>
 										<reference key="NSSuperview" ref="518385867"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="976667138"/>
@@ -343,7 +358,7 @@
 										<string key="NSFrame">{{8, 5}, {33, 33}}</string>
 										<reference key="NSSuperview" ref="518385867"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="141835910"/>
+										<reference key="NSNextKeyView" ref="521217765"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -357,7 +372,7 @@
 										<reference key="IBUINormalTitleShadowColor" ref="227490254"/>
 										<object class="NSCustomResource" key="IBUINormalImage">
 											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">uae.png</string>
+											<string key="NSResourceName">ksa.png</string>
 										</object>
 										<reference key="IBUIFontDescription" ref="480082611"/>
 										<reference key="IBUIFont" ref="478002387"/>
@@ -669,6 +684,7 @@
 							<reference ref="875438405"/>
 							<reference ref="141835910"/>
 							<reference ref="669487998"/>
+							<reference ref="521217765"/>
 						</array>
 						<reference key="parent" ref="593241271"/>
 					</object>
@@ -685,6 +701,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">440</int>
 						<reference key="object" ref="669487998"/>
+						<reference key="parent" ref="518385867"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">444</int>
+						<reference key="object" ref="521217765"/>
 						<reference key="parent" ref="518385867"/>
 					</object>
 				</array>
@@ -710,13 +731,14 @@
 				<string key="438.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="439.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="440.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="444.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">443</int>
+			<int key="maxID">444</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -830,7 +852,8 @@
 			<string key="home_buyButton.png">{137, 204}</string>
 			<string key="home_store.png">{289, 140}</string>
 			<string key="hometit.png">{320, 44}</string>
-			<string key="uae.png">{48, 48}</string>
+			<string key="ksa.png">{48, 48}</string>
+			<string key="line.png">{5, 82}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

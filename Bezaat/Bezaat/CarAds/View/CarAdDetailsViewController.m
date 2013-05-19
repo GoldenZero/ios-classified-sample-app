@@ -712,9 +712,9 @@
                 NSURL * imgThumbURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
                 [self.scrollView addSubview:[self prepareImge:imgThumbURL :i]];
                 
-                NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] imageURL];
+                NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
                 //2- init the dictionary for the image browser
-                [allImagesDict setObject:imgThumbURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
+                [allImagesDict setObject:imgURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
             }
             
             
