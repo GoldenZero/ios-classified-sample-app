@@ -17,4 +17,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *carModel;
 @property (weak, nonatomic) IBOutlet UILabel *carDistance;
 @property (weak, nonatomic) IBOutlet UILabel *adViews;
+@property (strong, nonatomic) IBOutlet UIView *bottomBarView;
+
+@property (nonatomic, weak) IBOutlet UIButton *featureButton;
+@property (nonatomic, weak) IBOutlet UIImageView *featureTagImageView;
+@property (nonatomic, weak) IBOutlet UIImageView *bgImageView;
+
+@property (nonatomic) BOOL isFeatured;
+
+- (IBAction)featureBtnPress:(id)sender;
+
 @end

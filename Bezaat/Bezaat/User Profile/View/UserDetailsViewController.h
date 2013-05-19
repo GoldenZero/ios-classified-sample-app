@@ -13,6 +13,7 @@
 #import "CarAdsManager.h"
 #import "ProfileDetailsViewController.h"
 #import "AddNewCarAdViewController.h"
+#import "labelAdViewController.h"
 #import "GAI.h"
 
 @interface UserDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarAdsManagerDelegate,LocationManagerDelegate>

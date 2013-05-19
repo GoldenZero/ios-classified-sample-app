@@ -7,8 +7,14 @@
 //
 
 #import "StoreAdsCell.h"
+@interface StoreAdsCell () {
+    BOOL isFeatured;
+ 
+}
+@end
 
 @implementation StoreAdsCell
+@synthesize featureButton,featureTagImageView,bgImageView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -19,11 +25,46 @@
     return self;
 }
 
+- (BOOL) isFeatured {
+    return isFeatured;
+}
+
+- (void) setIsFeatured:(BOOL)_isFeatured {
+    isFeatured = _isFeatured;
+    if (isFeatured) {
+        //[featureButton setImage:[UIImage imageNamed:@"MyStore_special_help"] forState:UIControlStateNormal];
+        //[featureButton setImage:[UIImage imageNamed:@"scarified_dollar"] forState:UIControlStateNormal];
+        [featureButton setHidden:YES];
+        CGRect frame = featureButton.frame;
+        frame.origin.y = 84;
+        featureButton.frame = frame;
+        bgImageView.image = [UIImage imageNamed:@"MyStore_special_bg"];
+        featureTagImageView.hidden = NO;
+        self.bottomBarView.frame = CGRectMake(self.bottomBarView.frame.origin.x, self.bottomBarView.frame.origin.y - 3, self.bottomBarView.frame.size.width, self.bottomBarView.frame.size.height);
+    }
+    else {
+        [featureButton setImage:[UIImage imageNamed:@"MyStore_icon_dollar"] forState:UIControlStateNormal];
+        CGRect frame = featureButton.frame;
+        frame.origin.y = 88;
+        featureButton.frame = frame;
+        bgImageView.image = [UIImage imageNamed:@"MyStore_box_bg"];
+        featureTagImageView.hidden = YES;
+    }
+}
+
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+
+
+-(void)featureBtnPress:(id)sender
+{
+    
 }
 
 @end

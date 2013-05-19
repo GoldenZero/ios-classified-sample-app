@@ -1074,10 +1074,12 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                 
                 if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
                 {
-                    NSString * data = [totalDict objectForKey:PRICING_DATA_JKEY];
-                    NSString * dataProcessed = [[data stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                    NSDictionary * data = [totalDict objectForKey:PRICING_DATA_JKEY];
+                    //NSString * dataProcessed = [[data stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                   // NSDictionary * orderIdentifierDict = [data objectForKey:PRICING_DATA_JKEY];
+                    NSString *orderIdentifier = [data objectForKey:@"OrderID"];
                     
-                    if ([dataProcessed isEqualToString:@"success"])
+                    if (orderIdentifier)
                     {
                         if (self.orderDelegate)
                             [orderDelegate orderDidFinishConfirmingWithStatus:YES];

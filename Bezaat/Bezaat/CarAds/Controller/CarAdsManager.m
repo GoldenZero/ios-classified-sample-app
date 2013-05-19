@@ -854,7 +854,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              MANUFACTURE_YEAR_ATTR_ID, [NSString stringWithFormat:@"%i",aModelYearValueID],
                              DISTANCE_VALUE_ATTR_ID, aDistance,
                              COLOR_ATTR_ID, aColor,
-                             PHONE_NUMBER_ATTR_ID, aPhoneNumer,
+                             PHONE_NUMBER_ATTR_ID, usermail,
                              ADCOMMENTS_EMAIL_ATTR_ID, [NSString stringWithFormat:@"%i",aAdCommentsEmail],
                              KM_MILES_ATTR_ID, [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
                              brandKeyForModel.integerValue, [NSString stringWithFormat:@"%i",modelID],

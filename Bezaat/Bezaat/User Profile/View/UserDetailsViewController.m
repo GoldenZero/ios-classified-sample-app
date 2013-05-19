@@ -21,6 +21,8 @@
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
     BOOL dataLoadedFromCache;
     BOOL isRefreshing;
+    
+    CarAd * myAdObject;
 }
 
 @end
@@ -345,6 +347,7 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+   
     //ad with image
     int separatorHeight = 6;//extra value for separating
     if (carAdObject.thumbnailURL)
@@ -387,8 +390,9 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CarAd * carAdObject;
-    if ((carAdsArray) && (carAdsArray.count))
+    if ((carAdsArray) && (carAdsArray.count)){
         carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+        myAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];}
     else
         return [UITableViewCell new];
     
@@ -436,6 +440,8 @@
             [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage.imageView setClipsToBounds:YES];
             
+            cell.isFeatured = carAdObject.isFeatured;
+            [cell.featureButton addTarget:self action:@selector(featureTheAd) forControlEvents:UIControlEventTouchUpInside];
             
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
@@ -485,7 +491,8 @@
             [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage.imageView setClipsToBounds:YES];
             
-            
+            cell.isFeatured = carAdObject.isFeatured;
+            [cell.featureButton addTarget:self action:@selector(featureTheAd) forControlEvents:UIControlEventTouchUpInside];
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
             
@@ -535,7 +542,8 @@
             [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage.imageView setClipsToBounds:YES];
             
-            
+            cell.isFeatured = carAdObject.isFeatured;
+            [cell.featureButton addTarget:self action:@selector(featureTheAd) forControlEvents:UIControlEventTouchUpInside];
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
             
@@ -581,7 +589,8 @@
             [cell.carImage setImage:[UIImage imageNamed:@"default-car.jpg"]];
             [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage.imageView setClipsToBounds:YES];
-            
+            cell.isFeatured = carAdObject.isFeatured;
+            [cell.featureButton addTarget:self action:@selector(featureTheAd) forControlEvents:UIControlEventTouchUpInside];
             
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
@@ -623,7 +632,17 @@
 }
 
 
-
+-(void)featureTheAd
+{
+    labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+   // vc.currentAdID = [[self.adsTable cellForRowAtIndexPath:0] ];
+    vc.currentAdID = myAdObject.adID;
+    vc.countryAdID = [[SharedUser sharedInstance] getUserCountryID];
+    vc.currentAdHasImages = NO;
+    if (myAdObject.thumbnailURL)
+        vc.currentAdHasImages = YES;
+    [self presentViewController:vc animated:YES completion:nil];
+}
 
 /*
  #pragma mark - Table view data source
