@@ -220,7 +220,7 @@
             [imgs addObject:image.imageURL];
         }
         [self presentViewController:vc animated:YES completion:nil];
-        [vc customizeScrollForPhotos:imgs firstImageID:0];
+        [vc customizeScrollForPhotos:imgs firstImageID:self.pageControl.currentPage];
     }
     
     /*

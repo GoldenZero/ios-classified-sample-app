@@ -13,9 +13,9 @@
 @interface FBPhotoBrowserViewController ()
 {
     CGSize totalSize;
-    UITapGestureRecognizer *doubleTap;
-    NSMutableArray * allImageViews;
     HJObjManager * asynchImgManager;
+    BOOL zoomingOn;
+    int currentZoomingPage;
 }
 @end
 
@@ -35,9 +35,6 @@
 {
     [super viewDidLoad];
     
-    //init array
-    allImageViews = [NSMutableArray new];
-    
     //bring the done button to front
     _doneBtn.layer.zPosition = 1;
     
@@ -49,16 +46,15 @@
     [self.photosScrollView setBounces:NO];
     [self.photosScrollView setBouncesZoom:NO];
     
-    doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapFrom:)];
-    [doubleTap setNumberOfTapsRequired:2];
-    
-    [self.photosScrollView addGestureRecognizer:doubleTap];
     
     //init the photo image manager
     asynchImgManager = [[HJObjManager alloc] init];
 	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
 	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
 	asynchImgManager.fileCache = fileCache;
+    
+    zoomingOn = NO;
+    currentZoomingPage = -1;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -86,24 +82,56 @@
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    
-    CGFloat singleHeight = 0;
-    CGFloat singleWidth = 0;
-    CGSize theContentSize  = CGSizeZero;
-    
-    if (self.photosScrollView.subviews && self.photosScrollView.subviews.count) {
-        singleHeight = ((UIImageView *)self.photosScrollView.subviews[0]).frame.size.height;
-        singleWidth = ((UIImageView *)self.photosScrollView.subviews[0]).frame.size.width;
+    if (zoomingOn)//zoom in
+    {
+        if (currentZoomingPage > -1)
+        {
+            UIScrollView * scrollView = (UIScrollView *) self.photosScrollView.subviews[currentZoomingPage];
+            
+            CGRect frame = scrollView.frame;
+            frame.origin.x = 0;
+            [scrollView setFrame:frame];
+
+            [self.photosScrollView setContentSize:scrollView.frame.size];
+            
+        }
+    }
+    else
+    {
+        CGFloat totalWidth = 0;
+        CGSize theContentSize  = CGSizeZero;
         
-        theContentSize = CGSizeMake(singleWidth  * self.photosScrollView.subviews.count, self.photosScrollView.frame.size.height);
+        if (self.photosScrollView.subviews && self.photosScrollView.subviews.count) {
+            //NSLog(@"%i", self.photosScrollView.subviews.count);
+            for (UIScrollView * scroll in self.photosScrollView.subviews)
+                totalWidth = totalWidth + scroll.frame.size.width;
+            
+            theContentSize = CGSizeMake(totalWidth, self.photosScrollView.frame.size.height);
+        }
+        
+        [self.photosScrollView setContentSize:CGSizeMake(theContentSize.width, theContentSize.height)];
+        
+        if (currentZoomingPage > -1)
+        {
+            
+            UIScrollView * scrollView = (UIScrollView *) self.photosScrollView.subviews[currentZoomingPage];
+            
+            CGRect frame = scrollView.frame;
+            frame.origin.x = self.photosScrollView.frame.size.width * currentZoomingPage;
+            [scrollView setFrame:frame];
+            
+            [self.photosScrollView scrollRectToVisible:frame animated:NO];
+
+        }        
     }
     
-    [self.photosScrollView setContentSize:CGSizeMake(theContentSize.width, theContentSize.height)];
+    
 }
 
 - (BOOL) shouldAutorotate {
     return YES;
 }
+
 
 - (void) customizeScrollForPhotos:(NSArray *) photos firstImageID:(NSInteger) index {
     
@@ -131,8 +159,8 @@
         singleWidth = imgV.frame.size.width;
         
         
-        imgV.backgroundColor = [UIColor clearColor];
-        imgV.imageView.backgroundColor = [UIColor clearColor];
+        imgV.backgroundColor = [UIColor blackColor];
+        imgV.imageView.backgroundColor = [UIColor blackColor];
         
         //set the image
         [imgV clear];
@@ -152,11 +180,19 @@
         [imgV setClipsToBounds:NO];
         
         scrView.delegate = self;
-        scrView.autoresizingMask = self.photosScrollView.autoresizingMask;
+        scrView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
+                                    UIViewAutoresizingFlexibleHeight | 
+                                    UIViewAutoresizingFlexibleLeftMargin |
+                                    UIViewAutoresizingFlexibleRightMargin);
+        
+        
+        
+        
         [scrView addSubview:imgV];
         
         scrView.showsHorizontalScrollIndicator = NO;
         scrView.showsVerticalScrollIndicator = NO;
+        scrView.backgroundColor = [UIColor blackColor];
         scrView.contentMode = UIViewContentModeCenter;
         scrView.clipsToBounds = NO;
         scrView.minimumZoomScale = 0.5; //50% minimum
@@ -164,10 +200,18 @@
         scrView.bounces = NO;
         scrView.bouncesZoom = NO;
         
+        
+        UITapGestureRecognizer * doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapFrom:)];
+        [doubleTap setNumberOfTapsRequired:2];
+        
+        [scrView setUserInteractionEnabled:YES];
+        [scrView addGestureRecognizer:doubleTap];
+        
+        
+        self.photosScrollView.contentMode = UIViewContentModeCenter;
         [self.photosScrollView addSubview:scrView];
         totalSize.width = totalSize.width + frame.size.width;
         
-        [allImageViews addObject:scrView];
     }
     
     totalSize = CGSizeMake(singleWidth  * self.photosScrollView.subviews.count, self.photosScrollView.frame.size.height);
@@ -178,7 +222,7 @@
     CGRect frame = self.photosScrollView.frame;
     frame.origin.x = frame.size.width * index;
     frame.origin.y = 0;
-    [self.photosScrollView scrollRectToVisible:frame animated:YES];
+    [self.photosScrollView scrollRectToVisible:frame animated:NO];
 }
 
 
@@ -186,15 +230,22 @@
     
     int page = self.photosScrollView.contentOffset.x / self.photosScrollView.frame.size.width;
     
-    if (allImageViews && allImageViews.count)
+    if (self.photosScrollView.subviews && self.photosScrollView.subviews.count)
     {
-        UIScrollView * aScrollView = allImageViews[page];
+        //UIScrollView * aScrollView = (UIScrollView *) self.photosScrollView.subviews[page];
+        UIScrollView * aScrollView = (UIScrollView *) recognizer.view;
         float scale = aScrollView.zoomScale;
         scale += 1.0;
-        if(scale > 2.0)
-            scale = 1.0;
+        if(scale > 2.0) scale = 1.0;
+        
+        zoomingOn = !zoomingOn;
+        if (zoomingOn)
+            currentZoomingPage = page;
+        
         [aScrollView setZoomScale:scale animated:YES];
+        
     }
+    
 }
 
 #pragma mark - UIScrollView Delegate
@@ -206,11 +257,51 @@
 }
 
 -(void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)_subview{
+    
     self.photosScrollView.pagingEnabled = NO;
+    scrollView.pagingEnabled = NO;
+    
+    if (zoomingOn)//zoom in
+    {
+        CGRect frame = scrollView.frame;
+        frame.origin.x = 0;
+        [scrollView setFrame:frame];
+        
+        [self.photosScrollView setContentSize:scrollView.frame.size];
+        
+    }
+    else
+    {
+        CGFloat totalWidth = 0;
+        CGSize theContentSize  = CGSizeZero;
+        
+        if (self.photosScrollView.subviews && self.photosScrollView.subviews.count) {
+            //NSLog(@"%i", self.photosScrollView.subviews.count);
+            for (UIScrollView * scroll in self.photosScrollView.subviews)
+                totalWidth = totalWidth + scroll.frame.size.width;
+            
+            theContentSize = CGSizeMake(totalWidth, self.photosScrollView.frame.size.height);
+        }
+        
+        [self.photosScrollView setContentSize:CGSizeMake(theContentSize.width, theContentSize.height)];
+        self.photosScrollView.contentMode = UIViewContentModeCenter;
+        
+        
+        CGRect frame = scrollView.frame;
+        frame.origin.x = self.photosScrollView.frame.size.width * currentZoomingPage;
+        
+        [scrollView setFrame:frame];
+        
+        [self.photosScrollView scrollRectToVisible:frame animated:NO];
+    }
+    
 }
 
--(void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)_subview atScale:(float)scale{
+-(void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)_subview atScale:(float)scale {
+    
     self.photosScrollView.pagingEnabled = YES;
+    scrollView.pagingEnabled = YES;
+    
 }
 
 
