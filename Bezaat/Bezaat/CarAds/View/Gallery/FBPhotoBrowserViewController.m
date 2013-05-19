@@ -15,6 +15,7 @@
     CGSize totalSize;
     UITapGestureRecognizer *doubleTap;
     NSMutableArray * allImageViews;
+    HJObjManager * asynchImgManager;
 }
 @end
 
@@ -52,6 +53,12 @@
     [doubleTap setNumberOfTapsRequired:2];
     
     [self.photosScrollView addGestureRecognizer:doubleTap];
+    
+    //init the photo image manager
+    asynchImgManager = [[HJObjManager alloc] init];
+	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
+	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
+	asynchImgManager.fileCache = fileCache;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -108,22 +115,34 @@
     for (int i = 0; i < photos.count; i++)
     {
         CGRect frame;
-        UIImageView * imgV;
+        HJManagedImageV * imgV;
+        //UIImageView * imgV;
         
-
         frame.origin.x = self.photosScrollView.frame.size.width * i;
         frame.origin.y = 0;
         frame.size = self.photosScrollView.frame.size;
         
+        
         UIScrollView * scrView = [[UIScrollView alloc] initWithFrame:frame];
-        imgV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        imgV = [[HJManagedImageV alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        //imgV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         
         singleHeight = imgV.frame.size.height;
         singleWidth = imgV.frame.size.width;
         
-        //UIImage * image1 = [UIImage imageNamed:[NSString stringWithFormat:@"%i.jpg", i]];
-        [imgV setImageWithURL:(NSURL *)[photos objectAtIndex:i]];
         
+        imgV.backgroundColor = [UIColor clearColor];
+        imgV.imageView.backgroundColor = [UIColor clearColor];
+        
+        //set the image
+        [imgV clear];
+        imgV.url = (NSURL *)[photos objectAtIndex:i];
+        [imgV showLoadingWheel];
+        imgV.loadingWheel.color = [UIColor whiteColor];
+        [asynchImgManager manage:imgV];
+        
+        
+        //[imgV setImageWithURL:(NSURL *)[photos objectAtIndex:i] placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
         imgV.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
                                  UIViewAutoresizingFlexibleHeight |
                                  UIViewAutoresizingFlexibleLeftMargin |

@@ -23,6 +23,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.showingFBBrowserView = NO;
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
    
     //1- hide the status bar
@@ -116,6 +118,21 @@
     [[SharedUser fbSharedSessionInstance] close];
 }
 
+- (NSUInteger) application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    
+    //return UIInterfaceOrientationMaskPortrait;
+    
+    if (self.showingFBBrowserView)
+        return UIInterfaceOrientationMaskAllButUpsideDown;
+    else
+        return UIInterfaceOrientationMaskPortrait;
+    
+    
+}
+
+- (void) setShowingFBBrowser:(BOOL) status {
+    self.showingFBBrowserView = status;
+}
 
 #pragma mark - Facebook related
 

@@ -12,8 +12,7 @@
 #import "EditCarAdViewController.h"
 #import "EditStoreAdViewController.h"
 #import "StoreDetailsViewController.h"
-
-#import "KRImageViewer.h"
+#import "AppDelegate.h"
 
 //#define FIXED_V_DISTANCE    17
 #define FIXED_V_DISTANCE    0
@@ -28,7 +27,6 @@
     AURosetteView *shareButton;
     UITapGestureRecognizer *tap;
     NSMutableDictionary * allImagesDict;    //used in image browser
-    KRImageViewer *krImageViewer;
     UILabel * label;
     StoreManager *advFeatureManager;
 }
@@ -100,13 +98,6 @@
     //set the original size of scroll view without loading any labels yet
     originalScrollViewHeight = self.labelsScrollView.frame.size.height;
     
-    //init the image browser
-    krImageViewer = [[KRImageViewer alloc] initWithDragMode:krImageViewerModeOfTopToBottom];
-    krImageViewer.maxConcurrentOperationCount = 1;
-    krImageViewer.dragDisapperMode            = krImageViewerDisapperAfterMiddle;
-    krImageViewer.allowOperationCaching       = NO;
-    krImageViewer.timeout                     = 30.0f;
-    
     [self prepareShareButton];
     
     [self startLoadingData];
@@ -126,7 +117,6 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [krImageViewer resetView:self.view.window];
 }
 
 - (void)didReceiveMemoryWarning
@@ -218,11 +208,29 @@
    
     //NSLog(@"test img");
     
+    FBPhotoBrowserViewController * vc = [[FBPhotoBrowserViewController alloc] initWithNibName:@"FBPhotoBrowserViewController" bundle:nil];
+    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    
+    [(AppDelegate *)[[UIApplication sharedApplication] delegate] setShowingFBBrowser:YES];
+    
+    NSMutableArray * imgs = [[NSMutableArray alloc] init];
+    if (currentDetailsObject && currentDetailsObject.adImages && currentDetailsObject.adImages.count)
+    {
+        for (CarDetailsImage * image in currentDetailsObject.adImages) {
+            [imgs addObject:image.imageURL];
+        }
+        [self presentViewController:vc animated:YES completion:nil];
+        [vc customizeScrollForPhotos:imgs firstImageID:0];
+    }
+    
+    /*
+    
     NSInteger imageIDForDict = [(UITapGestureRecognizer *) sender view].tag/ 10;
     NSString * dictionaryKey = [NSString stringWithFormat:@"%i", imageIDForDict];
     
     if (allImagesDict && allImagesDict.count)
         [krImageViewer browsePageByPageImageURLs:allImagesDict firstShowImageId:dictionaryKey];
+     */
     
 }
 
@@ -716,10 +724,6 @@
                 //2- init the dictionary for the image browser
                 [allImagesDict setObject:imgURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
             }
-            
-            
-            //preload the images in the browser
-            [krImageViewer preloadImageURLs:allImagesDict];
             
             [self.scrollView setScrollEnabled:YES];
             [self.scrollView setShowsVerticalScrollIndicator:YES];

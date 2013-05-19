@@ -17,6 +17,7 @@
 #import "BrowseCarAdsViewController.h"
 #import "StoreManager.h"
 #import "GAI.h"
+#import "FBPhotoBrowserViewController.h"
 
 @interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate>
 

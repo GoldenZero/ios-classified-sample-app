@@ -27,6 +27,9 @@
 @property (strong, nonatomic) ChooseActionViewController *homeVC;
 //@property (strong, nonatomic) FriendsListViewController *friendVC;
 @property(nonatomic, retain) id<GAITracker> tracker;
+@property (nonatomic) BOOL showingFBBrowserView;
+
+- (void) setShowingFBBrowser:(BOOL) status;
 
 - (void) onSplashScreenDone;
 @end
