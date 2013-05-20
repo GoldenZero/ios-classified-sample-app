@@ -64,6 +64,15 @@
 
 @end
 
+
+@protocol SendEmailDelegate <NSObject>
+@required
+
+- (void) EmailDidFailSendingWithError:(NSError *) error;
+- (void) EmailDidFinishSendingWithStatus:(BOOL) Status;
+@end
+
+
 @interface CarAdsManager : NSObject <DataDelegate>
 
 #pragma mark - properties
@@ -71,6 +80,7 @@
 @property (strong, nonatomic) id <UploadImageDelegate> imageDelegate;
 @property (strong, nonatomic) id <PostAdDelegate> adPostingDelegate;
 @property (strong, nonatomic) id <StorePostAdDelegate> storeaAdPostingDelegate;
+@property (strong, nonatomic) id <SendEmailDelegate> EmailSendingDelegate;
 
 @property (nonatomic) NSUInteger pageNumber;
 @property (nonatomic) NSUInteger pageSize;
@@ -100,6 +110,8 @@
 //request to edit store ad
 - (void) requestToEditStoreAdsOfEditID:(NSString*) EditID andStore:(NSString*)StoreID WithDelegate:(id <CarAdsManagerDelegate>) del;
 
+//Sending email
+- (void) sendEmailofName:(NSString*) UserName withEmail:(NSString*) emailAddress phoneNumber:(NSInteger) phone message:(NSString*) SubjectMessage withAdID:(NSInteger)AdID WithDelegate:(id <SendEmailDelegate>) del;
 
 //cache
 - (BOOL) cacheDataFromArray:(NSArray *) dataArr forBrand:(NSUInteger) brandID Model:(NSInteger) modelID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize ;

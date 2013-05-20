@@ -337,7 +337,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             }
         }else{
             CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
-            [error setDescMessage:statusCodeString];
+            [error setDescMessage:statusMessageProcessed];
             
             if (self.delegate)
                 [self.delegate detailsDidFailLoadingWithError:error];

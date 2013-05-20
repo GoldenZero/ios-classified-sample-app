@@ -606,6 +606,10 @@
 		843FFFDE172D25840081671C /* chooseCarBrand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843FFFDC172D25840081671C /* chooseCarBrand@2x.png */; };
 		845D8CCC172C154900C37217 /* bezaat_flag_129.png in Resources */ = {isa = PBXBuildFile; fileRef = 845D8CCA172C154900C37217 /* bezaat_flag_129.png */; };
 		845D8CCD172C154900C37217 /* bezaat_flag@2x_129.png in Resources */ = {isa = PBXBuildFile; fileRef = 845D8CCB172C154900C37217 /* bezaat_flag@2x_129.png */; };
+		8460C3CC174A4602006ABE3B /* SendEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8460C3CA174A4602006ABE3B /* SendEmailViewController.m */; };
+		8460C3CD174A4602006ABE3B /* SendEmailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8460C3CB174A4602006ABE3B /* SendEmailViewController.xib */; };
+		8460C3D0174A577E006ABE3B /* Listing3_top_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C3CE174A577E006ABE3B /* Listing3_top_bg.png */; };
+		8460C3D1174A577E006ABE3B /* Listing3_top_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C3CF174A577E006ABE3B /* Listing3_top_bg@2x.png */; };
 		846EE7791730EA4B009385F4 /* feature.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE7761730EA4B009385F4 /* feature.png */; };
 		846EE77A1730EA4B009385F4 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE7771730EA4B009385F4 /* logo.png */; };
 		846EE77B1730EA4B009385F4 /* manage.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE7781730EA4B009385F4 /* manage.png */; };
@@ -1755,6 +1759,11 @@
 		843FFFDC172D25840081671C /* chooseCarBrand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chooseCarBrand@2x.png"; sourceTree = "<group>"; };
 		845D8CCA172C154900C37217 /* bezaat_flag_129.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bezaat_flag_129.png; sourceTree = "<group>"; };
 		845D8CCB172C154900C37217 /* bezaat_flag@2x_129.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bezaat_flag@2x_129.png"; sourceTree = "<group>"; };
+		8460C3C9174A4602006ABE3B /* SendEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SendEmailViewController.h; path = Bezaat/CarAds/View/SendEmailViewController.h; sourceTree = SOURCE_ROOT; };
+		8460C3CA174A4602006ABE3B /* SendEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SendEmailViewController.m; path = Bezaat/CarAds/View/SendEmailViewController.m; sourceTree = SOURCE_ROOT; };
+		8460C3CB174A4602006ABE3B /* SendEmailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SendEmailViewController.xib; path = Bezaat/CarAds/View/SendEmailViewController.xib; sourceTree = SOURCE_ROOT; };
+		8460C3CE174A577E006ABE3B /* Listing3_top_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Listing3_top_bg.png; sourceTree = "<group>"; };
+		8460C3CF174A577E006ABE3B /* Listing3_top_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Listing3_top_bg@2x.png"; sourceTree = "<group>"; };
 		846EE7761730EA4B009385F4 /* feature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feature.png; sourceTree = "<group>"; };
 		846EE7771730EA4B009385F4 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		846EE7781730EA4B009385F4 /* manage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = manage.png; sourceTree = "<group>"; };
@@ -2685,6 +2694,8 @@
 		24E7A22B170AC1470080ACB1 /* Listing */ = {
 			isa = PBXGroup;
 			children = (
+				8460C3CE174A577E006ABE3B /* Listing3_top_bg.png */,
+				8460C3CF174A577E006ABE3B /* Listing3_top_bg@2x.png */,
 				846EE78F1731777E009385F4 /* waitForApprove.png */,
 				846EE7901731777E009385F4 /* waitForApprove@2x.png */,
 				247F2829171D3C8200EB2EEB /* Listing2_nonphoto_bg_Sp.png */,
@@ -3732,6 +3743,9 @@
 			isa = PBXGroup;
 			children = (
 				9E1A1E93174917E800E00B26 /* Gallery */,
+				8460C3C9174A4602006ABE3B /* SendEmailViewController.h */,
+				8460C3CA174A4602006ABE3B /* SendEmailViewController.m */,
+				8460C3CB174A4602006ABE3B /* SendEmailViewController.xib */,
 				9E78A80C16E356A0000CA790 /* AddNewCarAdViewController.h */,
 				9E78A80D16E356A0000CA790 /* AddNewCarAdViewController.m */,
 				9E78A80E16E356A0000CA790 /* AddNewCarAdViewController.xib */,
@@ -5110,6 +5124,9 @@
 				84E12F671748FFFF008BC631 /* MyAds_icon_dollar@2x.png in Resources */,
 				84E12F691749018A008BC631 /* flag_border.png in Resources */,
 				9E1A1E98174917E800E00B26 /* FBPhotoBrowserViewController.xib in Resources */,
+				8460C3CD174A4602006ABE3B /* SendEmailViewController.xib in Resources */,
+				8460C3D0174A577E006ABE3B /* Listing3_top_bg.png in Resources */,
+				8460C3D1174A577E006ABE3B /* Listing3_top_bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5238,6 +5255,7 @@
 				8412372F173E23B5008C3532 /* StoreRejectedTableViewCell.m in Sources */,
 				8493D4181742077A000EA9E2 /* EditStoreAdViewController.m in Sources */,
 				9E1A1E97174917E800E00B26 /* FBPhotoBrowserViewController.m in Sources */,
+				8460C3CC174A4602006ABE3B /* SendEmailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

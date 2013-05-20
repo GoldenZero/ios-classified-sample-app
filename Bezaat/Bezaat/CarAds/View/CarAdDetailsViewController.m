@@ -13,6 +13,7 @@
 #import "EditStoreAdViewController.h"
 #import "StoreDetailsViewController.h"
 #import "AppDelegate.h"
+#import "SendEmailViewController.h"
 
 //#define FIXED_V_DISTANCE    17
 #define FIXED_V_DISTANCE    0
@@ -403,8 +404,13 @@
                          withLabel:@"Send email to Ad owner"
                          withValue:[NSNumber numberWithInt:100]];
     
-    if (currentDetailsObject)
+    if (![currentDetailsObject.emailAddress isEqualToString:@""])
     {
+        SendEmailViewController *vc=[[SendEmailViewController alloc] initWithNibName:@"SendEmailViewController" bundle:nil];
+        vc.DetailsObject = currentDetailsObject;
+
+        [self presentViewController:vc animated:YES completion:nil];
+        /*
         if ([MFMailComposeViewController canSendMail])
         {
             MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
@@ -421,9 +427,12 @@
             mailer.modalPresentationStyle = UIModalPresentationPageSheet;
             [self presentViewController:mailer animated:YES completion:nil];
         }
+        
         else {
             [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر إرسال الرسائل الإلكترونية من هذا الجهاز" delegateVC:self];
-        }
+        }*/
+    }else {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"للأسف لا يمكنك مراسلة البائع" delegateVC:self];
     }
 }
 

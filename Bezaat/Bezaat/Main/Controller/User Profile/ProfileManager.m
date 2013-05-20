@@ -788,7 +788,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     if (dataSoFar)
     {
         NSString * responseStr = [[NSString alloc] initWithData:dataSoFar encoding:NSUTF8StringEncoding];
-        
+        NSLog(@"data is : %@",responseStr);
         NSString * nullReplacedInStr = [responseStr stringByReplacingOccurrencesOfString:@":null" withString:@":\"\""];
         
         NSData * dataWithNullReplaced = [nullReplacedInStr dataUsingEncoding:NSUTF8StringEncoding];
@@ -827,6 +827,10 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
                 else if (self.updateDelegate) {
                     if (userData.isActive && userData.isVerified)
                         [updateDelegate userUpdateWithData:userData];
+                }
+                else if (self.RegisterDelegate) {
+                    if (userData.isActive && userData.isVerified)
+                        [self.RegisterDelegate userDidRegisterWithData:userData];
                 }else
                 {
                     CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
@@ -879,6 +883,13 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
                 [error setDescMessage:statusMessage];
                 
                 [self.updateDelegate userFailUpdateWithError:error];
+            }
+            if (self.RegisterDelegate)
+            {
+                CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                [error setDescMessage:statusMessage];
+                
+                [self.RegisterDelegate userFailRegisterWithError:error];
             }
         }
     }

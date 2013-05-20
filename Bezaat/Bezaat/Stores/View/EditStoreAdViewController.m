@@ -1112,19 +1112,19 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         }
     }
     
-    //check country & city
+   /* //check country & city
     if (!locationBtnPressedOnce)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بلد ومدينة مناسبين" delegateVC:self];
         return;
-    }
-    /*
+    }*/
+    
     if (!chosenCity)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بيانات المكان صحيحة" delegateVC:self];
         return;
     }
-    */
+    
     //check title
     if ([carAdTitle.text length] == 0)
     {
@@ -1146,10 +1146,10 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     }
     
     //check currency
-    if (!currencyBtnPressedOnce)
+    if (!chosenCurrency)
     {
         //check price
-        if ( [carPrice.text length] != 0 )
+        if ( [carPrice.text length] != 0 && ![carPrice.text isEqualToString:@"0"])
         {
             [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار عملة مناسبة" delegateVC:self];
             return;
@@ -1157,6 +1157,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         }
     }
     
+
     
     
     if (!bodyBtnPressedOnce)

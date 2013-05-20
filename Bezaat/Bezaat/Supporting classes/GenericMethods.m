@@ -57,6 +57,16 @@ static NSString * documentsDirectoryPath;
         //[alert show];
         [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
     }
+    else if (!(errorCode == 200) && ([msg isEqualToString:@"ALREADY_REGISTERED_EMAIL"]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"االبريد الإلكتروني مسجل لدينا"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
     else if (!(errorCode == 200) && ([msg isEqualToString:@"EMAIL_ADDRESS_NOT_FOUND"]))
     {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
@@ -194,6 +204,16 @@ static NSString * documentsDirectoryPath;
     {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
                                                          message:@"الرجاء التأكد من كلمة السر"
+                                                        delegate:vc
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil ];
+        //[alert show];
+        [alert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:YES];
+    }
+    else if (!(errorCode == 200) && ([msg isEqualToString:[@"ALREADY_REGISTERED_EMAIL" lowercaseString]]))
+    {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"االبريد الإلكتروني مسجل لدينا"
                                                         delegate:vc
                                                cancelButtonTitle:@"موافق"
                                                otherButtonTitles:nil ];
