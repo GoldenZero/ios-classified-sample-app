@@ -526,7 +526,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
         if ([delegate respondsToSelector:@selector(storeCreationDidSucceedWithStoreID: andUser:)]) {
             NSLog(@"%@",((NSArray *)result)[0][@"Data"]);
             NSDictionary *s = ((NSArray *)result)[0][@"Data"];
-            NSString * statusCodeString = ((NSArray *)result)[0][LOGIN_STATUS_CODE_JKEY] ;
+            NSString * statusCodeString = [NSString stringWithFormat:@"%@", ((NSArray *)result)[0][LOGIN_STATUS_CODE_JKEY]] ;
             NSInteger statusCode = statusCodeString.integerValue;
             NSString * message = ((NSArray *)result)[0][LOGIN_STATUS_MSG_JKEY];
             if (statusCode == 320) {
@@ -617,7 +617,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     if ((responseDataArray) && (responseDataArray.count > 0))
     {
         //NSDictionary * totalDict = [responseDataArray objectAtIndex:0];
-        //NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+        //NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY]];
        // NSInteger statusCode = statusCodeString.integerValue;
        // if (statusCode == 200)
         //{

@@ -950,7 +950,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:PRICING_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -979,7 +979,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:PRICING_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -1008,7 +1008,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:PRICING_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -1037,7 +1037,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:PRICING_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -1067,7 +1067,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:PRICING_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -1111,7 +1111,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:PRICING_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -1153,7 +1153,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:PRICING_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -1198,7 +1198,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     if ((data) && (data.count > 0))
     {
         NSDictionary * totalDict = [data objectAtIndex:0];
-        NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:PRICING_STATUS_CODE_JKEY]];
         NSInteger statusCode = statusCodeString.integerValue;
         
         NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -1236,7 +1236,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     if ((data) && (data.count > 0))
     {
         NSDictionary * totalDict = [data objectAtIndex:0];
-        NSString * statusCodeString = [totalDict objectForKey:PRICING_STATUS_CODE_JKEY];
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:PRICING_STATUS_CODE_JKEY]];
         NSInteger statusCode = statusCodeString.integerValue;
         
         NSString * statusMessageProcessed = [[[totalDict objectForKey:PRICING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];

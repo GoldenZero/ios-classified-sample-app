@@ -902,7 +902,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     if ((responseDataArray) && (responseDataArray.count > 0))
     {
         NSDictionary * totalDict = [responseDataArray objectAtIndex:0];
-        NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY]];
         NSInteger statusCode = statusCodeString.integerValue;
         if (statusCode != 200)
             return NO;
@@ -918,7 +918,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     if ((responseDataArray) && (responseDataArray.count > 0))
     {
         NSDictionary * totalDict = [responseDataArray objectAtIndex:0];
-        NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY]];
         NSInteger statusCode = statusCodeString.integerValue;
         if (statusCode == 200)
         {
@@ -961,7 +961,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     if ((data) && (data.count > 0))
     {
         NSDictionary * totalDict = [data objectAtIndex:0];
-        NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY]];
         NSInteger statusCode = statusCodeString.integerValue;
         
         if (statusCode == 200)
@@ -1087,7 +1087,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:LOGIN_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -1112,7 +1112,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:LOGIN_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -1137,7 +1137,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:LOGIN_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
@@ -1162,7 +1162,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
             if ((data) && (data.count > 0))
             {
                 NSDictionary * totalDict = [data objectAtIndex:0];
-                NSString * statusCodeString = [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:LOGIN_STATUS_CODE_JKEY]];
                 NSInteger statusCode = statusCodeString.integerValue;
                 
                 NSString * statusMessageProcessed = [[[totalDict objectForKey:LOGIN_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];

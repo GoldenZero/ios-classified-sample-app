@@ -283,7 +283,7 @@
         NSArray * distanceRangeParsedArray = [[JSONParser sharedInstance] parseJSONData:distanceRangesData];
         
         NSDictionary * totalDict = [distanceRangeParsedArray objectAtIndex:0];
-        NSString * statusCodeString = [totalDict objectForKey:DISTANCE_RANGES_STATUS_CODE_JKEY];
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:DISTANCE_RANGES_STATUS_CODE_JKEY]];
         NSInteger statusCode = statusCodeString.integerValue;
         
         NSMutableArray * resultRangesArray = [NSMutableArray new];
