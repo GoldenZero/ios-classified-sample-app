@@ -1144,9 +1144,6 @@
         }
     }
 
-   
-   
-    
     if (!bodyBtnPressedOnce)
     {
         

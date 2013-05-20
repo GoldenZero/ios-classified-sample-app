@@ -62,6 +62,7 @@
     InternetManager * requestEditStoreMngr;
     InternetManager * EditMngr;
     InternetManager * EditStoreAdMngr;
+    InternetManager * SendingMngr;
     
 
 }
@@ -86,6 +87,8 @@ static NSString * request_edit_ads_url = @"/json/request-to-edit?enceditid=%@";
 static NSString * request_edit_store_ads_url = @"/json/request-to-edit-store-ad?encadid=%@&storeid=%@";
 static NSString * edit_id_url = @"/json/update-ad?country=%@&city=%@&enceditid=%@&collection=%@";
 static NSString * edit_store_ad_id_url = @"/json/update-store-ad?enceditid=%@&storeid=%i";
+static NSString * sending_email_id_url = @"/json/send-an-email";
+
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
 - (id) init {
@@ -105,6 +108,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         request_edit_store_ads_url = [API_MAIN_URL stringByAppendingString:request_edit_store_ads_url];
         edit_id_url = [API_MAIN_URL stringByAppendingString:edit_id_url];
         edit_store_ad_id_url = [API_MAIN_URL stringByAppendingString:edit_store_ad_id_url];
+        sending_email_id_url = [API_MAIN_URL stringByAppendingString:sending_email_id_url];
         
     }
     return self;
@@ -424,6 +428,89 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         if (self.delegate)
             [self.delegate adsDidFailLoadingWithError:error];
+        return ;
+    }
+    
+}
+
+- (void) sendEmailofName:(NSString*) UserName withEmail:(NSString*) emailAddress phoneNumber:(NSInteger) phone message:(NSString*) SubjectMessage withAdID:(NSInteger)AdID WithDelegate:(id <SendEmailDelegate>) del {
+    
+    //1- set the delegate
+    self.EmailSendingDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.EmailSendingDelegate)
+            [self.EmailSendingDelegate EmailDidFailSendingWithError:error];
+        return ;
+    }
+    
+    NSString * fullURLString = sending_email_id_url;
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+               
+        //3- start the request
+        NSString * post = [NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@&%@=%@",
+                           @"Name", UserName,
+                           @"Phone", [NSString stringWithFormat:@"%i", phone],
+                           @"Email", emailAddress,
+                           @"Message",SubjectMessage,
+                           @"AdID",[NSString stringWithFormat:@"%i", AdID]
+                           ];
+        
+        NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setTimeoutInterval:60];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        [request setHTTPBody:postData];
+        
+        SendingMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+        
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.EmailSendingDelegate)
+            [self.EmailSendingDelegate EmailDidFailSendingWithError:error];
         return ;
     }
     
@@ -1389,6 +1476,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         if (self.storeaAdPostingDelegate)
             [storeaAdPostingDelegate storeAdDidFailEditingWithError:error];
     }
+    else if (manager == SendingMngr)
+    {
+        if (self.EmailSendingDelegate)
+            [self.EmailSendingDelegate EmailDidFailSendingWithError:error];
+    }
 }
 - (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*) result {
     
@@ -1436,6 +1528,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         {
             if (self.storeaAdPostingDelegate)
                 [storeaAdPostingDelegate storeAdDidFailEditingWithError:error];
+        }
+        else if (manager == SendingMngr)
+        {
+            if (self.EmailSendingDelegate)
+                [self.EmailSendingDelegate EmailDidFailSendingWithError:error];
         }
     }
     else
@@ -1599,6 +1696,31 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                             [storeaAdPostingDelegate storeAdDidFailEditingWithError:error];
                     }
                     
+                }
+            }
+        }
+        else if (manager == SendingMngr)
+        {   
+            NSArray * data = (NSArray *) result;
+            if ((data) && (data.count > 0))
+            {
+                NSDictionary * totalDict = [data objectAtIndex:0];
+                NSString * statusCodeString = [totalDict objectForKey:LISTING_STATUS_CODE_JKEY];
+                NSInteger statusCode = statusCodeString.integerValue;
+                
+                NSString * statusMessageProcessed = [[[totalDict objectForKey:LISTING_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                
+                if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                {
+                    if (self.EmailSendingDelegate)
+                        [self.EmailSendingDelegate EmailDidFinishSendingWithStatus:YES];
+                }
+                else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:statusMessageProcessed];
+                    if (self.EmailSendingDelegate)
+                        [self.EmailSendingDelegate EmailDidFailSendingWithError:error];
                 }
             }
         }
