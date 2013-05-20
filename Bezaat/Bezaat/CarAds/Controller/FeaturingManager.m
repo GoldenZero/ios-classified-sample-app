@@ -367,7 +367,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         NSString * post = [NSString stringWithFormat:@"%@=%@&%@=%@&%@=%@&%@=%@",
                            @"StoreID", [NSString stringWithFormat:@"%i", storeID],
                            @"CountryID", [NSString stringWithFormat:@"%i", countryID],
-                           @"PaymentSchemeID", [NSString stringWithFormat:@"%i", shemaID],@"Device",[NSString stringWithFormat:@"%i", paymentMethod]
+                           @"PaymentSchemeID", [NSString stringWithFormat:@"%i", shemaID],@"PaymentMethod",[NSString stringWithFormat:@"%i", paymentMethod]
                            ];
         
         NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];

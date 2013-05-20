@@ -1133,17 +1133,17 @@
         return;
     }
     
-    //check currency
-    if (!currencyBtnPressedOnce)
+    if (!chosenCurrency)
     {
         //check price
-         if ( [carPrice.text length] != 0 )
+        if ( [carPrice.text length] != 0 && ![carPrice.text isEqualToString:@"0"])
         {
             [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار عملة مناسبة" delegateVC:self];
             return;
             
         }
     }
+
    
    
     
