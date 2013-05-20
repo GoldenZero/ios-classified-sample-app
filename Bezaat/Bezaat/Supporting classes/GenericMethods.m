@@ -37,7 +37,7 @@ static NSString * documentsDirectoryPath;
 + (void) throwAlertWithCode:(NSInteger)errorCode andMessageStatus:(NSString*)msg delegateVC:(UIViewController *) vc
 {
     // for Post Ad
-    if (!(errorCode == 200) && ([msg isEqualToString:@"ok"]))
+    if (!(errorCode == 200) && ([(NSString *)msg isEqualToString:@"ok"]))
     {
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
                                                      message:@"تمت العملية بنجاح"
@@ -542,4 +542,21 @@ static NSString * documentsDirectoryPath;
     
     return newImage; 
 }
+
++ (CGSize) size: (CGSize) originalSize constrainedToSize: (CGSize) constraint {
+    float widthRatio = constraint.width / originalSize.width;
+    float heightRatio = constraint.height / originalSize.height;
+    float scale = MIN(widthRatio, heightRatio);
+    float imageWidth = scale * originalSize.width;
+    float imageHeight = scale * originalSize.height;
+ 
+    if (imageWidth > constraint.width)
+        imageWidth = constraint.width;
+    
+    if (imageHeight > constraint.height)
+        imageHeight = constraint.height;
+    
+    return CGSizeMake(imageWidth, imageHeight);
+}
+
 @end

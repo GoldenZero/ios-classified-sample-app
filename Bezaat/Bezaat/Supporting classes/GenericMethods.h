@@ -50,4 +50,7 @@
 
 // This method creates a smaller size image for displaying large images as thumbs
 + (UIImage*)imageWithImage:(UIImage*)sourceImage scaledToSize:(CGSize)newSize;
+
+// This method calculates the desired frame size of image view according to content mode fit
++ (CGSize) size: (CGSize) originalSize constrainedToSize: (CGSize) constraint;
 @end

@@ -16,6 +16,7 @@
     HJObjManager * asynchImgManager;
     BOOL zoomingOn;
     int currentZoomingPage;
+    int currentPageForRotation;
 }
 @end
 
@@ -55,6 +56,7 @@
     
     zoomingOn = NO;
     currentZoomingPage = -1;
+    currentPageForRotation = -1;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -78,54 +80,45 @@
 }
 
 
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    int page = self.photosScrollView.contentOffset.x / self.photosScrollView.frame.size.width;
+    currentPageForRotation = page;
+    
+}
 
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    CGFloat totalWidth = 0;
+    CGSize theContentSize  = CGSizeZero;
     
-    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    if (zoomingOn)//zoom in
-    {
-        if (currentZoomingPage > -1)
-        {
-            UIScrollView * scrollView = (UIScrollView *) self.photosScrollView.subviews[currentZoomingPage];
+    CGRect frameToScroll;
+    //NSLog(@"%f",  self.photosScrollView.frame.size.height);
+    if (self.photosScrollView.subviews && self.photosScrollView.subviews.count) {
+        for (int i = 0; i < self.photosScrollView.subviews.count; i++) {
+            UIScrollView * scroll = (UIScrollView *)self.photosScrollView.subviews[i];
+            CGRect frame = scroll.frame;
+            frame.size = [GenericMethods size:[(HJManagedImageV *)scroll.subviews[0] imageView].image.size constrainedToSize:(CGSizeMake(self.photosScrollView.frame.size.width - 20, self.photosScrollView.frame.size.height))];
             
-            CGRect frame = scrollView.frame;
-            frame.origin.x = 0;
-            [scrollView setFrame:frame];
-
-            [self.photosScrollView setContentSize:scrollView.frame.size];
+            frame.origin.x = totalWidth + ( 0.5 * (self.photosScrollView.frame.size.width - frame.size.width));
+            //frame.origin.x = totalWidth + 10;
+            frame.origin.y = 0.5 * (self.photosScrollView.frame.size.height - frame.size.height);
             
-        }
-    }
-    else
-    {
-        CGFloat totalWidth = 0;
-        CGSize theContentSize  = CGSizeZero;
-        
-        if (self.photosScrollView.subviews && self.photosScrollView.subviews.count) {
-            //NSLog(@"%i", self.photosScrollView.subviews.count);
-            for (UIScrollView * scroll in self.photosScrollView.subviews)
-                totalWidth = totalWidth + scroll.frame.size.width;
+            [UIView animateWithDuration:0.5f animations:^{
+                [scroll setFrame:frame];
+            }];
             
-            theContentSize = CGSizeMake(totalWidth, self.photosScrollView.frame.size.height);
+            totalWidth = totalWidth + scroll.frame.size.width + (self.photosScrollView.frame.size.width - frame.size.width) ;
+            
+            if (i == currentPageForRotation)
+                frameToScroll = frame;
         }
         
-        [self.photosScrollView setContentSize:CGSizeMake(theContentSize.width, theContentSize.height)];
-        
-        if (currentZoomingPage > -1)
-        {
-            
-            UIScrollView * scrollView = (UIScrollView *) self.photosScrollView.subviews[currentZoomingPage];
-            
-            CGRect frame = scrollView.frame;
-            frame.origin.x = self.photosScrollView.frame.size.width * currentZoomingPage;
-            [scrollView setFrame:frame];
-            
-            [self.photosScrollView scrollRectToVisible:frame animated:NO];
-
-        }        
+        theContentSize = CGSizeMake(totalWidth, self.photosScrollView.frame.size.height);
     }
     
-    
+    [self.photosScrollView setContentSize:CGSizeMake(theContentSize.width, theContentSize.height)];
+    [self.photosScrollView scrollRectToVisible:frameToScroll animated:YES];
 }
 
 - (BOOL) shouldAutorotate {
@@ -144,16 +137,54 @@
     {
         CGRect frame;
         HJManagedImageV * imgV;
-        //UIImageView * imgV;
         
-        frame.origin.x = self.photosScrollView.frame.size.width * i;
-        frame.origin.y = 0;
-        frame.size = self.photosScrollView.frame.size;
         
+        //try to get sizes from cache
+        NSString * correctURLstring = [[(NSURL *)[photos objectAtIndex:i] absoluteString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:"];
+        
+        NSString * imageFileName = [[correctURLstring componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+        NSString * imageFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], imageFileName];
+        
+        
+        CGSize imageSize;
+        NSData *archiveData = [NSData dataWithContentsOfFile:imageFilePath];
+        if (archiveData)
+        {
+            NSDictionary * dataDict = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:archiveData];
+            
+            if (!dataDict)
+            {
+                NSData *imageData = [NSData dataWithContentsOfURL:(NSURL *)[photos objectAtIndex:i]];
+                UIImage *theImage = [UIImage imageWithData:imageData];
+                imageSize = theImage.size;
+            }
+            else
+            {
+                float w = [(NSNumber *)[dataDict objectForKey:@"width"] floatValue];
+                float h = [(NSNumber *)[dataDict objectForKey:@"height"] floatValue];
+                imageSize = CGSizeMake(w, h);
+            }
+            
+        }
+        else {
+            NSData *imageData = [NSData dataWithContentsOfURL:(NSURL *)[photos objectAtIndex:i]];
+            UIImage *theImage = [UIImage imageWithData:imageData];
+            imageSize = theImage.size;
+        }
+        
+        CGSize constraintSize = self.photosScrollView.frame.size;
+        constraintSize.width = constraintSize.width - 20;
+        
+        
+        //frame.size = self.photosScrollView.frame.size;
+        frame.size = [GenericMethods size:imageSize constrainedToSize:constraintSize];
+        frame.origin.x = (self.photosScrollView.frame.size.width * i) + 10;
+        frame.origin.y = 0.5 * (self.photosScrollView.frame.size.height - frame.size.height);
+        //frame.origin.y = 0;
         
         UIScrollView * scrView = [[UIScrollView alloc] initWithFrame:frame];
         imgV = [[HJManagedImageV alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        //imgV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         
         singleHeight = imgV.frame.size.height;
         singleWidth = imgV.frame.size.width;
@@ -169,24 +200,22 @@
         imgV.loadingWheel.color = [UIColor whiteColor];
         [asynchImgManager manage:imgV];
         
-        
-        //[imgV setImageWithURL:(NSURL *)[photos objectAtIndex:i] placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
         imgV.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
-                                 UIViewAutoresizingFlexibleHeight |
-                                 UIViewAutoresizingFlexibleLeftMargin |
-                                 UIViewAutoresizingFlexibleRightMargin);
+                                 UIViewAutoresizingFlexibleHeight);
+        
+        //imgV.imageView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
+                                           //UIViewAutoresizingFlexibleHeight);
         
         [imgV setContentMode:UIViewContentModeScaleAspectFit];
         [imgV setClipsToBounds:NO];
         
         scrView.delegate = self;
         scrView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
-                                    UIViewAutoresizingFlexibleHeight | 
+                                    UIViewAutoresizingFlexibleHeight |
                                     UIViewAutoresizingFlexibleLeftMargin |
-                                    UIViewAutoresizingFlexibleRightMargin);
-        
-        
-        
+                                    UIViewAutoresizingFlexibleRightMargin |
+                                    UIViewAutoresizingFlexibleTopMargin |
+                                    UIViewAutoresizingFlexibleBottomMargin);
         
         [scrView addSubview:imgV];
         
@@ -209,19 +238,22 @@
         
         
         self.photosScrollView.contentMode = UIViewContentModeCenter;
+        
         [self.photosScrollView addSubview:scrView];
-        totalSize.width = totalSize.width + frame.size.width;
+        
+        totalSize.width = totalSize.width + scrView.frame.size.width + 20;
         
     }
     
-    totalSize = CGSizeMake(singleWidth  * self.photosScrollView.subviews.count, self.photosScrollView.frame.size.height);
+    totalSize.height = self.photosScrollView.frame.size.height;
     
     [self.photosScrollView setContentSize:CGSizeMake(totalSize.width, totalSize.height)];
     
     
     CGRect frame = self.photosScrollView.frame;
-    frame.origin.x = frame.size.width * index;
+    frame.origin.x = frame.size.width * index + 10;
     frame.origin.y = 0;
+    currentPageForRotation = index;
     [self.photosScrollView scrollRectToVisible:frame animated:NO];
 }
 
@@ -236,7 +268,8 @@
         UIScrollView * aScrollView = (UIScrollView *) recognizer.view;
         float scale = aScrollView.zoomScale;
         scale += 1.0;
-        if(scale > 2.0) scale = 1.0;
+        if(scale > 2.0)
+            scale = 1.0;
         
         zoomingOn = !zoomingOn;
         if (zoomingOn)
@@ -258,66 +291,58 @@
 
 -(void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)_subview{
     
-    self.photosScrollView.pagingEnabled = NO;
-    scrollView.pagingEnabled = NO;
-    
-    if (zoomingOn)//zoom in
-    {
-        CGRect frame = scrollView.frame;
-        frame.origin.x = 0;
-        [scrollView setFrame:frame];
-        
-        [self.photosScrollView setContentSize:scrollView.frame.size];
-        
-    }
-    else
-    {
-        CGFloat totalWidth = 0;
-        CGSize theContentSize  = CGSizeZero;
-        
-        if (self.photosScrollView.subviews && self.photosScrollView.subviews.count) {
-            //NSLog(@"%i", self.photosScrollView.subviews.count);
-            for (UIScrollView * scroll in self.photosScrollView.subviews)
-                totalWidth = totalWidth + scroll.frame.size.width;
-            
-            theContentSize = CGSizeMake(totalWidth, self.photosScrollView.frame.size.height);
-        }
-        
-        [self.photosScrollView setContentSize:CGSizeMake(theContentSize.width, theContentSize.height)];
-        self.photosScrollView.contentMode = UIViewContentModeCenter;
-        
-        
-        CGRect frame = scrollView.frame;
-        frame.origin.x = self.photosScrollView.frame.size.width * currentZoomingPage;
-        
-        [scrollView setFrame:frame];
-        
-        [self.photosScrollView scrollRectToVisible:frame animated:NO];
-    }
-    
 }
 
 -(void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)_subview atScale:(float)scale {
     
-    self.photosScrollView.pagingEnabled = YES;
-    scrollView.pagingEnabled = YES;
+    CGFloat totalWidth = 0;
+    CGSize theContentSize  = CGSizeZero;
+    
+    
+    if (self.photosScrollView.subviews && self.photosScrollView.subviews.count) {
+        for (int i = 0; i < self.photosScrollView.subviews.count; i++) {
+            UIScrollView * scroll = (UIScrollView *)self.photosScrollView.subviews[i];
+            
+            if (!zoomingOn)
+            {
+                CGRect frame = scroll.frame;
+                frame.size = [GenericMethods size:[(HJManagedImageV *)scroll.subviews[0] imageView].image.size constrainedToSize:(CGSizeMake(self.photosScrollView.frame.size.width - 20, self.photosScrollView.frame.size.height))];
+                
+                frame.origin.x = totalWidth + ( 0.5 * (self.photosScrollView.frame.size.width - frame.size.width) );
+                
+                frame.origin.y = 0.5 * (self.photosScrollView.frame.size.height - frame.size.height);
+                
+                [UIView animateWithDuration:0.5f animations:^{
+                    [scroll setFrame:frame];
+                    [scroll setContentSize:scroll.frame.size];
+                }];
+            }
+            
+            totalWidth = totalWidth + scroll.frame.size.width + (self.photosScrollView.frame.size.width - scroll.frame.size.width) ;
+            
+        }
+        
+        float extra = 0.5 * (self.photosScrollView.frame.size.width - [(UIScrollView *)[self.photosScrollView.subviews lastObject] frame].size.width);
+        theContentSize = CGSizeMake(totalWidth + extra, self.photosScrollView.frame.size.height);
+    }
+    
+    [self.photosScrollView setContentSize:CGSizeMake(theContentSize.width, theContentSize.height)];
     
 }
 
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
-    
-    UIView *subView = [scrollView.subviews objectAtIndex:0];
-    
-    CGFloat offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width)?
-    (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
-    
-    CGFloat offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height)?
-    (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
-    
-    subView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
-                                 scrollView.contentSize.height * 0.5 + offsetY);
+     UIView *subView = [scrollView.subviews objectAtIndex:0];
+     
+     CGFloat offsetX = (scrollView.bounds.size.width > scrollView.contentSize.width)?
+     (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5 : 0.0;
+     
+     CGFloat offsetY = (scrollView.bounds.size.height > scrollView.contentSize.height)?
+     (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5 : 0.0;
+     
+     subView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
+     scrollView.contentSize.height * 0.5 + offsetY);
+     
 }
-
 @end

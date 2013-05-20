@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *photosScrollView;
 @property (weak, nonatomic) IBOutlet UIButton *doneBtn;
 
+
 #pragma mark - actions
 - (IBAction)doneBtnPressed:(id)sender;
 
