@@ -432,7 +432,7 @@
             [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر إرسال الرسائل الإلكترونية من هذا الجهاز" delegateVC:self];
         }*/
     }else {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"لا يمكنك مراسلة البائع على البريد الإلكتروني" delegateVC:self];
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"للأسف لا يمكنك مراسلة البائع" delegateVC:self];
     }
 }
 

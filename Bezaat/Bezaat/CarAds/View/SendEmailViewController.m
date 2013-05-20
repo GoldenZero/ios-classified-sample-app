@@ -31,6 +31,12 @@
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Send Email Screen"];
     //end GA
+    
+    UserProfile* user = [[SharedUser sharedInstance] getUserProfileData];
+    if (user) {
+        self.nameField.text = user.userName;
+        self.emailField.text = user.emailAddress;
+    }
 
     // Do any additional setup after loading the view from its nib.
 }
