@@ -272,6 +272,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              thumbnailImageURLString:[imageDict objectForKey:DETAILS_IMGS_THUMBNAIL_IMG_URL_JKEY]];
                             
                             [imagesArray addObject:imgObj];
+                            [self performSelectorOnMainThread:@selector(cacheImageSizeForGallery:) withObject:imgObj waitUntilDone:NO];
                         }
                     }
                     
@@ -344,6 +345,29 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         }
     }
     return nil;
+}
+
+- (void) cacheImageSizeForGallery:(CarDetailsImage *) img {
+    NSString * correctURLstring = [img.imageURL.absoluteString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:"];
+    
+    NSString * imageFileName = [[correctURLstring componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+    NSString * imageFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], imageFileName];
+    
+    
+    NSMutableDictionary * dictToBeWritten = [NSMutableDictionary new];
+    
+    NSData *imageData = [NSData dataWithContentsOfURL:img.imageURL];
+    UIImage *theImage = [UIImage imageWithData:imageData];
+    
+    [dictToBeWritten setObject:[NSNumber numberWithFloat:theImage.size.width] forKey:@"width"];
+    [dictToBeWritten setObject:[NSNumber numberWithFloat:theImage.size.height] forKey:@"height"];
+    
+    
+    //4- convert dictionary to NSData
+    NSError  *error;
+    NSData * dataToBeWritten = [NSKeyedArchiver archivedDataWithRootObject:dictToBeWritten];
+    [dataToBeWritten writeToFile:imageFilePath options:NSDataWritingAtomic error:&error];
 }
 
 @end
