@@ -158,6 +158,18 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    //  set the model label name
+    if (currentModel){
+        if (currentModel.modelID!=-1) {
+            [self.modelNameLabel setText:currentModel.modelName];
+        }
+        else{
+            [self.modelNameLabel setText:_currentBrand.brandNameAr];
+        }
+        
+    }
+    else
+        [self.modelNameLabel setText:@"جميع السيارات"];
     
     //[self.tableView setScrollEnabled:NO];
     
@@ -216,36 +228,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-/*
- - (void) presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion {
- 
- NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
- NSLog(@"content: w = %f, h = %f", self.tableView.contentSize.width, self.tableView.contentSize.height);
- NSLog(@"(%f, %f)", self.tableView.contentOffset.x, self.tableView.contentOffset.y);
- 
- self.lastScrollPosition = self.tableView.contentOffset;
- tableDataSize = self.tableView.contentSize;
- 
- [super presentViewController:viewControllerToPresent animated:flag completion:completion];
- }
- */
-
-/*
- - (void) dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
- 
- NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
- NSLog(@"w = %f, h = %f", self.tableView.frame.size.width, self.tableView.frame.size.height);
- NSLog(@"content: w = %f, h = %f", self.tableView.contentSize.width, self.tableView.contentSize.height);
- NSLog(@"(%f, %f)", self.tableView.contentOffset.x, self.tableView.contentOffset.y);
- 
- self.lastScrollPosition = self.tableView.contentOffset;
- tableDataSize = self.tableView.contentSize;
- 
- 
- [super dismissViewControllerAnimated:flag completion:completion];
- }
- */
 #pragma mark - tableView handlig
 
 
