@@ -400,6 +400,7 @@
             if (carAdObject.isFeatured)
             {
                 [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing_special_bg.png"]];
+                [cell.storeHeaderImg setImage:[UIImage imageNamed:@"Listing2_top_bg.png"]];
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
@@ -607,6 +608,7 @@
             CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreNoImageCell" owner:self options:nil] objectAtIndex:0];
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
