@@ -31,4 +31,5 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *favoriteBtn;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
+@property (strong, nonatomic) IBOutlet UIImageView *storeHeaderImg;
 @end

@@ -300,6 +300,8 @@
             CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreCell" owner:self options:nil] objectAtIndex:0];
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            [cell.storeHeaderImg setImage:[UIImage imageNamed:@"Listing3_top_bg.png"]];
+           // cell.storeHeaderImg.frame = CGRectMake(-1, 4, 324, 61);
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
