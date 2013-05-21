@@ -193,18 +193,18 @@
     if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
         imageView.image = [UIImage imageNamed:@"waitForApprove.png"];
     }else{
-       imageView.url = imageURL;
+        imageView.url = imageURL;
         [imageView showLoadingWheel];
         [asynchImgManager manage:imageView];
         
     }
-
+    
     /*
-    mask.tag = (i+1) * 10;
-    [mask addSubview:imageView];
-    [subView setUserInteractionEnabled:YES];
-    [subView addSubview:mask];
-    */
+     mask.tag = (i+1) * 10;
+     [mask addSubview:imageView];
+     [subView setUserInteractionEnabled:YES];
+     [subView addSubview:mask];
+     */
     //set the tag to observe the image ID
     UITapGestureRecognizer * imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openImgs:)];
     subView.tag = (i+1) * 10;
@@ -216,15 +216,15 @@
 }////
 
 -(void)openImgs:(id) sender {
-   
-    FBPhotoBrowserViewController * vc = [[FBPhotoBrowserViewController alloc] initWithNibName:@"FBPhotoBrowserViewController" bundle:nil];
-    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     
-    [(AppDelegate *)[[UIApplication sharedApplication] delegate] setShowingFBBrowser:YES];
-    
-    NSMutableArray * imgs = [[NSMutableArray alloc] init];
-    if (currentDetailsObject && currentDetailsObject.adImages && currentDetailsObject.adImages.count)
-    {
+    if (currentDetailsObject && currentDetailsObject.adImages && currentDetailsObject.adImages.count) {
+        FBPhotoBrowserViewController * vc = [[FBPhotoBrowserViewController alloc] initWithNibName:@"FBPhotoBrowserViewController" bundle:nil];
+        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] setShowingFBBrowser:YES];
+        
+        NSMutableArray * imgs = [[NSMutableArray alloc] init];
+        
         for (CarDetailsImage * image in currentDetailsObject.adImages) {
             [imgs addObject:image.imageURL];
         }
@@ -349,7 +349,7 @@
 }
 
 - (IBAction)editAdBtnPrss:(id)sender {
-   
+    
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker sendEventWithCategory:@"uiAction"
@@ -378,8 +378,8 @@
     if (savedProfile.hasStores) {
         [[CarAdsManager sharedInstance] requestToEditStoreAdsOfEditID:currentDetailsObject.EncEditID andStore:[NSString stringWithFormat:@"%i",currentDetailsObject.storeID] WithDelegate:self];
     }else {
-    // Request To Edit Ad
-    [[CarAdsManager sharedInstance] requestToEditAdsOfEditID:currentDetailsObject.EncEditID WithDelegate:self];
+        // Request To Edit Ad
+        [[CarAdsManager sharedInstance] requestToEditAdsOfEditID:currentDetailsObject.EncEditID WithDelegate:self];
     }
 }
 
@@ -390,7 +390,7 @@
         ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
     }else
-    [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)sendMailBtnPrss:(id)sender {
@@ -406,29 +406,29 @@
     {
         SendEmailViewController *vc=[[SendEmailViewController alloc] initWithNibName:@"SendEmailViewController" bundle:nil];
         vc.DetailsObject = currentDetailsObject;
-
+        
         [self presentViewController:vc animated:YES completion:nil];
         /*
-        if ([MFMailComposeViewController canSendMail])
-        {
-            MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
-            mailer.mailComposeDelegate = self;
-            
-            [mailer setSubject:currentDetailsObject.title];
-            
-            NSString * mailBody = currentDetailsObject.description;
-            
-            //set the recipients to the car ad owner
-            [mailer setToRecipients:[NSArray arrayWithObjects:currentDetailsObject.emailAddress, nil]];
-            
-            [mailer setMessageBody:mailBody isHTML:NO];
-            mailer.modalPresentationStyle = UIModalPresentationPageSheet;
-            [self presentViewController:mailer animated:YES completion:nil];
-        }
-        
-        else {
-            [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر إرسال الرسائل الإلكترونية من هذا الجهاز" delegateVC:self];
-        }*/
+         if ([MFMailComposeViewController canSendMail])
+         {
+         MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+         mailer.mailComposeDelegate = self;
+         
+         [mailer setSubject:currentDetailsObject.title];
+         
+         NSString * mailBody = currentDetailsObject.description;
+         
+         //set the recipients to the car ad owner
+         [mailer setToRecipients:[NSArray arrayWithObjects:currentDetailsObject.emailAddress, nil]];
+         
+         [mailer setMessageBody:mailBody isHTML:NO];
+         mailer.modalPresentationStyle = UIModalPresentationPageSheet;
+         [self presentViewController:mailer animated:YES completion:nil];
+         }
+         
+         else {
+         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر إرسال الرسائل الإلكترونية من هذا الجهاز" delegateVC:self];
+         }*/
     }else {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"للأسف لا يمكنك مراسلة البائع" delegateVC:self];
     }
@@ -524,7 +524,7 @@
             [self presentViewController:mySLComposerSheet animated:YES completion:nil];
         }
         else{
-         // no twitter account set in device settings
+            // no twitter account set in device settings
             SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
             [mySLComposerSheet setInitialText:currentDetailsObject.title];
             
@@ -594,8 +594,8 @@
             [self presentViewController:mySLComposerSheet animated:YES completion:nil];
         }
         else{
-         // no facebook account set in device settings
-         
+            // no facebook account set in device settings
+            
             SLComposeViewController *mySLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
             [mySLComposerSheet setInitialText:currentDetailsObject.title];
             
@@ -737,7 +737,8 @@
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
             
         }else {
-            [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
+            if (currentDetailsObject && currentDetailsObject.thumbnailURL)
+                [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
         }
         
         //2- set details
@@ -904,7 +905,7 @@
     
     if (currentDetailsObject)
     {
-       
+        
         
         if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
             [self.phoneNumberButton setEnabled:YES];
@@ -941,7 +942,7 @@
             // check if he own the Ad
             if (savedProfile.userID == currentDetailsObject.ownerID){
                 [self.editBtn setEnabled:YES];
-            [self.editAdBtn setEnabled:YES];
+                [self.editAdBtn setEnabled:YES];
             } else{
                 [self.editBtn setEnabled:NO];
                 [self.editAdBtn setEnabled:NO];
@@ -1141,12 +1142,12 @@
 
 -(void)AdDidRemoveWithStatus:(NSString*)resultStatus{
     
-   
-        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"" message:@"تم حذف الإعلان بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
-        alert.tag = 3;
+    
+    UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"" message:@"تم حذف الإعلان بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+    alert.tag = 3;
     
     [alert show];
-  
+    
 }
 
 -(void)RequestToEditFailWithError:(NSError *)error
@@ -1195,8 +1196,8 @@
     if (alertView.tag == 3) {
         [self dismissViewControllerAnimated:YES completion:nil];
         /*BrowseCarAdsViewController *homeVC=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
-        homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        [self presentViewController:homeVC animated:YES completion:nil];*/
+         homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+         [self presentViewController:homeVC animated:YES completion:nil];*/
     }
     else if (alertView.tag == 2){
         if (buttonIndex == 0) {
@@ -1327,8 +1328,8 @@
         if (currentStore)
         {
             [advFeatureManager featureAdv:currentAdID
-                              inStore:currentStore.identifier
-                          featureDays:featureDays];
+                                  inStore:currentStore.identifier
+                              featureDays:featureDays];
             [self showLoadingIndicator];
         }
     }
