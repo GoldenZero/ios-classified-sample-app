@@ -30,6 +30,7 @@
     NSMutableDictionary * allImagesDict;    //used in image browser
     UILabel * label;
     StoreManager *advFeatureManager;
+    BOOL viewIsShown;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -115,11 +116,18 @@
     
     [super viewWillAppear:animated];
     
+    viewIsShown = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    viewIsShown = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -1398,10 +1406,13 @@
 
 - (void) didRotate:(NSNotification *)notification
 {
-    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-    
-    if ( (orientation == UIDeviceOrientationLandscapeLeft) || (orientation == UIDeviceOrientationLandscapeRight) ) {
-        [self openImgs:nil];
+    if (viewIsShown)
+    {
+        UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+        
+        if ( (orientation == UIDeviceOrientationLandscapeLeft) || (orientation == UIDeviceOrientationLandscapeRight) ) {
+            [self openImgs:nil];
+        }
     }
 }
 
