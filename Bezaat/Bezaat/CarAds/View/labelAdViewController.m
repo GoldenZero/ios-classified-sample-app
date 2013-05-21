@@ -396,12 +396,20 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
 }
 
 - (void) cancelCurrentOrder {
+    
+    UIAlertView* alert =[[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تم إلغاء طلبك" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+    
+    alert.tag = 5;
+    [alert show];
+    return;
+
+    /*
     if (![currentOrderID isEqualToString:@""])
     {
         [self showLoadingIndicator];
         [[FeaturingManager sharedInstance] cancelOrderID:currentOrderID
                                             withDelegate:self];
-    }
+    }*/
 }
 
 
