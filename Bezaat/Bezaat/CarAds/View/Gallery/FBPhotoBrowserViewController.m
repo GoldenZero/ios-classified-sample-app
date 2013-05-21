@@ -179,9 +179,12 @@
         
         //frame.size = self.photosScrollView.frame.size;
         frame.size = [GenericMethods size:imageSize constrainedToSize:constraintSize];
-        frame.origin.x = (self.photosScrollView.frame.size.width * i) + 10;
-        frame.origin.y = 0.5 * (self.photosScrollView.frame.size.height - frame.size.height);
+        //frame.origin.x = (self.photosScrollView.frame.size.width * i) + 10;
+        //frame.origin.y = 0.5 * (self.photosScrollView.frame.size.height - frame.size.height);
         //frame.origin.y = 0;
+        
+        frame.origin.x = totalSize.width + ( 0.5 * (self.photosScrollView.frame.size.width - frame.size.width));
+        frame.origin.y = 0.5 * (self.photosScrollView.frame.size.height - frame.size.height);
         
         UIScrollView * scrView = [[UIScrollView alloc] initWithFrame:frame];
         imgV = [[HJManagedImageV alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -241,8 +244,8 @@
         
         [self.photosScrollView addSubview:scrView];
         
-        totalSize.width = totalSize.width + scrView.frame.size.width + 20;
-        
+        //totalSize.width = totalSize.width + scrView.frame.size.width + 20;
+        totalSize.width = totalSize.width + scrView.frame.size.width + (self.photosScrollView.frame.size.width - frame.size.width) ;
     }
     
     totalSize.height = self.photosScrollView.frame.size.height;

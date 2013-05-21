@@ -87,6 +87,8 @@
     self.labelsScrollView.delegate = self;
     
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
     advFeatureManager = [[StoreManager alloc] init];
     advFeatureManager.delegate = self;
     
@@ -175,8 +177,8 @@
     
     [imageView clear];
     
-    UIControl *mask = [[UIControl alloc] initWithFrame:imageView.frame];
-    [mask addTarget:self action:@selector(openImgs:) forControlEvents:UIControlEventTouchUpInside];
+    //UIControl *mask = [[UIControl alloc] initWithFrame:imageView.frame];
+    //[mask addTarget:self action:@selector(openImgs:) forControlEvents:UIControlEventTouchUpInside];
     
     NSString* temp = [currentDetailsObject.thumbnailURL absoluteString];
     
@@ -207,8 +209,6 @@
 
 -(void)openImgs:(id) sender {
    
-    //NSLog(@"test img");
-    
     FBPhotoBrowserViewController * vc = [[FBPhotoBrowserViewController alloc] initWithNibName:@"FBPhotoBrowserViewController" bundle:nil];
     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     
@@ -224,15 +224,6 @@
         [vc customizeScrollForPhotos:imgs firstImageID:self.pageControl.currentPage];
     }
     
-    /*
-    
-    NSInteger imageIDForDict = [(UITapGestureRecognizer *) sender view].tag/ 10;
-    NSString * dictionaryKey = [NSString stringWithFormat:@"%i", imageIDForDict];
-    
-    if (allImagesDict && allImagesDict.count)
-        [krImageViewer browsePageByPageImageURLs:allImagesDict firstShowImageId:dictionaryKey];
-     */
-    
 }
 
 // flod share button when touch the screen
@@ -240,7 +231,6 @@
     if ((shareButton.on)) {
         [shareButton fold];
     }
-    
     
 }
 
@@ -1403,6 +1393,15 @@
     if (self.parentStoreDetailsView)
     {
         [(StoreDetailsViewController *)self.parentStoreDetailsView updateAd:currentAdID WithFeaturedStatus:NO];
+    }
+}
+
+- (void) didRotate:(NSNotification *)notification
+{
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    
+    if ( (orientation == UIDeviceOrientationLandscapeLeft) || (orientation == UIDeviceOrientationLandscapeRight) ) {
+        [self openImgs:nil];
     }
 }
 
