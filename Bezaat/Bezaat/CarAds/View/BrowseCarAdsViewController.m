@@ -79,6 +79,8 @@
         
         // Init search panels attributes
         searchBtnFlag=false;
+        searchWithImage=false;
+        searchWithPrice = false;
         distanceObj=nil;
         fromYearString=@"";
         toYearString=@"";
@@ -128,6 +130,13 @@
      HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
      asynchImgManager.fileCache = fileCache;
      */
+    
+    //init search panel attributes
+    searchWithImage=false;
+    searchWithPrice = false;
+    distanceObj=nil;
+    fromYearString=@"";
+    toYearString=@"";
     
     //hide the scrolling indicator
     [self.tableView setShowsVerticalScrollIndicator:NO];
@@ -1395,12 +1404,8 @@
 #pragma mark - animation
 
 - (void) showSearchPanel{
-    // Init search panels attributes before next search
-    searchWithImage=false;
-    searchWithPrice = false;
-    distanceObj=nil;
-    fromYearString=@"";
-    toYearString=@"";
+    // Init search panel attributes before next search
+    
     [self.searchPanelView setHidden:NO];
     self.searchPanelView.frame = CGRectMake(0,-self.searchPanelView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
     [UIView animateWithDuration:.5
@@ -1512,6 +1517,7 @@
     [self.lowerPriceText resignFirstResponder];
     [self.higherPriceText resignFirstResponder];
     
+    /*
     BOOL validYears ;
     //1- validate year values
     if (( ([fromYearString isEqualToString:@""])
@@ -1528,10 +1534,14 @@
     if (!validYears)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيم سنوات صحيحة" delegateVC:self];
+        return;
     }
+     */
     
+    /*
     NSInteger from = self.lowerPriceText.text.integerValue;
     NSInteger to = self.higherPriceText.text.integerValue;
+    
     
     BOOL validPrice = YES;
     //2- validate price values
@@ -1554,6 +1564,8 @@
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيم سعر صحيحة" delegateVC:self];
         return;
     }
+    */
+    
     
     if ([self.lowerPriceText.text isEqualToString:@""])
         currentMinPriceString = self.lowerPriceText.text;
