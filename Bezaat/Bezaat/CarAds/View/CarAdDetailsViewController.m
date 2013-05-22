@@ -31,6 +31,8 @@
     UILabel * label;
     StoreManager *advFeatureManager;
     BOOL viewIsShown;
+    
+    FBPhotoBrowserViewController * galleryView;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -101,6 +103,7 @@
     
     //set the original size of scroll view without loading any labels yet
     originalScrollViewHeight = self.labelsScrollView.frame.size.height;
+    galleryView = nil;
     
     [self prepareShareButton];
     
@@ -218,20 +221,23 @@
 -(void)openImgs:(id) sender {
     
     if (currentDetailsObject && currentDetailsObject.adImages && currentDetailsObject.adImages.count) {
-        FBPhotoBrowserViewController * vc = [[FBPhotoBrowserViewController alloc] initWithNibName:@"FBPhotoBrowserViewController" bundle:nil];
-        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        
-        [(AppDelegate *)[[UIApplication sharedApplication] delegate] setShowingFBBrowser:YES];
-        
-        NSMutableArray * imgs = [[NSMutableArray alloc] init];
-        
-        for (CarDetailsImage * image in currentDetailsObject.adImages) {
-            [imgs addObject:image.imageURL];
+        if (!galleryView)
+        {
+            FBPhotoBrowserViewController * vc = [[FBPhotoBrowserViewController alloc] initWithNibName:@"FBPhotoBrowserViewController" bundle:nil];
+            vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+            
+            [(AppDelegate *)[[UIApplication sharedApplication] delegate] setShowingFBBrowser:YES];
+            
+            NSMutableArray * imgs = [[NSMutableArray alloc] init];
+            
+            for (CarDetailsImage * image in currentDetailsObject.adImages) {
+                [imgs addObject:image.imageURL];
+            }
+            
+            [vc setPhotosArray:imgs firstImageID:self.pageControl.currentPage];
+            galleryView = vc;
+            [self presentViewController:galleryView animated:YES completion:nil];
         }
-        
-        [vc setPhotosArray:imgs firstImageID:self.pageControl.currentPage];
-        
-        [self presentViewController:vc animated:YES completion:nil];
     }
     
 }
@@ -1419,4 +1425,8 @@
     }
 }
 
+
+- (void) resetGalleryViewToNil {
+    galleryView = nil;
+}
 @end

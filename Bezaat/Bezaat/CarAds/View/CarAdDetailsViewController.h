@@ -73,4 +73,6 @@
 - (IBAction)favoriteBtnPrss:(id)sender;
 - (IBAction)callBtnPrss:(id)sender;
 
+- (void) resetGalleryViewToNil;
+
 @end

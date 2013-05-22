@@ -96,6 +96,8 @@
 - (IBAction)doneBtnPressed:(id)sender {
     self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [(AppDelegate *)[[UIApplication sharedApplication] delegate] setShowingFBBrowser:NO];
+    if ([self.presentingViewController respondsToSelector:@selector(resetGalleryViewToNil)])
+        [self.presentingViewController performSelector:@selector(resetGalleryViewToNil) withObject:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
