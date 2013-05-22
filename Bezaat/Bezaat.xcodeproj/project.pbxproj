@@ -11,6 +11,8 @@
 		068274B4172BF60C004D53D0 /* Menu_icon_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 068274B3172BF60B004D53D0 /* Menu_icon_10@2x.png */; };
 		068274BA172BF94A004D53D0 /* AboutAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068274B8172BF94A004D53D0 /* AboutAppViewController.m */; };
 		068274BB172BF94A004D53D0 /* AboutAppViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 068274B9172BF94A004D53D0 /* AboutAppViewController.xib */; };
+		06F9B4E9174C80AC00A49648 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F9B4E8174C80AC00A49648 /* NewRelicAgent.framework */; };
+		06F9B4EB174C80D900A49648 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F9B4EA174C80D900A49648 /* CoreTelephony.framework */; };
 		2417C99817048D450066E4F5 /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2417C99717048D450066E4F5 /* FriendCell.m */; };
 		2417C99A17048D5E0066E4F5 /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2417C99917048D5E0066E4F5 /* FriendCell.xib */; };
 		243084AD16F609750050CDFF /* FriendsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 243084AB16F609750050CDFF /* FriendsListViewController.m */; };
@@ -1062,6 +1064,8 @@
 		068274B7172BF949004D53D0 /* AboutAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutAppViewController.h; sourceTree = "<group>"; };
 		068274B8172BF94A004D53D0 /* AboutAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutAppViewController.m; sourceTree = "<group>"; };
 		068274B9172BF94A004D53D0 /* AboutAppViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutAppViewController.xib; sourceTree = "<group>"; };
+		06F9B4E8174C80AC00A49648 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
+		06F9B4EA174C80D900A49648 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		2417C99617048D450066E4F5 /* FriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendCell.h; sourceTree = "<group>"; };
 		2417C99717048D450066E4F5 /* FriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCell.m; sourceTree = "<group>"; };
 		2417C99917048D5E0066E4F5 /* FriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendCell.xib; sourceTree = "<group>"; };
@@ -2280,6 +2284,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06F9B4EB174C80D900A49648 /* CoreTelephony.framework in Frameworks */,
 				842127F717290D360070FD76 /* CoreData.framework in Frameworks */,
 				9E10F485172184EE006F54BE /* StoreKit.framework in Frameworks */,
 				9E198E7C17096E70002CECCE /* Security.framework in Frameworks */,
@@ -2304,6 +2309,7 @@
 				842127F517290CDF0070FD76 /* libGoogleAnalytics.a in Frameworks */,
 				9EE86C2F172D22A700C1A013 /* SDWebImage.framework in Frameworks */,
 				9EE86C31172D22D000C1A013 /* ImageIO.framework in Frameworks */,
+				06F9B4E9174C80AC00A49648 /* NewRelicAgent.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3642,6 +3648,8 @@
 		9E78A7B516E34BA2000CA790 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				06F9B4EA174C80D900A49648 /* CoreTelephony.framework */,
+				06F9B4E8174C80AC00A49648 /* NewRelicAgent.framework */,
 				9EE86C30172D22D000C1A013 /* ImageIO.framework */,
 				9EE86C2E172D22A700C1A013 /* SDWebImage.framework */,
 				842127F617290D360070FD76 /* CoreData.framework */,

@@ -19,10 +19,16 @@
 
 #import "FriendsListViewController.h"
 
+#import <NewRelicAgent/NewRelicAgent.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
+    //NewRelic
+    [NewRelicAgent startWithApplicationToken:@"AA9e046acc671b319dcf316d95e875cad7fce4d620"];
+    //End NewRelic    
     self.showingFBBrowserView = NO;
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
