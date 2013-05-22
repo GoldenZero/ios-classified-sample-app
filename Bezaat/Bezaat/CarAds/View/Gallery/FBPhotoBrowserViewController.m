@@ -58,7 +58,8 @@
     
     //init the photo image manager
     asynchImgManager = [[HJObjManager alloc] init];
-	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
+	//NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
+    NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/gallery/"] ;
 	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
 	asynchImgManager.fileCache = fileCache;
     

@@ -120,6 +120,21 @@
     [super viewWillAppear:animated];
     
     viewIsShown = YES;
+    
+    if (currentDetailsObject && currentDetailsObject.adImages && currentDetailsObject.adImages.count) {
+        if (self.scrollView && self.scrollView.subviews && self.scrollView.subviews.count) {
+            
+            for (UIView * subView in self.scrollView.subviews) {
+                if (subView.subviews.count) {
+                    //[(HJManagedImageV *)subView.subviews[0] setHidden:NO];
+                    //NSLog(@"%@", [(HJManagedImageV *)subView.subviews[0] image]);
+                    //[asynchImgManager manage:(HJManagedImageV *)subView.subviews[0]];
+                }
+                //NSLog(@"if ther are subviews: %i", subView.subviews.count);
+                
+            }
+        }
+    }
 }
 
 - (void) viewDidAppear:(BOOL)animated {
