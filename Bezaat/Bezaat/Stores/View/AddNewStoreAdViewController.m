@@ -1109,6 +1109,7 @@
     
     if (!chosenCity)
     {
+        
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بيانات المكان صحيحة" delegateVC:self];
         return;
     }
@@ -1156,6 +1157,12 @@
     if (!mobileNum.text)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
+        return;
+    }
+    
+    if ([distance.text length] == 0)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال المسافه المقطوعه" delegateVC:self];
         return;
     }
     
