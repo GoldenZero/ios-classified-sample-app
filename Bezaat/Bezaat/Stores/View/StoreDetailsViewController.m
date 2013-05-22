@@ -225,11 +225,11 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     cell.advID = adv.adID;
     cell.imageURL = adv.thumbnailURL;
     cell.title = adv.title;
-    NSString *price = @"";
-    if (adv.price != 0) {
-        price = [NSString stringWithFormat:@"%f %@",adv.price,(adv.currencyString == nil)?@"":adv.currencyString];
-    }
-    cell.price = price;
+    NSString * priceStr = [GenericMethods formatPrice:adv.price];
+    if ([priceStr isEqualToString:@""])
+        cell.priceLabel.text = priceStr;
+    else
+        cell.priceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, adv.currencyString];
     cell.postedSinceLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:adv.postedOnDate];
     cell.modelYear = adv.modelYear;
     cell.distanceRange = adv.distance.integerValue;
