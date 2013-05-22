@@ -1168,7 +1168,12 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         
     }
     
-    
+    if ([distance.text length] == 0)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال المسافه المقطوعه" delegateVC:self];
+        return;
+    }
+
     
     
     
