@@ -904,7 +904,7 @@
         if (globalArray && globalArray.count)
             myStore = (Store *)[globalArray objectAtIndex:0];
     }
-
+    storeBtnPressedOnce = YES;
     [self showPicker];
 }
 
@@ -1144,7 +1144,7 @@
         }
     }
 
-    if (!bodyBtnPressedOnce)
+    if (!chosenBody)
     {
         
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار هيكل السيارة" delegateVC:self];
