@@ -8,6 +8,7 @@
 
 #import "FBPhotoBrowserViewController.h"
 #import "AppDelegate.h"
+#import "MBProgressHUD2.h"
 
 
 @interface FBPhotoBrowserViewController ()
@@ -17,6 +18,11 @@
     BOOL zoomingOn;
     int currentZoomingPage;
     int currentPageForRotation;
+    
+    int firstImageID;
+    NSArray *photosArray;
+    
+    MBProgressHUD2 * loadingHUD;
 }
 @end
 
@@ -26,7 +32,9 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        //...
+        
+        firstImageID = -1;
+        photosArray = [NSArray new];
     }
     return self;
 }
@@ -57,10 +65,22 @@
     zoomingOn = NO;
     currentZoomingPage = -1;
     currentPageForRotation = -1;
+    
+    //initially, set the scrollView to hidden until we have at least one image size cached
+    [self.photosScrollView setHidden:YES];
+    [self showLoadingIndicator];
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self customizeScrollForPhotos];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -92,7 +112,7 @@
     CGFloat totalWidth = 0;
     CGSize theContentSize  = CGSizeZero;
     
-    CGRect frameToScroll;
+    CGRect frameToScroll = CGRectZero;
     //NSLog(@"%f",  self.photosScrollView.frame.size.height);
     if (self.photosScrollView.subviews && self.photosScrollView.subviews.count) {
         for (int i = 0; i < self.photosScrollView.subviews.count; i++) {
@@ -153,32 +173,37 @@
         }
         
         theContentSize = CGSizeMake(totalWidth, self.photosScrollView.frame.size.height);
+        
+        [self.photosScrollView setContentSize:CGSizeMake(theContentSize.width, theContentSize.height)];
+        [self.photosScrollView scrollRectToVisible:frameToScroll animated:YES];
     }
     
-    [self.photosScrollView setContentSize:CGSizeMake(theContentSize.width, theContentSize.height)];
-    [self.photosScrollView scrollRectToVisible:frameToScroll animated:YES];
 }
 
 - (BOOL) shouldAutorotate {
     return YES;
 }
 
+- (void) setPhotosArray:(NSArray *) photos firstImageID:(NSInteger) index {
+    photosArray = [NSArray arrayWithArray:photos];
+    firstImageID = index;
+}
 
-- (void) customizeScrollForPhotos:(NSArray *) photos firstImageID:(NSInteger) index {
+- (void) customizeScrollForPhotos {
     
     totalSize = CGSizeMake(0, self.photosScrollView.frame.size.height);
     
     CGFloat singleHeight = 0;
     CGFloat singleWidth = 0;
     
-    for (int i = 0; i < photos.count; i++)
+    for (int i = 0; i < photosArray.count; i++)
     {
         CGRect frame;
         HJManagedImageV * imgV;
         
         
         //try to get sizes from cache
-        NSString * correctURLstring = [[(NSURL *)[photos objectAtIndex:i] absoluteString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString * correctURLstring = [[(NSURL *)[photosArray objectAtIndex:i] absoluteString] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:"];
         
         NSString * imageFileName = [[correctURLstring componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
@@ -193,12 +218,20 @@
             
             if (!dataDict)
             {
-                NSData *imageData = [NSData dataWithContentsOfURL:(NSURL *)[photos objectAtIndex:i]];
+                NSData *imageData = [NSData dataWithContentsOfURL:(NSURL *)[photosArray objectAtIndex:i]];
                 UIImage *theImage = [UIImage imageWithData:imageData];
                 imageSize = theImage.size;
             }
             else
             {
+                if (self.photosScrollView.isHidden)
+                {
+                    [self.photosScrollView setHidden:NO];
+                    [self hideLoadingIndicator];
+                    [self.activityView setHidden:YES];
+                    
+                }
+                
                 float w = [(NSNumber *)[dataDict objectForKey:@"width"] floatValue];
                 float h = [(NSNumber *)[dataDict objectForKey:@"height"] floatValue];
                 imageSize = CGSizeMake(w, h);
@@ -206,7 +239,7 @@
             
         }
         else {
-            NSData *imageData = [NSData dataWithContentsOfURL:(NSURL *)[photos objectAtIndex:i]];
+            NSData *imageData = [NSData dataWithContentsOfURL:(NSURL *)[photosArray objectAtIndex:i]];
             UIImage *theImage = [UIImage imageWithData:imageData];
             imageSize = theImage.size;
         }
@@ -236,7 +269,7 @@
         
         //set the image
         [imgV clear];
-        imgV.url = (NSURL *)[photos objectAtIndex:i];
+        imgV.url = (NSURL *)[photosArray objectAtIndex:i];
         [imgV showLoadingWheel];
         imgV.loadingWheel.color = [UIColor whiteColor];
         [asynchImgManager manage:imgV];
@@ -286,15 +319,22 @@
         totalSize.width = totalSize.width + scrView.frame.size.width + (self.photosScrollView.frame.size.width - frame.size.width) ;
     }
     
+    if (self.photosScrollView.isHidden)
+    {
+        [self.photosScrollView setHidden:NO];
+        [self hideLoadingIndicator];
+        [self.activityView setHidden:YES];
+    }
+    
     totalSize.height = self.photosScrollView.frame.size.height;
     
     [self.photosScrollView setContentSize:CGSizeMake(totalSize.width, totalSize.height)];
     
     
     CGRect frame = self.photosScrollView.frame;
-    frame.origin.x = frame.size.width * index + 10;
+    frame.origin.x = frame.size.width * firstImageID + ((self.photosScrollView.frame.size.width - frame.size.width) * 0.5);
     frame.origin.y = 0;
-    currentPageForRotation = index;
+    currentPageForRotation = firstImageID;
     [self.photosScrollView scrollRectToVisible:frame animated:NO];
 }
 
@@ -421,4 +461,23 @@
                                  scrollView.contentSize.height * 0.5 + offsetY);
     
 }
+
+- (void) showLoadingIndicator {
+    
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.activityView animated:YES];
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    loadingHUD.labelText = @"";
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = NO;
+    
+}
+
+- (void) hideLoadingIndicator {
+    
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.activityView  animated:YES];
+    loadingHUD = nil;
+    
+}
+
 @end

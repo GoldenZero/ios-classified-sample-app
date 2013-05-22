@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *photosScrollView;
 @property (weak, nonatomic) IBOutlet UIButton *doneBtn;
 
+@property (weak, nonatomic) IBOutlet UIView *activityView;
 
 #pragma mark - actions
 - (IBAction)doneBtnPressed:(id)sender;
@@ -24,6 +25,6 @@
 #pragma mark - methods
 
 //photos array should contain an array of URLs
-- (void) customizeScrollForPhotos:(NSArray *) photos firstImageID:(NSInteger) index;
-
+//- (void) customizeScrollForPhotos:(NSArray *) photos firstImageID:(NSInteger) index;
+- (void) setPhotosArray:(NSArray *) photos firstImageID:(NSInteger) index;
 @end

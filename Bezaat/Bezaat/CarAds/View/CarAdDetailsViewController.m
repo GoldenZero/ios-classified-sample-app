@@ -228,8 +228,10 @@
         for (CarDetailsImage * image in currentDetailsObject.adImages) {
             [imgs addObject:image.imageURL];
         }
+        
+        [vc setPhotosArray:imgs firstImageID:self.pageControl.currentPage];
+        
         [self presentViewController:vc animated:YES completion:nil];
-        [vc customizeScrollForPhotos:imgs firstImageID:self.pageControl.currentPage];
     }
     
 }

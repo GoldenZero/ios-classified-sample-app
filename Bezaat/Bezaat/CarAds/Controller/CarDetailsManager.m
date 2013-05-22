@@ -272,7 +272,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              thumbnailImageURLString:[imageDict objectForKey:DETAILS_IMGS_THUMBNAIL_IMG_URL_JKEY]];
                             
                             [imagesArray addObject:imgObj];
-                            [self performSelectorOnMainThread:@selector(cacheImageSizeForGallery:) withObject:imgObj waitUntilDone:NO];
+                            //[self performSelectorOnMainThread:@selector(cacheImageSizeForGallery:) withObject:imgObj waitUntilDone:NO];
+                            [self performSelectorInBackground:@selector(cacheImageSizeForGallery:) withObject:imgObj];
                         }
                     }
                     
@@ -348,6 +349,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 }
 
 - (void) cacheImageSizeForGallery:(CarDetailsImage *) img {
+    
     NSString * correctURLstring = [img.imageURL.absoluteString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:"];
     
