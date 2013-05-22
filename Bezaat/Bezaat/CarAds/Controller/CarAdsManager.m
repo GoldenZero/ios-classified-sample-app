@@ -731,8 +731,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 [NSString stringWithFormat:@"%@", (aDistanceRangeID == -1 ? @"" : [NSString stringWithFormat:@"%i", aDistanceRangeID])],
                                 aFromYear,
                                 aToYear,
-                                [NSString stringWithFormat:@"%i", aAdsWithImages],
-                                [NSString stringWithFormat:@"%i", aAdsWithPrice],
+                                (aAdsWithImages ? [NSString stringWithFormat:@"%i", aAdsWithImages]: @""),
+                                (aAdsWithPrice ? [NSString stringWithFormat:@"%i", aAdsWithPrice] : @""),
                                 aArea,
                                 aOrderby,
                                 aLastRefreshed
