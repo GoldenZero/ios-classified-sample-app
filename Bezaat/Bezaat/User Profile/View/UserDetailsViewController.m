@@ -324,6 +324,8 @@
 }
 
 - (IBAction)AddingAdsInvoked:(id)sender {
+    
+    
     ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
     vc.tagOfCallXib=2;
     [self presentViewController:vc animated:YES completion:nil];
@@ -392,7 +394,8 @@
     CarAd * carAdObject;
     if ((carAdsArray) && (carAdsArray.count)){
         carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
-        myAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];}
+        myAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+    }
     else
         return [UITableViewCell new];
     
@@ -441,7 +444,8 @@
             [cell.carImage.imageView setClipsToBounds:YES];
             
             cell.isFeatured = carAdObject.isFeatured;
-            [cell.featureButton addTarget:self action:@selector(featureTheAd) forControlEvents:UIControlEventTouchUpInside];
+            cell.featureButton.tag = indexPath.row;
+            [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
             
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
@@ -490,9 +494,15 @@
             [asynchImgManager manage:cell.carImage];
             [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage.imageView setClipsToBounds:YES];
-            
             cell.isFeatured = carAdObject.isFeatured;
-            [cell.featureButton addTarget:self action:@selector(featureTheAd) forControlEvents:UIControlEventTouchUpInside];
+            if (carAdObject.isFeatured && ![currentStatus isEqualToString:@"favorites"]) {
+                [cell.featureButton setHidden:NO];
+            }else{
+                [cell.featureButton setHidden:YES];
+
+            }
+            cell.featureButton.tag = indexPath.row;
+            [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
             
@@ -543,7 +553,8 @@
             [cell.carImage.imageView setClipsToBounds:YES];
             
             cell.isFeatured = carAdObject.isFeatured;
-            [cell.featureButton addTarget:self action:@selector(featureTheAd) forControlEvents:UIControlEventTouchUpInside];
+            cell.featureButton.tag = indexPath.row;
+            [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
             
@@ -590,7 +601,8 @@
             [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage.imageView setClipsToBounds:YES];
             cell.isFeatured = carAdObject.isFeatured;
-            [cell.featureButton addTarget:self action:@selector(featureTheAd) forControlEvents:UIControlEventTouchUpInside];
+            cell.featureButton.tag = indexPath.row;
+            [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
             
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
@@ -632,12 +644,14 @@
 }
 
 
--(void)featureTheAd
+-(void)featureTheAd:(id)sender
 {
+    UIButton* Btn = (UIButton*)sender;
+    myAdObject = (CarAd *)[carAdsArray objectAtIndex:Btn.tag];
     labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
    // vc.currentAdID = [[self.adsTable cellForRowAtIndexPath:0] ];
     vc.currentAdID = myAdObject.adID;
-    vc.countryAdID = [[SharedUser sharedInstance] getUserCountryID];
+    vc.countryAdID = myAdObject.countryID;
     vc.currentAdHasImages = NO;
     if (myAdObject.thumbnailURL)
         vc.currentAdHasImages = YES;

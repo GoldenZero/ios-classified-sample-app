@@ -1010,7 +1010,11 @@
         
         // Check store
         if (currentDetailsObject.storeID!=0) {
-            [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_blue.png"]];
+            if (currentDetailsObject.isFeatured)
+                [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_Sp.png"]];
+            else
+                [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_blue.png"]];
+            
             [self.storeView setHidden:NO];
             self.contentView.frame=CGRectMake(0,124 ,self.contentView.frame.size.width , self.contentView.frame.size.height);
             

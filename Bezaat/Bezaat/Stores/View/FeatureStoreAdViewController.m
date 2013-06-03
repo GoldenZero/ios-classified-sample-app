@@ -90,8 +90,10 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 }
 
 - (IBAction)laterBtnPressed:(id)sender {
+    
     StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
     vc.currentStore = self.storeID;
+    vc.fromSubscribtion = YES;
     [self presentViewController:vc animated:YES completion:nil];
     
 }
@@ -282,7 +284,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     NSString * productIdentifier = notification.object;
     NSLog(@"product is purchased: %@", productIdentifier);
     
-    [[FeaturingManager sharedInstance] confirmStoreOrderID:OrderID withAppName:@"AppStore" gatewayResponse:transactionID withDelegate:self];
+    [[FeaturingManager sharedInstance] confirmStoreOrderID:(NSString*)OrderID withAppName:@"AppStore" gatewayResponse:transactionID withDelegate:self];
     
 }
 
@@ -291,7 +293,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
     GAITransaction *transaction =
-    [GAITransaction transactionWithId:OrderID
+    [GAITransaction transactionWithId:(NSString*)OrderID
                       withAffiliation:@"In-App Store"];
     transaction.shippingMicros = (int64_t)(0);
     transaction.revenueMicros = (int64_t)(option.price * 1000000);
@@ -311,7 +313,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
     GAITransaction *transaction =
-    [GAITransaction transactionWithId:OrderID
+    [GAITransaction transactionWithId:(NSString*)OrderID
                       withAffiliation:@"Bank Transfer"];
     transaction.shippingMicros = (int64_t)(0);
     transaction.revenueMicros = (int64_t)(option.price * 1000000);
@@ -439,7 +441,13 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 -(void)StoreOrderDidFinishCreationWithID:(NSString *)orderID
 {
-    OrderID = orderID;
+    //OrderID = orderID;
+    NSDictionary* temp = (NSDictionary*)orderID;
+    if (temp) {
+        OrderID = [temp objectForKey:@"OrderID"];
+    }else{
+        OrderID = orderID;
+    }
     NSLog(@"%@",OrderID);
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
@@ -503,6 +511,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     if (alertView.tag == 5) {
         StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
         vc.currentStore = self.storeID;
+        vc.fromSubscribtion = YES;
         [self presentViewController:vc animated:YES completion:nil];
     }
     

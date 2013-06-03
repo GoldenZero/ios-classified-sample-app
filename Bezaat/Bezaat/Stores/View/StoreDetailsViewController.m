@@ -10,6 +10,7 @@
 #import "ModelsViewController.h"
 #import "CarAdDetailsViewController.h"
 #import "CarAd.h"
+#import "ChooseActionViewController.h"
 
 @interface StoreDetailsViewController () {
     StoreManager *storeStatusManager;
@@ -121,6 +122,10 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 #pragma mark - Actions
 
 - (IBAction)backBtnPress:(id)sender {
+    if (self.fromSubscribtion) {
+        ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }else
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

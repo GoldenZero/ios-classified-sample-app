@@ -53,7 +53,7 @@
 @property (nonatomic) NSUInteger carCD;
 @property (nonatomic) NSUInteger carHeads;
 
-
+@property (nonatomic) NSUInteger countryID;
 
 #pragma mark - actions
 
@@ -72,7 +72,8 @@
          isFavoriteString:(NSString *) aIsFavoriteString
                 storeName:(NSString *) aStoreName
              storeLogoURL:(NSString *) aStoreLogoURLString
-EncryptedEditID: (NSString*)aEncEditID;
+EncryptedEditID: (NSString*)aEncEditID
+countryID:(NSString*)aCountryID;
 
 
 - (id) initWithAdIDTitle:(NSString *) aAdIDTitle                //524

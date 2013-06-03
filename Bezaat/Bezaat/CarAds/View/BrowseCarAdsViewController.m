@@ -408,7 +408,7 @@
             //check featured
             if (carAdObject.isFeatured)
             {
-                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing_special_bg.png"]];
+                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing_special_bg_store.png"]];
                 [cell.storeHeaderImg setImage:[UIImage imageNamed:@"Listing2_top_bg.png"]];
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
@@ -544,6 +544,7 @@
             if (carAdObject.isFeatured)
             {
                 [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing_special_bg.png"]];
+                cell.cellBackgoundImage.frame = CGRectMake(cell.cellBackgoundImage.frame.origin.x, cell.cellBackgoundImage.frame.origin.y, cell.cellBackgoundImage.frame.size.width, cell.cellBackgoundImage.frame.size.height);
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];

@@ -13,6 +13,7 @@
 @interface StoreDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,StoreManagerDelegate,FeatureingDelegate>
 
 @property (nonatomic, strong) Store *currentStore;
+@property (nonatomic) BOOL fromSubscribtion;
 
 - (IBAction)backBtnPress:(id)sender;
 - (IBAction)addNewAdvBtnPress:(id)sender;

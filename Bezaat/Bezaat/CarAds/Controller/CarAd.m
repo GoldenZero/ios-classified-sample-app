@@ -33,6 +33,7 @@
 @synthesize carBody;
 @synthesize carCD;
 @synthesize carHeads;
+@synthesize countryID;
 
 - (id) initWithAdIDString:(NSString *) aAdIDString
             ownerIDString:(NSString *) aOwnerIDString
@@ -50,6 +51,7 @@
                 storeName:(NSString *) aStoreName
              storeLogoURL:(NSString *) aStoreLogoURLString
 EncryptedEditID: (NSString*)aEncEditID
+countryID:(NSString*)aCountryID
 {
     
     self = [super init];
@@ -102,6 +104,8 @@ EncryptedEditID: (NSString*)aEncEditID
         self.storeName = aStoreName;
         
         self.EncEditID = aEncEditID;
+        
+        self.countryID = aCountryID.integerValue;
         
         // storeLogoURL
         if ([aStoreLogoURLString isEqualToString:@""])
