@@ -254,7 +254,27 @@
             [self presentViewController:galleryView animated:YES completion:nil];
         }
     }
-    
+    else if (currentDetailsObject) {
+        
+        if ( ((!currentDetailsObject.adImages) && (currentDetailsObject.thumbnailURL)) || ((!currentDetailsObject.adImages.count) && (currentDetailsObject.thumbnailURL)) ) {
+            
+            if (!galleryView)
+            {
+                FBPhotoBrowserViewController * vc = [[FBPhotoBrowserViewController alloc] initWithNibName:@"FBPhotoBrowserViewController" bundle:nil];
+                vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                
+                [(AppDelegate *)[[UIApplication sharedApplication] delegate] setShowingFBBrowser:YES];
+                
+                NSMutableArray * imgs = [[NSMutableArray alloc] init];
+                
+                [imgs addObject:currentDetailsObject.thumbnailURL];
+                
+                [vc setPhotosArray:imgs firstImageID:self.pageControl.currentPage];
+                galleryView = vc;
+                [self presentViewController:galleryView animated:YES completion:nil];
+            }
+        }
+    }
 }
 
 // flod share button when touch the screen
@@ -760,8 +780,13 @@
             self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
             
         }else {
-            if (currentDetailsObject && currentDetailsObject.thumbnailURL)
+            if (currentDetailsObject && currentDetailsObject.thumbnailURL) {
+                
+                self.pageControl.currentPage = 0;
+                self.pageControl.numberOfPages = 1;
+                
                 [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
+            }
         }
         
         //2- set details
