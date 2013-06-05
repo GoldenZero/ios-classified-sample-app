@@ -140,9 +140,13 @@
                 
                 if (!dataDict)
                 {
-                    NSData *imageData = [NSData dataWithContentsOfURL:[(HJManagedImageV *)scroll.subviews[0] url]];
-                    UIImage *theImage = [UIImage imageWithData:imageData];
-                    imageSize = theImage.size;
+                    if ([GenericMethods connectedToInternet]) {
+                        NSData *imageData = [NSData dataWithContentsOfURL:[(HJManagedImageV *)scroll.subviews[0] url]];
+                        UIImage *theImage = [UIImage imageWithData:imageData];
+                        imageSize = theImage.size;
+                    }
+                    else
+                        imageSize = CGSizeZero;
                 }
                 else
                 {
@@ -153,9 +157,13 @@
                 
             }
             else {
-                NSData *imageData = [NSData dataWithContentsOfURL:[(HJManagedImageV *)scroll.subviews[0] url]];
-                UIImage *theImage = [UIImage imageWithData:imageData];
-                imageSize = theImage.size;
+                if ([GenericMethods connectedToInternet]) {
+                    NSData *imageData = [NSData dataWithContentsOfURL:[(HJManagedImageV *)scroll.subviews[0] url]];
+                    UIImage *theImage = [UIImage imageWithData:imageData];
+                    imageSize = theImage.size;
+                }
+                else
+                    imageSize = CGSizeZero;
             }
             
             frame.size = [GenericMethods size:imageSize constrainedToSize:(CGSizeMake(self.photosScrollView.frame.size.width - 20, self.photosScrollView.frame.size.height))];
@@ -221,9 +229,13 @@
             
             if (!dataDict)
             {
-                NSData *imageData = [NSData dataWithContentsOfURL:(NSURL *)[photosArray objectAtIndex:i]];
-                UIImage *theImage = [UIImage imageWithData:imageData];
-                imageSize = theImage.size;
+                if ([GenericMethods connectedToInternet]) {
+                    NSData *imageData = [NSData dataWithContentsOfURL:(NSURL *)[photosArray objectAtIndex:i]];
+                    UIImage *theImage = [UIImage imageWithData:imageData];
+                    imageSize = theImage.size;
+                }
+                else
+                    imageSize = CGSizeZero;
             }
             else
             {
@@ -242,9 +254,13 @@
             
         }
         else {
-            NSData *imageData = [NSData dataWithContentsOfURL:(NSURL *)[photosArray objectAtIndex:i]];
-            UIImage *theImage = [UIImage imageWithData:imageData];
-            imageSize = theImage.size;
+            if ([GenericMethods connectedToInternet]) {
+                NSData *imageData = [NSData dataWithContentsOfURL:(NSURL *)[photosArray objectAtIndex:i]];
+                UIImage *theImage = [UIImage imageWithData:imageData];
+                imageSize = theImage.size;
+            }
+            else
+                imageSize = CGSizeZero;
         }
         
         CGSize constraintSize = self.photosScrollView.frame.size;
@@ -406,9 +422,13 @@
                     
                     if (!dataDict)
                     {
-                        NSData *imageData = [NSData dataWithContentsOfURL:[(HJManagedImageV *)scroll.subviews[0] url]];
-                        UIImage *theImage = [UIImage imageWithData:imageData];
-                        imageSize = theImage.size;
+                        if ([GenericMethods connectedToInternet]) {
+                            NSData *imageData = [NSData dataWithContentsOfURL:[(HJManagedImageV *)scroll.subviews[0] url]];
+                            UIImage *theImage = [UIImage imageWithData:imageData];
+                            imageSize = theImage.size;
+                        }
+                        else
+                            imageSize = CGSizeZero;
                     }
                     else
                     {
@@ -419,9 +439,13 @@
                     
                 }
                 else {
-                    NSData *imageData = [NSData dataWithContentsOfURL:[(HJManagedImageV *)scroll.subviews[0] url]];
-                    UIImage *theImage = [UIImage imageWithData:imageData];
-                    imageSize = theImage.size;
+                    if ([GenericMethods connectedToInternet]) {
+                        NSData *imageData = [NSData dataWithContentsOfURL:[(HJManagedImageV *)scroll.subviews[0] url]];
+                        UIImage *theImage = [UIImage imageWithData:imageData];
+                        imageSize = theImage.size;
+                    }
+                    else
+                        imageSize = CGSizeZero;
                 }
                 
                 frame.size = [GenericMethods size:imageSize constrainedToSize:(CGSizeMake(self.photosScrollView.frame.size.width - 20, self.photosScrollView.frame.size.height))];
