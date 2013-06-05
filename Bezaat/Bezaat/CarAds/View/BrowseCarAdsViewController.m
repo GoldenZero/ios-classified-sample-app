@@ -306,7 +306,12 @@
         if (carAdObject.storeID > 0)
         {
             
-            CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreCell" owner:self options:nil] objectAtIndex:0];
+            //CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreCell" owner:self options:nil] objectAtIndex:0];
+            
+            CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdWithStoreCell"];
+            
+            if (!cell)
+                cell = (CarAdWithStoreCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreCell" owner:self options:nil] objectAtIndex:0];
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell.storeHeaderImg setImage:[UIImage imageNamed:@"Listing3_top_bg.png"]];
@@ -330,6 +335,7 @@
             [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
             [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
             [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
+            
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -477,7 +483,10 @@
         //individual ad - with image
         else
         {
-            CarAdCell * cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
+            //CarAdCell * cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
+            CarAdCell * cell = (CarAdCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdCell"];
+            if (!cell)
+                cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
@@ -499,6 +508,7 @@
             [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
             [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
             [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
+            
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -615,7 +625,12 @@
         //store ad - no image
         if (carAdObject.storeID > 0)
         {
-            CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreNoImageCell" owner:self options:nil] objectAtIndex:0];
+            //CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreNoImageCell" owner:self options:nil] objectAtIndex:0];
+            
+            CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdWithStoreNoImageCell"];
+            if (!cell)
+                cell = (CarAdWithStoreNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreNoImageCell" owner:self options:nil] objectAtIndex:0];
+                
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
@@ -638,8 +653,6 @@
             [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
             [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
             [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
-            
-            
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -764,7 +777,11 @@
         //individual - no image
         else
         {
-            CarAdNoImageCell * cell = (CarAdNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdNoImageCell" owner:self options:nil] objectAtIndex:0];
+            //CarAdNoImageCell * cell = (CarAdNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdNoImageCell" owner:self options:nil] objectAtIndex:0];
+            
+            CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdNoImageCell"];
+            if (!cell)
+                cell = (CarAdNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdNoImageCell" owner:self options:nil] objectAtIndex:0];
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
@@ -785,7 +802,6 @@
             [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
             [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
             [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
-            
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
                 cell.carPriceLabel.text = priceStr;

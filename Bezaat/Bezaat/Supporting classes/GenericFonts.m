@@ -39,7 +39,15 @@
 //// The font for Bezaat is @"ge_ss_two_medium"
 - (SSFont*)loadFont:(NSString*)fontName withSize:(int)fontSize {
     NSString * path = [[NSBundle mainBundle] pathForResource:fontName ofType:@"ttf"];
-    return [SSFont fontWithPath:path size:fontSize];
+    
+    NSString * fontKey = [NSString stringWithFormat:@"%@.%i", fontName, fontSize];
+    SSFont * theFont = [cache objectForKey:fontKey];
+    if (!theFont) {
+        theFont = [SSFont fontWithPath:path size:fontSize];
+        [cache setObject:theFont forKey:fontKey];
+        
+    }
+    return theFont;
 }
 
 @end
