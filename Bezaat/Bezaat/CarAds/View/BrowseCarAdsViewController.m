@@ -27,6 +27,7 @@
     
     MBProgressHUD2 * loadingHUD;
     NSMutableArray * carAdsArray;
+    NSMutableArray * rowHeightsArray;
     //HJObjManager* asynchImgManager;   //asynchronous image loading manager
     BOOL dataLoadedFromCache;
     ODRefreshControl *refreshControl;
@@ -158,6 +159,14 @@
     distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
     [self prepareDropDownLists];
     
+    
+    //register reuse identifiers for reusing cells
+    [self.tableView registerNib:[UINib nibWithNibName:@"CarAdCell" bundle:nil] forCellReuseIdentifier:@"CarAdCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"CarAdNoImageCell" bundle:nil] forCellReuseIdentifier:@"CarAdNoImageCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"CarAdWithStoreCell" bundle:nil] forCellReuseIdentifier:@"CarAdWithStoreCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"CarAdWithStoreNoImageCell" bundle:nil] forCellReuseIdentifier:@"CarAdWithStoreNoImageCell"];
+    
+    
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
     //end GA
@@ -242,6 +251,7 @@
 
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    /*
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     //ad with image
     int separatorHeight = 5;//extra value for separating
@@ -266,6 +276,12 @@
         else
             return 110 + separatorHeight;
     }
+     */
+    
+    if (rowHeightsArray && rowHeightsArray.count)
+        return [(NSNumber *)[rowHeightsArray objectAtIndex:indexPath.row] integerValue];
+    else
+        return 0;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -323,19 +339,7 @@
             [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             
             
-            //customize the carAdCell with actual data
-            [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.detailsLabel setTextAlignment:SSTextAlignmentRight];
-            [cell.detailsLabel setTextColor:[UIColor blackColor]];
-            [cell.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
-            
             cell.detailsLabel.text = carAdObject.title;
-            
-            [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
-            [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
-            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
-            
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -488,27 +492,16 @@
             if (!cell)
                 cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
             
+            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             [cell.favoriteBtn  addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             
-            //customize the carAdCell with actual data
-            //customize the carAdCell with actual data
-            [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.detailsLabel setTextAlignment:SSTextAlignmentRight];
-            [cell.detailsLabel setTextColor:[UIColor blackColor]];
-            [cell.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
-            
             cell.detailsLabel.text = carAdObject.title;
-            
-            [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
-            [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
-            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
-            
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -547,8 +540,6 @@
             }
             [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage setClipsToBounds:YES];
-            
-            //
             
             //check featured
             if (carAdObject.isFeatured)
@@ -640,19 +631,7 @@
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             
-            //customize the carAdCell with actual data
-            //customize the carAdCell with actual data
-            [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.detailsLabel setTextAlignment:SSTextAlignmentRight];
-            [cell.detailsLabel setTextColor:[UIColor blackColor]];
-            [cell.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
-            
             cell.detailsLabel.text = carAdObject.title;
-            
-            [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
-            [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
-            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -789,19 +768,10 @@
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
             [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            //customize the carAdCell with actual data
-            //customize the carAdCell with actual data
-            [cell.detailsLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.detailsLabel setTextAlignment:SSTextAlignmentRight];
-            [cell.detailsLabel setTextColor:[UIColor blackColor]];
-            [cell.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
             
             cell.detailsLabel.text = carAdObject.title;
             
-            [cell.carPriceLabel setBackgroundColor:[UIColor clearColor]];
-            [cell.carPriceLabel setTextAlignment:SSTextAlignmentCenter];
-            [cell.carPriceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
-            [cell.carPriceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:12.0] ];
+            
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
                 cell.carPriceLabel.text = priceStr;
@@ -1311,6 +1281,8 @@
         [[CarAdsManager sharedInstance] setCurrentPageSize:cachedPageSize];
         [carAdsArray addObjectsFromArray:cachedArray];
         
+        [self createRowHeightsArray];
+        
         //refresh table data
         userDidScroll = NO;
         [self.tableView reloadData];
@@ -1390,6 +1362,45 @@
     if (Pmin > Pmax)
         return NO;
     return YES;
+}
+
+- (void) createRowHeightsArray {
+    
+    if (carAdsArray && carAdsArray.count) {
+        if (!rowHeightsArray)
+            rowHeightsArray = [NSMutableArray new];
+        
+        [rowHeightsArray removeAllObjects];
+        
+        int separatorHeight = 5;//extra value for separating
+        
+        for (CarAd * carAdObject in carAdsArray) {
+            //ad with image
+            if (carAdObject.thumbnailURL)
+            {
+                //store ad - with image
+                if (carAdObject.storeID > 0)
+                    [rowHeightsArray addObject:[NSNumber numberWithInt:(270 + separatorHeight)]];
+                
+                //individual ad - with image
+                else
+                    [rowHeightsArray addObject:[NSNumber numberWithInt:(270 + separatorHeight)]];
+                
+            }
+            //ad with no image
+            else
+            {
+                //store ad - no image
+                if (carAdObject.storeID > 0)
+                    [rowHeightsArray addObject:[NSNumber numberWithInt:(150 + separatorHeight)]];
+                //individual - no image
+                else
+                    [rowHeightsArray addObject:[NSNumber numberWithInt:(110 + separatorHeight)]];
+            }
+        }
+        
+    }
+    
 }
 
 #pragma mark - keyboard handler
@@ -1825,6 +1836,8 @@
             [self hideLoadingIndicator];
         }
     }
+    
+    [self createRowHeightsArray];
     
     //3- refresh table data
     userDidScroll = NO;
