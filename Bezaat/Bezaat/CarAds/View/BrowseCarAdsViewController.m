@@ -1843,11 +1843,12 @@
     userDidScroll = NO;
     [self.tableView reloadData];
     //self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
+    /*
     if ([carAdsArray count] <= 10 && [carAdsArray count] != 0) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         [self.tableView setContentOffset:CGPointZero animated:YES];
     }
-    
+    */
     
     
 }
