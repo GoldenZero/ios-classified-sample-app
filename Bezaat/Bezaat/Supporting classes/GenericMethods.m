@@ -566,7 +566,8 @@ static NSString * documentsDirectoryPath;
 + (CGSize) size: (CGSize) originalSize constrainedToSize: (CGSize) constraint {
     
     if (CGSizeEqualToSize(originalSize,CGSizeZero))
-        return CGSizeZero;
+        //return CGSizeZero;
+        return constraint;
     
     float widthRatio = constraint.width / originalSize.width;
     float heightRatio = constraint.height / originalSize.height;

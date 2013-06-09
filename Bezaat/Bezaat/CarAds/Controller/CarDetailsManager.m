@@ -356,20 +356,26 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     NSString * imageFileName = [[correctURLstring componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
     NSString * imageFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], imageFileName];
     
+    dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0 ), ^(void)
+    {
+        NSMutableDictionary * dictToBeWritten = [NSMutableDictionary new];
+        NSData *imageData = [NSData dataWithContentsOfURL:img.imageURL];
+        
+        dispatch_async( dispatch_get_main_queue(), ^(void){
+            
+            UIImage *theImage = [UIImage imageWithData:imageData];
+            
+            [dictToBeWritten setObject:[NSNumber numberWithFloat:theImage.size.width] forKey:@"width"];
+            [dictToBeWritten setObject:[NSNumber numberWithFloat:theImage.size.height] forKey:@"height"];
+            
+            
+            //4- convert dictionary to NSData
+            NSError  *error;
+            NSData * dataToBeWritten = [NSKeyedArchiver archivedDataWithRootObject:dictToBeWritten];
+            [dataToBeWritten writeToFile:imageFilePath options:NSDataWritingAtomic error:&error];
+        });
+    });
     
-    NSMutableDictionary * dictToBeWritten = [NSMutableDictionary new];
-    
-    NSData *imageData = [NSData dataWithContentsOfURL:img.imageURL];
-    UIImage *theImage = [UIImage imageWithData:imageData];
-    
-    [dictToBeWritten setObject:[NSNumber numberWithFloat:theImage.size.width] forKey:@"width"];
-    [dictToBeWritten setObject:[NSNumber numberWithFloat:theImage.size.height] forKey:@"height"];
-    
-    
-    //4- convert dictionary to NSData
-    NSError  *error;
-    NSData * dataToBeWritten = [NSKeyedArchiver archivedDataWithRootObject:dictToBeWritten];
-    [dataToBeWritten writeToFile:imageFilePath options:NSDataWritingAtomic error:&error];
 }
 
 @end

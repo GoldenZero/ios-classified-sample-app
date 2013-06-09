@@ -196,10 +196,12 @@
     
     //3- refresh table data
     [self.adsTable reloadData];
+    /*
     if ([carAdsArray count] <= 10 && [carAdsArray count] != 0) {
         [self.adsTable scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         [self.adsTable setContentOffset:CGPointZero animated:YES]; 
     }
+     */
     //1- hide the loading indicator
     [self hideLoadingIndicator];
         
