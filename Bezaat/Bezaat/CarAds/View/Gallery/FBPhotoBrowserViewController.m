@@ -582,11 +582,15 @@
         //UIScrollView * aScrollView = (UIScrollView *) self.photosScrollView.subviews[page];
         UIScrollView * aScrollView = (UIScrollView *) recognizer.view;
         float scale = aScrollView.zoomScale;
-        scale += 1.0;
-        if(scale > 2.0)
-            scale = 1.0;
         
-        zoomingOn = !zoomingOn;
+        zoomingOn = YES;
+        scale += 1.0;
+        
+        if (scale > 2.0) {
+            scale = 1.0;
+            zoomingOn = NO;
+        }
+        
         if (zoomingOn)
             currentZoomingPage = page;
         
@@ -729,6 +733,8 @@
                                  scrollView.contentSize.height * 0.5 + offsetY);
     
 }
+
+#pragma mark - helper methods
 
 - (void) showLoadingIndicator {
     
