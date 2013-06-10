@@ -897,6 +897,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     // Prepare the data object for the next request
     dataSoFar = nil;
 }
+
 - (BOOL) parseAndAuthorize: (NSArray *) responseDataArray {
     
     if ((responseDataArray) && (responseDataArray.count > 0))
