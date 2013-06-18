@@ -97,7 +97,7 @@
 
 - (void)viewDidLoad
 {
-   
+    
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
     [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
     [self.tableView setSeparatorColor:[UIColor clearColor]];
@@ -117,7 +117,7 @@
     
     
     [super viewDidLoad];
-
+    
     [self setButtonsToToolbar];
     
     //init the array if it is still nullable
@@ -202,7 +202,7 @@
         self.tableView.contentOffset = self.lastScrollPosition;
     }
     
-
+    
     userDidScroll = NO;
     [self.tableView reloadData];
     [self.tableView setNeedsDisplay];
@@ -219,20 +219,22 @@
     {
         if (!isSearching)
         {
-            if (currentModel)
-                [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
-                                                          forBrand:currentModel.brandID
-                                                             Model:currentModel.modelID
-                                                            InCity:[[SharedUser sharedInstance] getUserCityID]
-                                                       tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
-                                                       forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
-            else
-                [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
-                                                          forBrand:-1
-                                                             Model:-1
-                                                            InCity:[[SharedUser sharedInstance] getUserCityID]
-                                                       tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
-                                                       forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+            if (!dataLoadedFromCache) {
+                if (currentModel)
+                    [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
+                                                              forBrand:currentModel.brandID
+                                                                 Model:currentModel.modelID
+                                                                InCity:[[SharedUser sharedInstance] getUserCityID]
+                                                           tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
+                                                           forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+                else
+                    [[CarAdsManager sharedInstance] cacheDataFromArray:carAdsArray
+                                                              forBrand:-1
+                                                                 Model:-1
+                                                                InCity:[[SharedUser sharedInstance] getUserCityID]
+                                                           tillPageNum:[[CarAdsManager sharedInstance] getCurrentPageNum]
+                                                           forPageSize: [[CarAdsManager sharedInstance] getCurrentPageSize]];
+            }
         }
     }
     [self.searchImageButton setHidden:YES];
@@ -252,30 +254,30 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     /*
-    CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
-    //ad with image
-    int separatorHeight = 5;//extra value for separating
-    if (carAdObject.thumbnailURL)
-    {
-        //store ad - with image
-        if (carAdObject.storeID > 0)
-            return 270 + separatorHeight;
-        
-        //individual ad - with image
-        else
-            return 270 + separatorHeight;
-        
-    }
-    //ad with no image
-    else
-    {
-        //store ad - no image
-        if (carAdObject.storeID > 0)
-            return 150 + separatorHeight;
-        //individual - no image
-        else
-            return 110 + separatorHeight;
-    }
+     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+     //ad with image
+     int separatorHeight = 5;//extra value for separating
+     if (carAdObject.thumbnailURL)
+     {
+     //store ad - with image
+     if (carAdObject.storeID > 0)
+     return 270 + separatorHeight;
+     
+     //individual ad - with image
+     else
+     return 270 + separatorHeight;
+     
+     }
+     //ad with no image
+     else
+     {
+     //store ad - no image
+     if (carAdObject.storeID > 0)
+     return 150 + separatorHeight;
+     //individual - no image
+     else
+     return 110 + separatorHeight;
+     }
      */
     
     if (rowHeightsArray && rowHeightsArray.count)
@@ -331,7 +333,7 @@
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell.storeHeaderImg setImage:[UIImage imageNamed:@"Listing3_top_bg.png"]];
-           // cell.storeHeaderImg.frame = CGRectMake(-1, 4, 324, 61);
+            // cell.storeHeaderImg.frame = CGRectMake(-1, 4, 324, 61);
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
@@ -494,7 +496,7 @@
             
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+            
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
@@ -621,7 +623,7 @@
             CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdWithStoreNoImageCell"];
             if (!cell)
                 cell = (CarAdWithStoreNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreNoImageCell" owner:self options:nil] objectAtIndex:0];
-                
+            
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
@@ -1167,8 +1169,8 @@
     vc.currentAdHasImages = NO;
     if (carAdObject.thumbnailURL)
         vc.currentAdHasImages = YES;
-   // vc.parentNewCarVC = self;
-
+    // vc.parentNewCarVC = self;
+    
     //set the ad ID according to indexPath
     
     [self presentViewController:vc animated:YES completion:nil];
@@ -1461,7 +1463,7 @@
                          if (finished)
                          {
                              [self.searchPanelView setHidden:YES];
-                         }                         
+                         }
                          
                      }];
     
@@ -1546,53 +1548,53 @@
     [self.higherPriceText resignFirstResponder];
     
     /*
-    BOOL validYears ;
-    //1- validate year values
-    if (( ([fromYearString isEqualToString:@""])
-         && (![toYearString isEqualToString:@""]))
-        ||
-        ( (![fromYearString isEqualToString:@""])
-         && ([toYearString isEqualToString:@""])) )
-        validYears = NO;
-    else
-    {
-        validYears = [self validateStringYearsFrom:fromYearString To:toYearString];
-    }
-    
-    if (!validYears)
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيم سنوات صحيحة" delegateVC:self];
-        return;
-    }
+     BOOL validYears ;
+     //1- validate year values
+     if (( ([fromYearString isEqualToString:@""])
+     && (![toYearString isEqualToString:@""]))
+     ||
+     ( (![fromYearString isEqualToString:@""])
+     && ([toYearString isEqualToString:@""])) )
+     validYears = NO;
+     else
+     {
+     validYears = [self validateStringYearsFrom:fromYearString To:toYearString];
+     }
+     
+     if (!validYears)
+     {
+     [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيم سنوات صحيحة" delegateVC:self];
+     return;
+     }
      */
     
     /*
-    NSInteger from = self.lowerPriceText.text.integerValue;
-    NSInteger to = self.higherPriceText.text.integerValue;
-    
-    
-    BOOL validPrice = YES;
-    //2- validate price values
-    if (( ([self.lowerPriceText.text isEqualToString:@""])
-         && (![self.higherPriceText.text isEqualToString:@""]))
-        ||
-        ( (![self.lowerPriceText.text isEqualToString:@""])
-         && ([self.higherPriceText.text isEqualToString:@""])) )
-        validPrice = NO;
-    
-    else if ((![self.lowerPriceText.text isEqualToString:@""])
-             && (![self.higherPriceText.text isEqualToString:@""]))
-    {
-        
-        validPrice = [self validatePriceFrom:from to:to];
-    }
-    
-    if (!validPrice)
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيم سعر صحيحة" delegateVC:self];
-        return;
-    }
-    */
+     NSInteger from = self.lowerPriceText.text.integerValue;
+     NSInteger to = self.higherPriceText.text.integerValue;
+     
+     
+     BOOL validPrice = YES;
+     //2- validate price values
+     if (( ([self.lowerPriceText.text isEqualToString:@""])
+     && (![self.higherPriceText.text isEqualToString:@""]))
+     ||
+     ( (![self.lowerPriceText.text isEqualToString:@""])
+     && ([self.higherPriceText.text isEqualToString:@""])) )
+     validPrice = NO;
+     
+     else if ((![self.lowerPriceText.text isEqualToString:@""])
+     && (![self.higherPriceText.text isEqualToString:@""]))
+     {
+     
+     validPrice = [self validatePriceFrom:from to:to];
+     }
+     
+     if (!validPrice)
+     {
+     [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيم سعر صحيحة" delegateVC:self];
+     return;
+     }
+     */
     
     
     if ([self.lowerPriceText.text isEqualToString:@""])
@@ -1844,11 +1846,11 @@
     [self.tableView reloadData];
     //self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
     /*
-    if ([carAdsArray count] <= 10 && [carAdsArray count] != 0) {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        [self.tableView setContentOffset:CGPointZero animated:YES];
-    }
-    */
+     if ([carAdsArray count] <= 10 && [carAdsArray count] != 0) {
+     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+     [self.tableView setContentOffset:CGPointZero animated:YES];
+     }
+     */
     
     
 }

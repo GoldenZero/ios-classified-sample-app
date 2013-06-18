@@ -554,6 +554,34 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- get cache file path
     NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
     
+    //check if the file expiration date
+    NSFileManager* fm = [NSFileManager defaultManager];
+    NSDictionary* attrs = [fm attributesOfItemAtPath:cacheFilePath error:nil];
+    
+    if (attrs) {
+        
+        NSDate * today = [NSDate date];
+        //NSDate * fileCreationDate = (NSDate*)[attrs objectForKey: NSFileCreationDate];
+        NSDate * fileModificationDate = [attrs fileModificationDate];
+        
+        NSInteger minutesDiff = [GenericMethods dateDifferenceInMinutesFrom:fileModificationDate To:today];
+        
+        /*
+        NSLog(@"File last modified on: %@", fileModificationDate);
+        NSLog(@"today is: %@", today);
+        NSLog(@"difference in minutes is: %i", minutesDiff);
+        */
+        
+        if (minutesDiff > 10) {
+            NSError *error;
+            if ([fm removeItemAtPath:cacheFilePath error:&error] == YES)
+                //NSLog(@"File exceeded expiration limit, file has been deleted");
+            
+            return nil;
+        }
+    
+    }
+    
     NSData *archiveData = [NSData dataWithContentsOfFile:cacheFilePath];
     if (!archiveData)
         return nil;

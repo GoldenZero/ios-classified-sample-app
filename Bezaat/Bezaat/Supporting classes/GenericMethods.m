@@ -584,4 +584,13 @@ static NSString * documentsDirectoryPath;
     return CGSizeMake(imageWidth, imageHeight);
 }
 
++ (NSInteger) dateDifferenceInMinutesFrom:(NSDate *) dateFrom To:(NSDate *) dateTo {
+    
+    NSTimeInterval distanceBetweenDates = [dateTo timeIntervalSinceDate:dateFrom];
+    
+    double minutesInAnHour = 60;
+    NSInteger minutesBetweenDates = distanceBetweenDates / minutesInAnHour;
+    
+    return minutesBetweenDates;
+}
 @end

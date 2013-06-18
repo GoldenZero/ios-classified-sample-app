@@ -53,4 +53,7 @@
 
 // This method calculates the desired frame size of image view according to content mode fit
 + (CGSize) size: (CGSize) originalSize constrainedToSize: (CGSize) constraint;
+
+// This method gets date difference in minutes
++ (NSInteger) dateDifferenceInMinutesFrom:(NSDate *) dateFrom To:(NSDate *) dateTo ;
 @end
