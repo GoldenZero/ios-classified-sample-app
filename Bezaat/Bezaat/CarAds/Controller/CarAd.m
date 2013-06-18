@@ -72,8 +72,12 @@ countryID:(NSString*)aCountryID
         // thumbnailURL
         if ([aThumbnailURLString isEqualToString:@""])
             self.thumbnailURL = nil;
-        else
-            self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
+        else {
+            NSString * newUrlString = [aThumbnailURLString stringByReplacingOccurrencesOfString:@"http://content.bezaat.com" withString:@"http://content.bezaat.com.s3-external-3.amazonaws.com"];
+            
+            //self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
+            self.thumbnailURL = [NSURL URLWithString:newUrlString];
+        }
         
         // title
         self.title = aTitle;
@@ -183,8 +187,11 @@ ninty8:(NSString*)aninty8
         // thumbnailURL
         if ([aThumbnailURLString isEqualToString:@""])
             self.thumbnailURL = nil;
-        else
-            self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
+        else {
+            NSString * newUrlString = [aThumbnailURLString stringByReplacingOccurrencesOfString:@"http://content.bezaat.com" withString:@"http://content.bezaat.com.s3-external-3.amazonaws.com"];
+            //self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
+            self.thumbnailURL = [NSURL URLWithString:newUrlString];
+        }
         
     }
     return self;
@@ -276,8 +283,12 @@ ninty8:(NSString*)aninty8
         // thumbnailURL
         if ([aThumbnailURLString isEqualToString:@""])
             self.thumbnailURL = nil;
-        else
-            self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
+        else {
+            NSString * newUrlString = [aThumbnailURLString stringByReplacingOccurrencesOfString:@"http://content.bezaat.com" withString:@"http://content.bezaat.com.s3-external-3.amazonaws.com"];
+            
+            //self.thumbnailURL = [NSURL URLWithString:aThumbnailURLString];
+            self.thumbnailURL = [NSURL URLWithString:newUrlString];
+        }
         
     }
     return self;
@@ -289,7 +300,11 @@ ninty8:(NSString*)aninty8
     self = [super init];
     if (self) {
         self.thumbnailID = aImageID;
-        self.ImageURL = aImageURL;
+        
+        NSString * newImageUrl = [aImageURL stringByReplacingOccurrencesOfString:@"http://content.bezaat.com" withString:@"http://content.bezaat.com.s3-external-3.amazonaws.com"];
+        
+        //self.ImageURL = aImageURL;
+        self.ImageURL = newImageUrl;
     }
     return self;
 }

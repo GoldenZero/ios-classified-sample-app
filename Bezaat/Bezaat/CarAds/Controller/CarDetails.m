@@ -60,8 +60,12 @@
         // imageURL
         if ([aImageURLString isEqualToString:@""])
             self.imageURL = nil;
-        else
-            self.imageURL = [NSURL URLWithString:aImageURLString];
+        else {
+            NSString * newUrl = [aImageURLString stringByReplacingOccurrencesOfString:@"http://content.bezaat.com" withString:@"http://content.bezaat.com.s3-external-3.amazonaws.com"];
+            
+            //self.imageURL = [NSURL URLWithString:aImageURLString];
+            self.imageURL = [NSURL URLWithString:newUrl];
+        }
         
         // thumbnailID
         self.thumbnailID = aThumbnailIDString.integerValue;
@@ -69,8 +73,12 @@
         // thumbnailImageURL
         if ([aThumbnailImageURLString isEqualToString:@""])
             self.thumbnailImageURL = nil;
-        else
-            self.thumbnailImageURL = [NSURL URLWithString:aThumbnailImageURLString];
+        else {
+            NSString * newThumbUrl = [aThumbnailImageURLString stringByReplacingOccurrencesOfString:@"http://content.bezaat.com" withString:@"http://content.bezaat.com.s3-external-3.amazonaws.com"];
+            
+            //self.thumbnailImageURL = [NSURL URLWithString:aThumbnailImageURLString];
+            self.thumbnailImageURL = [NSURL URLWithString:newThumbUrl];
+        }
     }
     return self;
 }
