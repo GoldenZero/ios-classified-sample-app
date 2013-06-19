@@ -112,9 +112,6 @@
 
 - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:error.localizedDescription delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-    [alert show];
-    
     [_locationManager stopUpdatingLocation];
     
     [LocationManager sharedInstance].deviceLocationCountryCode = @"2";
