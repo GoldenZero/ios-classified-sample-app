@@ -1820,6 +1820,7 @@
     //2- append the newly loaded ads
     if (resultArray && resultArray.count)
     {
+        NSMutableArray * URLsToPrefetch = [NSMutableArray new];
         [self.nocarImg setHidden:YES];
         [self.tableContainer setHidden:NO];
         for (CarAd * newAd in resultArray)
@@ -1827,7 +1828,12 @@
             NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:newAd.adID inArray:carAdsArray];
             if (index == -1)
                 [carAdsArray addObject:newAd];
+            
+            if (newAd.thumbnailURL)
+                [URLsToPrefetch addObject:[NSURL URLWithString:newAd.thumbnailURL.absoluteString]];
         }
+        
+        [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:URLsToPrefetch];
     }
     else
     {

@@ -8,6 +8,7 @@
 //
 
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/SDWebImagePrefetcher.h>
 #import "CarAdDetailsViewController.h"
 #import "labelAdViewController.h"
 #import "EditCarAdViewController.h"
@@ -1108,6 +1109,19 @@
     //3- display data
     if (currentDetailsObject)
     {
+        NSMutableArray * URLsToPrefetch = [NSMutableArray new];
+        for (int i=0; i < currentDetailsObject.adImages.count; i++) {
+            //1- add images in horizontal scroll view
+            NSURL * imgThumbURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
+            
+            if (imgThumbURL)
+                [URLsToPrefetch addObject:[NSURL URLWithString:imgThumbURL.absoluteString]];
+        }
+        SDWebImagePrefetcher * prefetcher = [[SDWebImagePrefetcher alloc] init];
+        [prefetcher prefetchURLs:URLsToPrefetch];
+        
+        
+        
         [self.detailsLabel setBackgroundColor:[UIColor clearColor]];
         [self.detailsLabel setText:currentDetailsObject.title];
         [self.detailsLabel setTextAlignment:SSTextAlignmentRight];

@@ -9,6 +9,7 @@
 
 #import <UIKit/UIKit.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/SDWebImagePrefetcher.h>
 #import "CarAdCell.h"
 #import "CarAdNoImageCell.h"
 #import "CarAdWithStoreCell.h"
