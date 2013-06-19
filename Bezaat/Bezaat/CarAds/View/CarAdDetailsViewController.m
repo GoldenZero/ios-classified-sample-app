@@ -7,6 +7,7 @@
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "CarAdDetailsViewController.h"
 #import "labelAdViewController.h"
 #import "EditCarAdViewController.h"
@@ -176,9 +177,12 @@
 #pragma mark - custom acions
 - (UIView *) prepareImge : (NSURL*) imageURL : (int) i{
     CGRect frame;
-    frame.origin.x=self.scrollView.frame.size.width*i;
+    frame.origin.x=self.scrollView.frame.size.width*i + 20;
     frame.origin.y=0;
     frame.size=self.scrollView.frame.size;
+    
+    //update by roula 18-6-2013:
+    frame.size.width = frame.size.width - 40;
     UIView *subView=[[UIView alloc]initWithFrame:frame];
     [subView setBackgroundColor:[UIColor clearColor]];
     
@@ -193,7 +197,8 @@
      imageView.image=image;
      */
     
-    HJManagedImageV * imageView = [[HJManagedImageV alloc] init];
+    //HJManagedImageV * imageView = [[HJManagedImageV alloc] init];
+    UIImageView * imageView = [[UIImageView alloc] init];
     CGRect imageFrame;
     imageFrame.origin.x=0;
     imageFrame.origin.y=0;
@@ -201,7 +206,8 @@
     imageFrame.size.height=frame.size.height;
     imageView.frame=imageFrame;
     
-    [imageView clear];
+    //[imageView clear];
+    [imageView setBackgroundColor:[UIColor clearColor]];
     
     //UIControl *mask = [[UIControl alloc] initWithFrame:imageView.frame];
     //[mask addTarget:self action:@selector(openImgs:) forControlEvents:UIControlEventTouchUpInside];
@@ -210,11 +216,27 @@
     
     if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
         imageView.image = [UIImage imageNamed:@"waitForApprove.png"];
-    }else{
+    }else {
+        /*
         imageView.url = imageURL;
         [imageView showLoadingWheel];
         [asynchImgManager manage:imageView];
+        */
         
+        //update by roula 18-6-2013:
+        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        
+        
+        activityIndicator.hidesWhenStopped = YES;
+        activityIndicator.hidden = NO;
+        activityIndicator.center = CGPointMake(imageView.frame.size.width /2, imageView.frame.size.height/2);
+        
+        [imageView addSubview:activityIndicator];
+        
+        [activityIndicator startAnimating];
+        [imageView setImageWithURL:imageURL
+                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {  [activityIndicator stopAnimating];
+                             [activityIndicator removeFromSuperview];}];
     }
     
     /*
