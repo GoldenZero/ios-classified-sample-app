@@ -29,7 +29,7 @@
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
     AURosetteView *shareButton;
     UITapGestureRecognizer *tap;
-    NSMutableDictionary * allImagesDict;    //used in image browser
+    //NSMutableDictionary * allImagesDict;    //used in image browser
     UILabel * label;
     StoreManager *advFeatureManager;
     BOOL viewIsShown;
@@ -787,15 +787,18 @@
             
             [self.scrollView setUserInteractionEnabled:YES];
             
-            allImagesDict = [NSMutableDictionary new];
+            //allImagesDict = [NSMutableDictionary new];
             for (int i=0; i < currentDetailsObject.adImages.count; i++) {
+                
                 //1- add images in horizontal scroll view
                 NSURL * imgThumbURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
                 [self.scrollView addSubview:[self prepareImge:imgThumbURL :i]];
                 
+                /*
                 NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
                 //2- init the dictionary for the image browser
                 [allImagesDict setObject:imgURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
+                 */
             }
             
             [self.scrollView setScrollEnabled:YES];

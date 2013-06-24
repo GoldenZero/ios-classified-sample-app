@@ -114,7 +114,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     //3- set the url string
     NSString * fullURLString = [NSString stringWithFormat:details_url, adID];
-                                
+    
+    //NSString * fullURLString = @"http://gfctest.edanat.com/v1.1/json/ad-details?adId=5030074";
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     //NSLog(@"%@", correctURLstring);
