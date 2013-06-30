@@ -836,7 +836,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
                     CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
                     [error setDescMessage:@"تعذر تسجيل الدخول"];
                     
-                    [self.updateDelegate userFailUpdateWithError:error];
+                    [self.RegisterDelegate userFailRegisterWithError:error];
                 }
             }
             else    //data is nil for some reason
