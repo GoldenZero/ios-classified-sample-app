@@ -29,6 +29,7 @@
 @property (strong, nonatomic) IBOutlet UIView *menuView;
 @property (strong, nonatomic) IBOutlet UIView *content;
 @property (strong, nonatomic) IBOutlet UIButton *countryBtn;
+@property (strong, nonatomic) IBOutlet UIButton *exihibiButton;
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender;
@@ -36,5 +37,6 @@
 - (IBAction)AddNewStoreBtnPressed:(id)sender;
 - (IBAction)sideMenuBtnPressed:(id)sender;
 - (IBAction)countryBtnPrss:(id)sender;
+- (IBAction)exhibitBtnPrss:(id)sender;
 
 @end

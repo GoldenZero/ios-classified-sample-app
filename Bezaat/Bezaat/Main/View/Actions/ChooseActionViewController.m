@@ -20,6 +20,7 @@
 #import "AddNewStoreViewController.h"
 #import "BrowseStoresViewController.h"
 #import "AboutAppViewController.h"
+#import "ExhibitViewController.h"
 
 @interface ChooseActionViewController (){
     NSArray *menuArray;
@@ -43,7 +44,7 @@
 @end
 
 @implementation ChooseActionViewController
-@synthesize AddCarButton,AddStoreButton,BuyCarButton,toolBar;
+@synthesize AddCarButton,AddStoreButton,BuyCarButton,toolBar,exihibiButton;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -70,8 +71,11 @@
     
     if (savedProfile.hasStores) {
         if ([[UIScreen mainScreen] bounds].size.height == 568){
-            AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 30, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 78);
+            AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
             [AddStoreButton setImage:[UIImage imageNamed:@"iphone5_managestore.png"] forState:UIControlStateNormal];
+            
+            exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
+            [exihibiButton setImage:[UIImage imageNamed:@"ExhibitionsMenu.png"] forState:UIControlStateNormal];
             
             BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
             [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
@@ -80,9 +84,10 @@
             [AddCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
         }else
         {
-            AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 12, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
+            AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x+2, AddStoreButton.frame.origin.y +7, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
             [AddStoreButton setImage:[UIImage imageNamed:@"managestore.png"] forState:UIControlStateNormal];
             
+            exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x +2, exihibiButton.frame.origin.y +7, exihibiButton.frame.size.width, exihibiButton.frame.size.height);
             BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x + 2, BuyCarButton.frame.origin.y + 7, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height);
             
             AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x - 1, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
@@ -92,8 +97,12 @@
     }else {
     
     if ([[UIScreen mainScreen] bounds].size.height == 568){
-        AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 30, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 78);
-        [AddStoreButton setImage:[UIImage imageNamed:@"iphone5_openstore.png"] forState:UIControlStateNormal];
+        AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
+        [AddStoreButton setImage:[UIImage imageNamed:@"Open_store.png"] forState:UIControlStateNormal];
+        
+        exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
+        [exihibiButton setImage:[UIImage imageNamed:@"ExhibitionsMenu.png"] forState:UIControlStateNormal];
+
         
         BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
         [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
@@ -102,7 +111,9 @@
         [AddCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
     }else
     {
-        AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 12, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
+        AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 7, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
+        
+        exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y + 7, exihibiButton.frame.size.width, exihibiButton.frame.size.height);
         
         BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x + 2, BuyCarButton.frame.origin.y + 7, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height);
         
@@ -261,6 +272,11 @@
     
 }
 
+- (IBAction)exhibitBtnPrss:(id)sender {
+    ExhibitViewController *exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
+    [self presentViewController:exVC animated:YES completion:nil];
+}
+
 - (void) prepareImages {
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 }
@@ -311,7 +327,7 @@
     NSString *menuPlistPath = [[NSBundle mainBundle] pathForResource:@"HomeScreenChoices" ofType:@"plist"];
     
     menuArray = [[NSArray alloc] initWithContentsOfFile:menuPlistPath];
-    iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png",@"Menu_icon_10.png",@"Menu_icon_11.png", nil];
+    iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png",@"Menu_icon_10.png",@"Menu_icon_11.png",@"Menu_icon_12.png", nil];
 
      UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
 
@@ -322,13 +338,16 @@
         [custoMenuArray addObject:[menuArray objectAtIndex:1]];
         [custoMenuArray addObject:[menuArray objectAtIndex:2]];
         [custoMenuArray addObject:[menuArray objectAtIndex:4]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:7]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:5]];
+
         [custoMenuArray addObject:[menuArray objectAtIndex:8]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:10]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:9]];
+        [custoMenuArray addObject:[menuArray objectAtIndex:11]];
         
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
+        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:11]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:10]];
@@ -341,14 +360,18 @@
             [custoMenuArray addObject:[menuArray objectAtIndex:2]];
             [custoMenuArray addObject:[menuArray objectAtIndex:3]];
             [custoMenuArray addObject:[menuArray objectAtIndex:4]];
-            [custoMenuArray addObject:[menuArray objectAtIndex:7]];
-            [custoMenuArray addObject:[menuArray objectAtIndex:9]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:5]];
+
+            [custoMenuArray addObject:[menuArray objectAtIndex:8]];
             [custoMenuArray addObject:[menuArray objectAtIndex:10]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:11]];
             
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:4]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:11]];
+
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:9]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:10]];
@@ -360,14 +383,18 @@
             [custoMenuArray addObject:[menuArray objectAtIndex:1]];
             [custoMenuArray addObject:[menuArray objectAtIndex:2]];
             [custoMenuArray addObject:[menuArray objectAtIndex:4]];
-            [custoMenuArray addObject:[menuArray objectAtIndex:7]];
-            [custoMenuArray addObject:[menuArray objectAtIndex:9]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:5]];
+
+            [custoMenuArray addObject:[menuArray objectAtIndex:8]];
             [custoMenuArray addObject:[menuArray objectAtIndex:10]];
+            [custoMenuArray addObject:[menuArray objectAtIndex:11]];
         
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:0]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:4]];
+            [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:11]];
+
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:9]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:10]];
@@ -439,10 +466,9 @@
             }
             case 5:
             {
-                // TODO CODE
-                //_____________________
-                // Notifications view
-                //_____________________
+                 [self hideMenu];
+                ExhibitViewController *exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
+                [self presentViewController:exVC animated:YES completion:nil];
 
                 break;
             }
@@ -455,7 +481,7 @@
 
                 break;
             }
-            case 7:
+            case 8:
             {
                 if (!savedProfile) {
                     [self hideMenu];
@@ -470,7 +496,7 @@
 
                 break;
             }
-            case 8:
+            case 9:
             {
                 [self hideMenu];
                 if ([[UIScreen mainScreen] bounds].size.height == 568){
@@ -483,12 +509,12 @@
 
                 break;
             }
-            case 9:
+            case 10:
             {
                 [self logout];
                 break;
             }
-            case 10:
+            case 11:
             {
                 [self hideMenu];
                 AboutAppViewController *vc=[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController" bundle:nil];
