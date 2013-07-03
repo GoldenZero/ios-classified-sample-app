@@ -432,6 +432,12 @@
 		24F6D958178414EB00992760 /* ExhibitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24F6D956178414EB00992760 /* ExhibitViewController.xib */; };
 		24F6D95A178415A600992760 /* Menu_icon_12@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F6D959178415A600992760 /* Menu_icon_12@2X.png */; };
 		24F6D95C178415BA00992760 /* Menu_icon_12.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F6D95B178415BA00992760 /* Menu_icon_12.png */; };
+		24F6D95F178426BA00992760 /* exhibitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 24F6D95E178426B900992760 /* exhibitCell.m */; };
+		24F6D961178426CC00992760 /* exhibitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 24F6D960178426CC00992760 /* exhibitCell.xib */; };
+		24F6D9641784286400992760 /* Phonenum_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F6D9631784286400992760 /* Phonenum_box.png */; };
+		24F6D9661784287200992760 /* Phonenum_box@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F6D9651784287200992760 /* Phonenum_box@2X.png */; };
+		24F6D96A1784387C00992760 /* CarsGallery.m in Sources */ = {isa = PBXBuildFile; fileRef = 24F6D9691784387C00992760 /* CarsGallery.m */; };
+		24F6D96D178441A600992760 /* gallariesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 24F6D96C178441A600992760 /* gallariesManager.m */; };
 		61201C4D171EF7F700B809C2 /* AddNewStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61201C4B171EF7F700B809C2 /* AddNewStoreViewController.m */; };
 		61201C4E171EF7F700B809C2 /* AddNewStoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61201C4C171EF7F700B809C2 /* AddNewStoreViewController.xib */; };
 		61201C52171EF83F00B809C2 /* BrowseStoresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61201C50171EF83F00B809C2 /* BrowseStoresViewController.m */; };
@@ -1512,6 +1518,15 @@
 		24F6D956178414EB00992760 /* ExhibitViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExhibitViewController.xib; sourceTree = "<group>"; };
 		24F6D959178415A600992760 /* Menu_icon_12@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu_icon_12@2X.png"; sourceTree = "<group>"; };
 		24F6D95B178415BA00992760 /* Menu_icon_12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Menu_icon_12.png; sourceTree = "<group>"; };
+		24F6D95D178426B900992760 /* exhibitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exhibitCell.h; sourceTree = "<group>"; };
+		24F6D95E178426B900992760 /* exhibitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = exhibitCell.m; sourceTree = "<group>"; };
+		24F6D960178426CC00992760 /* exhibitCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = exhibitCell.xib; sourceTree = "<group>"; };
+		24F6D9631784286400992760 /* Phonenum_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Phonenum_box.png; sourceTree = "<group>"; };
+		24F6D9651784287200992760 /* Phonenum_box@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Phonenum_box@2X.png"; sourceTree = "<group>"; };
+		24F6D9681784387C00992760 /* CarsGallery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CarsGallery.h; path = Gallery/CarsGallery.h; sourceTree = "<group>"; };
+		24F6D9691784387C00992760 /* CarsGallery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CarsGallery.m; path = Gallery/CarsGallery.m; sourceTree = "<group>"; };
+		24F6D96B178441A600992760 /* gallariesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gallariesManager.h; path = Gallery/gallariesManager.h; sourceTree = "<group>"; };
+		24F6D96C178441A600992760 /* gallariesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = gallariesManager.m; path = Gallery/gallariesManager.m; sourceTree = "<group>"; };
 		61201C4A171EF7F700B809C2 /* AddNewStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewStoreViewController.h; sourceTree = "<group>"; };
 		61201C4B171EF7F700B809C2 /* AddNewStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewStoreViewController.m; sourceTree = "<group>"; };
 		61201C4C171EF7F700B809C2 /* AddNewStoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddNewStoreViewController.xib; sourceTree = "<group>"; };
@@ -2881,6 +2896,26 @@
 			path = featuresAd_steps;
 			sourceTree = "<group>";
 		};
+		24F6D9621784284B00992760 /* exhibit_sliced */ = {
+			isa = PBXGroup;
+			children = (
+				24F6D9631784286400992760 /* Phonenum_box.png */,
+				24F6D9651784287200992760 /* Phonenum_box@2X.png */,
+			);
+			name = exhibit_sliced;
+			sourceTree = "<group>";
+		};
+		24F6D9671784380B00992760 /* Gallery */ = {
+			isa = PBXGroup;
+			children = (
+				24F6D9681784387C00992760 /* CarsGallery.h */,
+				24F6D9691784387C00992760 /* CarsGallery.m */,
+				24F6D96B178441A600992760 /* gallariesManager.h */,
+				24F6D96C178441A600992760 /* gallariesManager.m */,
+			);
+			name = Gallery;
+			sourceTree = "<group>";
+		};
 		613522A51725DEC600011D7D /* AddStore */ = {
 			isa = PBXGroup;
 			children = (
@@ -3852,6 +3887,7 @@
 		9E78A7DD16E34CE9000CA790 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				24F6D9671784380B00992760 /* Gallery */,
 				9EFA092C17003FAF00696B2C /* Brands and models */,
 				9E9F0A0A16E75E3B000E8471 /* Locations */,
 				9E9F0A0B16E75E3B000E8471 /* User Profile */,
@@ -3921,6 +3957,9 @@
 				24F6D954178414EB00992760 /* ExhibitViewController.h */,
 				24F6D955178414EB00992760 /* ExhibitViewController.m */,
 				24F6D956178414EB00992760 /* ExhibitViewController.xib */,
+				24F6D95D178426B900992760 /* exhibitCell.h */,
+				24F6D95E178426B900992760 /* exhibitCell.m */,
+				24F6D960178426CC00992760 /* exhibitCell.xib */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -4000,6 +4039,7 @@
 		9E9F082F16E4AFCF000E8471 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				24F6D9621784284B00992760 /* exhibit_sliced */,
 				840A21461740AF2C00ACB950 /* list_remove.png */,
 				8493D41A17426C69000EA9E2 /* list_remove@2x.png */,
 				84BD4151173BEF6E0085DC9C /* Clipboard Copy.png */,
@@ -5177,6 +5217,9 @@
 				24F6D958178414EB00992760 /* ExhibitViewController.xib in Resources */,
 				24F6D95A178415A600992760 /* Menu_icon_12@2X.png in Resources */,
 				24F6D95C178415BA00992760 /* Menu_icon_12.png in Resources */,
+				24F6D961178426CC00992760 /* exhibitCell.xib in Resources */,
+				24F6D9641784286400992760 /* Phonenum_box.png in Resources */,
+				24F6D9661784287200992760 /* Phonenum_box@2X.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5304,6 +5347,9 @@
 				9E1A1E97174917E800E00B26 /* FBPhotoBrowserViewController.m in Sources */,
 				8460C3CC174A4602006ABE3B /* SendEmailViewController.m in Sources */,
 				24F6D957178414EB00992760 /* ExhibitViewController.m in Sources */,
+				24F6D95F178426BA00992760 /* exhibitCell.m in Sources */,
+				24F6D96A1784387C00992760 /* CarsGallery.m in Sources */,
+				24F6D96D178441A600992760 /* gallariesManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
