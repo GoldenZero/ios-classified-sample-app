@@ -11,6 +11,7 @@
 #import "MBProgressHUD2.h"
 #import "CarsGallery.h"
 #import "gallariesManager.h"
+#import "CarsInGalleryViewController.h"
 
 @interface ExhibitViewController (){
     NSArray *galleriesArray;
@@ -54,7 +55,26 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void) callNumber{
+- (void) callNumber:(id)sender event:(id)event {
+    //get the tapping position on table to determine the tapped cell
+    
+    NSSet *touches = [event allTouches];
+    
+    UITouch *touch = [touches anyObject];
+    
+    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
+    
+    
+    
+    //get the cell index path
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
+    
+    if (indexPath != nil) {
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreContactNo]]]];
+        
+    }
     
 }
 
@@ -69,7 +89,7 @@
         cell=[[exhibitCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    [cell.numberButton addTarget:self action:@selector(callNumber) forControlEvents:UIControlEventTouchUpInside];
+    [cell.numberButton addTarget:self action:@selector(callNumber:event:) forControlEvents:UIControlEventTouchUpInside];
     NSInteger *temp =[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreContactNo] ;
     [cell.numberLabel setText:[NSString stringWithFormat:@"%d",temp]];
     cell.exhibNameLabel.text=[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreName] ;
@@ -92,7 +112,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    CarsInGalleryViewController *vc=[[CarsInGalleryViewController alloc] initWithNibName:@"CarsInGalleryViewController" bundle:nil];
+    vc.gallery=(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row];
 }
 
 #pragma mark - gallaries manager delegate 
