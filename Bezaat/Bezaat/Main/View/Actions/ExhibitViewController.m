@@ -8,8 +8,15 @@
 
 #import "ExhibitViewController.h"
 #import "exhibitCell.h"
+#import "MBProgressHUD2.h"
+#import "CarsGallery.h"
+#import "gallariesManager.h"
 
-@interface ExhibitViewController ()
+@interface ExhibitViewController (){
+    NSArray *galleriesArray;
+    MBProgressHUD2 * loadingHUD;
+    gallariesManager *manager;
+}
 
 @end
 
@@ -19,7 +26,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        galleriesArray=[[NSArray alloc] init];
     }
     return self;
 }
@@ -29,7 +36,11 @@
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"exhibitCell" bundle:nil]
          forCellReuseIdentifier:@"CustomCell"];
-    // Do any additional setup after loading the view from its nib.
+    manager=[gallariesManager sharedInstance];
+    manager.countryID=self.countryID;
+    [self showLoadingIndicator];
+    [self loadData];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,13 +70,21 @@
     }
     
     [cell.numberButton addTarget:self action:@selector(callNumber) forControlEvents:UIControlEventTouchUpInside];
+    NSInteger *temp =[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreContactNo] ;
+    [cell.numberLabel setText:[NSString stringWithFormat:@"%d",temp]];
+    cell.exhibNameLabel.text=[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreName] ;
+    cell.exhibDetailLabel.text=[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreOwnerEmail] ;
+    
+    NSData *data = [NSData dataWithContentsOfURL:[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreImageURL]];
+
+    cell.imageView.image=[UIImage imageWithData:data];
     
     return cell;
     
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2;
+    return [galleriesArray count];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -79,7 +98,36 @@
 #pragma mark - gallaries manager delegate 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
     
+    galleriesArray=resultArray;
+    [self.tableView reloadData];
+    [self hideLoadingIndicator];
+}
+
+- (void) loadData{
+    if (![GenericMethods connectedToInternet])
+    {
+        [manager getGallariesWithDelegate:self];
+        return;
+    }
 
 }
 
+#pragma mark - Loading indicator
+- (void) showLoadingIndicator {
+    
+    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
+    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+    loadingHUD.labelText = @"جاري تحميل البيانات";
+    loadingHUD.detailsLabelText = @"";
+    loadingHUD.dimBackground = YES;
+    
+}
+
+- (void) hideLoadingIndicator {
+    
+    if (loadingHUD)
+        [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
+    loadingHUD = nil;
+    
+}
 @end
