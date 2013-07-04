@@ -15,18 +15,21 @@
 - (void) reloadInformation:(Brand*)brand {
     currentBrand = brand;
     _imgBrand.image = currentBrand.brandImage;
+    _brandNameLabel.text=currentBrand.brandNameAr;
 }
 
 - (void)selectCell {
     _imgSelected.hidden = NO;
     //_imgUnselected.hidden = YES;
     _imgBrand.image = currentBrand.brandInvertedImage;
+    _brandNameLabel.textColor=[UIColor whiteColor];
 }
 
 - (void)unselectCell {
     _imgSelected.hidden = YES;
     //_imgUnselected.hidden = NO;
     _imgBrand.image = currentBrand.brandImage;
+    _brandNameLabel.textColor=[UIColor colorWithRed:(49/255.f) green:(137/255.f) blue:(205/255.f) alpha:1.0];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
