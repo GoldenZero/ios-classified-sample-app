@@ -72,10 +72,10 @@
     if (savedProfile.hasStores) {
         if ([[UIScreen mainScreen] bounds].size.height == 568){
             AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
-            [AddStoreButton setImage:[UIImage imageNamed:@"iphone5_managestore.png"] forState:UIControlStateNormal];
+            [AddStoreButton setImage:[UIImage imageNamed:@"iPhone5_manager.png"] forState:UIControlStateNormal];
             
             exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
-            [exihibiButton setImage:[UIImage imageNamed:@"ExhibitionsMenu.png"] forState:UIControlStateNormal];
+            [exihibiButton setImage:[UIImage imageNamed:@"iPhone5_Exhimenu.png"] forState:UIControlStateNormal];
             
             BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
             [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
@@ -85,7 +85,7 @@
         }else
         {
             AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x+2, AddStoreButton.frame.origin.y +7, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
-            [AddStoreButton setImage:[UIImage imageNamed:@"managestore.png"] forState:UIControlStateNormal];
+            [AddStoreButton setImage:[UIImage imageNamed:@"manage_store.png"] forState:UIControlStateNormal];
             
             exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x +2, exihibiButton.frame.origin.y +7, exihibiButton.frame.size.width, exihibiButton.frame.size.height);
             BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x + 2, BuyCarButton.frame.origin.y + 7, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height);
@@ -98,10 +98,10 @@
     
     if ([[UIScreen mainScreen] bounds].size.height == 568){
         AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
-        [AddStoreButton setImage:[UIImage imageNamed:@"Open_store.png"] forState:UIControlStateNormal];
+        [AddStoreButton setImage:[UIImage imageNamed:@"iPhone5_openStrore.png"] forState:UIControlStateNormal];
         
         exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
-        [exihibiButton setImage:[UIImage imageNamed:@"ExhibitionsMenu.png"] forState:UIControlStateNormal];
+        [exihibiButton setImage:[UIImage imageNamed:@"iPhone5_Exhimenu.png"] forState:UIControlStateNormal];
 
         
         BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
@@ -115,9 +115,9 @@
         
         exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y + 7, exihibiButton.frame.size.width, exihibiButton.frame.size.height);
         
-        BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x + 2, BuyCarButton.frame.origin.y + 7, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height);
+        BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x , BuyCarButton.frame.origin.y + 7, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height);
         
-        AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x - 1, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
+        AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
 
     }
         [[GAI sharedInstance].defaultTracker sendView:@"Home Screen (User)"];
@@ -274,6 +274,7 @@
 
 - (IBAction)exhibitBtnPrss:(id)sender {
     ExhibitViewController *exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
+    exVC.countryID=chosenCountry.countryID;
     [self presentViewController:exVC animated:YES completion:nil];
 }
 
