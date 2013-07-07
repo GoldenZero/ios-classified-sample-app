@@ -261,6 +261,12 @@
     if (currentDetailsObject && currentDetailsObject.adImages && currentDetailsObject.adImages.count) {
         if (!galleryView)
         {
+            //if the image is wait for approval, we don't display the gallery
+            NSString* temp = [currentDetailsObject.thumbnailURL absoluteString];
+            if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
+                return;
+            }
+            
             FBPhotoBrowserViewController * vc = [[FBPhotoBrowserViewController alloc] initWithNibName:@"FBPhotoBrowserViewController" bundle:nil];
             vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
             
@@ -283,6 +289,12 @@
             
             if (!galleryView)
             {
+                //if the image is wait for approval, we don't display the gallery
+                NSString* temp = [currentDetailsObject.thumbnailURL absoluteString];
+                if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
+                    return;
+                }
+                
                 FBPhotoBrowserViewController * vc = [[FBPhotoBrowserViewController alloc] initWithNibName:@"FBPhotoBrowserViewController" bundle:nil];
                 vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
                 
