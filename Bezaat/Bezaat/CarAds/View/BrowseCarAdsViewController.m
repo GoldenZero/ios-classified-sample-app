@@ -59,6 +59,8 @@
     
     BOOL isSearching;
     BOOL userDidScroll;
+    
+    float xForShiftingTinyImg;
 }
 
 @end
@@ -309,6 +311,7 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    xForShiftingTinyImg = 0;
     CarAd * carAdObject;
     if ((carAdsArray) && (carAdsArray.count))
         carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
@@ -349,7 +352,59 @@
             else
                 cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
-            cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            
+            
+            //hiding & shifting
+            if (carAdObject.modelYear > 0)
+                cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            else {
+                xForShiftingTinyImg = cell.yearTinyImg.frame.origin.x;
+                
+                cell.yearLabel.hidden = YES;
+                cell.yearTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.carMileageLabel.frame;
+                CGRect tempImgFrame = cell.carMileageTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.carMileageTinyImg setFrame:tempImgFrame];
+                    [cell.carMileageLabel setFrame:tempLabelFrame];
+                }];
+                
+                xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
+            }
+            
+            //if (carAdObject.distanceRangeInKm != -1)
+            if (carAdObject.distanceRangeInKm != 0)
+                cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+            else {
+                xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
+                
+                cell.carMileageLabel.hidden = YES;
+                cell.carMileageTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.watchingCountsLabel.frame;
+                CGRect tempImgFrame = cell.countOfViewsTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.countOfViewsTinyImg setFrame:tempImgFrame];
+                    [cell.watchingCountsLabel setFrame:tempLabelFrame];
+                }];
+            }
             
             if (carAdObject.viewCount > 0)
                 cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
@@ -358,9 +413,6 @@
                 cell.watchingCountsLabel.text = @"";
                 [cell.countOfViewsTinyImg setHidden:YES];
             }
-            
-            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
-            
             
             
             //load image as URL
@@ -511,7 +563,58 @@
             else
                 cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
-            cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            
+            //hiding & shifting
+            if (carAdObject.modelYear > 0)
+                cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            else {
+                xForShiftingTinyImg = cell.yearTinyImg.frame.origin.x;
+                
+                cell.yearLabel.hidden = YES;
+                cell.yearTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.carMileageLabel.frame;
+                CGRect tempImgFrame = cell.carMileageTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.carMileageTinyImg setFrame:tempImgFrame];
+                    [cell.carMileageLabel setFrame:tempLabelFrame];
+                }];
+                
+                xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
+            }
+            
+            //if (carAdObject.distanceRangeInKm != -1)
+            if (carAdObject.distanceRangeInKm != 0)
+                cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+            else {
+                xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
+                
+                cell.carMileageLabel.hidden = YES;
+                cell.carMileageTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.watchingCountsLabel.frame;
+                CGRect tempImgFrame = cell.countOfViewsTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.countOfViewsTinyImg setFrame:tempImgFrame];
+                    [cell.watchingCountsLabel setFrame:tempLabelFrame];
+                }];
+            }
             
             if (carAdObject.viewCount > 0)
                 cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
@@ -520,8 +623,6 @@
                 cell.watchingCountsLabel.text = @"";
                 [cell.countOfViewsTinyImg setHidden:YES];
             }
-            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
-            
             
             //load image as URL
             /*
@@ -642,7 +743,59 @@
                 cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
-            cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            
+            
+            //hiding & shifting
+            if (carAdObject.modelYear > 0)
+                cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            else {
+                xForShiftingTinyImg = cell.yearTinyImg.frame.origin.x;
+                
+                cell.yearLabel.hidden = YES;
+                cell.yearTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.carMileageLabel.frame;
+                CGRect tempImgFrame = cell.carMileageTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.carMileageTinyImg setFrame:tempImgFrame];
+                    [cell.carMileageLabel setFrame:tempLabelFrame];
+                }];
+                
+                xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
+            }
+            
+            //if (carAdObject.distanceRangeInKm != -1)
+            if (carAdObject.distanceRangeInKm != 0)
+                cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+            else {
+                xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
+                
+                cell.carMileageLabel.hidden = YES;
+                cell.carMileageTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.watchingCountsLabel.frame;
+                CGRect tempImgFrame = cell.countOfViewsTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.countOfViewsTinyImg setFrame:tempImgFrame];
+                    [cell.watchingCountsLabel setFrame:tempLabelFrame];
+                }];
+            }
             
             if (carAdObject.viewCount > 0)
                 cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
@@ -651,8 +804,6 @@
                 cell.watchingCountsLabel.text = @"";
                 [cell.countOfViewsTinyImg setHidden:YES];
             }
-            
-            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
             //customize carAdObject.storeName
             [cell.showInStoreLabel setBackgroundColor:[UIColor clearColor]];
@@ -780,7 +931,60 @@
             else
                 cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
-            cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            
+            
+            //hiding & shifting
+            if (carAdObject.modelYear > 0)
+                cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            else {
+                xForShiftingTinyImg = cell.yearTinyImg.frame.origin.x;
+                
+                cell.yearLabel.hidden = YES;
+                cell.yearTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.carMileageLabel.frame;
+                CGRect tempImgFrame = cell.carMileageTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.carMileageTinyImg setFrame:tempImgFrame];
+                    [cell.carMileageLabel setFrame:tempLabelFrame];
+                }];
+                
+                xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
+            }
+            
+            //if (carAdObject.distanceRangeInKm != -1)
+            if (carAdObject.distanceRangeInKm != 0)
+                cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+            else {
+                xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
+                
+                cell.carMileageLabel.hidden = YES;
+                cell.carMileageTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.watchingCountsLabel.frame;
+                CGRect tempImgFrame = cell.countOfViewsTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.countOfViewsTinyImg setFrame:tempImgFrame];
+                    [cell.watchingCountsLabel setFrame:tempLabelFrame];
+                }];
+            }
+            
             if (carAdObject.viewCount > 0)
                 cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
             else
@@ -788,7 +992,6 @@
                 cell.watchingCountsLabel.text = @"";
                 [cell.countOfViewsTinyImg setHidden:YES];
             }
-            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             
             //
             

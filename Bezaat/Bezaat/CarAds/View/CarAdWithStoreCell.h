@@ -30,6 +30,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *helpButton;
 
 @property (strong, nonatomic) IBOutlet UIButton *favoriteBtn;
+@property (strong, nonatomic) IBOutlet UIImageView *yearTinyImg;
+@property (strong, nonatomic) IBOutlet UIImageView *carMileageTinyImg;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
 @property (strong, nonatomic) IBOutlet UIImageView *storeHeaderImg;
 @end

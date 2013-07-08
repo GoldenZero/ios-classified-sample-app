@@ -536,6 +536,22 @@
 					</object>
 					<int key="connectionID">2061</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">carMileageTinyImg</string>
+						<reference key="source" ref="89862751"/>
+						<reference key="destination" ref="383158490"/>
+					</object>
+					<int key="connectionID">2535</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">yearTinyImg</string>
+						<reference key="source" ref="89862751"/>
+						<reference key="destination" ref="873507132"/>
+					</object>
+					<int key="connectionID">2536</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -2482,7 +2498,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">2534</int>
+			<int key="maxID">2536</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2492,6 +2508,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="addTimeLabel">UILabel</string>
 						<string key="carMileageLabel">UILabel</string>
+						<string key="carMileageTinyImg">UIImageView</string>
 						<string key="carPriceLabel">SSLabel</string>
 						<string key="cellBackgoundImage">UIImageView</string>
 						<string key="countOfViewsTinyImg">UIImageView</string>
@@ -2506,6 +2523,7 @@
 						<string key="storeNameLabel">SSLabel</string>
 						<string key="watchingCountsLabel">UILabel</string>
 						<string key="yearLabel">UILabel</string>
+						<string key="yearTinyImg">UIImageView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="addTimeLabel">
@@ -2515,6 +2533,10 @@
 						<object class="IBToOneOutletInfo" key="carMileageLabel">
 							<string key="name">carMileageLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="carMileageTinyImg">
+							<string key="name">carMileageTinyImg</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="carPriceLabel">
 							<string key="name">carPriceLabel</string>
@@ -2571,6 +2593,10 @@
 						<object class="IBToOneOutletInfo" key="yearLabel">
 							<string key="name">yearLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="yearTinyImg">
+							<string key="name">yearTinyImg</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

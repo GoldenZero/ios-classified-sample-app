@@ -29,5 +29,7 @@
 @property (strong, nonatomic) IBOutlet SSLabel *showInStoreLabel;
 @property (strong, nonatomic) IBOutlet UIButton *favoriteBtn;
 
+@property (strong, nonatomic) IBOutlet UIImageView *yearTinyImg;
+@property (strong, nonatomic) IBOutlet UIImageView *carMileageTinyImg;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
 @end
