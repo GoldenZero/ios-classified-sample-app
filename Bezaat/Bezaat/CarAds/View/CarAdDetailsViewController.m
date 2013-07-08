@@ -35,6 +35,8 @@
     BOOL viewIsShown;
     
     FBPhotoBrowserViewController * galleryView;
+    float xForShiftingTinyImg;
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -106,6 +108,8 @@
     //set the original size of scroll view without loading any labels yet
     originalScrollViewHeight = self.labelsScrollView.frame.size.height;
     galleryView = nil;
+    xForShiftingTinyImg = 0;
+    
     
     [self prepareShareButton];
     
@@ -1156,8 +1160,59 @@
             self.priceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, currentDetailsObject.currencyString];
         
         self.addTimeLabel.text = [[CarDetailsManager sharedInstance] getDateDifferenceStringFromDate:currentDetailsObject.postedOnDate];
-        self.yearMiniLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.modelYear];
-        self.kiloMiniLabel.text = [NSString stringWithFormat:@"%i KM", currentDetailsObject.distanceRangeInKm];
+        
+        if (currentDetailsObject.modelYear > 0)
+            self.yearMiniLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.modelYear];
+        else {
+            xForShiftingTinyImg = self.yearMiniImg.frame.origin.x;
+            
+            self.yearMiniLabel.hidden = YES;
+            self.yearMiniImg.hidden = YES;
+        }
+        
+        
+        if (xForShiftingTinyImg > 0) {
+            CGRect tempLabelFrame = self.kiloMiniLabel.frame;
+            CGRect tempImgFrame = self.kiloMiniImg.frame;
+            
+            
+            tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+            tempImgFrame.origin.x = xForShiftingTinyImg;
+            
+            [UIView animateWithDuration:0.3f animations:^{
+                
+                [self.kiloMiniImg setFrame:tempImgFrame];
+                [self.kiloMiniLabel setFrame:tempLabelFrame];
+            }];
+            
+            xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - self.countOfViewsTinyImg.frame.size.width;
+        }
+        
+        
+        if (currentDetailsObject.distanceRangeInKm != -1)
+            self.kiloMiniLabel.text = [NSString stringWithFormat:@"%i KM", currentDetailsObject.distanceRangeInKm];
+        else {
+            xForShiftingTinyImg = self.kiloMiniImg.frame.origin.x;
+            
+            self.kiloMiniLabel.hidden = YES;
+            self.kiloMiniImg.hidden = YES;
+        }
+        
+        if (xForShiftingTinyImg > 0) {
+            CGRect tempLabelFrame = self.watchingCountLabel.frame;
+            CGRect tempImgFrame = self.countOfViewsTinyImg.frame;
+            
+            
+            tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+            tempImgFrame.origin.x = xForShiftingTinyImg;
+            
+            [UIView animateWithDuration:0.3f animations:^{
+                
+                [self.countOfViewsTinyImg setFrame:tempImgFrame];
+                [self.watchingCountLabel setFrame:tempLabelFrame];
+            }];
+        }
+        
         if (currentDetailsObject.viewCount > 0)
             self.watchingCountLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.viewCount];
         else

@@ -886,6 +886,22 @@
 					<int key="connectionID">954</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">yearMiniImg</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="1044157999"/>
+					</object>
+					<int key="connectionID">955</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">kiloMiniImg</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="363853008"/>
+					</object>
+					<int key="connectionID">956</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">backBtnPrss:</string>
 						<reference key="source" ref="832691083"/>
@@ -1263,7 +1279,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">954</int>
+			<int key="maxID">956</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1331,6 +1347,7 @@
 						<string key="editBtn">UIBarButtonItem</string>
 						<string key="favoriteButton">UIButton</string>
 						<string key="featureBtn">UIBarButtonItem</string>
+						<string key="kiloMiniImg">UIImageView</string>
 						<string key="kiloMiniLabel">UILabel</string>
 						<string key="labelsScrollView">UIScrollView</string>
 						<string key="nameStoreLabel">SSLabel</string>
@@ -1343,6 +1360,7 @@
 						<string key="topMostToolbar">UIToolbar</string>
 						<string key="viewInStoreLabel">SSLabel</string>
 						<string key="watchingCountLabel">UILabel</string>
+						<string key="yearMiniImg">UIImageView</string>
 						<string key="yearMiniLabel">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1410,6 +1428,10 @@
 							<string key="name">featureBtn</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="kiloMiniImg">
+							<string key="name">kiloMiniImg</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="kiloMiniLabel">
 							<string key="name">kiloMiniLabel</string>
 							<string key="candidateClassName">UILabel</string>
@@ -1457,6 +1479,10 @@
 						<object class="IBToOneOutletInfo" key="watchingCountLabel">
 							<string key="name">watchingCountLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="yearMiniImg">
+							<string key="name">yearMiniImg</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="yearMiniLabel">
 							<string key="name">yearMiniLabel</string>

@@ -208,8 +208,19 @@
         // modelYear
         self.modelYear = aModelYearString.integerValue;
         
+        
         // distanceRangeInKm
-        self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
+        //NSLog(@"aDistanceRangeInKmString = %@", aDistanceRangeInKmString);
+        NSString * tempStr = [NSString stringWithFormat:@"%@", aDistanceRangeInKmString];
+        
+        if ( ([[tempStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) ||
+            
+            ([[[tempStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString] isEqualToString:[@"null" lowercaseString]]) ) {
+            
+            self.distanceRangeInKm = -1;
+        }
+        else
+            self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
         
         //EncEditID
         self.EncEditID = aEndEditID;

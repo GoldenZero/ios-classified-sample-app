@@ -67,7 +67,7 @@
 @property (strong, nonatomic) NSString * currencyString;
 @property (strong, nonatomic) NSDate * postedOnDate;
 @property (nonatomic) NSUInteger modelYear;
-@property (nonatomic) NSUInteger distanceRangeInKm;
+@property (nonatomic) NSInteger distanceRangeInKm;
 @property (strong, nonatomic) NSString * EncEditID;
 @property (nonatomic) NSUInteger viewCount;
 @property (nonatomic) BOOL isFavorite;

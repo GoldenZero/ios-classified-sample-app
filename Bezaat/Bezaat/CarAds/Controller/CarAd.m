@@ -96,7 +96,15 @@ countryID:(NSString*)aCountryID
         self.modelYear = aModelYearString.integerValue;
         
         // distanceRangeInKm
-        self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
+        NSString * tempStr = [NSString stringWithFormat:@"%@", aDistanceRangeInKmString];
+        
+        if ( ([[tempStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) ||
+            
+            ([[[tempStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString] isEqualToString:[@"null" lowercaseString]]) ) {
+            self.distanceRangeInKm = -1;
+        }
+        else
+            self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
 
         // viewCount
         self.viewCount = aViewCountString.integerValue;
@@ -161,7 +169,15 @@ ninty8:(NSString*)aninty8
         self.currencyString = aCurrencyString;
         
         // distanceRangeInKm
-        self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
+        NSString * tempStr = [NSString stringWithFormat:@"%@", aDistanceRangeInKmString];
+        
+        if ( ([[tempStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) ||
+            
+            ([[[tempStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString] isEqualToString:[@"null" lowercaseString]]) ) {
+            self.distanceRangeInKm = -1;
+        }
+        else
+            self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
         
         // modelYear
         self.modelYear = aModelYearString.integerValue;
@@ -247,7 +263,15 @@ ninty8:(NSString*)aninty8
         self.currencyString = aCurrencyString;
         
         // distanceRangeInKm
-        self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
+        NSString * tempStr = [NSString stringWithFormat:@"%@", aDistanceRangeInKmString];
+        
+        if ( ([[tempStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) ||
+            
+            ([[[tempStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] lowercaseString] isEqualToString:[@"null" lowercaseString]]) ) {
+            self.distanceRangeInKm = -1;
+        }
+        else
+            self.distanceRangeInKm = aDistanceRangeInKmString.integerValue;
         
         // modelYear
         self.modelYear = aModelYearString.integerValue;

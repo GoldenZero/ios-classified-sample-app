@@ -32,8 +32,10 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *addTimeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *yearMiniLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *yearMiniImg;
 @property (strong, nonatomic) IBOutlet UILabel *watchingCountLabel;
 @property (strong, nonatomic) IBOutlet UILabel *kiloMiniLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *kiloMiniImg;
 @property (weak, nonatomic) IBOutlet UIButton *phoneNumberButton;
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *featureBtn;
