@@ -94,7 +94,8 @@ static NSInteger lastBrandSelectedRow = -1;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == _tblBrands) {
-        return 58;
+        //return 58;
+        return 114;
     }
     else {
         return 41;
