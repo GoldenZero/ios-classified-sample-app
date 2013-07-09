@@ -381,8 +381,8 @@
                 xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
             }
             
-            //if (carAdObject.distanceRangeInKm != -1)
-            if (carAdObject.distanceRangeInKm != 0)
+            if (carAdObject.distanceRangeInKm != -1)
+            //if (carAdObject.distanceRangeInKm != 0)
                 cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             else {
                 xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
@@ -591,8 +591,8 @@
                 xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
             }
             
-            //if (carAdObject.distanceRangeInKm != -1)
-            if (carAdObject.distanceRangeInKm != 0)
+            if (carAdObject.distanceRangeInKm != -1)
+            //if (carAdObject.distanceRangeInKm != 0)
                 cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             else {
                 xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
@@ -772,8 +772,8 @@
                 xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
             }
             
-            //if (carAdObject.distanceRangeInKm != -1)
-            if (carAdObject.distanceRangeInKm != 0)
+            if (carAdObject.distanceRangeInKm != -1)
+            //if (carAdObject.distanceRangeInKm != 0)
                 cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             else {
                 xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
@@ -960,8 +960,8 @@
                 xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
             }
             
-            //if (carAdObject.distanceRangeInKm != -1)
-            if (carAdObject.distanceRangeInKm != 0)
+            if (carAdObject.distanceRangeInKm != -1)
+            //if (carAdObject.distanceRangeInKm != 0)
                 cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             else {
                 xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;

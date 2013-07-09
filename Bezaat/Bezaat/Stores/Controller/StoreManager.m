@@ -92,8 +92,13 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
 	 setting the quality to 90
      */
     
-	NSData *imageData = UIImageJPEGRepresentation(image, 90);
+	//NSData *imageData = UIImageJPEGRepresentation(image, 90);
 	
+    //with compression
+    UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
+    
+    NSData *imageData = UIImageJPEGRepresentation(small, 90);
+    
 	// setting up the request object now
    // NSMutableURLRequest *request = [self request];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
