@@ -16,6 +16,7 @@
 #import "StoreDetailsViewController.h"
 #import "AppDelegate.h"
 #import "SendEmailViewController.h"
+#import <MessageUI/MessageUI.h>
 
 //#define FIXED_V_DISTANCE    17
 #define FIXED_V_DISTANCE    0
@@ -564,7 +565,39 @@
     }
 }
 
+- (IBAction)smsBtnPrss:(id)sender {
+    MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+	if([MFMessageComposeViewController canSendText])
+	{
+		controller.body = @"Hello";
+		controller.recipients = [NSArray arrayWithObjects:currentDetailsObject.mobileNumber, nil];
+		controller.messageComposeDelegate = self;
+		[self presentViewController:controller animated:YES completion:nil];
+	}
+}
 
+#pragma mark - SMS delegate handler
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+	switch (result) {
+		case MessageComposeResultCancelled:
+			NSLog(@"Cancelled");
+			break;
+		case MessageComposeResultFailed:{
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"بيزات" message:@"Unknown Error"
+														   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+			[alert show];
+			break;
+        }
+		case MessageComposeResultSent:
+            
+			break;
+		default:
+			break;
+	}
+    
+	[self dismissModalViewControllerAnimated:YES];
+}
 #pragma mark - sharing acions
 - (void)twitterAction:(id)sender{
     

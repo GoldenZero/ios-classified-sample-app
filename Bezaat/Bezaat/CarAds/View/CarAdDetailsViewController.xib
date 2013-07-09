@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">11G63b</string>
+		<string key="IBDocument.SystemVersion">12B19</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1138.51</string>
-		<string key="IBDocument.HIToolboxVersion">569.00</string>
+		<string key="IBDocument.AppKitVersion">1187</string>
+		<string key="IBDocument.HIToolboxVersion">624.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">2083</string>
@@ -511,7 +511,7 @@
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<object class="NSCustomResource" key="IBUIImage">
 											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">Details_navication_2_bg.png</string>
+											<string key="NSResourceName">Icon_bar.png</string>
 										</object>
 									</object>
 									<object class="IBUIButton" id="717271813">
@@ -552,10 +552,10 @@
 									<object class="IBUIButton" id="734775614">
 										<reference key="NSNextResponder" ref="696944264"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{139, 12}, {44, 44}}</string>
+										<string key="NSFrame">{{106, 6}, {44, 44}}</string>
 										<reference key="NSSuperview" ref="696944264"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="269845445"/>
+										<reference key="NSNextKeyView" ref="789884200"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -569,7 +569,7 @@
 										<reference key="IBUINormalTitleShadowColor" ref="571933636"/>
 										<object class="NSCustomResource" key="IBUINormalImage">
 											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">Details_call.png</string>
+											<string key="NSResourceName">Tel_icon.png</string>
 										</object>
 										<reference key="IBUIFontDescription" ref="158472858"/>
 										<reference key="IBUIFont" ref="392777849"/>
@@ -600,6 +600,31 @@
 										<reference key="IBUIFontDescription" ref="158472858"/>
 										<reference key="IBUIFont" ref="392777849"/>
 									</object>
+									<object class="IBUIButton" id="789884200">
+										<reference key="NSNextResponder" ref="696944264"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{170, 6}, {44, 44}}</string>
+										<reference key="NSSuperview" ref="696944264"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="269845445"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<reference key="IBUIHighlightedTitleColor" ref="277170800"/>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="571933636"/>
+										<object class="NSCustomResource" key="IBUINormalImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">Sms_icon.png</string>
+										</object>
+										<reference key="IBUIFontDescription" ref="158472858"/>
+										<reference key="IBUIFont" ref="392777849"/>
+									</object>
 								</array>
 								<string key="NSFrameSize">{319, 55}</string>
 								<reference key="NSSuperview" ref="990958099"/>
@@ -614,6 +639,7 @@
 								<string key="NSFrame">{{5, 68}, {77, 33}}</string>
 								<reference key="NSSuperview" ref="990958099"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -976,6 +1002,15 @@
 					</object>
 					<int key="connectionID">952</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">smsBtnPrss:</string>
+						<reference key="source" ref="789884200"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">959</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -1071,8 +1106,9 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="148304155"/>
 							<reference ref="717271813"/>
-							<reference ref="734775614"/>
 							<reference ref="269845445"/>
+							<reference ref="789884200"/>
+							<reference ref="734775614"/>
 						</array>
 						<reference key="parent" ref="990958099"/>
 					</object>
@@ -1226,6 +1262,11 @@
 						<reference key="object" ref="529133876"/>
 						<reference key="parent" ref="263215706"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">957</int>
+						<reference key="object" ref="789884200"/>
+						<reference key="parent" ref="696944264"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1274,12 +1315,13 @@
 				<string key="938.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="940.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="949.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="957.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">956</int>
+			<int key="maxID">959</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1295,6 +1337,7 @@
 						<string key="labelAdBtnPrss:">id</string>
 						<string key="modifyAdBtnPrss:">id</string>
 						<string key="sendMailBtnPrss:">id</string>
+						<string key="smsBtnPrss:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="backBtnPrss:">
@@ -1327,6 +1370,10 @@
 						</object>
 						<object class="IBActionInfo" key="sendMailBtnPrss:">
 							<string key="name">sendMailBtnPrss:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="smsBtnPrss:">
+							<string key="name">smsBtnPrss:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -1512,14 +1559,15 @@
 			<string key="Details_Sp_logo.png">{74, 36}</string>
 			<string key="Details_bar.png">{321, 75}</string>
 			<string key="Details_bg.png">{320, 391}</string>
-			<string key="Details_call.png">{43, 43}</string>
 			<string key="Details_gray_heart.png">{24, 24}</string>
-			<string key="Details_navication_2_bg.png">{320, 47}</string>
 			<string key="Details_navication_2_mail.png">{24, 24}</string>
+			<string key="Icon_bar.png">{320, 46}</string>
 			<string key="Listing2_bottom_bg.png">{309, 209}</string>
 			<string key="Listing_icon_car.png">{21, 20}</string>
 			<string key="Listing_icon_date.png">{41, 39}</string>
 			<string key="Listing_icon_eye.png">{21, 20}</string>
+			<string key="Sms_icon.png">{44, 44}</string>
+			<string key="Tel_icon.png">{44, 44}</string>
 			<string key="buttons_back.png">{51, 41}</string>
 			<string key="buttons_delete.png">{40, 41}</string>
 			<string key="buttons_edit.png">{51, 41}</string>

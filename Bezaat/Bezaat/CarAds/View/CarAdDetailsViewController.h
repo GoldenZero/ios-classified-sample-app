@@ -19,7 +19,7 @@
 #import "GAI.h"
 #import "FBPhotoBrowserViewController.h"
 
-@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate>
+@interface CarAdDetailsViewController : UIViewController<UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) BrowseCarAdsViewController * parentVC;
@@ -74,6 +74,7 @@
 - (IBAction)sendMailBtnPrss:(id)sender;
 - (IBAction)favoriteBtnPrss:(id)sender;
 - (IBAction)callBtnPrss:(id)sender;
+- (IBAction)smsBtnPrss:(id)sender;
 
 - (void) resetGalleryViewToNil;
 
