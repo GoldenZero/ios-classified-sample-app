@@ -852,7 +852,13 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     NSMutableData *body = [NSMutableData data];
     
     // add image data
-    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    //NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    
+    //with compression
+    UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
+    
+    NSData *imageData = UIImageJPEGRepresentation(small, 1.0);
+    
     if ((imageData) && (imageData.length > (5 * 1024 * 1024)))
     {
         CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
