@@ -23,4 +23,6 @@
 
 - (NSArray*) getGallariesWithDelegate:(id <GallariesManagerDelegate>) del;
 
+- (NSArray*) getCarsInGalleryWithDelegateOfPage:(NSUInteger) pageNum forStore:(NSUInteger) storeID Country:(NSInteger) counttryID pageSize:(NSUInteger) pageSize WithDelegate:(id <GallariesManagerDelegate>) del;
+
 @end
