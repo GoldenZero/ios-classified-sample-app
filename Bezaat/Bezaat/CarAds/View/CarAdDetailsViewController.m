@@ -1009,12 +1009,14 @@
                 }
             }
             
-            addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
+       //     addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
             
+            totalHeight = totalHeight + addedHeightValue ;
+
             
-            totalHeight = totalHeight + addedHeightValue + 30;
-            
-            
+            [self addOpenBoweseViewForX:13 andY:totalHeight];
+
+           totalHeight = totalHeight + 20 + 30;
             [self.labelsScrollView setScrollEnabled:YES];
             [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
             [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
@@ -1611,5 +1613,27 @@
 
 - (void) resetGalleryViewToNil {
     galleryView = nil;
+}
+
+#pragma mark -  open browser
+- (void) openInBrowser{
+    [[UIApplication sharedApplication] openURL:[currentDetailsObject adURL]];
+
+}
+- (void) addOpenBoweseViewForX:(float) x andY:(float)y{
+    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 273, 20)];
+    view.backgroundColor=[UIColor whiteColor];
+    UILabel *browseLabel=[[UILabel alloc] initWithFrame:CGRectMake(2, 1, 200.0, 18)];
+    browseLabel.text=@"مشاهدة هذا العلان في المتصفح";
+    browseLabel.textAlignment=NSTextAlignmentLeft;
+    browseLabel.backgroundColor= [UIColor clearColor];
+    [view addSubview:browseLabel];
+    UIButton *buttn=[[UIButton alloc] initWithFrame:CGRectMake(240, 0, 20, 19)];
+   
+    buttn.imageView.image=[UIImage imageNamed:@"Text_icon.png"];
+    [buttn addTarget:self action:@selector(openInBrowser) forControlEvents:UIControlEventTouchUpInside];
+    [view insertSubview:buttn aboveSubview:browseLabel];
+    [self.labelsScrollView addSubview:view];
+
 }
 @end
