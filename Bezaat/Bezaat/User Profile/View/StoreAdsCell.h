@@ -17,6 +17,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *carModel;
 @property (weak, nonatomic) IBOutlet UILabel *carDistance;
 @property (weak, nonatomic) IBOutlet UILabel *adViews;
+
+@property (weak, nonatomic) IBOutlet UIImageView * carModelTinyImg;
+@property (weak, nonatomic) IBOutlet UIImageView * carDistanceTinyImg;
+@property (weak, nonatomic) IBOutlet UIImageView * adViewsTinyImg;
+
 @property (strong, nonatomic) IBOutlet UIView *bottomBarView;
 
 @property (nonatomic, weak) IBOutlet UIButton *featureButton;

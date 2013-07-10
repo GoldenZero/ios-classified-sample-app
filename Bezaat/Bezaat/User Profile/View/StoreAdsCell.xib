@@ -471,6 +471,30 @@
 					<int key="connectionID">32</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">adViewsTinyImg</string>
+						<reference key="source" ref="604564363"/>
+						<reference key="destination" ref="426807373"/>
+					</object>
+					<int key="connectionID">33</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">carDistanceTinyImg</string>
+						<reference key="source" ref="604564363"/>
+						<reference key="destination" ref="440574115"/>
+					</object>
+					<int key="connectionID">34</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">carModelTinyImg</string>
+						<reference key="source" ref="604564363"/>
+						<reference key="destination" ref="945903618"/>
+					</object>
+					<int key="connectionID">35</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">featureBtnPress:</string>
 						<reference key="source" ref="1063705920"/>
@@ -620,7 +644,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">32</int>
+			<int key="maxID">35</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -649,11 +673,14 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="adTime">UILabel</string>
 						<string key="adViews">UILabel</string>
+						<string key="adViewsTinyImg">UIImageView</string>
 						<string key="bgImageView">UIImageView</string>
 						<string key="bottomBarView">UIView</string>
 						<string key="carDistance">UILabel</string>
+						<string key="carDistanceTinyImg">UIImageView</string>
 						<string key="carImage">HJManagedImageV</string>
 						<string key="carModel">UILabel</string>
+						<string key="carModelTinyImg">UIImageView</string>
 						<string key="carPrice">UILabel</string>
 						<string key="carTitle">UILabel</string>
 						<string key="featureButton">UIButton</string>
@@ -668,6 +695,10 @@
 							<string key="name">adViews</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="adViewsTinyImg">
+							<string key="name">adViewsTinyImg</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="bgImageView">
 							<string key="name">bgImageView</string>
 							<string key="candidateClassName">UIImageView</string>
@@ -680,6 +711,10 @@
 							<string key="name">carDistance</string>
 							<string key="candidateClassName">UILabel</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="carDistanceTinyImg">
+							<string key="name">carDistanceTinyImg</string>
+							<string key="candidateClassName">UIImageView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="carImage">
 							<string key="name">carImage</string>
 							<string key="candidateClassName">HJManagedImageV</string>
@@ -687,6 +722,10 @@
 						<object class="IBToOneOutletInfo" key="carModel">
 							<string key="name">carModel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="carModelTinyImg">
+							<string key="name">carModelTinyImg</string>
+							<string key="candidateClassName">UIImageView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="carPrice">
 							<string key="name">carPrice</string>

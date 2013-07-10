@@ -23,6 +23,7 @@
     BOOL isRefreshing;
     
     CarAd * myAdObject;
+    float xForShiftingTinyImg;
 }
 
 @end
@@ -393,6 +394,7 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    xForShiftingTinyImg = 0;
     CarAd * carAdObject;
     if ((carAdsArray) && (carAdsArray.count)){
         carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
@@ -424,6 +426,8 @@
                 cell.carPrice.text = @"";
             }
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
+            
+            /*
             cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
             
             if (carAdObject.viewCount > 0)
@@ -435,6 +439,68 @@
             }
             
             cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+             */
+            
+            
+            //hiding & shifting
+            if (carAdObject.modelYear > 0)
+                cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            else {
+                xForShiftingTinyImg = cell.carModelTinyImg.frame.origin.x;
+                
+                cell.carModel.hidden = YES;
+                cell.carModelTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.carDistance.frame;
+                CGRect tempImgFrame = cell.carDistanceTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.carDistanceTinyImg setFrame:tempImgFrame];
+                    [cell.carDistance setFrame:tempLabelFrame];
+                }];
+                
+                xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.adViewsTinyImg.frame.size.width;
+            }
+            
+            if (carAdObject.distanceRangeInKm != -1)
+                //if (carAdObject.distanceRangeInKm != 0)
+                cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+            else {
+                xForShiftingTinyImg = cell.carDistanceTinyImg.frame.origin.x;
+                
+                cell.carDistance.hidden = YES;
+                cell.carDistanceTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.adViews.frame;
+                CGRect tempImgFrame = cell.adViewsTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.adViewsTinyImg setFrame:tempImgFrame];
+                    [cell.adViews setFrame:tempLabelFrame];
+                }];
+            }
+            
+            if (carAdObject.viewCount > 0)
+                cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            else
+            {
+                cell.adViews.text = @"";
+                [cell.adViewsTinyImg setHidden:YES];
+            }
             
             //load image as URL
             [cell.carImage clear];
@@ -476,6 +542,8 @@
             else
                 cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
+            
+            /*
             cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
             
             if (carAdObject.viewCount > 0)
@@ -487,6 +555,67 @@
             }
             
             cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+             */
+            
+            //hiding & shifting
+            if (carAdObject.modelYear > 0)
+                cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            else {
+                xForShiftingTinyImg = cell.carModelTinyImg.frame.origin.x;
+                
+                cell.carModel.hidden = YES;
+                cell.carModelTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.carDistance.frame;
+                CGRect tempImgFrame = cell.carDistanceTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.carDistanceTinyImg setFrame:tempImgFrame];
+                    [cell.carDistance setFrame:tempLabelFrame];
+                }];
+                
+                xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.adViewsTinyImg.frame.size.width;
+            }
+            
+            if (carAdObject.distanceRangeInKm != -1)
+                //if (carAdObject.distanceRangeInKm != 0)
+                cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+            else {
+                xForShiftingTinyImg = cell.carDistanceTinyImg.frame.origin.x;
+                
+                cell.carDistance.hidden = YES;
+                cell.carDistanceTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.adViews.frame;
+                CGRect tempImgFrame = cell.adViewsTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.adViewsTinyImg setFrame:tempImgFrame];
+                    [cell.adViews setFrame:tempLabelFrame];
+                }];
+            }
+            
+            if (carAdObject.viewCount > 0)
+                cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            else
+            {
+                cell.adViews.text = @"";
+                [cell.adViewsTinyImg setHidden:YES];
+            }
             
             //load image as URL
             [cell.carImage clear];
@@ -536,6 +665,8 @@
             else
                 cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
+            
+            /*
             cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
             
             if (carAdObject.viewCount > 0)
@@ -547,8 +678,70 @@
             }
             
             cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+            */
             
-            //load image as URL
+            //hiding & shifting
+            if (carAdObject.modelYear > 0)
+                cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            else {
+                xForShiftingTinyImg = cell.carModelTinyImg.frame.origin.x;
+                
+                cell.carModel.hidden = YES;
+                cell.carModelTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.carDistance.frame;
+                CGRect tempImgFrame = cell.carDistanceTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.carDistanceTinyImg setFrame:tempImgFrame];
+                    [cell.carDistance setFrame:tempLabelFrame];
+                }];
+                
+                xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.adViewsTinyImg.frame.size.width;
+            }
+            
+            if (carAdObject.distanceRangeInKm != -1)
+                //if (carAdObject.distanceRangeInKm != 0)
+                cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+            else {
+                xForShiftingTinyImg = cell.carDistanceTinyImg.frame.origin.x;
+                
+                cell.carDistance.hidden = YES;
+                cell.carDistanceTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.adViews.frame;
+                CGRect tempImgFrame = cell.adViewsTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.adViewsTinyImg setFrame:tempImgFrame];
+                    [cell.adViews setFrame:tempLabelFrame];
+                }];
+            }
+            
+            if (carAdObject.viewCount > 0)
+                cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            else
+            {
+                cell.adViews.text = @"";
+                [cell.adViewsTinyImg setHidden:YES];
+            }
+            
+             
+             //load image as URL
             [cell.carImage clear];
             [cell.carImage setImage:[UIImage imageNamed:@"default-car.jpg"]];
             [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
@@ -585,6 +778,8 @@
             else
                 cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
+            
+            /*
             cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
             
             if (carAdObject.viewCount > 0)
@@ -596,6 +791,67 @@
             }
             
             cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+             */
+            
+            //hiding & shifting
+            if (carAdObject.modelYear > 0)
+                cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+            else {
+                xForShiftingTinyImg = cell.carModelTinyImg.frame.origin.x;
+                
+                cell.carModel.hidden = YES;
+                cell.carModelTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.carDistance.frame;
+                CGRect tempImgFrame = cell.carDistanceTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.carDistanceTinyImg setFrame:tempImgFrame];
+                    [cell.carDistance setFrame:tempLabelFrame];
+                }];
+                
+                xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.adViewsTinyImg.frame.size.width;
+            }
+            
+            if (carAdObject.distanceRangeInKm != -1)
+                //if (carAdObject.distanceRangeInKm != 0)
+                cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+            else {
+                xForShiftingTinyImg = cell.carDistanceTinyImg.frame.origin.x;
+                
+                cell.carDistance.hidden = YES;
+                cell.carDistanceTinyImg.hidden = YES;
+            }
+            
+            if (xForShiftingTinyImg > 0) {
+                CGRect tempLabelFrame = cell.adViews.frame;
+                CGRect tempImgFrame = cell.adViewsTinyImg.frame;
+                
+                
+                tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+                tempImgFrame.origin.x = xForShiftingTinyImg;
+                
+                [UIView animateWithDuration:0.3f animations:^{
+                    
+                    [cell.adViewsTinyImg setFrame:tempImgFrame];
+                    [cell.adViews setFrame:tempLabelFrame];
+                }];
+            }
+            
+            if (carAdObject.viewCount > 0)
+                cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            else
+            {
+                cell.adViews.text = @"";
+                [cell.adViewsTinyImg setHidden:YES];
+            }
             
             //load image as URL
             [cell.carImage clear];
