@@ -38,7 +38,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"exhibitCell" bundle:nil]
          forCellReuseIdentifier:@"CustomCell"];
     manager=[gallariesManager sharedInstance];
-    manager.countryID=self.countryID;
+    //manager.countryID=self.countryID;
     [self showLoadingIndicator];
     [self loadData];
     
@@ -81,25 +81,37 @@
 #pragma mark - TableView delegates handler
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-   
-    static NSString *CellIdentifier = @"CustomCell";
-
-    exhibitCell *cell =(exhibitCell*) [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell=[[exhibitCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    
+    if (galleriesArray && galleriesArray.count) {
+        
+        static NSString *CellIdentifier = @"CustomCell";
+        
+        CarsGallery * gallery = (CarsGallery*)[galleriesArray objectAtIndex:indexPath.row];
+        
+        exhibitCell *cell =(exhibitCell*) [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        if (cell == nil) {
+            cell=[[exhibitCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        
+        [cell.numberButton addTarget:self action:@selector(callNumber:event:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [cell.numberLabel setText:gallery.StoreContactNo];
+        
+        cell.exhibNameLabel.text = gallery.StoreName ;
+        cell.exhibDetailLabel.text = gallery.StoreOwnerEmail ;
+        
+        if (gallery.StoreImageURL) {
+            [cell.exhibImage setImageWithURL:gallery.StoreImageURL];
+            [cell.exhibImage setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.exhibImage setClipsToBounds:YES];
+        }
+        
+        
+        return cell;
     }
     
-    [cell.numberButton addTarget:self action:@selector(callNumber:event:) forControlEvents:UIControlEventTouchUpInside];
-    NSInteger *temp =[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreContactNo] ;
-    [cell.numberLabel setText:[NSString stringWithFormat:@"%d",temp]];
-    cell.exhibNameLabel.text=[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreName] ;
-    cell.exhibDetailLabel.text=[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreOwnerEmail] ;
-    
-    NSData *data = [NSData dataWithContentsOfURL:[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreImageURL]];
-
-    cell.imageView.image=[UIImage imageWithData:data];
-    
-    return cell;
+    return [UITableViewCell new];
     
 }
 
@@ -116,21 +128,16 @@
     vc.gallery=(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row];
 }
 
-#pragma mark - gallaries manager delegate 
-- (void) didFinishLoadingWithData:(NSArray*) resultArray{
-    
-    galleriesArray=resultArray;
-    [self.tableView reloadData];
-    [self hideLoadingIndicator];
-}
-
 - (void) loadData{
-    if (![GenericMethods connectedToInternet])
-    {
-        [manager getGallariesWithDelegate:self];
-        return;
-    }
-
+    /*
+     if (![GenericMethods connectedToInternet])
+     {
+     [manager getGallariesInCountry:self.countryID WithDelegate:self];
+     return;
+     }
+     */
+    [manager getGallariesInCountry:[[SharedUser sharedInstance] getUserCountryID] WithDelegate:self];
+    
 }
 
 #pragma mark - Loading indicator
@@ -149,6 +156,32 @@
     if (loadingHUD)
         [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
     loadingHUD = nil;
+    
+}
+
+#pragma mark - Galleries Delegate methods
+- (void) galleriesDidFailLoadingWithError:(NSError *)error {
+    
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+    [self hideLoadingIndicator];
+}
+
+- (void) galleriesDidFinishLoadingWithData:(NSArray *)resultArray {
+    
+    [self hideLoadingIndicator];
+    
+    if (resultArray && resultArray.count) {
+        
+        galleriesArray = resultArray;
+        
+        [self.tableView reloadData];
+    }
+    else {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+    }
     
 }
 @end

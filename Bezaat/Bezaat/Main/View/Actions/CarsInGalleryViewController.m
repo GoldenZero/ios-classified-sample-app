@@ -142,8 +142,10 @@
 - (void) loadData:(int) pageNumber{
     if (![GenericMethods connectedToInternet])
     {
+        /*
         [manager getCarsInGalleryWithDelegateOfPage:pageNumber forStore:(int)[self.gallery StoreID] Country:*[self.gallery CountryID] pageSize:10 WithDelegate:self];
         return;
+         */
     }
     
 }

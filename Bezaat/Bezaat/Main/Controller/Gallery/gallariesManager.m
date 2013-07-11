@@ -11,7 +11,7 @@
 #import "CarDetails.h"
 
 
-#define GalleriesURL [NSURL URLWithString: @"http://http://gfctest.edanat.com/v1.1/json/get-stores-by-country"]
+//#define GalleriesURL [NSURL URLWithString: @"http://http://gfctest.edanat.com/v1.1/json/get-stores-by-country"]
 #define GALLERY_ID_JSONK @"StoreID"
 #define GALLERY_IMAGE_URL_JSONK @"StoreImageURL"
 #define GALLERY_NAME_JSONK @"StoreName"
@@ -65,19 +65,37 @@
 #define DETAILS_IMGS_THUMBNAIL_IMG_URL_JKEY @"ThumbnailImageURL"
 
 @interface gallariesManager () {
-    NSMutableArray *result;
+    //NSMutableArray *result;
+    InternetManager * galleriesMngr;
+    InternetManager * carsInGalleryMngr;
+    InternetManager * postCommentMngr;
+    InternetManager * getCommentsMngr;
+    
 }
 @end
+
 @implementation gallariesManager
 
+@synthesize galleriesDel, carsDel, commentsDel;
 
-@synthesize delegate,countryID;
+static NSString * stores_by_country_url = @"/json/get-stores-by-country?countryid=%i";
+static NSString * post_comment_url = @"/json/post-comment";
+static NSString * get_ad_comments_url = @"/json/get-ad-comments?adId=%@&pageNo=%@&pageSize=%@";
+
+static NSString * internetMngrTempFileName = @"mngrTmp";
 
 - (id) init {
     
     self = [super init];
     if (self) {
-        result=[[NSMutableArray alloc]init];
+        //result=[[NSMutableArray alloc]init];
+        self.galleriesDel = nil;
+        self.carsDel = nil;
+        self.commentsDel = nil;
+        
+        stores_by_country_url = [API_MAIN_URL stringByAppendingString:stores_by_country_url];
+        post_comment_url = [API_MAIN_URL stringByAppendingString:post_comment_url];
+        get_ad_comments_url = [API_MAIN_URL stringByAppendingString:get_ad_comments_url];
     }
     return self;
 }
@@ -91,8 +109,8 @@
     return instance;
 }
 
-- (NSArray*) getGallariesWithDelegate:(id <GallariesManagerDelegate>) del{
-    
+- (void) getGallariesInCountry:(NSInteger) countryID WithDelegate:(id <GalleriesDelegate>) del {
+    /*
     NSString * post =[NSString stringWithFormat:@"countryid=%@",countryID];
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
@@ -141,8 +159,57 @@
     NSLog(@"%@",returnedJson);
     [del didFinishLoadingWithData:result];
     return result;
+    */
+    
+    //1- set the delegate
+    self.galleriesDel = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.galleriesDel)
+            [self.galleriesDel galleriesDidFailLoadingWithError:error];
+        return;
+    }
+    
+    //3- set the url string
+    NSString * fullURLString = [NSString stringWithFormat:stores_by_country_url, countryID];
+    
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //NSLog(@"%@", correctURLstring);
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        
+        //5- send the request
+        [request setURL:correctURL];
+        galleriesMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.galleriesDel)
+            [self.galleriesDel galleriesDidFailLoadingWithError:error];
+        return ;
+    }
+    
 }
 
+/*
 - (NSArray*) getCarsInGalleryWithDelegateOfPage:(NSUInteger) pageNum forStore:(NSUInteger) storeID Country:(NSInteger) counttryID pageSize:(NSUInteger) pageSize WithDelegate:(id <GallariesManagerDelegate>) del{
     
     self.delegate=del;
@@ -198,5 +265,144 @@
     
 }
 
+*/
+
+#pragma mark - DataDelegate methods
+
+- (void)manager:(BaseDataManager *)manager connectionDidFailWithError:(NSError *)error {
+    
+    if (manager == galleriesMngr) {
+        
+        if (self.galleriesDel)
+            [galleriesDel galleriesDidFailLoadingWithError:error];
+    }
+    
+    else if (manager == carsInGalleryMngr) {
+        
+        if (self.carsDel)
+            [carsDel carsDidFailLoadingWithError:error];
+    }
+    
+    else if (manager == postCommentMngr) {
+        
+        if (self.commentsDel)
+            [commentsDel commentsDidFailPostingWithError:error];
+    }
+    
+    else if (manager == getCommentsMngr) {
+        
+        if (self.commentsDel)
+            [commentsDel commentsDidFailLoadingWithError:error];
+    }
+    
+}
+
+- (void) manager:(BaseDataManager *)manager connectionDidSucceedWithObjects:(NSData *)result {
+    
+    if (!result)
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (manager == galleriesMngr) {
+            
+            if (self.galleriesDel)
+                [galleriesDel galleriesDidFailLoadingWithError:error];
+        }
+        
+        else if (manager == carsInGalleryMngr) {
+            
+            if (self.carsDel)
+                [carsDel carsDidFailLoadingWithError:error];
+        }
+        
+        else if (manager == postCommentMngr) {
+            
+            if (self.commentsDel)
+                [commentsDel commentsDidFailPostingWithError:error];
+        }
+        
+        else if (manager == getCommentsMngr) {
+            
+            if (self.commentsDel)
+                [commentsDel commentsDidFailLoadingWithError:error];
+        }
+
+    }
+    else
+    {
+        if (manager == galleriesMngr) {
+            
+            if (self.galleriesDel) {
+                NSArray * galleriesArray = [self createGalleriesArrayWithData:(NSArray *)result];
+                [galleriesDel galleriesDidFinishLoadingWithData:galleriesArray];
+            }
+                
+        }
+        
+        else if (manager == carsInGalleryMngr) {
+            
+            if (self.carsDel) {}
+            
+        }
+        
+        else if (manager == postCommentMngr) {
+            
+            if (self.commentsDel) {}
+            
+        }
+        
+        else if (manager == getCommentsMngr) {
+            
+            if (self.commentsDel) {}
+                
+        }
+    }
+}
+
+#pragma mark - helper methods
+- (NSArray *) createGalleriesArrayWithData:(NSArray *) data {
+    
+    if ((data) && (data.count > 0))
+    {
+        NSDictionary * totalDict = [data objectAtIndex:0];
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:DETAILS_STATUS_CODE_JKEY]];
+        NSInteger statusCode = statusCodeString.integerValue;
+        
+        NSMutableArray * galleriesArray = [NSMutableArray new];
+        
+        NSString * statusMessageProcessed = [[[totalDict objectForKey:DETAILS_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+        
+        if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+        {
+            NSArray * dataGalleriesArray = [totalDict objectForKey:DETAILS_DATA_JKEY];
+            if ((dataGalleriesArray) && (![@"" isEqualToString:(NSString *)dataGalleriesArray]) && (dataGalleriesArray.count))
+            {
+                for (NSDictionary * gDict in dataGalleriesArray)
+                {
+                    
+                    CarsGallery * gallery =
+                    [[CarsGallery alloc]
+                     initWithStoreIDString:[gDict objectForKey:GALLERY_ID_JSONK]
+                            StoreNameString:[gDict objectForKey:GALLERY_NAME_JSONK]
+                            StoreOwnerEmailString:[gDict objectForKey:GALLERY_OWNER_EMAIL_JSONK]
+                            StoreImageURLString:[gDict objectForKey:GALLERY_IMAGE_URL_JSONK]
+                            CountryIDString:[gDict objectForKey:GALLERY_COUNTRY_ID_JSONK]
+                            ActiveAdsCountString:[gDict objectForKey:GALLERY_ACTIVEADS_COUNT_JSONK]
+                            StoreStatusString:[gDict objectForKey:GALLERY_STATUS_JSONK]
+                            StoreContactNoString:[gDict objectForKey:GALLERY_CONTACT_NO_JSONK]
+                     RemainingFreeFeatureAdsString:[gDict objectForKey:GALLERY_REMAINING_DAYS_JSONK]
+                SubscriptionExpiryDateString:[gDict objectForKey:GALLERY_SUBSCRIPTION_EXPIRED_JSONK]
+                            RemainingDaysString:[gDict objectForKey:GALLERY_REMAINING_FREEADS_JSONK]
+                     ];
+                    
+                    [galleriesArray addObject:gallery];
+                }
+            }
+        }
+        return galleriesArray;
+    }
+    return [NSArray new];
+}
 
 @end

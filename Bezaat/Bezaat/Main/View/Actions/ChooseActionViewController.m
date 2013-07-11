@@ -274,7 +274,7 @@
 
 - (IBAction)exhibitBtnPrss:(id)sender {
     ExhibitViewController *exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
-    exVC.countryID=chosenCountry.countryID;
+    //exVC.countryID=chosenCountry.countryID;
     [self presentViewController:exVC animated:YES completion:nil];
 }
 

@@ -10,17 +10,31 @@
 
 @interface CarsGallery : NSObject
 
-#pragma mark - Properties 
+#pragma mark - Properties
 
-@property  NSInteger *StoreID;
+@property  NSInteger StoreID;
 @property  NSString *StoreName;
 @property  NSString *StoreOwnerEmail;
 @property  NSURL *StoreImageURL;
-@property  NSInteger *CountryID;
-@property  NSInteger *ActiveAdsCount;
-@property  NSInteger *StoreStatus;
-@property  NSInteger *StoreContactNo;
-@property  NSInteger *RemainingFreeFeatureAds;
+@property  NSInteger CountryID;
+@property  NSInteger ActiveAdsCount;
+@property  NSInteger StoreStatus;
+@property  NSString *StoreContactNo;
+@property  NSInteger RemainingFreeFeatureAds;
 @property  NSDate *SubscriptionExpiryDate;
-@property  NSInteger *RemainingDays;
+@property  NSInteger RemainingDays;
+
+#pragma mark - actions
+
+- (id) initWithStoreIDString: (NSString *) aStoreIDString
+             StoreNameString: (NSString *) aStoreNameString
+       StoreOwnerEmailString: (NSString *) aStoreOwnerEmailString
+         StoreImageURLString: (NSString *) aStoreImageURLString
+             CountryIDString: (NSString *) aCountryIDString
+        ActiveAdsCountString: (NSString *) aActiveAdsCountString
+           StoreStatusString: (NSString *) aStoreStatusString
+        StoreContactNoString: (NSString *) aStoreContactNoString
+RemainingFreeFeatureAdsString:(NSString *) aRemainingFreeFeatureAdsString
+SubscriptionExpiryDateString: (NSString *) aSubscriptionExpiryDateString
+         RemainingDaysString: (NSString *) aRemainingDaysString;
 @end
