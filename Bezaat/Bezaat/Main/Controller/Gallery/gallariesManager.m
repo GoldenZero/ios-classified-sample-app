@@ -11,6 +11,8 @@
 #import "CarDetails.h"
 
 
+#define DEFAULT_PAGE_SIZE           50
+
 //#define GalleriesURL [NSURL URLWithString: @"http://http://gfctest.edanat.com/v1.1/json/get-stores-by-country"]
 #define GALLERY_ID_JSONK @"StoreID"
 #define GALLERY_IMAGE_URL_JSONK @"StoreImageURL"
@@ -64,6 +66,34 @@
 #define DETAILS_IMGS_THUMBNAIL_ID_JKEY      @"ThumbnailID"
 #define DETAILS_IMGS_THUMBNAIL_IMG_URL_JKEY @"ThumbnailImageURL"
 
+
+#define GALLERY_AD_MODEL_YEAR_JKEY @"ModelYear"
+#define GALLERY_AD_DISTANCE_RANGE_JKEY @"DistanceRangeInKm"
+#define GALLERY_AD_AREA_JKEY @"Area"
+#define GALLERY_AD_AD_ID_JKEY @"AdID"
+#define GALLERY_AD_OWNER_ID_JKEY @"OwnerID"
+#define GALLERY_AD_STORE_ID_JKEY @"StoreID"
+#define GALLERY_AD_IS_FEATURED_JKEY @"IsFeatured"
+#define GALLERY_AD_THUMBNAIL_URL_JKEY @"ThumbnailURL"
+#define GALLERY_AD_TITLE_JKEY @"Title"
+#define GALLERY_AD_PRICE_JKEY @"Price"
+#define GALLERY_AD_CURRENCY_JKEY @"Currency"
+#define GALLERY_AD_POSTED_ON_JKEY @"PostedOn"
+#define GALLERY_AD_VIEW_COUNT_JKEY @"ViewCount"
+#define GALLERY_AD_IS_FAVORITE_JKEY @"IsFavorite"
+#define GALLERY_AD_STORE_NAME_JKEY @"StoreName"
+#define GALLERY_AD_STORE_LOGO_URL_JKEY @"StoreLogoURL"
+#define GALLERY_AD_POSTED_FROM_CITY_ID_JKEY @"PostedFromCityID"
+#define GALLERY_AD_CAT_ID_JKEY @"CategoryID"
+#define GALLERY_AD_MAIN_CAT_ID_JKEY @"MainCategoryID"
+#define GALLERY_AD_ROOMS_JKEY @"Rooms"
+#define GALLERY_AD_ROOMS_COUNT_JKEY @"RoomsCount"
+#define GALLERY_AD_ENC_EDIT_ID_JKEY @"EncEditID"
+#define GALLERY_AD_AD_URL_JKEY @"AdURL"
+#define GALLERY_AD_COUNTRY_ID_JKEY @"CountryID"
+#define GALLERY_AD_LONGITUDE_JKEY @"Longitude"
+#define GALLERY_AD_LATITUDE_JKEY @"Latitude"
+
 @interface gallariesManager () {
     //NSMutableArray *result;
     InternetManager * galleriesMngr;
@@ -79,6 +109,8 @@
 @synthesize galleriesDel, carsDel, commentsDel;
 
 static NSString * stores_by_country_url = @"/json/get-stores-by-country?countryid=%i";
+static NSString * cars_in_gallery_url = @"/json/store-ads?pageNo=%@&pageSize=%@&countryId=%i&cityId=%i&storeId=%i&textTerm=%@&brandId=%@&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@";
+
 static NSString * post_comment_url = @"/json/post-comment";
 static NSString * get_ad_comments_url = @"/json/get-ad-comments?adId=%@&pageNo=%@&pageSize=%@";
 
@@ -96,6 +128,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         stores_by_country_url = [API_MAIN_URL stringByAppendingString:stores_by_country_url];
         post_comment_url = [API_MAIN_URL stringByAppendingString:post_comment_url];
         get_ad_comments_url = [API_MAIN_URL stringByAppendingString:get_ad_comments_url];
+        
+        [self setPageSizeToDefault];
     }
     return self;
 }
@@ -109,57 +143,34 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return instance;
 }
 
+- (NSUInteger) nextPage {
+    self.carsPageNumber ++;
+    return self.carsPageNumber;
+}
+
+- (NSUInteger) getCurrentPageNum {
+    return self.carsPageNumber;
+}
+
+- (NSUInteger) getCurrentPageSize {
+    return self.carsPageSize;
+}
+
+
+- (void) setCurrentPageNum:(NSUInteger) pNum {
+    self.carsPageNumber = pNum;
+}
+
+- (void) setCurrentPageSize:(NSUInteger) pSize {
+    self.carsPageSize = pSize;
+}
+
+- (void) setPageSizeToDefault {
+    self.carsPageSize = DEFAULT_PAGE_SIZE;
+}
+
+
 - (void) getGallariesInCountry:(NSInteger) countryID WithDelegate:(id <GalleriesDelegate>) del {
-    /*
-    NSString * post =[NSString stringWithFormat:@"countryid=%@",countryID];
-    
-    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setTimeoutInterval:60];
-    
-    [request setURL:GalleriesURL];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-    
-    //get response
-    NSHTTPURLResponse * urlResponse = nil;
-    NSError *error = [[NSError alloc] init];
-    
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
-    
-    NSDictionary* returnedJson = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
-    
-    NSArray *gallaries=[returnedJson objectForKey:@"Data"];
-    
-    for (int i=0; i<gallaries.count; i++) {
-        NSDictionary *temp=[gallaries objectAtIndex:i];
-        CarsGallery * cg=[[CarsGallery alloc] init];
-        cg.StoreID=(NSInteger*)[[temp objectForKey:GALLERY_ID_JSONK] integerValue];
-        cg.ActiveAdsCount=(NSInteger*)[[temp objectForKey:GALLERY_ACTIVEADS_COUNT_JSONK] integerValue];
-        cg.StoreContactNo=(NSInteger*)[[temp objectForKey:GALLERY_CONTACT_NO_JSONK] integerValue];
-        cg.StoreImageURL=(NSURL*)[temp objectForKey:GALLERY_IMAGE_URL_JSONK];
-        cg.CountryID=(NSInteger*)[[temp objectForKey:GALLERY_COUNTRY_ID_JSONK] integerValue];
-        cg.StoreName=(NSString*)[[temp objectForKey:GALLERY_NAME_JSONK] stringValue];
-        cg.StoreOwnerEmail=(NSString*)[[temp objectForKey:GALLERY_OWNER_EMAIL_JSONK] stringValue];
-        cg.RemainingDays=(NSInteger*)[[temp objectForKey:GALLERY_REMAINING_DAYS_JSONK] integerValue];
-        cg.RemainingFreeFeatureAds=(NSInteger*)[[temp objectForKey:GALLERY_REMAINING_FREEADS_JSONK] integerValue];
-        cg.StoreStatus=(NSInteger*)[[temp objectForKey:GALLERY_STATUS_JSONK] integerValue];
-        NSDateFormatter* df = [[NSDateFormatter alloc] init];
-        [df setDateFormat:@"MM/dd/yyyy"];
-        cg.SubscriptionExpiryDate=[df dateFromString:(NSString*)[[temp objectForKey:GALLERY_SUBSCRIPTION_EXPIRED_JSONK] stringValue]];
-
-
-        [result addObject:cg];
-         
-    }
-    NSLog(@"%@",returnedJson);
-    [del didFinishLoadingWithData:result];
-    return result;
-    */
     
     //1- set the delegate
     self.galleriesDel = del;
@@ -208,6 +219,90 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     }
     
 }
+
+//country id is the id of the store's country
+- (void) getCarAdsOfPage:(NSUInteger) pageNum forStore:(NSUInteger) storeID InCountry:(NSUInteger) countryID  WithDelegate:(id <CarsInGalleryDelegate>) del {
+
+    //1- set the delegate
+    self.carsDel = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.carsDel)
+            [self.carsDel carsDidFailLoadingWithError:error];
+        return;
+    }
+    
+    //3- set the url string
+    NSString * fullURLString = [NSString stringWithFormat:cars_in_gallery_url,
+                                [NSString stringWithFormat:@"%i", self.carsPageNumber],
+                                [NSString stringWithFormat:@"%i", self.carsPageSize],
+                                countryID,
+                                @"",
+                                storeID,
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @"",
+                                @""];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    
+    //NSLog(@"%@", correctURLstring);
+    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[ProfileManager sharedInstance] getSavedUserProfile];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        //5- send the request
+        [request setURL:correctURL];
+        carsInGalleryMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.carsDel)
+            [self.carsDel carsDidFailLoadingWithError:error];
+        return ;
+    }
+}
+
 
 /*
 - (NSArray*) getCarsInGalleryWithDelegateOfPage:(NSUInteger) pageNum forStore:(NSUInteger) storeID Country:(NSInteger) counttryID pageSize:(NSUInteger) pageSize WithDelegate:(id <GallariesManagerDelegate>) del{
@@ -342,7 +437,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         else if (manager == carsInGalleryMngr) {
             
-            if (self.carsDel) {}
+            if (self.carsDel) {
+                NSArray * carsInGalleryArray = [self createCarsInGalleryArrayWithData:(NSArray *) result];
+                [carsDel carsDidFinishLoadingWithData:carsInGalleryArray];
+            }
             
         }
         
@@ -405,4 +503,61 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return [NSArray new];
 }
 
+- (NSArray *) createCarsInGalleryArrayWithData:(NSArray *) data {
+    
+    if ((data) && (data.count > 0))
+    {
+        NSDictionary * totalDict = [data objectAtIndex:0];
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:DETAILS_STATUS_CODE_JKEY]];
+        NSInteger statusCode = statusCodeString.integerValue;
+        
+        NSMutableArray * carsArray = [NSMutableArray new];
+        
+        NSString * statusMessageProcessed = [[[totalDict objectForKey:DETAILS_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+        
+        if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+        {
+            NSArray * dataCarsArray = [totalDict objectForKey:DETAILS_DATA_JKEY];
+            if ((dataCarsArray) && (![@"" isEqualToString:(NSString *)dataCarsArray]) && (dataCarsArray.count))
+            {
+                for (NSDictionary * adDict in dataCarsArray)
+                {
+                    GalleryAd * gAd =
+                    [[GalleryAd alloc]
+                     initWithAdIDString:[adDict objectForKey:GALLERY_AD_AD_ID_JKEY]
+                     ownerIDString:[adDict objectForKey:GALLERY_AD_OWNER_ID_JKEY]
+                     storeIDString:[adDict objectForKey:GALLERY_AD_STORE_ID_JKEY]
+                     isFeaturedString:[adDict objectForKey:GALLERY_AD_IS_FEATURED_JKEY]
+                     thumbnailURLString:[adDict objectForKey:GALLERY_AD_THUMBNAIL_URL_JKEY]
+                     titleString:[adDict objectForKey:GALLERY_AD_TITLE_JKEY]
+                     priceString:[adDict objectForKey:GALLERY_AD_PRICE_JKEY]
+                     currencyString:[adDict objectForKey:GALLERY_AD_CURRENCY_JKEY]
+                     postedOnDateString:[adDict objectForKey:GALLERY_AD_POSTED_ON_JKEY]
+                     modelYearString:[adDict objectForKey:GALLERY_AD_MODEL_YEAR_JKEY]
+                     distanceRangeInKmString:[adDict objectForKey:GALLERY_AD_DISTANCE_RANGE_JKEY]
+                     viewCountString:[adDict objectForKey:GALLERY_AD_VIEW_COUNT_JKEY]
+                     isFavoriteString:[adDict objectForKey:GALLERY_AD_IS_FAVORITE_JKEY]
+                     storeNameString:[adDict objectForKey:GALLERY_AD_STORE_NAME_JKEY]
+                     storeLogoURLString:[adDict objectForKey:GALLERY_AD_STORE_LOGO_URL_JKEY]
+                     countryIDString:[adDict objectForKey:GALLERY_AD_COUNTRY_ID_JKEY]
+                     EncEditIDString:[adDict objectForKey:GALLERY_AD_ENC_EDIT_ID_JKEY]
+                     longitudeString:[adDict objectForKey:GALLERY_AD_LONGITUDE_JKEY]
+                     latitudeString:[adDict objectForKey:GALLERY_AD_LATITUDE_JKEY]
+                     areaString:[adDict objectForKey:GALLERY_AD_AREA_JKEY]
+                     postedFromCityIDString:[adDict objectForKey:GALLERY_AD_POSTED_FROM_CITY_ID_JKEY]
+                     categoryIDString:[adDict objectForKey:GALLERY_AD_CAT_ID_JKEY]
+                     mainCategoryIDString:[adDict objectForKey:GALLERY_AD_MAIN_CAT_ID_JKEY]
+                     roomsString:[adDict objectForKey:GALLERY_AD_ROOMS_JKEY]
+                     roomsCountString:[adDict objectForKey:GALLERY_AD_ROOMS_COUNT_JKEY]
+                     adURLString:[adDict objectForKey:GALLERY_AD_AD_URL_JKEY]
+                     ];
+                                        
+                    [carsArray addObject:gAd];
+                }
+            }
+        }
+        return carsArray;
+    }
+    return [NSArray new];
+}
 @end

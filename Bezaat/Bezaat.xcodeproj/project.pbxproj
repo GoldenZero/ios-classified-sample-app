@@ -995,6 +995,7 @@
 		9E53BBC51716DFC60097DA8E /* CarAdNoImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E53BBC31716DFC60097DA8E /* CarAdNoImageCell.xib */; };
 		9E53BBF81718266F0097DA8E /* CarAdWithStoreNoImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53BBF61718266F0097DA8E /* CarAdWithStoreNoImageCell.m */; };
 		9E53BBF91718266F0097DA8E /* CarAdWithStoreNoImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E53BBF71718266F0097DA8E /* CarAdWithStoreNoImageCell.xib */; };
+		9E5936B91792A8FF001A50A3 /* GalleryAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E5936B81792A8FE001A50A3 /* GalleryAd.m */; };
 		9E64FB19172AFF31007883F4 /* libsheenfigure.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E64FB16172AFF14007883F4 /* libsheenfigure.a */; };
 		9E64FB27172B021F007883F4 /* home_addButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E64FB1B172B021F007883F4 /* home_addButton.png */; };
 		9E64FB28172B021F007883F4 /* home_addButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E64FB1C172B021F007883F4 /* home_addButton@2x.png */; };
@@ -2301,6 +2302,8 @@
 		9E53BBF51718266F0097DA8E /* CarAdWithStoreNoImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarAdWithStoreNoImageCell.h; sourceTree = "<group>"; };
 		9E53BBF61718266F0097DA8E /* CarAdWithStoreNoImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarAdWithStoreNoImageCell.m; sourceTree = "<group>"; };
 		9E53BBF71718266F0097DA8E /* CarAdWithStoreNoImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarAdWithStoreNoImageCell.xib; sourceTree = "<group>"; };
+		9E5936B71792A8FE001A50A3 /* GalleryAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GalleryAd.h; path = Gallery/GalleryAd.h; sourceTree = "<group>"; };
+		9E5936B81792A8FE001A50A3 /* GalleryAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GalleryAd.m; path = Gallery/GalleryAd.m; sourceTree = "<group>"; };
 		9E64FB11172AFF13007883F4 /* SheenFigureCG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SheenFigureCG.xcodeproj; path = ../Libraries/SheenFigure/SheenFigureCG.xcodeproj; sourceTree = "<group>"; };
 		9E64FB1B172B021F007883F4 /* home_addButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_addButton.png; sourceTree = "<group>"; };
 		9E64FB1C172B021F007883F4 /* home_addButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home_addButton@2x.png"; sourceTree = "<group>"; };
@@ -3044,6 +3047,8 @@
 			children = (
 				24F6D9681784387C00992760 /* CarsGallery.h */,
 				24F6D9691784387C00992760 /* CarsGallery.m */,
+				9E5936B71792A8FE001A50A3 /* GalleryAd.h */,
+				9E5936B81792A8FE001A50A3 /* GalleryAd.m */,
 				24F6D96B178441A600992760 /* gallariesManager.h */,
 				24F6D96C178441A600992760 /* gallariesManager.m */,
 			);
@@ -5575,6 +5580,7 @@
 				24F6D96A1784387C00992760 /* CarsGallery.m in Sources */,
 				24F6D96D178441A600992760 /* gallariesManager.m in Sources */,
 				24394A771785C495007E960B /* CarsInGalleryViewController.m in Sources */,
+				9E5936B91792A8FF001A50A3 /* GalleryAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

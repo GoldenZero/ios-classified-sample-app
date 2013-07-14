@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GalleryAd.h"
 
 /*
 @protocol GallariesManagerDelegate <NSObject>
@@ -52,9 +53,22 @@
 @property (strong, nonatomic) id <CarsInGalleryDelegate> carsDel;
 @property (strong, nonatomic) id <CommentsDelegate> commentsDel;
 
+@property (nonatomic) NSUInteger carsPageNumber;
+@property (nonatomic) NSUInteger carsPageSize;
+
 #pragma mark - methods
 
 + (gallariesManager *) sharedInstance;
+
+- (NSUInteger) nextPage;
+
+- (NSUInteger) getCurrentPageNum;
+- (NSUInteger) getCurrentPageSize;
+
+- (void) setCurrentPageNum:(NSUInteger) pNum;
+- (void) setCurrentPageSize:(NSUInteger) pSize;
+- (void) setPageSizeToDefault;
+
 
 - (void) getGallariesInCountry:(NSInteger) countryID WithDelegate:(id <GalleriesDelegate>) del;
 
