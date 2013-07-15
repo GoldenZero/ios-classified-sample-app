@@ -18,6 +18,7 @@
     MBProgressHUD2 *loadingHUD;
     gallariesManager *manager;
     float xForShiftingTinyImg;
+    bool userDidScroll;
 }
 
 @end
@@ -33,9 +34,11 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
+    
+    userDidScroll = NO;
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"carInGalleryCell" bundle:nil]
          forCellReuseIdentifier:@"CustomCell"];
     
@@ -50,13 +53,15 @@
     
     [self.galleryImage setImageWithURL:self.gallery.StoreImageURL placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
     
-    //NSData *data = [NSData dataWithContentsOfURL:[self.gallery StoreImageURL]];
-    //self.galleryImage.image=[UIImage imageWithData:data];
-    
-    
     //load ads in the gallery
     [self loadPageOfData];
     
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    userDidScroll = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -292,10 +297,30 @@
     
 }
 
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ((indexPath.row == ([self.tableView numberOfRowsInSection:0] - 1)) && (userDidScroll))
+    {
+        if (adsArray && adsArray.count)
+        {
+            CGFloat heightDiff = self.tableView.contentSize.height - self.tableView.frame.size.height;
+            
+            int separatorHeight = 5;//extra value for separating
+            CGFloat minDiff = 110 + separatorHeight;
+            
+            
+            if (heightDiff > minDiff)//to prevent continue loading if the page has returned less than 10 objects
+            {
+                [self loadPageOfData];
+            }
+        }
+    }
+}
 
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    /*
     CGFloat height = scrollView.frame.size.height;
     
     CGFloat contentYoffset = scrollView.contentOffset.y;
@@ -306,7 +331,15 @@
     {
         [self loadPageOfData];
     }
+     */
+    
+    if (scrollView == self.tableView) {
+        NSLog(@"inside scrollViewDidScroll, setting boolean to YES");
+        userDidScroll = YES;
+    }
 }
+
+
 
 
 #pragma mark - loading data handler
@@ -375,17 +408,23 @@
 - (void) carsDidFinishLoadingWithData:(NSArray *)resultArray {
     
     [self hideLoadingIndicator];
+    userDidScroll = NO;
+    
     if (resultArray && resultArray.count) {
         
         adsArray = resultArray;
         
         [self.tableView reloadData];
-    }
-    else {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل تحميل البيانات"];
         
-        [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+        NSMutableArray * URLsToPrefetch = [NSMutableArray new];
+        for (GalleryAd * newAd in resultArray)
+        {
+            if (newAd.thumbnailURL)
+                [URLsToPrefetch addObject:[NSURL URLWithString:newAd.thumbnailURL.absoluteString]];
+        }
+        
+        [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:URLsToPrefetch];
+        
     }
 }
 
