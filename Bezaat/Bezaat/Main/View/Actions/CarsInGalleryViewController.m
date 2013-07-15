@@ -190,7 +190,7 @@
     [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
     [cell.carImage setClipsToBounds:YES];
     
-    
+    adObject.isFeatured = YES;
     //check featured
     if (adObject.isFeatured)
     {
@@ -231,12 +231,9 @@
         {
             if (adObject.isFeatured){
                 [cell.favoriteButton setImage:[UIImage imageNamed:@"blank_heart.png"] forState:UIControlStateNormal];
-                
-                
             }
-            else{
+            else {
                 [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                
             }
         }
     }
@@ -333,10 +330,8 @@
     }
      */
     
-    if (scrollView == self.tableView) {
-        NSLog(@"inside scrollViewDidScroll, setting boolean to YES");
+    if (scrollView == self.tableView)
         userDidScroll = YES;
-    }
 }
 
 
@@ -364,20 +359,8 @@
     
 }
 
-- (void) addToFavoritePressed:(id)sender event:(id)event {
-    //get the tapping position on table to determine the tapped cell
-    NSSet *touches = [event allTouches];
-    UITouch *touch = [touches anyObject];
-    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
-    
-    //get the cell index path
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
-    if (indexPath != nil) {
-        //  [self handleAddToFavBtnForCellAtIndexPath:indexPath];
-    }
-}
-
 #pragma mark - laoding indicator handling
+
 - (void) showLoadingIndicator {
     
     loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
@@ -397,6 +380,7 @@
 }
 
 #pragma mark - CarsInGallery Delegate methods
+
 - (void) carsDidFailLoadingWithError:(NSError *)error {
     
     [self hideLoadingIndicator];
@@ -426,6 +410,188 @@
         [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:URLsToPrefetch];
         
     }
+}
+
+#pragma mark - helper methods
+
+- (void) addToFavoritePressed:(id)sender event:(id)event {
+    
+    //get the tapping position on table to determine the tapped cell
+    NSSet *touches = [event allTouches];
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
+    
+    //get the cell index path
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
+    if (indexPath != nil) {
+        [self handleAddToFavBtnForCellAtIndexPath:indexPath];
+    }
+}
+
+- (void) handleAddToFavBtnForCellAtIndexPath:(NSIndexPath *) indexPath {
+    
+    GalleryAd * adObject = (GalleryAd *)[adsArray objectAtIndex:indexPath.row];
+    
+    if (!adObject.isFavorite)
+    {
+        carInGalleryCell * cell = (carInGalleryCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        if (adObject.isFeatured) {
+            [cell.favoriteButton setImage:[UIImage imageNamed:@"orange_heart.png"] forState:UIControlStateNormal];
+        }
+        else{
+            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+        }
+        
+        //add to fav
+        [[ProfileManager sharedInstance] addCarAd:adObject.adID toFavoritesWithDelegate:self];
+    }
+    
+    else
+    {
+        [(CarAd *)[adsArray objectAtIndex:indexPath.row] setIsFavorite:NO];
+        
+        CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        
+        if (adObject.isFeatured){
+            [cell.favoriteButton setImage:[UIImage imageNamed:@"blank_heart.png"] forState:UIControlStateNormal];
+            
+        }
+        else {
+            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+        }
+        
+        //remove to fav
+        [[ProfileManager sharedInstance] removeCarAd:adObject.adID fromFavoritesWithDelegate:self];
+    }
+}
+
+- (NSInteger) getIndexOfGalleryAd:(NSInteger) adID  InArray:(NSArray *) galleryAdsArray {
+    
+    if (!galleryAdsArray)
+        return -1;
+    
+    for (int index = 0; index < galleryAdsArray.count; index ++)
+    {
+        GalleryAd * obj = [galleryAdsArray objectAtIndex:index];
+        if (obj.adID == adID)
+            return index;
+    }
+    return -1;
+}
+
+#pragma mark - favorites Delegate methods
+
+- (void) FavoriteFailAddingWithError:(NSError*) error forAdID:(NSUInteger)adID {
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    NSInteger index = [self getIndexOfGalleryAd:adID InArray:adsArray];
+    if (index > -1)
+    {
+        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        GalleryAd * adObject = [adsArray objectAtIndex:index];
+        
+        carInGalleryCell * cell = (carInGalleryCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        
+        if (adObject.isFeatured) {
+            [cell.favoriteButton setImage:[UIImage imageNamed:@"blank_heart.png"] forState:UIControlStateNormal];
+        }
+        else {
+            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+        }
+        
+    }
+}
+
+- (void) FavoriteDidAddWithStatus:(BOOL) resultStatus forAdID:(NSUInteger)adID {
+    
+    NSInteger index = [self getIndexOfGalleryAd:adID InArray:adsArray];
+    if (index > -1)
+    {
+        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        GalleryAd * adObject = [adsArray objectAtIndex:index];
+        
+        carInGalleryCell * cell = (carInGalleryCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        if (resultStatus)//added successfully
+        {
+            [(GalleryAd *)[adsArray objectAtIndex:index] setIsFavorite:YES];
+            if (adObject.isFeatured) {
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"orange_heart.png"] forState:UIControlStateNormal];
+            }
+            else{
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+            }
+            
+        }
+        else
+        {
+            [(GalleryAd *)[adsArray objectAtIndex:index] setIsFavorite:NO];
+            if (adObject.isFeatured) {
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"blank_heart.png"] forState:UIControlStateNormal];
+            }
+            else {
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+            }
+            
+        }
+
+    }
+}
+
+- (void) FavoriteFailRemovingWithError:(NSError*) error forAdID:(NSUInteger)adID {
+    
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+    NSInteger index = [self getIndexOfGalleryAd:adID InArray:adsArray];
+    if (index > -1)
+    {
+        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        GalleryAd * adObject = [adsArray objectAtIndex:index];
+        
+        carInGalleryCell * cell = (carInGalleryCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        if (adObject.isFeatured) {
+            [cell.favoriteButton setImage:[UIImage imageNamed:@"orange_heart.png"] forState:UIControlStateNormal];
+        }
+        else {
+            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+        }
+    }
+    
+}
+
+- (void) FavoriteDidRemoveWithStatus:(BOOL) resultStatus forAdID:(NSUInteger)adID {
+    
+    NSInteger index = [self getIndexOfGalleryAd:adID InArray:adsArray];
+    if (index > -1)
+    {
+        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+        GalleryAd * adObject = [adsArray objectAtIndex:index];
+        
+        CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        
+        if (resultStatus)//removed successfully
+        {
+            [(GalleryAd *)[adsArray objectAtIndex:index] setIsFavorite:NO];
+            if (adObject.isFeatured){
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"blank_heart.png"] forState:UIControlStateNormal];
+            }
+            else {
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+            }
+            
+        }
+        else
+        {
+            [(GalleryAd *)[adsArray objectAtIndex:index] setIsFavorite:YES];
+            if (adObject.isFeatured) {
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"orange_heart.png"] forState:UIControlStateNormal];
+            }
+            else {
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+            }
+            
+        }
+    }
+    
 }
 
 @end

@@ -11,8 +11,9 @@
 #import <SDWebImage/SDWebImagePrefetcher.h>
 #import "CarsGallery.h"
 #import "gallariesManager.h"
+#import "ProfileManager.h"
 
-@interface CarsInGalleryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarsInGalleryDelegate>
+@interface CarsInGalleryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarsInGalleryDelegate, FavoritesDelegate>
 
 #pragma mark - Properties
 @property (strong, nonatomic) IBOutlet UIImageView *galleryImage;
