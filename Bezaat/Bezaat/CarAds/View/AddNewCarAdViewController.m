@@ -82,7 +82,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    self.inputAccessoryView = [XCDFormInputAccessoryView new];
+    
     locationMngr = [LocationManager sharedInstance];
     
     [self loadData];
@@ -334,7 +335,7 @@
     [mobileNum setPlaceholder:@"رقم الجوال"];
     [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
     [self.verticalScrollView addSubview:mobileNum];
-    mobileNum.inputAccessoryView = numberToolbar;
+    //mobileNum.inputAccessoryView = numberToolbar;
     mobileNum.delegate=self;
 
     

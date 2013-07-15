@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "StoreManager.h"
 #import "GAI.h"
+#import "XCDFormInputAccessoryView.h"
 
 @interface AddNewStoreViewController : BaseViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource, UIPickerViewDelegate,LocationManagerDelegate,StoreManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *countryCity;
@@ -18,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *cancelBtn;
 @property (strong, nonatomic) IBOutlet UIImageView *whatIsStoreImg;
 @property (strong, nonatomic) IBOutlet UIButton *whatIsStoreBtn;
+@property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
 
 - (IBAction)homeBtnPress:(id)sender;
 - (IBAction)chooseImageBtnPress:(id)sender;

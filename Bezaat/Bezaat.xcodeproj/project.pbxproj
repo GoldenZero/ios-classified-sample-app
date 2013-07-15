@@ -839,6 +839,7 @@
 		843FFFD7172CF9470081671C /* SignInViewController5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 843FFFD6172CF9470081671C /* SignInViewController5.xib */; };
 		843FFFDD172D25840081671C /* chooseCarBrand.png in Resources */ = {isa = PBXBuildFile; fileRef = 843FFFDB172D25840081671C /* chooseCarBrand.png */; };
 		843FFFDE172D25840081671C /* chooseCarBrand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843FFFDC172D25840081671C /* chooseCarBrand@2x.png */; };
+		844905DF17942682003BBD34 /* XCDFormInputAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 844905DE17942682003BBD34 /* XCDFormInputAccessoryView.m */; };
 		844F1E1C174B3C240026AE32 /* Listing3_bottom_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 844F1E1A174B3C240026AE32 /* Listing3_bottom_bg.png */; };
 		844F1E1D174B3C240026AE32 /* Listing3_bottom_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 844F1E1B174B3C240026AE32 /* Listing3_bottom_bg@2x.png */; };
 		844F1E20174B41940026AE32 /* Details_bg_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 844F1E1E174B41940026AE32 /* Details_bg_blue.png */; };
@@ -2085,6 +2086,8 @@
 		843FFFD6172CF9470081671C /* SignInViewController5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignInViewController5.xib; sourceTree = "<group>"; };
 		843FFFDB172D25840081671C /* chooseCarBrand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chooseCarBrand.png; sourceTree = "<group>"; };
 		843FFFDC172D25840081671C /* chooseCarBrand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chooseCarBrand@2x.png"; sourceTree = "<group>"; };
+		844905DD17942682003BBD34 /* XCDFormInputAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCDFormInputAccessoryView.h; sourceTree = "<group>"; };
+		844905DE17942682003BBD34 /* XCDFormInputAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCDFormInputAccessoryView.m; sourceTree = "<group>"; };
 		844F1E1A174B3C240026AE32 /* Listing3_bottom_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Listing3_bottom_bg.png; sourceTree = "<group>"; };
 		844F1E1B174B3C240026AE32 /* Listing3_bottom_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Listing3_bottom_bg@2x.png"; sourceTree = "<group>"; };
 		844F1E1E174B41940026AE32 /* Details_bg_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Details_bg_blue.png; sourceTree = "<group>"; };
@@ -3989,6 +3992,8 @@
 		9E78A85516E4930F000CA790 /* Supporting classes */ = {
 			isa = PBXGroup;
 			children = (
+				844905DD17942682003BBD34 /* XCDFormInputAccessoryView.h */,
+				844905DE17942682003BBD34 /* XCDFormInputAccessoryView.m */,
 				9E198E2117096BF9002CECCE /* Twitter Library */,
 				9E78A85616E4930F000CA790 /* Custom Controls */,
 				9E461E3A170D96C600FF87B3 /* MD5 */,
@@ -5613,6 +5618,7 @@
 				24F6D96D178441A600992760 /* gallariesManager.m in Sources */,
 				24394A771785C495007E960B /* CarsInGalleryViewController.m in Sources */,
 				9E5936B91792A8FF001A50A3 /* GalleryAd.m in Sources */,
+				844905DF17942682003BBD34 /* XCDFormInputAccessoryView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

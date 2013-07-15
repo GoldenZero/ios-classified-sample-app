@@ -15,6 +15,7 @@
 #import "Store.h"
 #import "CarAdDetailsViewController.h"
 #import "GAI.h"
+#import "XCDFormInputAccessoryView.h"
 
 @interface AddNewStoreAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, StoreManagerDelegate,StorePostAdDelegate,PricingOptionsDelegate,LocationManagerDelegate>
 {
@@ -53,6 +54,7 @@
 
 @property (strong, nonatomic) IBOutlet  UIButton *countryCity;
 @property (strong, nonatomic) Store* currentStore;
+@property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
 
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;

@@ -224,10 +224,10 @@
         imageView.image = [UIImage imageNamed:@"waitForApprove.png"];
     }else {
         /*
-        imageView.url = imageURL;
-        [imageView showLoadingWheel];
-        [asynchImgManager manage:imageView];
-        */
+         imageView.url = imageURL;
+         [imageView showLoadingWheel];
+         [asynchImgManager manage:imageView];
+         */
         
         //update by roula 18-6-2013:
         UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -558,9 +558,11 @@
     {
         if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
         {
-            NSString *phoneStr = [[NSString alloc] initWithFormat:@"tel:%@",currentDetailsObject.mobileNumber];
-            NSURL *phoneURL = [[NSURL alloc] initWithString:phoneStr];
-            [[UIApplication sharedApplication] openURL:phoneURL];
+            
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"هل تريد الاتصال بهذا الرقم؟\n%@",currentDetailsObject.mobileNumber] delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:@"إلغاء", nil];
+            alert.tag = 101;
+            [alert show];
+            return;
         }
     }
 }
@@ -844,9 +846,9 @@
                 [self.scrollView addSubview:[self prepareImge:imgThumbURL :i]];
                 
                 /*
-                NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
-                //2- init the dictionary for the image browser
-                [allImagesDict setObject:imgURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
+                 NSURL * imgURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
+                 //2- init the dictionary for the image browser
+                 [allImagesDict setObject:imgURL.absoluteString forKey:[NSString stringWithFormat:@"%i", (i+1)]];
                  */
             }
             
@@ -974,6 +976,13 @@
                         
                         
                         CGFloat val_y = attr_y;
+                        UIButton* phoneBtn;
+                        if ([attr.displayName isEqualToString:@"رقم الجوال"] || [attr.displayName isEqualToString:@"رقم الهاتف"]) {
+                            phoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                            phoneBtn.frame = CGRectMake(40, 1, 118, 24);
+                            [phoneBtn setBackgroundImage:[UIImage imageNamed:@"Phonenum_box.png"] forState:UIControlStateNormal];
+                            [phoneBtn addTarget:self action:@selector(callBtnPrss:) forControlEvents:UIControlEventTouchUpInside];
+                        }
                         
                         UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 2, valueLabelWidth, valueLabelHeight)];
                         
@@ -995,6 +1004,13 @@
                         
                         
                         [v setBackgroundColor:[UIColor whiteColor]];
+                        if ([attr.displayName isEqualToString:@"رقم الجوال"] || [attr.displayName isEqualToString:@"رقم الهاتف"]){
+                            valuelabel.textColor = [UIColor whiteColor];
+                            valuelabel.font = [UIFont systemFontOfSize:14];
+                            [v addSubview:phoneBtn];
+                            
+                        }
+                        
                         [v addSubview:attrNameLabel];
                         [v addSubview:valuelabel];
                         
@@ -1009,14 +1025,14 @@
                 }
             }
             
-       //     addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
+            //     addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
             
             totalHeight = totalHeight + addedHeightValue ;
-
+            
             
             [self addOpenBoweseViewForX:13 andY:totalHeight];
-
-           totalHeight = totalHeight + 20 + 30;
+            
+            totalHeight = totalHeight + 20 + 30;
             [self.labelsScrollView setScrollEnabled:YES];
             [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
             [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
@@ -1402,6 +1418,19 @@
             alertView.hidden = YES;
         }
     }
+    else if (alertView.tag == 101){
+        if (buttonIndex == 0) {
+            // call
+            NSString *phoneStr = [[NSString alloc] initWithFormat:@"tel:%@",currentDetailsObject.mobileNumber];
+            NSURL *phoneURL = [[NSURL alloc] initWithString:phoneStr];
+            [[UIApplication sharedApplication] openURL:phoneURL];
+            
+        }else if (buttonIndex == 1)
+        {
+            // ignore
+            alertView.hidden = YES;
+        }
+    }
     
 }
 - (void) setPlacesOfViews{
@@ -1618,22 +1647,24 @@
 #pragma mark -  open browser
 - (void) openInBrowser{
     [[UIApplication sharedApplication] openURL:[currentDetailsObject adURL]];
-
+    
 }
 - (void) addOpenBoweseViewForX:(float) x andY:(float)y{
-    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 273, 20)];
+    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 295, 20)];
     view.backgroundColor=[UIColor whiteColor];
-    UILabel *browseLabel=[[UILabel alloc] initWithFrame:CGRectMake(2, 1, 200.0, 18)];
-    browseLabel.text=@"مشاهدة هذا العلان في المتصفح";
-    browseLabel.textAlignment=NSTextAlignmentLeft;
+    UILabel *browseLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 270, 20)];
+    browseLabel.text=@"مشاهدة هذا الاعلان في المتصفح";
+    browseLabel.textAlignment=NSTextAlignmentRight;
     browseLabel.backgroundColor= [UIColor clearColor];
     [view addSubview:browseLabel];
-    UIButton *buttn=[[UIButton alloc] initWithFrame:CGRectMake(240, 0, 20, 19)];
-   
-    buttn.imageView.image=[UIImage imageNamed:@"Text_icon.png"];
+    UIButton *buttn= [UIButton buttonWithType:UIButtonTypeCustom];
+    buttn.frame = CGRectMake(275, 0, 20, 19);
+    [buttn setImage:[UIImage imageNamed:@"Text_icon.png"] forState:UIControlStateNormal];
     [buttn addTarget:self action:@selector(openInBrowser) forControlEvents:UIControlEventTouchUpInside];
-    [view insertSubview:buttn aboveSubview:browseLabel];
+    
+    //[view insertSubview:buttn aboveSubview:browseLabel];
+    [view addSubview:buttn];
     [self.labelsScrollView addSubview:view];
-
+    
 }
 @end

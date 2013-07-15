@@ -107,7 +107,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.inputAccessoryView = [XCDFormInputAccessoryView new];
     gearchoosen = 0;
     typechoosen = 0;
     

@@ -71,10 +71,10 @@
     
     if (savedProfile.hasStores) {
         if ([[UIScreen mainScreen] bounds].size.height == 568){
-            AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
+            AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 30, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
             [AddStoreButton setImage:[UIImage imageNamed:@"iPhone5_manager.png"] forState:UIControlStateNormal];
             
-            exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
+            exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y + 30, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
             [exihibiButton setImage:[UIImage imageNamed:@"iPhone5_Exhimenu.png"] forState:UIControlStateNormal];
             
             BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
@@ -97,10 +97,10 @@
     }else {
     
     if ([[UIScreen mainScreen] bounds].size.height == 568){
-        AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
+        AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 30, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
         [AddStoreButton setImage:[UIImage imageNamed:@"iPhone5_openStrore.png"] forState:UIControlStateNormal];
         
-        exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
+        exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y + 30, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
         [exihibiButton setImage:[UIImage imageNamed:@"iPhone5_Exhimenu.png"] forState:UIControlStateNormal];
 
         

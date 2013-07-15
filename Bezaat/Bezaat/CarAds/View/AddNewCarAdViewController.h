@@ -12,6 +12,7 @@
 #import "FeaturingManager.h"
 #import "CarAdDetailsViewController.h"
 #import "GAI.h"
+#import "XCDFormInputAccessoryView.h"
 
 @interface AddNewCarAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,PricingOptionsDelegate>
 
@@ -39,6 +40,8 @@
 @property (strong, nonatomic) IBOutlet  UIButton *countryCity;
 
 @property (strong, nonatomic) UITextField *emailAddress;
+
+@property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
 
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;

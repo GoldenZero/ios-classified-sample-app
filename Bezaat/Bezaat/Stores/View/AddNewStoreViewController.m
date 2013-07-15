@@ -56,6 +56,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.inputAccessoryView = [XCDFormInputAccessoryView new];
+    
     UserProfile* currentUser = [[SharedUser sharedInstance] getUserProfileData];
     
     uploadingLOGO = NO;
@@ -291,7 +293,7 @@
         [passwordField becomeFirstResponder];
     }
     else {
-        [textField resignFirstResponder];
+        [self dismissKeyboard];
         [self saveBtnPress:nil];
     }
     return NO;
