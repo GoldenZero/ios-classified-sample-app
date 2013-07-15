@@ -263,11 +263,11 @@
     
 }
 
-/*
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
-    CarDetails * adObject = (CarDetails *)[adsArray objectAtIndex:indexPath.row];
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    GalleryAd * adObject = (GalleryAd *)[adsArray objectAtIndex:indexPath.row];
     CarAdDetailsViewController * vc;
- 
+    
     if (adObject.thumbnailURL)   //ad with image
         vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
     
@@ -275,12 +275,12 @@
         vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
     
     vc.currentAdID =  adObject.adID;
-    // vc.parentVC = self;
+    vc.secondParentVC = self;
     
     [self presentViewController:vc animated:YES completion:nil];
     
 }
- */
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (adsArray && adsArray.count)
@@ -477,6 +477,14 @@
             return index;
     }
     return -1;
+}
+
+- (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState {
+    NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:adID inArray:adsArray];
+    if (index > -1)
+    {
+        [(GalleryAd *)[adsArray objectAtIndex:index] setIsFavorite:favState];
+    }
 }
 
 #pragma mark - favorites Delegate methods

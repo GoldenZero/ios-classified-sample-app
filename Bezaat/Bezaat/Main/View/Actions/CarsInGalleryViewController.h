@@ -25,5 +25,5 @@
 #pragma mark - Actions
 - (IBAction)homeBtnPrss:(id)sender;
 - (IBAction)phoneBtnPrss:(id)sender;
-
+- (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
 @end

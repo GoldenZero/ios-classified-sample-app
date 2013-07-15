@@ -49,7 +49,7 @@
 
 @implementation CarAdDetailsViewController
 @synthesize pageControl,scrollView, phoneNumberButton, favoriteButton, featureBtn, editBtn, topMostToolbar,editAdBtn, currentStore;
-@synthesize currentAdID,parentVC;
+@synthesize currentAdID,parentVC, secondParentVC;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -1304,6 +1304,9 @@
         if (self.parentVC)
             [self.parentVC updateFavStateForAdID:currentAdID withState:YES];
         
+        if (self.secondParentVC)
+            [self.secondParentVC updateFavStateForAdID:currentAdID withState:YES];
+        
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
     }
     else
@@ -1311,6 +1314,10 @@
         [currentDetailsObject setIsFavorite:NO];
         if (self.parentVC)
             [self.parentVC updateFavStateForAdID:currentAdID withState:NO];
+        
+        if (self.secondParentVC)
+            [self.secondParentVC updateFavStateForAdID:currentAdID withState:NO];
+        
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
         
     }
@@ -1330,6 +1337,10 @@
         [currentDetailsObject setIsFavorite:NO];
         if (self.parentVC)
             [self.parentVC updateFavStateForAdID:currentAdID withState:NO];
+        
+        if (self.secondParentVC)
+            [self.secondParentVC updateFavStateForAdID:currentAdID withState:NO];
+        
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
     }
     else
@@ -1337,6 +1348,9 @@
         [currentDetailsObject setIsFavorite:YES];
         if (self.parentVC)
             [self.parentVC updateFavStateForAdID:currentAdID withState:YES];
+        
+        if (self.secondParentVC)
+            [self.secondParentVC updateFavStateForAdID:currentAdID withState:YES];
         
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
     }
