@@ -62,6 +62,8 @@
     [super viewWillAppear:animated];
     
     userDidScroll = NO;
+    [self.tableView reloadData];
+    [self.tableView setNeedsDisplay];
 }
 
 - (void)didReceiveMemoryWarning
@@ -190,7 +192,7 @@
     [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
     [cell.carImage setClipsToBounds:YES];
     
-    adObject.isFeatured = YES;
+
     //check featured
     if (adObject.isFeatured)
     {
