@@ -72,6 +72,9 @@
 
 - (void) getGallariesInCountry:(NSInteger) countryID WithDelegate:(id <GalleriesDelegate>) del;
 
-- (NSArray*) getCarsInGalleryWithDelegateOfPage:(NSUInteger) pageNum forStore:(NSUInteger) storeID Country:(NSInteger) counttryID pageSize:(NSUInteger) pageSize WithDelegate:(id <CarsInGalleryDelegate>) del;
+- (void) getCarAdsOfPage:(NSUInteger) pageNum forStore:(NSUInteger) storeID InCountry:(NSUInteger) countryID  WithDelegate:(id <CarsInGalleryDelegate>) del;
 
+/*
+- (NSArray*) getCarsInGalleryWithDelegateOfPage:(NSUInteger) pageNum forStore:(NSUInteger) storeID Country:(NSInteger) counttryID pageSize:(NSUInteger) pageSize WithDelegate:(id <CarsInGalleryDelegate>) del;
+*/
 @end

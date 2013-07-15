@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/SDWebImagePrefetcher.h>
 #import "CarsGallery.h"
 #import "gallariesManager.h"
 
-@interface CarsInGalleryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,GalleriesDelegate>
+@interface CarsInGalleryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarsInGalleryDelegate>
 
 #pragma mark - Properties
 @property (strong, nonatomic) IBOutlet UIImageView *galleryImage;

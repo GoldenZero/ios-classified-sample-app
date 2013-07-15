@@ -20,7 +20,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *carMileageLabel;
 @property (strong, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (strong, nonatomic) IBOutlet UIImageView *distingushingImage;
+
+@property (strong, nonatomic) IBOutlet UIImageView *yearTinyImg;
+@property (strong, nonatomic) IBOutlet UIImageView *carMileageTinyImg;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
+
 @property (strong, nonatomic) IBOutlet UIImageView *carImage;
 
 @end

@@ -109,7 +109,7 @@
 @synthesize galleriesDel, carsDel, commentsDel;
 
 static NSString * stores_by_country_url = @"/json/get-stores-by-country?countryid=%i";
-static NSString * cars_in_gallery_url = @"/json/store-ads?pageNo=%@&pageSize=%@&countryId=%i&cityId=%i&storeId=%i&textTerm=%@&brandId=%@&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@";
+static NSString * cars_in_gallery_url = @"/json/store-ads?pageNo=%@&pageSize=%@&countryId=%i&cityId=%@&storeId=%i&textTerm=%@&brandId=%@&modelId=%@&minPrice=%@&maxPrice=%@&destanceRange=%@&fromYear=%@&toYear=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@";
 
 static NSString * post_comment_url = @"/json/post-comment";
 static NSString * get_ad_comments_url = @"/json/get-ad-comments?adId=%@&pageNo=%@&pageSize=%@";
@@ -126,6 +126,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         self.commentsDel = nil;
         
         stores_by_country_url = [API_MAIN_URL stringByAppendingString:stores_by_country_url];
+        cars_in_gallery_url = [API_MAIN_URL stringByAppendingString:cars_in_gallery_url];
         post_comment_url = [API_MAIN_URL stringByAppendingString:post_comment_url];
         get_ad_comments_url = [API_MAIN_URL stringByAppendingString:get_ad_comments_url];
         

@@ -37,7 +37,7 @@
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"exhibitCell" bundle:nil]
          forCellReuseIdentifier:@"CustomCell"];
-    manager=[gallariesManager sharedInstance];
+    manager = [gallariesManager sharedInstance];
     //manager.countryID=self.countryID;
     [self showLoadingIndicator];
     [self loadData];
@@ -93,6 +93,7 @@
         if (cell == nil) {
             cell=[[exhibitCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [cell.numberButton addTarget:self action:@selector(callNumber:event:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -126,9 +127,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     CarsInGalleryViewController *vc=[[CarsInGalleryViewController alloc] initWithNibName:@"CarsInGalleryViewController" bundle:nil];
     vc.gallery=(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row];
+    [self presentViewController:vc animated:YES completion:nil];
     
     //NSLog(@"storeID = %i, countryID = %i", vc.gallery.StoreID, vc.gallery.CountryID);
 }
+
 
 - (void) loadData{
     /*
