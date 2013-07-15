@@ -185,8 +185,6 @@
     [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
     [cell.carImage setClipsToBounds:YES];
     
-    adObject.isFeatured = YES;
-    adObject.isFavorite = YES;
     
     //check featured
     if (adObject.isFeatured)
