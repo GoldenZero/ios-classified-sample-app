@@ -82,9 +82,34 @@
     /*
      [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%d",[self.gallery StoreContactNo]]]];
      */
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[self.gallery StoreContactNo]]]];
+    
+    if ((self.gallery) && !([self.gallery.StoreContactNo isEqualToString:@""])) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"هل تريد الاتصال بهذا الرقم؟\n%@",self.gallery.StoreContactNo] delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:@"إلغاء", nil];
+        alert.tag = 101;
+        [alert show];
+        return;
+    }
+    
 }
 
+#pragma mark - UIAlertView Delegate methods
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.tag == 101) {
+        if (buttonIndex == 0) {
+            // call
+            NSString *phoneStr = [[NSString alloc] initWithFormat:@"tel:%@",self.gallery.StoreContactNo];
+            NSURL *phoneURL = [[NSURL alloc] initWithString:phoneStr];
+            [[UIApplication sharedApplication] openURL:phoneURL];
+            
+        }
+        else if (buttonIndex == 1) {
+            // ignore
+            [alertView dismissWithClickedButtonIndex:1 animated:YES];
+        }
+    }
+}
 
 #pragma mark - tableView delegate handler
 
@@ -109,7 +134,7 @@
     
     
     [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     
     cell.detailsLabel.text = adObject.title;
     
@@ -192,13 +217,13 @@
     [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
     [cell.carImage setClipsToBounds:YES];
     
-
+    
     //check featured
     if (adObject.isFeatured)
     {
         [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
         cell.cellBackgoundImage.frame = CGRectMake(cell.cellBackgoundImage.frame.origin.x, cell.cellBackgoundImage.frame.origin.y, cell.cellBackgoundImage.frame.size.width, cell.cellBackgoundImage.frame.size.height);
-
+        
         [cell.distingushingImage setHidden:NO];
         [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
         [cell.favoriteButton setHidden:NO];
@@ -217,7 +242,7 @@
     {
         if (savedProfile.userID == adObject.ownerID) //is owner
             [cell.favoriteButton setHidden:YES];
-
+        
         //check favorite
         if (adObject.isFavorite)
         {
@@ -242,22 +267,22 @@
     
     
     /*
-    [cell.favoriteButton addTarget:self action:@selector(favoriteButton:event:) forControlEvents:UIControlEventTouchUpInside];
-    CarDetails *temp =(CarDetails*)[adsArray objectAtIndex:indexPath.row] ;
-    
-    cell.watchingCountsLabel.text= [NSString stringWithFormat:@"%d", [temp viewCount]];
-    cell.yearLabel.text= [NSString stringWithFormat:@"%d", [temp modelYear]];
-    cell.carMileageLabel.text=[NSString stringWithFormat:@"%d", [temp distanceRangeInKm]];
-    if (temp.isFeatured) {
-        cell.distingushingImage.hidden=NO;
-        cell.cellBackgoundImage.image=[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"];
-    }
-    
-    NSData *data = [NSData dataWithContentsOfURL:[temp thumbnailURL]];
-    cell.imageView.image=[UIImage imageWithData:data];
-    
-    cell.detailsLabel.text=[temp description];
-    cell.carPriceLabel.text=[NSString stringWithFormat:@"%f %@", [temp price],[temp currencyString]];
+     [cell.favoriteButton addTarget:self action:@selector(favoriteButton:event:) forControlEvents:UIControlEventTouchUpInside];
+     CarDetails *temp =(CarDetails*)[adsArray objectAtIndex:indexPath.row] ;
+     
+     cell.watchingCountsLabel.text= [NSString stringWithFormat:@"%d", [temp viewCount]];
+     cell.yearLabel.text= [NSString stringWithFormat:@"%d", [temp modelYear]];
+     cell.carMileageLabel.text=[NSString stringWithFormat:@"%d", [temp distanceRangeInKm]];
+     if (temp.isFeatured) {
+     cell.distingushingImage.hidden=NO;
+     cell.cellBackgoundImage.image=[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"];
+     }
+     
+     NSData *data = [NSData dataWithContentsOfURL:[temp thumbnailURL]];
+     cell.imageView.image=[UIImage imageWithData:data];
+     
+     cell.detailsLabel.text=[temp description];
+     cell.carPriceLabel.text=[NSString stringWithFormat:@"%f %@", [temp price],[temp currencyString]];
      */
     
     return cell;
@@ -320,16 +345,16 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     /*
-    CGFloat height = scrollView.frame.size.height;
-    
-    CGFloat contentYoffset = scrollView.contentOffset.y;
-    
-    CGFloat distanceFromBottom = scrollView.contentSize.height - contentYoffset;
-    
-    if(distanceFromBottom <= height)
-    {
-        [self loadPageOfData];
-    }
+     CGFloat height = scrollView.frame.size.height;
+     
+     CGFloat contentYoffset = scrollView.contentOffset.y;
+     
+     CGFloat distanceFromBottom = scrollView.contentSize.height - contentYoffset;
+     
+     if(distanceFromBottom <= height)
+     {
+     [self loadPageOfData];
+     }
      */
     
     if (scrollView == self.tableView)
@@ -543,7 +568,7 @@
             }
             
         }
-
+        
     }
 }
 

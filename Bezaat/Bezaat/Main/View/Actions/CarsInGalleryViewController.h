@@ -13,7 +13,7 @@
 #import "gallariesManager.h"
 #import "ProfileManager.h"
 
-@interface CarsInGalleryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarsInGalleryDelegate, FavoritesDelegate>
+@interface CarsInGalleryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarsInGalleryDelegate, FavoritesDelegate, UIAlertViewDelegate>
 
 #pragma mark - Properties
 @property (strong, nonatomic) IBOutlet UIImageView *galleryImage;

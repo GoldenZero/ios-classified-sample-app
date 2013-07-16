@@ -17,6 +17,7 @@
     NSArray *galleriesArray;
     MBProgressHUD2 * loadingHUD;
     gallariesManager *manager;
+    NSString * currentPhone2Call;
 }
 
 @end
@@ -38,6 +39,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"exhibitCell" bundle:nil]
          forCellReuseIdentifier:@"CustomCell"];
     manager = [gallariesManager sharedInstance];
+    currentPhone2Call = @"";
     //manager.countryID=self.countryID;
     [self showLoadingIndicator];
     [self loadData];
@@ -71,11 +73,40 @@
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
     
     if (indexPath != nil) {
-        
+        /*
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreContactNo]]]];
+        */
+        CarsGallery * gallery = (CarsGallery*)[galleriesArray objectAtIndex:indexPath.row];
         
+        if ((gallery) && !([gallery.StoreContactNo isEqualToString:@""])) {
+            currentPhone2Call = gallery.StoreContactNo;
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"هل تريد الاتصال بهذا الرقم؟\n%@",gallery.StoreContactNo] delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:@"إلغاء", nil];
+            alert.tag = 101;
+            [alert show];
+            return;
+        }
     }
     
+}
+
+#pragma mark - UIAlertView Delegate methods
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.tag == 101) {
+        if (buttonIndex == 0) {
+            // call
+            NSString *phoneStr = [[NSString alloc] initWithFormat:@"tel:%@",currentPhone2Call];
+            NSURL *phoneURL = [[NSURL alloc] initWithString:phoneStr];
+            [[UIApplication sharedApplication] openURL:phoneURL];
+            
+        }
+        else if (buttonIndex == 1) {
+            // ignore
+            [alertView dismissWithClickedButtonIndex:1 animated:YES];
+        }
+        currentPhone2Call = @"";
+    }
 }
 
 #pragma mark - TableView delegates handler
@@ -169,11 +200,13 @@
     
     [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     [self hideLoadingIndicator];
+    currentPhone2Call = @"";
 }
 
 - (void) galleriesDidFinishLoadingWithData:(NSArray *)resultArray {
     
     [self hideLoadingIndicator];
+    currentPhone2Call = @"";
     
     if (resultArray && resultArray.count) {
         

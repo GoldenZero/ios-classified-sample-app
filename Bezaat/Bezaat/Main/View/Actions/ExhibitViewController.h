@@ -10,7 +10,7 @@
 #import "gallariesManager.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-@interface ExhibitViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,GalleriesDelegate>
+@interface ExhibitViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,GalleriesDelegate, UIAlertViewDelegate>
 
 #pragma mark - Properties
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
