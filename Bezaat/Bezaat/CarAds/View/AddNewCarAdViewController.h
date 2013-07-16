@@ -30,6 +30,7 @@
 @property (strong, nonatomic) IBOutlet UIView *pickersView;
 
 @property (strong, nonatomic) IBOutlet  UITextField *carAdTitle;
+@property (strong, nonatomic) IBOutlet  UILabel *carDetailLabel;
 @property (strong, nonatomic) IBOutlet  UITextField *mobileNum;
 @property (strong, nonatomic) IBOutlet  UITextField *distance;
 @property (strong, nonatomic) IBOutlet  UITextField *carPrice;

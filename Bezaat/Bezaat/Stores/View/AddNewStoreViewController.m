@@ -56,6 +56,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.inputAccessoryView = [XCDFormInputAccessoryView new];
     
     UserProfile* currentUser = [[SharedUser sharedInstance] getUserProfileData];
@@ -64,32 +65,29 @@
     locationBtnPressedOnce = NO;
     guestCheck = NO;
      if ([[UIScreen mainScreen] bounds].size.height == 568){
-         self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height + 20);
+         self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height + 40);
          if (!currentUser) {
-            self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height + 40);
+            self.mainScrollView.frame = CGRectMake(self.mainScrollView.frame.origin.x, self.mainScrollView.frame.origin.y, self.mainScrollView.frame.size.width, self.mainScrollView.frame.size.height + 60);
          }
      }
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
-    self.mainScrollView.contentSize = CGSizeMake(278, 398);
+    self.mainScrollView.contentSize = CGSizeMake(278, 418);
     
     if (currentUser) {
         [passwordField setHidden:YES];
-        phoneField.frame = CGRectMake(phoneField.frame.origin.x, 177, phoneField.frame.size.width, phoneField.frame.size.height);
-        self.countryCity.frame = CGRectMake(self.countryCity.frame.origin.x, 215, self.countryCity.frame.size.width, self.countryCity.frame.size.height);
-        self.saveBtn.frame = CGRectMake(self.saveBtn.frame.origin.x, 253, self.saveBtn.frame.size.width, self.saveBtn.frame.size.height);
-        self.cancelBtn.frame = CGRectMake(self.cancelBtn.frame.origin.x, 253, self.cancelBtn.frame.size.width, self.cancelBtn.frame.size.height);
-        self.whatIsStoreBtn.frame = CGRectMake(self.whatIsStoreBtn.frame.origin.x, 293, self.whatIsStoreBtn.frame.size.width, self.whatIsStoreBtn.frame.size.height);
-        self.whatIsStoreImg.frame = CGRectMake(self.whatIsStoreImg.frame.origin.x, 301, self.whatIsStoreImg.frame.size.width, self.whatIsStoreImg.frame.size.height);
-       self.mainScrollView.contentSize = CGSizeMake(278, 368);
+        phoneField.frame = CGRectMake(phoneField.frame.origin.x, 197, phoneField.frame.size.width, phoneField.frame.size.height);
+        self.countryCity.frame = CGRectMake(self.countryCity.frame.origin.x, 235, self.countryCity.frame.size.width, self.countryCity.frame.size.height);
+        self.saveBtn.frame = CGRectMake(self.saveBtn.frame.origin.x, 273, self.saveBtn.frame.size.width, self.saveBtn.frame.size.height);
+        self.cancelBtn.frame = CGRectMake(self.cancelBtn.frame.origin.x, 273, self.cancelBtn.frame.size.width, self.cancelBtn.frame.size.height);
+        self.whatIsStoreBtn.frame = CGRectMake(self.whatIsStoreBtn.frame.origin.x, 313, self.whatIsStoreBtn.frame.size.width, self.whatIsStoreBtn.frame.size.height);
+        self.whatIsStoreImg.frame = CGRectMake(self.whatIsStoreImg.frame.origin.x, 321, self.whatIsStoreImg.frame.size.width, self.whatIsStoreImg.frame.size.height);
+       self.mainScrollView.contentSize = CGSizeMake(278, 388);
         
     }
     
-    CGRect frame = placeholderTextField.frame;
-    frame.size.height = descriptionField.frame.size.height;
-    placeholderTextField.textAlignment=NSTextAlignmentRight;
-    placeholderTextField.frame = frame;
-    placeholderTextField.placeholder = @"وصف المتجر (نبذة مختصرة)";
+    
+   
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
@@ -284,13 +282,13 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == nameField) {
-        [descriptionField becomeFirstResponder];
+        //[descriptionField becomeFirstResponder];
     }
     else if (textField == emailField) {
-        [phoneField becomeFirstResponder];
+        //[phoneField becomeFirstResponder];
     }
     else if (textField == passwordField) {
-        [passwordField becomeFirstResponder];
+        //[passwordField becomeFirstResponder];
     }
     else {
         [self dismissKeyboard];
@@ -300,15 +298,30 @@
 }
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    textField.textAlignment = NSTextAlignmentRight ;
-    return YES ;
+    textField.textAlignment = NSTextAlignmentRight;
+    [self closePicker];
+    return YES;
 }
-#pragma mark - UITextViewDelegate
 
+#pragma mark - UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+    [self closePicker];
+    if ([[UIScreen mainScreen] bounds].size.height == 568)
+        self.view.frame = CGRectMake(0, -100, 320, 568);
+    else
+        self.view.frame = CGRectMake(0, -100, 320, 480);
     
+    if (!textView.editable && [textView baseWritingDirectionForPosition:[textView beginningOfDocument] inDirection:UITextStorageDirectionForward] == UITextWritingDirectionRightToLeft) {
+        // if yes, set text alignment right
+        textView.textAlignment = NSTextAlignmentRight;
+    } else {
+        // for all other cases, set text alignment left
+        textView.textAlignment = NSTextAlignmentLeft;
+    }
 //textView.textAlignment=NSTextAlignmentRight;
 }
+
+
 
 #pragma mark - UIAlertViewDelegate Methods
 
@@ -477,14 +490,22 @@
 
 #pragma mark -
 
+
 - (void)textViewDidChange:(UITextView *)textView {
     if ([@"" isEqualToString:textView.text]) {
-        placeholderTextField.placeholder = @"وصف المتجر (نبذة مختصرة)";
+        //placeholderTextField.placeholder = @"وصف المتجر (نبذة مختصرة)";
     }
     else {
-        placeholderTextField.placeholder = @"";
+        //placeholderTextField.placeholder = @"";
     }
 }
+
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    [self dismissKeyboard];
+}
+
+
 
 #pragma mark - Private Methods
 

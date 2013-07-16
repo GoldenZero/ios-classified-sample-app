@@ -69,7 +69,7 @@
 @end
 
 @implementation AddNewCarAdViewController
-@synthesize carAdTitle,mobileNum,distance,carDetails,carPrice,countryCity,currency,kiloMile,productionYear;
+@synthesize carAdTitle,mobileNum,distance,carDetails,carPrice,countryCity,currency,kiloMile,productionYear,carDetailLabel;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -191,12 +191,35 @@
 #pragma mark - UITextView 
 - (void)textViewDidChange:(UITextView *)textView {
     if ([@"" isEqualToString:textView.text]) {
-        placeholderTextField.placeholder = @"تفاصيل الإعلان";
+        //placeholderTextField.placeholder = @"تفاصيل الإعلان";
     }
     else {
-        placeholderTextField.placeholder = @"";
+        //placeholderTextField.placeholder = @"";
     }
 }
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    if ([[UIScreen mainScreen] bounds].size.height == 568)
+        self.view.frame = CGRectMake(0, -140, 320, 568);
+    else
+        self.view.frame = CGRectMake(0, -140, 320, 480);
+    
+    if (!textView.editable && [textView baseWritingDirectionForPosition:[textView beginningOfDocument] inDirection:UITextStorageDirectionForward] == UITextWritingDirectionRightToLeft) {
+        // if yes, set text alignment right
+        textView.textAlignment = NSTextAlignmentRight;
+    } else {
+        // for all other cases, set text alignment left
+        textView.textAlignment = NSTextAlignmentLeft;
+    }
+    //textView.textAlignment=NSTextAlignmentRight;
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    [self dismissKeyboard];
+}
+
+
 
 #pragma mark - helper methods
 - (void) setImagesToXib{
@@ -271,6 +294,11 @@
     [carPrice resignFirstResponder];
     [distance resignFirstResponder];
     [carDetails resignFirstResponder];
+    
+    if ([[UIScreen mainScreen] bounds].size.height == 568)
+        self.view.frame = CGRectMake(0, 0, 320, 568);
+    else
+        self.view.frame = CGRectMake(0, 0, 320, 480);
 }
 
 -(void)cancelNumberPad{
@@ -283,7 +311,7 @@
 }
 
 - (void) addButtonsToXib{
-    [self.verticalScrollView setContentSize:CGSizeMake(320 , 420)];
+    [self.verticalScrollView setContentSize:CGSizeMake(320 , 430)];
     [self.verticalScrollView setScrollEnabled:YES];
     [self.verticalScrollView setShowsVerticalScrollIndicator:YES];
     
@@ -312,24 +340,33 @@
     [self.verticalScrollView addSubview:carAdTitle];
     carAdTitle.delegate=self;
     
-    carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,100 ,260 ,80 )];
-   // [carDetails setTextAlignment:NSTextAlignmentRight];
+    carDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 95, 260, 20)];
+    [carDetailLabel setText:@"تفاصيل الإعلان:"];
+    [carDetailLabel setTextAlignment:NSTextAlignmentRight];
+    [carDetailLabel setTextColor:[UIColor blackColor]];
+    [carDetailLabel setFont:[UIFont systemFontOfSize:17]];
+    [carDetailLabel setBackgroundColor:[UIColor clearColor]];
+    [self.verticalScrollView addSubview:carDetailLabel];
+    
+    
+    carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,120 ,260 ,80 )];
+    [carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
-    [carDetails setBackgroundColor:[UIColor clearColor]];
+    [carDetails setBackgroundColor:[UIColor whiteColor]];
     [carDetails setFont:[UIFont systemFontOfSize:17]];
     carDetails.delegate =self;
     
-    placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,100 ,260 ,30)];
+    placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,120 ,260 ,30)];
     [placeholderTextField setTextAlignment:NSTextAlignmentRight];
     [placeholderTextField setBorderStyle:UITextBorderStyleRoundedRect];
     CGRect frame = placeholderTextField.frame;
     frame.size.height = carDetails.frame.size.height;
     placeholderTextField.frame = frame;
     placeholderTextField.placeholder = @"تفاصيل الإعلان";
-    [self.verticalScrollView addSubview:placeholderTextField];
+    //[self.verticalScrollView addSubview:placeholderTextField];
     [self.verticalScrollView addSubview:carDetails];
    
-    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,190 ,260 ,30)];
+    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,210 ,260 ,30)];
     [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
     [mobileNum setTextAlignment:NSTextAlignmentRight];
     [mobileNum setPlaceholder:@"رقم الجوال"];
@@ -338,8 +375,15 @@
     //mobileNum.inputAccessoryView = numberToolbar;
     mobileNum.delegate=self;
 
-    
-    carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,240 ,160 ,30)];
+    productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 260, 260, 30)];
+    [productionYear setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
+    [productionYear setTitle:@"عام الصنع" forState:UIControlStateNormal];
+    [productionYear setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [productionYear addTarget:self action:@selector(chooseProductionYear) forControlEvents:UIControlEventTouchUpInside];
+    [self.verticalScrollView addSubview:productionYear];
+
+
+    carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,300 ,160 ,30)];
     [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [carPrice setTextAlignment:NSTextAlignmentRight];
     [carPrice setPlaceholder:@"السعر (اختياري)"];
@@ -347,7 +391,7 @@
     [self.verticalScrollView addSubview:carPrice];
     carPrice.delegate=self;
     
-    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 240, 80, 30)];
+    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 300, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_SM.png"] forState:UIControlStateNormal];
     //[currency setTitle:@"العملة   " forState:UIControlStateNormal];
     [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
@@ -355,7 +399,7 @@
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
 
-    distance=[[UITextField alloc] initWithFrame:CGRectMake(130,280 ,160 ,30)];
+    distance=[[UITextField alloc] initWithFrame:CGRectMake(130,340 ,160 ,30)];
     [distance setBorderStyle:UITextBorderStyleRoundedRect];
     [distance setTextAlignment:NSTextAlignmentRight];
     [distance setPlaceholder:@"المسافة المقطوعة"];
@@ -364,19 +408,13 @@
     distance.delegate=self;
 
     kiloMile = [[UISegmentedControl alloc] initWithItems:kiloMileArray];
-    kiloMile.frame = CGRectMake(30, 280, 80, 30);
+    kiloMile.frame = CGRectMake(30, 340, 80, 30);
     kiloMile.segmentedControlStyle = UISegmentedControlStylePlain;
     kiloMile.selectedSegmentIndex = 0;
     [kiloMile addTarget:self action:@selector(chooseKiloMile) forControlEvents: UIControlEventValueChanged];
     [self.verticalScrollView addSubview:kiloMile];
     
-    productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 320, 260, 30)];
-    [productionYear setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [productionYear setTitle:@"عام الصنع" forState:UIControlStateNormal];
-    [productionYear setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [productionYear addTarget:self action:@selector(chooseProductionYear) forControlEvents:UIControlEventTouchUpInside];
-    [self.verticalScrollView addSubview:productionYear];
-       
+          
 }
 
 - (void) showLoadingIndicator {
