@@ -1081,23 +1081,26 @@
             totalHeight = totalHeight + 20 + 30;
             
             //2- add the bar of "post your comment"
-            CommentsView * viewToBeAdded = (CommentsView *)[[[NSBundle mainBundle] loadNibNamed:@"CommentsView" owner:self options:nil] objectAtIndex:0];
-            
-            
-            viewToBeAdded.commentTextView.delegate = self;
-            [viewToBeAdded.postCommentBtn addTarget:self action:@selector(postCommentForCurrentAd) forControlEvents:UIControlEventTouchUpInside];
-            
-            commentsTV = viewToBeAdded.commentTextView;
-            commentsTV.textColor = [UIColor lightGrayColor];
-            
-            CGRect viewToBeAddedFrame = viewToBeAdded.frame;
-            viewToBeAddedFrame.origin.x = -2;
-            viewToBeAddedFrame.origin.y = totalHeight;
-            
-            [viewToBeAdded setFrame:viewToBeAddedFrame];
-            [self.labelsScrollView addSubview:viewToBeAdded];
-            
-            totalHeight = totalHeight + viewToBeAddedFrame.size.height;//, 10 and view's height for the bar of add your comment
+            UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+            if (savedProfile) {
+                CommentsView * viewToBeAdded = (CommentsView *)[[[NSBundle mainBundle] loadNibNamed:@"CommentsView" owner:self options:nil] objectAtIndex:0];
+                
+                
+                viewToBeAdded.commentTextView.delegate = self;
+                [viewToBeAdded.postCommentBtn addTarget:self action:@selector(postCommentForCurrentAd) forControlEvents:UIControlEventTouchUpInside];
+                
+                commentsTV = viewToBeAdded.commentTextView;
+                commentsTV.textColor = [UIColor lightGrayColor];
+                
+                CGRect viewToBeAddedFrame = viewToBeAdded.frame;
+                viewToBeAddedFrame.origin.x = -2;
+                viewToBeAddedFrame.origin.y = totalHeight;
+                
+                [viewToBeAdded setFrame:viewToBeAddedFrame];
+                [self.labelsScrollView addSubview:viewToBeAdded];
+                
+                totalHeight = totalHeight + viewToBeAddedFrame.size.height;//, 10 and view's height for the bar of add your comment
+            }
             
             [self.labelsScrollView setScrollEnabled:YES];
             [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
@@ -1800,8 +1803,40 @@
 #pragma mark - comments methods
 
 - (void) postCommentForCurrentAd {
-    if (commentsTV)
+    if (commentsTV) {
         [commentsTV resignFirstResponder];
-    NSLog(@"attempt to post the comment");
+        
+        [self showLoadingIndicator];
+        
+        [[CarDetailsManager sharedInstance] postCommentForAd:currentDetailsObject.adID WithText:commentsTV.text WithDelegate:self];
+    }
+}
+
+#pragma mark - Comments Delegate methods
+
+//get
+- (void) commentsDidFailLoadingWithError:(NSError *)error {
+    
+}
+
+- (void) commentsDidFinishLoadingWithData:(NSArray *)resultArray {
+    
+}
+
+//post
+- (void) commentsDidFailPostingWithError:(NSError *)error {
+    
+    [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+    
+    [self hideLoadingIndicator];
+}
+
+- (void) commentsDidPostWithData:(CommentOnAd *)resultComment {
+    [self hideLoadingIndicator];
+    
+    if (resultComment) {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تم إضافة تعليقك بنجاح" delegate:nil cancelButtonTitle:@"حسناً" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 @end

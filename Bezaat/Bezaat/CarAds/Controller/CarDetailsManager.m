@@ -54,6 +54,13 @@
 #define DETAILS_ATTRS_CAT_ATTR_ID_JKEY      @"CategoryAttributeID"
 #define DETAILS_ATTRS_DISPLAY_NAME_JKEY     @"DisplayName"
 
+#define COMMENTS_AD_ID_JKEY                 @"AdID"
+#define COMMENTS_COMMENT_ID_JKEY            @"CommentID"
+#define COMMENTS_COMMENT_TEXT_JKEY          @"CommentText"
+#define COMMENTS_POSTED_BY_ID_JKEY          @"PostedByID"
+#define COMMENTS_POSTED_ON_JKEY             @"PostedOn"
+#define COMMENTS_USERNAME_JKEY              @"UserName"
+
 #pragma mark - literals
 
 #define ARABIC_BEFORE_TEXT          @"قبل"
@@ -215,6 +222,85 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return result;
 }
 
+- (void) postCommentForAd:(NSUInteger) adID WithText:(NSString *) commentText WithDelegate:(id <CommentsDelegate>) del {
+    
+    //1- set the delegate
+    self.commentsDel = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.commentsDel)
+            [self.commentsDel commentsDidFailPostingWithError:error];
+        return ;
+    }
+    
+    NSString * fullURLString = post_comment_url;
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //post keys
+        NSString * prePost =[NSString stringWithFormat:@"AdID=%i&CommentText=%@",adID, commentText];
+        
+        
+        
+        NSString * post = [prePost stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        //[request setTimeoutInterval:60];
+        
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        
+        [request setHTTPBody:postData];
+        
+        postCommentMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.commentsDel)
+            [self.commentsDel commentsDidFailPostingWithError:error];
+        return ;
+    }
+    
+}
+
 #pragma mark - Data delegate methods
 
 - (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
@@ -270,7 +356,47 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         }
         else if (manager == postCommentMngr) {
             
-            if (self.commentsDel) {}
+            if (self.commentsDel) {
+                //create the comment object
+                
+                //NSLog(@"%@", result);
+                CommentOnAd * comment = nil;
+                NSArray * data = (NSArray *) result;
+                if ((data) && (data.count > 0))
+                {
+                    NSDictionary * totalDict = [data objectAtIndex:0];
+                    NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:DETAILS_STATUS_CODE_JKEY]];
+                    NSInteger statusCode = statusCodeString.integerValue;
+                    NSString * statusMessageProcessed = [[[totalDict objectForKey:DETAILS_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                    
+                    if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                    {
+                        NSDictionary * dataDict = [totalDict objectForKey:DETAILS_DATA_JKEY];
+                        if (dataDict)
+                        {
+                            
+                            //3- create the object
+                            comment = [[CommentOnAd alloc]
+                             initWithAdIDString:[dataDict objectForKey:COMMENTS_AD_ID_JKEY]
+                             commentIDString:[dataDict objectForKey:COMMENTS_COMMENT_ID_JKEY]
+                             commentTextString:[dataDict objectForKey:COMMENTS_COMMENT_TEXT_JKEY]
+                             postedByIDString:[dataDict objectForKey:COMMENTS_POSTED_BY_ID_JKEY]
+                             postedOnDateString:[dataDict objectForKey:COMMENTS_POSTED_ON_JKEY]
+                             userNameString:[dataDict objectForKey:COMMENTS_USERNAME_JKEY]
+                             ];
+                        }
+                    }else {
+                        CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
+                        [error setDescMessage:statusMessageProcessed];
+                        
+                        if (self.commentsDel)
+                            [self.commentsDel commentsDidFailPostingWithError:error];
+                    }
+                    NSLog(@"comment is: %@", result);
+                    if (self.commentsDel)
+                        [self.commentsDel commentsDidPostWithData:comment];
+                }
+            }
             
         }
         

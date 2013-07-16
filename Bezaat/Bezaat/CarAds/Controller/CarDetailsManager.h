@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CarDetails.h"
+#import "CommentOnAd.h"
 
 @protocol CarDetailsManagerDelegate <NSObject>
 @required
@@ -20,7 +21,7 @@
 
 //post
 - (void) commentsDidFailPostingWithError:(NSError *) error;
-- (void) commentsDidPostWithData:(NSArray *) resultArray;
+- (void) commentsDidPostWithData:(CommentOnAd *) resultComment;
 
 //get
 - (void) commentsDidFailLoadingWithError:(NSError *) error;
@@ -40,4 +41,6 @@
 - (void) loadCarDetailsOfAdID:(NSUInteger) adID WithDelegate:(id <CarDetailsManagerDelegate>) del;
 
 - (NSString *) getDateDifferenceStringFromDate:(NSDate *) input;
+
+- (void) postCommentForAd:(NSUInteger) adID WithText:(NSString *) commentText WithDelegate:(id <CommentsDelegate>) del;
 @end

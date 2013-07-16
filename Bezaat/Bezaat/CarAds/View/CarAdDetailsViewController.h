@@ -21,7 +21,7 @@
 #import "FBPhotoBrowserViewController.h"
 #import "CommentsView.h"
 
-@interface CarAdDetailsViewController : BaseViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate>
+@interface CarAdDetailsViewController : BaseViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) BrowseCarAdsViewController * parentVC;
