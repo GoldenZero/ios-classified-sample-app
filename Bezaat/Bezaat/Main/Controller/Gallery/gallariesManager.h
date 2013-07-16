@@ -32,26 +32,11 @@
 
 @end
 
-
-@protocol CommentsDelegate <NSObject>
-@required
-
-//post
-- (void) commentsDidFailPostingWithError:(NSError *) error;
-- (void) commentsDidPostWithData:(NSArray *) resultArray;
-
-//get
-- (void) commentsDidFailLoadingWithError:(NSError *) error;
-- (void) commentsDidFinishLoadingWithData:(NSArray*) resultArray;
-@end
-
-
 @interface gallariesManager : NSObject <DataDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) id <GalleriesDelegate> galleriesDel;
 @property (strong, nonatomic) id <CarsInGalleryDelegate> carsDel;
-@property (strong, nonatomic) id <CommentsDelegate> commentsDel;
 
 @property (nonatomic) NSUInteger carsPageNumber;
 @property (nonatomic) NSUInteger carsPageSize;

@@ -406,8 +406,10 @@
                 }];
             }
             
-            if (carAdObject.viewCount > 0)
+            if (carAdObject.viewCount > 0) {
                 cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+                [cell.countOfViewsTinyImg setHidden:NO];
+            }
             else
             {
                 cell.watchingCountsLabel.text = @"";
@@ -616,8 +618,10 @@
                 }];
             }
             
-            if (carAdObject.viewCount > 0)
+            if (carAdObject.viewCount > 0) {
                 cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+                [cell.countOfViewsTinyImg setHidden:NO];
+            }
             else
             {
                 cell.watchingCountsLabel.text = @"";
@@ -797,8 +801,10 @@
                 }];
             }
             
-            if (carAdObject.viewCount > 0)
+            if (carAdObject.viewCount > 0) {
                 cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+                [cell.countOfViewsTinyImg setHidden:NO];
+            }
             else
             {
                 cell.watchingCountsLabel.text = @"";
@@ -985,8 +991,10 @@
                 }];
             }
             
-            if (carAdObject.viewCount > 0)
+            if (carAdObject.viewCount > 0) {
                 cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+                [cell.countOfViewsTinyImg setHidden:NO];
+            }
             else
             {
                 cell.watchingCountsLabel.text = @"";

@@ -15,10 +15,23 @@
 - (void) detailsDidFinishLoadingWithData:(CarDetails *) resultObject;
 @end
 
+@protocol CommentsDelegate <NSObject>
+@required
+
+//post
+- (void) commentsDidFailPostingWithError:(NSError *) error;
+- (void) commentsDidPostWithData:(NSArray *) resultArray;
+
+//get
+- (void) commentsDidFailLoadingWithError:(NSError *) error;
+- (void) commentsDidFinishLoadingWithData:(NSArray*) resultArray;
+@end
+
 @interface CarDetailsManager : NSObject <DataDelegate>
 
 #pragma mark - prperties
 @property (strong, nonatomic) id <CarDetailsManagerDelegate> delegate;
+@property (strong, nonatomic) id <CommentsDelegate> commentsDel;
 
 #pragma mark - methods
 

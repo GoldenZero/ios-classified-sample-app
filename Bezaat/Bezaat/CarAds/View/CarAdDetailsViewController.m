@@ -30,6 +30,8 @@
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
     AURosetteView *shareButton;
     UITapGestureRecognizer *tap;
+    UITapGestureRecognizer *tapForDismissKeyBoard;
+    
     //NSMutableDictionary * allImagesDict;    //used in image browser
     UILabel * label;
     StoreManager *advFeatureManager;
@@ -37,6 +39,9 @@
     
     FBPhotoBrowserViewController * galleryView;
     float xForShiftingTinyImg;
+    UITextView * commentsTV;
+    bool shareBtnDidMoveUp;
+    bool shareBtnDidMovedown;
     
 }
 
@@ -67,6 +72,7 @@
 {
     [super viewDidLoad];
     [self setPlacesOfViews];
+    
     // hide share button
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
@@ -74,6 +80,11 @@
     //[self.scrollView addGestureRecognizer:tap];
     [self.labelsScrollView addGestureRecognizer:tap];
     
+    tapForDismissKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.labelsScrollView addGestureRecognizer:tapForDismissKeyBoard];
+    
+    shareBtnDidMoveUp = NO;
+    shareBtnDidMovedown = NO;
     
     [editBtn setEnabled:NO];
     [editAdBtn setEnabled:NO];
@@ -176,6 +187,47 @@
     if (!pageControlUsed) {
         int page = self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
         self.pageControl.currentPage = page;
+    }
+    if (sender == self.labelsScrollView) {
+        float scrollViewHeight = self.labelsScrollView.frame.size.height;
+        float scrollContentSizeHeight = self.labelsScrollView.contentSize.height;
+        float scrollOffset = self.labelsScrollView.contentOffset.y;
+        
+        //if ((scrollOffset >= 0) && (scrollOffset < (scrollContentSizeHeight - 60)))
+        if (scrollOffset == 0)
+        {
+            // we are at the top
+            if (!shareBtnDidMovedown) {
+                CGRect tempFrame = shareButton.frame;
+                tempFrame.origin.y = tempFrame.origin.y + 50;
+                
+                //NSLog(@"y is: %f", shareButton.frame.origin.y);
+                
+                [UIView animateWithDuration:0.8f animations:^{
+                    [shareButton setFrame:tempFrame];
+                }];
+                shareBtnDidMovedown = YES;
+                shareBtnDidMoveUp = NO;
+            }
+            
+        }
+        else if (scrollOffset + scrollViewHeight == scrollContentSizeHeight)
+        {
+            // we are at the end
+            if (!shareBtnDidMoveUp) {
+                CGRect tempFrame = shareButton.frame;
+                tempFrame.origin.y = tempFrame.origin.y - 50;
+                NSLog(@"y is: %f", shareButton.frame.origin.y);
+                
+                [UIView animateWithDuration:0.8f animations:^{
+                    [shareButton setFrame:tempFrame];
+                }];
+                
+                shareBtnDidMoveUp = YES;
+                shareBtnDidMovedown = NO;
+            }
+            
+        }
     }
     
 }
@@ -382,7 +434,6 @@
     CGAffineTransformMakeRotation(-0.7f);
     
     shareButton.transform = transform;
-    
     
     [self.view insertSubview:shareButton aboveSubview:self.labelsScrollView];
     
@@ -1024,15 +1075,32 @@
                     }
                 }
             }
+            //1- add the bar of "open ad in browser"
+            [self addOpenBoweseViewForX:13 andY:lastY + 10];
             
-            //     addedHeightValue = addedHeightValue + FIXED_V_DISTANCE;
-            
-            totalHeight = totalHeight + addedHeightValue ;
-            
-            
-            [self addOpenBoweseViewForX:13 andY:totalHeight];
+            totalHeight = totalHeight + addedHeightValue + 10 + 30;//added 10 and 30 for the bar of
+                //view this ad in the browser
             
             totalHeight = totalHeight + 20 + 30;
+            
+            //2- add the bar of "post your comment"
+            CommentsView * viewToBeAdded = (CommentsView *)[[[NSBundle mainBundle] loadNibNamed:@"CommentsView" owner:self options:nil] objectAtIndex:0];
+            
+            
+            viewToBeAdded.commentTextView.delegate = self;
+            [viewToBeAdded.postCommentBtn addTarget:self action:@selector(postCommentForCurrentAd) forControlEvents:UIControlEventTouchUpInside];
+            
+            commentsTV = viewToBeAdded.commentTextView;
+            
+            CGRect viewToBeAddedFrame = viewToBeAdded.frame;
+            viewToBeAddedFrame.origin.x = -2;
+            viewToBeAddedFrame.origin.y = totalHeight;
+            
+            [viewToBeAdded setFrame:viewToBeAddedFrame];
+            [self.labelsScrollView addSubview:viewToBeAdded];
+            
+            totalHeight = totalHeight + viewToBeAddedFrame.size.height;//, 10 and view's height for the bar of add your comment
+            
             [self.labelsScrollView setScrollEnabled:YES];
             [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
             [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
@@ -1658,21 +1726,29 @@
     galleryView = nil;
 }
 
+- (void) dismissKeyboard {
+    if (commentsTV)
+        [commentsTV resignFirstResponder];
+}
+
+
 #pragma mark -  open browser
 - (void) openInBrowser{
     [[UIApplication sharedApplication] openURL:[currentDetailsObject adURL]];
     
 }
 - (void) addOpenBoweseViewForX:(float) x andY:(float)y{
-    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 295, 20)];
+    
+    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 295, 30)];
     view.backgroundColor=[UIColor whiteColor];
-    UILabel *browseLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 270, 20)];
+    UILabel *browseLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 5, 270, 20)];
     browseLabel.text=@"مشاهدة هذا الاعلان في المتصفح";
-    browseLabel.textAlignment=NSTextAlignmentRight;
+    browseLabel.textAlignment=NSTextAlignmentLeft;
     browseLabel.backgroundColor= [UIColor clearColor];
+    browseLabel.font=[UIFont systemFontOfSize:15];
     [view addSubview:browseLabel];
     UIButton *buttn= [UIButton buttonWithType:UIButtonTypeCustom];
-    buttn.frame = CGRectMake(275, 0, 20, 19);
+    buttn.frame = CGRectMake(270, 8, 20, 19);
     [buttn setImage:[UIImage imageNamed:@"Text_icon.png"] forState:UIControlStateNormal];
     [buttn addTarget:self action:@selector(openInBrowser) forControlEvents:UIControlEventTouchUpInside];
     
@@ -1680,5 +1756,9 @@
     [view addSubview:buttn];
     [self.labelsScrollView addSubview:view];
     
+}
+#pragma mark - comments methods
+- (void) postCommentForCurrentAd {
+    NSLog(@"attempt to post the comment");
 }
 @end

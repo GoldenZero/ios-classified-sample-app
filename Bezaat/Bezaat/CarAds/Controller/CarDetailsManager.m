@@ -70,21 +70,31 @@
 @interface CarDetailsManager ()
 {
     InternetManager * internetMngr;
+    InternetManager * postCommentMngr;
+    InternetManager * getCommentsMngr;
 }
 @end
 
 @implementation CarDetailsManager
 
-@synthesize delegate;
+@synthesize delegate, commentsDel;
 
 static NSString * details_url = @"/json/ad-details?adId=%li";
+static NSString * post_comment_url = @"/json/post-comment";
+static NSString * get_ad_comments_url = @"/json/get-ad-comments?adId=%@&pageNo=%@&pageSize=%@";
+
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
 - (id) init {
     self = [super init];
     if (self) {
         self.delegate = nil;
+        self.commentsDel = nil;
+        
         details_url = [API_MAIN_URL stringByAppendingString:details_url];
+        post_comment_url = [API_MAIN_URL stringByAppendingString:post_comment_url];
+        get_ad_comments_url = [API_MAIN_URL stringByAppendingString:get_ad_comments_url];
+        
     }
     return self;
 }
@@ -209,30 +219,65 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 
 - (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
     
-    if (self.delegate)
-        [delegate detailsDidFailLoadingWithError:error];
+    if (manager == internetMngr) {
+        if (self.delegate)
+            [delegate detailsDidFailLoadingWithError:error];
+    }
+    else if (manager == postCommentMngr) {
+        
+        if (self.commentsDel)
+            [commentsDel commentsDidFailPostingWithError:error];
+    }
+    
+    else if (manager == getCommentsMngr) {
+        
+        if (self.commentsDel)
+            [commentsDel commentsDidFailLoadingWithError:error];
+    }
 }
 
 - (void) manager:(BaseDataManager*)manager connectionDidSucceedWithObjects:(NSData*) result {
    
-   
-    
     if (!result)
     {
         CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
         [error setDescMessage:@"فشل تحميل البيانات"];
         
-        if (self.delegate)
-            [self.delegate detailsDidFailLoadingWithError:error];
+        if (manager == internetMngr) {
+            if (self.delegate)
+                [self.delegate detailsDidFailLoadingWithError:error];
+        }
+        else if (manager == postCommentMngr) {
+            
+            if (self.commentsDel)
+                [commentsDel commentsDidFailPostingWithError:error];
+        }
+        
+        else if (manager == getCommentsMngr) {
+            
+            if (self.commentsDel)
+                [commentsDel commentsDidFailLoadingWithError:error];
+        }
     }
     else
     {
-       
-        //NSLog(@"%@", result.description);
-        if (self.delegate)
-        {
-            CarDetails * detailsObject = [self createCarDetailsObjectWithData:(NSArray *)result];
-            [delegate detailsDidFinishLoadingWithData:detailsObject];
+        if (manager == internetMngr) {
+            if (self.delegate)
+            {
+                CarDetails * detailsObject = [self createCarDetailsObjectWithData:(NSArray *)result];
+                [delegate detailsDidFinishLoadingWithData:detailsObject];
+            }
+        }
+        else if (manager == postCommentMngr) {
+            
+            if (self.commentsDel) {}
+            
+        }
+        
+        else if (manager == getCommentsMngr) {
+            
+            if (self.commentsDel) {}
+            
         }
     }
 }
