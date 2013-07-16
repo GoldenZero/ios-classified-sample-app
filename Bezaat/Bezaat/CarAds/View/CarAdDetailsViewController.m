@@ -40,8 +40,8 @@
     FBPhotoBrowserViewController * galleryView;
     float xForShiftingTinyImg;
     UITextView * commentsTV;
-    bool shareBtnDidMoveUp;
-    bool shareBtnDidMovedown;
+    BOOL shareBtnDidMoveUp;
+    BOOL shareBtnDidMovedown;
     
 }
 
@@ -201,8 +201,6 @@
                 CGRect tempFrame = shareButton.frame;
                 tempFrame.origin.y = tempFrame.origin.y + 50;
                 
-                //NSLog(@"y is: %f", shareButton.frame.origin.y);
-                
                 [UIView animateWithDuration:0.8f animations:^{
                     [shareButton setFrame:tempFrame];
                 }];
@@ -217,7 +215,6 @@
             if (!shareBtnDidMoveUp) {
                 CGRect tempFrame = shareButton.frame;
                 tempFrame.origin.y = tempFrame.origin.y - 50;
-                NSLog(@"y is: %f", shareButton.frame.origin.y);
                 
                 [UIView animateWithDuration:0.8f animations:^{
                     [shareButton setFrame:tempFrame];
@@ -1091,6 +1088,7 @@
             [viewToBeAdded.postCommentBtn addTarget:self action:@selector(postCommentForCurrentAd) forControlEvents:UIControlEventTouchUpInside];
             
             commentsTV = viewToBeAdded.commentTextView;
+            commentsTV.textColor = [UIColor lightGrayColor];
             
             CGRect viewToBeAddedFrame = viewToBeAdded.frame;
             viewToBeAddedFrame.origin.x = -2;
@@ -1727,8 +1725,14 @@
 }
 
 - (void) dismissKeyboard {
-    if (commentsTV)
+    if (commentsTV) {
         [commentsTV resignFirstResponder];
+        if(commentsTV.text.length == 0){
+            commentsTV.textColor = [UIColor lightGrayColor];
+            commentsTV.text = @"أضف تعليقك";
+            commentsTV.textAlignment = NSTextAlignmentRight;
+        }
+    }
 }
 
 
@@ -1757,8 +1761,47 @@
     [self.labelsScrollView addSubview:view];
     
 }
+
+#pragma mark - UITextView delegate methods
+
+- (BOOL) textViewShouldBeginEditing:(UITextView *)textView {
+    if (commentsTV) {
+        if (commentsTV.textColor == [UIColor lightGrayColor]) {
+            commentsTV.text = @"";
+            commentsTV.textColor = [UIColor blackColor];
+            commentsTV.textAlignment = NSTextAlignmentLeft;
+        }
+            
+        
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if (commentsTV) {
+        if([text isEqualToString:@"\n"]) {
+            //[commentsTV resignFirstResponder];
+            if(commentsTV.text.length == 0){
+                commentsTV.textColor = [UIColor lightGrayColor];
+                commentsTV.text = @"أضف تعليقك";
+                commentsTV.textAlignment = NSTextAlignmentRight;
+                //[commentsTV resignFirstResponder];
+            }
+            return NO;
+        }
+        
+        return YES;
+    }
+    return NO;
+}
+
 #pragma mark - comments methods
+
 - (void) postCommentForCurrentAd {
+    if (commentsTV)
+        [commentsTV resignFirstResponder];
     NSLog(@"attempt to post the comment");
 }
 @end
