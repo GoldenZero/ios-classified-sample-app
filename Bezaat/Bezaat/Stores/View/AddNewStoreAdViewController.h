@@ -43,6 +43,7 @@
 @property (strong, nonatomic) IBOutlet  UITextField *mobileNum;
 @property (strong, nonatomic) IBOutlet  UITextField *distance;
 @property (strong, nonatomic) IBOutlet  UITextField *carPrice;
+@property (strong, nonatomic) IBOutlet  UILabel *carDetailLabel;
 @property (strong, nonatomic) IBOutlet  UITextView *carDetails;
 @property (strong, nonatomic) IBOutlet  UIButton *productionYear;
 @property (strong, nonatomic) IBOutlet  UIButton *currency;
