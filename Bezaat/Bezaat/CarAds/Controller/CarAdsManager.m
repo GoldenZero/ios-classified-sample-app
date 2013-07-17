@@ -852,12 +852,18 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     NSMutableData *body = [NSMutableData data];
     
     // add image data
-    //NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    NSData *tempImageData = UIImageJPEGRepresentation(image, 1.0);
+    NSData *imageData;
     
-    //with compression
-    UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
+    if (tempImageData.length <= (1000 * 1000)) //if size is smaller than 1MB, no need for compression
+        imageData = tempImageData;
+    else {
     
-    NSData *imageData = UIImageJPEGRepresentation(small, 1.0);
+        //with compression
+        UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
+        
+        imageData = UIImageJPEGRepresentation(small, 1.0);
+    }
     
     if ((imageData) && (imageData.length > (5 * 1024 * 1024)))
     {

@@ -96,11 +96,18 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
      */
     
 	//NSData *imageData = UIImageJPEGRepresentation(image, 90);
-	
-    //with compression
-    UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
+    NSData *tempImageData = UIImageJPEGRepresentation(image, 90);
+    NSData *imageData;
     
-    NSData *imageData = UIImageJPEGRepresentation(small, 90);
+    if (tempImageData.length <= (1000 * 1000)) //if size is smaller than 1MB, no need for compression
+        imageData = tempImageData;
+    else {
+	
+        //with compression
+        UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
+        
+        imageData = UIImageJPEGRepresentation(small, 90);
+    }
     
 	// setting up the request object now
    // NSMutableURLRequest *request = [self request];
