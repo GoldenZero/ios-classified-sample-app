@@ -1776,6 +1776,7 @@
 }
 - (void) addOpenBoweseViewForX:(float) x andY:(float)y{
     
+    /*
     UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 295, 30)];
     view.backgroundColor=[UIColor whiteColor];
     UILabel *browseLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 5, 270, 20)];
@@ -1792,6 +1793,14 @@
     //[view insertSubview:buttn aboveSubview:browseLabel];
     [view addSubview:buttn];
     [self.labelsScrollView addSubview:view];
+     */
+    
+    UIButton * openBrowserBtn = [[UIButton alloc] initWithFrame:CGRectMake(x, y, 295, 30)];
+    [openBrowserBtn setTitle:@"" forState:UIControlStateNormal];
+    [openBrowserBtn setImage:[UIImage imageNamed:@"OpenInBrowser.png"] forState:UIControlStateNormal];
+    [openBrowserBtn addTarget:self action:@selector(openInBrowser) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.labelsScrollView addSubview:openBrowserBtn];
     
 }
 
