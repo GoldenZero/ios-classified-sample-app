@@ -14,7 +14,7 @@
 #import "carInGalleryCell.h"
 
 @interface CarsInGalleryViewController (){
-    NSArray *adsArray;
+    NSMutableArray *adsArray;
     MBProgressHUD2 *loadingHUD;
     gallariesManager *manager;
     float xForShiftingTinyImg;
@@ -29,7 +29,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        adsArray=[NSArray new];
+        adsArray = [NSMutableArray new];
     }
     return self;
 }
@@ -38,6 +38,13 @@
     [super viewDidLoad];
     
     userDidScroll = NO;
+    
+    //customize the noAdsLabel
+    [self.noAdsLabel setBackgroundColor:[UIColor clearColor]];
+    [self.noAdsLabel setTextAlignment:SSTextAlignmentCenter];
+    [self.noAdsLabel setTextColor:[UIColor grayColor]];
+    [self.noAdsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:20.0] ];
+    [self.noAdsLabel setText:@"لا يوجد إعلانات في هذا المتجر"];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"carInGalleryCell" bundle:nil]
          forCellReuseIdentifier:@"CustomCell"];
@@ -120,172 +127,155 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    xForShiftingTinyImg = 0;
-    static NSString *CellIdentifier = @"CustomCell";
-    
-    carInGalleryCell *cell =(carInGalleryCell*) [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell=[[carInGalleryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    GalleryAd * adObject = [adsArray objectAtIndex:indexPath.row];
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    
-    [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    cell.detailsLabel.text = adObject.title;
-    
-    NSString * priceStr = [GenericMethods formatPrice:adObject.price];
-    if ([priceStr isEqualToString:@""])
-        cell.carPriceLabel.text = priceStr;
-    else
-        cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, adObject.currencyString];
-    cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:adObject.postedOnDate];
-    
-    //hiding & shifting
-    if (adObject.modelYear > 0)
-        cell.yearLabel.text = [NSString stringWithFormat:@"%i", adObject.modelYear];
-    else {
-        xForShiftingTinyImg = cell.yearTinyImg.frame.origin.x;
+    if (adsArray && adsArray.count) {
         
-        cell.yearLabel.hidden = YES;
-        cell.yearTinyImg.hidden = YES;
-    }
-    
-    if (xForShiftingTinyImg > 0) {
-        CGRect tempLabelFrame = cell.carMileageLabel.frame;
-        CGRect tempImgFrame = cell.carMileageTinyImg.frame;
+        xForShiftingTinyImg = 0;
+        static NSString *CellIdentifier = @"CustomCell";
         
-        
-        tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
-        tempImgFrame.origin.x = xForShiftingTinyImg;
-        
-        [UIView animateWithDuration:0.3f animations:^{
-            
-            [cell.carMileageTinyImg setFrame:tempImgFrame];
-            [cell.carMileageLabel setFrame:tempLabelFrame];
-        }];
-        
-        xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
-    }
-    
-    if (adObject.distanceRangeInKm != -1)
-        //if (adObject.distanceRangeInKm != 0)
-        cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", adObject.distanceRangeInKm];
-    else {
-        xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
-        
-        cell.carMileageLabel.hidden = YES;
-        cell.carMileageTinyImg.hidden = YES;
-    }
-    
-    if (xForShiftingTinyImg > 0) {
-        CGRect tempLabelFrame = cell.watchingCountsLabel.frame;
-        CGRect tempImgFrame = cell.countOfViewsTinyImg.frame;
-        
-        
-        tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
-        tempImgFrame.origin.x = xForShiftingTinyImg;
-        
-        [UIView animateWithDuration:0.3f animations:^{
-            
-            [cell.countOfViewsTinyImg setFrame:tempImgFrame];
-            [cell.watchingCountsLabel setFrame:tempLabelFrame];
-        }];
-    }
-    
-    if (adObject.viewCount > 0)
-        cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", adObject.viewCount];
-    else
-    {
-        cell.watchingCountsLabel.text = @"";
-        [cell.countOfViewsTinyImg setHidden:YES];
-    }
-    
-    
-    NSString* temp = [adObject.thumbnailURL absoluteString];
-    
-    if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
-        cell.carImage.image = [UIImage imageNamed:@"waitForApprove.png"];
-    }else{
-        [cell.carImage setImageWithURL:adObject.thumbnailURL
-                      placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
-    }
-    [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
-    [cell.carImage setClipsToBounds:YES];
-    
-    
-    //check featured
-    if (adObject.isFeatured)
-    {
-        [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
-        cell.cellBackgoundImage.frame = CGRectMake(cell.cellBackgoundImage.frame.origin.x, cell.cellBackgoundImage.frame.origin.y, cell.cellBackgoundImage.frame.size.width, cell.cellBackgoundImage.frame.size.height);
-        
-        [cell.distingushingImage setHidden:NO];
-        [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
-        [cell.favoriteButton setHidden:NO];
-        
-    }
-    
-    //check owner
-    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    // Not logged in
-    if(!savedProfile){
-        [cell.favoriteButton setHidden:YES];
-        
-    }
-    
-    if (savedProfile)   //logged in
-    {
-        if (savedProfile.userID == adObject.ownerID) //is owner
-            [cell.favoriteButton setHidden:YES];
-        
-        //check favorite
-        if (adObject.isFavorite)
-        {
-            if (adObject.isFeatured) {
-                [cell.favoriteButton setImage:[UIImage imageNamed:@"orange_heart.png"] forState:UIControlStateNormal];
-            }
-            else{
-                [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-            }
-            
+        carInGalleryCell *cell =(carInGalleryCell*) [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell=[[carInGalleryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
+        
+        GalleryAd * adObject = [adsArray objectAtIndex:indexPath.row];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        
+        [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        cell.detailsLabel.text = adObject.title;
+        
+        NSString * priceStr = [GenericMethods formatPrice:adObject.price];
+        if ([priceStr isEqualToString:@""])
+            cell.carPriceLabel.text = priceStr;
+        else
+            cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, adObject.currencyString];
+        cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:adObject.postedOnDate];
+        
+        //hiding & shifting
+        if (adObject.modelYear > 0)
+            cell.yearLabel.text = [NSString stringWithFormat:@"%i", adObject.modelYear];
+        else {
+            xForShiftingTinyImg = cell.yearTinyImg.frame.origin.x;
+            
+            cell.yearLabel.hidden = YES;
+            cell.yearTinyImg.hidden = YES;
+        }
+        
+        if (xForShiftingTinyImg > 0) {
+            CGRect tempLabelFrame = cell.carMileageLabel.frame;
+            CGRect tempImgFrame = cell.carMileageTinyImg.frame;
+            
+            
+            tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+            tempImgFrame.origin.x = xForShiftingTinyImg;
+            
+            [UIView animateWithDuration:0.3f animations:^{
+                
+                [cell.carMileageTinyImg setFrame:tempImgFrame];
+                [cell.carMileageLabel setFrame:tempLabelFrame];
+            }];
+            
+            xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
+        }
+        
+        if (adObject.distanceRangeInKm != -1)
+            //if (adObject.distanceRangeInKm != 0)
+            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", adObject.distanceRangeInKm];
+        else {
+            xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
+            
+            cell.carMileageLabel.hidden = YES;
+            cell.carMileageTinyImg.hidden = YES;
+        }
+        
+        if (xForShiftingTinyImg > 0) {
+            CGRect tempLabelFrame = cell.watchingCountsLabel.frame;
+            CGRect tempImgFrame = cell.countOfViewsTinyImg.frame;
+            
+            
+            tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+            tempImgFrame.origin.x = xForShiftingTinyImg;
+            
+            [UIView animateWithDuration:0.3f animations:^{
+                
+                [cell.countOfViewsTinyImg setFrame:tempImgFrame];
+                [cell.watchingCountsLabel setFrame:tempLabelFrame];
+            }];
+        }
+        
+        if (adObject.viewCount > 0)
+            cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", adObject.viewCount];
         else
         {
-            if (adObject.isFeatured){
-                [cell.favoriteButton setImage:[UIImage imageNamed:@"blank_heart.png"] forState:UIControlStateNormal];
+            cell.watchingCountsLabel.text = @"";
+            [cell.countOfViewsTinyImg setHidden:YES];
+        }
+        
+        
+        NSString* temp = [adObject.thumbnailURL absoluteString];
+        
+        if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
+            cell.carImage.image = [UIImage imageNamed:@"waitForApprove.png"];
+        }else{
+            [cell.carImage setImageWithURL:adObject.thumbnailURL
+                          placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
+        }
+        [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
+        [cell.carImage setClipsToBounds:YES];
+        
+        
+        //check featured
+        if (adObject.isFeatured)
+        {
+            [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
+            cell.cellBackgoundImage.frame = CGRectMake(cell.cellBackgoundImage.frame.origin.x, cell.cellBackgoundImage.frame.origin.y, cell.cellBackgoundImage.frame.size.width, cell.cellBackgoundImage.frame.size.height);
+            
+            [cell.distingushingImage setHidden:NO];
+            [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
+            [cell.favoriteButton setHidden:NO];
+            
+        }
+        
+        //check owner
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        // Not logged in
+        if(!savedProfile){
+            [cell.favoriteButton setHidden:YES];
+            
+        }
+        
+        if (savedProfile)   //logged in
+        {
+            if (savedProfile.userID == adObject.ownerID) //is owner
+                [cell.favoriteButton setHidden:YES];
+            
+            //check favorite
+            if (adObject.isFavorite)
+            {
+                if (adObject.isFeatured) {
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"orange_heart.png"] forState:UIControlStateNormal];
+                }
+                else{
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                }
+                
             }
-            else {
-                [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+            else
+            {
+                if (adObject.isFeatured){
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"blank_heart.png"] forState:UIControlStateNormal];
+                }
+                else {
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                }
             }
         }
+        return cell;
     }
-    
-    
-    /*
-     [cell.favoriteButton addTarget:self action:@selector(favoriteButton:event:) forControlEvents:UIControlEventTouchUpInside];
-     CarDetails *temp =(CarDetails*)[adsArray objectAtIndex:indexPath.row] ;
-     
-     cell.watchingCountsLabel.text= [NSString stringWithFormat:@"%d", [temp viewCount]];
-     cell.yearLabel.text= [NSString stringWithFormat:@"%d", [temp modelYear]];
-     cell.carMileageLabel.text=[NSString stringWithFormat:@"%d", [temp distanceRangeInKm]];
-     if (temp.isFeatured) {
-     cell.distingushingImage.hidden=NO;
-     cell.cellBackgoundImage.image=[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"];
-     }
-     
-     NSData *data = [NSData dataWithContentsOfURL:[temp thumbnailURL]];
-     cell.imageView.image=[UIImage imageWithData:data];
-     
-     cell.detailsLabel.text=[temp description];
-     cell.carPriceLabel.text=[NSString stringWithFormat:@"%f %@", [temp price],[temp currencyString]];
-     */
-    
-    return cell;
+    return [UITableViewCell new];
     
     
 }
@@ -423,7 +413,8 @@
     
     if (resultArray && resultArray.count) {
         
-        adsArray = resultArray;
+        //adsArray = resultArray;
+        [adsArray addObjectsFromArray:resultArray];
         
         [self.tableView reloadData];
         
@@ -436,6 +427,12 @@
         
         [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:URLsToPrefetch];
         
+    }
+    [adsArray removeAllObjects];
+    if ((!adsArray) || (!adsArray.count)) {
+        [self.backgroundImageView setHidden:YES];
+        [self.noAdsLabel setHidden:NO];
+        [self.noAdsImageView setHidden:NO];
     }
 }
 
@@ -457,6 +454,7 @@
 
 - (void) handleAddToFavBtnForCellAtIndexPath:(NSIndexPath *) indexPath {
     
+    
     GalleryAd * adObject = (GalleryAd *)[adsArray objectAtIndex:indexPath.row];
     
     if (!adObject.isFavorite)
@@ -475,9 +473,9 @@
     
     else
     {
-        [(CarAd *)[adsArray objectAtIndex:indexPath.row] setIsFavorite:NO];
+        [(GalleryAd *)[adsArray objectAtIndex:indexPath.row] setIsFavorite:NO];
         
-        CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        carInGalleryCell * cell = (carInGalleryCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         if (adObject.isFeatured){
             [cell.favoriteButton setImage:[UIImage imageNamed:@"blank_heart.png"] forState:UIControlStateNormal];
@@ -601,7 +599,7 @@
         NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
         GalleryAd * adObject = [adsArray objectAtIndex:index];
         
-        CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        carInGalleryCell * cell = (carInGalleryCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         if (resultStatus)//removed successfully
         {

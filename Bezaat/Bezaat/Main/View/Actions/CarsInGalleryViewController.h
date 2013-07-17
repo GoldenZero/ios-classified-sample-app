@@ -21,6 +21,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *galleryPhoneLabel;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) CarsGallery* gallery;
+@property (weak, nonatomic) IBOutlet UIImageView *noAdsImageView;
+@property (weak, nonatomic) IBOutlet SSLabel *noAdsLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 
 #pragma mark - Actions
 - (IBAction)homeBtnPrss:(id)sender;
