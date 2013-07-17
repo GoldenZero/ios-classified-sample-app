@@ -73,6 +73,8 @@
 #define ARABIC_MONTH_TEXT           @"شهر"
 #define ARABIC_YEAR_TEXT            @"سنة"
 
+#define DEFAULT_COMMENTS_PAGE_SIZE  50
+
 
 @interface CarDetailsManager ()
 {
@@ -112,6 +114,32 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         instance = [[CarDetailsManager alloc] init];
     }
     return instance;
+}
+
+- (NSUInteger) nextPage {
+    self.commentsPageNumber ++;
+    return self.commentsPageNumber;
+}
+
+- (NSUInteger) getCurrentPageNum {
+    return self.commentsPageNumber;
+}
+
+- (NSUInteger) getCurrentPageSize {
+    return self.commentsPageSize;
+}
+
+
+- (void) setCurrentPageNum:(NSUInteger) pNum {
+    self.commentsPageNumber = pNum;
+}
+
+- (void) setCurrentPageSize:(NSUInteger) pSize {
+    self.commentsPageSize = pSize;
+}
+
+- (void) setPageSizeToDefault {
+    self.commentsPageSize = DEFAULT_COMMENTS_PAGE_SIZE;
 }
 
 - (void) loadCarDetailsOfAdID:(NSUInteger) adID WithDelegate:(id <CarDetailsManagerDelegate>) del {
@@ -301,6 +329,72 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
+- (void) getAdCommentsForAd:(NSUInteger)adID OfPage:(NSUInteger)pageNum WithDelegate:(id<CommentsDelegate>)del {
+    //1- set the delegate
+    self.commentsDel = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.commentsDel)
+            [self.commentsDel commentsDidFailLoadingWithError:error];
+        return ;
+    }
+    
+    //3- set the url string
+    NSString * fullURLString = [NSString stringWithFormat:get_ad_comments_url,
+                                [NSString stringWithFormat:@"%i", adID],
+                                [NSString stringWithFormat:@"%i", pageNum],
+                                [NSString stringWithFormat:@"%i", self.commentsPageSize]];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //NSLog(@"%@", correctURLstring);
+    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        //5- send the request
+        [request setURL:correctURL];
+        getCommentsMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.commentsDel)
+            [self.commentsDel commentsDidFailLoadingWithError:error];
+        return ;
+    }
+
+}
+
 #pragma mark - Data delegate methods
 
 - (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
@@ -357,9 +451,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         else if (manager == postCommentMngr) {
             
             if (self.commentsDel) {
-                //create the comment object
-                
-                //NSLog(@"%@", result);
+
                 CommentOnAd * comment = nil;
                 NSArray * data = (NSArray *) result;
                 if ((data) && (data.count > 0))
@@ -402,7 +494,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         else if (manager == getCommentsMngr) {
             
-            if (self.commentsDel) {}
+            if (self.commentsDel) {
+                NSLog(@"comments loaded successfully, comments are:");
+                NSLog(@"%@", result);
+            }
             
         }
     }

@@ -34,13 +34,28 @@
 @property (strong, nonatomic) id <CarDetailsManagerDelegate> delegate;
 @property (strong, nonatomic) id <CommentsDelegate> commentsDel;
 
+@property (nonatomic) NSUInteger commentsPageNumber;
+@property (nonatomic) NSUInteger commentsPageSize;
+
 #pragma mark - methods
 
 + (CarDetailsManager *) sharedInstance;
+
+- (NSUInteger) nextPage;
+
+- (NSUInteger) getCurrentCommentsPageNum;
+- (NSUInteger) getCurrentCommentsPageSize;
+
+- (void) setCurrentCommentsPageNum:(NSUInteger) pNum;
+- (void) setCurrentCommentsPageSize:(NSUInteger) pSize;
+- (void) setCommentsPageSizeToDefault;
 
 - (void) loadCarDetailsOfAdID:(NSUInteger) adID WithDelegate:(id <CarDetailsManagerDelegate>) del;
 
 - (NSString *) getDateDifferenceStringFromDate:(NSDate *) input;
 
 - (void) postCommentForAd:(NSUInteger) adID WithText:(NSString *) commentText WithDelegate:(id <CommentsDelegate>) del;
+
+- (void) getAdCommentsForAd:(NSUInteger) adID OfPage:(NSUInteger) pageNum WithDelegate:(id <CommentsDelegate>) del;
+
 @end
