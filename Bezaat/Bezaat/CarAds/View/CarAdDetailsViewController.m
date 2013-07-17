@@ -39,7 +39,6 @@
     
     FBPhotoBrowserViewController * galleryView;
     float xForShiftingTinyImg;
-    UITextView * commentsTV;
     BOOL shareBtnDidMoveUp;
     BOOL shareBtnDidMovedown;
     
@@ -61,7 +60,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        //Custom initialization ...
     }
     return self;
 }
@@ -72,6 +71,15 @@
 {
     [super viewDidLoad];
     [self setPlacesOfViews];
+    
+    //customize the comments view positioning
+    CGRect commentsViewFrame = self.commentsView.frame;
+    if ([[UIScreen mainScreen] bounds].size.height == 568)
+        commentsViewFrame.origin.y = 568 - commentsViewFrame.size.height;
+    else
+        commentsViewFrame.origin.y = self.view.frame.size.height - commentsViewFrame.size.height;
+    
+    [self.commentsView setFrame:commentsViewFrame];
     
     // hide share button
     tap = [[UITapGestureRecognizer alloc]
@@ -188,6 +196,7 @@
         int page = self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
         self.pageControl.currentPage = page;
     }
+    /*
     if (sender == self.labelsScrollView) {
         float scrollViewHeight = self.labelsScrollView.frame.size.height;
         float scrollContentSizeHeight = self.labelsScrollView.contentSize.height;
@@ -226,6 +235,7 @@
             
         }
     }
+     */
     
 }
 
@@ -431,6 +441,11 @@
     CGAffineTransformMakeRotation(-0.7f);
     
     shareButton.transform = transform;
+    
+    CGRect temp = shareButton.frame;
+    //temp.origin.y = temp.origin.y - self.commentsView.frame.size.height;
+    temp.origin.y = temp.origin.y - 50;
+    [shareButton setFrame:temp];
     
     [self.view insertSubview:shareButton aboveSubview:self.labelsScrollView];
     
@@ -1080,6 +1095,7 @@
             
             totalHeight = totalHeight + 20 + 30;
             
+            /*
             //2- add the bar of "post your comment"
             
             CommentsView * viewToBeAdded = (CommentsView *)[[[NSBundle mainBundle] loadNibNamed:@"CommentsView" owner:self options:nil] objectAtIndex:0];
@@ -1099,6 +1115,7 @@
             [self.labelsScrollView addSubview:viewToBeAdded];
             
             totalHeight = totalHeight + viewToBeAddedFrame.size.height;//, 10 and view's height for the bar of add your comment
+             */
             
             
             [self.labelsScrollView setScrollEnabled:YES];
@@ -1742,13 +1759,12 @@
 }
 
 - (void) dismissKeyboard {
-    if (commentsTV) {
-        [commentsTV resignFirstResponder];
-        if(commentsTV.text.length == 0){
-            commentsTV.textColor = [UIColor lightGrayColor];
-            commentsTV.text = @"أضف تعليقك";
-            commentsTV.textAlignment = NSTextAlignmentRight;
-        }
+    
+    [self.commentTextView resignFirstResponder];
+    if(self.commentTextView.text.length == 0){
+        self.commentTextView.textColor = [UIColor lightGrayColor];
+        self.commentTextView.text = @"أضف تعليقك";
+        self.commentTextView.textAlignment = NSTextAlignmentRight;
     }
 }
 
@@ -1782,50 +1798,45 @@
 #pragma mark - UITextView delegate methods
 
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView {
-    if (commentsTV) {
-        if (commentsTV.textColor == [UIColor lightGrayColor]) {
-            commentsTV.text = @"";
-            commentsTV.textColor = [UIColor blackColor];
-            commentsTV.textAlignment = NSTextAlignmentLeft;
-        }
-            
-        
-        return YES;
+    if (self.commentTextView.textColor == [UIColor lightGrayColor]) {
+        self.commentTextView.text = @"";
+        self.commentTextView.textColor = [UIColor blackColor];
+        self.commentTextView.textAlignment = NSTextAlignmentLeft;
     }
-    return NO;
+    return YES;
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
-    if (commentsTV) {
-        if([text isEqualToString:@"\n"]) {
-            //[commentsTV resignFirstResponder];
-            if(commentsTV.text.length == 0){
-                commentsTV.textColor = [UIColor lightGrayColor];
-                commentsTV.text = @"أضف تعليقك";
-                commentsTV.textAlignment = NSTextAlignmentRight;
-                //[commentsTV resignFirstResponder];
-            }
-            return NO;
+    if([text isEqualToString:@"\n"]) {
+        //[self.commentTextView resignFirstResponder];
+        if(self.commentTextView.text.length == 0){
+            self.commentTextView.textColor = [UIColor lightGrayColor];
+            self.commentTextView.text = @"أضف تعليقك";
+            self.commentTextView.textAlignment = NSTextAlignmentRight;
+            //[self.commentTextView resignFirstResponder];
         }
-        
-        return YES;
+        return NO;
     }
-    return NO;
+    
+    return YES;
+
 }
 
 #pragma mark - comments methods
 
-- (void) postCommentForCurrentAd {
+- (IBAction) postCommentForCurrentAd:(id)sender {
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     if (savedProfile) {
-        if (commentsTV) {
-            [commentsTV resignFirstResponder];
+        
+        if (self.commentTextView.text.length > 0) {
+            [self.commentTextView resignFirstResponder];
             
             [self showLoadingIndicator];
             
-            [[CarDetailsManager sharedInstance] postCommentForAd:currentDetailsObject.adID WithText:commentsTV.text WithDelegate:self];
+            [[CarDetailsManager sharedInstance] postCommentForAd:currentDetailsObject.adID WithText:self.commentTextView.text WithDelegate:self];
         }
+
     }
     else {
         UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"نعتذر" message:@"يجب أن تسجل الدخول حتى تتمكن من إضافة تعليق" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:@"إلغاء", nil];

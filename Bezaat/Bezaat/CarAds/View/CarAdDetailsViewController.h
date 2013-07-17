@@ -19,7 +19,6 @@
 #import "StoreManager.h"
 #import "GAI.h"
 #import "FBPhotoBrowserViewController.h"
-#import "CommentsView.h"
 #import "SignInViewController.h"
 
 @interface CarAdDetailsViewController : BaseViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate>
@@ -69,7 +68,8 @@
 @property (strong, nonatomic) IBOutlet SSLabel *viewInStoreLabel;
 @property (strong, nonatomic) Store * currentStore;
 @property (strong, nonatomic) UIViewController * parentStoreDetailsView;
-
+@property (weak, nonatomic) IBOutlet UITextView *commentTextView;
+@property (weak, nonatomic) IBOutlet UIView *commentsView;
 
 #pragma mark - actions
 - (IBAction)changePage:(id)sender;
@@ -81,6 +81,7 @@
 - (IBAction)favoriteBtnPrss:(id)sender;
 - (IBAction)callBtnPrss:(id)sender;
 - (IBAction)smsBtnPrss:(id)sender;
+- (IBAction)postCommentForCurrentAd:(id)sender;
 
 - (void) resetGalleryViewToNil;
 
