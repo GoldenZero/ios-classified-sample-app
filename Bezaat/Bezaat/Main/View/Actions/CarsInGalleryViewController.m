@@ -428,7 +428,7 @@
         [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:URLsToPrefetch];
         
     }
-    [adsArray removeAllObjects];
+    
     if ((!adsArray) || (!adsArray.count)) {
         [self.backgroundImageView setHidden:YES];
         [self.noAdsLabel setHidden:NO];
