@@ -20,6 +20,7 @@
 #import "GAI.h"
 #import "FBPhotoBrowserViewController.h"
 #import "CommentsView.h"
+#import "SignInViewController.h"
 
 @interface CarAdDetailsViewController : BaseViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate>
 

@@ -392,7 +392,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                         if (self.commentsDel)
                             [self.commentsDel commentsDidFailPostingWithError:error];
                     }
-                    NSLog(@"comment is: %@", result);
+                    //NSLog(@"comment is: %@", result);
                     if (self.commentsDel)
                         [self.commentsDel commentsDidPostWithData:comment];
                 }

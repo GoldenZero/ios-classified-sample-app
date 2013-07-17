@@ -1081,26 +1081,25 @@
             totalHeight = totalHeight + 20 + 30;
             
             //2- add the bar of "post your comment"
-            UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-            if (savedProfile) {
-                CommentsView * viewToBeAdded = (CommentsView *)[[[NSBundle mainBundle] loadNibNamed:@"CommentsView" owner:self options:nil] objectAtIndex:0];
-                
-                
-                viewToBeAdded.commentTextView.delegate = self;
-                [viewToBeAdded.postCommentBtn addTarget:self action:@selector(postCommentForCurrentAd) forControlEvents:UIControlEventTouchUpInside];
-                
-                commentsTV = viewToBeAdded.commentTextView;
-                commentsTV.textColor = [UIColor lightGrayColor];
-                
-                CGRect viewToBeAddedFrame = viewToBeAdded.frame;
-                viewToBeAddedFrame.origin.x = -2;
-                viewToBeAddedFrame.origin.y = totalHeight;
-                
-                [viewToBeAdded setFrame:viewToBeAddedFrame];
-                [self.labelsScrollView addSubview:viewToBeAdded];
-                
-                totalHeight = totalHeight + viewToBeAddedFrame.size.height;//, 10 and view's height for the bar of add your comment
-            }
+            
+            CommentsView * viewToBeAdded = (CommentsView *)[[[NSBundle mainBundle] loadNibNamed:@"CommentsView" owner:self options:nil] objectAtIndex:0];
+            
+            
+            viewToBeAdded.commentTextView.delegate = self;
+            [viewToBeAdded.postCommentBtn addTarget:self action:@selector(postCommentForCurrentAd) forControlEvents:UIControlEventTouchUpInside];
+            
+            commentsTV = viewToBeAdded.commentTextView;
+            commentsTV.textColor = [UIColor lightGrayColor];
+            
+            CGRect viewToBeAddedFrame = viewToBeAdded.frame;
+            viewToBeAddedFrame.origin.x = -2;
+            viewToBeAddedFrame.origin.y = totalHeight;
+            
+            [viewToBeAdded setFrame:viewToBeAddedFrame];
+            [self.labelsScrollView addSubview:viewToBeAdded];
+            
+            totalHeight = totalHeight + viewToBeAddedFrame.size.height;//, 10 and view's height for the bar of add your comment
+            
             
             [self.labelsScrollView setScrollEnabled:YES];
             [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
@@ -1514,6 +1513,21 @@
             alertView.hidden = YES;
         }
     }
+    else if (alertView.tag == 11){
+        if (buttonIndex == 0) {
+            // sign in
+            SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            vc.returnPage = YES;
+            [self presentViewController:vc animated:YES completion:nil];
+            
+        }else if (buttonIndex == 1)
+        {
+            // ignore
+            alertView.hidden = YES;
+        }
+        
+        
+    }
     
 }
 - (void) setPlacesOfViews{
@@ -1803,13 +1817,23 @@
 #pragma mark - comments methods
 
 - (void) postCommentForCurrentAd {
-    if (commentsTV) {
-        [commentsTV resignFirstResponder];
-        
-        [self showLoadingIndicator];
-        
-        [[CarDetailsManager sharedInstance] postCommentForAd:currentDetailsObject.adID WithText:commentsTV.text WithDelegate:self];
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (savedProfile) {
+        if (commentsTV) {
+            [commentsTV resignFirstResponder];
+            
+            [self showLoadingIndicator];
+            
+            [[CarDetailsManager sharedInstance] postCommentForAd:currentDetailsObject.adID WithText:commentsTV.text WithDelegate:self];
+        }
     }
+    else {
+        UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"نعتذر" message:@"يجب أن تسجل الدخول حتى تتمكن من إضافة تعليق" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:@"إلغاء", nil];
+        alert.delegate = self;
+        alert.tag = 11;
+        [alert show];
+    }
+    
 }
 
 #pragma mark - Comments Delegate methods
