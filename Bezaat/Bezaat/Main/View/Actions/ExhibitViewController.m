@@ -111,6 +111,13 @@
 
 #pragma mark - TableView delegates handler
 
+- (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (galleriesArray && galleriesArray.count)
+        return 110;
+    
+    return 0;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (galleriesArray && galleriesArray.count) {
@@ -131,7 +138,7 @@
         [cell.numberLabel setText:gallery.StoreContactNo];
         
         cell.exhibNameLabel.text = gallery.StoreName ;
-        cell.exhibDetailLabel.text = gallery.StoreOwnerEmail ;
+        cell.exhibDetailLabel.text = gallery.Description ;
         
         if (gallery.StoreImageURL) {
             [cell.exhibImage setImageWithURL:gallery.StoreImageURL];

@@ -20,6 +20,7 @@
 @synthesize StoreContactNo;
 @synthesize RemainingFreeFeatureAds;
 @synthesize SubscriptionExpiryDate;
+@synthesize Description;
 @synthesize RemainingDays;
 
 #pragma mark - actions
@@ -34,6 +35,7 @@
         StoreContactNoString: (NSString *) aStoreContactNoString
 RemainingFreeFeatureAdsString:(NSString *) aRemainingFreeFeatureAdsString
 SubscriptionExpiryDateString: (NSString *) aSubscriptionExpiryDateString
+           DescriptionString:(NSString *) aDescriptionString
          RemainingDaysString: (NSString *) aRemainingDaysString {
     
     self = [super init];
@@ -75,6 +77,9 @@ SubscriptionExpiryDateString: (NSString *) aSubscriptionExpiryDateString
         
         // SubscriptionExpiryDate
         self.SubscriptionExpiryDate = [GenericMethods NSDateFromDotNetJSONString:aSubscriptionExpiryDateString];
+        
+        // Description
+        self.Description = aDescriptionString;
         
         // RemainingDays
         self.RemainingDays = aRemainingDaysString.integerValue;

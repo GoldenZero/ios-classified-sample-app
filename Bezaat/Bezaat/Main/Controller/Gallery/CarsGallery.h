@@ -22,6 +22,7 @@
 @property  NSString *StoreContactNo;
 @property  NSInteger RemainingFreeFeatureAds;
 @property  NSDate *SubscriptionExpiryDate;
+@property (strong, nonatomic) NSString * Description;
 @property  NSInteger RemainingDays;
 
 #pragma mark - actions
@@ -36,5 +37,6 @@
         StoreContactNoString: (NSString *) aStoreContactNoString
 RemainingFreeFeatureAdsString:(NSString *) aRemainingFreeFeatureAdsString
 SubscriptionExpiryDateString: (NSString *) aSubscriptionExpiryDateString
+           DescriptionString:(NSString *) aDescriptionString
          RemainingDaysString: (NSString *) aRemainingDaysString;
 @end

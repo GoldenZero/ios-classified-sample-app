@@ -24,6 +24,7 @@
 #define GALLERY_COUNTRY_ID_JSONK @"CountryID"
 #define GALLERY_REMAINING_DAYS_JSONK @"RemainingDays"
 #define GALLERY_REMAINING_FREEADS_JSONK @"RemainingFreeFeatureAds"
+#define GALLERY_DESCRIPTION_JSONK @"Description"
 #define GALLERY_CONTACT_NO_JSONK @"StoreContactNo"
 
 #pragma mark - car details json keys
@@ -389,6 +390,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                             StoreContactNoString:[gDict objectForKey:GALLERY_CONTACT_NO_JSONK]
                      RemainingFreeFeatureAdsString:[gDict objectForKey:GALLERY_REMAINING_DAYS_JSONK]
                 SubscriptionExpiryDateString:[gDict objectForKey:GALLERY_SUBSCRIPTION_EXPIRED_JSONK]
+                     DescriptionString:[gDict objectForKey:GALLERY_DESCRIPTION_JSONK]
                             RemainingDaysString:[gDict objectForKey:GALLERY_REMAINING_FREEADS_JSONK]
                      ];
                     
