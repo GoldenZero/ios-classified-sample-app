@@ -1864,6 +1864,50 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return [NSArray new];
 }
 
+- (NSArray * ) createStoreOrderArrayWithData:(NSArray *) data {
+    
+    if ((data) && (data.count > 0))
+    {
+        NSDictionary * totalDict = [data objectAtIndex:0];
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:LISTING_STATUS_CODE_JKEY]];
+        NSInteger statusCode = statusCodeString.integerValue;
+        
+        NSMutableArray * adsArray = [NSMutableArray new];
+        if (statusCode == 200)
+        {
+            NSArray * dataAdsArray = [totalDict objectForKey:LISTING_DATA_JKEY];
+            if ((dataAdsArray) && (![@"" isEqualToString:(NSString *)dataAdsArray]) && (dataAdsArray.count))
+            {
+                for (NSDictionary * storeDic in dataAdsArray)
+                {
+                    
+                    StoreOrder *storeOrder = [[StoreOrder alloc] init];
+                    storeOrder.StoreID = [storeDic[@"StoreID"] integerValue];
+                    storeOrder.StoreName = storeDic[@"StoreName"];
+                    storeOrder.StoreImageURL = storeDic[@"StoreImageURL"];
+                    storeOrder.OrderID = [storeDic[@"OrderID"] integerValue];
+                    storeOrder.SchemeFee = [storeDic[@"SchemeFee"] integerValue];
+                    storeOrder.PaymentMethod = [storeDic[@"PaymentMethod"] integerValue];
+                    storeOrder.OrderStatus = [storeDic[@"OrderStatus"] integerValue];
+                    storeOrder.StorePaymentSchemeID = [storeDic[@"StorePaymentSchemeID"] integerValue];
+                    storeOrder.StorePaymentSchemeName = storeDic[@"StorePaymentSchemeName"];
+                    storeOrder.IsApproved = [storeDic[@"IsApproved"] boolValue];
+                    
+                    storeOrder.IsRejected = [storeDic[@"IsRejected"] boolValue];
+                    storeOrder.LastModifiedOn = [GenericMethods NSDateFromDotNetJSONString:storeDic[@"LastModifiedOn"]];
+                    
+                    [adsArray addObject:storeOrder];
+                    
+                }
+            }
+        }
+        return adsArray;
+    }
+    return [NSArray new];
+}
+
+
+
 
 
 - (NSArray * ) createEditAdsArrayWithData:(NSArray *) data {

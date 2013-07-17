@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Store.h"
+#import "StoreOrder.h"
 
 @protocol StoreManagerDelegate <NSObject>
 @optional
@@ -25,6 +26,10 @@
 - (void) featureAdvDidSucceed;
 - (void) unfeatureAdvDidFailWithError:(NSError *)error;
 - (void) unfeatureAdvDidSucceed;
+
+-(void)storeOrdersLoadDidFailLoadingWithError:(NSError*)error;
+-(void)storeOrdersLoadDidFinishLoadingWithOrders:(NSArray*)orders;
+
 @end
 
 @interface StoreManager : NSObject <DataDelegate>
@@ -44,6 +49,8 @@
 - (void)getUserStores;
 
 - (void)getStoreAds:(NSInteger)storeID page:(NSInteger)pageNumber status:(NSString *)status;
+
+- (void)getStoreOrdersForPage:(NSInteger)pageNumber andSize:(NSInteger)pageSize;
 
 - (void)getStoreStatus:(Store *)store;
 

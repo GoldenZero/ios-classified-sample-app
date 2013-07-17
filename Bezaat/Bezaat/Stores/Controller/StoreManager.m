@@ -30,7 +30,8 @@ typedef enum {
     RequestInProgressGetStoreAds,
     RequestInProgressGetStoreStatus,
     RequestInProgressFeatureAdv,
-    RequestInProgressUnfeatureAdv
+    RequestInProgressUnfeatureAdv,
+    RequestInProgressGetStoreOrders
 } RequestInProgress;
 
 @interface StoreManager () {
@@ -46,6 +47,7 @@ typedef enum {
 static NSString *create_store_url = @"/json/create-store";
 static NSString *upload_logo_url = @"/json/upload-logo";
 static NSString *get_user_stores_url = @"/json/user-stores";
+static NSString *get_user_stores_orders_url = @"/json/get-users-store-orders";
 static NSString *my_store_ads_url = @"/json/my-store-ads";
 static NSString *store_status_url = @"/json/user-store-status";
 static NSString *feature_adv_url = @"/json/make-store-ad-featured";
@@ -68,6 +70,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
         create_store_url = [API_MAIN_URL stringByAppendingString:create_store_url];
         upload_logo_url = [API_MAIN_URL stringByAppendingString:upload_logo_url];
         get_user_stores_url = [API_MAIN_URL stringByAppendingString:get_user_stores_url];
+        get_user_stores_orders_url = [API_MAIN_URL stringByAppendingString:get_user_stores_orders_url];
         my_store_ads_url = [API_MAIN_URL stringByAppendingString:my_store_ads_url];
         store_status_url = [API_MAIN_URL stringByAppendingString:store_status_url];
         feature_adv_url = [API_MAIN_URL stringByAppendingString:feature_adv_url];
@@ -307,6 +310,44 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
                        ];
 }
 
+- (void)getStoreOrdersForPage:(NSInteger)pageNumber andSize:(NSInteger)pageSize {
+    requestInProgress = RequestInProgressGetStoreOrders;
+    
+    //1- check connectivity
+    if (![self checkConnectivity]) {
+        return;
+    }
+    
+    //2- start the request
+    NSMutableURLRequest *request = [self request];
+    
+    if (request == nil) {
+        request = [[NSMutableURLRequest alloc] init];
+        [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+        [request setHTTPShouldHandleCookies:NO];
+        [request setTimeoutInterval:30];
+        [request setHTTPMethod:@"POST"];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //[self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
+      //  return;
+    }
+    NSString *urlString  = [NSString stringWithFormat:@"%@?pageno=%d&pagesize=10",get_user_stores_orders_url,pageNumber];
+    [request setURL:[NSURL URLWithString:urlString]];
+    
+    // start the request
+    internetManager = [[InternetManager alloc] initWithTempFileName:my_store_ads_temp_file
+                                                         urlRequest:request
+                                                           delegate:self
+                                                   startImmediately:YES
+                                                       responseType:@"JSON"
+                       ];
+}
+
+
 - (void) getStoreStatus:(Store *)store {
     requestInProgress = RequestInProgressGetStoreStatus;
     storeForStatus = store;
@@ -494,6 +535,11 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
             [delegate storeAdsRetrieveDidFailWithError:error];
         }
     }
+    else if (requestInProgress == RequestInProgressGetStoreOrders) {
+        if ([delegate respondsToSelector:@selector(storeOrdersLoadDidFailLoadingWithError:)]) {
+            [delegate storeOrdersLoadDidFailLoadingWithError:error];
+        }
+    }
     else if (requestInProgress == RequestInProgressGetStoreStatus) {
         if ([delegate respondsToSelector:@selector(storeStatusRetrieveDidFailWithError:)]) {
             [delegate storeStatusRetrieveDidFailWithError:error];
@@ -593,6 +639,56 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
         if ([delegate respondsToSelector:@selector(storeAdsRetrieveDidSucceedWithAds:)]) {
             [delegate storeAdsRetrieveDidSucceedWithAds:ads];
         }
+    }
+    else if (requestInProgress == RequestInProgressGetStoreOrders) {
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", ((NSArray *)result)[0][LOGIN_STATUS_CODE_JKEY]] ;
+        NSInteger statusCode = statusCodeString.integerValue;
+        NSString * message = ((NSArray *)result)[0][LOGIN_STATUS_MSG_JKEY];
+        if (statusCode == 320) {
+            CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
+            [error setDescMessage:message];
+            [delegate storeOrdersLoadDidFailLoadingWithError:error];
+        }else {
+            
+            NSArray *ads = [[CarAdsManager sharedInstance] createStoreOrderArrayWithData:(NSArray *)result];
+            if ([delegate respondsToSelector:@selector(storeOrdersLoadDidFinishLoadingWithOrders:)]) {
+                [delegate storeOrdersLoadDidFinishLoadingWithOrders:ads];
+            }
+        }
+       /* NSString * statusCodeString = [NSString stringWithFormat:@"%@", ((NSArray *)result)[0][LOGIN_STATUS_CODE_JKEY]] ;
+        NSInteger statusCode = statusCodeString.integerValue;
+        NSString * message = ((NSArray *)result)[0][LOGIN_STATUS_MSG_JKEY];
+        if (statusCode == 320) {
+            CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
+            [error setDescMessage:message];
+            [delegate storeOrdersLoadDidFailLoadingWithError:error];
+        }else {
+            NSArray *storesDics = ((NSArray *)result)[0][@"Data"];
+            NSMutableArray *stores = [[NSMutableArray alloc] initWithCapacity:[storesDics count]];
+            for (NSDictionary *storeDic in storesDics) {
+                StoreOrder *storeOrder = [[StoreOrder alloc] init];
+                storeOrder.StoreID = [storeDic[@"StoreID"] integerValue];
+                storeOrder.StoreName = storeDic[@"StoreName"];
+                storeOrder.StoreImageURL = storeDic[@"StoreImageURL"];
+                storeOrder.OrderID = [storeDic[@"OrderID"] integerValue];
+                storeOrder.SchemeFee = [storeDic[@"SchemeFee"] integerValue];
+                storeOrder.PaymentMethod = [storeDic[@"PaymentMethod"] integerValue];
+                storeOrder.OrderStatus = [storeDic[@"OrderStatus"] integerValue];
+                storeOrder.StorePaymentSchemeID = [storeDic[@"StorePaymentSchemeID"] integerValue];
+                storeOrder.StorePaymentSchemeName = storeDic[@"StorePaymentSchemeName"];
+                storeOrder.IsApproved = [storeDic[@"IsApproved"] boolValue];
+                
+                storeOrder.IsRejected = [storeDic[@"IsRejected"] boolValue];
+                storeOrder.LastModifiedOn = [GenericMethods NSDateFromDotNetJSONString:storeDic[@"LastModifiedOn"]];
+                [stores addObject:storeOrder];
+                
+            }
+            if ([delegate respondsToSelector:@selector(storeOrdersLoadDidFinishLoadingWithOrders:)]) {
+                [delegate storeOrdersLoadDidFinishLoadingWithOrders:stores];
+            }
+        }
+        */
+        
     }
     else if (requestInProgress == RequestInProgressGetStoreStatus) {
         NSDictionary *dataDic = ((NSArray *)result)[0][@"Data"];

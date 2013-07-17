@@ -11,6 +11,7 @@
 #import "CustomError.h"
 #import "StaticAttrsLoader.h"
 #import "CarDetailsManager.h"
+#import "StoreOrder.h"
 
 #pragma mark - FILTERS LITERALS
 
@@ -130,6 +131,7 @@
 - (NSInteger) getIndexOfAd:(NSUInteger) adID inArray:(NSArray *) adsArray;
 
 - (NSArray * ) createCarAdsArrayWithData:(NSArray *) data;
+- (NSArray * ) createStoreOrderArrayWithData:(NSArray *) data;
 
 //search & filter
 - (void) searchCarAdsOfPage:(NSUInteger) pageNum
