@@ -20,8 +20,9 @@
 #import "GAI.h"
 #import "FBPhotoBrowserViewController.h"
 #import "SignInViewController.h"
+#import "SingleCommentView.h"
 
-@interface CarAdDetailsViewController : BaseViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate>
+@interface CarAdDetailsViewController : BaseViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate, UITableViewDataSource, UITableViewDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) BrowseCarAdsViewController * parentVC;

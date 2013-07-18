@@ -41,6 +41,7 @@
     float xForShiftingTinyImg;
     BOOL shareBtnDidMoveUp;
     BOOL shareBtnDidMovedown;
+    NSMutableArray * commentsArray;
     
 }
 
@@ -80,6 +81,12 @@
         commentsViewFrame.origin.y = self.view.frame.size.height - commentsViewFrame.size.height;
     
     [self.commentsView setFrame:commentsViewFrame];
+    
+    //customize the comments textView
+    self.commentTextView.textColor = [UIColor lightGrayColor];
+    self.commentTextView.returnKeyType = UIReturnKeySend;
+    
+    commentsArray = [NSMutableArray new];
     
     // hide share button
     tap = [[UITapGestureRecognizer alloc]
@@ -197,44 +204,44 @@
         self.pageControl.currentPage = page;
     }
     /*
-    if (sender == self.labelsScrollView) {
-        float scrollViewHeight = self.labelsScrollView.frame.size.height;
-        float scrollContentSizeHeight = self.labelsScrollView.contentSize.height;
-        float scrollOffset = self.labelsScrollView.contentOffset.y;
-        
-        //if ((scrollOffset >= 0) && (scrollOffset < (scrollContentSizeHeight - 60)))
-        if (scrollOffset == 0)
-        {
-            // we are at the top
-            if (!shareBtnDidMovedown) {
-                CGRect tempFrame = shareButton.frame;
-                tempFrame.origin.y = tempFrame.origin.y + 50;
-                
-                [UIView animateWithDuration:0.8f animations:^{
-                    [shareButton setFrame:tempFrame];
-                }];
-                shareBtnDidMovedown = YES;
-                shareBtnDidMoveUp = NO;
-            }
-            
-        }
-        else if (scrollOffset + scrollViewHeight == scrollContentSizeHeight)
-        {
-            // we are at the end
-            if (!shareBtnDidMoveUp) {
-                CGRect tempFrame = shareButton.frame;
-                tempFrame.origin.y = tempFrame.origin.y - 50;
-                
-                [UIView animateWithDuration:0.8f animations:^{
-                    [shareButton setFrame:tempFrame];
-                }];
-                
-                shareBtnDidMoveUp = YES;
-                shareBtnDidMovedown = NO;
-            }
-            
-        }
-    }
+     if (sender == self.labelsScrollView) {
+     float scrollViewHeight = self.labelsScrollView.frame.size.height;
+     float scrollContentSizeHeight = self.labelsScrollView.contentSize.height;
+     float scrollOffset = self.labelsScrollView.contentOffset.y;
+     
+     //if ((scrollOffset >= 0) && (scrollOffset < (scrollContentSizeHeight - 60)))
+     if (scrollOffset == 0)
+     {
+     // we are at the top
+     if (!shareBtnDidMovedown) {
+     CGRect tempFrame = shareButton.frame;
+     tempFrame.origin.y = tempFrame.origin.y + 50;
+     
+     [UIView animateWithDuration:0.8f animations:^{
+     [shareButton setFrame:tempFrame];
+     }];
+     shareBtnDidMovedown = YES;
+     shareBtnDidMoveUp = NO;
+     }
+     
+     }
+     else if (scrollOffset + scrollViewHeight == scrollContentSizeHeight)
+     {
+     // we are at the end
+     if (!shareBtnDidMoveUp) {
+     CGRect tempFrame = shareButton.frame;
+     tempFrame.origin.y = tempFrame.origin.y - 50;
+     
+     [UIView animateWithDuration:0.8f animations:^{
+     [shareButton setFrame:tempFrame];
+     }];
+     
+     shareBtnDidMoveUp = YES;
+     shareBtnDidMovedown = NO;
+     }
+     
+     }
+     }
      */
     
 }
@@ -1091,30 +1098,30 @@
             [self addOpenBoweseViewForX:13 andY:lastY + 10];
             
             totalHeight = totalHeight + addedHeightValue + 10 + 30;//added 10 and 30 for the bar of
-                //view this ad in the browser
+            //view this ad in the browser
             
             totalHeight = totalHeight + 20 + 30;
             
             /*
-            //2- add the bar of "post your comment"
-            
-            CommentsView * viewToBeAdded = (CommentsView *)[[[NSBundle mainBundle] loadNibNamed:@"CommentsView" owner:self options:nil] objectAtIndex:0];
-            
-            
-            viewToBeAdded.commentTextView.delegate = self;
-            [viewToBeAdded.postCommentBtn addTarget:self action:@selector(postCommentForCurrentAd) forControlEvents:UIControlEventTouchUpInside];
-            
-            commentsTV = viewToBeAdded.commentTextView;
-            commentsTV.textColor = [UIColor lightGrayColor];
-            
-            CGRect viewToBeAddedFrame = viewToBeAdded.frame;
-            viewToBeAddedFrame.origin.x = -2;
-            viewToBeAddedFrame.origin.y = totalHeight;
-            
-            [viewToBeAdded setFrame:viewToBeAddedFrame];
-            [self.labelsScrollView addSubview:viewToBeAdded];
-            
-            totalHeight = totalHeight + viewToBeAddedFrame.size.height;//, 10 and view's height for the bar of add your comment
+             //2- add the bar of "post your comment"
+             
+             CommentsView * viewToBeAdded = (CommentsView *)[[[NSBundle mainBundle] loadNibNamed:@"CommentsView" owner:self options:nil] objectAtIndex:0];
+             
+             
+             viewToBeAdded.commentTextView.delegate = self;
+             [viewToBeAdded.postCommentBtn addTarget:self action:@selector(postCommentForCurrentAd) forControlEvents:UIControlEventTouchUpInside];
+             
+             commentsTV = viewToBeAdded.commentTextView;
+             commentsTV.textColor = [UIColor lightGrayColor];
+             
+             CGRect viewToBeAddedFrame = viewToBeAdded.frame;
+             viewToBeAddedFrame.origin.x = -2;
+             viewToBeAddedFrame.origin.y = totalHeight;
+             
+             [viewToBeAdded setFrame:viewToBeAddedFrame];
+             [self.labelsScrollView addSubview:viewToBeAdded];
+             
+             totalHeight = totalHeight + viewToBeAddedFrame.size.height;//, 10 and view's height for the bar of add your comment
              */
             
             
@@ -1256,7 +1263,7 @@
 - (void) detailsDidFinishLoadingWithData:(CarDetails *) resultObject {
     
     //1- hide the loading indicator
-    [self hideLoadingIndicator];
+    //[self hideLoadingIndicator];
     
     //2- append the newly loaded ads
     currentDetailsObject = resultObject;
@@ -1351,18 +1358,32 @@
         
         if (currentDetailsObject.viewCount > 0)
             self.watchingCountLabel.text = [NSString stringWithFormat:@"%i", currentDetailsObject.viewCount];
-        else
-        {
+        else {
             self.watchingCountLabel.text = @"";
             [self.countOfViewsTinyImg setHidden:YES];
         }
         
+        [[CarDetailsManager sharedInstance] setCommentsPageSizeToDefault];
+        [[CarDetailsManager sharedInstance] setCommentsPageNumber:0];
+        [self loadPageOfComments];
+        
     }
+    else
+        [self hideLoadingIndicator];
+    
+    
     [self customizeButtonsByData];
     [self resizeScrollView];
     
     //4- cache the resultArray data
     //... (COME BACK HERE LATER) ...
+}
+
+- (void) loadPageOfComments {
+    if (currentDetailsObject) {
+        int page = [[CarDetailsManager sharedInstance] nextPage];
+        [[CarDetailsManager sharedInstance] getAdCommentsForAd:currentDetailsObject.adID OfPage:page WithDelegate:self];
+    }
 }
 
 #pragma mark - MFMailComposeViewController delegate methods
@@ -1777,22 +1798,22 @@
 - (void) addOpenBoweseViewForX:(float) x andY:(float)y{
     
     /*
-    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 295, 30)];
-    view.backgroundColor=[UIColor whiteColor];
-    UILabel *browseLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 5, 270, 20)];
-    browseLabel.text=@"مشاهدة هذا الاعلان في المتصفح";
-    browseLabel.textAlignment=NSTextAlignmentLeft;
-    browseLabel.backgroundColor= [UIColor clearColor];
-    browseLabel.font=[UIFont systemFontOfSize:15];
-    [view addSubview:browseLabel];
-    UIButton *buttn= [UIButton buttonWithType:UIButtonTypeCustom];
-    buttn.frame = CGRectMake(270, 8, 20, 19);
-    [buttn setImage:[UIImage imageNamed:@"Text_icon.png"] forState:UIControlStateNormal];
-    [buttn addTarget:self action:@selector(openInBrowser) forControlEvents:UIControlEventTouchUpInside];
-    
-    //[view insertSubview:buttn aboveSubview:browseLabel];
-    [view addSubview:buttn];
-    [self.labelsScrollView addSubview:view];
+     UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 295, 30)];
+     view.backgroundColor=[UIColor whiteColor];
+     UILabel *browseLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 5, 270, 20)];
+     browseLabel.text=@"مشاهدة هذا الاعلان في المتصفح";
+     browseLabel.textAlignment=NSTextAlignmentLeft;
+     browseLabel.backgroundColor= [UIColor clearColor];
+     browseLabel.font=[UIFont systemFontOfSize:15];
+     [view addSubview:browseLabel];
+     UIButton *buttn= [UIButton buttonWithType:UIButtonTypeCustom];
+     buttn.frame = CGRectMake(270, 8, 20, 19);
+     [buttn setImage:[UIImage imageNamed:@"Text_icon.png"] forState:UIControlStateNormal];
+     [buttn addTarget:self action:@selector(openInBrowser) forControlEvents:UIControlEventTouchUpInside];
+     
+     //[view insertSubview:buttn aboveSubview:browseLabel];
+     [view addSubview:buttn];
+     [self.labelsScrollView addSubview:view];
      */
     
     UIButton * openBrowserBtn = [[UIButton alloc] initWithFrame:CGRectMake(x, y, 295, 30)];
@@ -1818,18 +1839,21 @@
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
     if([text isEqualToString:@"\n"]) {
-        //[self.commentTextView resignFirstResponder];
+        [self.commentTextView resignFirstResponder];
+        
         if(self.commentTextView.text.length == 0){
             self.commentTextView.textColor = [UIColor lightGrayColor];
             self.commentTextView.text = @"أضف تعليقك";
             self.commentTextView.textAlignment = NSTextAlignmentRight;
-            //[self.commentTextView resignFirstResponder];
+            
         }
+        else
+            [self postCommentForCurrentAd:nil];
         return NO;
     }
     
     return YES;
-
+    
 }
 
 #pragma mark - comments methods
@@ -1845,7 +1869,7 @@
             
             [[CarDetailsManager sharedInstance] postCommentForAd:currentDetailsObject.adID WithText:self.commentTextView.text WithDelegate:self];
         }
-
+        
     }
     else {
         UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"نعتذر" message:@"يجب أن تسجل الدخول حتى تتمكن من إضافة تعليق" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:@"إلغاء", nil];
@@ -1860,11 +1884,60 @@
 
 //get
 - (void) commentsDidFailLoadingWithError:(NSError *)error {
-    
+    [self hideLoadingIndicator];
 }
 
 - (void) commentsDidFinishLoadingWithData:(NSArray *)resultArray {
     
+    if (resultArray && resultArray.count) {
+        
+        float maxY = 0;
+        float bottomViewHeight = 0;
+        for (UIView * subView in self.labelsScrollView.subviews) {
+            if (subView.frame.origin.y > maxY) {
+                maxY = subView.frame.origin.y;
+                bottomViewHeight = subView.frame.size.height;
+            }
+        }
+        
+        maxY = maxY + bottomViewHeight + 10;
+        float totalHeight = self.labelsScrollView.contentSize.height;
+        float lastY = maxY;
+        
+        UIImageView * titleImgV = [[UIImageView alloc] initWithFrame:CGRectMake(13, lastY, 295, 35)];
+        titleImgV.image = [UIImage imageNamed:@"Comments_title.png"];
+        
+        lastY = lastY + titleImgV.frame.size.height;
+
+        totalHeight = totalHeight + titleImgV.frame.size.height;
+        [self.labelsScrollView addSubview:titleImgV];
+        
+        for (CommentOnAd * comment in resultArray) {
+            [commentsArray addObject:comment];
+            
+            SingleCommentView * cView = [[SingleCommentView alloc] initWithCommentText:comment.commentText];
+            
+            cView.usernameLabel.text = comment.userName;
+            cView.dateLabel.text = comment.postedOnDate.description;
+            cView.commentTextLabel.text = comment.commentText;
+            
+            CGRect cViewFrame = cView.frame;
+            cViewFrame.origin.x = 13;
+            cViewFrame.origin.y = lastY ;
+            
+            [cView setFrame:cViewFrame];
+            
+            lastY = lastY + cView.frame.size.height + FIXED_V_DISTANCE;
+            
+            totalHeight = totalHeight + cView.frame.size.height + FIXED_V_DISTANCE;
+            
+            [self.labelsScrollView addSubview:cView];
+        }
+        
+        [self.labelsScrollView setContentSize:CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight)];
+    }
+    
+    [self hideLoadingIndicator];
 }
 
 //post
@@ -1879,6 +1952,10 @@
     [self hideLoadingIndicator];
     
     if (resultComment) {
+        self.commentTextView.textColor = [UIColor lightGrayColor];
+        self.commentTextView.text = @"أضف تعليقك";
+        self.commentTextView.textAlignment = NSTextAlignmentRight;
+        
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تم إضافة تعليقك بنجاح" delegate:nil cancelButtonTitle:@"حسناً" otherButtonTitles:nil];
         [alert show];
     }

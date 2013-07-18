@@ -121,24 +121,24 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     return self.commentsPageNumber;
 }
 
-- (NSUInteger) getCurrentPageNum {
+- (NSUInteger) getCurrentCommentsPageNum {
     return self.commentsPageNumber;
 }
 
-- (NSUInteger) getCurrentPageSize {
+- (NSUInteger) getCurrentCommentsPageSize {
     return self.commentsPageSize;
 }
 
 
-- (void) setCurrentPageNum:(NSUInteger) pNum {
+- (void) setCurrentCommentsPageNum:(NSUInteger) pNum {
     self.commentsPageNumber = pNum;
 }
 
-- (void) setCurrentPageSize:(NSUInteger) pSize {
+- (void) setCurrentCommentsPageSize:(NSUInteger) pSize {
     self.commentsPageSize = pSize;
 }
 
-- (void) setPageSizeToDefault {
+- (void) setCommentsPageSizeToDefault {
     self.commentsPageSize = DEFAULT_COMMENTS_PAGE_SIZE;
 }
 
@@ -477,7 +477,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              userNameString:[dataDict objectForKey:COMMENTS_USERNAME_JKEY]
                              ];
                         }
-                    }else {
+                    }
+                    else {
                         CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
                         [error setDescMessage:statusMessageProcessed];
                         
@@ -495,8 +496,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         else if (manager == getCommentsMngr) {
             
             if (self.commentsDel) {
-                NSLog(@"comments loaded successfully, comments are:");
-                NSLog(@"%@", result);
+                //NSLog(@"comments loaded successfully, comments are:");
+                //NSLog(@"%@", result);
+                NSArray * commentsArray = [self createCommentsArrayWithData:(NSArray *)result];
+                [self.commentsDel commentsDidFinishLoadingWithData:commentsArray];
             }
             
         }
@@ -645,4 +648,41 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
+- (NSArray * ) createCommentsArrayWithData:(NSArray *) data {
+    
+    if ((data) && (data.count > 0))
+    {
+        NSDictionary * totalDict = [data objectAtIndex:0];
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:DETAILS_STATUS_CODE_JKEY]];
+        NSInteger statusCode = statusCodeString.integerValue;
+        NSString * statusMessageProcessed = [[[totalDict objectForKey:DETAILS_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+        
+        NSMutableArray * comments = [NSMutableArray new];
+        if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+        {
+            //NSDictionary * dataDict = [totalDict objectForKey:DETAILS_DATA_JKEY];
+            NSArray * dataCommentsArray = [totalDict objectForKey:DETAILS_DATA_JKEY];
+            if ((dataCommentsArray) && (![@"" isEqualToString:(NSString *)dataCommentsArray]) && (dataCommentsArray.count)) {
+                
+                for (NSDictionary * cDict in dataCommentsArray)
+                {
+                    //3- create the object
+                    CommentOnAd * comment = [[CommentOnAd alloc]
+                                initWithAdIDString:[cDict objectForKey:COMMENTS_AD_ID_JKEY]
+                                commentIDString:[cDict objectForKey:COMMENTS_COMMENT_ID_JKEY]
+                                commentTextString:[cDict objectForKey:COMMENTS_COMMENT_TEXT_JKEY]
+                                postedByIDString:[cDict objectForKey:COMMENTS_POSTED_BY_ID_JKEY]
+                                postedOnDateString:[cDict objectForKey:COMMENTS_POSTED_ON_JKEY]
+                                userNameString:[cDict objectForKey:COMMENTS_USERNAME_JKEY]
+                                ];
+                    
+                    [comments addObject:comment];
+                }
+            }
+        }
+        return comments;
+    }
+    return [NSArray new];
+    
+}
 @end
