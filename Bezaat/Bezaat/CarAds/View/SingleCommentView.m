@@ -74,7 +74,7 @@ static float initial_height = 85;
     
     self.commentTextHeight = textSize.height;
     
-    CGRect cellFrame = CGRectMake(0, 0, 295, initial_height + 5 + self.commentTextHeight + 5);
+    CGRect cellFrame = CGRectMake(0, 0, 295, initial_height + self.commentTextHeight);
     return [self initWithFrame:cellFrame];
 
 }
