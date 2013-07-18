@@ -42,6 +42,10 @@
 {
     [super viewDidLoad];
     
+    [self.adsTable setSeparatorColor:[UIColor clearColor]];
+    [self.adsTable setBackgroundColor:[UIColor clearColor]];
+
+
     //initialize the user to get info
     CurrentUser = [[UserProfile alloc]init];
     locationMngr = [LocationManager sharedInstance];
@@ -230,11 +234,21 @@
     NSDateFormatter* df = [[NSDateFormatter alloc]init];
     [df setDateFormat:@"dd/MM/yy"];
     [cell.storeName setText:orderObject.StoreName];
-    [cell.paymentMethod setText:[NSString stringWithFormat:@"%i", orderObject.PaymentMethod]];
-    [cell.orderStatus setText:[NSString stringWithFormat:@"%i", orderObject.OrderStatus]];
+    [cell.paymentMethod setText:[self getPaymentMethod:orderObject.PaymentMethod]];
+    [cell.orderStatus setText:[self getOrderStatus:orderObject.OrderStatus]];
+    [cell.orderBundle setText:orderObject.StorePaymentSchemeName];
     
     [cell.orderDate setText:[df stringFromDate:orderObject.LastModifiedOn]];
     [cell.orderId setText:[NSString stringWithFormat:@"%i", orderObject.OrderID]];
+
+    if (orderObject.OrderStatus != 1) {
+        [cell.bankTransferBtn setHidden:YES];
+    }
+    cell.bankTransferBtn.tag = indexPath.row;
+    cell.proceedBtn.tag = indexPath.row;
+    
+    [cell.bankTransferBtn addTarget:self action:@selector(bankPayment:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.proceedBtn addTarget:self action:@selector(ProceedInvoked:) forControlEvents:UIControlEventTouchUpInside];
     
     //customize the carAdCell with actual data
             /* // just comment
@@ -283,7 +297,90 @@
     }
 }
 
+-(NSString*)getPaymentMethod:(NSInteger)payment
+{
+    switch (payment) {
+        case 5:
+            return @"اندرويد بايبال";
+            break;
+            
+        case 4:
+            return @"أبل ستور";
+            break;
+            
+        case 2:
+            return @"تحويل بنكي";
+            break;
+            
+        default:
+            return @"بطاقة إئتمانية";
+            break;
+    }
+}
 
+-(NSString*)getOrderStatus:(NSInteger)status
+{
+    switch (status) {
+        case 0:
+            return @"قيد الإنشاء";
+            break;
+            
+        case 1:
+            return @"بانتظار التحويل البنكي";
+            break;
+            
+        case 2:
+            return @"تم الطلب";
+            break;
+        
+        case 3:
+            return @"فشل العملية";
+            break;
+            
+        case 4:
+            return @"تم التفعيل";
+            break;
+            
+        case 5:
+            return @"مرفوض";
+            break;
+            
+        case 6:
+            return @"تم التأكيد";
+            break;
+            
+        case 7:
+            return @"ملغي";
+            break;
+
+        default:
+            return @"";
+            break;
+    }
+}
+
+-(void)bankPayment:(id)sender
+{
+    UIButton* btn = (UIButton*)sender;
+    StoreOrder * orderObject = (StoreOrder *)[storeOrdersArray objectAtIndex:btn.tag];
+   
+    BankTransferPaymentVC *vc=[[BankTransferPaymentVC alloc] initWithNibName:@"BankTransferPaymentVC" bundle:nil];
+    vc.currentOrder = orderObject;
+    [self presentViewController:vc animated:YES completion:nil];
+    
+    
+}
+
+-(void)ProceedInvoked:(id)sender
+{
+    UIButton* btn = (UIButton*)sender;
+    StoreOrder * orderObject = (StoreOrder *)[storeOrdersArray objectAtIndex:btn.tag];
+    
+    FeatureStoreAdViewController *vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+    vc.currentOrder = orderObject;
+    [self presentViewController:vc animated:YES completion:nil];
+    
+}
 
 
 /*

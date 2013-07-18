@@ -782,6 +782,13 @@
 		843033D61744D7E300AB9C0A /* bankTransfer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843033D21744D7E300AB9C0A /* bankTransfer@2x.png */; };
 		843033D71744D7E300AB9C0A /* inAppPurchase.png in Resources */ = {isa = PBXBuildFile; fileRef = 843033D31744D7E300AB9C0A /* inAppPurchase.png */; };
 		843033D81744D7E300AB9C0A /* inAppPurchase@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843033D41744D7E300AB9C0A /* inAppPurchase@2x.png */; };
+		843748191797B6D000B97816 /* bkgFullscree.png in Resources */ = {isa = PBXBuildFile; fileRef = 843748171797B6D000B97816 /* bkgFullscree.png */; };
+		8437481A1797B6D000B97816 /* bkgFullscree@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843748181797B6D000B97816 /* bkgFullscree@2x.png */; };
+		8437481E1797B7E800B97816 /* BankTransferPaymentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8437481C1797B7E800B97816 /* BankTransferPaymentVC.m */; };
+		8437481F1797B7E800B97816 /* BankTransferPaymentVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8437481D1797B7E800B97816 /* BankTransferPaymentVC.xib */; };
+		843748251797E16C00B97816 /* UICustomDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 843748241797E16C00B97816 /* UICustomDatePicker.m */; };
+		8437482B1797F3F700B97816 /* noAdsScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 843748291797F3F700B97816 /* noAdsScreen.png */; };
+		8437482C1797F3F700B97816 /* noAdsScreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8437482A1797F3F700B97816 /* noAdsScreen@2x.png */; };
 		8439FDE21727F4CD00CB1939 /* algeria.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAD1727F4CD00CB1939 /* algeria.png */; };
 		8439FDE31727F4CD00CB1939 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAE1727F4CD00CB1939 /* arrow.png */; };
 		8439FDE41727F4CD00CB1939 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAF1727F4CD00CB1939 /* arrow@2x.png */; };
@@ -2045,6 +2052,15 @@
 		843033D21744D7E300AB9C0A /* bankTransfer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bankTransfer@2x.png"; sourceTree = "<group>"; };
 		843033D31744D7E300AB9C0A /* inAppPurchase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inAppPurchase.png; sourceTree = "<group>"; };
 		843033D41744D7E300AB9C0A /* inAppPurchase@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inAppPurchase@2x.png"; sourceTree = "<group>"; };
+		843748171797B6D000B97816 /* bkgFullscree.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bkgFullscree.png; sourceTree = "<group>"; };
+		843748181797B6D000B97816 /* bkgFullscree@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bkgFullscree@2x.png"; sourceTree = "<group>"; };
+		8437481B1797B7E800B97816 /* BankTransferPaymentVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankTransferPaymentVC.h; sourceTree = "<group>"; };
+		8437481C1797B7E800B97816 /* BankTransferPaymentVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankTransferPaymentVC.m; sourceTree = "<group>"; };
+		8437481D1797B7E800B97816 /* BankTransferPaymentVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BankTransferPaymentVC.xib; sourceTree = "<group>"; };
+		843748231797E16C00B97816 /* UICustomDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICustomDatePicker.h; sourceTree = "<group>"; };
+		843748241797E16C00B97816 /* UICustomDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICustomDatePicker.m; sourceTree = "<group>"; };
+		843748291797F3F700B97816 /* noAdsScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noAdsScreen.png; sourceTree = "<group>"; };
+		8437482A1797F3F700B97816 /* noAdsScreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noAdsScreen@2x.png"; sourceTree = "<group>"; };
 		8439FDAD1727F4CD00CB1939 /* algeria.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = algeria.png; sourceTree = "<group>"; };
 		8439FDAE1727F4CD00CB1939 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		8439FDAF1727F4CD00CB1939 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
@@ -3423,6 +3439,8 @@
 		8439FE0F1727F50100CB1939 /* User Profile */ = {
 			isa = PBXGroup;
 			children = (
+				843748291797F3F700B97816 /* noAdsScreen.png */,
+				8437482A1797F3F700B97816 /* noAdsScreen@2x.png */,
 				8439FE101727F50100CB1939 /* add.png */,
 				8439FE111727F50100CB1939 /* add@2x.png */,
 				8439FE121727F50100CB1939 /* bkg_name_change.png */,
@@ -4081,6 +4099,8 @@
 		9E78A85616E4930F000CA790 /* Custom Controls */ = {
 			isa = PBXGroup;
 			children = (
+				843748231797E16C00B97816 /* UICustomDatePicker.h */,
+				843748241797E16C00B97816 /* UICustomDatePicker.m */,
 				249562E51723FFB1002C3F40 /* CustomDropDownMenu */,
 				9EAC7656172157EA001B1122 /* ODRefreshControl */,
 				9E1CA27216F625B9001A7DA1 /* SFLabel */,
@@ -4111,6 +4131,8 @@
 		9E9F082F16E4AFCF000E8471 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				843748171797B6D000B97816 /* bkgFullscree.png */,
+				843748181797B6D000B97816 /* bkgFullscree@2x.png */,
 				24F6D9621784284B00992760 /* exhibit_sliced */,
 				840A21461740AF2C00ACB950 /* list_remove.png */,
 				8493D41A17426C69000EA9E2 /* list_remove@2x.png */,
@@ -4182,6 +4204,9 @@
 				841950DF1796C0E30026163E /* StoreOrdersViewController.h */,
 				841950E01796C0E30026163E /* StoreOrdersViewController.m */,
 				841950E11796C0E30026163E /* StoreOrdersViewController.xib */,
+				8437481B1797B7E800B97816 /* BankTransferPaymentVC.h */,
+				8437481C1797B7E800B97816 /* BankTransferPaymentVC.m */,
+				8437481D1797B7E800B97816 /* BankTransferPaymentVC.xib */,
 				84D84BC0173008E000ADDF8F /* AddNewStoreAdViewController.h */,
 				84D84BC1173008E000ADDF8F /* AddNewStoreAdViewController.m */,
 				84D84BC2173008E000ADDF8F /* AddNewStoreAdViewController.xib */,
@@ -5577,6 +5602,11 @@
 				841950FB1796C11E0026163E /* SeeOrder@2x.png in Resources */,
 				841950FC1796C11E0026163E /* sendOrder.png in Resources */,
 				841950FD1796C11E0026163E /* sendOrder@2x.png in Resources */,
+				843748191797B6D000B97816 /* bkgFullscree.png in Resources */,
+				8437481A1797B6D000B97816 /* bkgFullscree@2x.png in Resources */,
+				8437481F1797B7E800B97816 /* BankTransferPaymentVC.xib in Resources */,
+				8437482B1797F3F700B97816 /* noAdsScreen.png in Resources */,
+				8437482C1797F3F700B97816 /* noAdsScreen@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5715,6 +5745,8 @@
 				841950DB1796C0D30026163E /* StoreOrder.m in Sources */,
 				841950E21796C0E30026163E /* StoreOrderCell.m in Sources */,
 				841950E41796C0E30026163E /* StoreOrdersViewController.m in Sources */,
+				8437481E1797B7E800B97816 /* BankTransferPaymentVC.m in Sources */,
+				843748251797E16C00B97816 /* UICustomDatePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

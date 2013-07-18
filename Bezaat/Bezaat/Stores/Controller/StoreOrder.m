@@ -13,6 +13,7 @@
 @synthesize  StoreName;
 @synthesize  StoreImageURL;
 @synthesize  OrderID;
+@synthesize CountryID;
 @synthesize  SchemeFee;
 @synthesize  PaymentMethod;
 @synthesize  OrderStatus;

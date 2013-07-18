@@ -13,6 +13,9 @@
 #import "StoreManager.h"
 #import "gallariesManager.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "FeatureStoreAdViewController.h"
+#import "BankTransferPaymentVC.h"
+
 
 @interface StoreOrdersViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,StoreManagerDelegate>
 {

@@ -30,6 +30,8 @@
 -(void)storeOrdersLoadDidFailLoadingWithError:(NSError*)error;
 -(void)storeOrdersLoadDidFinishLoadingWithOrders:(NSArray*)orders;
 
+-(void)bankTransferPaymentDidFinishPostingWithStatus:(BOOL)status;
+-(void)bankTransferPaymentDidFailPostingWithError:(NSError*)error;
 @end
 
 @interface StoreManager : NSObject <DataDelegate>
@@ -57,5 +59,8 @@
 - (void)unfeatureAdv:(NSInteger)advID inStore:(NSInteger)storeID;
 
 - (void)featureAdv:(NSInteger)advID inStore:(NSInteger)storeID featureDays:(NSInteger)featureDays;
+
+-(void)postBankPaymentWithOrderID:(NSInteger)orderID andName:(NSString*)senderName andBankTransactionNum:(NSInteger)bankTransactionID andTransactionDate:(NSString*)transactionDate;
+
 
 @end

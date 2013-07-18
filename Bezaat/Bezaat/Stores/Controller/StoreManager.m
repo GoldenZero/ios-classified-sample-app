@@ -31,7 +31,8 @@ typedef enum {
     RequestInProgressGetStoreStatus,
     RequestInProgressFeatureAdv,
     RequestInProgressUnfeatureAdv,
-    RequestInProgressGetStoreOrders
+    RequestInProgressGetStoreOrders,
+    RequestInProgressPostBankPayment
 } RequestInProgress;
 
 @interface StoreManager () {
@@ -52,6 +53,7 @@ static NSString *my_store_ads_url = @"/json/my-store-ads";
 static NSString *store_status_url = @"/json/user-store-status";
 static NSString *feature_adv_url = @"/json/make-store-ad-featured";
 static NSString *unfeature_adv_url = @"/json/stop-store-ad-featured";
+static NSString *bank_transfer_url = @"/json/bank-transfer?formColl=";
 static NSString *create_store_temp_file = @"createStoreTmpFile";
 static NSString *upload_logo_temp_file = @"uploadLogoTmpFile";
 static NSString *get_user_stores_temp_file = @"getUserStoresTmpFile";
@@ -75,6 +77,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
         store_status_url = [API_MAIN_URL stringByAppendingString:store_status_url];
         feature_adv_url = [API_MAIN_URL stringByAppendingString:feature_adv_url];
         unfeature_adv_url = [API_MAIN_URL stringByAppendingString:unfeature_adv_url];
+        bank_transfer_url = [API_MAIN_URL stringByAppendingString:bank_transfer_url];
     }
     return instance;
 }
@@ -463,6 +466,49 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
                        ];
 }
 
+-(void)postBankPaymentWithOrderID:(NSInteger)orderID andName:(NSString*)senderName andBankTransactionNum:(NSInteger)bankTransactionID andTransactionDate:(NSString*)transactionDate {
+    requestInProgress = RequestInProgressPostBankPayment;
+    
+    //1- check connectivity
+    if (![self checkConnectivity]) {
+        return;
+    }
+    
+    //2- start the request
+    NSMutableURLRequest *request = [self request];
+    
+    
+    if (request == nil) {
+        [self manager:internetManager connectionDidFailWithError:[[NSError alloc] initWithDomain:@"user is not logged in!" code:0 userInfo:nil]];
+        return;
+    }
+    [request setURL:[NSURL URLWithString:bank_transfer_url]];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    NSString * post =[NSString stringWithFormat:@"%@=%d&%@=%@&%@=%d&%@=%@"
+                      ,@"OrderID",orderID
+                      ,@"SenderName", senderName
+                      ,@"BankTransNo", bankTransactionID,
+                      @"BankTransDate",transactionDate
+                      ];
+    
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    // start the request
+    [request setHTTPBody:postData];
+    
+    internetManager = [[InternetManager alloc] initWithTempFileName:feature_adv_temp_file
+                                                         urlRequest:request
+                                                           delegate:self
+                                                   startImmediately:YES
+                                                       responseType:@"JSON"
+                       ];
+}
+
+
 #pragma mark - Private Methods
 
 - (NSMutableURLRequest *)request {
@@ -560,6 +606,11 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     else if (requestInProgress == RequestInProgressUnfeatureAdv) {
         if ([delegate respondsToSelector:@selector(unfeatureAdvDidFailWithError:)]) {
             [delegate unfeatureAdvDidFailWithError:error];
+        }
+    }
+    else if (requestInProgress == RequestInProgressPostBankPayment) {
+        if ([delegate respondsToSelector:@selector(bankTransferPaymentDidFailPostingWithError:)]) {
+            [delegate bankTransferPaymentDidFailPostingWithError:error];
         }
     }
 
@@ -715,6 +766,20 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     else if (requestInProgress == RequestInProgressUnfeatureAdv) {
         if ([delegate respondsToSelector:@selector(unfeatureAdvDidSucceed)]) {
             [delegate unfeatureAdvDidSucceed];
+        }
+    }
+    else if (requestInProgress == RequestInProgressPostBankPayment) {
+        NSString * statusCodeString = [NSString stringWithFormat:@"%@", ((NSArray *)result)[0][LOGIN_STATUS_CODE_JKEY]] ;
+        NSInteger statusCode = statusCodeString.integerValue;
+        NSString * message = ((NSArray *)result)[0][LOGIN_STATUS_MSG_JKEY];
+        if (statusCode == 320) {
+            CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
+            [error setDescMessage:message];
+            [delegate bankTransferPaymentDidFailPostingWithError:error];
+        }else {
+            if ([delegate respondsToSelector:@selector(bankTransferPaymentDidFinishPostingWithStatus:)]) {
+                [delegate bankTransferPaymentDidFinishPostingWithStatus:YES];
+            }
         }
     }
 

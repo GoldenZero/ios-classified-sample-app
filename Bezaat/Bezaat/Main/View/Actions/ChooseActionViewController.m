@@ -341,7 +341,7 @@
         [custoMenuArray addObject:[menuArray objectAtIndex:2]];
         [custoMenuArray addObject:[menuArray objectAtIndex:4]];
         [custoMenuArray addObject:[menuArray objectAtIndex:5]];
-        [custoMenuArray addObject:[menuArray objectAtIndex:12]];
+        //[custoMenuArray addObject:[menuArray objectAtIndex:12]];
 
         [custoMenuArray addObject:[menuArray objectAtIndex:8]];
         [custoMenuArray addObject:[menuArray objectAtIndex:9]];
@@ -351,7 +351,7 @@
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:3]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:11]];
-        [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:12]];
+        //[custoIconMenuArray addObject:[iconMenuArray objectAtIndex:12]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:8]];
         [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:10]];

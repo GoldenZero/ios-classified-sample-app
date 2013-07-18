@@ -53,7 +53,8 @@
 {
     [super viewDidLoad];
     [self.filterAllBtn setHighlighted:YES];
-    [self.noAdsLbl setHidden:YES];
+    //[self.noAdsLbl setHidden:YES];
+    [self.noAdsImage setHidden:YES];
     
     //initialize the user to get info
     CurrentUser = [[UserProfile alloc]init];
@@ -177,11 +178,13 @@
     if ([resultArray count] == 0) {
         NSLog(@"%i",[self.adsTable numberOfRowsInSection:0]);
         if ([self.adsTable numberOfRowsInSection:0] == 0) {
-            [self.noAdsLbl setHidden:NO];
+            //[self.noAdsLbl setHidden:NO];
+            [self.noAdsImage setHidden:NO];
         }
         dataLoadedFromCache = YES;
     }else{
-        [self.noAdsLbl setHidden:YES];
+        //[self.noAdsLbl setHidden:YES];
+        [self.noAdsImage setHidden:YES];
     }
     //2- append the newly loaded ads
     if (resultArray && [resultArray count]!=0)

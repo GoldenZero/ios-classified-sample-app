@@ -27,6 +27,7 @@
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (nonatomic) NSInteger currentAdID;
 @property (nonatomic) Store* storeID;
+@property (strong, nonatomic) StoreOrder* currentOrder;
 @property (weak, nonatomic) IBOutlet UIView *noServiceView;
 @property (strong, nonatomic) IBOutlet UIButton *bankBtn;
 @property (strong, nonatomic) IBOutlet UIImageView *bgBtns;

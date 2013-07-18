@@ -1892,6 +1892,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     storeOrder.StoreName = storeDic[@"StoreName"];
                     storeOrder.StoreImageURL = storeDic[@"StoreImageURL"];
                     storeOrder.OrderID = [storeDic[@"OrderID"] integerValue];
+                    storeOrder.CountryID = [storeDic[@"CountryID"] integerValue];
                     storeOrder.SchemeFee = [storeDic[@"SchemeFee"] integerValue];
                     storeOrder.PaymentMethod = [storeDic[@"PaymentMethod"] integerValue];
                     storeOrder.OrderStatus = [storeDic[@"OrderStatus"] integerValue];
@@ -1901,6 +1902,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     
                     storeOrder.IsRejected = [storeDic[@"IsRejected"] boolValue];
                     storeOrder.LastModifiedOn = [GenericMethods NSDateFromDotNetJSONString:storeDic[@"LastModifiedOn"]];
+                    
                     
                     [adsArray addObject:storeOrder];
                     

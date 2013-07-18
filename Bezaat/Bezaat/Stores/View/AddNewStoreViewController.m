@@ -76,8 +76,8 @@
     
     if (currentUser) {
         [passwordField setHidden:YES];
-        phoneField.frame = CGRectMake(phoneField.frame.origin.x, 197, phoneField.frame.size.width, phoneField.frame.size.height);
-        self.countryCity.frame = CGRectMake(self.countryCity.frame.origin.x, 235, self.countryCity.frame.size.width, self.countryCity.frame.size.height);
+        phoneField.frame = CGRectMake(phoneField.frame.origin.x, 235, phoneField.frame.size.width, phoneField.frame.size.height);
+        //self.countryCity.frame = CGRectMake(self.countryCity.frame.origin.x, 235, self.countryCity.frame.size.width, self.countryCity.frame.size.height);
         self.saveBtn.frame = CGRectMake(self.saveBtn.frame.origin.x, 273, self.saveBtn.frame.size.width, self.saveBtn.frame.size.height);
         self.cancelBtn.frame = CGRectMake(self.cancelBtn.frame.origin.x, 273, self.cancelBtn.frame.size.width, self.cancelBtn.frame.size.height);
         self.whatIsStoreBtn.frame = CGRectMake(self.whatIsStoreBtn.frame.origin.x, 313, self.whatIsStoreBtn.frame.size.width, self.whatIsStoreBtn.frame.size.height);

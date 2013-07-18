@@ -38,6 +38,7 @@
 - (IBAction)EditInvoked:(id)sender;
 - (IBAction)AddingAdsInvoked:(id)sender;
 
+@property (strong, nonatomic) IBOutlet UIImageView *noAdsImage;
 @property (weak, nonatomic) IBOutlet UILabel *noAdsLbl;
 @property (weak, nonatomic) IBOutlet UITableView *adsTable;
 @property (weak, nonatomic) IBOutlet UIButton *filterAllBtn;

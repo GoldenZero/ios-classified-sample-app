@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *StoreName;
 @property (nonatomic, strong) NSString *StoreImageURL;
 @property (nonatomic) NSInteger OrderID;
+@property (nonatomic) NSInteger CountryID;
 @property (nonatomic) NSInteger SchemeFee;
 @property (nonatomic) NSInteger PaymentMethod;
 @property (nonatomic) NSInteger OrderStatus;

@@ -56,6 +56,13 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [[SKPaymentQueue defaultQueue]
      addTransactionObserver:self];
     
+    if (self.currentOrder) {
+        self.storeID = [[Store alloc] init];
+        self.storeID.identifier = self.currentOrder.StoreID;
+        self.storeID.name = self.currentOrder.StoreName;
+        self.storeID.imageURL = self.currentOrder.StoreImageURL;
+        self.storeID.countryID = self.currentOrder.CountryID;
+    }
     //init the productsArr
     productsArr = [NSArray new];
     
