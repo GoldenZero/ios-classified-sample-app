@@ -1880,6 +1880,82 @@
     
 }
 
+- (void) AddNewComment:(CommentOnAd *) comment animated:(BOOL) animated {
+    
+    float maxY = 0;
+    float bottomViewHeight = 0;
+    NSLog(@"subviews count %i", self.labelsScrollView.subviews.count);
+    for (UIView * subView in self.labelsScrollView.subviews) {
+        if (subView.frame.origin.y > maxY) {
+            if ([subView class] == [SingleCommentView class]) {
+                maxY = subView.frame.origin.y;
+                bottomViewHeight = subView.frame.size.height;
+            }
+        }
+    }
+    
+    maxY = maxY + bottomViewHeight;
+    float totalHeight = self.labelsScrollView.contentSize.height;
+    float lastY = maxY;
+    
+    SingleCommentView * cView = [[SingleCommentView alloc] initWithCommentText:comment.commentText];
+    
+    //username
+    cView.usernameLabel.text = comment.userName;
+    
+    //posted on date
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd/MM/yyyy HH:mm a"];
+    
+    NSString * postedOnDateFormatted = [formatter stringFromDate:comment.postedOnDate];
+    
+    cView.dateLabel.text = postedOnDateFormatted;
+    
+    //comment text
+    cView.commentTextLabel.text = comment.commentText;
+    
+    
+    CGRect cViewFrame = cView.frame;
+    cViewFrame.origin.x = 13;
+    cViewFrame.origin.y = lastY ;
+    
+    [cView setFrame:cViewFrame];
+    
+    //lastY = lastY + cView.frame.size.height + FIXED_V_DISTANCE;
+    
+    totalHeight = totalHeight + cView.frame.size.height + FIXED_V_DISTANCE;
+    
+    if (animated) {
+        /*
+        [UIView animateWithDuration:1.0f animations:^{
+            [self.labelsScrollView addSubview:cView];
+        }];
+         */
+        [UIView transitionWithView:self.labelsScrollView
+                          duration:0.5
+                           options:UIViewAnimationOptionTransitionCrossDissolve //any animation
+                        animations:^ {[self.labelsScrollView addSubview:cView]; }
+                        completion:nil];
+    }
+    else 
+        [self.labelsScrollView addSubview:cView];
+    
+    [self.labelsScrollView setContentSize:CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight)];
+    
+}
+
+- (NSArray *) sortCommentsArray:(NSArray *) input {
+    
+    NSArray * sortedArray;
+    sortedArray = [input sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSDate * first = [(CommentOnAd *)a postedOnDate];
+        NSDate * second = [(CommentOnAd *)b postedOnDate];
+        return ([first compare:second]);
+    }];
+    
+    return sortedArray;
+}
+
 #pragma mark - Comments Delegate methods
 
 //get
@@ -1890,6 +1966,13 @@
 - (void) commentsDidFinishLoadingWithData:(NSArray *)resultArray {
     
     if (resultArray && resultArray.count) {
+        
+        [commentsArray addObjectsFromArray:resultArray];
+        
+        NSMutableArray * sorted = [NSMutableArray new];
+        [sorted addObjectsFromArray:[self sortCommentsArray:commentsArray]];
+        
+        commentsArray = sorted;
         
         float maxY = 0;
         float bottomViewHeight = 0;
@@ -1912,8 +1995,7 @@
         totalHeight = totalHeight + titleImgV.frame.size.height;
         [self.labelsScrollView addSubview:titleImgV];
         
-        for (CommentOnAd * comment in resultArray) {
-            [commentsArray addObject:comment];
+        for (CommentOnAd * comment in commentsArray) {
             
             SingleCommentView * cView = [[SingleCommentView alloc] initWithCommentText:comment.commentText];
             
@@ -1944,7 +2026,7 @@
             
             [self.labelsScrollView addSubview:cView];
         }
-        
+        NSLog(@"subviews count %i", self.labelsScrollView.subviews.count);
         [self.labelsScrollView setContentSize:CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight)];
     }
     
@@ -1967,8 +2049,11 @@
         self.commentTextView.text = @"أضف تعليقك";
         self.commentTextView.textAlignment = NSTextAlignmentRight;
         
+        /*
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تم إضافة تعليقك بنجاح" delegate:nil cancelButtonTitle:@"حسناً" otherButtonTitles:nil];
         [alert show];
+         */
+        [self AddNewComment:resultComment animated:YES];
     }
 }
 @end
