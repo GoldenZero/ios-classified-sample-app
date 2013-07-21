@@ -33,5 +33,6 @@
 
 - (IBAction)backInvoked:(id)sender;
 
+@property (strong, nonatomic) IBOutlet UIImageView *noAdsImage;
 @property (weak, nonatomic) IBOutlet UITableView *adsTable;
 @end

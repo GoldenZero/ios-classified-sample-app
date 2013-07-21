@@ -44,7 +44,7 @@
     
     [self.adsTable setSeparatorColor:[UIColor clearColor]];
     [self.adsTable setBackgroundColor:[UIColor clearColor]];
-
+[self.noAdsImage setHidden:YES];
 
     //initialize the user to get info
     CurrentUser = [[UserProfile alloc]init];
@@ -144,6 +144,7 @@
 {
     if ([orders count] == 0) {
         dataLoadedFromCache = YES;
+        [self.noAdsImage setHidden:NO];
     }
      //2- append the newly loaded ads
     else if (orders && [orders count]!=0)
