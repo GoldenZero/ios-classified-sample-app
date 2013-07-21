@@ -28,7 +28,7 @@
     CarDetails * currentDetailsObject;
     CGFloat originalScrollViewHeight;
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
-    AURosetteView *shareButton;
+    //AURosetteView *shareButton;
     UITapGestureRecognizer *tap;
     UITapGestureRecognizer *tapForDismissKeyBoard;
     
@@ -46,9 +46,6 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
-- (void)twitterAction:(id)sender;
-- (void)facebookAction:(id)sender;
-- (void)mailAction:(id)sender;
 
 @end
 
@@ -88,12 +85,14 @@
     
     commentsArray = [NSMutableArray new];
     
+    /*
     // hide share button
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissShareButton)];
     //[self.scrollView addGestureRecognizer:tap];
     [self.labelsScrollView addGestureRecognizer:tap];
+     */
     
     tapForDismissKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.labelsScrollView addGestureRecognizer:tapForDismissKeyBoard];
@@ -138,7 +137,7 @@
     xForShiftingTinyImg = 0;
     
     
-    [self prepareShareButton];
+    //[self prepareShareButton];
     
     [self startLoadingData];
     
@@ -383,6 +382,7 @@
     }
 }
 
+/*
 // flod share button when touch the screen
 - (void)dismissShareButton{
     if ((shareButton.on)) {
@@ -390,11 +390,13 @@
     }
     
 }
+ */
 
 - (void) browsePhotos {
     
 }
 
+/*
 - (void) prepareShareButton{
     UIImage* twitterImage = [UIImage imageNamed:@"Details_button_twitter.png"];
     UIImage* facebookImage = [UIImage imageNamed:@"Details_button_facebook.png"];
@@ -457,6 +459,7 @@
     [self.view insertSubview:shareButton aboveSubview:self.labelsScrollView];
     
 }
+*/
 
 #pragma mark - buttons actions
 
@@ -680,7 +683,7 @@
                          withLabel:@"Twitter share"
                          withValue:[NSNumber numberWithInt:100]];
     
-    [shareButton fold];
+    //[shareButton fold];
     if (currentDetailsObject)
     {
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
@@ -750,7 +753,7 @@
                          withLabel:@"Facebook Share"
                          withValue:[NSNumber numberWithInt:100]];
     
-    [shareButton fold];
+    //[shareButton fold];
     if (currentDetailsObject)
     {
         if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
@@ -821,7 +824,7 @@
                          withLabel:@"Mail share"
                          withValue:[NSNumber numberWithInt:100]];
     
-    [shareButton fold];
+    //[shareButton fold];
     if (currentDetailsObject)
     {
         if ([MFMailComposeViewController canSendMail])
@@ -841,6 +844,10 @@
             [GenericMethods throwAlertWithTitle:@"خطأ" message:@"تعذر إرسال الرسائل الإلكترونية من هذا الجهاز" delegateVC:self];
         }
     }
+}
+
+- (void)globeAction:(id)sender {
+    
 }
 
 #pragma mark - helper methods
@@ -996,14 +1003,33 @@
             if (self.detailsView.isHidden)
             {
                 lastY = self.addTimeLabel.frame.origin.y + self.addTimeLabel.frame.size.height + addedHeightValue + 30;
+                
                 totalHeight = lastY;
             }
             else
             {
                 lastY = self.detailsView.frame.origin.y + self.detailsView.frame.size.height + addedHeightValue + 30;
+                
                 totalHeight = lastY + 20;
             }
             
+            //add the shareView dynamically
+            ShareView * shareV = (ShareView *)[[[NSBundle mainBundle] loadNibNamed:@"ShareView" owner:self options:nil] objectAtIndex:0];
+            [shareV.mailBtn addTarget:self action:@selector(mailAction:) forControlEvents:UIControlEventTouchUpInside];
+            [shareV.twitterBtn addTarget:self action:@selector(twitterAction:) forControlEvents:UIControlEventTouchUpInside];
+            [shareV.facebookBtn addTarget:self action:@selector(facebookAction:) forControlEvents:UIControlEventTouchUpInside];
+            [shareV.globeBtn addTarget:self action:@selector(globeAction:) forControlEvents:UIControlEventTouchUpInside];
+            
+            CGRect shareVFrame = shareV.frame;
+            shareVFrame.origin.x = 23;
+            shareVFrame.origin.y = lastY;
+            
+            [shareV setFrame:shareVFrame];
+            
+            lastY = lastY + shareVFrame.size.height + 20;
+            totalHeight = lastY + 20;
+            
+            [self.labelsScrollView addSubview:shareV];
             
             for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
             {
@@ -1582,14 +1608,14 @@
             
         {
             self.labelsScrollView.frame=CGRectMake(0, self.toolBar.frame.size.height, self.labelsScrollView.frame.size.width ,self.labelsScrollView.frame.size.height );
-            shareButton.frame=CGRectMake(35, 430, shareButton.frame.size.width ,shareButton.frame.size.height );
+            //shareButton.frame=CGRectMake(35, 430, shareButton.frame.size.width ,shareButton.frame.size.height );
         }
         
         else
             
         {
             self.labelsScrollView.frame=CGRectMake(0, self.toolBar.frame.size.height, self.labelsScrollView.frame.size.width ,960- self.toolBar.frame.size.height);
-            shareButton.frame=CGRectMake(35, 520, shareButton.frame.size.width ,shareButton.frame.size.height );
+            //shareButton.frame=CGRectMake(35, 520, shareButton.frame.size.width ,shareButton.frame.size.height );
             
         }
     }

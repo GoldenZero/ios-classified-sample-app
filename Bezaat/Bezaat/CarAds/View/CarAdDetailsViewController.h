@@ -21,6 +21,7 @@
 #import "FBPhotoBrowserViewController.h"
 #import "SignInViewController.h"
 #import "SingleCommentView.h"
+#import "ShareView.h"
 
 @interface CarAdDetailsViewController : BaseViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -71,6 +72,7 @@
 @property (strong, nonatomic) UIViewController * parentStoreDetailsView;
 @property (weak, nonatomic) IBOutlet UITextView *commentTextView;
 @property (weak, nonatomic) IBOutlet UIView *commentsView;
+
 
 #pragma mark - actions
 - (IBAction)changePage:(id)sender;
