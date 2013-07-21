@@ -1917,9 +1917,20 @@
             
             SingleCommentView * cView = [[SingleCommentView alloc] initWithCommentText:comment.commentText];
             
+            //username
             cView.usernameLabel.text = comment.userName;
-            cView.dateLabel.text = comment.postedOnDate.description;
+            
+            //posted on date
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"dd/MM/yyyy HH:mm a"];
+            
+            NSString * postedOnDateFormatted = [formatter stringFromDate:comment.postedOnDate];
+            
+            cView.dateLabel.text = postedOnDateFormatted;
+            
+            //comment text
             cView.commentTextLabel.text = comment.commentText;
+            
             
             CGRect cViewFrame = cView.frame;
             cViewFrame.origin.x = 13;
