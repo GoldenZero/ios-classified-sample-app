@@ -21,6 +21,7 @@
     
     StoreOrder * myOrderObject;
     float xForShiftingTinyImg;
+    BOOL isSecondPage;
 }
 
 @end
@@ -45,7 +46,7 @@
     [self.adsTable setSeparatorColor:[UIColor clearColor]];
     [self.adsTable setBackgroundColor:[UIColor clearColor]];
 [self.noAdsImage setHidden:YES];
-
+    isSecondPage = NO;
     //initialize the user to get info
     CurrentUser = [[UserProfile alloc]init];
     locationMngr = [LocationManager sharedInstance];
@@ -135,7 +136,7 @@
 -(void)storeOrdersLoadDidFailLoadingWithError:(NSError *)error
 {
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
-    
+    [self.noAdsImage setHidden:NO];
     [self hideLoadingIndicator];
 
 }
@@ -144,6 +145,7 @@
 {
     if ([orders count] == 0) {
         dataLoadedFromCache = YES;
+        if (!isSecondPage)
         [self.noAdsImage setHidden:NO];
     }
      //2- append the newly loaded ads
@@ -228,7 +230,8 @@
     }
     NSString * newThumbUrl = [orderObject.StoreImageURL stringByReplacingOccurrencesOfString:@"http://content.bezaat.com" withString:@"http://content.bezaat.com.s3-external-3.amazonaws.com"];
     
-    [cell.storeImage setImageWithURL:[NSURL URLWithString:newThumbUrl]];
+    [cell.storeImage setImageWithURL:[NSURL URLWithString:newThumbUrl] placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
+    
     [cell.storeImage setContentMode:UIViewContentModeScaleAspectFill];
     [cell.storeImage setClipsToBounds:YES];
     
@@ -293,6 +296,7 @@
     
     if (indexPath.row == ([self.adsTable numberOfRowsInSection:0] - 1))
     {
+        isSecondPage = YES;
         if (!dataLoadedFromCache)
             [self loadPageOfAdsOfOrderWithPage:nil];
     }

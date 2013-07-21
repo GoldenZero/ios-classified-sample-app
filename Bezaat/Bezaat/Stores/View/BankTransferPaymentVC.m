@@ -160,10 +160,18 @@
 {
     [self hideLoadingIndicator];
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"شكرا لقد اتممت العملية"
-                                                   delegate:nil cancelButtonTitle:@"موافق"
+                                                   delegate:self cancelButtonTitle:@"موافق"
                                           otherButtonTitles:nil, nil];
+    alert.tag = 1;
     [alert show];
     return;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 1) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 @end
