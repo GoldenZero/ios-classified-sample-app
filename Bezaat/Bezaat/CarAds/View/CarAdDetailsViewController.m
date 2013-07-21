@@ -42,6 +42,8 @@
     BOOL shareBtnDidMoveUp;
     BOOL shareBtnDidMovedown;
     NSMutableArray * commentsArray;
+
+    UIButton * loadMoreCommentsBtn;
     
 }
 
@@ -84,6 +86,7 @@
     self.commentTextView.returnKeyType = UIReturnKeySend;
     
     commentsArray = [NSMutableArray new];
+    loadMoreCommentsBtn = nil;
     
     /*
     // hide share button
@@ -1891,6 +1894,10 @@
         if (self.commentTextView.text.length > 0) {
             [self.commentTextView resignFirstResponder];
             
+            if (loadMoreCommentsBtn)
+                [loadMoreCommentsBtn removeFromSuperview];
+            loadMoreCommentsBtn = nil;
+            
             [self showLoadingIndicator];
             
             [[CarDetailsManager sharedInstance] postCommentForAd:currentDetailsObject.adID WithText:self.commentTextView.text WithDelegate:self];
@@ -1908,21 +1915,21 @@
 
 - (void) AddNewComment:(CommentOnAd *) comment animated:(BOOL) animated {
     
-    float maxY = 0;
-    float bottomViewHeight = 0;
-    NSLog(@"subviews count %i", self.labelsScrollView.subviews.count);
+    [commentsArray insertObject:comment atIndex:0];
+    
+    float minCommentViewY = CGFLOAT_MAX;
+    
     for (UIView * subView in self.labelsScrollView.subviews) {
-        if (subView.frame.origin.y > maxY) {
-            if ([subView class] == [SingleCommentView class]) {
-                maxY = subView.frame.origin.y;
-                bottomViewHeight = subView.frame.size.height;
+        if ([subView class] == [SingleCommentView class]) {
+            if (subView.frame.origin.y < minCommentViewY) {
+                minCommentViewY = subView.frame.origin.y;
             }
         }
+        
     }
     
-    maxY = maxY + bottomViewHeight;
+    
     float totalHeight = self.labelsScrollView.contentSize.height;
-    float lastY = maxY;
     
     SingleCommentView * cView = [[SingleCommentView alloc] initWithCommentText:comment.commentText];
     
@@ -1943,7 +1950,7 @@
     
     CGRect cViewFrame = cView.frame;
     cViewFrame.origin.x = 13;
-    cViewFrame.origin.y = lastY ;
+    cViewFrame.origin.y = minCommentViewY;
     
     [cView setFrame:cViewFrame];
     
@@ -1951,20 +1958,63 @@
     
     totalHeight = totalHeight + cView.frame.size.height + FIXED_V_DISTANCE;
     
+    
     if (animated) {
-        /*
-        [UIView animateWithDuration:1.0f animations:^{
-            [self.labelsScrollView addSubview:cView];
-        }];
-         */
+        
         [UIView transitionWithView:self.labelsScrollView
                           duration:0.5
                            options:UIViewAnimationOptionTransitionCrossDissolve //any animation
-                        animations:^ {[self.labelsScrollView addSubview:cView]; }
+                        animations:^ {
+                            for (UIView * subView in self.labelsScrollView.subviews) {
+                                if ([subView class] == [SingleCommentView class]) {
+                                    CGRect viewFrame = subView.frame;
+                                    viewFrame.origin.y = viewFrame.origin.y + cView.frame.size.height;
+                                    [subView setFrame:viewFrame];
+                                    
+                                }
+                                                                
+                                [self.labelsScrollView addSubview:cView];
+                            }
+                        }
                         completion:nil];
     }
-    else 
-        [self.labelsScrollView addSubview:cView];
+    else  {
+        for (UIView * subView in self.labelsScrollView.subviews) {
+            if ([subView class] == [SingleCommentView class]) {
+                CGRect viewFrame = subView.frame;
+                viewFrame.origin.y = viewFrame.origin.y + cView.frame.size.height;
+                [subView setFrame:viewFrame];
+            }
+            
+            [self.labelsScrollView addSubview:cView];
+        }
+    }
+    
+    float lastY = 0;
+    
+    float bottomViewHeight = 0;
+    for (UIView * subView in self.labelsScrollView.subviews) {
+        if (subView.frame.origin.y > lastY) {
+            
+            if (subView.class == [SingleCommentView class]) {
+                lastY = subView.frame.origin.y;
+                bottomViewHeight = subView.frame.size.height;
+            }
+            
+        }
+    }
+    
+    lastY = lastY + cView.frame.size.height + 10;
+    loadMoreCommentsBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [loadMoreCommentsBtn setFrame:CGRectMake(13, lastY, 295, 30)];
+    [loadMoreCommentsBtn setTitle:@"إظهار المزيد ..." forState:UIControlStateNormal];
+    [loadMoreCommentsBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [loadMoreCommentsBtn addTarget:self action:@selector(loadMoreCommentsBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.labelsScrollView addSubview:loadMoreCommentsBtn];
+    
+    totalHeight = totalHeight + loadMoreCommentsBtn.frame.size.height;
+
     
     [self.labelsScrollView setContentSize:CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight)];
     
@@ -1982,6 +2032,17 @@
     return sortedArray;
 }
 
+- (void) loadMoreCommentsBtnPressed:(id) sender {
+    
+    if (loadMoreCommentsBtn)
+        [loadMoreCommentsBtn removeFromSuperview];
+    loadMoreCommentsBtn = nil;
+    
+    [self showLoadingIndicator];
+    [self loadPageOfComments];
+    
+}
+
 #pragma mark - Comments Delegate methods
 
 //get
@@ -1991,37 +2052,47 @@
 
 - (void) commentsDidFinishLoadingWithData:(NSArray *)resultArray {
     
+    
     if (resultArray && resultArray.count) {
         
         [commentsArray addObjectsFromArray:resultArray];
         
-        NSMutableArray * sorted = [NSMutableArray new];
-        [sorted addObjectsFromArray:[self sortCommentsArray:commentsArray]];
-        
-        commentsArray = sorted;
+        //NSMutableArray * sorted = [NSMutableArray new];
+        //[sorted addObjectsFromArray:[self sortCommentsArray:commentsArray]];
+        //commentsArray = sorted;
         
         float maxY = 0;
         float bottomViewHeight = 0;
         for (UIView * subView in self.labelsScrollView.subviews) {
             if (subView.frame.origin.y > maxY) {
-                maxY = subView.frame.origin.y;
-                bottomViewHeight = subView.frame.size.height;
+                if (commentsArray.count > resultArray.count) {  // second time comment loading
+                    if (subView.class == [SingleCommentView class]) {
+                        maxY = subView.frame.origin.y;
+                        bottomViewHeight = subView.frame.size.height;
+                    }
+                }
+                else {
+                    maxY = subView.frame.origin.y;
+                    bottomViewHeight = subView.frame.size.height;
+                }
             }
         }
         
-        maxY = maxY + bottomViewHeight + 10;
+        maxY = maxY + bottomViewHeight;
         float totalHeight = self.labelsScrollView.contentSize.height;
         float lastY = maxY;
         
-        UIImageView * titleImgV = [[UIImageView alloc] initWithFrame:CGRectMake(13, lastY, 295, 35)];
-        titleImgV.image = [UIImage imageNamed:@"Comments_title.png"];
+        if (commentsArray.count == resultArray.count) {
+            UIImageView * titleImgV = [[UIImageView alloc] initWithFrame:CGRectMake(13, lastY, 295, 35)];
+            titleImgV.image = [UIImage imageNamed:@"Comments_title.png"];
+            
+            lastY = lastY + titleImgV.frame.size.height;
+            
+            totalHeight = totalHeight + titleImgV.frame.size.height;
+            [self.labelsScrollView addSubview:titleImgV];
+        }
         
-        lastY = lastY + titleImgV.frame.size.height;
-
-        totalHeight = totalHeight + titleImgV.frame.size.height;
-        [self.labelsScrollView addSubview:titleImgV];
-        
-        for (CommentOnAd * comment in commentsArray) {
+        for (CommentOnAd * comment in resultArray) {
             
             SingleCommentView * cView = [[SingleCommentView alloc] initWithCommentText:comment.commentText];
             
@@ -2052,12 +2123,24 @@
             
             [self.labelsScrollView addSubview:cView];
         }
-        NSLog(@"subviews count %i", self.labelsScrollView.subviews.count);
+        
+        lastY = lastY + 10;
+        loadMoreCommentsBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [loadMoreCommentsBtn setFrame:CGRectMake(13, lastY, 295, 30)];
+        [loadMoreCommentsBtn setTitle:@"إظهار المزيد ..." forState:UIControlStateNormal];
+        [loadMoreCommentsBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+        [loadMoreCommentsBtn addTarget:self action:@selector(loadMoreCommentsBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.labelsScrollView addSubview:loadMoreCommentsBtn];
+        
+        totalHeight = totalHeight + loadMoreCommentsBtn.frame.size.height;
+        
         [self.labelsScrollView setContentSize:CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight)];
     }
     
     [self hideLoadingIndicator];
 }
+
 
 //post
 - (void) commentsDidFailPostingWithError:(NSError *)error {
