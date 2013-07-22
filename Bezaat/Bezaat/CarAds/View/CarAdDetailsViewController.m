@@ -850,7 +850,7 @@
 }
 
 - (void)globeAction:(id)sender {
-    
+    [[UIApplication sharedApplication] openURL:[currentDetailsObject adURL]];
 }
 
 #pragma mark - helper methods
@@ -1024,7 +1024,7 @@
             [shareV.globeBtn addTarget:self action:@selector(globeAction:) forControlEvents:UIControlEventTouchUpInside];
             
             CGRect shareVFrame = shareV.frame;
-            shareVFrame.origin.x = 23;
+            shareVFrame.origin.x = 13;
             shareVFrame.origin.y = lastY;
             
             [shareV setFrame:shareVFrame];
@@ -1078,7 +1078,10 @@
                         UIButton* phoneBtn;
                         if ([attr.displayName isEqualToString:@"رقم الجوال"] || [attr.displayName isEqualToString:@"رقم الهاتف"]) {
                             phoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                            phoneBtn.frame = CGRectMake(40, 1, 118, 24);
+                            phoneBtn.frame = CGRectMake(30, 1, 128, 24);
+                           // CGSize size = [attr.attributeValue sizeWithFont:[UIFont systemFontOfSize:15.0f] constrainedToSize:CGSizeMake(valueLabelWidth + 20, valueLabelHeight) lineBreakMode:UILineBreakModeCharacterWrap];
+                            //CGRect frame = CGRectMake(20, 1, size.width, 24);
+                            //phoneBtn.frame = frame;
                             [phoneBtn setBackgroundImage:[UIImage imageNamed:@"Phonenum_box.png"] forState:UIControlStateNormal];
                             [phoneBtn addTarget:self action:@selector(callBtnPrss:) forControlEvents:UIControlEventTouchUpInside];
                         }
@@ -1105,7 +1108,7 @@
                         [v setBackgroundColor:[UIColor whiteColor]];
                         if ([attr.displayName isEqualToString:@"رقم الجوال"] || [attr.displayName isEqualToString:@"رقم الهاتف"]){
                             valuelabel.textColor = [UIColor whiteColor];
-                            valuelabel.font = [UIFont systemFontOfSize:14];
+                            valuelabel.font = [UIFont systemFontOfSize:13];
                             [v addSubview:phoneBtn];
                             
                         }
@@ -1850,7 +1853,7 @@
     [openBrowserBtn setImage:[UIImage imageNamed:@"OpenInBrowser.png"] forState:UIControlStateNormal];
     [openBrowserBtn addTarget:self action:@selector(openInBrowser) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.labelsScrollView addSubview:openBrowserBtn];
+    //[self.labelsScrollView addSubview:openBrowserBtn];
     
 }
 
@@ -2083,8 +2086,15 @@
         float lastY = maxY;
         
         if (commentsArray.count == resultArray.count) {
-            UIImageView * titleImgV = [[UIImageView alloc] initWithFrame:CGRectMake(13, lastY, 295, 35)];
-            titleImgV.image = [UIImage imageNamed:@"Comments_title.png"];
+            UIImageView * titleImgV1 = [[UIImageView alloc] initWithFrame:CGRectMake(13, lastY + 10, 295, 35)];
+            titleImgV1.image = [UIImage imageNamed:@"Comments_title.png"];
+            
+            UILabel* titleImgV = [[UILabel alloc] initWithFrame:CGRectMake(13, lastY + 10, 295, 35)];
+            [titleImgV setText:@" تعليقات المستخدمين"];
+            [titleImgV setTextAlignment:NSTextAlignmentRight];
+            [titleImgV setTextColor:[UIColor colorWithRed:0.0/255 green:127.0/255 blue:175.0/255 alpha:1.0f]];
+            [titleImgV setBackgroundColor:[UIColor whiteColor]];
+            [titleImgV setFont:[UIFont systemFontOfSize:22]];
             
             lastY = lastY + titleImgV.frame.size.height;
             
@@ -2113,7 +2123,7 @@
             
             CGRect cViewFrame = cView.frame;
             cViewFrame.origin.x = 13;
-            cViewFrame.origin.y = lastY ;
+            cViewFrame.origin.y = lastY + 10 ;
             
             [cView setFrame:cViewFrame];
             
@@ -2130,7 +2140,10 @@
         [loadMoreCommentsBtn setTitle:@"إظهار المزيد ..." forState:UIControlStateNormal];
         [loadMoreCommentsBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [loadMoreCommentsBtn addTarget:self action:@selector(loadMoreCommentsBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
+        if ([resultArray count] >= 50) {
+            [loadMoreCommentsBtn setHidden:NO];
+        }else
+            [loadMoreCommentsBtn setHidden:YES];
         [self.labelsScrollView addSubview:loadMoreCommentsBtn];
         
         totalHeight = totalHeight + loadMoreCommentsBtn.frame.size.height;
