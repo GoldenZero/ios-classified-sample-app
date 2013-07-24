@@ -9,11 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "StoreAdsCell.h"
 #import "BrowseStoresViewController.h"
-#import "CarAdDetailsViewController.h"
 #import "CarAdsManager.h"
 #import "ProfileDetailsViewController.h"
 #import "AddNewCarAdViewController.h"
-#import "labelAdViewController.h"
 #import "GAI.h"
 
 @interface UserDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarAdsManagerDelegate,LocationManagerDelegate>
@@ -45,4 +43,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *favouriteBtn;
 @property (weak, nonatomic) IBOutlet UILabel *userNameTitle;
 @property (weak, nonatomic) IBOutlet UILabel *userCityTitle;
+
+- (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
+- (void) removeAdWithAdID:(NSUInteger) adID;
 @end

@@ -16,6 +16,8 @@
 #import "CarDetailsManager.h"
 #import "BrowseCarAdsViewController.h"
 #import "CarsInGalleryViewController.h"
+#import "StoreDetailsViewController.h"
+#import "UserDetailsViewController.h"
 #import "StoreManager.h"
 #import "GAI.h"
 #import "FBPhotoBrowserViewController.h"
@@ -28,6 +30,8 @@
 #pragma mark - properties
 @property (strong, nonatomic) BrowseCarAdsViewController * parentVC;
 @property (strong, nonatomic) CarsInGalleryViewController * secondParentVC;
+@property (strong, nonatomic) StoreDetailsViewController * storeParentVC;
+@property (strong, nonatomic) UserDetailsViewController * userDetailsParentVC;
 
 //@property (strong, nonatomic) UIViewController * parentVC;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;

@@ -8,6 +8,8 @@
 
 #import "UserDetailsViewController.h"
 #import "ModelsViewController.h"
+#import "labelAdViewController.h"
+#import "CarAdDetailsViewController.h"
 
 @interface UserDetailsViewController (){
     
@@ -891,6 +893,7 @@
         vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
     
     vc.currentAdID =  carAdObject.adID;
+    vc.userDetailsParentVC = self;
     [self presentViewController:vc animated:YES completion:nil];
     
     
@@ -1004,6 +1007,20 @@
     
 }
 
+- (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState {
+    NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:adID inArray:carAdsArray];
+    if (index > -1)
+    {
+        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:favState];
+    }
+    [self.adsTable reloadData];
+}
+
+- (void) removeAdWithAdID:(NSUInteger) adID {
+    NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:adID inArray:carAdsArray];
+    [carAdsArray removeObjectAtIndex:index];
+    [self.adsTable reloadData];
+}
 
 
 @end

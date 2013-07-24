@@ -30,7 +30,7 @@
     IBOutlet UILabel *remainingFeatureAdsLabel;
     IBOutlet UILabel *remainingDaysLabel;
     
-    NSArray *currentStoreAds;
+    NSMutableArray *currentStoreAds;
     NSString *storeAdsCurrentStatus;
     BOOL loading;
     BOOL allAdsLoaded;
@@ -69,7 +69,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
     storeAdsCurrentStatus = StoreAdsStatusAll;
-    currentStoreAds = [NSArray array];
+    currentStoreAds = [NSMutableArray array];
     allAdsLoaded = NO;
     currentPage = 1;
     [menueBtn1 setImage:[UIImage imageNamed:@"MyStore_menu1_select"] forState:UIControlStateNormal];
@@ -156,7 +156,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
         storeAdsCurrentStatus = StoreAdsStatusInactive;
     }
     
-    currentStoreAds = [NSArray array];
+    currentStoreAds = [NSMutableArray array];
     currentPage = 1;
     allAdsLoaded = NO;
     [[StoreManager sharedInstance] getStoreAds:currentStore.identifier page:currentPage status:storeAdsCurrentStatus];
@@ -176,6 +176,22 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     }
     [tableView reloadData];
 }
+
+- (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState {
+    NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:adID inArray:currentStoreAds];
+    if (index > -1)
+    {
+        [(CarAd *)[currentStoreAds objectAtIndex:index] setIsFavorite:favState];
+    }
+    [tableView reloadData];
+}
+
+- (void) removeAdWithAdID:(NSUInteger) adID {
+    NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:adID inArray:currentStoreAds];
+    [currentStoreAds removeObjectAtIndex:index];
+    [tableView reloadData];
+}
+
 #pragma mark - Private Methods
 
 - (void) resetButtonsImages {
@@ -270,6 +286,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     vc.currentAdID = adv.adID;
     vc.currentStore = self.currentStore;
     vc.parentStoreDetailsView = self;
+    vc.storeParentVC = self;
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -376,7 +393,8 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 
 - (void) storeAdsRetrieveDidSucceedWithAds:(NSArray *)ads {
     loading = NO;
-    currentStoreAds = [currentStoreAds arrayByAddingObjectsFromArray:ads];
+    //currentStoreAds = [currentStoreAds arrayByAddingObjectsFromArray:ads];
+    [currentStoreAds addObjectsFromArray:ads];
     [tableView reloadData];
     [self hideLoadingIndicator];
     noAdsImage.hidden = YES;

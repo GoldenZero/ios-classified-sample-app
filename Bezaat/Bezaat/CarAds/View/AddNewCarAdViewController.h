@@ -10,7 +10,6 @@
 #import <UIKit/UIKit.h>
 #import "CarAdsManager.h"
 #import "FeaturingManager.h"
-#import "CarAdDetailsViewController.h"
 #import "GAI.h"
 #import "XCDFormInputAccessoryView.h"
 

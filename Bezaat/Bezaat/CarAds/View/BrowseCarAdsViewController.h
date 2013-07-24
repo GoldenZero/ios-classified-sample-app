@@ -65,6 +65,8 @@
 - (IBAction)distanceBtnPrss:(id)sender;
 - (IBAction)fromYearBtnPrss:(id)sender;
 - (IBAction)toYearBtnPrss:(id)sender;
+
 - (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
+- (void) removeAdWithAdID:(NSUInteger) adID;
 
 @end

@@ -53,7 +53,7 @@
 
 @implementation CarAdDetailsViewController
 @synthesize pageControl,scrollView, phoneNumberButton, favoriteButton, featureBtn, editBtn, topMostToolbar,editAdBtn, currentStore;
-@synthesize currentAdID,parentVC, secondParentVC;
+@synthesize currentAdID,parentVC, secondParentVC, storeParentVC, userDetailsParentVC;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -1445,6 +1445,12 @@
         if (self.secondParentVC)
             [self.secondParentVC updateFavStateForAdID:currentAdID withState:YES];
         
+        if (self.storeParentVC)
+            [self.storeParentVC updateFavStateForAdID:currentAdID withState:YES];
+        
+        if (self.userDetailsParentVC)
+            [self.userDetailsParentVC updateFavStateForAdID:currentAdID withState:YES];
+        
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
     }
     else
@@ -1455,6 +1461,12 @@
         
         if (self.secondParentVC)
             [self.secondParentVC updateFavStateForAdID:currentAdID withState:NO];
+        
+        if (self.storeParentVC)
+            [self.storeParentVC updateFavStateForAdID:currentAdID withState:NO];
+        
+        if (self.userDetailsParentVC)
+            [self.userDetailsParentVC updateFavStateForAdID:currentAdID withState:NO];
         
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
         
@@ -1479,6 +1491,12 @@
         if (self.secondParentVC)
             [self.secondParentVC updateFavStateForAdID:currentAdID withState:NO];
         
+        if (self.storeParentVC)
+            [self.storeParentVC updateFavStateForAdID:currentAdID withState:NO];
+        
+        if (self.userDetailsParentVC)
+            [self.userDetailsParentVC updateFavStateForAdID:currentAdID withState:NO];
+        
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
     }
     else
@@ -1489,6 +1507,12 @@
         
         if (self.secondParentVC)
             [self.secondParentVC updateFavStateForAdID:currentAdID withState:YES];
+        
+        if (self.storeParentVC)
+            [self.storeParentVC updateFavStateForAdID:currentAdID withState:YES];
+        
+        if (self.userDetailsParentVC)
+            [self.userDetailsParentVC updateFavStateForAdID:currentAdID withState:YES];
         
         [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
     }
@@ -1555,6 +1579,18 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 3) {
+        if (self.parentVC) //BrowseCarAdsViewController
+            [self.parentVC removeAdWithAdID:currentDetailsObject.adID];
+        
+        if (self.secondParentVC) //CarsInGalleryViewController
+            [self.secondParentVC removeAdWithAdID:currentDetailsObject.adID];
+        
+        if (self.storeParentVC) //StoreDetailsViewController
+            [self.storeParentVC removeAdWithAdID:currentDetailsObject.adID];
+        
+        if (self.userDetailsParentVC) //StoreDetailsViewController
+            [self.userDetailsParentVC removeAdWithAdID:currentDetailsObject.adID];
+        
         [self dismissViewControllerAnimated:YES completion:nil];
         /*BrowseCarAdsViewController *homeVC=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController" bundle:nil];
          homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;

@@ -512,6 +512,12 @@
     }
 }
 
+- (void) removeAdWithAdID:(NSUInteger) adID {
+    NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:adID inArray:adsArray];
+    [adsArray removeObjectAtIndex:index];
+    [self.tableView reloadData];
+}
+
 #pragma mark - favorites Delegate methods
 
 - (void) FavoriteFailAddingWithError:(NSError*) error forAdID:(NSUInteger)adID {

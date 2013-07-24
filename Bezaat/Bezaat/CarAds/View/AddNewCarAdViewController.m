@@ -12,6 +12,7 @@
 #import "ModelsViewController.h"
 #import "labelAdViewController.h"
 #import "SignInViewController.h"
+#import "CarAdDetailsViewController.h"
 
 #pragma mark - literals for use in post ad
 //These literals should used for posting any ad

@@ -19,5 +19,7 @@
 - (IBAction)addNewAdvBtnPress:(id)sender;
 - (IBAction)menueBtnPress:(id)sender;
 - (void) updateAd:(NSInteger) theAdID WithFeaturedStatus:(BOOL) status;
+- (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
+- (void) removeAdWithAdID:(NSUInteger) adID;
 
 @end

@@ -305,6 +305,12 @@
     }
 }
 
+- (void) removeAdWithAdID:(NSUInteger) adID {
+    NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:adID inArray:carAdsArray];
+    [carAdsArray removeObjectAtIndex:index];
+    [self.tableView reloadData];
+}
+
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
