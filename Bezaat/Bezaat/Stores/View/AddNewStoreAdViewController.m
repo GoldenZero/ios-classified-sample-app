@@ -1239,11 +1239,11 @@
         return;
     }
     
-    if ([distance.text length] == 0)
+    /*if ([distance.text length] == 0)
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال المسافه المقطوعه" delegateVC:self];
         return;
-    }
+    }*/
     
    
     
