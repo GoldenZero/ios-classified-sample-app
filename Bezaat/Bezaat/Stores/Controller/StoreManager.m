@@ -107,9 +107,10 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     else {
 	
         //with compression
-        UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
+        //UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
         
-        imageData = UIImageJPEGRepresentation(small, 90);
+        //imageData = UIImageJPEGRepresentation(small, 90);
+        imageData = UIImageJPEGRepresentation(image, 0.9);
     }
     
 	// setting up the request object now

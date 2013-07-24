@@ -860,9 +860,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     else {
     
         //with compression
-        UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
+        //UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
         
-        imageData = UIImageJPEGRepresentation(small, 1.0);
+        //imageData = UIImageJPEGRepresentation(small, 0.15);
+        imageData = UIImageJPEGRepresentation(image, 0.15);
     }
     
     if ((imageData) && (imageData.length > (5 * 1024 * 1024)))
