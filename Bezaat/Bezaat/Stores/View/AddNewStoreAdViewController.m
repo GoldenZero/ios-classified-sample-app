@@ -85,6 +85,7 @@
     NSUInteger defaultCurrencyID;
     NSUInteger defaultcurrecncyIndex;
 
+    BOOL choosingStore;
 }
 
 
@@ -200,6 +201,8 @@
     yearBtnPressedOnce = NO;
     bodyBtnPressedOnce = NO;
     storeBtnPressedOnce = NO;
+    
+    choosingStore = NO;
     
     [self loadDataArray];
     [self addButtonsToXib];
@@ -772,6 +775,8 @@
 
 -(IBAction)closePicker
 {
+    
+    
     [self.pickersView setHidden:YES];
     [UIView animateWithDuration:0.3 animations:^{
         self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
@@ -779,6 +784,7 @@
                                             self.pickersView.frame.size.width,
                                             self.pickersView.frame.size.height);
     }];
+
 }
 
 -(IBAction)showPicker
@@ -836,6 +842,27 @@
         myStore = [allUserStore objectAtIndex:row];
         [theStore setTitle:myStore.name forState:UIControlStateNormal];
         storeBtnPressedOnce = YES;
+        
+        defaultIndex = [locationMngr getIndexOfCountry:myStore.countryID];
+        if  (defaultIndex!= -1){
+            chosenCountry =[countryArray objectAtIndex:defaultIndex];
+            myCountry = [countryArray objectAtIndex:defaultIndex];
+            cityArray=[chosenCountry cities];
+            defaultCountryID = myStore.countryID;
+            defaultCityID =  ((City *)chosenCountry.cities[0]).cityID;
+            
+            for (City* cit in cityArray) {
+                if (cit.cityID == defaultCityID)
+                {
+                    chosenCity =[cityArray objectAtIndex:[cityArray indexOfObject:cit]];
+                    break;
+                }
+            }
+            
+            NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
+            [countryCity setTitle:temp forState:UIControlStateNormal];
+            [self.locationPickerView reloadAllComponents];
+        }
     }
     else {
         SingleValue *choosen=[globalArray objectAtIndex:row];
@@ -907,6 +934,7 @@
     NSString *temp= [NSString stringWithFormat:@"%@",[(Store*)[allUserStore objectAtIndex:0] name]];
     [theStore setTitle:temp forState:UIControlStateNormal];
     
+    
     // fill picker with production year
     globalArray=allUserStore;
     //[self.pickerView reloadAllComponents];
@@ -919,10 +947,13 @@
             myStore = (Store *)[globalArray objectAtIndex:0];
     }
     storeBtnPressedOnce = YES;
+    choosingStore = YES;
     [self showPicker];
 }
 
 - (void) chooseProductionYear{
+    
+    choosingStore = NO;
     
     self.locationPickerView.hidden=YES;
     self.bodyPickerView.hidden = YES;
@@ -949,6 +980,8 @@
 
 - (void) chooseCurrency{
     
+    choosingStore = NO;
+    
     self.locationPickerView.hidden=YES;
     self.bodyPickerView.hidden = YES;
     self.storePickerView.hidden = YES;
@@ -973,6 +1006,8 @@
 }
 
 - (void) chooseCountryCity{
+    
+    choosingStore = NO;
     
     self.locationPickerView.hidden=NO;
     self.pickerView.hidden=YES;
@@ -999,6 +1034,9 @@
 }
 
 - (void) chooseKiloMile{
+    
+    choosingStore = NO;
+    
     if (kiloMile.selectedSegmentIndex==0) {
         kiloChoosen=true;
     }
@@ -1011,6 +1049,7 @@
 
 -(void)chooseCarCondition
 {
+    choosingStore = NO;
     if (condition.selectedSegmentIndex==0) {
         conditionchoosen=true;
     }
@@ -1022,6 +1061,7 @@
 
 -(void) chooseGearType
 {
+    choosingStore = NO;
     if (gear.selectedSegmentIndex==0) {
         gearchoosen = 0;
     }
@@ -1037,6 +1077,7 @@
 
 -(void) chooseCarType
 {
+    choosingStore = NO;
     if (type.selectedSegmentIndex==0) {
         typechoosen=0;
     }
@@ -1052,6 +1093,8 @@
 
 -(void) chooseBody
 {
+    choosingStore = NO;
+    
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=YES;
     self.storePickerView.hidden = YES;
@@ -1073,6 +1116,28 @@
 }
 
 - (IBAction)doneBtnPrss:(id)sender {
+    if (choosingStore) {
+        defaultIndex = [locationMngr getIndexOfCountry:myStore.countryID];
+        if  (defaultIndex!= -1){
+            chosenCountry =[countryArray objectAtIndex:defaultIndex];
+            myCountry = [countryArray objectAtIndex:defaultIndex];
+            cityArray=[chosenCountry cities];
+            defaultCountryID = myStore.countryID;
+            defaultCityID =  ((City *)chosenCountry.cities[0]).cityID;
+            
+            for (City* cit in cityArray) {
+                if (cit.cityID == defaultCityID)
+                {
+                    chosenCity =[cityArray objectAtIndex:[cityArray indexOfObject:cit]];
+                    break;
+                }
+            }
+            
+            NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
+            [countryCity setTitle:temp forState:UIControlStateNormal];
+            [self.locationPickerView reloadAllComponents];
+        }
+    }
     [self closePicker];
 }
 
