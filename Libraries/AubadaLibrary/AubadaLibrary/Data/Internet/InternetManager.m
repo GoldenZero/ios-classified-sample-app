@@ -134,7 +134,7 @@
         //Replace the nullable values in the data with empty strings
         //1- convert data to string
         NSString * dataStr = [[NSString alloc]initWithData:dataSoFar encoding:NSUTF8StringEncoding];
-        //NSLog(@"the data is : %@",dataStr);
+        NSLog(@"the data is : %@",dataStr);
         //2- replace (:null) occurences with (:"")
         NSString * dataStrWithNullReplaced = [dataStr stringByReplacingOccurrencesOfString:@":null" withString:@":\"\""];
         

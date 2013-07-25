@@ -44,7 +44,8 @@
     NSMutableArray * commentsArray;
 
     UIButton * loadMoreCommentsBtn;
-    
+    NSString* VideoThumb;
+    NSURL* VideoURL;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -1034,6 +1035,23 @@
             
             [self.labelsScrollView addSubview:shareV];
             
+            UIView* VideoView;
+            for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
+            {
+                if (attr.categoryAttributeID == 10169){
+                    
+                    VideoThumb = [NSString stringWithFormat:@"http://img.youtube.com/vi/%@/1.jpg",attr.attributeValue];
+                    VideoURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@",attr.attributeValue]];
+                    
+                    VideoView = [self addOpenVideoViewForX:13 andY:lastY];
+                    lastY += 74;
+                    totalHeight = totalHeight + 20;
+                    [self.labelsScrollView addSubview:VideoView];
+                    break;
+                }
+           
+            }
+            
             for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
             {
                 if (attr.categoryAttributeID != 502 &&
@@ -1042,8 +1060,7 @@
                     attr.categoryAttributeID != 907 &&
                     attr.categoryAttributeID != 1076 &&
                     attr.categoryAttributeID != 10171 &&
-                    ([attr.displayName rangeOfString:@"رابط الفيديو"].location == NSNotFound)
-                    ) {
+                    attr.categoryAttributeID != 10169) {
                     
                     if (![attr.attributeValue length] == 0) {
                         
@@ -1117,7 +1134,7 @@
                         
                         [v addSubview:attrNameLabel];
                         [v addSubview:valuelabel];
-                        
+                      
                         [self.labelsScrollView addSubview:v];
                         
                         
@@ -1127,14 +1144,16 @@
                         
                     }
                 }
-            }
             //1- add the bar of "open ad in browser"
-            [self addOpenBoweseViewForX:13 andY:lastY + 10];
+            //[self addOpenBoweseViewForX:13 andY:lastY + 10];
+            //lastY += 50;
             
-            totalHeight = totalHeight + addedHeightValue + 10 + 30;//added 10 and 30 for the bar of
+            
+            
+            totalHeight = totalHeight + addedHeightValue;// + 10 + 30;//added 10 and 30 for the bar of
             //view this ad in the browser
             
-            totalHeight = totalHeight + 20 + 30;
+           // totalHeight = totalHeight + 20 + 30;
             
             /*
              //2- add the bar of "post your comment"
@@ -1163,6 +1182,7 @@
             [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
             [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
             
+        }
         }
     }
     
@@ -1865,27 +1885,16 @@
     [[UIApplication sharedApplication] openURL:[currentDetailsObject adURL]];
     
 }
+
+- (void) openVideo{
+    //[[UIApplication sharedApplication] openURL:[currentDetailsObject adURL]];
+    [[UIApplication sharedApplication] openURL:VideoURL];
+    
+    
+}
 - (void) addOpenBoweseViewForX:(float) x andY:(float)y{
     
-    /*
-     UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 295, 30)];
-     view.backgroundColor=[UIColor whiteColor];
-     UILabel *browseLabel=[[UILabel alloc] initWithFrame:CGRectMake(10, 5, 270, 20)];
-     browseLabel.text=@"مشاهدة هذا الاعلان في المتصفح";
-     browseLabel.textAlignment=NSTextAlignmentLeft;
-     browseLabel.backgroundColor= [UIColor clearColor];
-     browseLabel.font=[UIFont systemFontOfSize:15];
-     [view addSubview:browseLabel];
-     UIButton *buttn= [UIButton buttonWithType:UIButtonTypeCustom];
-     buttn.frame = CGRectMake(270, 8, 20, 19);
-     [buttn setImage:[UIImage imageNamed:@"Text_icon.png"] forState:UIControlStateNormal];
-     [buttn addTarget:self action:@selector(openInBrowser) forControlEvents:UIControlEventTouchUpInside];
-     
-     //[view insertSubview:buttn aboveSubview:browseLabel];
-     [view addSubview:buttn];
-     [self.labelsScrollView addSubview:view];
-     */
-    
+      
     UIButton * openBrowserBtn = [[UIButton alloc] initWithFrame:CGRectMake(x, y, 295, 30)];
     [openBrowserBtn setTitle:@"" forState:UIControlStateNormal];
     [openBrowserBtn setImage:[UIImage imageNamed:@"OpenInBrowser.png"] forState:UIControlStateNormal];
@@ -1894,6 +1903,27 @@
     //[self.labelsScrollView addSubview:openBrowserBtn];
     
 }
+
+- (UIView*) addOpenVideoViewForX:(float) x andY:(float)y{
+    
+    
+     UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 296, 54)];
+     view.backgroundColor=[UIColor clearColor];
+    
+    UIButton *buttn= [UIButton buttonWithType:UIButtonTypeCustom];
+     buttn.frame = CGRectMake(0, 0, 296, 54);
+     [buttn setImage:[UIImage imageNamed:@"seeVideo.png"] forState:UIControlStateNormal];
+     [buttn addTarget:self action:@selector(openVideo) forControlEvents:UIControlEventTouchUpInside];
+     
+    UIImageView* VideoImg = [[UIImageView alloc] initWithFrame:CGRectMake(232, 4, 60, 46)];
+    [VideoImg setImageWithURL:[NSURL URLWithString:VideoThumb]];
+     [view addSubview:buttn];
+    [view addSubview:VideoImg];
+    
+    return view;
+    
+}
+
 
 #pragma mark - UITextView delegate methods
 
