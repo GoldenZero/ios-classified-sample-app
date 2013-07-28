@@ -789,6 +789,9 @@
 		843748251797E16C00B97816 /* UICustomDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 843748241797E16C00B97816 /* UICustomDatePicker.m */; };
 		8437482B1797F3F700B97816 /* noAdsScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 843748291797F3F700B97816 /* noAdsScreen.png */; };
 		8437482C1797F3F700B97816 /* noAdsScreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8437482A1797F3F700B97816 /* noAdsScreen@2x.png */; };
+		8438B88717A5218300EA1146 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8438B88617A5218200EA1146 /* Parse.framework */; };
+		8438B88917A521FE00EA1146 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8438B88817A521FE00EA1146 /* AudioToolbox.framework */; };
+		8438B88B17A5222900EA1146 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8438B88A17A5222800EA1146 /* libz.1.1.3.dylib */; };
 		8439FDE21727F4CD00CB1939 /* algeria.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAD1727F4CD00CB1939 /* algeria.png */; };
 		8439FDE31727F4CD00CB1939 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAE1727F4CD00CB1939 /* arrow.png */; };
 		8439FDE41727F4CD00CB1939 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439FDAF1727F4CD00CB1939 /* arrow@2x.png */; };
@@ -2082,6 +2085,9 @@
 		843748241797E16C00B97816 /* UICustomDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICustomDatePicker.m; sourceTree = "<group>"; };
 		843748291797F3F700B97816 /* noAdsScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noAdsScreen.png; sourceTree = "<group>"; };
 		8437482A1797F3F700B97816 /* noAdsScreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noAdsScreen@2x.png"; sourceTree = "<group>"; };
+		8438B88617A5218200EA1146 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		8438B88817A521FE00EA1146 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		8438B88A17A5222800EA1146 /* libz.1.1.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.1.3.dylib; path = usr/lib/libz.1.1.3.dylib; sourceTree = SDKROOT; };
 		8439FDAD1727F4CD00CB1939 /* algeria.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = algeria.png; sourceTree = "<group>"; };
 		8439FDAE1727F4CD00CB1939 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		8439FDAF1727F4CD00CB1939 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
@@ -2578,9 +2584,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E10F485172184EE006F54BE /* StoreKit.framework in Frameworks */,
+				8438B88B17A5222900EA1146 /* libz.1.1.3.dylib in Frameworks */,
+				8438B88917A521FE00EA1146 /* AudioToolbox.framework in Frameworks */,
 				06F9B4EB174C80D900A49648 /* CoreTelephony.framework in Frameworks */,
 				842127F717290D360070FD76 /* CoreData.framework in Frameworks */,
-				9E10F485172184EE006F54BE /* StoreKit.framework in Frameworks */,
 				9E198E7C17096E70002CECCE /* Security.framework in Frameworks */,
 				9E198E8017096E8F002CECCE /* libz.1.2.5.dylib in Frameworks */,
 				9E198E7E17096E79002CECCE /* MobileCoreServices.framework in Frameworks */,
@@ -2604,6 +2612,7 @@
 				9EE86C2F172D22A700C1A013 /* SDWebImage.framework in Frameworks */,
 				9EE86C31172D22D000C1A013 /* ImageIO.framework in Frameworks */,
 				06F9B4E9174C80AC00A49648 /* NewRelicAgent.framework in Frameworks */,
+				8438B88717A5218300EA1146 /* Parse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3855,6 +3864,8 @@
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
+				8438B88A17A5222800EA1146 /* libz.1.1.3.dylib */,
+				8438B88817A521FE00EA1146 /* AudioToolbox.framework */,
 				6149EF2E17357E6D0088FDBB /* Headers */,
 				9E78A7BC16E34BA2000CA790 /* Bezaat */,
 				9E9F082F16E4AFCF000E8471 /* Resources */,
@@ -3874,6 +3885,7 @@
 		9E78A7B516E34BA2000CA790 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8438B88617A5218200EA1146 /* Parse.framework */,
 				06F9B4EA174C80D900A49648 /* CoreTelephony.framework */,
 				06F9B4E8174C80AC00A49648 /* NewRelicAgent.framework */,
 				9EE86C30172D22D000C1A013 /* ImageIO.framework */,

@@ -21,11 +21,21 @@
 
 #import <NewRelicAgent/NewRelicAgent.h>
 
+#import <Parse/Parse.h>
+
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
+    
+    // Register for push notifications
+    [application registerForRemoteNotificationTypes:
+     UIRemoteNotificationTypeBadge |
+     UIRemoteNotificationTypeAlert |
+     UIRemoteNotificationTypeSound];
+    
     //NewRelic
     [NewRelicAgent startWithApplicationToken:@"AA9e046acc671b319dcf316d95e875cad7fce4d620"];
     //End NewRelic    
@@ -60,12 +70,33 @@
     self.tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-40430774-1"];
     //GA
     
+    //parse notification
+    [Parse setApplicationId:@"Ck54GtejP8t0jeBePO0xi54PSdmf88Qgx9iTNF3Q"
+                  clientKey:@"ztqxekQ78aDmxqjRhm3VvhadxqP4JXiHA2gPQn6D"];
+    
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation addUniqueObject:@"Cars" forKey:@"channels"];
+    [currentInstallation saveInBackground];
     
     //4- visualize
     [self.window makeKeyAndVisible];
     
     return YES;
 }
+
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
+    // Store the deviceToken in the current installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:newDeviceToken];
+    [currentInstallation saveInBackground];
+}
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [PFPush handlePush:userInfo];
+}
+
 
 - (void) onSplashScreenDone {
     [self.splashVC.view removeFromSuperview];

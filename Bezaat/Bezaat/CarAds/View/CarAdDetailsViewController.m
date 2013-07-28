@@ -1030,7 +1030,7 @@
             for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
             {
                 if (attr.categoryAttributeID == 10169){
-                    
+                    if ([attr.attributeValue length] != 0) {
                     VideoThumb = [NSString stringWithFormat:@"http://img.youtube.com/vi/%@/1.jpg",attr.attributeValue];
                     VideoURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@",attr.attributeValue]];
                     
@@ -1039,6 +1039,7 @@
                     totalHeight = totalHeight + 20;
                     [self.labelsScrollView addSubview:VideoView];
                     break;
+                    }
                 }
                 
             }
