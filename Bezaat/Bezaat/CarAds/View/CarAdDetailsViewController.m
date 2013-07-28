@@ -42,7 +42,7 @@
     BOOL shareBtnDidMoveUp;
     BOOL shareBtnDidMovedown;
     NSMutableArray * commentsArray;
-
+    
     UIButton * loadMoreCommentsBtn;
     NSString* VideoThumb;
     NSURL* VideoURL;
@@ -90,12 +90,12 @@
     loadMoreCommentsBtn = nil;
     
     /*
-    // hide share button
-    tap = [[UITapGestureRecognizer alloc]
-           initWithTarget:self
-           action:@selector(dismissShareButton)];
-    //[self.scrollView addGestureRecognizer:tap];
-    [self.labelsScrollView addGestureRecognizer:tap];
+     // hide share button
+     tap = [[UITapGestureRecognizer alloc]
+     initWithTarget:self
+     action:@selector(dismissShareButton)];
+     //[self.scrollView addGestureRecognizer:tap];
+     [self.labelsScrollView addGestureRecognizer:tap];
      */
     
     tapForDismissKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
@@ -387,13 +387,13 @@
 }
 
 /*
-// flod share button when touch the screen
-- (void)dismissShareButton{
-    if ((shareButton.on)) {
-        [shareButton fold];
-    }
-    
-}
+ // flod share button when touch the screen
+ - (void)dismissShareButton{
+ if ((shareButton.on)) {
+ [shareButton fold];
+ }
+ 
+ }
  */
 
 - (void) browsePhotos {
@@ -401,69 +401,69 @@
 }
 
 /*
-- (void) prepareShareButton{
-    UIImage* twitterImage = [UIImage imageNamed:@"Details_button_twitter.png"];
-    UIImage* facebookImage = [UIImage imageNamed:@"Details_button_facebook.png"];
-    UIImage* mailImage = [UIImage imageNamed:@"Details_button_mail.png"];
-    
-    
-    // create rosette items
-    AURosetteItem* twitterItem = [[AURosetteItem alloc] initWithNormalImage:twitterImage
-                                                           highlightedImage:nil
-                                                                     target:self
-                                                                     action:@selector(twitterAction:)];
-    
-    AURosetteItem* facebookItem = [[AURosetteItem alloc] initWithNormalImage:facebookImage
-                                                            highlightedImage:nil
-                                                                      target:self
-                                                                      action:@selector(facebookAction:)];
-    
-    AURosetteItem* mailItem = [[AURosetteItem alloc] initWithNormalImage:mailImage
-                                                        highlightedImage:nil
-                                                                  target:self
-                                                                  action:@selector(mailAction:)];
-    
-    // create rosette view
-    shareButton= [[AURosetteView alloc] initWithItems: [NSArray arrayWithObjects: twitterItem, facebookItem, mailItem, nil]];
-    [shareButton.wheelButton setImage:[UIImage imageNamed:@"Details_button_share.png"] forState:UIControlStateNormal];
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        
-    {
-        CGSize result = [[UIScreen mainScreen] bounds].size;
-        if(result.height == 480)
-            
-        {
-            
-            shareButton.frame=CGRectMake(35, 440, shareButton.frame.size.width ,shareButton.frame.size.height );
-            [shareButton setCenter:CGPointMake(35.0f, 440.0f)];
-        }
-        
-        else
-            
-        {
-            
-            shareButton.frame=CGRectMake(35, 530, shareButton.frame.size.width ,shareButton.frame.size.height );
-            [shareButton setCenter:CGPointMake(35.0f, 530.0f)];
-            
-        }
-    }
-    
-    
-    
-    CGAffineTransform transform =
-    CGAffineTransformMakeRotation(-0.7f);
-    
-    shareButton.transform = transform;
-    
-    CGRect temp = shareButton.frame;
-    //temp.origin.y = temp.origin.y - self.commentsView.frame.size.height;
-    temp.origin.y = temp.origin.y - 50;
-    [shareButton setFrame:temp];
-    
-    [self.view insertSubview:shareButton aboveSubview:self.labelsScrollView];
-    
-}
-*/
+ - (void) prepareShareButton{
+ UIImage* twitterImage = [UIImage imageNamed:@"Details_button_twitter.png"];
+ UIImage* facebookImage = [UIImage imageNamed:@"Details_button_facebook.png"];
+ UIImage* mailImage = [UIImage imageNamed:@"Details_button_mail.png"];
+ 
+ 
+ // create rosette items
+ AURosetteItem* twitterItem = [[AURosetteItem alloc] initWithNormalImage:twitterImage
+ highlightedImage:nil
+ target:self
+ action:@selector(twitterAction:)];
+ 
+ AURosetteItem* facebookItem = [[AURosetteItem alloc] initWithNormalImage:facebookImage
+ highlightedImage:nil
+ target:self
+ action:@selector(facebookAction:)];
+ 
+ AURosetteItem* mailItem = [[AURosetteItem alloc] initWithNormalImage:mailImage
+ highlightedImage:nil
+ target:self
+ action:@selector(mailAction:)];
+ 
+ // create rosette view
+ shareButton= [[AURosetteView alloc] initWithItems: [NSArray arrayWithObjects: twitterItem, facebookItem, mailItem, nil]];
+ [shareButton.wheelButton setImage:[UIImage imageNamed:@"Details_button_share.png"] forState:UIControlStateNormal];
+ if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+ 
+ {
+ CGSize result = [[UIScreen mainScreen] bounds].size;
+ if(result.height == 480)
+ 
+ {
+ 
+ shareButton.frame=CGRectMake(35, 440, shareButton.frame.size.width ,shareButton.frame.size.height );
+ [shareButton setCenter:CGPointMake(35.0f, 440.0f)];
+ }
+ 
+ else
+ 
+ {
+ 
+ shareButton.frame=CGRectMake(35, 530, shareButton.frame.size.width ,shareButton.frame.size.height );
+ [shareButton setCenter:CGPointMake(35.0f, 530.0f)];
+ 
+ }
+ }
+ 
+ 
+ 
+ CGAffineTransform transform =
+ CGAffineTransformMakeRotation(-0.7f);
+ 
+ shareButton.transform = transform;
+ 
+ CGRect temp = shareButton.frame;
+ //temp.origin.y = temp.origin.y - self.commentsView.frame.size.height;
+ temp.origin.y = temp.origin.y - 50;
+ [shareButton setFrame:temp];
+ 
+ [self.view insertSubview:shareButton aboveSubview:self.labelsScrollView];
+ 
+ }
+ */
 
 #pragma mark - buttons actions
 
@@ -1049,7 +1049,7 @@
                     [self.labelsScrollView addSubview:VideoView];
                     break;
                 }
-           
+                
             }
             
             for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
@@ -1098,7 +1098,7 @@
                         if ([attr.displayName isEqualToString:@"رقم الجوال"] || [attr.displayName isEqualToString:@"رقم الهاتف"]) {
                             phoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
                             phoneBtn.frame = CGRectMake(30, 1, 128, 24);
-                           // CGSize size = [attr.attributeValue sizeWithFont:[UIFont systemFontOfSize:15.0f] constrainedToSize:CGSizeMake(valueLabelWidth + 20, valueLabelHeight) lineBreakMode:UILineBreakModeCharacterWrap];
+                            // CGSize size = [attr.attributeValue sizeWithFont:[UIFont systemFontOfSize:15.0f] constrainedToSize:CGSizeMake(valueLabelWidth + 20, valueLabelHeight) lineBreakMode:UILineBreakModeCharacterWrap];
                             //CGRect frame = CGRectMake(20, 1, size.width, 24);
                             //phoneBtn.frame = frame;
                             [phoneBtn setBackgroundImage:[UIImage imageNamed:@"Phonenum_box.png"] forState:UIControlStateNormal];
@@ -1134,7 +1134,7 @@
                         
                         [v addSubview:attrNameLabel];
                         [v addSubview:valuelabel];
-                      
+                        
                         [self.labelsScrollView addSubview:v];
                         
                         
@@ -1142,47 +1142,16 @@
                         
                         addedHeightValue = addedHeightValue + v.frame.size.height + FIXED_V_DISTANCE;
                         
+                        
                     }
                 }
-            //1- add the bar of "open ad in browser"
-            //[self addOpenBoweseViewForX:13 andY:lastY + 10];
-            //lastY += 50;
+            }
             
-            
-            
-            totalHeight = totalHeight + addedHeightValue;// + 10 + 30;//added 10 and 30 for the bar of
-            //view this ad in the browser
-            
-           // totalHeight = totalHeight + 20 + 30;
-            
-            /*
-             //2- add the bar of "post your comment"
-             
-             CommentsView * viewToBeAdded = (CommentsView *)[[[NSBundle mainBundle] loadNibNamed:@"CommentsView" owner:self options:nil] objectAtIndex:0];
-             
-             
-             viewToBeAdded.commentTextView.delegate = self;
-             [viewToBeAdded.postCommentBtn addTarget:self action:@selector(postCommentForCurrentAd) forControlEvents:UIControlEventTouchUpInside];
-             
-             commentsTV = viewToBeAdded.commentTextView;
-             commentsTV.textColor = [UIColor lightGrayColor];
-             
-             CGRect viewToBeAddedFrame = viewToBeAdded.frame;
-             viewToBeAddedFrame.origin.x = -2;
-             viewToBeAddedFrame.origin.y = totalHeight;
-             
-             [viewToBeAdded setFrame:viewToBeAddedFrame];
-             [self.labelsScrollView addSubview:viewToBeAdded];
-             
-             totalHeight = totalHeight + viewToBeAddedFrame.size.height;//, 10 and view's height for the bar of add your comment
-             */
-            
+            totalHeight = totalHeight + addedHeightValue;
             
             [self.labelsScrollView setScrollEnabled:YES];
             [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
             [self.labelsScrollView setContentSize:(CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight))];
-            
-        }
         }
     }
     
@@ -1894,7 +1863,7 @@
 }
 - (void) addOpenBoweseViewForX:(float) x andY:(float)y{
     
-      
+    
     UIButton * openBrowserBtn = [[UIButton alloc] initWithFrame:CGRectMake(x, y, 295, 30)];
     [openBrowserBtn setTitle:@"" forState:UIControlStateNormal];
     [openBrowserBtn setImage:[UIImage imageNamed:@"OpenInBrowser.png"] forState:UIControlStateNormal];
@@ -1907,17 +1876,17 @@
 - (UIView*) addOpenVideoViewForX:(float) x andY:(float)y{
     
     
-     UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 296, 54)];
-     view.backgroundColor=[UIColor clearColor];
+    UIView *view=[[UIView alloc] initWithFrame:CGRectMake(x, y, 296, 54)];
+    view.backgroundColor=[UIColor clearColor];
     
     UIButton *buttn= [UIButton buttonWithType:UIButtonTypeCustom];
-     buttn.frame = CGRectMake(0, 0, 296, 54);
-     [buttn setImage:[UIImage imageNamed:@"seeVideo.png"] forState:UIControlStateNormal];
-     [buttn addTarget:self action:@selector(openVideo) forControlEvents:UIControlEventTouchUpInside];
-     
+    buttn.frame = CGRectMake(0, 0, 296, 54);
+    [buttn setImage:[UIImage imageNamed:@"seeVideo.png"] forState:UIControlStateNormal];
+    [buttn addTarget:self action:@selector(openVideo) forControlEvents:UIControlEventTouchUpInside];
+    
     UIImageView* VideoImg = [[UIImageView alloc] initWithFrame:CGRectMake(232, 4, 60, 46)];
     [VideoImg setImageWithURL:[NSURL URLWithString:VideoThumb]];
-     [view addSubview:buttn];
+    [view addSubview:buttn];
     [view addSubview:VideoImg];
     
     return view;
@@ -2043,7 +2012,7 @@
                                     [subView setFrame:viewFrame];
                                     
                                 }
-                                                                
+                                
                                 [self.labelsScrollView addSubview:cView];
                             }
                         }
@@ -2085,7 +2054,7 @@
     [self.labelsScrollView addSubview:loadMoreCommentsBtn];
     
     totalHeight = totalHeight + loadMoreCommentsBtn.frame.size.height;
-
+    
     
     [self.labelsScrollView setContentSize:CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight)];
     
@@ -2240,8 +2209,8 @@
         self.commentTextView.textAlignment = NSTextAlignmentRight;
         
         /*
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تم إضافة تعليقك بنجاح" delegate:nil cancelButtonTitle:@"حسناً" otherButtonTitles:nil];
-        [alert show];
+         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تم إضافة تعليقك بنجاح" delegate:nil cancelButtonTitle:@"حسناً" otherButtonTitles:nil];
+         [alert show];
          */
         [self AddNewComment:resultComment animated:YES];
     }
