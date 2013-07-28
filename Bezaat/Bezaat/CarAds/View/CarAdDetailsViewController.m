@@ -46,6 +46,7 @@
     UIButton * loadMoreCommentsBtn;
     NSString* VideoThumb;
     NSURL* VideoURL;
+    BOOL postCommentAfterSignIn;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -103,6 +104,7 @@
     
     shareBtnDidMoveUp = NO;
     shareBtnDidMovedown = NO;
+    postCommentAfterSignIn = NO;
     
     [editBtn setEnabled:NO];
     [editAdBtn setEnabled:NO];
@@ -157,20 +159,9 @@
     
     viewIsShown = YES;
     
-    if (currentDetailsObject && currentDetailsObject.adImages && currentDetailsObject.adImages.count) {
-        if (self.scrollView && self.scrollView.subviews && self.scrollView.subviews.count) {
-            
-            for (UIView * subView in self.scrollView.subviews) {
-                if (subView.subviews.count) {
-                    //[(HJManagedImageV *)subView.subviews[0] setHidden:NO];
-                    //NSLog(@"%@", [(HJManagedImageV *)subView.subviews[0] image]);
-                    //[asynchImgManager manage:(HJManagedImageV *)subView.subviews[0]];
-                }
-                //NSLog(@"if ther are subviews: %i", subView.subviews.count);
-                
-            }
-        }
-    }
+    if (postCommentAfterSignIn)
+        [self postCommentForCurrentAd:nil];
+    
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -1931,6 +1922,8 @@
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     if (savedProfile) {
         
+        postCommentAfterSignIn = NO;
+        
         if (self.commentTextView.text.length > 0) {
             [self.commentTextView resignFirstResponder];
             
@@ -1945,6 +1938,9 @@
         
     }
     else {
+        postCommentAfterSignIn = YES;
+        
+        [self.commentTextView resignFirstResponder];
         UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"نعتذر" message:@"يجب أن تسجل الدخول حتى تتمكن من إضافة تعليق" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:@"إلغاء", nil];
         alert.delegate = self;
         alert.tag = 11;
@@ -1955,19 +1951,34 @@
 
 - (void) AddNewComment:(CommentOnAd *) comment animated:(BOOL) animated {
     
-    [commentsArray insertObject:comment atIndex:0];
     
     float minCommentViewY = CGFLOAT_MAX;
-    
-    for (UIView * subView in self.labelsScrollView.subviews) {
-        if ([subView class] == [SingleCommentView class]) {
-            if (subView.frame.origin.y < minCommentViewY) {
-                minCommentViewY = subView.frame.origin.y;
+    if (commentsArray && commentsArray.count) {
+        for (UIView * subView in self.labelsScrollView.subviews) {
+            if ([subView class] == [SingleCommentView class]) {
+                if (subView.frame.origin.y < minCommentViewY) {
+                    minCommentViewY = subView.frame.origin.y;
+                }
+            }
+            
+        }
+    }
+    else {
+        
+        float maxY = 0;
+        float bottomViewHeight = 0;
+        for (UIView * subView in self.labelsScrollView.subviews) {
+            if (subView.frame.origin.y > maxY) {
+                maxY = subView.frame.origin.y;
+                bottomViewHeight = subView.frame.size.height;
+                
             }
         }
         
+        minCommentViewY = maxY + bottomViewHeight;
     }
     
+    [commentsArray insertObject:comment atIndex:0];
     
     float totalHeight = self.labelsScrollView.contentSize.height;
     
@@ -2053,6 +2064,11 @@
     
     [self.labelsScrollView addSubview:loadMoreCommentsBtn];
     
+    if ([commentsArray count] >= 50) {
+        [loadMoreCommentsBtn setHidden:NO];
+    }else
+        [loadMoreCommentsBtn setHidden:YES];
+    
     totalHeight = totalHeight + loadMoreCommentsBtn.frame.size.height;
     
     
@@ -2074,10 +2090,6 @@
 
 - (void) loadMoreCommentsBtnPressed:(id) sender {
     
-    if (loadMoreCommentsBtn)
-        [loadMoreCommentsBtn removeFromSuperview];
-    loadMoreCommentsBtn = nil;
-    
     [self showLoadingIndicator];
     [self loadPageOfComments];
     
@@ -2097,6 +2109,12 @@
         
         [commentsArray addObjectsFromArray:resultArray];
         
+        if (commentsArray.count > resultArray.count) {
+            if (loadMoreCommentsBtn)
+                [loadMoreCommentsBtn removeFromSuperview];
+            loadMoreCommentsBtn = nil;
+        }
+            
         //NSMutableArray * sorted = [NSMutableArray new];
         //[sorted addObjectsFromArray:[self sortCommentsArray:commentsArray]];
         //commentsArray = sorted;
@@ -2203,16 +2221,17 @@
 - (void) commentsDidPostWithData:(CommentOnAd *)resultComment {
     [self hideLoadingIndicator];
     
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تم إضافة تعليقك بنجاح" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:nil];
+    [alert show];
+    
     if (resultComment) {
         self.commentTextView.textColor = [UIColor lightGrayColor];
         self.commentTextView.text = @"أضف تعليقك";
         self.commentTextView.textAlignment = NSTextAlignmentRight;
         
-        /*
-         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تم إضافة تعليقك بنجاح" delegate:nil cancelButtonTitle:@"حسناً" otherButtonTitles:nil];
-         [alert show];
-         */
         [self AddNewComment:resultComment animated:YES];
     }
 }
+
+
 @end

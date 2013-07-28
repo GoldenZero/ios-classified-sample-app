@@ -482,12 +482,22 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                         CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
                         [error setDescMessage:statusMessageProcessed];
                         
-                        if (self.commentsDel)
+                        if (self.commentsDel) {
                             [self.commentsDel commentsDidFailPostingWithError:error];
+                            return;
+                        }
                     }
                     //NSLog(@"comment is: %@", result);
-                    if (self.commentsDel)
+
+                    if (comment)
                         [self.commentsDel commentsDidPostWithData:comment];
+                    else {
+                        CustomError * error = [CustomError errorWithDomain:@"" code:statusCode userInfo:nil];
+                        [error setDescMessage:statusMessageProcessed];
+                        [self.commentsDel commentsDidFailPostingWithError:error];
+                    }
+                    
+
                 }
             }
             
