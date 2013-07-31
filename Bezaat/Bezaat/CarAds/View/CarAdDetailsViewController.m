@@ -1952,8 +1952,10 @@
 
 - (void) AddNewComment:(CommentOnAd *) comment animated:(BOOL) animated {
     
-    
     float minCommentViewY = CGFLOAT_MAX;
+    
+    float totalHeight = self.labelsScrollView.contentSize.height;
+    
     if (commentsArray && commentsArray.count) {
         for (UIView * subView in self.labelsScrollView.subviews) {
             if ([subView class] == [SingleCommentView class]) {
@@ -1976,12 +1978,26 @@
             }
         }
         
-        minCommentViewY = maxY + bottomViewHeight;
+        maxY = maxY + bottomViewHeight;
+        
+        UILabel* titleImgV = [[UILabel alloc] initWithFrame:CGRectMake(13, maxY + 10, 295, 35)];
+        [titleImgV setText:@" تعليقات المستخدمين"];
+        [titleImgV setTextAlignment:NSTextAlignmentRight];
+        [titleImgV setTextColor:[UIColor colorWithRed:0.0/255 green:127.0/255 blue:175.0/255 alpha:1.0f]];
+        [titleImgV setBackgroundColor:[UIColor whiteColor]];
+        [titleImgV setFont:[UIFont systemFontOfSize:22]];
+        
+        maxY = maxY + titleImgV.frame.size.height + 10;
+        
+        totalHeight = totalHeight + titleImgV.frame.size.height;
+        [self.labelsScrollView addSubview:titleImgV];
+        
+        minCommentViewY = maxY;
     }
     
     [commentsArray insertObject:comment atIndex:0];
     
-    float totalHeight = self.labelsScrollView.contentSize.height;
+    
     
     SingleCommentView * cView = [[SingleCommentView alloc] initWithCommentText:comment.commentText];
     
