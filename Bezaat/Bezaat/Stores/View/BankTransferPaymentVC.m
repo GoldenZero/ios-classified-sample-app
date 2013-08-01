@@ -129,6 +129,7 @@
 }
 
 - (IBAction)dateInvoked:(id)sender {
+    [self dismissKeyboard];
     _DatePicker.hidden = NO;
 }
 

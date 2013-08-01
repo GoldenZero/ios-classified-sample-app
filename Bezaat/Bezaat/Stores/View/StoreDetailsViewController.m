@@ -293,12 +293,14 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 #pragma mark - FeatureingDelegate Methods
 
 - (void)featureAdv:(NSInteger)advID {
+    currentAdvID = advID;
     if (currentStore.remainingFreeFeatureAds <= 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
                                                         message:@"لقد تجاوزت عدد الإعلانات المحجوزة، بإمكانك إلغاء إعلان آخر ثم تمييز هذا الإعلان."
                                                        delegate:self
                                               cancelButtonTitle:@"موافق"
                                               otherButtonTitles:nil];
+        alert.tag = 100;
         [alert show];
     }
     else if (currentStore.remainingDays < 3) {
@@ -307,6 +309,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
                                                        delegate:self
                                               cancelButtonTitle:@"موافق"
                                               otherButtonTitles:nil];
+        alert.tag = 100;
         [alert show];
     }
     else {
@@ -334,6 +337,16 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
                                              otherButtonTitles:@"٣ أيام", @"اسبوع", @"شهر", nil];
         }
         [actionSheet showInView:self.view];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 100) {
+        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        vc.currentAdID = currentAdvID;
+        vc.countryAdID = currentStore.countryID;
+        
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 

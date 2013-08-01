@@ -54,6 +54,8 @@
     int chosenImgBtnTag;
     UIImage * currentImageToUpload;
     LocationManager * locationMngr;
+    StoreManager *advFeatureManager;
+
     CLLocationManager * deviceLocationDetector;
     
     NSUInteger defaultIndex;
@@ -120,6 +122,9 @@
     
     locationMngr = [LocationManager sharedInstance];
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
+    
+    advFeatureManager = [[StoreManager alloc] init];
+    advFeatureManager.delegate = self;
     
     countryArray=[locationMngr getTotalCountries];
     
@@ -405,7 +410,7 @@
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@""
                                                              delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
                                                     otherButtonTitles:@"التقط صورة", @"اختر صورة", nil];
-    
+    actionSheet.tag = 1;
     [actionSheet showInView:self.view];
 }
 
@@ -1292,6 +1297,7 @@
         carPrice.text = @"";
     }
     
+        
     [[CarAdsManager sharedInstance] postStoreAdOfBrand:_currentModel.brandID myStore:myStore.identifier
                                                  Model:_currentModel.modelID
                                                 InCity:chosenCity.cityID
@@ -1328,13 +1334,62 @@
 #pragma mark - UIActionSheet Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0)
-    {
-        [self TakePhotoWithCamera];
+    if (actionSheet.tag == 100) {
+        if (buttonIndex == actionSheet.cancelButtonIndex)
+        {
+            CarAdDetailsViewController *details;
+            if ([currentImgsUploaded count] > 0)   //ad with image
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+            
+            else                            //ad with no image
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+            
+            details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+            details.currentAdID=myAdID;
+            details.checkPage = YES;
+            [self presentViewController:details animated:YES completion:nil];
+
+        }
+        else {
+        if ((myAdID == 0) || (myAdID == -1)) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                            message:@"لم يتم تحديد إعلان."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"موافق"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+        NSInteger featureDays = 3;
+        if ([@"٣ أيام" isEqualToString:buttonTitle]) {
+            featureDays = 3;
+        }
+        else if ([@"اسبوع" isEqualToString:buttonTitle]) {
+            featureDays = 7;
+        }
+        else if ([@"شهر" isEqualToString:buttonTitle]) {
+            featureDays = 28;
+        }
+        if (myStore)
+        {
+            [advFeatureManager featureAdv:myAdID
+                                  inStore:myStore.identifier
+                              featureDays:featureDays];
+            [self showLoadingIndicator];
+        }
     }
-    else if (buttonIndex == 1)
-    {
-        [self SelectPhotoFromLibrary];
+    
+    }
+    else if (actionSheet.tag == 1){
+        if (buttonIndex == 0)
+        {
+            [self TakePhotoWithCamera];
+        }
+        else if (buttonIndex == 1)
+        {
+            [self SelectPhotoFromLibrary];
+        }
     }
 }
 
@@ -1416,7 +1471,7 @@
 
 -(void)storeAdDidFinishPostingWithAdID:(NSInteger)adID
 {
-    //[self hideLoadingIndicator];
+    [self hideLoadingIndicator];
     
     myAdID = adID;
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
@@ -1442,11 +1497,31 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 1) {
+        alertView.hidden = YES;
+        [self featurecurrentStoreAd:myAdID];
+     
+    }
+    else if (alertView.tag == 2) {
         [[FeaturingManager sharedInstance] loadPricingOptionsForCountry:chosenCountry.countryID withDelegate:self];
         /*
         //[self dismissViewControllerAnimated:YES completion:nil];
         BrowseStoresViewController *vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];*/
+    }
+    else if (alertView.tag == 3)
+    {
+        CarAdDetailsViewController *details;
+        if ([currentImgsUploaded count] > 0)   //ad with image
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        
+        else                            //ad with no image
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+        
+        details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        details.currentAdID=myAdID;
+        details.checkPage = YES;
+        [self presentViewController:details animated:YES completion:nil];
+
     }
 }
 
@@ -1585,5 +1660,91 @@
     
 }
 
+
+#pragma mark - featuring an ad related to a store
+
+- (void)featurecurrentStoreAd:(NSInteger)advID {
+    if (myStore)
+    {
+        if (myStore.remainingFreeFeatureAds <= 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
+                                                            message:@"لقد تجاوزت عدد الإعلانات المحجوزة."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"موافق"
+                                                  otherButtonTitles:nil];
+            alert.tag = 2;
+            [alert show];
+        }
+        else if (myStore.remainingDays < 3) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
+                                                            message:@"عدد الأيام المتبقية لديك غير كاف."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"موافق"
+                                                  otherButtonTitles:nil];
+            alert.tag = 2;
+            [alert show];
+        }
+        else {
+            UIActionSheet *actionSheet = nil;
+            
+            if (myStore.remainingDays < 7) {
+                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"لاحقا"
+                                            destructiveButtonTitle:nil
+                                                 otherButtonTitles:@"٣ أيام", nil];
+            }
+            else if (myStore.remainingDays < 28) {
+                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"لاحقا"
+                                            destructiveButtonTitle:nil
+                                                 otherButtonTitles:@"٣ أيام", @"اسبوع", nil];
+            }
+            else {
+                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"لاحقا"
+                                            destructiveButtonTitle:nil
+                                                 otherButtonTitles:@"٣ أيام", @"اسبوع", @"شهر", nil];
+            }
+            actionSheet.tag = 100;
+            [actionSheet showInView:self.view];
+        }
+    }
+}
+
+
+
+#pragma mark -featuring store ad delegate methods
+
+- (void) featureAdvDidFailWithError:(NSError *)error {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                    message:@"حدث خطأ في تمييز الإعلان"
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    [alert show];
+    
+    [self hideLoadingIndicator];
+}
+
+- (void) featureAdvDidSucceed {
+    [self hideLoadingIndicator];
+    if (myStore)
+    {
+        myStore.remainingFreeFeatureAds--;
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"تم تمييز الإعلان"
+                                                    message:@"تم تمييز الإعلان بنجاح."
+                                                   delegate:self
+                                          cancelButtonTitle:@"موافق"
+                                          otherButtonTitles:nil];
+    alert.tag = 3;
+    [alert show];
+    
+    
+   
+}
 
 @end

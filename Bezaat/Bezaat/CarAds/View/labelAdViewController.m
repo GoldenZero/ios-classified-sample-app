@@ -98,7 +98,7 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
     else                            //ad with no image
         details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
     details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    details.currentAdID=currentAdID;
+    details.currentAdID= self.currentAdID;
     details.checkPage = YES;
     [self presentViewController:details animated:YES completion:nil];
    

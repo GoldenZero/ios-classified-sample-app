@@ -56,6 +56,7 @@
 @property (strong, nonatomic) IBOutlet  UIButton *countryCity;
 @property (strong, nonatomic) Store* currentStore;
 @property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
+@property (strong, nonatomic) UIViewController * parentStoreDetailsView;
 
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;

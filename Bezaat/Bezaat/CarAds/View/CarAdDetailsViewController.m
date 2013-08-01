@@ -1590,6 +1590,13 @@
             alertView.hidden = YES;
         }
     }
+    else if (alertView.tag == 100) {
+        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        vc.currentAdID = currentAdID;
+        vc.countryAdID = currentStore.countryID;
+        
+        [self presentViewController:vc animated:YES completion:nil];
+    }
     else if (alertView.tag == 101){
         if (buttonIndex == 0) {
             // call
@@ -1659,6 +1666,7 @@
                                                            delegate:self
                                                   cancelButtonTitle:@"موافق"
                                                   otherButtonTitles:nil];
+            alert.tag = 100;
             [alert show];
         }
         else if (currentStore.remainingDays < 3) {
@@ -1667,6 +1675,7 @@
                                                            delegate:self
                                                   cancelButtonTitle:@"موافق"
                                                   otherButtonTitles:nil];
+            alert.tag = 100;
             [alert show];
         }
         else {

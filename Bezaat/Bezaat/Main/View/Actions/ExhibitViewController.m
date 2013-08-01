@@ -106,6 +106,8 @@
             [alertView dismissWithClickedButtonIndex:1 animated:YES];
         }
         currentPhone2Call = @"";
+    }else  if (alertView.tag == 4) {
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -222,11 +224,15 @@
         [self.tableView reloadData];
     }
     else {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل تحميل البيانات"];
-        
-        [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""
+                                                         message:@"لا يوجد معارض في هذا البلد"
+                                                        delegate:self
+                                               cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil];
+        alert.tag = 4;
+        [alert show];
     }
     
 }
+
 @end

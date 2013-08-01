@@ -1405,6 +1405,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@",
                              TITLE_ATTR_ID, aTitle,
                              DESCRIPTION_ATTR_ID, aDescription,
+                             //PHONE_NUMBER_ATTR_ID, usermail, //Todo remove if ness
                              PRICE_ATTR_ID, aPrice,
                              ADVERTISING_PERIOD_ATTR_ID, [NSString stringWithFormat:@"%i", aPeriodValueID],
                              MOBILE_NUMBER_ATTR_ID, aMobileNum,

@@ -10,6 +10,8 @@
 #import "StoreManager.h"
 #import "StoreAdvTableViewCell.h"
 #import "GAI.h"
+#import "labelAdViewController.h"
+
 @interface StoreDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,StoreManagerDelegate,FeatureingDelegate>
 
 @property (nonatomic, strong) Store *currentStore;
