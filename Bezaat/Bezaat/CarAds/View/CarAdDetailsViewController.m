@@ -1256,8 +1256,9 @@
             [self.viewInStoreLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:16.0] ];
             
             NSURL* aURL = currentDetailsObject.storeLogoURL;
-            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:aURL]];
-            [self.brandStoreImg setImage:image];
+            //UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:aURL]];
+            if (aURL)
+                [self.brandStoreImg setImageWithURL:aURL];
             
         }
     }
