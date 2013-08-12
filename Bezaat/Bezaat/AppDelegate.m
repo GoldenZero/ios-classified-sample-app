@@ -48,11 +48,23 @@
     
     //2- chooseLocationVC
     self.chooseLocationVC1 = [[ChooseLocationVC alloc]
+                              initWithNibName:@"ChooseLocationVC" bundle:nil];
+    /*
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        self.chooseLocationVC1 = [[ChooseLocationVC alloc]
                              initWithNibName:@"ChooseLocationVC" bundle:nil];
+    else
+        self.chooseLocationVC1 = [[ChooseLocationVC alloc]
+                                  initWithNibName:@"ChooseLocationVC_iPad" bundle:nil];
+    */
     self.homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     
     //3- splash view
-    self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController" bundle:nil];
+    //self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController" bundle:nil];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController" bundle:nil];
+    else
+        self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController_iPad" bundle:nil];
     self.window.rootViewController = self.splashVC;
     
     //  test friend list
@@ -157,13 +169,14 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
 
 - (NSUInteger) application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
     
-    //return UIInterfaceOrientationMaskPortrait;
-    
     if (self.showingFBBrowserView)
         return UIInterfaceOrientationMaskAllButUpsideDown;
-    else
-        return UIInterfaceOrientationMaskPortrait;
-    
+    else {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            return UIInterfaceOrientationMaskPortrait;
+        else
+            return UIInterfaceOrientationMaskLandscape;
+    }
     
 }
 
