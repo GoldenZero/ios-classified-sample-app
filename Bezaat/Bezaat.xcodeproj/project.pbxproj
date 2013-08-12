@@ -1011,6 +1011,10 @@
 		9E2558C717B8C2C5005CC915 /* tb_wheel_shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2558BF17B8C2C5005CC915 /* tb_wheel_shadow.png */; };
 		9E2558C817B8C2C5005CC915 /* tb_wheel_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2558C017B8C2C5005CC915 /* tb_wheel_shadow@2x.png */; };
 		9E2558CF17B8E023005CC915 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2558CE17B8E023005CC915 /* Icon@2x.png */; };
+		9E2558D617B8E759005CC915 /* ChooseLocationVC_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E2558D517B8E759005CC915 /* ChooseLocationVC_iPad.xib */; };
+		9E2558D917B8ED28005CC915 /* tb_Nav_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2558D717B8ED28005CC915 /* tb_Nav_bar.png */; };
+		9E2558DA17B8ED28005CC915 /* tb_Nav_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2558D817B8ED28005CC915 /* tb_Nav_bar@2x.png */; };
+		9E2558DC17B8F4E0005CC915 /* DropDownCell_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E2558DB17B8F4E0005CC915 /* DropDownCell_iPad.xib */; };
 		9E2B621C16FC9EAC00A0981F /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B621B16FC9EAC00A0981F /* SplashViewController.xib */; };
 		9E2B622516FCA16500A0981F /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2B622416FCA16500A0981F /* SplashViewController.m */; };
 		9E2B62C616FE0BE300A0981F /* image_splash_320x480.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2B62BC16FE0BE200A0981F /* image_splash_320x480.png */; };
@@ -2381,6 +2385,10 @@
 		9E2558BF17B8C2C5005CC915 /* tb_wheel_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_wheel_shadow.png; sourceTree = "<group>"; };
 		9E2558C017B8C2C5005CC915 /* tb_wheel_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tb_wheel_shadow@2x.png"; sourceTree = "<group>"; };
 		9E2558CE17B8E023005CC915 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		9E2558D517B8E759005CC915 /* ChooseLocationVC_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseLocationVC_iPad.xib; sourceTree = "<group>"; };
+		9E2558D717B8ED28005CC915 /* tb_Nav_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_Nav_bar.png; sourceTree = "<group>"; };
+		9E2558D817B8ED28005CC915 /* tb_Nav_bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tb_Nav_bar@2x.png"; sourceTree = "<group>"; };
+		9E2558DB17B8F4E0005CC915 /* DropDownCell_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DropDownCell_iPad.xib; sourceTree = "<group>"; };
 		9E2B621B16FC9EAC00A0981F /* SplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashViewController.xib; sourceTree = "<group>"; };
 		9E2B622016FCA0C600A0981F /* SplashViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		9E2B622416FCA16500A0981F /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
@@ -3470,6 +3478,7 @@
 				8439FDD31727F4CD00CB1939 /* DropDownCell.h */,
 				8439FDD41727F4CD00CB1939 /* DropDownCell.m */,
 				8439FDD51727F4CD00CB1939 /* DropDownCell.xib */,
+				9E2558DB17B8F4E0005CC915 /* DropDownCell_iPad.xib */,
 				8439FDD61727F4CD00CB1939 /* ProfileCell.h */,
 				8439FDD71727F4CD00CB1939 /* ProfileCell.m */,
 				8439FDD81727F4CD00CB1939 /* ProfileCell.xib */,
@@ -3760,6 +3769,8 @@
 		9E2558B717B8C2C4005CC915 /* Tablet resources */ = {
 			isa = PBXGroup;
 			children = (
+				9E2558D717B8ED28005CC915 /* tb_Nav_bar.png */,
+				9E2558D817B8ED28005CC915 /* tb_Nav_bar@2x.png */,
 				9E2558B817B8C2C5005CC915 /* Splash Screen */,
 			);
 			path = "Tablet resources";
@@ -4139,6 +4150,7 @@
 				842127FE17292CE90070FD76 /* ChooseLocationVC.h */,
 				842127FF17292CE90070FD76 /* ChooseLocationVC.m */,
 				8421280017292CE90070FD76 /* ChooseLocationVC.xib */,
+				9E2558D517B8E759005CC915 /* ChooseLocationVC_iPad.xib */,
 				9E78A7F216E35556000CA790 /* ChooseActionViewController.h */,
 				9E78A7F316E35556000CA790 /* ChooseActionViewController.m */,
 				9E78A7F416E35556000CA790 /* ChooseActionViewController.xib */,
@@ -5761,6 +5773,10 @@
 				9E2558C717B8C2C5005CC915 /* tb_wheel_shadow.png in Resources */,
 				9E2558C817B8C2C5005CC915 /* tb_wheel_shadow@2x.png in Resources */,
 				9E2558CF17B8E023005CC915 /* Icon@2x.png in Resources */,
+				9E2558D617B8E759005CC915 /* ChooseLocationVC_iPad.xib in Resources */,
+				9E2558D917B8ED28005CC915 /* tb_Nav_bar.png in Resources */,
+				9E2558DA17B8ED28005CC915 /* tb_Nav_bar@2x.png in Resources */,
+				9E2558DC17B8F4E0005CC915 /* DropDownCell_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

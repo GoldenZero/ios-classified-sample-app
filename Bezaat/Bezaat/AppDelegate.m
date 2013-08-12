@@ -47,16 +47,15 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
     //2- chooseLocationVC
-    self.chooseLocationVC1 = [[ChooseLocationVC alloc]
-                              initWithNibName:@"ChooseLocationVC" bundle:nil];
-    /*
+    //self.chooseLocationVC1 = [[ChooseLocationVC alloc] initWithNibName:@"ChooseLocationVC" bundle:nil];
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         self.chooseLocationVC1 = [[ChooseLocationVC alloc]
                              initWithNibName:@"ChooseLocationVC" bundle:nil];
     else
         self.chooseLocationVC1 = [[ChooseLocationVC alloc]
                                   initWithNibName:@"ChooseLocationVC_iPad" bundle:nil];
-    */
+
     self.homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
     
     //3- splash view

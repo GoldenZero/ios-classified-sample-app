@@ -290,8 +290,20 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    static NSString *DropDownCellIdentifier = @"DropDownCell";
+    //static NSString *CellIdentifier = @"Cell";
+    //static NSString *DropDownCellIdentifier = @"DropDownCell";
+    
+    static NSString *CellIdentifier;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        CellIdentifier = @"Cell";
+    else
+        CellIdentifier = @"Cell_iPad";
+    
+    static NSString *DropDownCellIdentifier;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        DropDownCellIdentifier = @"DropDownCell";
+    else
+        DropDownCellIdentifier = @"DropDownCell_iPad";
     
     //for (int i =0; i <= [indexPath section]; i++) {
     switch ([indexPath row]) {
@@ -302,7 +314,11 @@
             if (cell == nil){
                 NSLog(@"New Cell Made");
                 
-                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell" owner:nil options:nil];
+                NSArray *topLevelObjects;
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell" owner:nil options:nil];
+                else
+                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell_iPad" owner:nil options:nil];
                 
                 for(id currentObject in topLevelObjects)
                 {
@@ -369,7 +385,11 @@
     if (Cell == nil){
         NSLog(@"New Cell Made");
         
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell" owner:nil options:nil];
+        NSArray *topLevelObjects;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell" owner:nil options:nil];
+        else
+            topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell_iPad" owner:nil options:nil];
         
         for(id currentObject in topLevelObjects)
         {
