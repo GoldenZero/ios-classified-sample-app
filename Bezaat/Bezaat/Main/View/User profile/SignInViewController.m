@@ -385,7 +385,11 @@
     
     loadingHUD.labelText = @"يرجى الانتظار";
     loadingHUD.detailsLabelText = @"";
-    loadingHUD.dimBackground = YES;
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        loadingHUD.dimBackground = YES;
+    else
+        loadingHUD.dimBackground = NO;
 }
 
 - (void) hideLoadingIndicator {
@@ -394,6 +398,17 @@
     loadingHUD = nil;
 }
 
+- (NSUInteger)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskLandscape;
+}
 
-
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationPortrait;
+    else
+        return UIInterfaceOrientationLandscapeLeft;
+}
 @end

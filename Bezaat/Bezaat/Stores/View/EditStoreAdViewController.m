@@ -612,7 +612,10 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     loadingHUD.mode = MBProgressHUDModeIndeterminate2;
     loadingHUD.labelText = @"جاري تحميل البيانات";
     loadingHUD.detailsLabelText = @"";
-    loadingHUD.dimBackground = YES;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        loadingHUD.dimBackground = YES;
+    else
+        loadingHUD.dimBackground = NO;
     
 }
 

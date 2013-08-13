@@ -478,10 +478,20 @@
         
         //present the next view controller
         if ([[UIScreen mainScreen] bounds].size.height == 568){
-            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+            //SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+            SignInViewController *vc;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            else
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
             [self presentViewController:vc animated:YES completion:nil];
         }else {
-            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            //SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            SignInViewController *vc;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            else
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
             [self presentViewController:vc animated:YES completion:nil];
         }    }
     
@@ -508,7 +518,10 @@
     
     loadingHUD.labelText = @"يرجى الانتظار";
     loadingHUD.detailsLabelText = @"";
-    loadingHUD.dimBackground = YES;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        loadingHUD.dimBackground = YES;
+    else
+        loadingHUD.dimBackground = NO;
 }
 
 - (void) hideLoadingIndicator {

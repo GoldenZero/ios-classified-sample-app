@@ -68,7 +68,8 @@
 @synthesize deviceLocationCountryCode;
 
 
-static NSString * location_key_chain_identifier = @"BezaatLocation";
+static NSString * location_key_chain_identifier_iPhone = @"BezaatLocation_iPhone";
+static NSString * location_key_chain_identifier_iPad = @"BezaatLocation_iPad";
 
 - (id) init {
     
@@ -97,7 +98,10 @@ static NSString * location_key_chain_identifier = @"BezaatLocation";
 + (KeychainItemWrapper *) locationKeyChainItemSharedInstance {
     static KeychainItemWrapper * wrapperInstance = nil;
     if (wrapperInstance == nil) {
-        wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:location_key_chain_identifier accessGroup:nil];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:location_key_chain_identifier_iPhone accessGroup:nil];
+        else
+            wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:location_key_chain_identifier_iPad accessGroup:nil];
         
     }
     

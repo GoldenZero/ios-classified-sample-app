@@ -864,7 +864,10 @@
     loadingHUD.mode = MBProgressHUDModeIndeterminate2;
     loadingHUD.labelText = @"جاري تحميل البيانات";
     loadingHUD.detailsLabelText = @"";
-    loadingHUD.dimBackground = YES;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        loadingHUD.dimBackground = YES;
+    else
+        loadingHUD.dimBackground = NO;
     
 }
 
@@ -1613,7 +1616,12 @@
     else if (alertView.tag == 11){
         if (buttonIndex == 0) {
             // sign in
-            SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            //SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            SignInViewController *vc;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            else
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
             vc.returnPage = YES;
             [self presentViewController:vc animated:YES completion:nil];
             

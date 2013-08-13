@@ -75,7 +75,8 @@ static NSString * update_user_post_key = @"UserName";
 static NSString * update_user_twitter_post_key = @"TwitterUserID";
 static NSString * update_user_facebook_post_key = @"FacebookID";
 static NSString * login_password_post_key = @"Password";
-static NSString * login_key_chain_identifier = @"BezaatLogin";
+static NSString * login_key_chain_identifier_iPhone = @"BezaatLogin_iPhone";
+static NSString * login_key_chain_identifier_iPad = @"BezaatLogin_iPad";
 static NSString * ad_id_post_key = @"AdID";
 
 static NSString * mainMngrTempFileName = @"mngrTmp";
@@ -121,7 +122,10 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
 + (KeychainItemWrapper *) loginKeyChainItemSharedInstance {
     static KeychainItemWrapper * wrapperInstance = nil;
     if (wrapperInstance == nil) {
-        wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:login_key_chain_identifier accessGroup:nil];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:login_key_chain_identifier_iPhone accessGroup:nil];
+        else
+            wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:login_key_chain_identifier_iPad accessGroup:nil];
     }
     
     return wrapperInstance;
@@ -653,7 +657,6 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
 - (NSString *) getSavedDeviceToken {
     
     NSString * str = [[ProfileManager loginKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecValueData)];
-    
     if ([str isEqualToString:@""])
         return @"";
     
@@ -1003,7 +1006,6 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     [dataDict setObject:devRegObject.osVersion forKey:DREG_OS_VERSION];
     [dataDict setObject:devRegObject.ipAddress forKey:DREG_IP_ADDRESS];
     [dataDict setObject:dateString forKey:DREG_REGISTERED_ON];
-    
     
     [[ProfileManager loginKeyChainItemSharedInstance] setObject:dataDict.description forKey:(__bridge id)(kSecValueData)];
 }
