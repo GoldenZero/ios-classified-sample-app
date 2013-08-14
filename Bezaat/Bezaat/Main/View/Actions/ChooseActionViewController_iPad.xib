@@ -414,7 +414,6 @@
 								<string key="NSFrame">{{679, 0}, {345, 43}}</string>
 								<reference key="NSSuperview" ref="753282036"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -508,6 +507,14 @@
 					<int key="connectionID">469</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">iPad_signInBtn</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="891272263"/>
+					</object>
+					<int key="connectionID">507</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">BuyCarBtnPressed:</string>
 						<reference key="source" ref="135640388"/>
@@ -542,6 +549,15 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">470</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">iPad_signInBtnPressed:</string>
+						<reference key="source" ref="891272263"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">506</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -2310,8 +2326,8 @@
 				<boolean value="NO" key="312.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="313.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<array key="313.IBViewMetadataConstraints">
-					<reference ref="386995217"/>
 					<reference ref="793433345"/>
+					<reference ref="386995217"/>
 				</array>
 				<boolean value="NO" key="313.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="314.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2412,7 +2428,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">504</int>
+			<int key="maxID">507</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2425,6 +2441,7 @@
 						<string key="BuyCarBtnPressed:">id</string>
 						<string key="countryBtnPrss:">id</string>
 						<string key="exhibitBtnPrss:">id</string>
+						<string key="iPad_signInBtnPressed:">id</string>
 						<string key="sideMenuBtnPressed:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -2448,6 +2465,10 @@
 							<string key="name">exhibitBtnPrss:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="iPad_signInBtnPressed:">
+							<string key="name">iPad_signInBtnPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="sideMenuBtnPressed:">
 							<string key="name">sideMenuBtnPressed:</string>
 							<string key="candidateClassName">id</string>
@@ -2460,6 +2481,7 @@
 						<string key="content">UIView</string>
 						<string key="countryBtn">UIButton</string>
 						<string key="exihibiButton">UIButton</string>
+						<string key="iPad_signInBtn">UIButton</string>
 						<string key="menuTableView">UITableView</string>
 						<string key="menuView">UIView</string>
 						<string key="toolBar">UIToolbar</string>
@@ -2488,6 +2510,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="exihibiButton">
 							<string key="name">exihibiButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="iPad_signInBtn">
+							<string key="name">iPad_signInBtn</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="menuTableView">

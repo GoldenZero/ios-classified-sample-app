@@ -73,6 +73,12 @@
         [self customGestures];
         [self prepareGestures];
     }
+    else {
+        if (savedProfile)
+            self.iPad_signInBtn.enabled = NO;
+        else
+            self.iPad_signInBtn.enabled = YES;
+    }
     
     if (savedProfile.hasStores) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
@@ -289,6 +295,16 @@
     ExhibitViewController *exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
     //exVC.countryID=chosenCountry.countryID;
     [self presentViewController:exVC animated:YES completion:nil];
+}
+
+- (IBAction)iPad_signInBtnPressed:(id)sender {
+    SignInViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+    else
+        vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
+    vc.returnPage = YES;
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void) prepareImages {

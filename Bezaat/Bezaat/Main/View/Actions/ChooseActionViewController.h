@@ -30,6 +30,7 @@
 @property (strong, nonatomic) IBOutlet UIView *content;
 @property (strong, nonatomic) IBOutlet UIButton *countryBtn;
 @property (strong, nonatomic) IBOutlet UIButton *exihibiButton;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_signInBtn;
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender;
@@ -38,5 +39,6 @@
 - (IBAction)sideMenuBtnPressed:(id)sender;
 - (IBAction)countryBtnPrss:(id)sender;
 - (IBAction)exhibitBtnPrss:(id)sender;
+- (IBAction)iPad_signInBtnPressed:(id)sender;
 
 @end
