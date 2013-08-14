@@ -75,7 +75,11 @@
         }
     }
     if (!defaultCityName) {
-        CountryListViewController* vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+        CountryListViewController* vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+        else
+            vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController_iPad" bundle:nil];
         vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:vc animated:YES completion:nil];
     }
@@ -369,7 +373,11 @@
         case 1:
             switch ([indexPath row]) {
                 case 0:{
-                    CountryListViewController* vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+                    CountryListViewController* vc;
+                    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                        vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+                    else
+                        vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController_iPad" bundle:nil];
                     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
                     [self presentViewController:vc animated:YES completion:nil];
                     return;
@@ -430,7 +438,11 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 0) {
         //[self dismissViewControllerAnimated:YES completion:nil];
-        ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        ChooseActionViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        else
+            vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
         vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:vc animated:YES completion:nil];
     }

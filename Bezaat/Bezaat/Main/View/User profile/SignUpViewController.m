@@ -310,9 +310,13 @@
     [self hideLoadingIndicator];
     
     //present the next view controller
-    ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    ChooseActionViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+    else
+        vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
     
-    [self presentViewController:chooseActionVC animated:YES completion:nil];
+    [self presentViewController:vc animated:YES completion:nil];
     
     [GAI sharedInstance].defaultTracker.sessionStart = YES;
     [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"app_flow"
@@ -470,9 +474,13 @@
     else if (alertView.tag == 3){
         
         //present the next view controller
-        ChooseActionViewController * chooseActionVC = [[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+        ChooseActionViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        else
+            vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
         
-        [self presentViewController:chooseActionVC animated:YES completion:nil];
+        [self presentViewController:vc animated:YES completion:nil];
     }
     else if (alertView.tag == 2){
         

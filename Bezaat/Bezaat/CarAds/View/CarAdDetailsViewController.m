@@ -538,7 +538,11 @@
 
 - (IBAction)backBtnPrss:(id)sender {
     if (self.checkPage) {
-        ChooseActionViewController *vc=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+        ChooseActionViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        else
+            vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
     }else
         [self dismissViewControllerAnimated:YES completion:nil];

@@ -22,6 +22,7 @@
 #import "AboutAppViewController.h"
 #import "ExhibitViewController.h"
 #import "StoreOrdersViewController.h"
+#import "ChooseLocationVC.h"
 
 @interface ChooseActionViewController (){
     NSArray *menuArray;
@@ -29,7 +30,7 @@
     NSMutableArray *custoMenuArray;
     NSMutableArray *custoIconMenuArray;
     MBProgressHUD2 * loadingHUD;
-
+    
     Country * chosenCountry;
     Country * myCountry;
     NSUInteger defaultIndex;
@@ -57,76 +58,80 @@
 
 - (void)viewDidLoad
 {
-   
+    
     custoMenuArray=[[NSMutableArray alloc]init];
     custoIconMenuArray=[[NSMutableArray alloc]init];
-
+    
     [super viewDidLoad];
     //[self customizeMenu];
-       self.menuTableView.separatorColor = [UIColor colorWithRed:42.0/255 green:93.0/255 blue:109.0/255 alpha:1.0f];
+    self.menuTableView.separatorColor = [UIColor colorWithRed:42.0/255 green:93.0/255 blue:109.0/255 alpha:1.0f];
     self.trackedViewName = @"Home Screen";
-    [self prepareImages];
-    [self customGestures];
-    [self prepareGestures];
-     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self prepareImages];
+        [self customGestures];
+        [self prepareGestures];
+    }
     
     if (savedProfile.hasStores) {
-        if ([[UIScreen mainScreen] bounds].size.height == 568){
-            AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 30, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
-            [AddStoreButton setImage:[UIImage imageNamed:@"iPhone5_manager.png"] forState:UIControlStateNormal];
-            
-            exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y + 30, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
-            [exihibiButton setImage:[UIImage imageNamed:@"iPhone5_Exhimenu.png"] forState:UIControlStateNormal];
-            
-            BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
-            [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
-            
-            AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x, AddCarButton.frame.origin.y, AddCarButton.frame.size.width, AddCarButton.frame.size.height + 30);
-            [AddCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
-        }else
-        {
-            AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x+2, AddStoreButton.frame.origin.y +7, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
-            [AddStoreButton setImage:[UIImage imageNamed:@"manage_store.png"] forState:UIControlStateNormal];
-            
-            exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x +2, exihibiButton.frame.origin.y +7, exihibiButton.frame.size.width, exihibiButton.frame.size.height);
-            BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x + 2, BuyCarButton.frame.origin.y + 7, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height);
-            
-            AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x - 1, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
-            
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if ([[UIScreen mainScreen] bounds].size.height == 568){
+                AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 30, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
+                [AddStoreButton setImage:[UIImage imageNamed:@"iPhone5_manager.png"] forState:UIControlStateNormal];
+                
+                exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y + 30, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
+                [exihibiButton setImage:[UIImage imageNamed:@"iPhone5_Exhimenu.png"] forState:UIControlStateNormal];
+                
+                BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
+                [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
+                
+                AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x, AddCarButton.frame.origin.y, AddCarButton.frame.size.width, AddCarButton.frame.size.height + 30);
+                [AddCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
+                
+            }else
+            {
+                AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x+2, AddStoreButton.frame.origin.y +7, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
+                [AddStoreButton setImage:[UIImage imageNamed:@"manage_store.png"] forState:UIControlStateNormal];
+                
+                exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x +2, exihibiButton.frame.origin.y +7, exihibiButton.frame.size.width, exihibiButton.frame.size.height);
+                BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x + 2, BuyCarButton.frame.origin.y + 7, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height);
+                
+                AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x - 1, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
+                
+            }
         }
         [[GAI sharedInstance].defaultTracker sendView:@"Home Screen (Store)"];
-    }else {
-    
-    if ([[UIScreen mainScreen] bounds].size.height == 568){
-        AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 30, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
-        [AddStoreButton setImage:[UIImage imageNamed:@"iPhone5_openStrore.png"] forState:UIControlStateNormal];
-        
-        exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y + 30, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
-        [exihibiButton setImage:[UIImage imageNamed:@"iPhone5_Exhimenu.png"] forState:UIControlStateNormal];
-
-        
-        BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
-        [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
-        
-        AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x, AddCarButton.frame.origin.y, AddCarButton.frame.size.width, AddCarButton.frame.size.height + 30);
-        [AddCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
-    }else
-    {
-        AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 7, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
-        
-        exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y + 7, exihibiButton.frame.size.width, exihibiButton.frame.size.height);
-        
-        BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x , BuyCarButton.frame.origin.y + 7, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height);
-        
-        AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
-
     }
+    else {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if ([[UIScreen mainScreen] bounds].size.height == 568){
+                AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 30, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height + 30);
+                [AddStoreButton setImage:[UIImage imageNamed:@"iPhone5_openStrore.png"] forState:UIControlStateNormal];
+                
+                exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y + 30, exihibiButton.frame.size.width, exihibiButton.frame.size.height + 30);
+                [exihibiButton setImage:[UIImage imageNamed:@"iPhone5_Exhimenu.png"] forState:UIControlStateNormal];
+                
+                
+                BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
+                [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
+                
+                AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x, AddCarButton.frame.origin.y, AddCarButton.frame.size.width, AddCarButton.frame.size.height + 30);
+                [AddCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
+            }else
+            {
+                AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 7, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
+                
+                exihibiButton.frame = CGRectMake(exihibiButton.frame.origin.x, exihibiButton.frame.origin.y + 7, exihibiButton.frame.size.width, exihibiButton.frame.size.height);
+                
+                BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x , BuyCarButton.frame.origin.y + 7, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height);
+                
+                AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x, AddCarButton.frame.origin.y + 7, AddCarButton.frame.size.width, AddCarButton.frame.size.height);
+                
+            }
+        }
         [[GAI sharedInstance].defaultTracker sendView:@"Home Screen (User)"];
     }
-    
-    
-       
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -139,9 +144,10 @@
     locationMngr = [LocationManager sharedInstance];
     defaultCountryID =  [[LocationManager sharedInstance] getSavedUserCountryID];
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
-
     
-    [self customizeMenu];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self customizeMenu];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -154,13 +160,13 @@
     countriesArray=resultArray;
     for (int i =0; i <= [countriesArray count] - 1; i++) {
         chosenCountry=[countriesArray objectAtIndex:i];
-            if (chosenCountry.countryID == defaultCountryID)
-            {
-                myCountry = [countriesArray objectAtIndex:i];
-                [self.countryBtn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@.png",myCountry.countryNameEn]] forState:UIControlStateNormal];
-                break;
-                //return;
-            }
+        if (chosenCountry.countryID == defaultCountryID)
+        {
+            myCountry = [countriesArray objectAtIndex:i];
+            [self.countryBtn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@.png",myCountry.countryNameEn]] forState:UIControlStateNormal];
+            break;
+            //return;
+        }
         
     }
 }
@@ -174,7 +180,7 @@
     rightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     
     [rightRecognizer setNumberOfTouchesRequired:1];
-        
+    
     [self.view addGestureRecognizer:rightRecognizer];
     
     leftRecognizer = [[UISwipeGestureRecognizer alloc]
@@ -186,7 +192,7 @@
     [leftRecognizer setNumberOfTouchesRequired:1];
     
     [self.view addGestureRecognizer:leftRecognizer];
-
+    
 }
 
 
@@ -208,30 +214,30 @@
     
     //GA
     [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
-                        withAction:@"buttonPress"
-                         withLabel:@"sell car"
-                         withValue:[NSNumber numberWithInt:100]];
-
+                                                    withAction:@"buttonPress"
+                                                     withLabel:@"sell car"
+                                                     withValue:[NSNumber numberWithInt:100]];
+    
 }
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
     [self hideMenu];
-  //  UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    //  UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     //if (savedProfile) {
-        ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-        vc.tagOfCallXib=2;
-        [self presentViewController:vc animated:YES completion:nil];
-   // }
-   // else{
-     //   SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-       // [self presentViewController:vc animated:YES completion:nil];
+    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+    vc.tagOfCallXib=2;
+    [self presentViewController:vc animated:YES completion:nil];
+    // }
+    // else{
+    //   SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+    // [self presentViewController:vc animated:YES completion:nil];
     //}
     //GA
     [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
                                                     withAction:@"buttonPress"
                                                      withLabel:@"buy car"
                                                      withValue:[NSNumber numberWithInt:100]];
-
+    
     
 }
 
@@ -239,22 +245,22 @@
     [self hideMenu];
     
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    
+    if (savedProfile.hasStores) {
+        BrowseStoresViewController *vc =[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
         
-        if (savedProfile.hasStores) {
-            BrowseStoresViewController *vc =[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
-            [self presentViewController:vc animated:YES completion:nil];
-            
-        }else{
-            AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
-            [self presentViewController:vc animated:YES completion:nil];
-        }
-
+    }else{
+        AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    
     //GA
     [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
                                                     withAction:@"buttonPress"
                                                      withLabel:@"Add new store"
                                                      withValue:[NSNumber numberWithInt:100]];
-
+    
     
 }
 
@@ -268,8 +274,13 @@
 
 - (IBAction)countryBtnPrss:(id)sender {
     
-    CountryListViewController* vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+    CountryListViewController* vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+    else
+        vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController_iPad" bundle:nil];
     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+   
     [self presentViewController:vc animated:YES completion:nil];
     
 }
@@ -294,7 +305,7 @@
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
     [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
     [self.view addGestureRecognizer:swipeRight];
-
+    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -331,9 +342,9 @@
     
     menuArray = [[NSArray alloc] initWithContentsOfFile:menuPlistPath];
     iconMenuArray=[[NSArray alloc]initWithObjects:@"Menu_icon_01.png",@"Menu_icon_02.png",@"Menu_icon_03.png",@"Menu_icon_04.png",@"Menu_icon_05.png",@"Menu_icon_06.png",@"Menu_icon_07.png",@"Menu_icon_08.png",@"Menu_icon_09.png",@"Menu_icon_10.png",@"Menu_icon_11.png",@"Menu_icon_12.png",@"Menu_icon_13.png", nil];
-
-     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-
+    
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    
     // gust
     if(!savedProfile){
         [self.userNameLabel setText:@"زائر"];
@@ -343,7 +354,7 @@
         [custoMenuArray addObject:[menuArray objectAtIndex:4]];
         [custoMenuArray addObject:[menuArray objectAtIndex:5]];
         //[custoMenuArray addObject:[menuArray objectAtIndex:12]];
-
+        
         [custoMenuArray addObject:[menuArray objectAtIndex:8]];
         [custoMenuArray addObject:[menuArray objectAtIndex:9]];
         [custoMenuArray addObject:[menuArray objectAtIndex:11]];
@@ -382,7 +393,7 @@
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:7]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:9]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:10]];
-
+            
         }
         
         else{
@@ -396,7 +407,7 @@
             [custoMenuArray addObject:[menuArray objectAtIndex:8]];
             [custoMenuArray addObject:[menuArray objectAtIndex:10]];
             [custoMenuArray addObject:[menuArray objectAtIndex:11]];
-        
+            
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:0]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:1]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:2]];
@@ -408,7 +419,7 @@
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:9]];
             [custoIconMenuArray addObject:[iconMenuArray objectAtIndex:10]];
         }
-    
+        
     }
 }
 #pragma mark - UITableView Delegate -
@@ -451,34 +462,34 @@
                 [self hideMenu];
                 BrowseStoresViewController *vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];
-             
+                
                 break;
                 /*
-                [self hideMenu];
-                UserDetailsViewController *vc=[[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController" bundle:nil];
-                [self presentViewController:vc animated:YES completion:nil];*/
+                 [self hideMenu];
+                 UserDetailsViewController *vc=[[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController" bundle:nil];
+                 [self presentViewController:vc animated:YES completion:nil];*/
                 
             }
             case 4:
             {
                 [self hideMenu];
                 AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
-                    [self presentViewController:vc animated:YES completion:nil];
+                [self presentViewController:vc animated:YES completion:nil];
                 
                 //GA
                 [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
                                                                 withAction:@"buttonPress"
                                                                  withLabel:@"Add new store (menu)"
                                                                  withValue:[NSNumber numberWithInt:100]];
-
+                
                 break;
             }
             case 5:
             {
-                 [self hideMenu];
+                [self hideMenu];
                 ExhibitViewController *exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
                 [self presentViewController:exVC animated:YES completion:nil];
-
+                
                 break;
             }
             case 6:
@@ -495,13 +506,13 @@
                     [self hideMenu];
                     GuestProfileViewController *vc=[[GuestProfileViewController alloc]initWithNibName:@"GuestProfileViewController" bundle:nil];
                     [self presentViewController:vc animated:YES completion:nil];
-
+                    
                 }else{
                     [self hideMenu];
                     ProfileDetailsViewController *vc=[[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
                     [self presentViewController:vc animated:YES completion:nil];
                 }
-
+                
                 break;
             }
             case 9:
@@ -524,7 +535,7 @@
                         vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
                     [self presentViewController:vc animated:YES completion:nil];
                 }
-
+                
                 break;
             }
             case 10:
@@ -537,7 +548,7 @@
                 [self hideMenu];
                 AboutAppViewController *vc=[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];
-
+                
             }
             case 12:
             {
@@ -550,7 +561,7 @@
         }
         
     }
-  
+    
 }
 
 -(void)logout
@@ -634,7 +645,11 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (alertView.tag == 1) {
-        ChooseActionViewController *vc=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        ChooseActionViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        else
+            vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
         vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:vc animated:YES completion:nil];
         

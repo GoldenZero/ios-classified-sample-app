@@ -161,7 +161,11 @@
         case 0:
             switch ([indexPath row]) {
                 case 0:{
-                    CountryListViewController* vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+                    CountryListViewController* vc;
+                    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                        vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+                    else
+                        vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController_iPad" bundle:nil];
                     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
                     [self presentViewController:vc animated:YES completion:nil];
                     return;

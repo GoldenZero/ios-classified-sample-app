@@ -1712,7 +1712,12 @@
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender {
-    ChooseActionViewController *homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+
+    ChooseActionViewController *homeVC;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        homeVC =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+    else
+        homeVC =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
     
     
     [self presentViewController:homeVC animated:YES completion:nil];

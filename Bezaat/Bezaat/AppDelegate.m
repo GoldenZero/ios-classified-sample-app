@@ -56,7 +56,11 @@
         self.chooseLocationVC1 = [[ChooseLocationVC alloc]
                                   initWithNibName:@"ChooseLocationVC_iPad" bundle:nil];
 
-    self.homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        self.homeVC =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+    else
+        self.homeVC =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
     
     //3- splash view
     //self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController" bundle:nil];
