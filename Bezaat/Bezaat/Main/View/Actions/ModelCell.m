@@ -29,11 +29,20 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
+    
 
-    if (selected)
-        [_bgImageView setHidden:NO];
-    else
-        [_bgImageView setHidden:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (selected)
+            [_bgImageView setHidden:NO];
+        else
+            [_bgImageView setHidden:YES];
+    }
+    else {
+        if (selected)
+            [_bgImageView setHidden:YES];
+        else
+            [_bgImageView setHidden:NO];
+    }
 }
 
 @end
