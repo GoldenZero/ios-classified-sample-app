@@ -18,8 +18,10 @@
 
 - (id) init {
     self = [super init];
-    if (self)
+    if (self) {
         modelsArray = [NSMutableArray new];
+        self.modelCellsArray = [NSMutableArray new];
+    }
     return self;
 }
 - (id)initWithFrame:(CGRect)frame
@@ -31,9 +33,18 @@
     return self;
 }
 
-- (void) DrawModels:(NSArray *) models {
+- (void) awakeFromNib {
+    [super awakeFromNib];
+    modelsArray = [NSMutableArray new];
+    self.modelCellsArray = [NSMutableArray new];
+    
+}
+
+- (void) drawModels:(NSArray *) models {
     [modelsArray removeAllObjects];
     [modelsArray addObjectsFromArray:models];
+    
+    [self.modelCellsArray removeAllObjects];
     
     float currentX = 0;
     float currentY = 0;
@@ -62,6 +73,8 @@
             else
                 colCounter ++;
         }
+        else
+            [modelCell setSelected:YES];
         
         currentX = (colCounter * modelFrame.size.width) + ((colCounter + 1) * 10);
 
@@ -74,7 +87,7 @@
         modelCell.frame = modelFrame;
         
         [self.modelsScrollView addSubview:modelCell];
-        
+        [self.modelCellsArray addObject:modelCell];
         
     }
     totalHeight = 20 + modelFrame.size.height + currentY;

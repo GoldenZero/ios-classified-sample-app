@@ -194,4 +194,5 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
  //Handle the incoming facebook URL after authenticating the user through the facebook iOS app
  return [FBSession.activeSession handleOpenURL:url];
  }
+
 @end

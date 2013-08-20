@@ -21,11 +21,11 @@
 @interface ModelsViewController_iPad ()
 {
     BOOL oneSelectionMade;
-    Brand * choosenBrand;
     NSMutableArray * brandCellsArray;
     //NSMutableArray * brandsTapGesturesArray;
     //NSMutableArray * modelsTapGesturesArray;
     ChooseModelView_iPad * dropDownView;
+    BOOL isFirstAppearance;
 }
 @end
 
@@ -46,10 +46,14 @@
 	
     self.trackedViewName = @"Choose Model";
     brandCellsArray = [NSMutableArray new];
-    //brandsTapGesturesArray = [NSMutableArray new];
-    //modelsTapGesturesArray = [NSMutableArray new];
+
+    self.chosenBrand = nil;
+    self.chosenModel = nil;
+    
     oneSelectionMade = NO;
     dropDownView = nil;
+    
+    isFirstAppearance = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -126,6 +130,12 @@
      */
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (isFirstAppearance)
+        [self selectFirstBrandCell];
+}
 #pragma mark - Brands Manager Delegate
 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray {
@@ -173,14 +183,29 @@
     }
     
     //currentModels = ((Brand*)resultArray[0]).models;
-    choosenBrand=(Brand*)[currentBrands objectAtIndex:0];
+    self.chosenBrand =(Brand*)[currentBrands objectAtIndex:0];
     
     [MBProgressHUD2 hideHUDForView:self.view animated:YES];
     
     [self DrawBrands];
 }
 
+#pragma mark - methods
+
+- (void) setFirstAppearance:(BOOL) status {
+    isFirstAppearance = status;
+}
+
 #pragma mark - helper methods
+
+//This method is called for the first time the popover is created
+- (void) selectFirstBrandCell {
+    if (brandCellsArray && brandCellsArray.count) {
+        UITapGestureRecognizer * tapOfFirstCell = [(BrandCell *) brandCellsArray[0] gestureRecognizers][0];
+        [self didSelectBrandCell:tapOfFirstCell];
+    }
+    
+}
 
 - (void) DrawBrands {
     float currentX = 0;
@@ -199,7 +224,7 @@
         BrandCell* brandCell = (BrandCell*)[[NSBundle mainBundle] loadNibNamed:@"BrandCell_iPad" owner:self options:nil][0];;
         [brandCell reloadInformation:currentItem];
         
-        if ((choosenBrand) && (choosenBrand.brandID == currentItem.brandID))
+        if ((self.chosenBrand) && (self.chosenBrand.brandID == currentItem.brandID))
             [brandCell selectCell];
         
         if ((!oneSelectionMade) && (i == 0))
@@ -244,6 +269,9 @@
     
     UITapGestureRecognizer * tap = (UITapGestureRecognizer *) sender;
     BrandCell * senderCell = (BrandCell *) tap.view;
+    int indexOfSenderCell = [self locateBrandCell:senderCell];
+    self.chosenBrand = currentBrands[indexOfSenderCell];
+    currentModels = self.chosenBrand.models;
     
     if (dropDownView) {
         
@@ -260,7 +288,7 @@
         if (dropDownView.frame.origin.y != ((senderCell.frame.origin.y + senderCell.frame.size.height))) {
             
             //1- remove the view
-            [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+            [UIView animateWithDuration:0.45f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
                 
                 //move up
                 for (BrandCell * cell in brandCellsArray) {
@@ -285,7 +313,7 @@
                 dropDownView.owner = senderCell;
                 dropDownView.frame = newDropDownFrame;
                 
-                [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                [UIView animateWithDuration:0.45f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
                     //[UIView animateWithDuration:1.0f animations:^{
                     
                     [self.scrollView addSubview:dropDownView];
@@ -300,15 +328,21 @@
                     }
                     
                 } completion:nil];
-                int i = [self locateBrandCell:senderCell];
-                if (i == -1)
+                
+                if (indexOfSenderCell == -1)
                     return ;
                 
-                [dropDownView DrawModels:[(Brand *)currentBrands[i] models]];
+                [dropDownView drawModels:currentModels];
+                [self setModelsTapGestures];
+                self.chosenModel = currentModels[0]; //initially, the selected model is the first
             }];
         }
         else { // a drop down on the same row --> just change the frame
             [senderCell selectCell];
+            
+            [dropDownView removeFromSuperview];
+            dropDownView = nil;
+            
             for (int i = 0; i < brandCellsArray.count; i++) {
                 BrandCell * cell = (BrandCell *) brandCellsArray[i];
                 
@@ -318,15 +352,19 @@
             
             CGRect newDropDownFrame = CGRectMake(5, (senderCell.frame.origin.y + senderCell.frame.size.height), 590.0f, 200.0f);
             
+            dropDownView = (ChooseModelView_iPad *)[[NSBundle mainBundle] loadNibNamed:@"ChooseModelView_iPad" owner:self options:nil][0];
+            
             dropDownView.owner = senderCell;
             dropDownView.frame = newDropDownFrame;
             
-            int i = [self locateBrandCell:senderCell];
-            if (i == -1)
+            [self.scrollView addSubview:dropDownView];
+            
+            if (indexOfSenderCell == -1)
                 return ;
             
-            [dropDownView DrawModels:[(Brand *)currentBrands[i] models]];
-            
+            [dropDownView drawModels:currentModels];
+            [self setModelsTapGestures];
+            self.chosenModel = currentModels[0]; //initially, the selected model is the first
         }
     }
     else {
@@ -346,7 +384,7 @@
         dropDownView.owner = senderCell;
         
         dropDownView.frame = newDropDownFrame;
-        [UIView animateWithDuration:0.3f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+        [UIView animateWithDuration:0.45f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
             
             [self.scrollView addSubview:dropDownView];
             
@@ -365,11 +403,12 @@
             
         } completion:nil];
         
-        int i = [self locateBrandCell:senderCell];
-        if (i == -1)
+        if (indexOfSenderCell == -1)
             return ;
         
-        [dropDownView DrawModels:[(Brand *)currentBrands[i] models]];
+        [dropDownView drawModels:currentModels];
+        [self setModelsTapGestures];
+        self.chosenModel = currentModels[0]; //initially, the selected model is the first
     }
     
     
@@ -377,6 +416,38 @@
 
 - (void) didSelectModelCell:(id) sender {
     
+    UITapGestureRecognizer * tap = (UITapGestureRecognizer *) sender;
+    ModelCell * senderCell = (ModelCell *) tap.view;
+    int indexOfSenderCell = [self locateModelCell:senderCell];
+    if (indexOfSenderCell != -1)
+        self.chosenModel = currentModels[indexOfSenderCell];
+        
+    [senderCell setSelected:YES];
+    if (dropDownView) {
+        for (id cell  in dropDownView.modelsScrollView.subviews) {
+            if ( ([cell isKindOfClass:[ModelCell class]]) && (cell != senderCell))
+                [cell setSelected:NO];
+            
+        }
+    }
+    /*
+    NSLog(@"chosen model is:%@, %i", self.chosenModel.modelName, self.chosenModel.modelID);
+    NSLog(@"chosen brand is:%@, %i", self.chosenBrand.brandNameAr, self.chosenBrand.brandID);
+    NSLog(@"-----------------");
+     */
+}
+
+- (void) setModelsTapGestures {
+    if (dropDownView) {
+        for (id cell  in dropDownView.modelsScrollView.subviews) {
+            if ([cell isKindOfClass:[ModelCell class]]) {
+                UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectModelCell:)];
+                tap.numberOfTapsRequired = 1;
+                [cell addGestureRecognizer:tap];
+            }
+            
+        }
+    }
 }
 
 - (int) locateBrandCell:(BrandCell *) cell {
@@ -391,19 +462,16 @@
         return -1;
 }
 
-
-/*
- - (int) locateTapGesture:(UITapGestureRecognizer *) tap {
- if (brandsTapGesturesArray && brandsTapGesturesArray.count) {
- for (int i = 0; i < brandsTapGesturesArray.count; i++) {
- if (brandsTapGesturesArray[i] == tap)
- return i;
- }
- return -1;
- }
- else
- return -1;
- }
- */
+- (int) locateModelCell:(ModelCell *) cell {
+    if (dropDownView && dropDownView.modelCellsArray && dropDownView.modelCellsArray.count) {
+        for (int i = 0; i < dropDownView.modelCellsArray.count; i++) {
+            if (dropDownView.modelCellsArray[i] == cell)
+                return i;
+        }
+        return -1;
+    }
+    else
+        return -1;
+}
 
 @end

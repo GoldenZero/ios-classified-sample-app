@@ -38,10 +38,14 @@
             [_bgImageView setHidden:YES];
     }
     else {
-        if (selected)
+        if (selected) {
             [_bgImageView setHidden:YES];
-        else
+            [_lblModel setTextColor:[UIColor colorWithRed:39.0f/255.0f green:132.0f/255.0f blue:195.0f/255.0f alpha:1.0f]];
+        }
+        else {
             [_bgImageView setHidden:NO];
+            [_lblModel setTextColor:[UIColor whiteColor]];
+        }
     }
 }
 

@@ -9,6 +9,7 @@
 
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
+#import "ModelsViewController_iPad.h"
 #import "sideMenuCell.h"
 #import "AppDelegate.h"
 #import "AddNewCarAdViewController.h"
@@ -23,6 +24,7 @@
 #import "ExhibitViewController.h"
 #import "StoreOrdersViewController.h"
 #import "ChooseLocationVC.h"
+#import "BrowseCarAdsViewController.h"
 
 @interface ChooseActionViewController (){
     NSArray *menuArray;
@@ -227,17 +229,25 @@
 }
 
 - (IBAction)BuyCarBtnPressed:(id)sender {
-    [self hideMenu];
-    //  UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
-    //if (savedProfile) {
-    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    vc.tagOfCallXib=2;
-    [self presentViewController:vc animated:YES completion:nil];
-    // }
-    // else{
-    //   SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-    // [self presentViewController:vc animated:YES completion:nil];
-    //}
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self hideMenu];
+        //  UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        //if (savedProfile) {
+        ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+        vc.tagOfCallXib=2;
+        [self presentViewController:vc animated:YES completion:nil];
+        // }
+        // else{
+        //   SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        // [self presentViewController:vc animated:YES completion:nil];
+        //}
+    }
+    else {
+        BrowseCarAdsViewController * browseCarAdsVC = [[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController_iPad" bundle:nil];
+        [self presentViewController:browseCarAdsVC animated:YES completion:nil];
+        
+    }
+    
     //GA
     [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
                                                     withAction:@"buttonPress"
@@ -292,9 +302,11 @@
 }
 
 - (IBAction)exhibitBtnPrss:(id)sender {
+    
     ExhibitViewController *exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
     //exVC.countryID=chosenCountry.countryID;
     [self presentViewController:exVC animated:YES completion:nil];
+    
 }
 
 - (IBAction)iPad_signInBtnPressed:(id)sender {

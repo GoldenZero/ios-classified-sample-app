@@ -13,7 +13,8 @@
 
 @property (strong, nonatomic) BrandCell * owner;
 @property (weak, nonatomic) IBOutlet UIScrollView *modelsScrollView;
+@property (strong, nonatomic) NSMutableArray * modelCellsArray;
 
-- (void) DrawModels:(NSArray *) modelsArray ;
+- (void) drawModels:(NSArray *) modelsArray ;
 
 @end

@@ -15,9 +15,16 @@
     NSArray* currentModels;
 }
 
+#pragma mark - properties
+
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 @property int tagOfCallXib;
 @property (strong, nonatomic) Store* sentStore;
 
+@property (strong, nonatomic) Brand * chosenBrand;
+@property (strong, nonatomic) Model * chosenModel;
+
+#pragma mark - methods
+- (void) setFirstAppearance:(BOOL) status;
 @end

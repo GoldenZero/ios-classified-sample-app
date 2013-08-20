@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/SDWebImagePrefetcher.h>
+#import "NMRangeSlider.h"
 #import "CarAdCell.h"
 #import "CarAdNoImageCell.h"
 #import "CarAdWithStoreCell.h"
@@ -54,6 +55,20 @@
 
 @property (assign) CGPoint lastScrollPosition;
 
+#pragma mark - iPad properties
+@property (weak, nonatomic) IBOutlet UIButton *iPad_searchSideMenuBtn;
+@property (weak, nonatomic) IBOutlet UIView *iPad_searchSideMenuView;
+@property (weak, nonatomic) IBOutlet UIView *iPad_contentView;
+@property (weak, nonatomic) IBOutlet SSLabel * iPad_startSearchTitleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_chooseBrandBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_chooseDistanceRangeBtn;
+@property (weak, nonatomic) IBOutlet SSLabel *iPad_modelYearTitleLabel;
+@property (weak, nonatomic) IBOutlet SSLabel *iPad_priceTitleLabel;
+@property (weak, nonatomic) IBOutlet NMRangeSlider *iPad_modelYearSlider;
+@property (weak, nonatomic) IBOutlet NMRangeSlider *iPad_priceSlider;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_checkPriceBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_checkImagesBtn;
+
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;
 - (IBAction)searchBtnPress:(id)sender;
@@ -65,6 +80,19 @@
 - (IBAction)distanceBtnPrss:(id)sender;
 - (IBAction)fromYearBtnPrss:(id)sender;
 - (IBAction)toYearBtnPrss:(id)sender;
+
+
+#pragma mark - iPad actions
+- (IBAction)iPad_searchSideMenuBtn:(id)sender;
+- (IBAction)iPad_chooseBrandBtnPressed:(id)sender;
+- (IBAction)iPad_chooseDistanceRangeBtnPressed:(id)sender;
+- (IBAction)iPad_modelYearSliderValueChanged:(id)sender;
+- (IBAction)iPad_priceSliderValueChanged:(id)sender;
+- (IBAction)iPad_checkPriceBtnPressed:(id)sender;
+- (IBAction)iPad_checkImagesBtnPressed:(id)sender;
+- (IBAction)iPad_performSearchBtnPressed:(id)sender;
+- (IBAction)iPad_clearFieldsBtnPressed:(id)sender;
+
 
 - (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
 - (void) removeAdWithAdID:(NSUInteger) adID;

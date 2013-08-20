@@ -99,7 +99,7 @@
 
 - (void)viewDidLoad
 {
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
     [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
     [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
     [self.tableView setSeparatorColor:[UIColor clearColor]];
@@ -172,6 +172,12 @@
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
     //end GA
+    }
+    else { //iPad
+        [super viewDidLoad];
+        
+        self.iPad_searchSideMenuBtn.layer.zPosition = 1; //bring to front
+    }
     
 }
 
@@ -2500,4 +2506,78 @@
     
 }
 
+- (NSUInteger)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskLandscape;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationPortrait;
+    else
+        return UIInterfaceOrientationLandscapeLeft;
+}
+
+#pragma mark - iPad helper methods
+
+- (void) iPad_showSideMenu {
+    //slide the content view to the right to reveal the menu
+    [UIView animateWithDuration:.25
+                     animations:^{
+                         [self.iPad_contentView setFrame:CGRectMake(-self.iPad_searchSideMenuView.frame.size.width, self.iPad_contentView.frame.origin.y, self.iPad_contentView.frame.size.width, self.iPad_contentView.frame.size.height)];
+                     }
+     ];
+}
+
+- (void) iPad_hideSideMenu {
+    [UIView animateWithDuration:.25
+                     animations:^{
+                         [self.iPad_contentView setFrame:CGRectMake(0, self.iPad_contentView.frame.origin.y, self.iPad_contentView.frame.size.width, self.iPad_contentView.frame.size.height)];
+                     }
+     ];
+}
+
+#pragma mark - iPad actions
+
+- (IBAction) iPad_searchSideMenuBtn:(id)sender {
+    
+    if(self.iPad_contentView.frame.origin.x != 0)
+        [self iPad_hideSideMenu];
+
+    else if (self.iPad_contentView.frame.origin.x == 0)
+        [self iPad_showSideMenu];
+}
+
+- (IBAction)iPad_chooseBrandBtnPressed:(id)sender {
+    
+}
+
+- (IBAction)iPad_chooseDistanceRangeBtnPressed:(id)sender {
+    
+}
+
+- (IBAction)iPad_modelYearSliderValueChanged:(id)sender {
+    
+}
+
+- (IBAction)iPad_priceSliderValueChanged:(id)sender {
+    
+}
+
+- (IBAction)iPad_checkPriceBtnPressed:(id)sender {
+    
+}
+- (IBAction)iPad_checkImagesBtnPressed:(id)sender {
+    
+}
+
+- (IBAction)iPad_performSearchBtnPressed:(id)sender {
+    
+}
+
+- (IBAction)iPad_clearFieldsBtnPressed:(id)sender {
+    
+}
 @end

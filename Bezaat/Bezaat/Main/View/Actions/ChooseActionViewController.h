@@ -41,4 +41,6 @@
 - (IBAction)exhibitBtnPrss:(id)sender;
 - (IBAction)iPad_signInBtnPressed:(id)sender;
 
+@property (strong, nonatomic) UIPopoverController * popOver;
+
 @end
