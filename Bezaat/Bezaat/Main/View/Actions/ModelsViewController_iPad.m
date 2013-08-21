@@ -430,6 +430,8 @@
             
         }
     }
+    [self.choosingDelegate didChooseModel:self.chosenModel];
+    
     /*
     NSLog(@"chosen model is:%@, %i", self.chosenModel.modelName, self.chosenModel.modelID);
     NSLog(@"chosen brand is:%@, %i", self.chosenBrand.brandNameAr, self.chosenBrand.brandID);

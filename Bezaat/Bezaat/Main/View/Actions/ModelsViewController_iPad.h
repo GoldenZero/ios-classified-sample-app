@@ -10,6 +10,12 @@
 #import "GAITrackedViewController.h"
 #import "Store.h"
 
+
+@protocol brandChoosingDelegate <NSObject>
+
+- (void) didChooseModel:(Model *) model;
+
+@end
 @interface ModelsViewController_iPad : GAITrackedViewController<BrandManagerDelegate> {
     NSArray* currentBrands;
     NSArray* currentModels;
@@ -24,6 +30,7 @@
 
 @property (strong, nonatomic) Brand * chosenBrand;
 @property (strong, nonatomic) Model * chosenModel;
+@property (strong, nonatomic) id <brandChoosingDelegate> choosingDelegate;
 
 #pragma mark - methods
 - (void) setFirstAppearance:(BOOL) status;

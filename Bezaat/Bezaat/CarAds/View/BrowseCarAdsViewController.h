@@ -20,8 +20,10 @@
 #import "Model.h"
 #import "Brand.h"
 #import "CarAdsManager.h"
+#import "ModelsViewController_iPad.h"
+#import "DistanceRangeTableViewController.h"
 
-@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate>
+@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate, brandChoosingDelegate, DistanceRangeChoosingDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -68,6 +70,14 @@
 @property (weak, nonatomic) IBOutlet NMRangeSlider *iPad_priceSlider;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_checkPriceBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_checkImagesBtn;
+@property (weak, nonatomic) IBOutlet UILabel *iPad_minYearLabel;
+@property (weak, nonatomic) IBOutlet UILabel *iPad_maxYearLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *iPad_minPriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *iPad_maxPriceLabel;
+
+@property (strong, nonatomic) UIPopoverController * brandsPopOver;
+@property (strong, nonatomic) UIPopoverController * distanceRangePopOver;
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;

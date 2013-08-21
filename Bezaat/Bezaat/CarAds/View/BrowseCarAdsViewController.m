@@ -100,83 +100,107 @@
 - (void)viewDidLoad
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-    [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
-    [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
-    [self.tableView setSeparatorColor:[UIColor clearColor]];
-    [self.tableView setBackgroundColor:[UIColor clearColor]];
-    
-    
-    tap = [[UITapGestureRecognizer alloc]
-           initWithTarget:self
-           action:@selector(dismissKeyboard)];
-    [self.searchPanelView addGestureRecognizer:tap];
-    
-    
-    tapCloseSearch= [[UITapGestureRecognizer alloc]
-                     initWithTarget:self
-                     action:@selector(dismissSearch)];
-    [self.forTapping addGestureRecognizer:tapCloseSearch];
-    
-    
-    [super viewDidLoad];
-    
-    [self setButtonsToToolbar];
-    
-    //init the array if it is still nullable
-    if (!carAdsArray)
-        carAdsArray = [NSMutableArray new];
-    
-    /*
-     //init the image load manager
-     asynchImgManager = [[HJObjManager alloc] init];
-     NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
-     HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
-     asynchImgManager.fileCache = fileCache;
-     */
-    
-    //init search panel attributes
-    searchWithImage=false;
-    searchWithPrice = false;
-    distanceObj=nil;
-    fromYearString=@"";
-    toYearString=@"";
-    
-    //hide the scrolling indicator
-    [self.tableView setShowsVerticalScrollIndicator:NO];
-    //[self.tableView setScrollEnabled:NO];
-    tableDataSize = CGSizeZero;
-    self.lastScrollPosition = CGPointZero;
-    
-    dataLoadedFromCache = NO;
-    isRefreshing = NO;
-    isSearching = NO;
-    userDidScroll = NO;
-    
-    //set up the refresher
-    refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
-    [refreshControl addTarget:self action:@selector(refreshAds:) forControlEvents:UIControlEventValueChanged];
-    
-    //load the first page of data
-    [self loadFirstData];
-    distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
-    [self prepareDropDownLists];
-    
-    
-    //register reuse identifiers for reusing cells
-    [self.tableView registerNib:[UINib nibWithNibName:@"CarAdCell" bundle:nil] forCellReuseIdentifier:@"CarAdCell"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"CarAdNoImageCell" bundle:nil] forCellReuseIdentifier:@"CarAdNoImageCell"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"CarAdWithStoreCell" bundle:nil] forCellReuseIdentifier:@"CarAdWithStoreCell"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"CarAdWithStoreNoImageCell" bundle:nil] forCellReuseIdentifier:@"CarAdWithStoreNoImageCell"];
-    
-    
-    //GA
-    [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
-    //end GA
+        [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
+        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
+        [self.tableView setSeparatorColor:[UIColor clearColor]];
+        [self.tableView setBackgroundColor:[UIColor clearColor]];
+        
+        
+        tap = [[UITapGestureRecognizer alloc]
+               initWithTarget:self
+               action:@selector(dismissKeyboard)];
+        [self.searchPanelView addGestureRecognizer:tap];
+        
+        
+        tapCloseSearch= [[UITapGestureRecognizer alloc]
+                         initWithTarget:self
+                         action:@selector(dismissSearch)];
+        [self.forTapping addGestureRecognizer:tapCloseSearch];
+        
+        
+        [super viewDidLoad];
+        
+        [self setButtonsToToolbar];
+        
+        //init the array if it is still nullable
+        if (!carAdsArray)
+            carAdsArray = [NSMutableArray new];
+        
+        /*
+         //init the image load manager
+         asynchImgManager = [[HJObjManager alloc] init];
+         NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
+         HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
+         asynchImgManager.fileCache = fileCache;
+         */
+        
+        //init search panel attributes
+        searchWithImage=false;
+        searchWithPrice = false;
+        distanceObj=nil;
+        fromYearString=@"";
+        toYearString=@"";
+        
+        //hide the scrolling indicator
+        [self.tableView setShowsVerticalScrollIndicator:NO];
+        //[self.tableView setScrollEnabled:NO];
+        tableDataSize = CGSizeZero;
+        self.lastScrollPosition = CGPointZero;
+        
+        dataLoadedFromCache = NO;
+        isRefreshing = NO;
+        isSearching = NO;
+        userDidScroll = NO;
+        
+        //set up the refresher
+        refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
+        [refreshControl addTarget:self action:@selector(refreshAds:) forControlEvents:UIControlEventValueChanged];
+        
+        //load the first page of data
+        [self loadFirstData];
+        distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
+        [self prepareDropDownLists];
+        
+        
+        //register reuse identifiers for reusing cells
+        [self.tableView registerNib:[UINib nibWithNibName:@"CarAdCell" bundle:nil] forCellReuseIdentifier:@"CarAdCell"];
+        [self.tableView registerNib:[UINib nibWithNibName:@"CarAdNoImageCell" bundle:nil] forCellReuseIdentifier:@"CarAdNoImageCell"];
+        [self.tableView registerNib:[UINib nibWithNibName:@"CarAdWithStoreCell" bundle:nil] forCellReuseIdentifier:@"CarAdWithStoreCell"];
+        [self.tableView registerNib:[UINib nibWithNibName:@"CarAdWithStoreNoImageCell" bundle:nil] forCellReuseIdentifier:@"CarAdWithStoreNoImageCell"];
+        
+        
+        //GA
+        [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
+        //end GA
     }
     else { //iPad
         [super viewDidLoad];
         
         self.iPad_searchSideMenuBtn.layer.zPosition = 1; //bring to front
+        
+        [self iPad_initSliders];
+        
+        //customize SSLabels
+        [self.iPad_startSearchTitleLabel setBackgroundColor:[UIColor clearColor]];
+        [self.iPad_startSearchTitleLabel setTextAlignment:SSTextAlignmentCenter];
+        [self.iPad_startSearchTitleLabel setTextColor:[UIColor whiteColor]];
+        [self.iPad_startSearchTitleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:30.0] ];
+        [self.iPad_startSearchTitleLabel setText:@"البدء بالبحث"];
+        
+        [self.iPad_modelYearTitleLabel setBackgroundColor:[UIColor clearColor]];
+        [self.iPad_modelYearTitleLabel setTextAlignment:SSTextAlignmentCenter];
+        [self.iPad_modelYearTitleLabel setTextColor:[UIColor darkGrayColor]];
+        [self.iPad_modelYearTitleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:15.0] ];
+        [self.iPad_modelYearTitleLabel setText:@"سنة الصنع"];
+         
+        [self.iPad_priceTitleLabel setBackgroundColor:[UIColor clearColor]];
+        [self.iPad_priceTitleLabel setTextAlignment:SSTextAlignmentCenter];
+        [self.iPad_priceTitleLabel setTextColor:[UIColor darkGrayColor]];
+        [self.iPad_priceTitleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:15.0] ];
+        [self.iPad_priceTitleLabel setText:@"السعر بالريال"];
+        
+        self.brandsPopOver = nil;
+        self.distanceRangePopOver = nil;
     }
     
 }
@@ -394,7 +418,7 @@
             }
             
             if (carAdObject.distanceRangeInKm != -1)
-            //if (carAdObject.distanceRangeInKm != 0)
+                //if (carAdObject.distanceRangeInKm != 0)
                 cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             else {
                 xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
@@ -606,7 +630,7 @@
             }
             
             if (carAdObject.distanceRangeInKm != -1)
-            //if (carAdObject.distanceRangeInKm != 0)
+                //if (carAdObject.distanceRangeInKm != 0)
                 cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             else {
                 xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
@@ -789,7 +813,7 @@
             }
             
             if (carAdObject.distanceRangeInKm != -1)
-            //if (carAdObject.distanceRangeInKm != 0)
+                //if (carAdObject.distanceRangeInKm != 0)
                 cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             else {
                 xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
@@ -979,7 +1003,7 @@
             }
             
             if (carAdObject.distanceRangeInKm != -1)
-            //if (carAdObject.distanceRangeInKm != 0)
+                //if (carAdObject.distanceRangeInKm != 0)
                 cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
             else {
                 xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
@@ -1718,7 +1742,7 @@
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender {
-
+    
     ChooseActionViewController *homeVC;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         homeVC =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
@@ -2522,6 +2546,46 @@
 
 #pragma mark - iPad helper methods
 
+- (void) iPad_initSliders {
+    
+    //year slider
+    fromYearArray = [[BrandsManager sharedInstance] getYearsArray];
+    toYearArray = [[BrandsManager sharedInstance] getYearsArray];
+    
+    int indexBeforeLast = fromYearArray.count - 2;
+    self.iPad_modelYearSlider.minimumValue = [(NSString *)fromYearArray[indexBeforeLast] integerValue];
+    self.iPad_modelYearSlider.maximumValue = [(NSString *)fromYearArray[0] integerValue];
+    
+    self.iPad_modelYearSlider.lowerValue = [(NSString *)fromYearArray[indexBeforeLast] integerValue];
+    self.iPad_modelYearSlider.upperValue = [(NSString *)fromYearArray[0] integerValue];
+    
+    self.iPad_modelYearSlider.minimumRange = 0;
+    
+    self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
+    self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
+    
+    //price slider
+    self.iPad_priceSlider.minimumValue = 1000;
+    self.iPad_priceSlider.maximumValue = 100000;
+    
+    self.iPad_priceSlider.lowerValue = self.iPad_priceSlider.minimumValue;
+    self.iPad_priceSlider.upperValue = self.iPad_priceSlider.maximumValue;
+    
+    self.iPad_priceSlider.minimumRange = 0;
+    
+    
+    self.iPad_minPriceLabel.text = [GenericMethods formatPrice:self.iPad_priceSlider.lowerValue];
+    self.iPad_maxPriceLabel.text = [GenericMethods formatPrice:self.iPad_priceSlider.upperValue];
+    
+    
+    self.iPad_priceSlider.transform = CGAffineTransformRotate(self.iPad_priceSlider.transform, M_PI);
+    self.iPad_modelYearSlider.transform = CGAffineTransformRotate(self.iPad_modelYearSlider.transform, M_PI);
+    
+    //need this call to set the slider intial data to right values.
+    [self iPad_modelYearSliderValueChanged:self.iPad_modelYearSlider];
+    [self iPad_priceSliderValueChanged:self.iPad_priceSlider];
+}
+
 - (void) iPad_showSideMenu {
     //slide the content view to the right to reveal the menu
     [UIView animateWithDuration:.25
@@ -2539,36 +2603,84 @@
      ];
 }
 
+- (void) dismissBrandsPopOver {
+    if (self.brandsPopOver)
+        [self.brandsPopOver dismissPopoverAnimated:YES];
+}
+
 #pragma mark - iPad actions
 
 - (IBAction) iPad_searchSideMenuBtn:(id)sender {
     
     if(self.iPad_contentView.frame.origin.x != 0)
         [self iPad_hideSideMenu];
-
+    
     else if (self.iPad_contentView.frame.origin.x == 0)
         [self iPad_showSideMenu];
 }
 
 - (IBAction)iPad_chooseBrandBtnPressed:(id)sender {
+    if (!self.brandsPopOver) {
+        ModelsViewController_iPad * modelsVC = [[ModelsViewController_iPad alloc] initWithNibName:@"ModelsViewController_iPad" bundle:nil];
+        [modelsVC.closeBtn addTarget:self action:@selector(dismissBrandsPopOver) forControlEvents:UIControlEventTouchUpInside];
+        modelsVC.choosingDelegate = self;
+        self.brandsPopOver = [[UIPopoverController alloc] initWithContentViewController:modelsVC];
+        [modelsVC setFirstAppearance:YES];
+    }
+    else
+        [(ModelsViewController_iPad *) self.brandsPopOver.contentViewController setFirstAppearance:NO];
     
+    CGRect popOverFrame = self.brandsPopOver.contentViewController.view.frame;
+    
+    [self.brandsPopOver setPopoverContentSize:popOverFrame.size];
+    [self.brandsPopOver presentPopoverFromRect:self.iPad_chooseBrandBtn.frame inView:self.iPad_searchSideMenuView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
 
 - (IBAction)iPad_chooseDistanceRangeBtnPressed:(id)sender {
+    
+    if (!self.distanceRangePopOver) {
+        DistanceRangeTableViewController * distanceRangeVC = [[DistanceRangeTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        
+        distanceRangeVC.choosingDelegate = self;
+        if (!distanceRangeArray)
+            distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
+        distanceRangeVC.distanceRangeValues = [NSArray arrayWithArray:distanceRangeArray];
+
+        self.distanceRangePopOver = [[UIPopoverController alloc] initWithContentViewController:distanceRangeVC];
+    }
+    
+    CGRect popOverFrame = self.distanceRangePopOver.contentViewController.view.frame;
+    [self.distanceRangePopOver setPopoverContentSize:popOverFrame.size];
+    [self.distanceRangePopOver presentPopoverFromRect:self.iPad_chooseDistanceRangeBtn.frame inView:self.iPad_searchSideMenuView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
     
 }
 
 - (IBAction)iPad_modelYearSliderValueChanged:(id)sender {
     
+    self.iPad_modelYearSlider.lowerValue = (int)self.iPad_modelYearSlider.lowerValue;
+    self.iPad_modelYearSlider.upperValue = (int)self.iPad_modelYearSlider.upperValue;
+    
+
+    self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
+    self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
+    
 }
 
 - (IBAction)iPad_priceSliderValueChanged:(id)sender {
+    
+    self.iPad_priceSlider.lowerValue = (int)self.iPad_priceSlider.lowerValue;
+    self.iPad_priceSlider.upperValue = (int)self.iPad_priceSlider.upperValue;
+    
+    self.iPad_minPriceLabel.text = [GenericMethods formatPrice:self.iPad_priceSlider.lowerValue];
+    self.iPad_maxPriceLabel.text = [GenericMethods formatPrice:self.iPad_priceSlider.upperValue];
     
 }
 
 - (IBAction)iPad_checkPriceBtnPressed:(id)sender {
     
 }
+
 - (IBAction)iPad_checkImagesBtnPressed:(id)sender {
     
 }
@@ -2579,5 +2691,22 @@
 
 - (IBAction)iPad_clearFieldsBtnPressed:(id)sender {
     
+}
+
+#pragma mark - brandChoosing Delegate method
+
+- (void) didChooseModel:(Model *)model {
+    //dismissPopOver
+    [self dismissBrandsPopOver];
+    
+    //reload data
+    currentModel = model;
+    
+    NSLog(@"reloading data ...");
+}
+
+#pragma mark - DistanceRangeChoosing Delegate method
+- (void) didChooseDistanceRangeWithObject:(DistanceRange *)obj {
+    distanceObj=obj;
 }
 @end
