@@ -75,6 +75,8 @@
         cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0f];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.text = item.rangeName;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     return cell;
@@ -85,8 +87,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
     DistanceRange * item = self.distanceRangeValues[indexPath.row];
     [self.choosingDelegate didChooseDistanceRangeWithObject:item];
+    
+
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
 }
 
 @end

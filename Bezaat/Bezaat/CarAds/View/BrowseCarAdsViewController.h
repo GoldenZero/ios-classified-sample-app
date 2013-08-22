@@ -67,14 +67,9 @@
 @property (weak, nonatomic) IBOutlet SSLabel *iPad_modelYearTitleLabel;
 @property (weak, nonatomic) IBOutlet SSLabel *iPad_priceTitleLabel;
 @property (weak, nonatomic) IBOutlet NMRangeSlider *iPad_modelYearSlider;
-@property (weak, nonatomic) IBOutlet NMRangeSlider *iPad_priceSlider;
-@property (weak, nonatomic) IBOutlet UIButton *iPad_checkPriceBtn;
-@property (weak, nonatomic) IBOutlet UIButton *iPad_checkImagesBtn;
 @property (weak, nonatomic) IBOutlet UILabel *iPad_minYearLabel;
 @property (weak, nonatomic) IBOutlet UILabel *iPad_maxYearLabel;
 
-@property (weak, nonatomic) IBOutlet UILabel *iPad_minPriceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *iPad_maxPriceLabel;
 
 @property (strong, nonatomic) UIPopoverController * brandsPopOver;
 @property (strong, nonatomic) UIPopoverController * distanceRangePopOver;
@@ -97,11 +92,6 @@
 - (IBAction)iPad_chooseBrandBtnPressed:(id)sender;
 - (IBAction)iPad_chooseDistanceRangeBtnPressed:(id)sender;
 - (IBAction)iPad_modelYearSliderValueChanged:(id)sender;
-- (IBAction)iPad_priceSliderValueChanged:(id)sender;
-- (IBAction)iPad_checkPriceBtnPressed:(id)sender;
-- (IBAction)iPad_checkImagesBtnPressed:(id)sender;
-- (IBAction)iPad_performSearchBtnPressed:(id)sender;
-- (IBAction)iPad_clearFieldsBtnPressed:(id)sender;
 
 
 - (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;

@@ -61,6 +61,8 @@
     BOOL userDidScroll;
     
     float xForShiftingTinyImg;
+    
+    UITapGestureRecognizer * iPad_tapFordismissingKeyBoard;
 }
 
 @end
@@ -178,8 +180,6 @@
         
         self.iPad_searchSideMenuBtn.layer.zPosition = 1; //bring to front
         
-        [self iPad_initSliders];
-        
         //customize SSLabels
         [self.iPad_startSearchTitleLabel setBackgroundColor:[UIColor clearColor]];
         [self.iPad_startSearchTitleLabel setTextAlignment:SSTextAlignmentCenter];
@@ -192,7 +192,7 @@
         [self.iPad_modelYearTitleLabel setTextColor:[UIColor darkGrayColor]];
         [self.iPad_modelYearTitleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:15.0] ];
         [self.iPad_modelYearTitleLabel setText:@"سنة الصنع"];
-         
+        
         [self.iPad_priceTitleLabel setBackgroundColor:[UIColor clearColor]];
         [self.iPad_priceTitleLabel setTextAlignment:SSTextAlignmentCenter];
         [self.iPad_priceTitleLabel setTextColor:[UIColor darkGrayColor]];
@@ -201,6 +201,25 @@
         
         self.brandsPopOver = nil;
         self.distanceRangePopOver = nil;
+        
+        tap = [[UITapGestureRecognizer alloc]
+               initWithTarget:self
+               action:@selector(dismissKeyboard)];
+        [self.iPad_searchSideMenuView addGestureRecognizer:tap];
+        
+        //init search panel attributes
+        searchWithImage=false;
+        searchWithPrice = false;
+        distanceObj=nil;
+        fromYearString=@"";
+        toYearString=@"";
+        
+        [self iPad_initSlider];
+        
+        
+        //init the array if it is still nullable
+        if (!carAdsArray)
+            carAdsArray = [NSMutableArray new];
     }
     
 }
@@ -1657,15 +1676,27 @@
 
 #pragma mark - keyboard handler
 -(void)dismissKeyboard {
-    [self.carNameText resignFirstResponder];
-    [self.lowerPriceText resignFirstResponder];
-    [self.higherPriceText resignFirstResponder];
-    [dropDownDistance closeAnimation];
-    [dropDownfromYear closeAnimation];
-    [dropDowntoYear closeAnimation];
-    dropDownDistanceFlag=false;
-    dropDownfromYearFlag=false;
-    dropDowntoYearFlag=false;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.carNameText resignFirstResponder];
+        [self.lowerPriceText resignFirstResponder];
+        [self.higherPriceText resignFirstResponder];
+        [dropDownDistance closeAnimation];
+        [dropDownfromYear closeAnimation];
+        [dropDowntoYear closeAnimation];
+        dropDownDistanceFlag=false;
+        dropDownfromYearFlag=false;
+        dropDowntoYearFlag=false;
+    }
+    else {
+        if (self.brandsPopOver)
+            [self.brandsPopOver dismissPopoverAnimated:YES];
+        
+        if (self.distanceRangePopOver)
+            [self.distanceRangePopOver dismissPopoverAnimated:YES];
+        
+        [self.lowerPriceText resignFirstResponder];
+        [self.higherPriceText resignFirstResponder];
+    }
     
 }
 
@@ -1791,6 +1822,8 @@
 
 - (IBAction)searchInPanelBtnPrss:(id)sender {
     
+    NSLog(@"performing search ...");
+    
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker sendEventWithCategory:@"uiAction"
@@ -1802,56 +1835,6 @@
     [self.lowerPriceText resignFirstResponder];
     [self.higherPriceText resignFirstResponder];
     
-    /*
-     BOOL validYears ;
-     //1- validate year values
-     if (( ([fromYearString isEqualToString:@""])
-     && (![toYearString isEqualToString:@""]))
-     ||
-     ( (![fromYearString isEqualToString:@""])
-     && ([toYearString isEqualToString:@""])) )
-     validYears = NO;
-     else
-     {
-     validYears = [self validateStringYearsFrom:fromYearString To:toYearString];
-     }
-     
-     if (!validYears)
-     {
-     [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيم سنوات صحيحة" delegateVC:self];
-     return;
-     }
-     */
-    
-    /*
-     NSInteger from = self.lowerPriceText.text.integerValue;
-     NSInteger to = self.higherPriceText.text.integerValue;
-     
-     
-     BOOL validPrice = YES;
-     //2- validate price values
-     if (( ([self.lowerPriceText.text isEqualToString:@""])
-     && (![self.higherPriceText.text isEqualToString:@""]))
-     ||
-     ( (![self.lowerPriceText.text isEqualToString:@""])
-     && ([self.higherPriceText.text isEqualToString:@""])) )
-     validPrice = NO;
-     
-     else if ((![self.lowerPriceText.text isEqualToString:@""])
-     && (![self.higherPriceText.text isEqualToString:@""]))
-     {
-     
-     validPrice = [self validatePriceFrom:from to:to];
-     }
-     
-     if (!validPrice)
-     {
-     [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيم سعر صحيحة" delegateVC:self];
-     return;
-     }
-     */
-    
-    
     if ([self.lowerPriceText.text isEqualToString:@""])
         currentMinPriceString = self.lowerPriceText.text;
     else
@@ -1862,17 +1845,17 @@
     else
         currentMaxPriceString = [NSString stringWithFormat:@"%i", self.higherPriceText.text.integerValue];
     
-    //1- reset the pageNumber to 0 to start a new search
-    [[CarAdsManager sharedInstance] setCurrentPageNum:0];
-    [[CarAdsManager sharedInstance] setPageSizeToDefault];
-    
-    NSInteger page = [[CarAdsManager sharedInstance] nextPage];
-    
     currentDistanceRangeID = -1;
     if (distanceObj)
         currentDistanceRangeID = distanceObj.rangeID;
     
     
+    
+    //1- reset the pageNumber to 0 to start a new search
+    [[CarAdsManager sharedInstance] setCurrentPageNum:0];
+    [[CarAdsManager sharedInstance] setPageSizeToDefault];
+    
+    NSInteger page = [[CarAdsManager sharedInstance] nextPage];
     //2- load search data
     if (currentModel)
     {
@@ -1954,18 +1937,44 @@
 }
 
 - (IBAction)clearInPanelBtnPrss:(id)sender {
-    [self.carNameText resignFirstResponder];
-    [self.lowerPriceText resignFirstResponder];
-    [self.higherPriceText resignFirstResponder];
     
-    [self.carNameText setText:@""];
-    [self.lowerPriceText setText:@""];
-    [self.higherPriceText setText:@""];
-    [self.distanceRangeLabel setText:@"المسافة المقطوعة"];
-    [self.fromYearLabel setText:@"من سنة "];
-    [self.toYearLabel setText:@"إلى سنة"];
-    [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
-    [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.carNameText resignFirstResponder];
+        [self.lowerPriceText resignFirstResponder];
+        [self.higherPriceText resignFirstResponder];
+        
+        [self.carNameText setText:@""];
+        [self.lowerPriceText setText:@""];
+        [self.higherPriceText setText:@""];
+        [self.distanceRangeLabel setText:@"المسافة المقطوعة"];
+        [self.fromYearLabel setText:@"من سنة "];
+        [self.toYearLabel setText:@"إلى سنة"];
+        [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
+        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
+    }
+    else {
+        [self.lowerPriceText resignFirstResponder];
+        [self.higherPriceText resignFirstResponder];
+        
+        //[self.carNameText setText:@""];
+        [self.lowerPriceText setText:@""];
+        [self.higherPriceText setText:@""];
+        
+        self.iPad_modelYearSlider.lowerValue = self.iPad_modelYearSlider.minimumValue;
+        self.iPad_modelYearSlider.upperValue = self.iPad_modelYearSlider.maximumValue;
+        
+        self.iPad_modelYearSlider.minimumRange = 0;
+        
+        self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
+        self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
+        
+        
+        //need this call to set the slider intial data to right values.
+        [self iPad_modelYearSliderValueChanged:self.iPad_modelYearSlider];
+        
+        [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"tb_car_brand_sidemenu_with_pic_btn_uncheck.png"] forState:UIControlStateNormal];
+        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"tb_car_brand_sidemenu_with_price_btn_uncheck.png"] forState:UIControlStateNormal];
+    }
     
     // Init search panels attributes
     searchWithImage=false;
@@ -1977,26 +1986,54 @@
 }
 
 - (IBAction)adWithImageBtnPrss:(id)sender {
+    
+    UIImage * bgUncheckedImg;
+    UIImage * bgCheckedImg;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        bgCheckedImg = [UIImage imageNamed:@"searchView_text_bg3.png"];
+        bgUncheckedImg = [UIImage imageNamed:@"searchView_text_bg4.png"];
+    }
+    else {
+        bgCheckedImg = [UIImage imageNamed:@"tb_car_brand_sidemenu_with_pic_btn.png"];
+        bgUncheckedImg = [UIImage imageNamed:@"tb_car_brand_sidemenu_with_pic_btn_uncheck.png"];
+    }
+    
+    
     if(searchWithImage==false){
-        [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg3.png"] forState:UIControlStateNormal];
+        [self.adWithImageButton setBackgroundImage:bgCheckedImg forState:UIControlStateNormal];
         searchWithImage=true;
         
     }
     else{
-        [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
+        [self.adWithImageButton setBackgroundImage:bgUncheckedImg forState:UIControlStateNormal];
         searchWithImage=false;
         
     }
+    
 }
 
 - (IBAction)adWithPriceBtnPress:(id)sender {
+    
+    UIImage * bgUncheckedImg;
+    UIImage * bgCheckedImg;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        bgCheckedImg = [UIImage imageNamed:@"searchView_text_bg5.png"];
+        bgUncheckedImg = [UIImage imageNamed:@"searchView_text_bg6.png"];
+    }
+    else {
+        bgCheckedImg = [UIImage imageNamed:@"tb_car_brand_sidemenu_with_price_btn"];
+        bgUncheckedImg = [UIImage imageNamed:@"tb_car_brand_sidemenu_with_price_btn_uncheck.png"];
+    }
+    
     if(searchWithPrice==false){
-        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg5.png"] forState:UIControlStateNormal];
+        [self.adWithPriceButton setBackgroundImage:bgCheckedImg forState:UIControlStateNormal];
         searchWithPrice=true;
         
     }
     else{
-        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
+        [self.adWithPriceButton setBackgroundImage:bgUncheckedImg forState:UIControlStateNormal];
         searchWithPrice=false;
         
     }
@@ -2546,7 +2583,7 @@
 
 #pragma mark - iPad helper methods
 
-- (void) iPad_initSliders {
+- (void) iPad_initSlider {
     
     //year slider
     fromYearArray = [[BrandsManager sharedInstance] getYearsArray];
@@ -2564,26 +2601,11 @@
     self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
     self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
     
-    //price slider
-    self.iPad_priceSlider.minimumValue = 1000;
-    self.iPad_priceSlider.maximumValue = 100000;
     
-    self.iPad_priceSlider.lowerValue = self.iPad_priceSlider.minimumValue;
-    self.iPad_priceSlider.upperValue = self.iPad_priceSlider.maximumValue;
-    
-    self.iPad_priceSlider.minimumRange = 0;
-    
-    
-    self.iPad_minPriceLabel.text = [GenericMethods formatPrice:self.iPad_priceSlider.lowerValue];
-    self.iPad_maxPriceLabel.text = [GenericMethods formatPrice:self.iPad_priceSlider.upperValue];
-    
-    
-    self.iPad_priceSlider.transform = CGAffineTransformRotate(self.iPad_priceSlider.transform, M_PI);
     self.iPad_modelYearSlider.transform = CGAffineTransformRotate(self.iPad_modelYearSlider.transform, M_PI);
     
     //need this call to set the slider intial data to right values.
     [self iPad_modelYearSliderValueChanged:self.iPad_modelYearSlider];
-    [self iPad_priceSliderValueChanged:self.iPad_priceSlider];
 }
 
 - (void) iPad_showSideMenu {
@@ -2606,6 +2628,11 @@
 - (void) dismissBrandsPopOver {
     if (self.brandsPopOver)
         [self.brandsPopOver dismissPopoverAnimated:YES];
+}
+
+- (void) dismissDistancePopOver {
+    if (self.distanceRangePopOver)
+        [self.distanceRangePopOver dismissPopoverAnimated:YES];
 }
 
 #pragma mark - iPad actions
@@ -2646,7 +2673,7 @@
         if (!distanceRangeArray)
             distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
         distanceRangeVC.distanceRangeValues = [NSArray arrayWithArray:distanceRangeArray];
-
+        
         self.distanceRangePopOver = [[UIPopoverController alloc] initWithContentViewController:distanceRangeVC];
     }
     
@@ -2661,21 +2688,15 @@
     self.iPad_modelYearSlider.lowerValue = (int)self.iPad_modelYearSlider.lowerValue;
     self.iPad_modelYearSlider.upperValue = (int)self.iPad_modelYearSlider.upperValue;
     
-
+    
     self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
     self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
     
+    fromYearString=self.iPad_minYearLabel.text;
+    toYearString=self.iPad_maxYearLabel.text;
+    
 }
 
-- (IBAction)iPad_priceSliderValueChanged:(id)sender {
-    
-    self.iPad_priceSlider.lowerValue = (int)self.iPad_priceSlider.lowerValue;
-    self.iPad_priceSlider.upperValue = (int)self.iPad_priceSlider.upperValue;
-    
-    self.iPad_minPriceLabel.text = [GenericMethods formatPrice:self.iPad_priceSlider.lowerValue];
-    self.iPad_maxPriceLabel.text = [GenericMethods formatPrice:self.iPad_priceSlider.upperValue];
-    
-}
 
 - (IBAction)iPad_checkPriceBtnPressed:(id)sender {
     
@@ -2707,6 +2728,8 @@
 
 #pragma mark - DistanceRangeChoosing Delegate method
 - (void) didChooseDistanceRangeWithObject:(DistanceRange *)obj {
+    
+    NSLog(@"user chose distance: %@", obj.rangeName);
     distanceObj=obj;
 }
 @end
