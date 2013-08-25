@@ -28,10 +28,19 @@
 @property int tagOfCallXib;
 @property (strong, nonatomic) Store* sentStore;
 
+@property (nonatomic) BOOL displayedAsPopOver;
+
 @property (strong, nonatomic) Brand * chosenBrand;
 @property (strong, nonatomic) Model * chosenModel;
 @property (strong, nonatomic) id <brandChoosingDelegate> choosingDelegate;
 
+#pragma mark - properties of the separate Ui
+@property (weak, nonatomic) IBOutlet SSLabel *titleLabel;
+
+
 #pragma mark - methods
 - (void) setFirstAppearance:(BOOL) status;
+
+#pragma mark - actions of the separate UI
+- (IBAction)closeBtnPressedInSeparateUI:(id)sender;
 @end

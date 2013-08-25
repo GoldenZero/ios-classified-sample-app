@@ -35,7 +35,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.displayedAsPopOver = NO;//by default, it is a separate UI
     }
     return self;
 }
@@ -46,7 +46,7 @@
 	
     self.trackedViewName = @"Choose Model";
     brandCellsArray = [NSMutableArray new];
-
+    
     self.chosenBrand = nil;
     self.chosenModel = nil;
     
@@ -54,6 +54,14 @@
     dropDownView = nil;
     
     isFirstAppearance = YES;
+    
+    if (self.titleLabel) {
+        [self.titleLabel setBackgroundColor:[UIColor clearColor]];
+        [self.titleLabel setTextAlignment:SSTextAlignmentCenter];
+        [self.titleLabel setTextColor:[UIColor whiteColor]];
+        [self.titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:30.0] ];
+        [self.titleLabel setText:@"سيارات بيزات"];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -133,7 +141,7 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if (isFirstAppearance)
+    if ((self.displayedAsPopOver) && (isFirstAppearance))
         [self selectFirstBrandCell];
 }
 #pragma mark - Brands Manager Delegate
@@ -215,24 +223,33 @@
     int rowCounter = 0;
     int colCounter = 0;
     
-    CGRect brandFrame = CGRectMake(-1, -1, 114, 114);//these are the dimensions of the brand cell
+    CGRect brandFrame;
     
     for (int i = 0; i < currentBrands.count; i++) {
         Brand * currentItem = currentBrands[i];
         
         // Update the cell information
-        BrandCell* brandCell = (BrandCell*)[[NSBundle mainBundle] loadNibNamed:@"BrandCell_iPad" owner:self options:nil][0];;
+        BrandCell* brandCell;
+        if (self.displayedAsPopOver) {
+            brandFrame = CGRectMake(-1, -1, 114, 114);//these are the dimensions of the brand cell
+            brandCell = (BrandCell*)[[NSBundle mainBundle] loadNibNamed:@"BrandCell_popOver_iPad" owner:self options:nil][0];
+        }
+        else {
+            brandFrame = CGRectMake(-1, -1, 166, 166);//these are the dimensions of the brand cell
+            brandCell = (BrandCell*)[[NSBundle mainBundle] loadNibNamed:@"BrandCell_iPad" owner:self options:nil][0];
+        }
+        
         [brandCell reloadInformation:currentItem];
         
         if ((self.chosenBrand) && (self.chosenBrand.brandID == currentItem.brandID))
             [brandCell selectCell];
         
-        if ((!oneSelectionMade) && (i == 0))
+        if ((!oneSelectionMade) && (i == 0) )
             [brandCell selectCell];
         
         
         if (i != 0) {
-            if (i % 5 == 0) {
+            if (i % 6 == 0) {
                 rowCounter ++;
                 colCounter = 0;
             }
@@ -242,8 +259,11 @@
         
         
         currentX = (colCounter * brandFrame.size.width) + ((colCounter + 1) * 5);
-        //currentY = (rowCounter * brandFrame.size.height) + ((rowCounter + 1) * 5);
-        currentY = (rowCounter * brandFrame.size.height);
+        if (self.displayedAsPopOver)    //This is related to an appearance issue
+            currentY = (rowCounter * brandFrame.size.height);
+        else
+            currentY = (rowCounter * brandFrame.size.height) + ((rowCounter + 1) * 5);
+        
         
         
         brandFrame.origin.x = currentX;
@@ -273,61 +293,95 @@
     self.chosenBrand = currentBrands[indexOfSenderCell];
     currentModels = self.chosenBrand.models;
     
-    if (dropDownView) {
+    if (self.displayedAsPopOver) {
         
-        if (dropDownView.owner == senderCell)//selecting the same cell
-            return;
-        
-        for (int i = 0; i < brandCellsArray.count; i++) {
-            BrandCell * cell = (BrandCell *) brandCellsArray[i];
+        if (dropDownView) {
             
-            if (cell.imgBrand.image != senderCell.imgBrand.image)
-                [cell unselectCell];
-        }
-        
-        if (dropDownView.frame.origin.y != ((senderCell.frame.origin.y + senderCell.frame.size.height))) {
+            if (dropDownView.owner == senderCell)//selecting the same cell
+                return;
             
-            //1- remove the view
-            [UIView animateWithDuration:0.45f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+            for (int i = 0; i < brandCellsArray.count; i++) {
+                BrandCell * cell = (BrandCell *) brandCellsArray[i];
                 
-                //move up
-                for (BrandCell * cell in brandCellsArray) {
-                    if (cell.frame.origin.y > dropDownView.owner.frame.origin.y) {
-                        CGRect tempFrame = cell.frame;
-                        tempFrame.origin.y = tempFrame.origin.y - dropDownView.frame.size.height - 12;
-                        cell.frame = tempFrame;
-                    }
-                }
+                if (cell.imgBrand.image != senderCell.imgBrand.image)
+                    [cell unselectCell];
+            }
+            
+            if (dropDownView.frame.origin.y != ((senderCell.frame.origin.y + senderCell.frame.size.height))) {
                 
-                [dropDownView removeFromSuperview];
-                dropDownView = nil;
-                
-            } completion:^(BOOL completed) {
-                
-                [senderCell selectCell];
-                
-                CGRect newDropDownFrame = CGRectMake(5, (senderCell.frame.origin.y + senderCell.frame.size.height), 590.0f, 200.0f);
-                
-                dropDownView = (ChooseModelView_iPad *)[[NSBundle mainBundle] loadNibNamed:@"ChooseModelView_iPad" owner:self options:nil][0];
-                
-                dropDownView.owner = senderCell;
-                dropDownView.frame = newDropDownFrame;
-                
+                //1- remove the view
                 [UIView animateWithDuration:0.45f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-                    //[UIView animateWithDuration:1.0f animations:^{
                     
-                    [self.scrollView addSubview:dropDownView];
-                    //move down
+                    //move up
                     for (BrandCell * cell in brandCellsArray) {
-                        if (cell.frame.origin.y > senderCell.frame.origin.y) {
-                            
+                        if (cell.frame.origin.y > dropDownView.owner.frame.origin.y) {
                             CGRect tempFrame = cell.frame;
-                            tempFrame.origin.y = tempFrame.origin.y + newDropDownFrame.size.height + 12;
+                            tempFrame.origin.y = tempFrame.origin.y - dropDownView.frame.size.height - 12;
                             cell.frame = tempFrame;
                         }
                     }
                     
-                } completion:nil];
+                    [dropDownView removeFromSuperview];
+                    dropDownView = nil;
+                    
+                } completion:^(BOOL completed) {
+                    
+                    [senderCell selectCell];
+                    
+                    CGRect newDropDownFrame = CGRectMake(5, (senderCell.frame.origin.y + senderCell.frame.size.height), 590.0f, 200.0f);
+                    
+                    dropDownView = (ChooseModelView_iPad *)[[NSBundle mainBundle] loadNibNamed:@"ChooseModelView_iPad" owner:self options:nil][0];
+                    dropDownView.containerViewController = nil;
+                    
+                    dropDownView.owner = senderCell;
+                    dropDownView.frame = newDropDownFrame;
+                    
+                    [UIView animateWithDuration:0.45f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                        //[UIView animateWithDuration:1.0f animations:^{
+                        
+                        [self.scrollView addSubview:dropDownView];
+                        //move down
+                        for (BrandCell * cell in brandCellsArray) {
+                            if (cell.frame.origin.y > senderCell.frame.origin.y) {
+                                
+                                CGRect tempFrame = cell.frame;
+                                tempFrame.origin.y = tempFrame.origin.y + newDropDownFrame.size.height + 12;
+                                cell.frame = tempFrame;
+                            }
+                        }
+                        
+                    } completion:nil];
+                    
+                    if (indexOfSenderCell == -1)
+                        return ;
+                    
+                    [dropDownView drawModels:currentModels];
+                    [self setModelsTapGestures];
+                    self.chosenModel = currentModels[0]; //initially, the selected model is the first
+                }];
+            }
+            else { // a drop down on the same row --> just change the frame
+                [senderCell selectCell];
+                
+                [dropDownView removeFromSuperview];
+                dropDownView = nil;
+                
+                for (int i = 0; i < brandCellsArray.count; i++) {
+                    BrandCell * cell = (BrandCell *) brandCellsArray[i];
+                    
+                    if (cell.imgBrand.image != senderCell.imgBrand.image)
+                        [cell unselectCell];
+                }
+                
+                CGRect newDropDownFrame = CGRectMake(5, (senderCell.frame.origin.y + senderCell.frame.size.height), 590.0f, 200.0f);
+                
+                dropDownView = (ChooseModelView_iPad *)[[NSBundle mainBundle] loadNibNamed:@"ChooseModelView_iPad" owner:self options:nil][0];
+                dropDownView.containerViewController = nil;
+                
+                dropDownView.owner = senderCell;
+                dropDownView.frame = newDropDownFrame;
+                
+                [self.scrollView addSubview:dropDownView];
                 
                 if (indexOfSenderCell == -1)
                     return ;
@@ -335,13 +389,10 @@
                 [dropDownView drawModels:currentModels];
                 [self setModelsTapGestures];
                 self.chosenModel = currentModels[0]; //initially, the selected model is the first
-            }];
+            }
         }
-        else { // a drop down on the same row --> just change the frame
+        else {
             [senderCell selectCell];
-            
-            [dropDownView removeFromSuperview];
-            dropDownView = nil;
             
             for (int i = 0; i < brandCellsArray.count; i++) {
                 BrandCell * cell = (BrandCell *) brandCellsArray[i];
@@ -353,11 +404,29 @@
             CGRect newDropDownFrame = CGRectMake(5, (senderCell.frame.origin.y + senderCell.frame.size.height), 590.0f, 200.0f);
             
             dropDownView = (ChooseModelView_iPad *)[[NSBundle mainBundle] loadNibNamed:@"ChooseModelView_iPad" owner:self options:nil][0];
+            dropDownView.containerViewController = nil;
             
             dropDownView.owner = senderCell;
-            dropDownView.frame = newDropDownFrame;
             
-            [self.scrollView addSubview:dropDownView];
+            dropDownView.frame = newDropDownFrame;
+            [UIView animateWithDuration:0.45f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                
+                [self.scrollView addSubview:dropDownView];
+                
+                //move down
+                for (BrandCell * cell in brandCellsArray) {
+                    if (cell.frame.origin.y > senderCell.frame.origin.y) {
+                        
+                        CGRect tempFrame = cell.frame;
+                        tempFrame.origin.y = tempFrame.origin.y + newDropDownFrame.size.height + 12 ;
+                        cell.frame = tempFrame;
+                    }
+                }
+                CGSize scrollContentSize = self.scrollView.contentSize;
+                scrollContentSize.height = scrollContentSize.height + newDropDownFrame.size.height + 12 + 15;
+                [self.scrollView setContentSize:scrollContentSize];
+                
+            } completion:nil];
             
             if (indexOfSenderCell == -1)
                 return ;
@@ -369,7 +438,6 @@
     }
     else {
         [senderCell selectCell];
-        
         for (int i = 0; i < brandCellsArray.count; i++) {
             BrandCell * cell = (BrandCell *) brandCellsArray[i];
             
@@ -377,40 +445,52 @@
                 [cell unselectCell];
         }
         
-        CGRect newDropDownFrame = CGRectMake(5, (senderCell.frame.origin.y + senderCell.frame.size.height), 590.0f, 200.0f);
+        CGRect newDropDownFrame = CGRectMake(25, 25, 590.0f, 200.0f);
+        CGRect containerFrame = CGRectMake(0, 0, newDropDownFrame.size.width + 50, newDropDownFrame.size.height + 50);
         
         dropDownView = (ChooseModelView_iPad *)[[NSBundle mainBundle] loadNibNamed:@"ChooseModelView_iPad" owner:self options:nil][0];
         
         dropDownView.owner = senderCell;
         
         dropDownView.frame = newDropDownFrame;
-        [UIView animateWithDuration:0.45f delay:0 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-            
-            [self.scrollView addSubview:dropDownView];
-            
-            //move down
-            for (BrandCell * cell in brandCellsArray) {
-                if (cell.frame.origin.y > senderCell.frame.origin.y) {
-                    
-                    CGRect tempFrame = cell.frame;
-                    tempFrame.origin.y = tempFrame.origin.y + newDropDownFrame.size.height + 12 ;
-                    cell.frame = tempFrame;
-                }
-            }
-            CGSize scrollContentSize = self.scrollView.contentSize;
-            scrollContentSize.height = scrollContentSize.height + newDropDownFrame.size.height + 12 + 15;
-            [self.scrollView setContentSize:scrollContentSize];
-            
-        } completion:nil];
-        
         if (indexOfSenderCell == -1)
             return ;
         
         [dropDownView drawModels:currentModels];
         [self setModelsTapGestures];
+        
         self.chosenModel = currentModels[0]; //initially, the selected model is the first
+        [self setModelsTapGestures];
+        
+        UIViewController * container = [[UIViewController alloc] init];
+        container.view = [[UIView alloc] initWithFrame:containerFrame];
+        dropDownView.containerViewController = container;
+        
+        //background
+        CGRect bgRect = CGRectMake(-1, -1, containerFrame.size.width + 2, containerFrame.size.height + 2);
+        UIImageView * bg = [[UIImageView alloc] initWithFrame:bgRect];
+        [bg setImage:[UIImage imageNamed:@"tb_choose_brand_box1.png"]];
+        [container.view addSubview:bg];
+        
+        //close button
+        UIButton * closeModelsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+        [closeModelsButton setTitle:@"" forState:UIControlStateNormal];
+        [closeModelsButton setBackgroundImage:[UIImage imageNamed:@"tb_add_individual_ads_close_btn.png"] forState:UIControlStateNormal];
+        [closeModelsButton addTarget:self action:@selector(closeModelsBtnPressed) forControlEvents:UIControlEventTouchUpInside];
+        
+        [container.view addSubview:closeModelsButton];
+        
+        //models
+        [container.view addSubview:dropDownView];
+        
+        container.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentViewController:container animated:YES completion:nil];
+        container.view.superview.frame = containerFrame;
+        container.view.superview.bounds = containerFrame;
+        container.view.superview.center = CGPointMake(roundf(self.view.bounds.size.width / 2), roundf(self.view.bounds.size.height / 2));
+        
+
     }
-    
     
 }
 
@@ -421,7 +501,7 @@
     int indexOfSenderCell = [self locateModelCell:senderCell];
     if (indexOfSenderCell != -1)
         self.chosenModel = currentModels[indexOfSenderCell];
-        
+    
     [senderCell setSelected:YES];
     if (dropDownView) {
         for (id cell  in dropDownView.modelsScrollView.subviews) {
@@ -433,9 +513,9 @@
     [self.choosingDelegate didChooseModel:self.chosenModel];
     
     /*
-    NSLog(@"chosen model is:%@, %i", self.chosenModel.modelName, self.chosenModel.modelID);
-    NSLog(@"chosen brand is:%@, %i", self.chosenBrand.brandNameAr, self.chosenBrand.brandID);
-    NSLog(@"-----------------");
+     NSLog(@"chosen model is:%@, %i", self.chosenModel.modelName, self.chosenModel.modelID);
+     NSLog(@"chosen brand is:%@, %i", self.chosenBrand.brandNameAr, self.chosenBrand.brandID);
+     NSLog(@"-----------------");
      */
 }
 
@@ -476,4 +556,15 @@
         return -1;
 }
 
+- (void) closeModelsBtnPressed {    //this method is called on ly in the separate brands UI
+    if ((!self.displayedAsPopOver) && (dropDownView))
+        [dropDownView.containerViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - actions of the separate UI
+
+- (IBAction)closeBtnPressedInSeparateUI:(id)sender {
+    if (!self.displayedAsPopOver)
+        [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end

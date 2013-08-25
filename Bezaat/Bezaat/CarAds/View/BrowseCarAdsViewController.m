@@ -2648,8 +2648,9 @@
 
 - (IBAction)iPad_chooseBrandBtnPressed:(id)sender {
     if (!self.brandsPopOver) {
-        ModelsViewController_iPad * modelsVC = [[ModelsViewController_iPad alloc] initWithNibName:@"ModelsViewController_iPad" bundle:nil];
+        ModelsViewController_iPad * modelsVC = [[ModelsViewController_iPad alloc] initWithNibName:@"ModelsPopOver_iPad" bundle:nil];
         [modelsVC.closeBtn addTarget:self action:@selector(dismissBrandsPopOver) forControlEvents:UIControlEventTouchUpInside];
+        modelsVC.displayedAsPopOver = YES;
         modelsVC.choosingDelegate = self;
         self.brandsPopOver = [[UIPopoverController alloc] initWithContentViewController:modelsVC];
         [modelsVC setFirstAppearance:YES];

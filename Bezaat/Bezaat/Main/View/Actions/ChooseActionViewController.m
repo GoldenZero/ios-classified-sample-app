@@ -243,8 +243,15 @@
         //}
     }
     else {
+        /*
         BrowseCarAdsViewController * browseCarAdsVC = [[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController_iPad" bundle:nil];
         [self presentViewController:browseCarAdsVC animated:YES completion:nil];
+         */
+        
+        ModelsViewController_iPad *vc=[[ModelsViewController_iPad alloc] initWithNibName:@"ModelsViewController_iPad" bundle:nil];
+        vc.tagOfCallXib=2;
+        vc.displayedAsPopOver = NO;
+        [self presentViewController:vc animated:YES completion:nil];
         
     }
     
@@ -574,7 +581,12 @@
             case 11:
             {
                 [self hideMenu];
-                AboutAppViewController *vc=[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController" bundle:nil];
+                AboutAppViewController *vc;
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                    vc =[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController" bundle:nil];
+                else
+                    vc =[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController_iPad" bundle:nil];
+                
                 [self presentViewController:vc animated:YES completion:nil];
                 
             }
