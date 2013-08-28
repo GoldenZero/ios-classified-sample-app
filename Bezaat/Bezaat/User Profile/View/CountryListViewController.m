@@ -317,8 +317,12 @@
                 NSArray *topLevelObjects;
                 if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
                     topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell" owner:nil options:nil];
-                else
-                    topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell_iPad" owner:nil options:nil];
+                else {
+                    if (self.iPad_parentViewOfPopOver)
+                        topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell_popOver_iPad" owner:nil options:nil];
+                    else
+                        topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DropDownCell_iPad" owner:nil options:nil];
+                }
                 
                 for(id currentObject in topLevelObjects)
                 {
@@ -574,8 +578,10 @@
             [[cell textLabel] setText:chosenCity.cityName];
             [[LocationManager locationKeyChainItemSharedInstance] resetKeychainItem];
             [[LocationManager sharedInstance] storeDataOfCountry:chosenCountry.countryID city:chosenCity.cityID];
-            
-            [self dismissViewControllerAnimated:YES completion:nil];
+            if (self.iPad_parentViewOfPopOver)
+                [self.iPad_parentViewOfPopOver performSelector:@selector(iPad_userDidEndChoosingCountryFromPopOver)];
+            else
+                [self dismissViewControllerAnimated:YES completion:nil];
             
             break;
         }

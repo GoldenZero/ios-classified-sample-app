@@ -58,6 +58,7 @@
     
 }
 @property (weak, nonatomic) IBOutlet UITableView *countriesTable;
+@property (weak, nonatomic) IBOutlet UIViewController * iPad_parentViewOfPopOver;
 - (IBAction)backInvoked:(id)sender;
 
 @end

@@ -157,6 +157,7 @@
     defaultCountryID =  [[LocationManager sharedInstance] getSavedUserCountryID];
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
     
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self customizeMenu];
     }
@@ -300,16 +301,23 @@
 }
 
 - (IBAction)countryBtnPrss:(id)sender {
-    
     CountryListViewController* vc;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
-    else
-        vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController_iPad" bundle:nil];
-    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-   
-    [self presentViewController:vc animated:YES completion:nil];
+        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else {
+        vc = [[CountryListViewController alloc]initWithNibName:@"CountriesPopOver_iPad" bundle:nil];
+        self.countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
+        [self.countryPopOver setPopoverContentSize:vc.view.frame.size];
+        //[self.countryPopOver setPopoverContentSize:CGSizeMake(500, 800)];
+        vc.iPad_parentViewOfPopOver = self;
+        [self.countryPopOver presentPopoverFromRect:self.countryBtn.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
     
+
 }
 
 - (IBAction)exhibitBtnPrss:(id)sender {
@@ -738,4 +746,22 @@
     }
 }
 
+- (void) iPad_userDidEndChoosingCountryFromPopOver {
+    if (self.countryPopOver) {
+        defaultCountryID =  [[LocationManager sharedInstance] getSavedUserCountryID];
+        for (int i =0; i <= [countriesArray count] - 1; i++) {
+            chosenCountry=[countriesArray objectAtIndex:i];
+            if (chosenCountry.countryID == defaultCountryID)
+            {
+                myCountry = [countriesArray objectAtIndex:i];
+                [self.countryBtn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@.png",myCountry.countryNameEn]] forState:UIControlStateNormal];
+                break;
+                //return;
+            }
+            
+        }
+        [self.countryPopOver dismissPopoverAnimated:YES];
+    }
+    self.countryPopOver = nil;
+}
 @end
