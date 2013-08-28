@@ -12,8 +12,10 @@
 #import <SDWebImage/SDWebImagePrefetcher.h>
 #import "NMRangeSlider.h"
 #import "CarAdCell.h"
+#import "CarAdCell_iPad.h"
 #import "CarAdNoImageCell.h"
 #import "CarAdWithStoreCell.h"
+#import "CarAdWithStoreCell_iPad.h"
 #import "CarAdWithStoreNoImageCell.h"
 #import "DropDownView.h"
 #import "GAI.h"
@@ -23,7 +25,7 @@
 #import "ModelsViewController_iPad.h"
 #import "DistanceRangeTableViewController.h"
 
-@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate, brandChoosingDelegate, DistanceRangeChoosingDelegate>
+@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate, brandChoosingDelegate, DistanceRangeChoosingDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -70,6 +72,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *iPad_minYearLabel;
 @property (weak, nonatomic) IBOutlet UILabel *iPad_maxYearLabel;
 
+@property (weak, nonatomic) IBOutlet UICollectionView *iPad_collectionView;
+
+@property (weak, nonatomic) IBOutlet UIButton *iPad_buyCarSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_addCarSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_browseGalleriesSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_addStoreSegmentBtn;
+
 
 @property (strong, nonatomic) UIPopoverController * brandsPopOver;
 @property (strong, nonatomic) UIPopoverController * distanceRangePopOver;
@@ -93,6 +102,10 @@
 - (IBAction)iPad_chooseDistanceRangeBtnPressed:(id)sender;
 - (IBAction)iPad_modelYearSliderValueChanged:(id)sender;
 
+- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender;
 
 - (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
 - (void) removeAdWithAdID:(NSUInteger) adID;

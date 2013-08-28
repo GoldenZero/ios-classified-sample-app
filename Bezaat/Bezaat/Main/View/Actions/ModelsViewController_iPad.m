@@ -510,7 +510,18 @@
             
         }
     }
-    [self.choosingDelegate didChooseModel:self.chosenModel];
+    if (self.choosingDelegate)
+        [self.choosingDelegate didChooseModel:self.chosenModel];
+    
+    if (!self.displayedAsPopOver) {
+        [dropDownView.containerViewController dismissViewControllerAnimated:YES completion:^{
+            BrowseCarAdsViewController *vc=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController_iPad" bundle:nil];
+            vc.currentModel=self.chosenModel;
+            vc.currentBrand=self.chosenBrand;
+            vc.modalPresentationStyle = UIModalPresentationFullScreen;
+            [self presentViewController:vc animated:YES completion:nil];
+        }];
+    }
     
     /*
      NSLog(@"chosen model is:%@, %i", self.chosenModel.modelName, self.chosenModel.modelID);
@@ -557,8 +568,9 @@
 }
 
 - (void) closeModelsBtnPressed {    //this method is called on ly in the separate brands UI
-    if ((!self.displayedAsPopOver) && (dropDownView))
+    if ((!self.displayedAsPopOver) && (dropDownView)) {
         [dropDownView.containerViewController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark - actions of the separate UI

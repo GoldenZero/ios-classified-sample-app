@@ -40,8 +40,8 @@
 
 #pragma mark - literals
 
-#define DEFAULT_PAGE_SIZE           50
-//#define DEFAULT_PAGE_SIZE           10
+//#define DEFAULT_PAGE_SIZE           50
+#define DEFAULT_PAGE_SIZE           10
 #define ARABIC_BEFORE_TEXT          @"قبل"
 #define ARABIC_SECOND_TEXT          @"ثانية"
 #define ARABIC_MINUTE_TEXT          @"دقيقة"

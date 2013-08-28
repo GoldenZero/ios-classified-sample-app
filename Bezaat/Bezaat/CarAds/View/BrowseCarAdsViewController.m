@@ -63,6 +63,14 @@
     float xForShiftingTinyImg;
     
     UITapGestureRecognizer * iPad_tapFordismissingKeyBoard;
+    BOOL iPad_buyCarSegmentBtnChosen;
+    BOOL iPad_addCarSegmentBtnChosen;
+    BOOL iPad_browseGalleriesSegmentBtnChosen;
+    BOOL iPad_addStoreSegmentBtnChosen;
+    
+    UIActivityIndicatorView * iPad_activityIndicator;
+    UIView * iPad_loadingView;
+    UILabel *iPad_loadingLabel;
 }
 
 @end
@@ -170,7 +178,6 @@
         [self.tableView registerNib:[UINib nibWithNibName:@"CarAdWithStoreCell" bundle:nil] forCellReuseIdentifier:@"CarAdWithStoreCell"];
         [self.tableView registerNib:[UINib nibWithNibName:@"CarAdWithStoreNoImageCell" bundle:nil] forCellReuseIdentifier:@"CarAdWithStoreNoImageCell"];
         
-        
         //GA
         [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
         //end GA
@@ -220,6 +227,31 @@
         //init the array if it is still nullable
         if (!carAdsArray)
             carAdsArray = [NSMutableArray new];
+        dataLoadedFromCache = NO;
+        isRefreshing = NO;
+        isSearching = NO;
+        userDidScroll = NO;
+        
+        //set up the refresher
+        refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
+        [refreshControl addTarget:self action:@selector(refreshAds:) forControlEvents:UIControlEventValueChanged];
+        
+        iPad_buyCarSegmentBtnChosen = YES;
+        iPad_addCarSegmentBtnChosen = NO;
+        iPad_browseGalleriesSegmentBtnChosen = NO;
+        iPad_addStoreSegmentBtnChosen = NO;
+        
+        distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
+        
+        [self.iPad_collectionView registerNib:[UINib nibWithNibName:@"CarAdCell_iPad" bundle:nil] forCellWithReuseIdentifier:@"CarAdCell_iPad"];
+        [self.iPad_collectionView registerNib:[UINib nibWithNibName:@"CarAdWithStoreCell_iPad" bundle:nil] forCellWithReuseIdentifier:@"CarAdWithStoreCell_iPad"];
+        
+        //load the first page of data
+        [self loadFirstData];
+        
+        //GA
+        [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
+        //end GA
     }
     
 }
@@ -255,8 +287,14 @@
     
     
     userDidScroll = NO;
-    [self.tableView reloadData];
-    [self.tableView setNeedsDisplay];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.tableView reloadData];
+        [self.tableView setNeedsDisplay];
+    }
+    else {
+        [self.iPad_collectionView reloadData];
+        [self.iPad_collectionView setNeedsDisplay];
+    }
     
 }
 
@@ -357,7 +395,10 @@
 - (void) removeAdWithAdID:(NSUInteger) adID {
     NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:adID inArray:carAdsArray];
     [carAdsArray removeObjectAtIndex:index];
-    [self.tableView reloadData];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        [self.tableView reloadData];
+    else
+        [self.iPad_collectionView reloadData];
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -1198,11 +1239,419 @@
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
-    
-    if (aScrollView == self.tableView)
-        userDidScroll = YES;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (aScrollView == self.tableView)
+            userDidScroll = YES;
+    }
+    else {
+        if (aScrollView == self.iPad_collectionView)
+            userDidScroll = YES;
+    }
 }
 
+#pragma mark - collection view handling
+/*
+- (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+ */
+
+- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    
+    if (carAdsArray && carAdsArray.count)
+        return carAdsArray.count;
+    return 0;
+
+}
+
+- (CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 5.0f;
+}
+
+- (CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 5.0f;
+}
+
+
+- (CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(310, 337); //the dimensions of all cell types
+}
+
+- (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    xForShiftingTinyImg = 0;
+    CarAd * carAdObject;
+    if ((carAdsArray) && (carAdsArray.count))
+        carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+
+    else{
+        
+        return [UICollectionViewCell new];
+    }
+    
+    //store ad - with image
+    if (carAdObject.storeID > 0)
+    {
+        
+        //CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreCell" owner:self options:nil] objectAtIndex:0];
+        
+        CarAdWithStoreCell_iPad * cell = (CarAdWithStoreCell_iPad *)[self.iPad_collectionView dequeueReusableCellWithReuseIdentifier:@"CarAdWithStoreCell_iPad" forIndexPath:indexPath];
+        
+        if (!cell)
+            cell = (CarAdWithStoreCell_iPad *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreCell_iPad" owner:self options:nil] objectAtIndex:0];
+        
+        [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+        //[cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
+        //[cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.backgroundColor = [UIColor clearColor];
+        cell.detailsLabel.text = carAdObject.title;
+        
+        NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+        if ([priceStr isEqualToString:@""])
+            cell.carPriceLabel.text = priceStr;
+        else
+            cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+        cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
+        
+        
+        //hiding & shifting
+        if (carAdObject.modelYear > 0)
+            cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+        else {
+            xForShiftingTinyImg = cell.yearTinyImg.frame.origin.x;
+            
+            cell.yearLabel.hidden = YES;
+            cell.yearTinyImg.hidden = YES;
+        }
+        
+        if (xForShiftingTinyImg > 0) {
+            CGRect tempLabelFrame = cell.carMileageLabel.frame;
+            CGRect tempImgFrame = cell.carMileageTinyImg.frame;
+            
+            
+            tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+            tempImgFrame.origin.x = xForShiftingTinyImg;
+            
+            [UIView animateWithDuration:0.3f animations:^{
+                
+                [cell.carMileageTinyImg setFrame:tempImgFrame];
+                [cell.carMileageLabel setFrame:tempLabelFrame];
+            }];
+            
+            xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
+        }
+        
+        if (carAdObject.distanceRangeInKm != -1)
+            //if (carAdObject.distanceRangeInKm != 0)
+            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+        else {
+            xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
+            
+            cell.carMileageLabel.hidden = YES;
+            cell.carMileageTinyImg.hidden = YES;
+        }
+        
+        if (xForShiftingTinyImg > 0) {
+            CGRect tempLabelFrame = cell.watchingCountsLabel.frame;
+            CGRect tempImgFrame = cell.countOfViewsTinyImg.frame;
+            
+            
+            tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+            tempImgFrame.origin.x = xForShiftingTinyImg;
+            
+            [UIView animateWithDuration:0.3f animations:^{
+                
+                [cell.countOfViewsTinyImg setFrame:tempImgFrame];
+                [cell.watchingCountsLabel setFrame:tempLabelFrame];
+            }];
+        }
+        
+        if (carAdObject.viewCount > 0) {
+            cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            [cell.countOfViewsTinyImg setHidden:NO];
+        }
+        else
+        {
+            cell.watchingCountsLabel.text = @"";
+            [cell.countOfViewsTinyImg setHidden:YES];
+        }
+        
+        
+        //load image as URL
+        if (carAdObject.thumbnailURL) {
+            NSString* temp = [carAdObject.thumbnailURL absoluteString];
+            
+            if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
+                cell.carImage.image = [UIImage imageNamed:@"waitForApprove.png"];
+            }else{
+                [cell.carImage setImageWithURL:carAdObject.thumbnailURL
+                              placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
+            }
+            
+            
+            [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.carImage setClipsToBounds:YES];
+        }
+        
+        //customize storeName
+        cell.storeNameLabel.text = carAdObject.storeName;
+        
+        //customize storeLogo
+        if (carAdObject.storeLogoURL)
+        {
+            [cell.storeImage setHidden:NO];
+            
+            [cell.storeImage setImageWithURL:carAdObject.storeLogoURL];
+            [cell.storeImage setContentMode:UIViewContentModeScaleToFill];
+            [cell.storeImage setClipsToBounds:YES];
+        }
+        else
+            [cell.storeImage setHidden:YES];
+        
+        
+        
+        //check featured
+        if (carAdObject.isFeatured)
+        {
+            [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"tb_car_brand_orange_box.png"]];
+            //[cell.helpButton setHidden:NO];
+            [cell.distingushingImage setHidden:NO];
+            [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
+        }
+        
+        //check owner
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        // Not logged in
+        if(!savedProfile){
+            [cell.favoriteButton setHidden:YES];
+            
+        }
+        if (savedProfile)   //logged in
+        {
+            if (savedProfile.userID == carAdObject.ownerID) //is owner
+            {
+                //[cell.helpButton setHidden:YES];
+                //[cell.specailButton setHidden:NO];
+                [cell.favoriteButton setHidden:YES];
+                
+            }
+            else {
+                [cell.favoriteButton setHidden:NO];
+            }
+            //check favorite
+            if (carAdObject.isFavorite)
+            {
+                if (carAdObject.isFeatured) {
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
+                }
+                else{
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
+                }
+                
+            }
+            else
+            {
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                /*
+                if (carAdObject.isFeatured){
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                }
+                else{
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                }
+                 */
+            }
+        }
+        
+        return cell;
+    }
+    
+    //individual ad
+    else
+    {
+        CarAdCell_iPad * cell = (CarAdCell_iPad *)[self.iPad_collectionView dequeueReusableCellWithReuseIdentifier:@"CarAdCell_iPad" forIndexPath:indexPath];
+        
+        if (!cell)
+            cell = (CarAdCell_iPad *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell_iPad" owner:self options:nil] objectAtIndex:0];
+        
+        
+        [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.backgroundColor = [UIColor clearColor];
+        cell.detailsLabel.text = carAdObject.title;
+        
+        NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+        if ([priceStr isEqualToString:@""])
+            cell.carPriceLabel.text = priceStr;
+        else
+            cell.carPriceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+        cell.addTimeLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
+        
+        //hiding & shifting
+        if (carAdObject.modelYear > 0)
+            cell.yearLabel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+        else {
+            xForShiftingTinyImg = cell.yearTinyImg.frame.origin.x;
+            
+            cell.yearLabel.hidden = YES;
+            cell.yearTinyImg.hidden = YES;
+        }
+        
+        if (xForShiftingTinyImg > 0) {
+            CGRect tempLabelFrame = cell.carMileageLabel.frame;
+            CGRect tempImgFrame = cell.carMileageTinyImg.frame;
+            
+            
+            tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+            tempImgFrame.origin.x = xForShiftingTinyImg;
+            
+            [UIView animateWithDuration:0.3f animations:^{
+                
+                [cell.carMileageTinyImg setFrame:tempImgFrame];
+                [cell.carMileageLabel setFrame:tempLabelFrame];
+            }];
+            
+            xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
+        }
+        
+        if (carAdObject.distanceRangeInKm != -1)
+            //if (carAdObject.distanceRangeInKm != 0)
+            cell.carMileageLabel.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+        else {
+            xForShiftingTinyImg = cell.carMileageTinyImg.frame.origin.x;
+            
+            cell.carMileageLabel.hidden = YES;
+            cell.carMileageTinyImg.hidden = YES;
+        }
+        
+        if (xForShiftingTinyImg > 0) {
+            CGRect tempLabelFrame = cell.watchingCountsLabel.frame;
+            CGRect tempImgFrame = cell.countOfViewsTinyImg.frame;
+            
+            
+            tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
+            tempImgFrame.origin.x = xForShiftingTinyImg;
+            
+            [UIView animateWithDuration:0.3f animations:^{
+                
+                [cell.countOfViewsTinyImg setFrame:tempImgFrame];
+                [cell.watchingCountsLabel setFrame:tempLabelFrame];
+            }];
+        }
+        
+        if (carAdObject.viewCount > 0) {
+            cell.watchingCountsLabel.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+            [cell.countOfViewsTinyImg setHidden:NO];
+        }
+        else
+        {
+            cell.watchingCountsLabel.text = @"";
+            [cell.countOfViewsTinyImg setHidden:YES];
+        }
+        
+        //load image as URL
+        if (carAdObject.thumbnailURL) {
+            NSString* temp = [carAdObject.thumbnailURL absoluteString];
+            
+            if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
+                cell.carImage.image = [UIImage imageNamed:@"waitForApprove.png"];
+            }else{
+                [cell.carImage setImageWithURL:carAdObject.thumbnailURL
+                              placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
+            }
+            [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.carImage setClipsToBounds:YES];
+        }
+        
+        //check featured
+        if (carAdObject.isFeatured)
+        {
+            [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"tb_car_brand_orange_box.png"]];
+            [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
+            [cell.favoriteButton setHidden:NO];
+            
+        }
+        
+        //check owner
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        // Not logged in
+        if(!savedProfile){
+            [cell.favoriteButton setHidden:YES];
+            
+        }
+        
+        if (savedProfile)   //logged in
+        {
+            if (savedProfile.userID == carAdObject.ownerID) //is owner
+            {
+                [cell.favoriteButton setHidden:YES];
+                
+            }
+            else {
+                [cell.favoriteButton setHidden:NO];
+            }
+            //check favorite
+            if (carAdObject.isFavorite)
+            {
+                if (carAdObject.isFeatured) {
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
+                }
+                else{
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
+                }
+                
+            }
+            else
+            {
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                /*
+                 if (carAdObject.isFeatured){
+                 [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                 }
+                 else{
+                 [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                 }
+                 */
+            }
+        }
+        
+        if ((indexPath.item == ([self.iPad_collectionView numberOfItemsInSection:0] - 1)) && (userDidScroll)) {
+            [self iPad_loadMoreCellsToCollectionView];
+        }
+        return cell;
+    }
+    
+    
+}
+
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+- (void) iPad_loadMoreCellsToCollectionView {
+    
+    if (carAdsArray && carAdsArray.count)
+    {
+        CGFloat widthDiff = self.iPad_collectionView.contentSize.width - self.iPad_collectionView.frame.size.width;
+        //CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+        
+        CGFloat minDiff = 310.0f;
+        
+        if (widthDiff > minDiff)//to prevent continue loading if the page has returned less than 10 objects
+        {
+            if (isSearching) {
+                [self searchPageOfAds];
+            }
+            else {
+                [self loadPageOfAds];
+            }
+        }
+    }
+
+}
 
 # pragma mark - hide bars while scrolling
 # pragma mark - custom methods
@@ -1211,12 +1660,20 @@
     //get the tapping position on table to determine the tapped cell
     NSSet *touches = [event allTouches];
     UITouch *touch = [touches anyObject];
-    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
-    
-    //get the cell index path
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
-    if (indexPath != nil) {
-        [self handleAddToFavBtnForCellAtIndexPath:indexPath];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        CGPoint currentTouchPosition = [touch locationInView:self.tableView];
+        //get the cell index path
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
+        if (indexPath != nil) {
+            [self handleAddToFavBtnForCellAtIndexPath:indexPath];
+        }
+    }
+    else {
+        CGPoint currentTouchPosition = [touch locationInView:self.iPad_collectionView];
+        NSIndexPath *indexPath = [self.iPad_collectionView indexPathForItemAtPoint: currentTouchPosition];
+        if (indexPath != nil) {
+            [self handleAddToFavBtnForCellAtIndexPath:indexPath];
+        }
     }
 }
 
@@ -1267,76 +1724,101 @@
     if (!carAdObject.isFavorite)
     {
         [(CarAd *)[carAdsArray objectAtIndex:indexPath.row] setIsFavorite:YES];
-        if (carAdObject.thumbnailURL)
-        {
-            //store ad - with image
-            if (carAdObject.storeID > 0)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (carAdObject.thumbnailURL)
             {
-                CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                
-                if (carAdObject.isFeatured){
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                }
-                
-                else{
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                //store ad - with image
+                if (carAdObject.storeID > 0)
+                {
+                    CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    
+                    if (carAdObject.isFeatured){
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    }
+                    
+                    else{
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
                     
                 }
-                
-            }
-            //individual ad - with image
-            else
-            {
-                CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (carAdObject.isFeatured){
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                    
-                    
-                }
+                //individual ad - with image
                 else
                 {
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                    CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (carAdObject.isFeatured){
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        
+                        
+                    }
+                    else
+                    {
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
+                }
+            }
+            //ad with no image
+            else
+            {
+                //store ad - no image
+                if (carAdObject.storeID > 0)
+                {
+                    CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                     
+                    if (carAdObject.isFeatured){
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    }
+                    else{
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
+                }
+                //individual - no image
+                else
+                {
+                    CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    
+                    if (carAdObject.isFeatured){
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
+                    else{
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
                 }
             }
         }
-        //ad with no image
-        else
-        {
-            //store ad - no image
+        else {
+            //store ad - with image
             if (carAdObject.storeID > 0)
             {
-                CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                CarAdWithStoreCell_iPad * cell = (CarAdWithStoreCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
                 
-                if (carAdObject.isFeatured){
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                }
-                else{
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    
-                }
+                if (carAdObject.isFeatured)
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
+                
+                else
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
             }
-            //individual - no image
+            //individual ad
             else
             {
-                CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                CarAdCell_iPad * cell = (CarAdCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
+                if (carAdObject.isFeatured)
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
                 
-                if (carAdObject.isFeatured){
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                    
-                }
-                else{
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    
-                }
+                else
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
             }
         }
         //add from fav
@@ -1345,77 +1827,94 @@
     else
     {
         [(CarAd *)[carAdsArray objectAtIndex:indexPath.row] setIsFavorite:NO];
-        if (carAdObject.thumbnailURL)
-        {
-            //store ad - with image
-            if (carAdObject.storeID > 0)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (carAdObject.thumbnailURL)
             {
-                CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                
-                
-                if (carAdObject.isFeatured)
+                //store ad - with image
+                if (carAdObject.storeID > 0)
                 {
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                    CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                     
+                    
+                    if (carAdObject.isFeatured)
+                    {
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        
+                    }
+                    else
+                    {
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                 }
+                //individual ad - with image
                 else
                 {
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                    CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                     
+                    if (carAdObject.isFeatured){
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        
+                    }
+                    else{
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                 }
             }
-            //individual ad - with image
+            //ad with no image
             else
             {
-                CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                
-                if (carAdObject.isFeatured){
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                //store ad - no image
+                if (carAdObject.storeID > 0)
+                {
+                    CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
                     
+                    if (carAdObject.isFeatured){
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        
+                    }
+                    else{
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                 }
-                else{
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
+                //individual - no image
+                else
+                {
+                    CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (carAdObject.isFeatured){
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        
+                    }
+                    else{
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                 }
             }
         }
-        //ad with no image
-        else
-        {
-            //store ad - no image
+        else {
             if (carAdObject.storeID > 0)
             {
-                CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                CarAdWithStoreCell_iPad * cell = (CarAdWithStoreCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
                 
-                if (carAdObject.isFeatured){
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                    
-                }
-                else{
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
-                }
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
             }
-            //individual - no image
+            //individual ad
             else
             {
-                CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (carAdObject.isFeatured){
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                    
-                }
-                else{
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    [cell.favoriteBtn setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
-                }
+                CarAdCell_iPad * cell = (CarAdCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
+                
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
             }
         }
         //remove to fav
@@ -1443,22 +1942,60 @@
 }
 - (void) showLoadingIndicator {
     
-    loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
-    loadingHUD.mode = MBProgressHUDModeIndeterminate2;
-    loadingHUD.labelText = @"جاري تحميل البيانات";
-    loadingHUD.detailsLabelText = @"";
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
+        // Add
+        loadingHUD.mode = MBProgressHUDModeIndeterminate2;
+        loadingHUD.labelText = @"جاري تحميل البيانات";
+        loadingHUD.detailsLabelText = @"";
+        
         loadingHUD.dimBackground = YES;
-    else
-        loadingHUD.dimBackground = NO;
+    }
+    else {
+        iPad_loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 170, 170)];
+        
+        iPad_loadingView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+        iPad_loadingView.clipsToBounds = YES;
+        iPad_loadingView.layer.cornerRadius = 10.0;
+        iPad_loadingView.center = CGPointMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0);
+
+        
+        iPad_activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        iPad_activityIndicator.frame = CGRectMake(65, 40, iPad_activityIndicator.bounds.size.width, iPad_activityIndicator.bounds.size.height);
+        [iPad_loadingView addSubview:iPad_activityIndicator];
+        
+        iPad_loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 115, 130, 22)];
+        iPad_loadingLabel.backgroundColor = [UIColor clearColor];
+        iPad_loadingLabel.textColor = [UIColor whiteColor];
+        iPad_loadingLabel.font = [UIFont boldSystemFontOfSize:14.0f];
+        iPad_loadingLabel.adjustsFontSizeToFitWidth = YES;
+        iPad_loadingLabel.textAlignment = NSTextAlignmentCenter;
+        iPad_loadingLabel.text = @"جاري تحميل البيانات";
+        [iPad_loadingView addSubview:iPad_loadingLabel];
+        
+        [self.view addSubview:iPad_loadingView];
+        [iPad_activityIndicator startAnimating];
+    }
     
 }
 
 - (void) hideLoadingIndicator {
     
-    if (loadingHUD)
-        [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
-    loadingHUD = nil;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (loadingHUD) {
+            [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
+        }
+        loadingHUD = nil;
+    }
+    else {
+        if ((iPad_activityIndicator) && (iPad_loadingView)) {
+            [iPad_activityIndicator stopAnimating];
+            [iPad_loadingView removeFromSuperview];
+        }
+        iPad_activityIndicator = nil;
+        iPad_loadingView = nil;
+        iPad_loadingLabel = nil;
+    }
     
 }
 
@@ -1556,9 +2093,15 @@
         
         //refresh table data
         userDidScroll = NO;
-        [self.tableView reloadData];
-        //self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
-        [self.tableView setContentOffset:CGPointZero animated:YES];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            [self.tableView reloadData];
+            //self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
+            [self.tableView setContentOffset:CGPointZero animated:YES];
+        }
+        else {
+            [self.iPad_collectionView reloadData];
+            [self.iPad_collectionView setContentOffset:CGPointZero animated:YES];
+        }
         
         dataLoadedFromCache = YES;
         
@@ -2141,7 +2684,10 @@
     
     //3- refresh table data
     userDidScroll = NO;
-    [self.tableView reloadData];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        [self.tableView reloadData];
+    else
+        [self.iPad_collectionView reloadData];
     //self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
     /*
      if ([carAdsArray count] <= 10 && [carAdsArray count] != 0) {
@@ -2162,61 +2708,82 @@
     {
         NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
         CarAd * carAdObject = [carAdsArray objectAtIndex:index];
-        if (carAdObject.thumbnailURL)
-        {
-            //store ad - with image
-            if (carAdObject.storeID > 0)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (carAdObject.thumbnailURL)
             {
-                CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                
-                
-                if (carAdObject.isFeatured)
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                //store ad - with image
+                if (carAdObject.storeID > 0)
+                {
+                    CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    
+                    
+                    if (carAdObject.isFeatured)
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                    else
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                    
+                    
+                }
+                //individual ad - with image
                 else
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                
-                
+                {
+                    CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    
+                    
+                    if (carAdObject.isFeatured)
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                    else
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                    
+                    
+                }
             }
-            //individual ad - with image
+            //ad with no image
             else
             {
-                CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                
-                
-                if (carAdObject.isFeatured)
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                //store ad - no image
+                if (carAdObject.storeID > 0)
+                {
+                    CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    
+                    if (carAdObject.isFeatured)
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                    else
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                    
+                    
+                }
+                //individual - no image
                 else
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                
-                
+                {
+                    CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    
+                    
+                    if (carAdObject.isFeatured)
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                    else
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                    
+                    
+                }
             }
         }
-        //ad with no image
-        else
-        {
-            //store ad - no image
+        else {
+            //store ad
             if (carAdObject.storeID > 0)
             {
-                CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                CarAdWithStoreCell_iPad * cell = (CarAdWithStoreCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
                 
-                if (carAdObject.isFeatured)
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                else
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
                 
                 
             }
-            //individual - no image
+            //individual ad
             else
             {
-                CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                CarAdCell_iPad * cell = (CarAdCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
                 
-                
-                if (carAdObject.isFeatured)
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                else
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                
+                [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
                 
             }
         }
@@ -2230,103 +2797,138 @@
     {
         NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
         CarAd * carAdObject = [carAdsArray objectAtIndex:index];
-        if (carAdObject.thumbnailURL)
-        {
-            //store ad - with image
-            if (carAdObject.storeID > 0)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (carAdObject.thumbnailURL)
             {
-                CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//added successfully
+                
+                //store ad - with image
+                if (carAdObject.storeID > 0)
                 {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (resultStatus)//added successfully
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                 }
+                //individual ad - with image
                 else
                 {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                    CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (resultStatus)//added successfully
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                 }
             }
-            //individual ad - with image
+            //ad with no image
             else
             {
-                CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//added successfully
+                //store ad - no image
+                if (carAdObject.storeID > 0)
                 {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (resultStatus)//added successfully
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                 }
+                //individual - no image
                 else
                 {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                    CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (resultStatus)//added successfully
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                 }
             }
         }
-        //ad with no image
-        else
-        {
-            //store ad - no image
+        else {
+            //store ad
             if (carAdObject.storeID > 0)
             {
-                CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//added successfully
-                {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
+                CarAdWithStoreCell_iPad * cell = (CarAdWithStoreCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
+                
+                if (resultStatus) {     //added successfulyy
                     if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
                 }
                 else
-                {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                    else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
-                }
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                
             }
-            //individual - no image
+            //individual ad
             else
             {
-                CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//added successfully
-                {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
+                CarAdCell_iPad * cell = (CarAdCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
+                
+                if (resultStatus) {     //added successfulyy
                     if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
                 }
                 else
-                {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
-                    else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
-                }
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                
             }
         }
     }
@@ -2341,58 +2943,83 @@
     {
         NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
         CarAd * carAdObject = [carAdsArray objectAtIndex:index];
-        if (carAdObject.thumbnailURL)
-        {
-            //store ad - with image
-            if (carAdObject.storeID > 0)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (carAdObject.thumbnailURL)
             {
-                CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                
-                if (carAdObject.isFeatured)
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                //store ad - with image
+                if (carAdObject.storeID > 0)
+                {
+                    CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    
+                    if (carAdObject.isFeatured)
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                    
+                    
+                }
+                //individual ad - with image
                 else
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                
-                
+                {
+                    CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (carAdObject.isFeatured)
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                    
+                    
+                }
             }
-            //individual ad - with image
+            //ad with no image
             else
             {
-                CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (carAdObject.isFeatured)
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                //store ad - no image
+                if (carAdObject.storeID > 0)
+                {
+                    CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    
+                    if (carAdObject.isFeatured)
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                    
+                    
+                }
+                //individual - no image
                 else
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                
-                
+                {
+                    CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    
+                    if (carAdObject.isFeatured)
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                    
+                    
+                }
             }
         }
-        //ad with no image
-        else
-        {
-            //store ad - no image
+        else {
+            //store ad
             if (carAdObject.storeID > 0)
             {
-                CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                CarAdWithStoreCell_iPad * cell = (CarAdWithStoreCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
                 
                 if (carAdObject.isFeatured)
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
                 else
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
                 
             }
-            //individual - no image
+            //individual ad
             else
             {
-                CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                CarAdCell_iPad * cell = (CarAdCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
                 
                 if (carAdObject.isFeatured)
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
                 else
-                    [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                
-                
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
             }
         }
     }
@@ -2406,103 +3033,138 @@
     {
         NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
         CarAd * carAdObject = [carAdsArray objectAtIndex:index];
-        if (carAdObject.thumbnailURL)
-        {
-            //store ad - with image
-            if (carAdObject.storeID > 0)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (carAdObject.thumbnailURL)
             {
-                CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//removed successfully
+                //store ad - with image
+                if (carAdObject.storeID > 0)
                 {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                    CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (resultStatus)//removed successfully
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
                 }
+                //individual ad - with image
                 else
                 {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (resultStatus)//removed successfully
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
                 }
             }
-            //individual ad - with image
+            //ad with no image
             else
             {
-                CarAdCell * cell = (CarAdCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//removed successfully
+                //store ad - no image
+                if (carAdObject.storeID > 0)
                 {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                    CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (resultStatus)//removed successfully
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
                 }
+                //individual - no image
                 else
                 {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                    CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    if (resultStatus)//removed successfully
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
+                        
+                    }
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    
+                    {
+                        [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
+                        if (carAdObject.isFeatured)
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
+                        else
+                            [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
+                        
+                    }
                 }
             }
         }
-        //ad with no image
-        else
-        {
-            //store ad - no image
+        else {
+            //store ad
             if (carAdObject.storeID > 0)
             {
-                CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//removed successfully
-                {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
+                CarAdWithStoreCell_iPad * cell = (CarAdWithStoreCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
+                
+                if (resultStatus)      //removed successfuly
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                else {
                     if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
                 }
-                else
-                {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                    else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    
-                }
+
+                
             }
-            //individual - no image
+            //individual ad
             else
             {
-                CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                if (resultStatus)//removed successfully
-                {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:NO];
+                CarAdCell_iPad * cell = (CarAdCell_iPad *)[self.iPad_collectionView cellForItemAtIndexPath:indexPath];
+                
+                if (resultStatus)      //removed successfuly
+                    [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                else {
                     if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_special_heart"] forState:UIControlStateNormal];
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
                     else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_icon_heart"] forState:UIControlStateNormal];
-                    
-                }
-                else
-                {
-                    [(CarAd *)[carAdsArray objectAtIndex:index] setIsFavorite:YES];
-                    if (carAdObject.isFeatured)
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_special_heart.png"] forState:UIControlStateNormal];
-                    else
-                        [cell.favoriteButton setImage:[UIImage imageNamed:@"Listing_orang_heart.png"] forState:UIControlStateNormal];
-                    
-                }
+                        [cell.favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
+                }                    
+                
             }
         }
     }
@@ -2581,6 +3243,11 @@
         return UIInterfaceOrientationLandscapeLeft;
 }
 
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
 #pragma mark - iPad helper methods
 
 - (void) iPad_initSlider {
@@ -2633,6 +3300,29 @@
 - (void) dismissDistancePopOver {
     if (self.distanceRangePopOver)
         [self.distanceRangePopOver dismissPopoverAnimated:YES];
+}
+
+- (void) iPad_updateSegmentButtons {
+    
+    UIImage * iPad_buyCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn_white.png"];
+    UIImage * iPad_buyCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn.png"];
+    
+    UIImage * iPad_addCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn_white.png"];
+    UIImage * iPad_addCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn.png"];
+    
+    UIImage * iPad_browseGalleriesSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn_white.png"];
+    UIImage * iPad_browseGalleriesSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn.png"];
+    
+    UIImage * iPad_addStoreSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn_white.png"];
+    UIImage * iPad_addStoreSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn.png"];
+    
+    [self.iPad_buyCarSegmentBtn setBackgroundImage:(iPad_buyCarSegmentBtnChosen ? iPad_buyCarSegmentBtnSelectedImage : iPad_buyCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_addCarSegmentBtn setBackgroundImage:(iPad_addCarSegmentBtnChosen ?  iPad_addCarSegmentBtnSelectedImage: iPad_addCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_browseGalleriesSegmentBtn setBackgroundImage:(iPad_browseGalleriesSegmentBtnChosen ? iPad_browseGalleriesSegmentBtnSelectedImage :  iPad_browseGalleriesSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_addStoreSegmentBtn setBackgroundImage:(iPad_addStoreSegmentBtnChosen ? iPad_addStoreSegmentBtnSelectedImage : iPad_addStoreSegmentBtnUnselectedImage) forState:UIControlStateNormal];
 }
 
 #pragma mark - iPad actions
@@ -2696,6 +3386,43 @@
     fromYearString=self.iPad_minYearLabel.text;
     toYearString=self.iPad_maxYearLabel.text;
     
+}
+
+- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender {
+    
+    iPad_buyCarSegmentBtnChosen = YES;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = YES;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = YES;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = YES;
+    
+    [self iPad_updateSegmentButtons];
 }
 
 
