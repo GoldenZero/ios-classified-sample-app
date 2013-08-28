@@ -8,6 +8,7 @@
 
 #import "ExhibitViewController.h"
 #import "exhibitCell.h"
+#import "exhibitCell_iPad.h"
 #import "MBProgressHUD2.h"
 #import "CarsGallery.h"
 #import "gallariesManager.h"
@@ -40,8 +41,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.tableView registerNib:[UINib nibWithNibName:@"exhibitCell" bundle:nil]
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        [self.tableView registerNib:[UINib nibWithNibName:@"exhibitCell" bundle:nil]
          forCellReuseIdentifier:@"CustomCell"];
+    else {
+        if (self.iPad_titleLabel) {
+            [self.iPad_titleLabel setBackgroundColor:[UIColor clearColor]];
+            [self.iPad_titleLabel setTextAlignment:SSTextAlignmentCenter];
+            [self.iPad_titleLabel setTextColor:[UIColor whiteColor]];
+            [self.iPad_titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:30.0] ];
+            [self.iPad_titleLabel setText:@"معارض السيارات"];
+        }
+        
+        [self.iPad_collectionView registerNib:[UINib nibWithNibName:@"exhibitCell_iPad" bundle:nil] forCellWithReuseIdentifier:@"CustomCell_iPad"];
+    }
     manager = [gallariesManager sharedInstance];
     currentPhone2Call = @"";
     //manager.countryID=self.countryID;
@@ -68,19 +81,26 @@
     
     UITouch *touch = [touches anyObject];
     
-    CGPoint currentTouchPosition = [touch locationInView:self.tableView];
-    
-    
-    
-    //get the cell index path
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
+    CGPoint currentTouchPosition;
+    NSIndexPath *indexPath;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        currentTouchPosition = [touch locationInView:self.tableView];
+        indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
+    }
+    else {
+        currentTouchPosition = [touch locationInView:self.iPad_collectionView];
+        indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
+    }
     
     if (indexPath != nil) {
         /*
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row] StoreContactNo]]]];
         */
-        CarsGallery * gallery = (CarsGallery*)[galleriesArray objectAtIndex:indexPath.row];
+        CarsGallery * gallery;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            gallery = (CarsGallery*)[galleriesArray objectAtIndex:indexPath.row];
+        else
+            gallery = (CarsGallery*)[galleriesArray objectAtIndex:indexPath.item];
         
         if ((gallery) && !([gallery.StoreContactNo isEqualToString:@""])) {
             currentPhone2Call = gallery.StoreContactNo;
@@ -176,6 +196,64 @@
     //NSLog(@"storeID = %i, countryID = %i", vc.gallery.StoreID, vc.gallery.CountryID);
 }
 
+#pragma mark - collection view delegate methods
+
+- (NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if (galleriesArray && galleriesArray.count)
+        return galleriesArray.count;
+    
+    return 0;
+}
+
+- (CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return 6.0f;
+}
+
+- (CGFloat) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return 6.0f;
+}
+
+- (CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(320.0, 110.0);
+}
+
+- (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (galleriesArray && galleriesArray.count) {
+        
+        static NSString *CellIdentifier = @"CustomCell_iPad";
+        
+        CarsGallery * gallery = (CarsGallery*)[galleriesArray objectAtIndex:indexPath.item];
+        
+        exhibitCell_iPad *cell =(exhibitCell_iPad*) [self.iPad_collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        if (cell == nil) {
+            cell=[[exhibitCell_iPad alloc] init];
+        }
+        
+        [cell.numberButton addTarget:self action:@selector(callNumber:event:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [cell.numberLabel setText:gallery.StoreContactNo];
+        
+        cell.exhibNameLabel.text = gallery.StoreName ;
+        cell.exhibDetailLabel.text = gallery.Description ;
+        
+        if (gallery.StoreImageURL) {
+            [cell.exhibImage setImageWithURL:gallery.StoreImageURL];
+            [cell.exhibImage setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.exhibImage setClipsToBounds:YES];
+        }
+        
+        
+        return cell;
+    }
+    
+    return [UICollectionViewCell new];
+}
+
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
 
 - (void) loadData{
     /*
@@ -262,8 +340,10 @@
     if (resultArray && resultArray.count) {
         
         galleriesArray = resultArray;
-        
-        [self.tableView reloadData];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            [self.tableView reloadData];
+        else
+            [self.iPad_collectionView reloadData];
     }
     else {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@""

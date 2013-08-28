@@ -10,12 +10,15 @@
 #import "gallariesManager.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
-@interface ExhibitViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,GalleriesDelegate, UIAlertViewDelegate>
+@interface ExhibitViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,GalleriesDelegate, UIAlertViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 #pragma mark - Properties
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UILabel *viewTitle;
 //@property int countryID;
+
+@property (strong, nonatomic) IBOutlet SSLabel * iPad_titleLabel;
+@property (strong, nonatomic) IBOutlet UICollectionView *iPad_collectionView;
 
 #pragma mark - Actions
 - (IBAction)homeBtnPrss:(id)sender;

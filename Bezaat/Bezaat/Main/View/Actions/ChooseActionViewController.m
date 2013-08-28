@@ -322,7 +322,11 @@
 
 - (IBAction)exhibitBtnPrss:(id)sender {
     
-    ExhibitViewController *exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
+    ExhibitViewController *exVC;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
+    else
+        exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController_iPad" bundle:nil];
     //exVC.countryID=chosenCountry.countryID;
     [self presentViewController:exVC animated:YES completion:nil];
     
