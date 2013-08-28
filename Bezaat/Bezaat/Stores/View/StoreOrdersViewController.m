@@ -373,7 +373,11 @@
     UIButton* btn = (UIButton*)sender;
     StoreOrder * orderObject = (StoreOrder *)[storeOrdersArray objectAtIndex:btn.tag];
    
-    BankTransferPaymentVC *vc=[[BankTransferPaymentVC alloc] initWithNibName:@"BankTransferPaymentVC" bundle:nil];
+    BankTransferPaymentVC *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc =[[BankTransferPaymentVC alloc] initWithNibName:@"BankTransferPaymentVC" bundle:nil];
+    else
+        vc =[[BankTransferPaymentVC alloc] initWithNibName:@"BankTransferPaymentVC_iPad" bundle:nil];
     vc.currentOrder = orderObject;
     [self presentViewController:vc animated:YES completion:nil];
     

@@ -25,4 +25,6 @@
 - (IBAction)backInvoked:(id)sender;
 - (IBAction)payInvoked:(id)sender;
 - (IBAction)dateInvoked:(id)sender;
+
+- (IBAction)iPad_cancelInvoked:(id)sender;
 @end
