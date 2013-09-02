@@ -1174,16 +1174,15 @@
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     CarAdDetailsViewController * vc;
     
-    if (carAdObject.thumbnailURL)   //ad with image
+    if (carAdObject.thumbnailURL) {   //ad with image
         vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
-    
-    else                            //ad with no image
+    }
+    else {                            //ad with no image
         vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+    }
     
     vc.currentAdID =  carAdObject.adID;
     vc.parentVC = self;
-    
-    
     
     [self presentViewController:vc animated:YES completion:nil];
     
@@ -1628,7 +1627,20 @@
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.item];
+    CarAdDetailsViewController * vc;
     
+    if (carAdObject.thumbnailURL) {   //ad with image
+        vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController_iPad" bundle:nil];
+    }
+    else {                            //ad with no image
+        vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController_iPad" bundle:nil];
+    }
+    
+    vc.currentAdID =  carAdObject.adID;
+    vc.parentVC = self;
+    
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void) iPad_loadMoreCellsToCollectionView {

@@ -890,11 +890,18 @@
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     CarAdDetailsViewController * vc;
     
-    if (carAdObject.thumbnailURL)   //ad with image
-        vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
-    
-    else                            //ad with no image
-        vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+    if (carAdObject.thumbnailURL) {   //ad with image
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        else
+            vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController_iPad" bundle:nil];
+    }
+    else {                            //ad with no image
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+        else
+            vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController_iPad" bundle:nil];
+    }
     
     vc.currentAdID =  carAdObject.adID;
     vc.userDetailsParentVC = self;

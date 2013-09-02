@@ -57,6 +57,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;
 @property (weak, nonatomic) IBOutlet UIScrollView *detailsView;
+@property (weak, nonatomic) IBOutlet UIView *iPad_detailsView;
 
 @property (strong, nonatomic) IBOutlet UIView *callBarView;
 @property (nonatomic) NSUInteger currentAdID;
@@ -77,6 +78,19 @@
 @property (weak, nonatomic) IBOutlet UITextView *commentTextView;
 @property (weak, nonatomic) IBOutlet UIView *commentsView;
 
+#pragma mark - iPad properties
+@property (weak, nonatomic) IBOutlet UIButton *iPad_buyCarSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_addCarSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_browseGalleriesSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_addStoreSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIView *iPad_topLeftSideView;
+@property (weak, nonatomic) IBOutlet UIView *iPad_bottomLeftSideView;
+
+@property (weak, nonatomic) IBOutlet UIButton *iPad_featureBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_editAdBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_deleteAdBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *iPad_isFeaturedTinyImg;
+@property (weak, nonatomic) IBOutlet UIScrollView *iPad_commentsScrollView;
 
 #pragma mark - actions
 - (IBAction)changePage:(id)sender;
@@ -89,6 +103,18 @@
 - (IBAction)callBtnPrss:(id)sender;
 - (IBAction)smsBtnPrss:(id)sender;
 - (IBAction)postCommentForCurrentAd:(id)sender;
+
+//sharing actions
+- (IBAction)twitterAction:(id)sender;
+- (IBAction)facebookAction:(id)sender;
+- (IBAction)mailAction:(id)sender;
+
+#pragma mark - iPad actions
+
+- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender;
 
 - (void) resetGalleryViewToNil;
 

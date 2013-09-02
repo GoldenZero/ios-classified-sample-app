@@ -291,7 +291,20 @@
     BrandCell * senderCell = (BrandCell *) tap.view;
     int indexOfSenderCell = [self locateBrandCell:senderCell];
     self.chosenBrand = currentBrands[indexOfSenderCell];
-    currentModels = self.chosenBrand.models;
+    
+    //add all-models cell
+    Model * allModelsItem = [[Model alloc] init];
+    allModelsItem.modelID = -1;
+    allModelsItem.brandID = self.chosenBrand.brandID;
+    allModelsItem.modelName = ALL_MODELS_TEXT;
+    
+    //create an array that has the 'all models' item first
+    NSMutableArray * tempArray = [NSMutableArray arrayWithObject:allModelsItem];
+    
+    //add the rest of models for this brand
+    [tempArray addObjectsFromArray:self.chosenBrand.models];
+    currentModels = tempArray;
+    //currentModels = self.chosenBrand.models;
     
     if (self.displayedAsPopOver) {
         

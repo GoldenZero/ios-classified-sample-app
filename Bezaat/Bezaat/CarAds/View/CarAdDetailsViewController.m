@@ -51,6 +51,11 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    BOOL iPad_buyCarSegmentBtnChosen;
+    BOOL iPad_addCarSegmentBtnChosen;
+    BOOL iPad_browseGalleriesSegmentBtnChosen;
+    BOOL iPad_addStoreSegmentBtnChosen;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -76,76 +81,140 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setPlacesOfViews];
     
-    //customize the comments view positioning
-    CGRect commentsViewFrame = self.commentsView.frame;
-    if ([[UIScreen mainScreen] bounds].size.height == 568)
-        commentsViewFrame.origin.y = 568 - commentsViewFrame.size.height;
-    else
-        commentsViewFrame.origin.y = self.view.frame.size.height - commentsViewFrame.size.height;
-    
-    [self.commentsView setFrame:commentsViewFrame];
-    
-    //customize the comments textView
-    self.commentTextView.textColor = [UIColor lightGrayColor];
-    self.commentTextView.returnKeyType = UIReturnKeySend;
-    
-    commentsArray = [NSMutableArray new];
-    loadMoreCommentsBtn = nil;
-    
-    /*
-     // hide share button
-     tap = [[UITapGestureRecognizer alloc]
-     initWithTarget:self
-     action:@selector(dismissShareButton)];
-     //[self.scrollView addGestureRecognizer:tap];
-     [self.labelsScrollView addGestureRecognizer:tap];
-     */
-    
-    tapForDismissKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    [self.labelsScrollView addGestureRecognizer:tapForDismissKeyBoard];
-    
-    shareBtnDidMoveUp = NO;
-    shareBtnDidMovedown = NO;
-    postCommentAfterSignIn = NO;
-    
-    [editBtn setEnabled:NO];
-    [editAdBtn setEnabled:NO];
-    [featureBtn setEnabled:NO];
-    
-    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    
-    pageControlUsed=NO;
-    
-    //set attributes for scrollviews
-    self.scrollView.delegate=self;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.bounces = NO;
-    
-    self.labelsScrollView.showsHorizontalScrollIndicator = NO;
-    self.labelsScrollView.showsVerticalScrollIndicator = NO;
-    self.labelsScrollView.bounces = NO;
-    self.labelsScrollView.delegate = self;
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
-    
-    advFeatureManager = [[StoreManager alloc] init];
-    advFeatureManager.delegate = self;
-    
-    //init the image load manager
-    asynchImgManager = [[HJObjManager alloc] init];
-	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
-	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
-	asynchImgManager.fileCache = fileCache;
-    
-    //set the original size of scroll view without loading any labels yet
-    originalScrollViewHeight = self.labelsScrollView.frame.size.height;
-    galleryView = nil;
-    xForShiftingTinyImg = 0;
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self setPlacesOfViews];
+        
+        //customize the comments view positioning
+        CGRect commentsViewFrame = self.commentsView.frame;
+        if ([[UIScreen mainScreen] bounds].size.height == 568)
+            commentsViewFrame.origin.y = 568 - commentsViewFrame.size.height;
+        else
+            commentsViewFrame.origin.y = self.view.frame.size.height - commentsViewFrame.size.height;
+        
+        [self.commentsView setFrame:commentsViewFrame];
+        
+        //customize the comments textView
+        self.commentTextView.textColor = [UIColor lightGrayColor];
+        self.commentTextView.returnKeyType = UIReturnKeySend;
+        
+        commentsArray = [NSMutableArray new];
+        loadMoreCommentsBtn = nil;
+        
+        /*
+         // hide share button
+         tap = [[UITapGestureRecognizer alloc]
+         initWithTarget:self
+         action:@selector(dismissShareButton)];
+         //[self.scrollView addGestureRecognizer:tap];
+         [self.labelsScrollView addGestureRecognizer:tap];
+         */
+        
+        tapForDismissKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+        [self.labelsScrollView addGestureRecognizer:tapForDismissKeyBoard];
+        
+        shareBtnDidMoveUp = NO;
+        shareBtnDidMovedown = NO;
+        postCommentAfterSignIn = NO;
+        
+        [editBtn setEnabled:NO];
+        [editAdBtn setEnabled:NO];
+        [featureBtn setEnabled:NO];
+        
+        [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+        
+        pageControlUsed=NO;
+        
+        //set attributes for scrollviews
+        self.scrollView.delegate=self;
+        self.scrollView.showsHorizontalScrollIndicator = NO;
+        self.scrollView.showsVerticalScrollIndicator = NO;
+        self.scrollView.bounces = NO;
+        
+        self.labelsScrollView.showsHorizontalScrollIndicator = NO;
+        self.labelsScrollView.showsVerticalScrollIndicator = NO;
+        self.labelsScrollView.bounces = NO;
+        self.labelsScrollView.delegate = self;
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        
+        advFeatureManager = [[StoreManager alloc] init];
+        advFeatureManager.delegate = self;
+        
+        //init the image load manager
+        asynchImgManager = [[HJObjManager alloc] init];
+        NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
+        HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
+        asynchImgManager.fileCache = fileCache;
+        
+        //set the original size of scroll view without loading any labels yet
+        originalScrollViewHeight = self.labelsScrollView.frame.size.height;
+        galleryView = nil;
+        xForShiftingTinyImg = 0;
+    }
+    else {
+        
+        //remove any false subVeiws in left side scroll view
+        for (UIView * subView in self.iPad_commentsScrollView.subviews)
+            [subView removeFromSuperview];
+        
+        //customize the comments textView
+        self.commentTextView.textColor = [UIColor lightGrayColor];
+        self.commentTextView.returnKeyType = UIReturnKeySend;
+        
+        commentsArray = [NSMutableArray new];
+        loadMoreCommentsBtn = nil;
+        
+        
+        tapForDismissKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+        //[self.labelsScrollView addGestureRecognizer:tapForDismissKeyBoard];
+        [self.view addGestureRecognizer:tapForDismissKeyBoard];
+        
+        shareBtnDidMoveUp = NO;
+        shareBtnDidMovedown = NO;
+        postCommentAfterSignIn = NO;
+        
+        [self.iPad_deleteAdBtn setEnabled:NO];
+        [self.iPad_editAdBtn setEnabled:NO];
+        [self.iPad_featureBtn setEnabled:NO];
+        
+        [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+        
+        pageControlUsed=NO;
+        
+        //set attributes for scrollviews
+        self.scrollView.delegate=self;
+        self.scrollView.showsHorizontalScrollIndicator = NO;
+        self.scrollView.showsVerticalScrollIndicator = NO;
+        self.scrollView.bounces = NO;
+        
+        self.labelsScrollView.showsHorizontalScrollIndicator = NO;
+        self.labelsScrollView.bounces = NO;
+        self.labelsScrollView.delegate = self;
+        
+        
+        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        
+        advFeatureManager = [[StoreManager alloc] init];
+        advFeatureManager.delegate = self;
+        
+        //init the image load manager
+        asynchImgManager = [[HJObjManager alloc] init];
+        NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
+        HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
+        asynchImgManager.fileCache = fileCache;
+        
+        //set the original size of scroll view without loading any labels yet
+        originalScrollViewHeight = self.labelsScrollView.frame.size.height;
+        galleryView = nil;
+        xForShiftingTinyImg = 0;
+        
+        iPad_buyCarSegmentBtnChosen = NO;
+        iPad_addCarSegmentBtnChosen = NO;
+        iPad_browseGalleriesSegmentBtnChosen = NO;
+        iPad_addStoreSegmentBtnChosen = NO;
+    }
     
     //[self prepareShareButton];
     
@@ -196,10 +265,14 @@
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
+    //if (sender == self.labelsScrollView)
+        //NSLog(@"The content size when scrolling is width:%f --- height:%f", sender.contentSize.width, sender.contentSize.height);
     
-    if (!pageControlUsed) {
-        int page = self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
-        self.pageControl.currentPage = page;
+    if (sender == self.scrollView) {
+        if (!pageControlUsed) {
+            int page = self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
+            self.pageControl.currentPage = page;
+        }
     }
     /*
      if (sender == self.labelsScrollView) {
@@ -503,7 +576,7 @@
     }
 }
 
-- (IBAction)editAdBtnPrss:(id)sender {
+- (IBAction)editAdBtnPrss:(id)sender {//this is deletion
     
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
@@ -674,10 +747,10 @@
 			break;
 	}
     
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark - sharing acions
-- (void)twitterAction:(id)sender{
+- (IBAction)twitterAction:(id)sender {
     
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
@@ -747,7 +820,7 @@
     
 }
 
-- (void)facebookAction:(id)sender{
+- (IBAction)facebookAction:(id)sender {
     
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
@@ -818,7 +891,7 @@
     
 }
 
-- (void)mailAction:(id)sender {
+- (IBAction)mailAction:(id)sender {
     
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
@@ -851,6 +924,10 @@
 
 - (void)globeAction:(id)sender {
     [[UIApplication sharedApplication] openURL:[currentDetailsObject adURL]];
+}
+
+- (void) reportbadAdAction:(id)sender {
+    NSLog(@"report the ad.");
 }
 
 #pragma mark - helper methods
@@ -1174,7 +1251,6 @@
                         
                         [self.labelsScrollView addSubview:v];
                         
-                        
                         lastY = attr_y + valueLabelHeight;
                         
                         addedHeightValue = addedHeightValue + v.frame.size.height + FIXED_V_DISTANCE;
@@ -1194,32 +1270,291 @@
     
 }
 
+- (void) iPad_resizeScrollView {
+    
+    //set the labelsScrollview height to fixed small value to avoid enlarging
+    //its frame height on iPhone 5, which causes the view not to scroll if it it larger than its content size
+    CGRect nibFrame = self.labelsScrollView.frame;
+    nibFrame.size.height = self.view.frame.size.height - self.labelsScrollView.frame.origin.y;
+    [self.labelsScrollView setFrame:nibFrame];
+        
+    if (!currentDetailsObject)
+        [self.iPad_detailsView setHidden:YES];
+    
+    if (currentDetailsObject)
+    {
+        //1- set car images
+        if ((currentDetailsObject.adImages) && (currentDetailsObject.adImages.count))
+        {
+            
+            self.pageControl.currentPage = 0;
+            self.pageControl.numberOfPages = currentDetailsObject.adImages.count;
+            
+            [self.scrollView setUserInteractionEnabled:YES];
+            
+            //allImagesDict = [NSMutableDictionary new];
+            for (int i=0; i < currentDetailsObject.adImages.count; i++) {
+                
+                //1- add images in horizontal scroll view
+                NSURL * imgThumbURL = [(CarDetailsImage *)[currentDetailsObject.adImages objectAtIndex:i] thumbnailImageURL];
+                [self.scrollView addSubview:[self prepareImge:imgThumbURL :i]];
+                
+            }
+            
+            [self.scrollView setScrollEnabled:YES];
+            [self.scrollView setShowsVerticalScrollIndicator:YES];
+            self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * currentDetailsObject.adImages.count, self.scrollView.frame.size.height);
+            
+        }else {
+            if (currentDetailsObject && currentDetailsObject.thumbnailURL) {
+                
+                self.pageControl.currentPage = 0;
+                self.pageControl.numberOfPages = 1;
+                
+                [self.scrollView addSubview:[self prepareImge:currentDetailsObject.thumbnailURL :0]];
+            }
+        }
+        
+        //2- set details
+        if (![currentDetailsObject.description isEqualToString:@""]) {
+            CGSize realTextSize = [currentDetailsObject.description sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake((self.iPad_detailsView.frame.size.width - (2 * 5)), CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+            
+            CGSize expectedLabelSizeNew = realTextSize;
+            expectedLabelSizeNew.width = (self.iPad_detailsView.frame.size.width - (2 * 5));
+            
+            label = [[UILabel alloc] initWithFrame:CGRectMake(
+                                                              self.detailsTextLabel.frame.origin.x,
+                                                              self.detailsTextLabel.frame.origin.y + self.detailsTextLabel.frame.size.height + 5,
+                                                              expectedLabelSizeNew.width,
+                                                              expectedLabelSizeNew.height)];
+            
+            
+            
+            label.text = currentDetailsObject.description;
+            label.textAlignment = NSTextAlignmentRight;
+            label.font = [UIFont systemFontOfSize:15];
+            label.backgroundColor = [UIColor clearColor];
+            label.numberOfLines = 0;
+            label.textColor = [UIColor blackColor];
+            
+            //[label setLineBreakMode:NSLineBreakByWordWrapping];
+            [self.iPad_detailsView addSubview:label];
+
+
+            CGRect iPad_detailsVieworiginalFrame = self.iPad_detailsView.frame;
+            
+            [self.iPad_detailsView setFrame:CGRectMake(iPad_detailsVieworiginalFrame.origin.x,
+                                                       iPad_detailsVieworiginalFrame.origin.y,
+                                                       iPad_detailsVieworiginalFrame.size.width,
+                                                       self.detailsTextLabel.frame.origin.y + self.detailsTextLabel.frame.size.height + label.frame.size.height + 5 + 20)];
+            
+        }
+        else
+            [self.iPad_detailsView setHidden:YES];
+        
+        
+        //3- set attributes
+        if ((currentDetailsObject.attributes) && (currentDetailsObject.attributes.count))
+        {
+            //CGFloat addedHeightValue = self.contentView.frame.origin.y; //initial value, distant from last labels
+            CGFloat addedHeightValue = 10;
+            
+            CGFloat lastY;
+            CGFloat totalHeight;
+            lastY = 10;
+            totalHeight = lastY + 20;
+            
+            
+            // add video to left side view
+            float lastYleftSide = 0;
+            float totalCommentsScrollViewHeight = 0;
+             UIView* VideoView;
+            for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
+            {
+                if (attr.categoryAttributeID == 10169){
+                    if ([attr.attributeValue length] != 0) {
+                        VideoThumb = [NSString stringWithFormat:@"http://img.youtube.com/vi/%@/1.jpg",attr.attributeValue];
+                        VideoURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.youtube.com/watch?v=%@",attr.attributeValue]];
+                        
+                        VideoView = [self addOpenVideoViewForX:3 andY:lastYleftSide];
+                        lastYleftSide += 64;//54 + 10
+                        
+                        totalCommentsScrollViewHeight = totalCommentsScrollViewHeight + VideoView.frame.size.height + 10;
+                        [self.iPad_commentsScrollView setContentSize:CGSizeMake(self.iPad_commentsScrollView.frame.size.width, totalCommentsScrollViewHeight)];
+                        [self.iPad_commentsScrollView addSubview:VideoView];
+                        break;
+                    }
+                }
+                
+            }
+            
+            //----------------------------------------------------------------------
+            //add the view thah contains "browse ad in browser and report ad"
+            UIView * containerView = [[UIView alloc] initWithFrame:CGRectMake(3, 0, 296, 50)];
+            containerView.backgroundColor = [UIColor clearColor];
+            
+            UIImageView * bgImgV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 296, 50)];
+            [bgImgV setImage:[UIImage imageNamed:@"tb_car_details_box_5.png"]];
+            [containerView addSubview:bgImgV];
+            
+            UIButton * reportBadAdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [reportBadAdBtn setFrame:CGRectMake(10, 15, 130, 20)];
+            [reportBadAdBtn setImage:[UIImage imageNamed:@"tb_car_details_inform_ads_btn.png"] forState:UIControlStateNormal];
+            [reportBadAdBtn addTarget:self action:@selector(reportbadAdAction:) forControlEvents:UIControlEventTouchUpInside];
+            [containerView addSubview:reportBadAdBtn];
+            
+            UIButton * globeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [globeBtn setFrame:CGRectMake(156, 15, 130, 20)];
+            [globeBtn setImage:[UIImage imageNamed:@"tb_car_details_browse_btn.png"] forState:UIControlStateNormal];
+            [globeBtn addTarget:self action:@selector(globeAction:) forControlEvents:UIControlEventTouchUpInside];
+            [containerView addSubview:globeBtn];
+            
+            totalCommentsScrollViewHeight = totalCommentsScrollViewHeight + containerView.frame.size.height + 10;
+            [self.iPad_commentsScrollView setContentSize:CGSizeMake(self.iPad_commentsScrollView.frame.size.width, totalCommentsScrollViewHeight)];
+            [self.iPad_commentsScrollView addSubview:containerView];
+            //----------------------------------------------------------------------
+            
+            for (CarDetailsAttribute * attr in currentDetailsObject.attributes)
+            {
+                if (attr.categoryAttributeID != 502 &&
+                    attr.categoryAttributeID != 505 &&
+                    attr.categoryAttributeID != 508 &&
+                    attr.categoryAttributeID != 907 &&
+                    attr.categoryAttributeID != 1076 &&
+                    attr.categoryAttributeID != 10171 &&
+                    attr.categoryAttributeID != 10169) {
+                    
+                    if (![attr.attributeValue length] == 0) {
+                        
+                        //attr label
+                        NSString * attr_name_text = [NSString stringWithFormat:@"%@ :", attr.displayName];
+                        
+                        //CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15]];
+                        CGSize realTextSize = [attr_name_text sizeWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake((( (self.labelsScrollView.frame.size.width /2) - (2 * FIXED_H_DISTANCE)) / 2), CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+                        
+                        CGSize expectedLabelSize = realTextSize;
+                        
+                        expectedLabelSize.width = (((self.labelsScrollView.frame.size.width /2) - (2 * FIXED_H_DISTANCE)) / 2);
+                        
+                        expectedLabelSize.height = expectedLabelSize.height + 5;
+                        CGFloat attr_y = lastY + FIXED_V_DISTANCE;
+                        
+                        //value label
+                        //CGFloat valueLabelWidth = (self.labelsScrollView.frame.size.width /2) - (expectedLabelSize.width + (3 * FIXED_H_DISTANCE));
+                        CGFloat valueLabelWidth = (((self.labelsScrollView.frame.size.width /2) - (2 * FIXED_H_DISTANCE)) / 2);
+                        CGFloat valueLabelHeight = expectedLabelSize.height;
+                        
+                        
+                        CGFloat val_y = attr_y;
+                        UIButton* phoneBtn;
+                        if ([attr.displayName isEqualToString:@"رقم الجوال"] || [attr.displayName isEqualToString:@"رقم الهاتف"]) {
+                            phoneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                            //phoneBtn.frame = CGRectMake(30, 1, 128, 24);
+                            phoneBtn.frame = CGRectMake(10, 1, valueLabelWidth, 24);
+                            // CGSize size = [attr.attributeValue sizeWithFont:[UIFont systemFontOfSize:15.0f] constrainedToSize:CGSizeMake(valueLabelWidth + 20, valueLabelHeight) lineBreakMode:UILineBreakModeCharacterWrap];
+                            //CGRect frame = CGRectMake(20, 1, size.width, 24);
+                            //phoneBtn.frame = frame;
+                            [phoneBtn setBackgroundImage:[UIImage imageNamed:@"Phonenum_box.png"] forState:UIControlStateNormal];
+                            [phoneBtn addTarget:self action:@selector(callBtnPrss:) forControlEvents:UIControlEventTouchUpInside];
+                        }
+                        
+                        UILabel * valuelabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 2, valueLabelWidth, valueLabelHeight)];
+                        
+                        valuelabel.text = attr.attributeValue;
+                        valuelabel.textAlignment = NSTextAlignmentRight;
+                        valuelabel.font = [UIFont systemFontOfSize:12];
+                        valuelabel.textColor = [UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f];
+                        valuelabel.backgroundColor = [UIColor clearColor];
+                        
+                        UILabel * attrNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(valuelabel.frame.origin.x + valueLabelWidth + 3, 2, expectedLabelSize.width, expectedLabelSize.height)];
+                        
+                        attrNameLabel.text = attr_name_text;
+                        attrNameLabel.textAlignment = NSTextAlignmentRight;
+                        attrNameLabel.font = [UIFont systemFontOfSize:12];
+                        attrNameLabel.backgroundColor = [UIColor clearColor];
+                        attrNameLabel.numberOfLines = 0;
+                        
+                        UIView* v = [[UIView alloc]initWithFrame:CGRectMake(13 + (self.labelsScrollView.frame.size.width /2), val_y, valueLabelWidth + expectedLabelSize.width + 15, valueLabelHeight + 4)];
+                        
+                        v.backgroundColor = [UIColor clearColor];
+                        [v setBackgroundColor:[UIColor whiteColor]];
+                        if ([attr.displayName isEqualToString:@"رقم الجوال"] || [attr.displayName isEqualToString:@"رقم الهاتف"]){
+                            valuelabel.textColor = [UIColor whiteColor];
+                            valuelabel.font = [UIFont systemFontOfSize:13];
+                            [v addSubview:phoneBtn];
+                            
+                        }
+                        
+                        [v addSubview:attrNameLabel];
+                        [v addSubview:valuelabel];
+                        
+                        
+                        lastY = attr_y + valueLabelHeight;
+                        
+                        addedHeightValue = addedHeightValue + v.frame.size.height + FIXED_V_DISTANCE;
+                        
+                        [self.labelsScrollView setContentSize:
+                         (CGSizeMake(self.labelsScrollView.frame.size.width, ((addedHeightValue > self.iPad_detailsView.frame.size.height + 40) ? addedHeightValue : self.iPad_detailsView.frame.size.height + 40)))];
+                        
+                        [self.labelsScrollView addSubview:v];
+                    }
+                }
+            }
+            
+            totalHeight = totalHeight + addedHeightValue;
+            
+            [self.labelsScrollView setScrollEnabled:YES];
+            [self.labelsScrollView setShowsVerticalScrollIndicator:YES];
+            [self.labelsScrollView setUserInteractionEnabled:YES];
+            /*
+            [self.labelsScrollView setContentSize:
+             (CGSizeMake(self.labelsScrollView.frame.size.width, ((totalHeight > self.iPad_detailsView.frame.size.height + 40) ? totalHeight : self.iPad_detailsView.frame.size.height + 40)))];
+             */
+            //NSLog(@"%f", self.labelsScrollView.contentSize.height);
+        }
+    }
+    
+    
+}
+
 - (void) customizeButtonsByData {
     
     if (currentDetailsObject)
     {
-        
-        
         if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
             [self.phoneNumberButton setEnabled:YES];
         else
             [self.phoneNumberButton setEnabled:NO];
         
-        if (currentDetailsObject.isFeatured)
-        {
-            if (currentStore && (currentDetailsObject.storeID == currentStore.identifier))
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (currentDetailsObject.isFeatured)
             {
-                //set the design to deleted $;
-                [self.featureBtn setEnabled:YES];
-                [self.featureBtn setImage:[UIImage imageNamed:@"buttons_dollar_deleted.png"]];
+                if (currentStore && (currentDetailsObject.storeID == currentStore.identifier))
+                {
+                    //set the design to deleted $;
+                    [self.featureBtn setEnabled:YES];
+                    [self.featureBtn setImage:[UIImage imageNamed:@"buttons_dollar_deleted.png"]];
+                }
+                else
+                    [self.featureBtn setEnabled:NO];
             }
             else
-                [self.featureBtn setEnabled:NO];
+            {
+                [self.featureBtn setImage:[UIImage imageNamed:@"buttons_ok.png"]];
+                [self.featureBtn setEnabled:YES];
+            }
         }
-        else
-        {
-            [self.featureBtn setImage:[UIImage imageNamed:@"buttons_ok.png"]];
-            [self.featureBtn setEnabled:YES];
+        else {
+            if (currentDetailsObject.isFeatured)
+            {
+                [self.iPad_featureBtn setEnabled:NO];
+                [self.iPad_isFeaturedTinyImg setHidden:NO];
+            }
+            else
+            {
+                [self.iPad_featureBtn setEnabled:YES];
+                [self.iPad_isFeaturedTinyImg setHidden:YES];
+            }
         }
         
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
@@ -1232,13 +1567,28 @@
                 [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
             }
             
-            // check if he own the Ad
-            if (savedProfile.userID == currentDetailsObject.ownerID){
-                [self.editBtn setEnabled:YES];
-                [self.editAdBtn setEnabled:YES];
-            } else{
-                [self.editBtn setEnabled:NO];
-                [self.editAdBtn setEnabled:NO];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                // check if he own the Ad
+                if (savedProfile.userID == currentDetailsObject.ownerID){
+                    [self.editBtn setEnabled:YES];
+                    [self.editAdBtn setEnabled:YES];
+                } else {
+                    [self.editBtn setEnabled:NO];
+                    [self.editAdBtn setEnabled:NO];
+                }
+            }
+            else {
+                
+                // check if he own the Ad
+                if (savedProfile.userID == currentDetailsObject.ownerID){
+                    [self.iPad_deleteAdBtn setEnabled:YES];
+                    [self.iPad_editAdBtn setEnabled:YES];
+                } else {
+                    [self.iPad_featureBtn setHidden:YES];
+                    [self.iPad_deleteAdBtn setHidden:YES];
+                    [self.iPad_editAdBtn setHidden:YES];
+                }
+                
             }
         }else {
             [self.favoriteButton setEnabled:YES];
@@ -1255,27 +1605,44 @@
             }
             [self.topMostToolbar setItems:newItems];
         }
-        
+
         // Check labeld ad
         if (currentDetailsObject.isFeatured) {
-            [self.distinguishingImage setHidden:NO];
-            NSLog(@"%c",currentDetailsObject.isFeatured);
-            [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_Sp.png"]];
-            // [self.priceLabel setTextColor:[UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f]];
-            [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
-            [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar_Sp.png"]];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [self.distinguishingImage setHidden:NO];
+                //NSLog(@"%c",currentDetailsObject.isFeatured);
+                [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg_Sp.png"]];
+                // [self.priceLabel setTextColor:[UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f]];
+                [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
+                [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar_Sp.png"]];
+            }
+            else {
+                [self.distinguishingImage setHidden:NO];
+                //NSLog(@"%c",currentDetailsObject.isFeatured);
+                [self.backgroundImage setImage:[UIImage imageNamed:@"tb_car_details_background.png"]];
+                // [self.priceLabel setTextColor:[UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f]];
+                [self.pageControl setCurrentPageIndicatorTintColor:[UIColor orangeColor]];
+                [self.bgStoreView setImage:[UIImage imageNamed:@"tb_car_details_boxes_orange1.png"]];
+            }
             
         }
         
         else
         {
-            
-            //[self.distinguishingImage setHidden:YES];
-            
-            [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg.png"]];
-            
-            [self.pageControl setCurrentPageIndicatorTintColor:[UIColor lightGrayColor]];
-            [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar.png"]];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                //[self.distinguishingImage setHidden:YES];
+                
+                [self.backgroundImage setImage:[UIImage imageNamed:@"Details_bg.png"]];
+                
+                [self.pageControl setCurrentPageIndicatorTintColor:[UIColor lightGrayColor]];
+                [self.bgStoreView setImage:[UIImage imageNamed:@"Details_bar.png"]];
+            }
+            else {
+                [self.backgroundImage setImage:[UIImage imageNamed:@"tb_car_details_blue_background.png"]];
+                
+                [self.pageControl setCurrentPageIndicatorTintColor:[UIColor lightGrayColor]];
+                [self.bgStoreView setImage:[UIImage imageNamed:@"tb_car_details_boxes_blue1.png"]];
+            }
         }
         
         // Check store
@@ -1306,8 +1673,34 @@
                 [self.brandStoreImg setImageWithURL:aURL];
             
         }
+        if  (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            if ( (!savedProfile) || ((savedProfile) && (savedProfile.userID != currentDetailsObject.ownerID)) ) {
+                
+                //move the bottomLeftView up and hide the buttons of editing teh ad
+                float newY = self.iPad_topLeftSideView.frame.origin.y + (self.iPad_topLeftSideView.frame.size.height /2);
+                
+                CGRect newBottomLeftFrame = self.iPad_bottomLeftSideView.frame;
+                float yDiff = newBottomLeftFrame.origin.y - newY;
+                newBottomLeftFrame.origin.y = newY;
+                newBottomLeftFrame.size.height = newBottomLeftFrame.size.height + yDiff;
+                
+                CGRect newCommentsViewFrame = self.commentsView.frame;
+                newCommentsViewFrame.origin.y = newCommentsViewFrame.origin.y + yDiff;
+                
+                CGRect newCommentsScrollViewFrame = self.iPad_commentsScrollView.frame;
+                newCommentsScrollViewFrame.origin.y = 0;
+                newCommentsScrollViewFrame.size.height = newCommentsScrollViewFrame.size.height + yDiff;
+                [UIView animateWithDuration:0.1f animations:^{
+                    [self.iPad_bottomLeftSideView setFrame:newBottomLeftFrame];
+                    [self.commentsView setFrame:newCommentsViewFrame];
+                    [self.iPad_commentsScrollView setFrame:newCommentsScrollViewFrame];
+                }];
+                
+
+            }
+        }
     }
-    
+
 }
 
 #pragma mark - carDetailsManager delegate methods
@@ -1349,13 +1742,13 @@
         [self.detailsLabel setText:currentDetailsObject.title];
         [self.detailsLabel setTextAlignment:SSTextAlignmentRight];
         [self.detailsLabel setTextColor:[UIColor blackColor]];
-        [self.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:14.0] ];
+        [self.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)? 14.0 : 20.0f)] ];
         
         
         [self.priceLabel setBackgroundColor:[UIColor clearColor]];
-        [self.priceLabel setTextAlignment:SSTextAlignmentLeft];
+        [self.priceLabel setTextAlignment:((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)? SSTextAlignmentLeft : SSTextAlignmentCenter)];
         [self.priceLabel setTextColor:[UIColor colorWithRed:52.0f/255.0f green:165.0f/255.0f blue:206.0f/255.0f alpha:1.0f]];
-        [self.priceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:13.0] ];
+        [self.priceLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)? 13.0 : 26.0f)] ];
         
         NSString * priceStr = [GenericMethods formatPrice:currentDetailsObject.price];
         if ([priceStr isEqualToString:@""])
@@ -1432,9 +1825,12 @@
     else
         [self hideLoadingIndicator];
     
-    
     [self customizeButtonsByData];
-    [self resizeScrollView];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        [self resizeScrollView];
+    else
+        [self iPad_resizeScrollView];
     
     //4- cache the resultArray data
     //... (COME BACK HERE LATER) ...
@@ -1885,6 +2281,20 @@
     }
 }
 
+- (NSUInteger)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskLandscape;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationPortrait;
+    else
+        return UIInterfaceOrientationLandscapeLeft;
+}
+
 
 - (void) resetGalleryViewToNil {
     galleryView = nil;
@@ -2014,10 +2424,14 @@
     
     float minCommentViewY = CGFLOAT_MAX;
     
-    float totalHeight = self.labelsScrollView.contentSize.height;
-    
+    UIScrollView * containerScrollView;
+    float totalHeight = containerScrollView.contentSize.height;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    	containerScrollView = self.labelsScrollView;
+    else
+    	containerScrollView = self.iPad_commentsScrollView;
     if (commentsArray && commentsArray.count) {
-        for (UIView * subView in self.labelsScrollView.subviews) {
+        for (UIView * subView in containerScrollView.subviews) {
             if ([subView class] == [SingleCommentView class]) {
                 if (subView.frame.origin.y < minCommentViewY) {
                     minCommentViewY = subView.frame.origin.y;
@@ -2030,7 +2444,7 @@
         
         float maxY = 0;
         float bottomViewHeight = 0;
-        for (UIView * subView in self.labelsScrollView.subviews) {
+        for (UIView * subView in containerScrollView.subviews) {
             if (subView.frame.origin.y > maxY) {
                 maxY = subView.frame.origin.y;
                 bottomViewHeight = subView.frame.size.height;
@@ -2038,9 +2452,12 @@
             }
         }
         
+        float x;
+        x = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 13 : 3);
+        
         maxY = maxY + bottomViewHeight;
         
-        UILabel* titleImgV = [[UILabel alloc] initWithFrame:CGRectMake(13, maxY + 10, 295, 35)];
+        UILabel* titleImgV = [[UILabel alloc] initWithFrame:CGRectMake(x, maxY + 10, 295, 35)];
         [titleImgV setText:@" تعليقات المستخدمين"];
         [titleImgV setTextAlignment:NSTextAlignmentRight];
         [titleImgV setTextColor:[UIColor colorWithRed:0.0/255 green:127.0/255 blue:175.0/255 alpha:1.0f]];
@@ -2050,14 +2467,15 @@
         maxY = maxY + titleImgV.frame.size.height + 10;
         
         totalHeight = totalHeight + titleImgV.frame.size.height;
-        [self.labelsScrollView addSubview:titleImgV];
+        [containerScrollView addSubview:titleImgV];
         
         minCommentViewY = maxY;
     }
     
     [commentsArray insertObject:comment atIndex:0];
     
-    
+    float x;
+    x = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 13 : 3);
     
     SingleCommentView * cView = [[SingleCommentView alloc] initWithCommentText:comment.commentText];
     
@@ -2077,7 +2495,7 @@
     
     
     CGRect cViewFrame = cView.frame;
-    cViewFrame.origin.x = 13;
+    cViewFrame.origin.x = x;
     cViewFrame.origin.y = minCommentViewY;
     
     [cView setFrame:cViewFrame];
@@ -2089,11 +2507,11 @@
     
     if (animated) {
         
-        [UIView transitionWithView:self.labelsScrollView
+        [UIView transitionWithView:containerScrollView
                           duration:0.5
                            options:UIViewAnimationOptionTransitionCrossDissolve //any animation
                         animations:^ {
-                            for (UIView * subView in self.labelsScrollView.subviews) {
+                            for (UIView * subView in containerScrollView.subviews) {
                                 if ([subView class] == [SingleCommentView class]) {
                                     CGRect viewFrame = subView.frame;
                                     viewFrame.origin.y = viewFrame.origin.y + cView.frame.size.height;
@@ -2101,27 +2519,27 @@
                                     
                                 }
                                 
-                                [self.labelsScrollView addSubview:cView];
+                                [containerScrollView addSubview:cView];
                             }
                         }
                         completion:nil];
     }
     else  {
-        for (UIView * subView in self.labelsScrollView.subviews) {
+        for (UIView * subView in containerScrollView.subviews) {
             if ([subView class] == [SingleCommentView class]) {
                 CGRect viewFrame = subView.frame;
                 viewFrame.origin.y = viewFrame.origin.y + cView.frame.size.height;
                 [subView setFrame:viewFrame];
             }
             
-            [self.labelsScrollView addSubview:cView];
+            [containerScrollView addSubview:cView];
         }
     }
     
     float lastY = 0;
     
     float bottomViewHeight = 0;
-    for (UIView * subView in self.labelsScrollView.subviews) {
+    for (UIView * subView in containerScrollView.subviews) {
         if (subView.frame.origin.y > lastY) {
             
             if (subView.class == [SingleCommentView class]) {
@@ -2131,15 +2549,15 @@
             
         }
     }
-    
+
     lastY = lastY + cView.frame.size.height + 10;
     loadMoreCommentsBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [loadMoreCommentsBtn setFrame:CGRectMake(13, lastY, 295, 30)];
+    [loadMoreCommentsBtn setFrame:CGRectMake(x, lastY, 295, 30)];
     [loadMoreCommentsBtn setTitle:@"إظهار المزيد ..." forState:UIControlStateNormal];
     [loadMoreCommentsBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [loadMoreCommentsBtn addTarget:self action:@selector(loadMoreCommentsBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.labelsScrollView addSubview:loadMoreCommentsBtn];
+    [containerScrollView addSubview:loadMoreCommentsBtn];
     
     if ([commentsArray count] >= 50) {
         [loadMoreCommentsBtn setHidden:NO];
@@ -2149,7 +2567,7 @@
     totalHeight = totalHeight + loadMoreCommentsBtn.frame.size.height;
     
     
-    [self.labelsScrollView setContentSize:CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight)];
+    [containerScrollView setContentSize:CGSizeMake(containerScrollView.frame.size.width, totalHeight)];
     
 }
 
@@ -2191,15 +2609,22 @@
                 [loadMoreCommentsBtn removeFromSuperview];
             loadMoreCommentsBtn = nil;
         }
-            
+        
         //NSMutableArray * sorted = [NSMutableArray new];
         //[sorted addObjectsFromArray:[self sortCommentsArray:commentsArray]];
         //commentsArray = sorted;
         
-        float maxY = 0;
+        float maxY = -1;
         float bottomViewHeight = 0;
-        for (UIView * subView in self.labelsScrollView.subviews) {
+        UIScrollView * containerScrollView;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            containerScrollView = self.labelsScrollView;
+        else
+            containerScrollView = self.iPad_commentsScrollView;
+        
+        for (UIView * subView in containerScrollView.subviews) {
             if (subView.frame.origin.y > maxY) {
+                
                 if (commentsArray.count > resultArray.count) {  // second time comment loading
                     if (subView.class == [SingleCommentView class]) {
                         maxY = subView.frame.origin.y;
@@ -2214,14 +2639,16 @@
         }
         
         maxY = maxY + bottomViewHeight;
-        float totalHeight = self.labelsScrollView.contentSize.height;
+        float totalHeight = containerScrollView.contentSize.height;
         float lastY = maxY;
         
         if (commentsArray.count == resultArray.count) {
-            UIImageView * titleImgV1 = [[UIImageView alloc] initWithFrame:CGRectMake(13, lastY + 10, 295, 35)];
+            float x;
+            x = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 13 : 3);
+            UIImageView * titleImgV1 = [[UIImageView alloc] initWithFrame:CGRectMake(x, lastY + 10, 295, 35)];
             titleImgV1.image = [UIImage imageNamed:@"Comments_title.png"];
             
-            UILabel* titleImgV = [[UILabel alloc] initWithFrame:CGRectMake(13, lastY + 10, 295, 35)];
+            UILabel* titleImgV = [[UILabel alloc] initWithFrame:CGRectMake(x, lastY + 10, 295, 35)];
             [titleImgV setText:@" تعليقات المستخدمين"];
             [titleImgV setTextAlignment:NSTextAlignmentRight];
             [titleImgV setTextColor:[UIColor colorWithRed:0.0/255 green:127.0/255 blue:175.0/255 alpha:1.0f]];
@@ -2231,10 +2658,12 @@
             lastY = lastY + titleImgV.frame.size.height;
             
             totalHeight = totalHeight + titleImgV.frame.size.height;
-            [self.labelsScrollView addSubview:titleImgV];
+            [containerScrollView addSubview:titleImgV];
         }
         
         for (CommentOnAd * comment in resultArray) {
+            float x;
+            x = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 13 : 3);
             
             SingleCommentView * cView = [[SingleCommentView alloc] initWithCommentText:comment.commentText];
             
@@ -2254,7 +2683,7 @@
             
             
             CGRect cViewFrame = cView.frame;
-            cViewFrame.origin.x = 13;
+            cViewFrame.origin.x = x;
             cViewFrame.origin.y = lastY + 10 ;
             
             [cView setFrame:cViewFrame];
@@ -2263,12 +2692,14 @@
             
             totalHeight = totalHeight + cView.frame.size.height + FIXED_V_DISTANCE;
             
-            [self.labelsScrollView addSubview:cView];
+            [containerScrollView addSubview:cView];
         }
         
+        float x;
+        x = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 13 : 3);
         lastY = lastY + 10;
         loadMoreCommentsBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [loadMoreCommentsBtn setFrame:CGRectMake(13, lastY, 295, 30)];
+        [loadMoreCommentsBtn setFrame:CGRectMake(x, lastY, 295, 30)];
         [loadMoreCommentsBtn setTitle:@"إظهار المزيد ..." forState:UIControlStateNormal];
         [loadMoreCommentsBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [loadMoreCommentsBtn addTarget:self action:@selector(loadMoreCommentsBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -2276,11 +2707,11 @@
             [loadMoreCommentsBtn setHidden:NO];
         }else
             [loadMoreCommentsBtn setHidden:YES];
-        [self.labelsScrollView addSubview:loadMoreCommentsBtn];
+        [containerScrollView addSubview:loadMoreCommentsBtn];
         
         totalHeight = totalHeight + loadMoreCommentsBtn.frame.size.height;
         
-        [self.labelsScrollView setContentSize:CGSizeMake(self.labelsScrollView.frame.size.width, totalHeight)];
+        [containerScrollView setContentSize:CGSizeMake(containerScrollView.frame.size.width, totalHeight)];
     }
     
     [self hideLoadingIndicator];
@@ -2309,6 +2740,68 @@
         [self AddNewComment:resultComment animated:YES];
     }
 }
+#pragma mark - iPad helper methods
 
+- (void) iPad_updateSegmentButtons {
+    
+    UIImage * iPad_buyCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn_white.png"];
+    UIImage * iPad_buyCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn.png"];
+    
+    UIImage * iPad_addCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn_white.png"];
+    UIImage * iPad_addCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn.png"];
+    
+    UIImage * iPad_browseGalleriesSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn_white.png"];
+    UIImage * iPad_browseGalleriesSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn.png"];
+    
+    UIImage * iPad_addStoreSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn_white.png"];
+    UIImage * iPad_addStoreSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn.png"];
+    
+    [self.iPad_buyCarSegmentBtn setBackgroundImage:(iPad_buyCarSegmentBtnChosen ? iPad_buyCarSegmentBtnSelectedImage : iPad_buyCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_addCarSegmentBtn setBackgroundImage:(iPad_addCarSegmentBtnChosen ?  iPad_addCarSegmentBtnSelectedImage: iPad_addCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_browseGalleriesSegmentBtn setBackgroundImage:(iPad_browseGalleriesSegmentBtnChosen ? iPad_browseGalleriesSegmentBtnSelectedImage :  iPad_browseGalleriesSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_addStoreSegmentBtn setBackgroundImage:(iPad_addStoreSegmentBtnChosen ? iPad_addStoreSegmentBtnSelectedImage : iPad_addStoreSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+}
+
+#pragma mark - iPad actions
+
+- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender {
+    
+    iPad_buyCarSegmentBtnChosen = YES;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = YES;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = YES;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = YES;
+    
+    [self iPad_updateSegmentButtons];
+}
 
 @end

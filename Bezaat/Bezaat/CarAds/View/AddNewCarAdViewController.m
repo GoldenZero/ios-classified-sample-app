@@ -1050,12 +1050,20 @@
     [self hideLoadingIndicator];
     //CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
     CarAdDetailsViewController *details;
-    if (currentImgsUploaded && currentImgsUploaded.count)   //ad with image
-        details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
     
-    else                            //ad with no image
-        details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
-    
+    if (currentImgsUploaded && currentImgsUploaded.count) {  //ad with image
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        else
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController_iPad" bundle:nil];
+    }
+    else {                            //ad with no image
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+        else
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController_iPad" bundle:nil];
+    }
+
     details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     details.currentAdID = myAdID;
     details.checkPage = YES;
@@ -1071,11 +1079,19 @@
         //CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
         CarAdDetailsViewController *details;
         
-        if (currentImgsUploaded && currentImgsUploaded.count)   //ad with image
-            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        if (currentImgsUploaded && currentImgsUploaded.count) {  //ad with image
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+            else
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController_iPad" bundle:nil];
+        }
+        else {                            //ad with no image
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+            else
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController_iPad" bundle:nil];
+        }
         
-        else                            //ad with no image
-            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
         
         details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         details.currentAdID = myAdID;

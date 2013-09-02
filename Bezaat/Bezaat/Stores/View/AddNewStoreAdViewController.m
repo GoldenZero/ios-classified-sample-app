@@ -1384,11 +1384,19 @@
         if (buttonIndex == actionSheet.cancelButtonIndex)
         {
             CarAdDetailsViewController *details;
-            if ([currentImgsUploaded count] > 0)   //ad with image
-                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
             
-            else                            //ad with no image
-                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+            if ([currentImgsUploaded count] > 0){   //ad with image
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                    details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+                else
+                    details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController_iPad" bundle:nil];
+            }
+            else {                            //ad with no image
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                    details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+                else
+                    details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController_iPad" bundle:nil];
+            }
             
             details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
             details.currentAdID=myAdID;
@@ -1557,11 +1565,19 @@
     else if (alertView.tag == 3)
     {
         CarAdDetailsViewController *details;
-        if ([currentImgsUploaded count] > 0)   //ad with image
-            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
         
-        else                            //ad with no image
-            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+        if ([currentImgsUploaded count] > 0){   //ad with image
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+            else
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController_iPad" bundle:nil];
+        }
+        else {                            //ad with no image
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+            else
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController_iPad" bundle:nil];
+        }
         
         details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         details.currentAdID=myAdID;
@@ -1661,11 +1677,19 @@
     //CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
     CarAdDetailsViewController *details;
     
-    if (currentImgsUploaded && currentImgsUploaded.count)   //ad with image
-        details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
-    
-    else                            //ad with no image
-        details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+    if (currentImgsUploaded && currentImgsUploaded.count) {  //ad with image
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        else
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController_iPad" bundle:nil];
+    }
+    else {                            //ad with no image
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+        else
+            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController_iPad" bundle:nil];
+    }
+   
     details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     details.currentAdID = myAdID;
     details.checkPage = YES;
@@ -1682,11 +1706,20 @@
         //CarAdDetailsViewController *details=[[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
         
         CarAdDetailsViewController *details;
-        if (currentImgsUploaded && currentImgsUploaded.count)   //ad with image
-            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
         
-        else                            //ad with no image
-            details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+        if (currentImgsUploaded && currentImgsUploaded.count) {  //ad with image
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+            else
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController_iPad" bundle:nil];
+        }
+        else {                            //ad with no image
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+            else
+                details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController_iPad" bundle:nil];
+        }
+        
         
         details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         details.currentAdID = myAdID;

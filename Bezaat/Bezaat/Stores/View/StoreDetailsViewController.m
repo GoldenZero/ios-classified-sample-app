@@ -324,11 +324,18 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     CarAdDetailsViewController *vc;
     CarAd *adv = currentStoreAds[indexPath.row];
     
-    if (adv.thumbnailURL)   //ad with image
-        vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
-    
-    else                            //ad with no image
-        vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+    if (adv.thumbnailURL) {   //ad with image
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];
+        else
+            vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController_iPad" bundle:nil];
+    }
+    else {                            //ad with no image
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController" bundle:nil];
+        else
+            vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController_iPad" bundle:nil];
+    }
     
     vc.currentAdID = adv.adID;
     vc.currentStore = self.currentStore;
