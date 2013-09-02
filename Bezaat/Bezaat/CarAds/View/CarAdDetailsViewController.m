@@ -1684,15 +1684,15 @@
                 newBottomLeftFrame.origin.y = newY;
                 newBottomLeftFrame.size.height = newBottomLeftFrame.size.height + yDiff;
                 
-                CGRect newCommentsViewFrame = self.commentsView.frame;
-                newCommentsViewFrame.origin.y = newCommentsViewFrame.origin.y + yDiff;
+                //CGRect newCommentsViewFrame = self.commentsView.frame;
+                //newCommentsViewFrame.origin.y = newCommentsViewFrame.origin.y + yDiff;
                 
                 CGRect newCommentsScrollViewFrame = self.iPad_commentsScrollView.frame;
                 newCommentsScrollViewFrame.origin.y = 0;
                 newCommentsScrollViewFrame.size.height = newCommentsScrollViewFrame.size.height + yDiff;
                 [UIView animateWithDuration:0.1f animations:^{
                     [self.iPad_bottomLeftSideView setFrame:newBottomLeftFrame];
-                    [self.commentsView setFrame:newCommentsViewFrame];
+                    //[self.commentsView setFrame:newCommentsViewFrame];
                     [self.iPad_commentsScrollView setFrame:newCommentsScrollViewFrame];
                 }];
                 
@@ -2308,6 +2308,28 @@
         self.commentTextView.text = @"أضف تعليقك";
         self.commentTextView.textAlignment = NSTextAlignmentRight;
     }
+    
+    CGRect textViewFrame = self.commentTextView.frame;
+    textViewFrame.size.width = 233.0f; //nib size
+    
+    CGRect commentsViewFrame = self.commentsView.frame;
+    commentsViewFrame.size.width = 290.0f;
+    
+    UIImageView * innerImgV;
+    for (UIView * subview in self.commentsView.subviews) {
+        if ([subview class] == [UIImageView class]) {
+            innerImgV = subview;
+            break;
+        }
+    }
+    CGRect innerImgVFrame = innerImgV.frame;
+    innerImgVFrame.size.width = 290.0f;
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        [self.commentTextView setFrame:textViewFrame];
+        [self.commentsView setFrame:commentsViewFrame];
+        [innerImgV setFrame:innerImgVFrame];
+    }];
 }
 
 
@@ -2363,6 +2385,13 @@
         self.commentTextView.text = @"";
         self.commentTextView.textColor = [UIColor blackColor];
         self.commentTextView.textAlignment = NSTextAlignmentLeft;
+        
+        CGRect textViewFrame = self.commentTextView.frame;
+        textViewFrame.size.width = 1009.0f; //wider size
+        
+        [UIView animateWithDuration:0.2f animations:^{
+            [self.commentTextView setFrame:textViewFrame];
+        }];
     }
     return YES;
 }
