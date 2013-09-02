@@ -398,6 +398,7 @@
     
 }////
 
+
 -(void)openImgs:(id) sender {
     
     if (currentDetailsObject && currentDetailsObject.adImages && currentDetailsObject.adImages.count) {
@@ -2318,7 +2319,7 @@
     UIImageView * innerImgV;
     for (UIView * subview in self.commentsView.subviews) {
         if ([subview class] == [UIImageView class]) {
-            innerImgV = subview;
+            innerImgV = (UIImageView *) subview;
             break;
         }
     }

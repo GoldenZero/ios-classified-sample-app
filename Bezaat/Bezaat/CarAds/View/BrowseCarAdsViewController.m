@@ -1393,6 +1393,11 @@
             [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage setClipsToBounds:YES];
         }
+        else if (self.currentBrand) {
+            [cell.carImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"tb_default_%i.png", self.currentBrand.brandID]]];
+            [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.carImage setClipsToBounds:YES];
+        }
         
         //customize storeName
         cell.storeNameLabel.text = carAdObject.storeName;
@@ -1561,6 +1566,11 @@
                 [cell.carImage setImageWithURL:carAdObject.thumbnailURL
                               placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
             }
+            [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
+            [cell.carImage setClipsToBounds:YES];
+        }
+        else if (self.currentBrand) {
+            [cell.carImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"tb_default_%i.png", self.currentBrand.brandID]]];
             [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage setClipsToBounds:YES];
         }
