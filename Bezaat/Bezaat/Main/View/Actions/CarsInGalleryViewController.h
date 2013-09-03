@@ -28,9 +28,22 @@
 #pragma mark - iPad properties
 @property (strong, nonatomic) IBOutlet UILabel *iPad_galleryDescriptionLabel;
 @property (strong, nonatomic) IBOutlet UILabel *iPad_countOfAdsLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *iPad_buyCarSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_addCarSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_browseGalleriesSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_addStoreSegmentBtn;
+
 #pragma mark - Actions
 - (IBAction)homeBtnPrss:(id)sender;
 - (IBAction)phoneBtnPrss:(id)sender;
+
+- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender;
+
 - (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
 - (void) removeAdWithAdID:(NSUInteger) adID;
+
 @end

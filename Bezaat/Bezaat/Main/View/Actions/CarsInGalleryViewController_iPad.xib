@@ -489,6 +489,74 @@
 					<int key="connectionID">450</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">iPad_addCarSegmentBtn</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="52421280"/>
+					</object>
+					<int key="connectionID">501</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">iPad_addStoreSegmentBtn</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="628329397"/>
+					</object>
+					<int key="connectionID">503</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">iPad_browseGalleriesSegmentBtn</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="834485081"/>
+					</object>
+					<int key="connectionID">504</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">iPad_buyCarSegmentBtn</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="485600422"/>
+					</object>
+					<int key="connectionID">505</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">iPad_buyCarSegmentBtnPressed:</string>
+						<reference key="source" ref="485600422"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">506</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">iPad_addCarSegmentBtnPressed:</string>
+						<reference key="source" ref="52421280"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">507</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">iPad_browseGalleriesSegmentBtnPressed:</string>
+						<reference key="source" ref="834485081"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">508</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">iPad_addStoreSegmentBtnPressed:</string>
+						<reference key="source" ref="628329397"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">509</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">homeBtnPrss:</string>
 						<reference key="source" ref="979305740"/>
@@ -2397,7 +2465,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">500</int>
+			<int key="maxID">509</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2406,11 +2474,31 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="homeBtnPrss:">id</string>
+						<string key="iPad_addCarSegmentBtnPressed:">id</string>
+						<string key="iPad_addStoreSegmentBtnPressed:">id</string>
+						<string key="iPad_browseGalleriesSegmentBtnPressed:">id</string>
+						<string key="iPad_buyCarSegmentBtnPressed:">id</string>
 						<string key="phoneBtnPrss:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="homeBtnPrss:">
 							<string key="name">homeBtnPrss:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="iPad_addCarSegmentBtnPressed:">
+							<string key="name">iPad_addCarSegmentBtnPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="iPad_addStoreSegmentBtnPressed:">
+							<string key="name">iPad_addStoreSegmentBtnPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="iPad_browseGalleriesSegmentBtnPressed:">
+							<string key="name">iPad_browseGalleriesSegmentBtnPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="iPad_buyCarSegmentBtnPressed:">
+							<string key="name">iPad_buyCarSegmentBtnPressed:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="phoneBtnPrss:">
@@ -2423,6 +2511,10 @@
 						<string key="galleryImage">UIImageView</string>
 						<string key="galleryNameLabel">UILabel</string>
 						<string key="galleryPhoneLabel">UILabel</string>
+						<string key="iPad_addCarSegmentBtn">UIButton</string>
+						<string key="iPad_addStoreSegmentBtn">UIButton</string>
+						<string key="iPad_browseGalleriesSegmentBtn">UIButton</string>
+						<string key="iPad_buyCarSegmentBtn">UIButton</string>
 						<string key="iPad_countOfAdsLabel">UILabel</string>
 						<string key="iPad_galleryDescriptionLabel">UILabel</string>
 						<string key="noAdsImageView">UIImageView</string>
@@ -2445,6 +2537,22 @@
 						<object class="IBToOneOutletInfo" key="galleryPhoneLabel">
 							<string key="name">galleryPhoneLabel</string>
 							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="iPad_addCarSegmentBtn">
+							<string key="name">iPad_addCarSegmentBtn</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="iPad_addStoreSegmentBtn">
+							<string key="name">iPad_addStoreSegmentBtn</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="iPad_browseGalleriesSegmentBtn">
+							<string key="name">iPad_browseGalleriesSegmentBtn</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="iPad_buyCarSegmentBtn">
+							<string key="name">iPad_buyCarSegmentBtn</string>
+							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="iPad_countOfAdsLabel">
 							<string key="name">iPad_countOfAdsLabel</string>
