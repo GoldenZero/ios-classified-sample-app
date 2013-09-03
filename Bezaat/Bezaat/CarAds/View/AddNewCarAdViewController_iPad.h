@@ -1,5 +1,5 @@
 //
-//  AddNewCarAdViewController.h
+//  AddNewCarAdViewController_iPad.h
 //  Bezaat
 //
 //  Created by Roula Misrabi on 3/3/13.
@@ -13,7 +13,7 @@
 #import "GAI.h"
 #import "XCDFormInputAccessoryView.h"
 
-@interface AddNewCarAdViewController : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,PricingOptionsDelegate>
+@interface AddNewCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,PricingOptionsDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
@@ -42,6 +42,9 @@
 @property (strong, nonatomic) UITextField *emailAddress;
 
 @property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
+
+#pragma mark - iPad properties
+@property (strong, nonatomic) IBOutlet SSLabel *iPad_titleLabel;
 
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;

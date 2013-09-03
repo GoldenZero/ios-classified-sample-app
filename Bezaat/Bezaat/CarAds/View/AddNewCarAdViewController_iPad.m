@@ -1,5 +1,5 @@
 //
-//  AddNewCarAdViewController.m
+//  AddNewCarAdViewController_iPad.m
 //  Bezaat
 //
 //  Created by Roula Misrabi on 3/3/13.
@@ -7,7 +7,7 @@
 //
 
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "AddNewCarAdViewController.h"
+#import "AddNewCarAdViewController_iPad.h"
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
 #import "labelAdViewController.h"
@@ -21,7 +21,7 @@
 #define AD_COMMENTS_BY_MAIL             1    //always allow "true" receiving mails (fixed)
 
 
-@interface AddNewCarAdViewController (){
+@interface AddNewCarAdViewController_iPad (){
         
     UITapGestureRecognizer *tap1;
     UITapGestureRecognizer *tap2;
@@ -73,7 +73,7 @@
 
 @end
 
-@implementation AddNewCarAdViewController
+@implementation AddNewCarAdViewController_iPad
 @synthesize carAdTitle,mobileNum,distance,carDetails,carPrice,countryCity,currency,kiloMile,productionYear,carDetailLabel;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
