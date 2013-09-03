@@ -300,7 +300,7 @@
         {
             //[cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
             
-            [cell.cellBackgoundImage setImage:[UIImage imageNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"Listing2_nonphoto_bg_Sp.png" : @"")]];
+            [cell.cellBackgoundImage setImage:[UIImage imageNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"Listing2_nonphoto_bg_Sp.png" : @"ads_view_orange_box.png")]];
             cell.cellBackgoundImage.frame = CGRectMake(cell.cellBackgoundImage.frame.origin.x, cell.cellBackgoundImage.frame.origin.y, cell.cellBackgoundImage.frame.size.width, cell.cellBackgoundImage.frame.size.height);
             
             [cell.distingushingImage setHidden:NO];

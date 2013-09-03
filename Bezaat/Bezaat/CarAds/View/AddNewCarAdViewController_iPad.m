@@ -720,6 +720,7 @@
     [self closePicker];
 }
 
+/*
 - (IBAction)homeBtnPrss:(id)sender {
     ChooseActionViewController *vc;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -728,6 +729,10 @@
         vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
     
+}*/
+
+- (IBAction) iPad_closeBtnPrss:(id) sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)addBtnprss:(id)sender {

@@ -49,7 +49,8 @@
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;
 
-- (IBAction)homeBtnPrss:(id)sender;
+//- (IBAction)homeBtnPrss:(id)sender;
+- (IBAction) iPad_closeBtnPrss:(id) sender
 - (IBAction)addBtnprss:(id)sender;
 - (IBAction)selectModelBtnPrss:(id)sender;
 
