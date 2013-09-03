@@ -13,7 +13,7 @@
 #import "gallariesManager.h"
 #import "ProfileManager.h"
 
-@interface CarsInGalleryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarsInGalleryDelegate, FavoritesDelegate, UIAlertViewDelegate>
+@interface CarsInGalleryViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarsInGalleryDelegate, FavoritesDelegate, UIAlertViewDelegate, MFMessageComposeViewControllerDelegate>
 
 #pragma mark - Properties
 @property (strong, nonatomic) IBOutlet UIImageView *galleryImage;
@@ -25,6 +25,9 @@
 @property (weak, nonatomic) IBOutlet SSLabel *noAdsLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 
+#pragma mark - iPad properties
+@property (strong, nonatomic) IBOutlet UILabel *iPad_galleryDescriptionLabel;
+@property (strong, nonatomic) IBOutlet UILabel *iPad_countOfAdsLabel;
 #pragma mark - Actions
 - (IBAction)homeBtnPrss:(id)sender;
 - (IBAction)phoneBtnPrss:(id)sender;

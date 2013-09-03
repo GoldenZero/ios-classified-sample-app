@@ -27,4 +27,8 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *carImage;
 
+#pragma mark - iPad properties
+@property (strong, nonatomic) IBOutlet UIButton *iPad_phoneBtn;
+@property (strong, nonatomic) IBOutlet UIButton *iPad_smsBtn;
+
 @end

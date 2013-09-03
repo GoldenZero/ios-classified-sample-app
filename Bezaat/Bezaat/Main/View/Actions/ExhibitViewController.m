@@ -189,7 +189,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    CarsInGalleryViewController *vc=[[CarsInGalleryViewController alloc] initWithNibName:@"CarsInGalleryViewController" bundle:nil];
+    CarsInGalleryViewController *vc;
+    vc=[[CarsInGalleryViewController alloc] initWithNibName:@"CarsInGalleryViewController" bundle:nil];
     vc.gallery=(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row];
     [self presentViewController:vc animated:YES completion:nil];
     
@@ -252,7 +253,10 @@
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    CarsInGalleryViewController *vc;
+    vc=[[CarsInGalleryViewController alloc] initWithNibName:@"CarsInGalleryViewController_iPad" bundle:nil];
+    vc.gallery=(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void) loadData{

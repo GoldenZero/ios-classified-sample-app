@@ -43,15 +43,22 @@
     
     userDidScroll = NO;
     
-    //customize the noAdsLabel
-    [self.noAdsLabel setBackgroundColor:[UIColor clearColor]];
-    [self.noAdsLabel setTextAlignment:SSTextAlignmentCenter];
-    [self.noAdsLabel setTextColor:[UIColor grayColor]];
-    [self.noAdsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:20.0] ];
-    [self.noAdsLabel setText:@"لا يوجد إعلانات في هذا المتجر"];
     
-    [self.tableView registerNib:[UINib nibWithNibName:@"carInGalleryCell" bundle:nil]
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        
+        //customize the noAdsLabel
+        [self.noAdsLabel setBackgroundColor:[UIColor clearColor]];
+        [self.noAdsLabel setTextAlignment:SSTextAlignmentCenter];
+        [self.noAdsLabel setTextColor:[UIColor grayColor]];
+        [self.noAdsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:20.0] ];
+        [self.noAdsLabel setText:@"لا يوجد إعلانات في هذا المتجر"];
+        
+        [self.tableView registerNib:[UINib nibWithNibName:@"carInGalleryCell" bundle:nil]
          forCellReuseIdentifier:@"CustomCell"];
+    }
+    else
+        [self.tableView registerNib:[UINib nibWithNibName:@"carInGalleryCell_iPad" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
     
     manager = [gallariesManager sharedInstance];
     [manager setCurrentPageNum:0];
@@ -61,6 +68,11 @@
     [self.galleryNameLabel setText:self.gallery.StoreName];
     [self.galleryPhoneLabel setText:[NSString stringWithFormat:@"%@",self.gallery.StoreContactNo]];
     
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        //self.iPad_countOfAdsLabel.text = @"";
+        self.iPad_galleryDescriptionLabel.text = self.gallery.Description;
+    }
+        
     
     [self.galleryImage setImageWithURL:self.gallery.StoreImageURL placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
     
@@ -103,6 +115,40 @@
     
 }
 
+- (IBAction)iPad_smsBtnPrss:(id)sender {
+    MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+	if([MFMessageComposeViewController canSendText])
+	{
+		controller.body = @"Hello";
+		controller.recipients = [NSArray arrayWithObjects:self.gallery.StoreContactNo, nil];
+		controller.messageComposeDelegate = self;
+		[self presentViewController:controller animated:YES completion:nil];
+	}
+}
+
+#pragma mark - SMS delegate handler
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+	switch (result) {
+		case MessageComposeResultCancelled:
+			NSLog(@"Cancelled");
+			break;
+		case MessageComposeResultFailed:{
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"بيزات" message:@"Unknown Error"
+														   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+			[alert show];
+			break;
+        }
+		case MessageComposeResultSent:
+            
+			break;
+		default:
+			break;
+	}
+    
+	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - UIAlertView Delegate methods
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -135,11 +181,13 @@
         
         xForShiftingTinyImg = 0;
         static NSString *CellIdentifier = @"CustomCell";
+        carInGalleryCell *cell;
         
-        carInGalleryCell *cell =(carInGalleryCell*) [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell=(carInGalleryCell*) [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
             cell=[[carInGalleryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
+        
         
         GalleryAd * adObject = [adsArray objectAtIndex:indexPath.row];
         
@@ -148,6 +196,11 @@
         
         [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
         
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [cell.iPad_phoneBtn addTarget:self action:@selector(phoneBtnPrss:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [cell.iPad_smsBtn addTarget:self action:@selector(iPad_smsBtnPrss:) forControlEvents:UIControlEventTouchUpInside];
+        }
         
         cell.detailsLabel.text = adObject.title;
         
@@ -176,11 +229,12 @@
             tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
             tempImgFrame.origin.x = xForShiftingTinyImg;
             
+            /*
             [UIView animateWithDuration:0.3f animations:^{
                 
                 [cell.carMileageTinyImg setFrame:tempImgFrame];
                 [cell.carMileageLabel setFrame:tempLabelFrame];
-            }];
+            }];*/
             
             xForShiftingTinyImg = tempLabelFrame.origin.x - 5 - cell.countOfViewsTinyImg.frame.size.width;
         }
@@ -202,12 +256,12 @@
             
             tempLabelFrame.origin.x = xForShiftingTinyImg - 3 - tempLabelFrame.size.width;
             tempImgFrame.origin.x = xForShiftingTinyImg;
-            
+            /*
             [UIView animateWithDuration:0.3f animations:^{
                 
                 [cell.countOfViewsTinyImg setFrame:tempImgFrame];
                 [cell.watchingCountsLabel setFrame:tempLabelFrame];
-            }];
+            }];*/
         }
         
         if (adObject.viewCount > 0)
@@ -476,11 +530,13 @@
         [[SDWebImagePrefetcher sharedImagePrefetcher] prefetchURLs:URLsToPrefetch];
         
     }
-    
+
     if ((!adsArray) || (!adsArray.count)) {
-        [self.backgroundImageView setHidden:YES];
-        [self.noAdsLabel setHidden:NO];
-        [self.noAdsImageView setHidden:NO];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            [self.backgroundImageView setHidden:YES];
+            [self.noAdsLabel setHidden:NO];
+            [self.noAdsImageView setHidden:NO];
+        }
     }
 }
 
