@@ -279,7 +279,11 @@
         [self presentViewController:vc animated:YES completion:nil];
         
     }else{
-        AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+        AddNewStoreViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc =[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+        else
+            vc =[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController_iPad" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
     }
     
@@ -524,9 +528,12 @@
             case 4:
             {
                 [self hideMenu];
-                AddNewStoreViewController *vc=[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+                AddNewStoreViewController *vc;
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                    vc =[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+                else
+                    vc =[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController_iPad" bundle:nil];
                 [self presentViewController:vc animated:YES completion:nil];
-                
                 //GA
                 [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
                                                                 withAction:@"buttonPress"
