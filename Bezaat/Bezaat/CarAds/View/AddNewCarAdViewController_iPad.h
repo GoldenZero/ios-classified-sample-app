@@ -45,14 +45,28 @@
 
 #pragma mark - iPad properties
 @property (strong, nonatomic) IBOutlet SSLabel *iPad_titleLabel;
+@property (strong, nonatomic) IBOutlet UIScrollView *iPad_mainScrollView;
+
+@property (strong, nonatomic) IBOutlet UIView *iPad_chooseBrandView;
+@property (strong, nonatomic) IBOutlet UIView *iPad_setPhotoView;
+@property (strong, nonatomic) IBOutlet UIView *iPad_setDetailsView;
+
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_chooseBrandBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_setPhotosBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_setDetailsBtn;
 
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;
 
 //- (IBAction)homeBtnPrss:(id)sender;
-- (IBAction) iPad_closeBtnPrss:(id) sender
+- (IBAction) iPad_closeBtnPrss:(id) sender;
 - (IBAction)addBtnprss:(id)sender;
 - (IBAction)selectModelBtnPrss:(id)sender;
+
+#pragma matk - iPad actions
+- (IBAction) iPad_chooseBrandBtnPrss:(id) sender;
+- (IBAction) iPad_setPhotosBtnPrss:(id) sender;
+- (IBAction) iPad_setDetailsBtnPrss:(id) sender;
 
 - (void) dismissSelfAfterFeaturing;
 

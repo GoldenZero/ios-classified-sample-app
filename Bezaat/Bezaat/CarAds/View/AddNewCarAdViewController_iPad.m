@@ -69,6 +69,15 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    UIImage * iPad_chooseBrandBtnImgOn;
+    UIImage * iPad_chooseBrandBtnImgOff;
+    
+    UIImage * iPad_setPhotosBtnImgOn;
+    UIImage * iPad_setPhotosBtnImgOff;
+    
+    UIImage * iPad_setDetailsBtnImgOn;
+    UIImage * iPad_setDetailsBtnImgOff;
 }
 
 @end
@@ -123,6 +132,27 @@
     [self setImagesToXib];
    
     [self closePicker];
+    
+    //set image names
+    iPad_chooseBrandBtnImgOn = [UIImage imageNamed:@"tb_add_individual1_choose_brand_button_on"];
+    iPad_chooseBrandBtnImgOff = [UIImage imageNamed:@"tb_add_individual1_choose_brand_button_off"];
+    
+    iPad_setPhotosBtnImgOn = [UIImage imageNamed:@"tb_add_individual1_car_images_button_on"];
+    iPad_setPhotosBtnImgOff = [UIImage imageNamed:@"tb_add_individual1_car_images_button_off"];
+    
+    iPad_setDetailsBtnImgOn = [UIImage imageNamed:@"tb_add_individual1_ads_details_button_on"];
+    iPad_setDetailsBtnImgOff = [UIImage imageNamed:@"tb_add_individual1_ads_details_button_off"];
+    
+    //title label
+    [self.iPad_titleLabel setBackgroundColor:[UIColor clearColor]];
+    [self.iPad_titleLabel setTextAlignment:SSTextAlignmentCenter];
+    [self.iPad_titleLabel setTextColor:[UIColor whiteColor]];
+    [self.iPad_titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:26.0] ];
+    [self.iPad_titleLabel setText:@"إضافة إعلان"];
+    
+    [self.iPad_mainScrollView setContentSize:CGSizeMake(3052.0f, self.iPad_mainScrollView.frame.size.height)];
+    
+    [self iPad_srollToBrandsView];
     
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Post Ad screen"];
@@ -1115,4 +1145,72 @@
     
 }
 
+#pragma mark - iPad actions
+
+- (IBAction) iPad_chooseBrandBtnPrss:(id) sender {
+    [self.iPad_chooseBrandBtn setBackgroundImage:iPad_chooseBrandBtnImgOn forState:UIControlStateNormal];
+    [self.iPad_setPhotosBtn setBackgroundImage:iPad_setPhotosBtnImgOff forState:UIControlStateNormal];
+    [self.iPad_setDetailsBtn setBackgroundImage:iPad_setDetailsBtnImgOff forState:UIControlStateNormal];
+    
+    [self iPad_srollToBrandsView];
+}
+
+- (IBAction) iPad_setPhotosBtnPrss:(id) sender {
+    
+    [self.iPad_chooseBrandBtn setBackgroundImage:iPad_chooseBrandBtnImgOff forState:UIControlStateNormal];
+    [self.iPad_setPhotosBtn setBackgroundImage:iPad_setPhotosBtnImgOn forState:UIControlStateNormal];
+    [self.iPad_setDetailsBtn setBackgroundImage:iPad_setDetailsBtnImgOff forState:UIControlStateNormal];
+    
+    [self iPad_srollToPhotosView];
+}
+
+- (IBAction) iPad_setDetailsBtnPrss:(id) sender {
+    [self.iPad_chooseBrandBtn setBackgroundImage:iPad_chooseBrandBtnImgOff forState:UIControlStateNormal];
+    [self.iPad_setPhotosBtn setBackgroundImage:iPad_setPhotosBtnImgOff forState:UIControlStateNormal];
+    [self.iPad_setDetailsBtn setBackgroundImage:iPad_setDetailsBtnImgOn forState:UIControlStateNormal];
+    
+    [self iPad_srollToDetailsView];
+    
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskLandscape;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationPortrait;
+    else
+        return UIInterfaceOrientationLandscapeLeft;
+}
+
+#pragma mark - iPad helper methods
+
+//In order to get these functions work properly, I needed to stop autolayout
+- (void) iPad_srollToBrandsView {
+    
+    CGRect frame = self.iPad_mainScrollView.frame;
+    frame.origin.x = frame.size.width * 2;
+    frame.origin.y = 10;
+    [self.iPad_mainScrollView scrollRectToVisible:frame animated:YES];
+}
+
+- (void) iPad_srollToPhotosView {
+
+    CGRect frame = self.iPad_mainScrollView.frame;
+    frame.origin.x = frame.size.width * 1 - 10;
+    frame.origin.y = 10;
+    [self.iPad_mainScrollView scrollRectToVisible:frame animated:YES];
+}
+
+- (void) iPad_srollToDetailsView {
+    
+    CGRect frame = self.iPad_mainScrollView.frame;
+    frame.origin.x = frame.size.width * 0;
+    frame.origin.y = 10;
+    [self.iPad_mainScrollView scrollRectToVisible:frame animated:YES];
+}
 @end
