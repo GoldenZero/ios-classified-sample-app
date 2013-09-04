@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-#import "CarAdWithStoreCell.h"
+#import "CarAdWithStoreCell_iPad.h"
 
 @implementation CarAdWithStoreCell_iPad
 

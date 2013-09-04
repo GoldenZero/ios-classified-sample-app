@@ -221,9 +221,14 @@
 }
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender {
+    /*
     [self hideMenu];
     ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
     vc.tagOfCallXib=1;
+    [self presentViewController:vc animated:YES completion:nil];
+    */
+    
+    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
     
     //GA

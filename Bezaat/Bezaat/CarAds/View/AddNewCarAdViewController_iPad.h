@@ -13,7 +13,7 @@
 #import "GAI.h"
 #import "XCDFormInputAccessoryView.h"
 
-@interface AddNewCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,PricingOptionsDelegate,BrandManagerDelegate>
+@interface AddNewCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,PricingOptionsDelegate,BrandManagerDelegate, UIPopoverControllerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
@@ -45,6 +45,7 @@
 
 #pragma mark - iPad properties
 @property (strong, nonatomic) IBOutlet SSLabel *iPad_titleLabel;
+@property (strong, nonatomic) IBOutlet SSLabel *iPad_uploadImagesTitleLabel;
 @property (strong, nonatomic) IBOutlet UIScrollView *iPad_mainScrollView;
 
 @property (strong, nonatomic) IBOutlet UIView *iPad_chooseBrandView;
@@ -55,6 +56,9 @@
 @property (strong, nonatomic) IBOutlet  UIButton *iPad_chooseBrandBtn;
 @property (strong, nonatomic) IBOutlet  UIButton *iPad_setPhotosBtn;
 @property (strong, nonatomic) IBOutlet  UIButton *iPad_setDetailsBtn;
+@property (strong, nonatomic) IBOutlet  UIView *iPad_uploadPhotosView;
+
+@property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
 
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;
@@ -69,6 +73,8 @@
 - (IBAction) iPad_chooseBrandBtnPrss:(id) sender;
 - (IBAction) iPad_setPhotosBtnPrss:(id) sender;
 - (IBAction) iPad_setDetailsBtnPrss:(id) sender;
+
+- (IBAction)iPad_deleteUploadedImage:(id)sender;
 
 - (void) dismissSelfAfterFeaturing;
 
