@@ -63,6 +63,7 @@
 - (IBAction) iPad_closeBtnPrss:(id) sender;
 - (IBAction)addBtnprss:(id)sender;
 - (IBAction)selectModelBtnPrss:(id)sender;
+- (IBAction)uploadImage: (id)sender;
 
 #pragma matk - iPad actions
 - (IBAction) iPad_chooseBrandBtnPrss:(id) sender;

@@ -33,6 +33,37 @@
 				<string key="IBProxiedObjectIdentifier">IBFirstResponder</string>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
+			<object class="IBUIView" id="350666602">
+				<reference key="NSNextResponder"/>
+				<int key="NSvFlags">274</int>
+				<array class="NSMutableArray" key="NSSubviews">
+					<object class="IBUIImageView" id="271067160">
+						<reference key="NSNextResponder" ref="350666602"/>
+						<int key="NSvFlags">274</int>
+						<string key="NSFrame">{{197, 5}, {620, 69}}</string>
+						<reference key="NSSuperview" ref="350666602"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">tb_add_individual3_note.png</string>
+						</object>
+					</object>
+				</array>
+				<string key="NSFrameSize">{1024, 645}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="271067160"/>
+				<string key="NSReuseIdentifierKey">_NS:9</string>
+				<object class="NSColor" key="IBUIBackgroundColor" id="870454705">
+					<int key="NSColorSpace">3</int>
+					<bytes key="NSWhite">MCAwAA</bytes>
+				</object>
+				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+			</object>
 			<object class="IBUIView" id="191373211">
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
@@ -94,10 +125,7 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="647954367"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<object class="NSColor" key="IBUIBackgroundColor" id="870454705">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MCAwAA</bytes>
-								</object>
+								<reference key="IBUIBackgroundColor" ref="870454705"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
 							<object class="IBUIButton" id="647954367">
@@ -164,17 +192,6 @@
 								<string key="NSFrame">{{0, 10}, {1024, 645}}</string>
 								<reference key="NSSuperview" ref="765089753"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="350666602"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<reference key="IBUIBackgroundColor" ref="870454705"/>
-								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-							</object>
-							<object class="IBUIView" id="350666602">
-								<reference key="NSNextResponder" ref="765089753"/>
-								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{1024, 10}, {1024, 645}}</string>
-								<reference key="NSSuperview" ref="765089753"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="203703173"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="870454705"/>
@@ -190,6 +207,7 @@
 										<string key="NSFrameSize">{1024, 645}</string>
 										<reference key="NSSuperview" ref="203703173"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<reference key="IBUIBackgroundColor" ref="870454705"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -360,14 +378,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">iPad_setPhotoView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="350666602"/>
-					</object>
-					<int key="connectionID">341</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">iPad_chooseBrandView</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="203703173"/>
@@ -405,6 +415,14 @@
 						<reference key="destination" ref="184265222"/>
 					</object>
 					<int key="connectionID">439</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">iPad_setPhotoView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="350666602"/>
+					</object>
+					<int key="connectionID">341</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -529,7 +547,6 @@
 						<reference key="object" ref="765089753"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="203703173"/>
-							<reference ref="350666602"/>
 							<reference ref="933426799"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
@@ -546,12 +563,6 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="184265222"/>
 						</array>
-						<reference key="parent" ref="765089753"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">208</int>
-						<reference key="object" ref="350666602"/>
-						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="765089753"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -580,6 +591,19 @@
 						<reference key="object" ref="184265222"/>
 						<reference key="parent" ref="203703173"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">208</int>
+						<reference key="object" ref="350666602"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="271067160"/>
+						</array>
+						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">440</int>
+						<reference key="object" ref="271067160"/>
+						<reference key="parent" ref="350666602"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -601,6 +625,7 @@
 				<string key="429.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="437.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="440.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
@@ -608,7 +633,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">439</int>
+			<int key="maxID">440</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -623,6 +648,7 @@
 						<string key="iPad_setDetailsBtnPrss:">id</string>
 						<string key="iPad_setPhotosBtnPrss:">id</string>
 						<string key="selectModelBtnPrss:">id</string>
+						<string key="uploadImage:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="addBtnprss:">
@@ -651,6 +677,10 @@
 						</object>
 						<object class="IBActionInfo" key="selectModelBtnPrss:">
 							<string key="name">selectModelBtnPrss:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="uploadImage:">
+							<string key="name">uploadImage:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
@@ -832,6 +862,7 @@
 			<string key="tb_add_individual1_car_images_button_off.png">{166, 31}</string>
 			<string key="tb_add_individual1_choose_brand_button_on.png">{166, 31}</string>
 			<string key="tb_add_individual1_close.png">{25, 25}</string>
+			<string key="tb_add_individual3_note.png">{620, 69}</string>
 			<string key="tb_bar.png">{1024, 42}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>

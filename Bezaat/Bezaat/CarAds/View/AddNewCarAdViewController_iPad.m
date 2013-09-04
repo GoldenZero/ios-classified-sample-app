@@ -314,7 +314,7 @@
     }
 }
 
-- (void) uploadImage: (id)sender{
+- (IBAction) uploadImage: (id)sender{
     
     UIButton * senderBtn = (UIButton *) sender;
     chosenImgBtnTag = senderBtn.tag;
