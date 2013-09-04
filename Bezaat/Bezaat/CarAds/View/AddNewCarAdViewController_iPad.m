@@ -13,6 +13,9 @@
 #import "labelAdViewController.h"
 #import "SignInViewController.h"
 #import "CarAdDetailsViewController.h"
+#import "ChooseModelView_iPad.h"
+#import "BrandCell.h"
+#import "ModelCell.h"
 
 #pragma mark - literals for use in post ad
 //These literals should used for posting any ad
@@ -66,6 +69,7 @@
     NSTimer *timer;
     UIToolbar* numberToolbar;
     
+    //iPad related
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
@@ -78,6 +82,16 @@
     
     UIImage * iPad_setDetailsBtnImgOn;
     UIImage * iPad_setDetailsBtnImgOff;
+    
+    //choose brand view related:
+    NSMutableArray * brandCellsArray;
+    Brand * chosenBrand;
+    BOOL brandsOneSelectionMade;
+    ChooseModelView_iPad * dropDownView;
+    
+    NSArray* currentBrands;
+    NSArray* currentModels;
+    
 }
 
 @end
@@ -143,6 +157,7 @@
     iPad_setDetailsBtnImgOn = [UIImage imageNamed:@"tb_add_individual1_ads_details_button_on"];
     iPad_setDetailsBtnImgOff = [UIImage imageNamed:@"tb_add_individual1_ads_details_button_off"];
     
+    
     //title label
     [self.iPad_titleLabel setBackgroundColor:[UIColor clearColor]];
     [self.iPad_titleLabel setTextAlignment:SSTextAlignmentCenter];
@@ -150,9 +165,30 @@
     [self.iPad_titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:26.0] ];
     [self.iPad_titleLabel setText:@"إضافة إعلان"];
     
-    [self.iPad_mainScrollView setContentSize:CGSizeMake(3052.0f, self.iPad_mainScrollView.frame.size.height)];
+    [self.iPad_mainScrollView setContentSize:CGSizeMake((1024 * 3), self.iPad_mainScrollView.frame.size.height)];
+    
+    //choose brand view:
+    //------------------
+    brandCellsArray = [NSMutableArray new];
+    
+    chosenBrand = nil;
+    self.currentModel = nil;
+    
+    brandsOneSelectionMade = NO;
+    dropDownView = nil;
+    
+    //display a locing indicator on brands view until brands get loaded
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicator.hidesWhenStopped = YES;
+    activityIndicator.hidden = NO;
+    activityIndicator.center = CGPointMake(self.iPad_chooseBrandView.frame.size.width /2, self.iPad_chooseBrandView.frame.size.height/2);
+    [self.iPad_chooseBrandView addSubview:activityIndicator];
+    [activityIndicator startAnimating];
+    [[BrandsManager sharedInstance] getBrandsAndModelsForPostAdWithDelegate:self];
+
     
     [self iPad_srollToBrandsView];
+    [self iPad_setStepViews];
     
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Post Ad screen"];
@@ -1201,7 +1237,8 @@
 - (void) iPad_srollToPhotosView {
 
     CGRect frame = self.iPad_mainScrollView.frame;
-    frame.origin.x = frame.size.width * 1 - 10;
+    //frame.origin.x = frame.size.width * 1 - 10;
+    frame.origin.x = frame.size.width * 1;
     frame.origin.y = 10;
     [self.iPad_mainScrollView scrollRectToVisible:frame animated:YES];
 }
@@ -1213,4 +1250,246 @@
     frame.origin.y = 10;
     [self.iPad_mainScrollView scrollRectToVisible:frame animated:YES];
 }
+
+- (void) iPad_setStepViews {
+    ModelsViewController_iPad * modelsVC = [[ModelsViewController_iPad alloc] initWithNibName:@"ModelsViewController_iPad" bundle:nil];
+    
+    //vc.tagOfCallXib=2;
+    modelsVC.displayedAsPopOver = NO;
+    //[self presentViewController:modelsVC animated:YES completion:nil];
+    
+}
+//------------------------------ LEVEL1: CHOOSING BRANDS ------------------------------
+#pragma mark - LEVEL1: CHOOSING BRANDS
+
+- (void) brandsDidFinishLoadingWithData:(NSArray*) resultArray {
+    currentBrands=resultArray;
+    currentModels=((Brand*)resultArray[0]).models;
+    
+    //currentModels = ((Brand*)resultArray[0]).models;
+    chosenBrand =(Brand*)[currentBrands objectAtIndex:0];
+    
+    //hide the loading indicator in iPad_chooseBrandView
+    UIActivityIndicatorView * activityView = nil;
+    for (UIView * subview in self.iPad_chooseBrandView.subviews) {
+        if ([subview class] == [UIActivityIndicatorView class]) {
+            activityView = (UIActivityIndicatorView *) subview;
+            break;
+        }
+    }
+    
+    if (activityView) {
+        [activityView stopAnimating];
+        [activityView removeFromSuperview];
+    }
+    
+    [self DrawBrands];
+}
+
+//This method is called for the first time the popover is created
+- (void) selectFirstBrandCell {
+    if (brandCellsArray && brandCellsArray.count) {
+        UITapGestureRecognizer * tapOfFirstCell = [(BrandCell *) brandCellsArray[0] gestureRecognizers][0];
+        [self didSelectBrandCell:tapOfFirstCell];
+    }
+    
+}
+
+- (void) DrawBrands {
+    float currentX = 0;
+    float currentY = 0;
+    float totalHeight = 0;
+    
+    int rowCounter = 0;
+    int colCounter = 0;
+    
+    CGRect brandFrame;
+    
+    for (int i = 0; i < currentBrands.count; i++) {
+        Brand * currentItem = currentBrands[i];
+        
+        // Update the cell information
+        BrandCell* brandCell;
+        brandFrame = CGRectMake(-1, -1, 166, 166);//these are the dimensions of the brand cell
+        brandCell = (BrandCell*)[[NSBundle mainBundle] loadNibNamed:@"BrandCell_iPad" owner:self options:nil][0];
+        
+        
+        [brandCell reloadInformation:currentItem];
+        
+        if ((chosenBrand) && (chosenBrand.brandID == currentItem.brandID))
+            [brandCell selectCell];
+        
+        if (i == 0)
+            [brandCell selectCell];
+        
+        
+        if (i != 0) {
+            if (i % 6 == 0) {
+                rowCounter ++;
+                colCounter = 0;
+            }
+            else
+                colCounter ++;
+        }
+        
+        
+        currentX = (colCounter * brandFrame.size.width) + ((colCounter + 1) * 4);
+        currentY = (rowCounter * brandFrame.size.height) + ((rowCounter + 1) * 4);
+        
+        brandFrame.origin.x = currentX;
+        brandFrame.origin.y = currentY;
+        
+        brandCell.frame = brandFrame;
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectBrandCell:)];
+        tap.numberOfTapsRequired = 1;
+        [brandCell addGestureRecognizer:tap];
+        
+        [self.iPad_chooseBrandScrollView addSubview:brandCell];
+        [brandCellsArray addObject:brandCell];
+        //[brandsTapGesturesArray addObject:tap];
+        
+    }
+    totalHeight = 1 + brandFrame.size.height + currentY + 15;
+    [self.iPad_chooseBrandScrollView setContentSize:CGSizeMake(self.iPad_chooseBrandScrollView.contentSize.width, totalHeight)];
+}
+
+- (void) didSelectBrandCell:(id) sender {
+    
+    UITapGestureRecognizer * tap = (UITapGestureRecognizer *) sender;
+    BrandCell * senderCell = (BrandCell *) tap.view;
+    int indexOfSenderCell = [self locateBrandCell:senderCell];
+    chosenBrand = currentBrands[indexOfSenderCell];
+    
+    currentModels = chosenBrand.models;
+    
+    [senderCell selectCell];
+    for (int i = 0; i < brandCellsArray.count; i++) {
+        BrandCell * cell = (BrandCell *) brandCellsArray[i];
+        
+        if (cell.imgBrand.image != senderCell.imgBrand.image)
+            [cell unselectCell];
+    }
+    
+    CGRect newDropDownFrame = CGRectMake(25, 25, 590.0f, 200.0f);
+    CGRect containerFrame = CGRectMake(0, 0, newDropDownFrame.size.width + 50, newDropDownFrame.size.height + 50);
+    
+    dropDownView = (ChooseModelView_iPad *)[[NSBundle mainBundle] loadNibNamed:@"ChooseModelView_iPad" owner:self options:nil][0];
+    
+    dropDownView.owner = senderCell;
+    
+    dropDownView.frame = newDropDownFrame;
+    if (indexOfSenderCell == -1)
+        return ;
+    
+    int indexOfCurrentModel = -1;
+    if (!self.currentModel)
+        self.currentModel = currentModels[0]; //initially, the selected model is the first
+    else {
+        for (int i = 0; i < currentModels.count; i++) {
+            if ([(Model *)currentModels[i] modelID] == self.currentModel.modelID) {
+                indexOfCurrentModel = i;
+                break;
+            }
+        }
+    }
+    [dropDownView drawModels:currentModels withIndexOfSelectedModel:(indexOfCurrentModel == -1 ? 0 : indexOfCurrentModel)];
+    [self setModelsTapGestures];
+    
+    
+    UIViewController * container = [[UIViewController alloc] init];
+    container.view = [[UIView alloc] initWithFrame:containerFrame];
+    dropDownView.containerViewController = container;
+    
+    //background
+    CGRect bgRect = CGRectMake(-1, -1, containerFrame.size.width + 2, containerFrame.size.height + 2);
+    UIImageView * bg = [[UIImageView alloc] initWithFrame:bgRect];
+    [bg setImage:[UIImage imageNamed:@"tb_choose_brand_box1.png"]];
+    [container.view addSubview:bg];
+    
+    //close button
+    UIButton * closeModelsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [closeModelsButton setTitle:@"" forState:UIControlStateNormal];
+    [closeModelsButton setBackgroundImage:[UIImage imageNamed:@"tb_add_individual_ads_close_btn.png"] forState:UIControlStateNormal];
+    [closeModelsButton addTarget:self action:@selector(closeModelsBtnPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    [container.view addSubview:closeModelsButton];
+    
+    //models
+    [container.view addSubview:dropDownView];
+    
+    container.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:container animated:YES completion:nil];
+    container.view.superview.frame = containerFrame;
+    container.view.superview.bounds = containerFrame;
+    container.view.superview.center = CGPointMake(roundf(self.view.bounds.size.width / 2), roundf(self.view.bounds.size.height / 2));
+    
+    
+    
+    
+}
+
+- (void) didSelectModelCell:(id) sender {
+    
+    UITapGestureRecognizer * tap = (UITapGestureRecognizer *) sender;
+    ModelCell * senderCell = (ModelCell *) tap.view;
+    int indexOfSenderCell = [self locateModelCell:senderCell];
+    if (indexOfSenderCell != -1)
+        self.currentModel = currentModels[indexOfSenderCell];
+    
+    [senderCell setSelected:YES];
+    if (dropDownView) {
+        for (id cell  in dropDownView.modelsScrollView.subviews) {
+            if ( ([cell isKindOfClass:[ModelCell class]]) && (cell != senderCell))
+                [cell setSelected:NO];
+            
+        }
+        [dropDownView.containerViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (void) setModelsTapGestures {
+    if (dropDownView) {
+        for (id cell  in dropDownView.modelsScrollView.subviews) {
+            if ([cell isKindOfClass:[ModelCell class]]) {
+                UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectModelCell:)];
+                tap.numberOfTapsRequired = 1;
+                [cell addGestureRecognizer:tap];
+            }
+            
+        }
+    }
+}
+
+- (int) locateBrandCell:(BrandCell *) cell {
+    if (brandCellsArray && brandCellsArray.count) {
+        for (int i = 0; i < brandCellsArray.count; i++) {
+            if (brandCellsArray[i] == cell)
+                return i;
+        }
+        return -1;
+    }
+    else
+        return -1;
+}
+
+- (int) locateModelCell:(ModelCell *) cell {
+    if (dropDownView && dropDownView.modelCellsArray && dropDownView.modelCellsArray.count) {
+        for (int i = 0; i < dropDownView.modelCellsArray.count; i++) {
+            if (dropDownView.modelCellsArray[i] == cell)
+                return i;
+        }
+        return -1;
+    }
+    else
+        return -1;
+}
+
+- (void) closeModelsBtnPressed {    //this method is called on ly in the separate brands UI
+    if (dropDownView) {
+        [dropDownView.containerViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+//------------------------------- END OF LEVEL1: CHOOSING THE BRAND -------------------------------
+
 @end

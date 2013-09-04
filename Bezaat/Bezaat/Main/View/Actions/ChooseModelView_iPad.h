@@ -16,6 +16,6 @@
 @property (strong, nonatomic) NSMutableArray * modelCellsArray;
 @property (strong, nonatomic) UIViewController * containerViewController;//this one is used only when displaying the full brands UI (not popOver)
 
-- (void) drawModels:(NSArray *) modelsArray ;
+- (void) drawModels:(NSArray *) models withIndexOfSelectedModel:(int) index;
 
 @end

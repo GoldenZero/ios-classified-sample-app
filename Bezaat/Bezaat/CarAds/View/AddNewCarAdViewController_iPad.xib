@@ -161,34 +161,51 @@
 							<object class="IBUIView" id="933426799">
 								<reference key="NSNextResponder" ref="765089753"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{10, 10}, {1004, 645}}</string>
+								<string key="NSFrame">{{0, 10}, {1024, 645}}</string>
 								<reference key="NSSuperview" ref="765089753"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="350666602"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<reference key="IBUIBackgroundColor" ref="848220291"/>
+								<reference key="IBUIBackgroundColor" ref="870454705"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
 							<object class="IBUIView" id="350666602">
 								<reference key="NSNextResponder" ref="765089753"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{1024, 10}, {1004, 645}}</string>
+								<string key="NSFrame">{{1024, 10}, {1024, 645}}</string>
 								<reference key="NSSuperview" ref="765089753"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="203703173"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<reference key="IBUIBackgroundColor" ref="848220291"/>
+								<reference key="IBUIBackgroundColor" ref="870454705"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
 							<object class="IBUIView" id="203703173">
 								<reference key="NSNextResponder" ref="765089753"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrame">{{2038, 10}, {1004, 645}}</string>
+								<array class="NSMutableArray" key="NSSubviews">
+									<object class="IBUIScrollView" id="184265222">
+										<reference key="NSNextResponder" ref="203703173"/>
+										<int key="NSvFlags">274</int>
+										<string key="NSFrameSize">{1024, 645}</string>
+										<reference key="NSSuperview" ref="203703173"/>
+										<reference key="NSWindow"/>
+										<string key="NSReuseIdentifierKey">_NS:9</string>
+										<reference key="IBUIBackgroundColor" ref="870454705"/>
+										<bool key="IBUIClipsSubviews">YES</bool>
+										<bool key="IBUIMultipleTouchEnabled">YES</bool>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<bool key="IBUIBounces">NO</bool>
+										<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
+										<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
+									</object>
+								</array>
+								<string key="NSFrame">{{2048, 10}, {1024, 645}}</string>
 								<reference key="NSSuperview" ref="765089753"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
+								<reference key="NSNextKeyView" ref="184265222"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<reference key="IBUIBackgroundColor" ref="848220291"/>
+								<reference key="IBUIBackgroundColor" ref="870454705"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
 						</array>
@@ -200,9 +217,9 @@
 						<reference key="IBUIBackgroundColor" ref="870454705"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<bool key="IBUIBounces">NO</bool>
+						<bool key="IBUIScrollEnabled">NO</bool>
 						<bool key="IBUIPagingEnabled">YES</bool>
 					</object>
 					<object class="IBUIButton" id="704849531">
@@ -382,6 +399,14 @@
 					<int key="connectionID">433</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">iPad_chooseBrandScrollView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="184265222"/>
+					</object>
+					<int key="connectionID">439</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">iPad_closeBtnPrss:</string>
 						<reference key="source" ref="647954367"/>
@@ -424,6 +449,14 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">435</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="184265222"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">438</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -510,7 +543,9 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">209</int>
 						<reference key="object" ref="203703173"/>
-						<array class="NSMutableArray" key="children"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="184265222"/>
+						</array>
 						<reference key="parent" ref="765089753"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -540,6 +575,11 @@
 						<reference key="object" ref="801042078"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">437</int>
+						<reference key="object" ref="184265222"/>
+						<reference key="parent" ref="203703173"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -560,6 +600,7 @@
 				<string key="427.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="429.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="437.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
@@ -567,7 +608,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">435</int>
+			<int key="maxID">439</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -624,6 +665,7 @@
 						<string key="distance">UITextField</string>
 						<string key="horizontalScrollView">UIScrollView</string>
 						<string key="iPad_chooseBrandBtn">UIButton</string>
+						<string key="iPad_chooseBrandScrollView">UIScrollView</string>
 						<string key="iPad_chooseBrandView">UIView</string>
 						<string key="iPad_mainScrollView">UIScrollView</string>
 						<string key="iPad_setDetailsBtn">UIButton</string>
@@ -682,6 +724,10 @@
 						<object class="IBToOneOutletInfo" key="iPad_chooseBrandBtn">
 							<string key="name">iPad_chooseBrandBtn</string>
 							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="iPad_chooseBrandScrollView">
+							<string key="name">iPad_chooseBrandScrollView</string>
+							<string key="candidateClassName">UIScrollView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="iPad_chooseBrandView">
 							<string key="name">iPad_chooseBrandView</string>

@@ -16,6 +16,7 @@
 #import "StoreDetailsViewController.h"
 #import "AppDelegate.h"
 #import "SendEmailViewController.h"
+#import "AddNewCarAdViewController_iPad.h"
 #import <MessageUI/MessageUI.h>
 
 //#define FIXED_V_DISTANCE    17
@@ -2814,6 +2815,9 @@
     iPad_addStoreSegmentBtnChosen = NO;
     
     [self iPad_updateSegmentButtons];
+    
+    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {

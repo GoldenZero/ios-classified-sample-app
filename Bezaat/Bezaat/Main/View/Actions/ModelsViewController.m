@@ -189,7 +189,7 @@ static NSInteger lastBrandSelectedRow = -1;
 
 #pragma mark - Brands Manager Delegate
 
-- (void) didFinishLoadingWithData:(NSArray*) resultArray {
+- (void) brandsDidFinishLoadingWithData:(NSArray*) resultArray {
     
     // Add new car ad call this xib
     if (self.tagOfCallXib==2) {

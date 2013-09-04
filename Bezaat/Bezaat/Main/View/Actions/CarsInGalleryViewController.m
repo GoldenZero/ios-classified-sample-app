@@ -12,6 +12,7 @@
 #import "CarAd.h"
 #import "CarDetails.h"
 #import "carInGalleryCell.h"
+#import "AddNewCarAdViewController_iPad.h"
 
 @interface CarsInGalleryViewController (){
     NSMutableArray *adsArray;
@@ -768,6 +769,9 @@
     iPad_addStoreSegmentBtnChosen = NO;
     
     [self iPad_updateSegmentButtons];
+    
+    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {

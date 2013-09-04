@@ -13,7 +13,7 @@
 #import "GAI.h"
 #import "XCDFormInputAccessoryView.h"
 
-@interface AddNewCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,PricingOptionsDelegate>
+@interface AddNewCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,PricingOptionsDelegate,BrandManagerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
@@ -48,6 +48,7 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *iPad_mainScrollView;
 
 @property (strong, nonatomic) IBOutlet UIView *iPad_chooseBrandView;
+@property (strong, nonatomic) IBOutlet UIScrollView *iPad_chooseBrandScrollView;
 @property (strong, nonatomic) IBOutlet UIView *iPad_setPhotoView;
 @property (strong, nonatomic) IBOutlet UIView *iPad_setDetailsView;
 

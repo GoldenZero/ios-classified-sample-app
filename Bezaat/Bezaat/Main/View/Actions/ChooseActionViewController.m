@@ -327,9 +327,6 @@
 
 - (IBAction)exhibitBtnPrss:(id)sender {
     
-    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
-    /*
     ExhibitViewController *exVC;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
@@ -337,7 +334,6 @@
         exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController_iPad" bundle:nil];
     //exVC.countryID=chosenCountry.countryID;
     [self presentViewController:exVC animated:YES completion:nil];
-     */
     
 }
 

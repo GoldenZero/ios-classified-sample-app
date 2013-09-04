@@ -40,7 +40,7 @@
     
 }
 
-- (void) drawModels:(NSArray *) models {
+- (void) drawModels:(NSArray *) models withIndexOfSelectedModel:(int) index {
     [modelsArray removeAllObjects];
     [modelsArray addObjectsFromArray:models];
     
@@ -62,7 +62,7 @@
         ModelCell* modelCell = (ModelCell*)[[NSBundle mainBundle] loadNibNamed:@"ModelCell_iPad" owner:self options:nil][0];;
         [modelCell reloadInformation:currentItem];
         
-        if (i == 0)
+        if (i == index)
             [modelCell setSelected:YES];
         
         if (i != 0) {
@@ -73,8 +73,6 @@
             else
                 colCounter ++;
         }
-        else
-            [modelCell setSelected:YES];
         
         currentX = (colCounter * modelFrame.size.width) + ((colCounter + 1) * 10);
 
