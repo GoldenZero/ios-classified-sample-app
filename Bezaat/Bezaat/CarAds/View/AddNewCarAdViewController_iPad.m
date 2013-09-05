@@ -739,24 +739,6 @@
 
 - (IBAction)chooseCountryCity:(id)sender{
     
-    /*
-    self.pickerView.hidden=YES;
-    
-    NSString *temp= [NSString stringWithFormat:@"%@ :%@", chosenCountry.countryName , chosenCity.cityName];
-    [countryCity setTitle:temp forState:UIControlStateNormal];
-
-    [self.locationPickerView reloadAllComponents];
-    if (!locationBtnPressedOnce)
-    {
-        if (defaultIndex!=-1) {
-            [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
-            if (defaultCityIndex != -1)
-                [self.locationPickerView selectRow:defaultCityIndex inComponent:1 animated:YES];
-        }
-    }
-    [self showPicker];
-    locationBtnPressedOnce = YES;
-     */
     CountryListViewController* vc;
     vc = [[CountryListViewController alloc]initWithNibName:@"CountriesPopOver_iPad" bundle:nil];
     self.iPad_countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
