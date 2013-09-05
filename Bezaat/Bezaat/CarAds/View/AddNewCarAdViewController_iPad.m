@@ -256,41 +256,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - UITextView 
-- (void)textViewDidChange:(UITextView *)textView {
-    if ([@"" isEqualToString:textView.text]) {
-        //placeholderTextField.placeholder = @"تفاصيل الإعلان";
-    }
-    else {
-        //placeholderTextField.placeholder = @"";
-    }
-}
-
-- (void)textViewDidBeginEditing:(UITextView *)textView {
-
-    if ([[UIScreen mainScreen] bounds].size.height == 568)
-        self.view.frame = CGRectMake(0, -140, 320, 568);
-    else
-        self.view.frame = CGRectMake(0, -140, 320, 480);
-    if (!textView.editable && [textView baseWritingDirectionForPosition:[textView beginningOfDocument] inDirection:UITextStorageDirectionForward] == UITextWritingDirectionRightToLeft) {
-        // if yes, set text alignment right
-        textView.textAlignment = NSTextAlignmentRight;
-    } else {
-        // for all other cases, set text alignment left
-        textView.textAlignment = NSTextAlignmentLeft;
-    }
-    //textView.textAlignment=NSTextAlignmentRight;
-}
-
-
--(void)textViewDidEndEditing:(UITextView *)textView
-{
-    [self dismissKeyboard];
-}
-*/
-
-
 #pragma mark - helper methods
 
 - (IBAction) uploadImage: (id)sender{
@@ -405,14 +370,15 @@
     [carDetailLabel setBackgroundColor:[UIColor clearColor]];
     [self.verticalScrollView addSubview:carDetailLabel];
     
-    
+    /*
     carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,120 ,260 ,80 )];
     [carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setKeyboardType:UIKeyboardTypeDefault];
     [carDetails setBackgroundColor:[UIColor whiteColor]];
     [carDetails setFont:[UIFont systemFontOfSize:17]];
     carDetails.delegate =self;
-    
+    */
+    /*
     placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,120 ,260 ,30)];
     [placeholderTextField setTextAlignment:NSTextAlignmentRight];
     [placeholderTextField setBorderStyle:UITextBorderStyleRoundedRect];
@@ -422,7 +388,7 @@
     placeholderTextField.placeholder = @"تفاصيل الإعلان";
     //[self.verticalScrollView addSubview:placeholderTextField];
     [self.verticalScrollView addSubview:carDetails];
-   
+   */
     mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,210 ,260 ,30)];
     [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
     [mobileNum setTextAlignment:NSTextAlignmentRight];

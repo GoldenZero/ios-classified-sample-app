@@ -2327,7 +2327,7 @@
     CGRect innerImgVFrame = innerImgV.frame;
     innerImgVFrame.size.width = 290.0f;
     
-    [UIView animateWithDuration:0.2f animations:^{
+    [UIView animateWithDuration:0.3f animations:^{
         [self.commentTextView setFrame:textViewFrame];
         [self.commentsView setFrame:commentsViewFrame];
         [innerImgV setFrame:innerImgVFrame];
@@ -2387,13 +2387,28 @@
         self.commentTextView.text = @"";
         self.commentTextView.textColor = [UIColor blackColor];
         self.commentTextView.textAlignment = NSTextAlignmentLeft;
-        
         CGRect textViewFrame = self.commentTextView.frame;
-        textViewFrame.size.width = 1009.0f; //wider size
+        textViewFrame.size.width = 946.0f; //wider size
         
-        [UIView animateWithDuration:0.2f animations:^{
+        CGRect commentsViewFrame = self.commentsView.frame;
+        commentsViewFrame.size.width = 1002.0f;
+        
+        UIImageView * innerImgV;
+        for (UIView * subview in self.commentsView.subviews) {
+            if ([subview class] == [UIImageView class]) {
+                innerImgV = (UIImageView *) subview;
+                break;
+            }
+        }
+        CGRect innerImgVFrame = innerImgV.frame;
+        innerImgVFrame.size.width = 1002.0f;
+        
+        [UIView animateWithDuration:0.3f animations:^{
             [self.commentTextView setFrame:textViewFrame];
+            [self.commentsView setFrame:commentsViewFrame];
+            [innerImgV setFrame:innerImgVFrame];
         }];
+        
     }
     return YES;
 }
