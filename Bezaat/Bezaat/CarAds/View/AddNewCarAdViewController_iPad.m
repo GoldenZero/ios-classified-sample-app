@@ -129,7 +129,8 @@
     tap2 = [[UITapGestureRecognizer alloc]
             initWithTarget:self
             action:@selector(dismissKeyboard)];
-    [self.iPad_setPhotoView addGestureRecognizer:tap2];
+    //[self.iPad_setPhotoView addGestureRecognizer:tap2];
+    [self.iPad_mainScrollView addGestureRecognizer:tap2];
     
     
     locationBtnPressedOnce = NO;
@@ -137,7 +138,7 @@
     yearBtnPressedOnce = NO;
     
     [self loadDataArray];
-    [self addButtonsToXib];
+    //[self addButtonsToXib];
    
     [self closePicker];
     
@@ -191,6 +192,26 @@
     [self iPad_srollToBrandsView];
     [self iPad_setStepViews];
     
+    //set the title of location button
+    int defaultCountryID =  [[LocationManager sharedInstance] getSavedUserCountryID];
+    int defaultCityID =  [[LocationManager sharedInstance] getSavedUserCityID];
+    for (int i =0; i <= [countryArray count] - 1; i++) {
+        if ([(Country *)[countryArray objectAtIndex:i] countryID] == defaultCountryID)
+        {
+            chosenCountry = [countryArray objectAtIndex:i];
+            cityArray=[chosenCountry cities];
+            for (int j = 0; j < chosenCountry.cities.count; j++) {
+                if ([(City *)[cityArray objectAtIndex:j] cityID] == defaultCityID)
+                    chosenCity = [cityArray objectAtIndex:j];
+            }
+            NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
+            [countryCity setTitle:temp forState:UIControlStateNormal];
+            break;
+            //return;
+        }
+        
+    }
+    
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Post Ad screen"];
     //end GA
@@ -227,7 +248,7 @@
             else
                 chosenCity=[cityArray objectAtIndex:0];
         }
-        [self.locationPickerView reloadAllComponents];
+        
         defaultCurrencyID=[[StaticAttrsLoader sharedInstance] getCurrencyIdOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
         defaultcurrecncyIndex=0;
         while (defaultcurrecncyIndex<currencyArray.count) {
@@ -315,12 +336,16 @@
 }
 
 -(void)dismissKeyboard {
-    [self closePicker];
+    //[self closePicker];
     [carAdTitle resignFirstResponder];
     [mobileNum resignFirstResponder];
     [carPrice resignFirstResponder];
     [distance resignFirstResponder];
     [carDetails resignFirstResponder];
+}
+
+- (BOOL) disablesAutomaticKeyboardDismissal {
+    return NO;
 }
 
 -(void)cancelNumberPad{
@@ -539,9 +564,16 @@
 -(IBAction)closePicker
 {
     [self.pickersView setHidden:YES];
-    [UIView animateWithDuration:0.3 animations:^{
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        /*
         self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
                                             [[UIScreen mainScreen] bounds].size.height,
+                                            self.pickersView.frame.size.width,
+                                            self.pickersView.frame.size.height);
+         */
+        self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
+                                            self.view.frame.size.height,
                                             self.pickersView.frame.size.width,
                                             self.pickersView.frame.size.height);
     }];
@@ -557,12 +589,13 @@
     [carDetails resignFirstResponder];
     
     [self.pickersView setHidden:NO];
-    [self.pickersView setHidden:NO];
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.3f animations:^{
+        
         self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
-                                            [[UIScreen mainScreen] bounds].size.height-self.self.pickersView.frame.size.height,
+                                            508.0f,
                                             self.pickersView.frame.size.width,
                                             self.pickersView.frame.size.height);
+
     }];
 }
 
@@ -570,16 +603,19 @@
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
 {
+    /*
     if (pickerView==_locationPickerView) {
         return 2;
     }
     else {
-        return 1;
-    }
+     */
+    return 1;
+    //}
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+    /*
     if (pickerView==_locationPickerView) {
         if (component==0) {
            chosenCountry=(Country *)[countryArray objectAtIndex:row];
@@ -592,6 +628,7 @@
             locationBtnPressedOnce = YES;
         }
         else{
+            
             chosenCity=[cityArray objectAtIndex:row];
              NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
             [countryCity setTitle:temp forState:UIControlStateNormal];
@@ -600,25 +637,28 @@
         }
 
     }
+     
 
     else {
-        SingleValue *choosen=[globalArray objectAtIndex:row];
-        if ([currencyArray containsObject:choosen]) {
-            chosenCurrency=[globalArray objectAtIndex:row];
-            [currency setTitle:choosen.valueString forState:UIControlStateNormal];
-            currencyBtnPressedOnce = YES;
-        }
-        else{
-            chosenYear=[globalArray objectAtIndex:row];
-            [productionYear setTitle:[NSString stringWithFormat:@"%@",choosen.valueString] forState:UIControlStateNormal];
-            yearBtnPressedOnce = YES;
-        }
+     */
+    SingleValue *choosen=[globalArray objectAtIndex:row];
+    if ([currencyArray containsObject:choosen]) {
+        chosenCurrency=[globalArray objectAtIndex:row];
+        [currency setTitle:choosen.valueString forState:UIControlStateNormal];
+        currencyBtnPressedOnce = YES;
     }
+    else{
+        chosenYear=[globalArray objectAtIndex:row];
+        [productionYear setTitle:[NSString stringWithFormat:@"%@",choosen.valueString] forState:UIControlStateNormal];
+        yearBtnPressedOnce = YES;
+    }
+    //}
 
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
+    /*
     if (pickerView==_locationPickerView) {
         if (component==0) {
             return [countryArray count];
@@ -628,13 +668,15 @@
         }
     }
     else {
-        return [globalArray count];
-    }
+     */
+    return [globalArray count];
+    //}
 
     
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    /*
     if (pickerView==_locationPickerView) {
         if (component==0) {
             Country *temp=(Country*)[countryArray objectAtIndex:row];
@@ -646,8 +688,9 @@
         }
     }
     else {
-        return [NSString stringWithFormat:@"%@",[(SingleValue*)[globalArray objectAtIndex:row] valueString]];
-    }
+     */
+    return [NSString stringWithFormat:@"%@",[(SingleValue*)[globalArray objectAtIndex:row] valueString]];
+    //}
     
     
 }
@@ -657,7 +700,6 @@
 
 - (void) chooseProductionYear{
     
-    self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
     [productionYear setTitle:temp forState:UIControlStateNormal];
@@ -677,8 +719,6 @@
 }
 
 - (void) chooseCurrency{
-    
-    self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
     
     
@@ -697,9 +737,9 @@
     [self showPicker];
 }
 
-- (void) chooseCountryCity{
+- (IBAction)chooseCountryCity:(id)sender{
     
-    self.locationPickerView.hidden=NO;
+    /*
     self.pickerView.hidden=YES;
     
     NSString *temp= [NSString stringWithFormat:@"%@ :%@", chosenCountry.countryName , chosenCity.cityName];
@@ -716,6 +756,14 @@
     }
     [self showPicker];
     locationBtnPressedOnce = YES;
+     */
+    CountryListViewController* vc;
+    vc = [[CountryListViewController alloc]initWithNibName:@"CountriesPopOver_iPad" bundle:nil];
+    self.iPad_countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
+    [self.iPad_countryPopOver setPopoverContentSize:vc.view.frame.size];
+    //[self.countryPopOver setPopoverContentSize:CGSizeMake(500, 800)];
+    vc.iPad_parentViewOfPopOver = self;
+    [self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 
 }
 
@@ -1201,6 +1249,33 @@
     //[self presentViewController:modelsVC animated:YES completion:nil];
     
 }
+
+- (void) iPad_userDidEndChoosingCountryFromPopOver {
+    if (self.iPad_countryPopOver) {
+        locationBtnPressedOnce = YES;
+        int defaultCountryID =  [[LocationManager sharedInstance] getSavedUserCountryID];
+        int defaultCityID =  [[LocationManager sharedInstance] getSavedUserCityID];
+        for (int i =0; i <= [countryArray count] - 1; i++) {
+            if ([(Country *)[countryArray objectAtIndex:i] countryID] == defaultCountryID)
+            {
+                chosenCountry = [countryArray objectAtIndex:i];
+                cityArray=[chosenCountry cities];
+                for (int j = 0; j < chosenCountry.cities.count; j++) {
+                    if ([(City *)[cityArray objectAtIndex:j] cityID] == defaultCityID)
+                        chosenCity = [cityArray objectAtIndex:j];
+                }
+                NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
+                [countryCity setTitle:temp forState:UIControlStateNormal];
+                break;
+                //return;
+            }
+            
+        }
+        [self.iPad_countryPopOver dismissPopoverAnimated:YES];
+    }
+    self.iPad_countryPopOver = nil;
+}
+
 //------------------------------ LEVEL1: CHOOSING BRANDS ------------------------------
 #pragma mark - LEVEL1: CHOOSING BRANDS
 
