@@ -42,6 +42,13 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    BOOL iPad_buyCarSegmentBtnChosen;
+    BOOL iPad_addCarSegmentBtnChosen;
+    BOOL iPad_browseGalleriesSegmentBtnChosen;
+    BOOL iPad_addStoreSegmentBtnChosen;
+    
+    
 }
 
 @end
@@ -59,6 +66,7 @@
 
 - (void)viewDidLoad
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [super viewDidLoad];
     
     self.inputAccessoryView = [XCDFormInputAccessoryView new];
@@ -126,11 +134,13 @@
 - (IBAction)homeBtnPress:(id)sender {
 //    ChooseActionViewController *homeVC=[[ChooseActionViewController alloc] initWithNibName:@"ChooseActionViewController" bundle:nil];
 //    [self presentViewController:homeVC animated:YES completion:nil];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
 - (NSUInteger)supportedInterfaceOrientations {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         return UIInterfaceOrientationMaskPortrait;
     else
@@ -138,6 +148,7 @@
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         return UIInterfaceOrientationPortrait;
     else
@@ -149,6 +160,7 @@
 
 
 - (IBAction)chooseImageBtnPress:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
                                                     delegate:self
                                            cancelButtonTitle:@"إلغاء"
@@ -159,6 +171,7 @@
 }
 
 - (IBAction)chooseCountry:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     locationPickerView.hidden = NO;
    
     [self showPicker];
@@ -177,14 +190,17 @@
 }
 
 - (IBAction)cancelBtnPress:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)doneBtnPrss:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self closePicker];
 }
 
 - (IBAction)saveBtnPress:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
@@ -254,12 +270,14 @@
 }
 
 - (IBAction)whatIsStoreBtnPrss:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     WhyFeatureStoreAdViewController *vc=[[WhyFeatureStoreAdViewController alloc] initWithNibName:@"WhyFeatureStoreAdViewController" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
 
 -(void)PasswordRequire{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"الرجاء تزويدنا بكلمة سر"
                                                     message:@"\n\n"
                                                    delegate:self
@@ -282,6 +300,7 @@
     [self.userPassword becomeFirstResponder];
 }
 - (BOOL) validateEmail: (NSString *) candidate {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     
@@ -292,6 +311,7 @@
 #pragma mark - UIActionSheetDelegate Method
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
     if ([@"من الكاميرا" isEqualToString:buttonTitle]) {
         [self takePhotoWithCamera];
@@ -304,6 +324,7 @@
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (textField == nameField) {
         //[descriptionField becomeFirstResponder];
     }
@@ -321,6 +342,7 @@
 }
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     textField.textAlignment = NSTextAlignmentRight;
     [self closePicker];
     return YES;
@@ -328,12 +350,17 @@
 
 #pragma mark - UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self closePicker];
-    if ([[UIScreen mainScreen] bounds].size.height == 568)
-        self.view.frame = CGRectMake(0, -100, 320, 568);
-    else
-        self.view.frame = CGRectMake(0, -100, 320, 480);
     
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+    
+        if ([[UIScreen mainScreen] bounds].size.height == 568)
+            self.view.frame = CGRectMake(0, -100, 320, 568);
+        else
+            self.view.frame = CGRectMake(0, -100, 320, 480);
+    }
     if (!textView.editable && [textView baseWritingDirectionForPosition:[textView beginningOfDocument] inDirection:UITextStorageDirectionForward] == UITextWritingDirectionRightToLeft) {
         // if yes, set text alignment right
         textView.textAlignment = NSTextAlignmentRight;
@@ -349,7 +376,7 @@
 #pragma mark - UIAlertViewDelegate Methods
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (alertView.tag == 5) {
         FeatureStoreAdViewController *vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
         //vc.currentAdID = adID;
@@ -370,6 +397,7 @@
 #pragma mark - UIImagePickerControllerDelegate Methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [picker dismissViewControllerAnimated:YES completion:nil];
     storeImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     //NSLog(@"imagePickerController:didFinishPickingMediaWithInfo:%f",storeImage.size.width);
@@ -385,6 +413,7 @@
 
 -(void)closePicker
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [pickersView setHidden:YES];
     [UIView animateWithDuration:0.3 animations:^{
         pickersView.frame = CGRectMake(pickersView.frame.origin.x,
@@ -397,6 +426,7 @@
 
 -(void)showPicker
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self dismissKeyboard];
     [pickersView setHidden:NO];
     [pickersView setHidden:NO];
@@ -417,6 +447,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     chosenCountry=(Country *)[countryArray objectAtIndex:row];
     NSString *temp= chosenCountry.countryName;
     [self.countryCity setTitle:temp forState:UIControlStateNormal];
@@ -424,16 +455,19 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     return [countryArray count];
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     Country *temp=(Country*)[countryArray objectAtIndex:row];
     return temp.countryName;
 }
 #pragma mark - LocationManagerDelegate Methods
 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     countryArray=resultArray;
     [self hideLoadingIndicator];
     
@@ -448,6 +482,7 @@
 #pragma mark - StoreManagerDelegate
 
 - (void) storeCreationDidFailWithError:(NSError *)error {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self hideLoadingIndicator];
     guestCheck = NO;
     if ([[error description] isEqualToString:@"WRONG_PASSWORD"]) {
@@ -458,6 +493,7 @@
 }
 
 - (void) storeCreationDidSucceedWithStoreID:(NSInteger)storeID andUser:(UserProfile *)theUser {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self hideLoadingIndicator];
    // myStore = storeID;
     store.identifier = storeID;
@@ -475,6 +511,7 @@
 }
 
 - (void) storeLOGOUploadDidFailWithError:(NSError *)error {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self hideLoadingIndicatorOnImages];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
                                                     message:@"حدث خطأ في تحميل الصورة"
@@ -486,6 +523,7 @@
 }
 
 - (void) storeLOGOUploadDidSucceedWithImageURL:(NSString *)imageURL {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
    store.imageURL = imageURL;
     NSLog(@"%@",store.imageURL);
     myURL = imageURL;
@@ -515,6 +553,7 @@
 
 
 - (void)textViewDidChange:(UITextView *)textView {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if ([@"" isEqualToString:textView.text]) {
         //placeholderTextField.placeholder = @"وصف المتجر (نبذة مختصرة)";
     }
@@ -525,6 +564,7 @@
 
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self dismissKeyboard];
 }
 
@@ -533,21 +573,25 @@
 #pragma mark - Private Methods
 
 -(void)dismissKeyboard {
-    
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self closePicker];
     [nameField resignFirstResponder];
     [descriptionField resignFirstResponder];
     [emailField resignFirstResponder];
     [phoneField resignFirstResponder];
     [passwordField resignFirstResponder];
-    if ([[UIScreen mainScreen] bounds].size.height == 568)
-        self.view.frame = CGRectMake(0, 0, 320, 568);
-    else
-        self.view.frame = CGRectMake(0, 0, 320, 480);
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        if ([[UIScreen mainScreen] bounds].size.height == 568)
+            self.view.frame = CGRectMake(0, 0, 320, 568);
+        else
+            self.view.frame = CGRectMake(0, 0, 320, 480);
+    }
 }
 
 - (void) showLoadingIndicator {
-    
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
         loadingHUD.mode = MBProgressHUDModeIndeterminate2;
@@ -583,6 +627,7 @@
         
 }
 - (void) showLoadingIndicatorOnImages {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     imgsLoadingHUD = [MBProgressHUD2 showHUDAddedTo:storeImageView animated:YES];
     imgsLoadingHUD.mode = MBProgressHUDModeCustomView2;
     imgsLoadingHUD.labelText = @"";
@@ -592,6 +637,7 @@
 }
 
 - (void) hideLoadingIndicator {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (loadingHUD)
             [MBProgressHUD2 hideHUDForView:self.view  animated:YES];
@@ -608,6 +654,7 @@
     }
 }
 - (void) hideLoadingIndicatorOnImages {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     
     if (imgsLoadingHUD)
         [MBProgressHUD2 hideHUDForView:storeImageView  animated:YES];
@@ -616,6 +663,7 @@
 }
 
 -(void) takePhotoWithCamera {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -627,6 +675,7 @@
 }
 
 -(void) selectPhotoFromLibrary {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
     {
         UIImagePickerController *picker = [[UIImagePickerController alloc]init];
@@ -637,20 +686,90 @@
     }
 }
 
+
+#pragma mark - iPad actions
+
+- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    iPad_buyCarSegmentBtnChosen = YES;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = YES;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = YES;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = YES;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+#pragma mark - iPad helper methods
+- (void) iPad_updateSegmentButtons {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    UIImage * iPad_buyCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn_white.png"];
+    UIImage * iPad_buyCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn.png"];
+    
+    UIImage * iPad_addCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn_white.png"];
+    UIImage * iPad_addCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn.png"];
+    
+    UIImage * iPad_browseGalleriesSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn_white.png"];
+    UIImage * iPad_browseGalleriesSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn.png"];
+    
+    UIImage * iPad_addStoreSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn_white.png"];
+    UIImage * iPad_addStoreSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn.png"];
+    
+    [self.iPad_buyCarSegmentBtn setBackgroundImage:(iPad_buyCarSegmentBtnChosen ? iPad_buyCarSegmentBtnSelectedImage : iPad_buyCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_addCarSegmentBtn setBackgroundImage:(iPad_addCarSegmentBtnChosen ?  iPad_addCarSegmentBtnSelectedImage: iPad_addCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_browseGalleriesSegmentBtn setBackgroundImage:(iPad_browseGalleriesSegmentBtnChosen ? iPad_browseGalleriesSegmentBtnSelectedImage :  iPad_browseGalleriesSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_addStoreSegmentBtn setBackgroundImage:(iPad_addStoreSegmentBtnChosen ? iPad_addStoreSegmentBtnSelectedImage : iPad_addStoreSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+}
+
+
+
+
 @end
 
 @implementation UIImagePickerController (NonRotating)
 
 - (BOOL)shouldAutorotate
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     return NO;
 }
 
 -(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     return UIInterfaceOrientationPortrait;
 }
-
-
 
 @end

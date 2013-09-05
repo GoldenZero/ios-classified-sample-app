@@ -21,6 +21,20 @@
 @property (strong, nonatomic) IBOutlet UIButton *whatIsStoreBtn;
 @property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
 
+
+@property (weak, nonatomic) IBOutlet UIButton *iPad_buyCarSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_addCarSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_browseGalleriesSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_addStoreSegmentBtn;
+
+
+- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender;
+
+
+
 - (IBAction)homeBtnPress:(id)sender;
 - (IBAction)chooseImageBtnPress:(id)sender;
 - (IBAction)chooseCountry:(id)sender;
