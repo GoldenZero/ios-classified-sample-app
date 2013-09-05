@@ -7,6 +7,7 @@
 //
 
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <QuartzCore/QuartzCore.h>
 #import "AddNewCarAdViewController_iPad.h"
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
@@ -255,6 +256,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+/*
 #pragma mark - UITextView 
 - (void)textViewDidChange:(UITextView *)textView {
     if ([@"" isEqualToString:textView.text]) {
@@ -266,11 +268,11 @@
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+
     if ([[UIScreen mainScreen] bounds].size.height == 568)
         self.view.frame = CGRectMake(0, -140, 320, 568);
     else
         self.view.frame = CGRectMake(0, -140, 320, 480);
-    
     if (!textView.editable && [textView baseWritingDirectionForPosition:[textView beginningOfDocument] inDirection:UITextStorageDirectionForward] == UITextWritingDirectionRightToLeft) {
         // if yes, set text alignment right
         textView.textAlignment = NSTextAlignmentRight;
@@ -281,11 +283,12 @@
     //textView.textAlignment=NSTextAlignmentRight;
 }
 
+
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
     [self dismissKeyboard];
 }
-
+*/
 
 
 #pragma mark - helper methods
