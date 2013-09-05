@@ -1585,6 +1585,17 @@
         [self presentViewController:details animated:YES completion:nil];
 
     }
+    else if (alertView.tag == 6)
+    {
+        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        vc.currentAdID = myAdID;
+        vc.countryAdID = chosenCountry.countryID;
+        vc.currentAdHasImages = NO;
+        if (currentImgsUploaded && currentImgsUploaded.count)
+            vc.currentAdHasImages = YES;
+        
+        [self presentViewController:vc animated:YES completion:nil];
+    }
 }
 
 
@@ -1727,14 +1738,10 @@
         details.currentStore = self.currentStore;
         [self presentViewController:details animated:YES completion:nil];
     }else {
-        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
-        vc.currentAdID = myAdID;
-        vc.countryAdID = chosenCountry.countryID;
-        vc.currentAdHasImages = NO;
-        if (currentImgsUploaded && currentImgsUploaded.count)
-            vc.currentAdHasImages = YES;
-        
-        [self presentViewController:vc animated:YES completion:nil];
+        UIAlertView* alert =[ [UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تم اضافة اعلانك بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+        alert.tag = 6;
+        [alert show];
+        return;
     }
     
 }

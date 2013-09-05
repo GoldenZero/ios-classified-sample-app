@@ -37,7 +37,8 @@
     UILabel * label;
     StoreManager *advFeatureManager;
     BOOL viewIsShown;
-    
+    DFPInterstitial *interstitial_;
+
     FBPhotoBrowserViewController * galleryView;
     float xForShiftingTinyImg;
     BOOL shareBtnDidMoveUp;
@@ -82,6 +83,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    interstitial_ = [[DFPInterstitial alloc] init];
+    interstitial_.adUnitID = @"a14e1016f9c2470";//@"/1038459/Argaam..App..ios..320x50..news..listing";
+    interstitial_.delegate = self;
+    [interstitial_ loadRequest:[GADRequest request]];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self setPlacesOfViews];
@@ -254,6 +260,22 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Banner Ad handlig
+
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
+{
+    
+    [interstitial_ presentFromRootViewController:self];
+}
+
+- (void)interstitial:(GADInterstitial *)ad
+didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    NSLog(@"fail with error :%@",error);
+    //[interstitial_ presentFromRootViewController:self];
+}
+
 
 #pragma mark - scroll actions
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
