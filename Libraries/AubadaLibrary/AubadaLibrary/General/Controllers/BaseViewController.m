@@ -15,8 +15,11 @@
 static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3;
 static const CGFloat MINIMUM_SCROLL_FRACTION = 0.1;
 static const CGFloat MAXIMUM_SCROLL_FRACTION = 0.9;
-static const CGFloat PORTRAIT_KEYBOARD_HEIGHT = 216;
-static const CGFloat LANDSCAPE_KEYBOARD_HEIGHT = 140;
+static const CGFloat IPHONE_PORTRAIT_KEYBOARD_HEIGHT = 216;
+static const CGFloat IPHONE_LANDSCAPE_KEYBOARD_HEIGHT = 140;
+
+static const CGFloat IPAD_PORTRAIT_KEYBOARD_HEIGHT = 264;
+static const CGFloat IPAD_LANDSCAPE_KEYBOARD_HEIGHT = 352;
 
 CGFloat animatedDistance;
 
@@ -64,17 +67,25 @@ CGFloat animatedDistance;
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (orientation == UIInterfaceOrientationPortrait ||
         orientation == UIInterfaceOrientationPortraitUpsideDown) {
-        animatedDistance = floor(PORTRAIT_KEYBOARD_HEIGHT * heightFraction);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            animatedDistance = floor(IPHONE_PORTRAIT_KEYBOARD_HEIGHT * heightFraction);
+        
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            animatedDistance = floor(IPAD_PORTRAIT_KEYBOARD_HEIGHT * heightFraction);
     }
     else {
-        animatedDistance = floor(LANDSCAPE_KEYBOARD_HEIGHT * heightFraction);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            animatedDistance = floor(IPHONE_LANDSCAPE_KEYBOARD_HEIGHT * heightFraction);
+        
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            animatedDistance = floor(IPAD_LANDSCAPE_KEYBOARD_HEIGHT * heightFraction);
     }
     
     CGRect viewFrame = self.view.frame;
     if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
-         (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
-          ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) ) {
-        viewFrame.origin.x -= 352.0f;//352 is the height of onscreen keyboard on iPad - landscape mode
+         ((orientation == UIInterfaceOrientationLandscapeLeft) ||
+          (orientation == UIInterfaceOrientationLandscapeRight)) ) {
+        viewFrame.origin.x -= animatedDistance;
     }
     else //iPhone portrait
         viewFrame.origin.y -= animatedDistance;
@@ -93,8 +104,8 @@ CGFloat animatedDistance;
     if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
          (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
           ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) ) {
-             viewFrame.origin.x += 352.0f;//352 is the height of onscreen keyboard on iPad - landscape mode
-         }
+        viewFrame.origin.x += animatedDistance;
+    }
     else //iPhone portrait
         viewFrame.origin.y += animatedDistance;
     
@@ -130,17 +141,25 @@ CGFloat animatedDistance;
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (orientation == UIInterfaceOrientationPortrait ||
         orientation == UIInterfaceOrientationPortraitUpsideDown) {
-        animatedDistance = floor(PORTRAIT_KEYBOARD_HEIGHT * heightFraction);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            animatedDistance = floor(IPHONE_PORTRAIT_KEYBOARD_HEIGHT * heightFraction);
+        
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            animatedDistance = floor(IPAD_PORTRAIT_KEYBOARD_HEIGHT * heightFraction);
     }
     else {
-        animatedDistance = floor(LANDSCAPE_KEYBOARD_HEIGHT * heightFraction);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            animatedDistance = floor(IPHONE_LANDSCAPE_KEYBOARD_HEIGHT * heightFraction);
+        
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            animatedDistance = floor(IPAD_LANDSCAPE_KEYBOARD_HEIGHT * heightFraction);
     }
     
     CGRect viewFrame = self.view.frame;
     if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
-         (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
-          ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) ) {
-        viewFrame.origin.x -= 352.0f;//352 is the height of onscreen keyboard on iPad - landscape mode
+         ((orientation == UIInterfaceOrientationLandscapeLeft) ||
+          (orientation == UIInterfaceOrientationLandscapeRight)) ) {
+        viewFrame.origin.x -= animatedDistance;
     }
     else //iPhone portrait
         viewFrame.origin.y -= animatedDistance;
@@ -159,7 +178,7 @@ CGFloat animatedDistance;
     if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
          (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
           ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) ) {
-        viewFrame.origin.x += 352.0f;//352 is the height of onscreen keyboard on iPad - landscape mode
+        viewFrame.origin.x += animatedDistance;
     }
     else //iPhone portrait
         viewFrame.origin.y += animatedDistance;
