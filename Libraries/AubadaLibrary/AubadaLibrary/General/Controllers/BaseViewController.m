@@ -71,7 +71,13 @@ CGFloat animatedDistance;
     }
     
     CGRect viewFrame = self.view.frame;
-    viewFrame.origin.y -= animatedDistance;
+    if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
+         (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
+          ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) ) {
+        viewFrame.origin.x -= 352.0f;//352 is the height of onscreen keyboard on iPad - landscape mode
+    }
+    else //iPhone portrait
+        viewFrame.origin.y -= animatedDistance;
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
@@ -84,7 +90,13 @@ CGFloat animatedDistance;
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     CGRect viewFrame = self.view.frame;
-    viewFrame.origin.y += animatedDistance;
+    if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
+         (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
+          ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) ) {
+             viewFrame.origin.x += 352.0f;//352 is the height of onscreen keyboard on iPad - landscape mode
+         }
+    else //iPhone portrait
+        viewFrame.origin.y += animatedDistance;
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
@@ -125,7 +137,13 @@ CGFloat animatedDistance;
     }
     
     CGRect viewFrame = self.view.frame;
-    viewFrame.origin.y -= animatedDistance;
+    if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
+         (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
+          ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) ) {
+        viewFrame.origin.x -= 352.0f;//352 is the height of onscreen keyboard on iPad - landscape mode
+    }
+    else //iPhone portrait
+        viewFrame.origin.y -= animatedDistance;
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
@@ -138,7 +156,13 @@ CGFloat animatedDistance;
 
 - (void)textViewDidEndEditing:(UITextView *)atextView {
     CGRect viewFrame = self.view.frame;
-    viewFrame.origin.y += animatedDistance;
+    if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
+         (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
+          ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) ) {
+        viewFrame.origin.x += 352.0f;//352 is the height of onscreen keyboard on iPad - landscape mode
+    }
+    else //iPhone portrait
+        viewFrame.origin.y += animatedDistance;
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];

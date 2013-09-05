@@ -14,7 +14,7 @@
 
 @protocol BrandManagerDelegate <NSObject>
 @required
-- (void) didFinishLoadingWithData:(NSArray*) resultArray;
+- (void) brandsDidFinishLoadingWithData:(NSArray*) resultArray;
 @end
 
 @interface BrandsManager : NSObject

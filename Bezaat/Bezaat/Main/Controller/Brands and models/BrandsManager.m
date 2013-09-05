@@ -187,7 +187,7 @@
     }
     
     if (del)
-        [self.delegate didFinishLoadingWithData:totalBrands];
+        [self.delegate brandsDidFinishLoadingWithData:totalBrands];
 }
 
 - (void) getBrandsAndModelsForPostAdWithDelegate:(id<BrandManagerDelegate>)del {
@@ -270,7 +270,7 @@
         }
     }
     if (del)
-        [self.delegate didFinishLoadingWithData:totalBrandsForPostAd];
+        [self.delegate brandsDidFinishLoadingWithData:totalBrandsForPostAd];
 }
 
 - (NSArray *) getDistanceRangesArray {

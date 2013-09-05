@@ -146,7 +146,7 @@
 }
 #pragma mark - Brands Manager Delegate
 
-- (void) didFinishLoadingWithData:(NSArray*) resultArray {
+- (void) brandsDidFinishLoadingWithData:(NSArray*) resultArray {
     
     // Add new car ad call this xib
     if (self.tagOfCallXib==2) {
@@ -368,7 +368,7 @@
                     if (indexOfSenderCell == -1)
                         return ;
                     
-                    [dropDownView drawModels:currentModels];
+                    [dropDownView drawModels:currentModels withIndexOfSelectedModel:0];
                     [self setModelsTapGestures];
                     self.chosenModel = currentModels[0]; //initially, the selected model is the first
                 }];
@@ -399,7 +399,7 @@
                 if (indexOfSenderCell == -1)
                     return ;
                 
-                [dropDownView drawModels:currentModels];
+                [dropDownView drawModels:currentModels withIndexOfSelectedModel:0];
                 [self setModelsTapGestures];
                 self.chosenModel = currentModels[0]; //initially, the selected model is the first
             }
@@ -444,7 +444,7 @@
             if (indexOfSenderCell == -1)
                 return ;
             
-            [dropDownView drawModels:currentModels];
+            [dropDownView drawModels:currentModels withIndexOfSelectedModel:0];
             [self setModelsTapGestures];
             self.chosenModel = currentModels[0]; //initially, the selected model is the first
         }
@@ -469,7 +469,7 @@
         if (indexOfSenderCell == -1)
             return ;
         
-        [dropDownView drawModels:currentModels];
+        [dropDownView drawModels:currentModels withIndexOfSelectedModel:0];
         [self setModelsTapGestures];
         
         self.chosenModel = currentModels[0]; //initially, the selected model is the first
