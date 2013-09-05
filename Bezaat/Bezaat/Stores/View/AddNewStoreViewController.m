@@ -360,14 +360,19 @@
             self.view.frame = CGRectMake(0, -100, 320, 568);
         else
             self.view.frame = CGRectMake(0, -100, 320, 480);
+        if (!textView.editable && [textView baseWritingDirectionForPosition:[textView beginningOfDocument] inDirection:UITextStorageDirectionForward] == UITextWritingDirectionRightToLeft) {
+            // if yes, set text alignment right
+            textView.textAlignment = NSTextAlignmentRight;
+        } else {
+            // for all other cases, set text alignment left
+            textView.textAlignment = NSTextAlignmentLeft;
+        }
     }
-    if (!textView.editable && [textView baseWritingDirectionForPosition:[textView beginningOfDocument] inDirection:UITextStorageDirectionForward] == UITextWritingDirectionRightToLeft) {
-        // if yes, set text alignment right
+    else
+    {
         textView.textAlignment = NSTextAlignmentRight;
-    } else {
-        // for all other cases, set text alignment left
-        textView.textAlignment = NSTextAlignmentLeft;
     }
+    
 //textView.textAlignment=NSTextAlignmentRight;
 }
 
