@@ -11,6 +11,7 @@
 #import "SignInViewController.h"
 #import "FeatureStoreAdViewController.h"
 #import "WhyFeatureStoreAdViewController.h"
+#import "CountryListViewController.h"
 
 @interface AddNewStoreViewController () {
     Store *store;
@@ -162,22 +163,38 @@
 }
 
 - (IBAction)chooseCountry:(id)sender {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    self.locationPickerView.hidden = NO;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        NSLog(@"%s", __PRETTY_FUNCTION__);
+        self.locationPickerView.hidden = NO;
    
-    [self showPicker];
-    [self.locationPickerView reloadAllComponents];
-    int selectedCountryIndex = 0;
-    if (chosenCountry != nil) {
-        selectedCountryIndex = [countryArray indexOfObject:chosenCountry];
-    }else{
-       selectedCountryIndex = [countryArray indexOfObject:0];
+        [self showPicker];
+        [self.locationPickerView reloadAllComponents];
+        int selectedCountryIndex = 0;
+        if (chosenCountry != nil) {
+            selectedCountryIndex = [countryArray indexOfObject:chosenCountry];
+        }else{
+            selectedCountryIndex = [countryArray indexOfObject:0];
+        }
+        [self.locationPickerView selectRow:selectedCountryIndex inComponent:0 animated:YES];
+        NSString* temp = [(Country*)[countryArray objectAtIndex:selectedCountryIndex] countryName];
+        [self.countryCity setTitle:temp forState:UIControlStateNormal];
+        locationBtnPressedOnce = YES;
     }
-    [self.locationPickerView selectRow:selectedCountryIndex inComponent:0 animated:YES];
-    NSString* temp = [(Country*)[countryArray objectAtIndex:selectedCountryIndex] countryName];
-    [self.countryCity setTitle:temp forState:UIControlStateNormal];
-    locationBtnPressedOnce = YES;
-
+    else
+    {
+        CountryListViewController* vc;
+        vc = [[CountryListViewController alloc]initWithNibName:@"CountriesPopOver_iPad" bundle:nil];
+            self.countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
+            [self.countryPopOver setPopoverContentSize:vc.view.frame.size];
+            //[self.countryPopOver setPopoverContentSize:CGSizeMake(500, 800)];
+            vc.iPad_parentViewOfPopOver = self;
+        //CGRect frameInWindow = [self.countryCity convertRect:self.countryCity.frame toView:self.view];
+        CGRect myownRect=CGRectMake(512, 600, 100, 200);
+        
+        [self.countryPopOver presentPopoverFromRect:myownRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        
+    }
 }
 
 - (IBAction)cancelBtnPress:(id)sender {
@@ -589,7 +606,6 @@
     [self.emailField resignFirstResponder];
     [self.phoneField resignFirstResponder];
     [self.passwordField resignFirstResponder];
-    [self.whatever resignFirstResponder];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
     {
