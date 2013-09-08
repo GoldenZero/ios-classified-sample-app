@@ -1072,6 +1072,8 @@
 		9E09BCF117D8D45F00BEC08A /* tb_add_individual4_used_btn_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E09BCBD17D8D45F00BEC08A /* tb_add_individual4_used_btn_off@2x.png */; };
 		9E09BCF217D8D45F00BEC08A /* tb_add_individual4_used_btn_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E09BCBE17D8D45F00BEC08A /* tb_add_individual4_used_btn_on.png */; };
 		9E09BCF317D8D45F00BEC08A /* tb_add_individual4_used_btn_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E09BCBF17D8D45F00BEC08A /* tb_add_individual4_used_btn_on@2x.png */; };
+		9E09BD0017DC73E300BEC08A /* EditCarAdViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E09BCFE17DC73E300BEC08A /* EditCarAdViewController_iPad.m */; };
+		9E09BD0117DC73E300BEC08A /* EditCarAdViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E09BCFF17DC73E300BEC08A /* EditCarAdViewController_iPad.xib */; };
 		9E0B1AAE17D76F4D00A90E3A /* tb_add_individual3_add_details_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E0B1A8017D76F4D00A90E3A /* tb_add_individual3_add_details_btn.png */; };
 		9E0B1AAF17D76F4D00A90E3A /* tb_add_individual3_add_details_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E0B1A8117D76F4D00A90E3A /* tb_add_individual3_add_details_btn@2x.png */; };
 		9E0B1AB017D76F4D00A90E3A /* tb_add_individual3_add_image_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E0B1A8217D76F4D00A90E3A /* tb_add_individual3_add_image_btn.png */; };
@@ -3117,6 +3119,9 @@
 		9E09BCBD17D8D45F00BEC08A /* tb_add_individual4_used_btn_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tb_add_individual4_used_btn_off@2x.png"; sourceTree = "<group>"; };
 		9E09BCBE17D8D45F00BEC08A /* tb_add_individual4_used_btn_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_add_individual4_used_btn_on.png; sourceTree = "<group>"; };
 		9E09BCBF17D8D45F00BEC08A /* tb_add_individual4_used_btn_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tb_add_individual4_used_btn_on@2x.png"; sourceTree = "<group>"; };
+		9E09BCFD17DC73D400BEC08A /* EditCarAdViewController_iPad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditCarAdViewController_iPad.h; sourceTree = "<group>"; };
+		9E09BCFE17DC73E300BEC08A /* EditCarAdViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCarAdViewController_iPad.m; sourceTree = "<group>"; };
+		9E09BCFF17DC73E300BEC08A /* EditCarAdViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditCarAdViewController_iPad.xib; sourceTree = "<group>"; };
 		9E0B1A8017D76F4D00A90E3A /* tb_add_individual3_add_details_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_add_individual3_add_details_btn.png; sourceTree = "<group>"; };
 		9E0B1A8117D76F4D00A90E3A /* tb_add_individual3_add_details_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tb_add_individual3_add_details_btn@2x.png"; sourceTree = "<group>"; };
 		9E0B1A8217D76F4D00A90E3A /* tb_add_individual3_add_image_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_add_individual3_add_image_btn.png; sourceTree = "<group>"; };
@@ -6195,6 +6200,9 @@
 				842801D6173903C800B28882 /* EditCarAdViewController.h */,
 				842801D7173903C800B28882 /* EditCarAdViewController.m */,
 				842801D8173903C800B28882 /* EditCarAdViewController.xib */,
+				9E09BCFD17DC73D400BEC08A /* EditCarAdViewController_iPad.h */,
+				9E09BCFE17DC73E300BEC08A /* EditCarAdViewController_iPad.m */,
+				9E09BCFF17DC73E300BEC08A /* EditCarAdViewController_iPad.xib */,
 				24308755171194D0005CF94C /* labelAdViewController.h */,
 				24308756171194D0005CF94C /* labelAdViewController.m */,
 				24308757171194D0005CF94C /* labelAdViewController.xib */,
@@ -8775,6 +8783,7 @@
 				9E09BCF117D8D45F00BEC08A /* tb_add_individual4_used_btn_off@2x.png in Resources */,
 				9E09BCF217D8D45F00BEC08A /* tb_add_individual4_used_btn_on.png in Resources */,
 				9E09BCF317D8D45F00BEC08A /* tb_add_individual4_used_btn_on@2x.png in Resources */,
+				9E09BD0117DC73E300BEC08A /* EditCarAdViewController_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8927,6 +8936,7 @@
 				9E0B1AEE17D7884400A90E3A /* CarAdWithStoreCell_iPad.m in Sources */,
 				8480B92317D8BA83009D7E21 /* iRate.m in Sources */,
 				8480B93A17D8BBF2009D7E21 /* AdsCell.m in Sources */,
+				9E09BD0017DC73E300BEC08A /* EditCarAdViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
