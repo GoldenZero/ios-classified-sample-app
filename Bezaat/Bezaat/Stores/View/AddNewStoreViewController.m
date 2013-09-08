@@ -29,15 +29,6 @@
     BOOL locationBtnPressedOnce;
     BOOL guestCheck;
     IBOutlet UIToolbar *toolBar;
-    IBOutlet UIImageView *storeImageView;
-    IBOutlet UITextField *nameField;
-    IBOutlet UITextView *descriptionField;
-    IBOutlet UITextField *emailField;
-    IBOutlet UITextField *passwordField;
-    IBOutlet UITextField *phoneField;
-    IBOutlet UITextField *placeholderTextField;
-    IBOutlet UIPickerView *locationPickerView;
-    IBOutlet UIView *pickersView;
     
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
@@ -87,8 +78,8 @@
     self.mainScrollView.contentSize = CGSizeMake(278, 418);
     
     if (currentUser) {
-        [passwordField setHidden:YES];
-        phoneField.frame = CGRectMake(phoneField.frame.origin.x, 235, phoneField.frame.size.width, phoneField.frame.size.height);
+        [self.passwordField setHidden:YES];
+        self.phoneField.frame = CGRectMake(self.phoneField.frame.origin.x, 235, self.phoneField.frame.size.width, self.phoneField.frame.size.height);
         //self.countryCity.frame = CGRectMake(self.countryCity.frame.origin.x, 235, self.countryCity.frame.size.width, self.countryCity.frame.size.height);
         self.saveBtn.frame = CGRectMake(self.saveBtn.frame.origin.x, 273, self.saveBtn.frame.size.width, self.saveBtn.frame.size.height);
         self.cancelBtn.frame = CGRectMake(self.cancelBtn.frame.origin.x, 273, self.cancelBtn.frame.size.width, self.cancelBtn.frame.size.height);
@@ -172,17 +163,17 @@
 
 - (IBAction)chooseCountry:(id)sender {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    locationPickerView.hidden = NO;
+    self.locationPickerView.hidden = NO;
    
     [self showPicker];
-    [locationPickerView reloadAllComponents];
+    [self.locationPickerView reloadAllComponents];
     int selectedCountryIndex = 0;
     if (chosenCountry != nil) {
         selectedCountryIndex = [countryArray indexOfObject:chosenCountry];
     }else{
        selectedCountryIndex = [countryArray indexOfObject:0];
     }
-    [locationPickerView selectRow:selectedCountryIndex inComponent:0 animated:YES];
+    [self.locationPickerView selectRow:selectedCountryIndex inComponent:0 animated:YES];
     NSString* temp = [(Country*)[countryArray objectAtIndex:selectedCountryIndex] countryName];
     [self.countryCity setTitle:temp forState:UIControlStateNormal];
     locationBtnPressedOnce = YES;
@@ -209,10 +200,10 @@
                          withLabel:@"Create store"
                          withValue:[NSNumber numberWithInt:100]];
     
-    BOOL notAllDataFilled = [@"" isEqualToString:nameField.text] ||
-                            [@"" isEqualToString:descriptionField.text] ||
-                            [@"" isEqualToString:emailField.text] ||
-                            [@"" isEqualToString:phoneField.text];
+    BOOL notAllDataFilled = [@"" isEqualToString:self.nameField.text] ||
+                            [@"" isEqualToString:self.descriptionField.text] ||
+                            [@"" isEqualToString:self.emailField.text] ||
+                            [@"" isEqualToString:self.phoneField.text];
     if (notAllDataFilled) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"معلومات ناقصة!"
                                                         message:@"لم يتم إدخال أحد الحقول."
@@ -237,7 +228,7 @@
         [alert show];
         return;
     }
-    if (![self validateEmail:emailField.text]) {
+    if (![self validateEmail:self.emailField.text]) {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من إدخال البريد الإلكتروني بشكل صحيح"
                                                        delegate:nil cancelButtonTitle:@"موافق"
                                               otherButtonTitles:nil, nil];
@@ -247,10 +238,10 @@
     if (store == nil) {
         store = [[Store alloc] init];
     }
-    store.name = nameField.text;
-    store.desc = descriptionField.text;
-    store.ownerEmail = emailField.text;
-    store.phone = phoneField.text;
+    store.name = self.nameField.text;
+    store.desc = self.descriptionField.text;
+    store.ownerEmail = self.emailField.text;
+    store.phone = self.phoneField.text;
     store.countryID = chosenCountry.countryID;
     store.imageURL = myURL;
     
@@ -258,7 +249,7 @@
     if (!savedPofile && !guestCheck) { //guest
         //[self PasswordRequire];
         //return;
-        store.storePassword = passwordField.text;
+        store.storePassword = self.passwordField.text;
         guestCheck = YES;
     }else{
         store.storePassword = @"";
@@ -325,33 +316,45 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (textField == nameField) {
+    if (textField == self.nameField) {
         //[descriptionField becomeFirstResponder];
     }
-    else if (textField == emailField) {
+    else if (textField == self.emailField) {
         //[phoneField becomeFirstResponder];
     }
-    else if (textField == passwordField) {
+    else if (textField == self.passwordField) {
         //[passwordField becomeFirstResponder];
     }
     else {
-        [self dismissKeyboard];
-        [self saveBtnPress:nil];
+    
     }
+    [self dismissKeyboard];
+    [self saveBtnPress:nil];
     return NO;
 }
 
+
+- (void)textFieldDidBeginEditing:(UITextField *)aTextField {
+    [super textFieldDidBeginEditing:aTextField];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    aTextField.textAlignment = NSTextAlignmentRight;
+    [self closePicker];
+    
+}
+
+
+
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    textField.textAlignment = NSTextAlignmentRight;
-    [self closePicker];
     return YES;
 }
 
 #pragma mark - UITextViewDelegate
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+    [super textViewDidBeginEditing:textView];
     NSLog(@"%s", __PRETTY_FUNCTION__);
     [self closePicker];
+    
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
     {
@@ -408,7 +411,7 @@
     //NSLog(@"imagePickerController:didFinishPickingMediaWithInfo:%f",storeImage.size.width);
     uploadingLOGO = YES;
     //storeImageView.image = storeImage;
-    storeImageView.image = [GenericMethods imageWithImage:storeImage scaledToSize:storeImageView.frame.size];
+    self.storeImageView.image = [GenericMethods imageWithImage:storeImage scaledToSize:self.storeImageView.frame.size];
     [self showLoadingIndicatorOnImages];
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] uploadLOGO:storeImage];
@@ -419,12 +422,12 @@
 -(void)closePicker
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    [pickersView setHidden:YES];
+    [self.pickersView setHidden:YES];
     [UIView animateWithDuration:0.3 animations:^{
-        pickersView.frame = CGRectMake(pickersView.frame.origin.x,
+        self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
                                        [[UIScreen mainScreen] bounds].size.height,
-                                       pickersView.frame.size.width,
-                                       pickersView.frame.size.height
+                                       self.pickersView.frame.size.width,
+                                       self.pickersView.frame.size.height
                                        );
     }];
 }
@@ -433,13 +436,13 @@
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     [self dismissKeyboard];
-    [pickersView setHidden:NO];
-    [pickersView setHidden:NO];
+    [self.pickersView setHidden:NO];
+    [self.pickersView setHidden:NO];
     [UIView animateWithDuration:0.3 animations:^{
-        pickersView.frame = CGRectMake(pickersView.frame.origin.x,
-                                       [[UIScreen mainScreen] bounds].size.height-pickersView.frame.size.height,
-                                       pickersView.frame.size.width,
-                                       pickersView.frame.size.height
+        self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
+                                       [[UIScreen mainScreen] bounds].size.height-self.pickersView.frame.size.height,
+                                       self.pickersView.frame.size.width,
+                                       self.pickersView.frame.size.height
                                        );
     }];
 }
@@ -569,6 +572,7 @@
 
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
+    [super textViewDidEndEditing:textView];
     NSLog(@"%s", __PRETTY_FUNCTION__);
     [self dismissKeyboard];
 }
@@ -580,11 +584,12 @@
 -(void)dismissKeyboard {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     [self closePicker];
-    [nameField resignFirstResponder];
-    [descriptionField resignFirstResponder];
-    [emailField resignFirstResponder];
-    [phoneField resignFirstResponder];
-    [passwordField resignFirstResponder];
+    [self.nameField resignFirstResponder];
+    [self.descriptionField resignFirstResponder];
+    [self.emailField resignFirstResponder];
+    [self.phoneField resignFirstResponder];
+    [self.passwordField resignFirstResponder];
+    [self.whatever resignFirstResponder];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
     {
@@ -633,7 +638,7 @@
 }
 - (void) showLoadingIndicatorOnImages {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    imgsLoadingHUD = [MBProgressHUD2 showHUDAddedTo:storeImageView animated:YES];
+    imgsLoadingHUD = [MBProgressHUD2 showHUDAddedTo:self.storeImageView animated:YES];
     imgsLoadingHUD.mode = MBProgressHUDModeCustomView2;
     imgsLoadingHUD.labelText = @"";
     imgsLoadingHUD.detailsLabelText = @"";
@@ -662,7 +667,7 @@
     NSLog(@"%s", __PRETTY_FUNCTION__);
     
     if (imgsLoadingHUD)
-        [MBProgressHUD2 hideHUDForView:storeImageView  animated:YES];
+        [MBProgressHUD2 hideHUDForView:self.storeImageView  animated:YES];
     imgsLoadingHUD = nil;
     
 }

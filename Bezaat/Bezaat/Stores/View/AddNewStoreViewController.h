@@ -11,7 +11,7 @@
 #import "GAI.h"
 #import "XCDFormInputAccessoryView.h"
 
-@interface AddNewStoreViewController : BaseViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource, UIPickerViewDelegate,LocationManagerDelegate,StoreManagerDelegate>
+@interface AddNewStoreViewController : BaseViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UIActionSheetDelegate,UIPickerViewDataSource, UIPickerViewDelegate,LocationManagerDelegate,StoreManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *countryCity;
 @property (strong, nonatomic) UITextField* userPassword;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
@@ -21,6 +21,20 @@
 @property (strong, nonatomic) IBOutlet UIButton *whatIsStoreBtn;
 @property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
 
+
+@property (weak, nonatomic) IBOutlet UIImageView *storeImageView;
+@property (weak, nonatomic) IBOutlet UITextField *nameField;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionField;
+@property (weak, nonatomic) IBOutlet UITextField *emailField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UITextField *phoneField;
+@property (weak, nonatomic) IBOutlet UITextField *placeholderTextField;
+@property (weak, nonatomic) IBOutlet UIPickerView *locationPickerView;
+@property (weak, nonatomic) IBOutlet UIView *pickersView;
+
+
+
+@property (weak, nonatomic) IBOutlet UITextField *whatever;
 
 @property (weak, nonatomic) IBOutlet UIButton *iPad_buyCarSegmentBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_addCarSegmentBtn;

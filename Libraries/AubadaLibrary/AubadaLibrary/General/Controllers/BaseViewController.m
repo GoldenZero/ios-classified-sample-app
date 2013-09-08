@@ -45,24 +45,56 @@ CGFloat animatedDistance;
 #pragma mark UITextField Delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField*)sender {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [sender resignFirstResponder];
     return YES;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)aTextField {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     CGRect textFieldRect = [self.view.window convertRect:aTextField.bounds fromView:aTextField];
     CGRect viewRect = [self.view.window convertRect:self.view.bounds fromView:self.view];
-    CGFloat midline = textFieldRect.origin.y + 0.5 * textFieldRect.size.height;
-    CGFloat numerator = midline - viewRect.origin.y - MINIMUM_SCROLL_FRACTION * viewRect.size.height;
-    CGFloat denominator = (MAXIMUM_SCROLL_FRACTION - MINIMUM_SCROLL_FRACTION) * viewRect.size.height;
-    CGFloat heightFraction = numerator / denominator;
     
-    if (heightFraction < 0.0) {
-        heightFraction = 0.0;
+    NSLog(@"height = %f", textFieldRect.size.height);
+    NSLog(@"width = %f", textFieldRect.size.width);
+    NSLog(@"x = %f", textFieldRect.origin.x);
+    NSLog(@"y = %f", textFieldRect.origin.y);
+    
+    CGFloat midline;
+    CGFloat numerator;
+    CGFloat denominator;
+    CGFloat heightFraction;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        midline = textFieldRect.origin.y + 0.5 * textFieldRect.size.height;
+        numerator = midline - viewRect.origin.y - MINIMUM_SCROLL_FRACTION * viewRect.size.height;
+        denominator = (MAXIMUM_SCROLL_FRACTION - MINIMUM_SCROLL_FRACTION) * viewRect.size.height;
+        heightFraction = numerator / denominator;
+    
+        if (heightFraction < 0.0) {
+            heightFraction = 0.0;
+        }
+        else if (heightFraction > 1.0) {
+            heightFraction = 1.0;
+        }
     }
-    else if (heightFraction > 1.0) {
-        heightFraction = 1.0;
+    else
+    {
+        midline = textFieldRect.origin.x + 0.5 * textFieldRect.size.width;
+        numerator = midline - viewRect.origin.x - MINIMUM_SCROLL_FRACTION * viewRect.size.width;
+        denominator = (MAXIMUM_SCROLL_FRACTION - MINIMUM_SCROLL_FRACTION) * viewRect.size.width;
+        heightFraction = numerator / denominator;
+        
+        if (heightFraction < 0.0) {
+            heightFraction = 0.0;
+        }
+        else if (heightFraction > 1.0) {
+            heightFraction = 1.0;
+        }
     }
+
+    
+    
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (orientation == UIInterfaceOrientationPortrait ||
@@ -81,6 +113,7 @@ CGFloat animatedDistance;
             animatedDistance = floor(IPAD_LANDSCAPE_KEYBOARD_HEIGHT * heightFraction);
     }
     
+    NSLog(@"%f",animatedDistance);
     CGRect viewFrame = self.view.frame;
     if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
          ((orientation == UIInterfaceOrientationLandscapeLeft) ||
@@ -100,6 +133,7 @@ CGFloat animatedDistance;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     CGRect viewFrame = self.view.frame;
     if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
          (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
@@ -124,6 +158,8 @@ CGFloat animatedDistance;
 #pragma mark UITextView Delegate
 
 - (void) textViewDidBeginEditing:(UITextView *)atextView {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+
     CGRect textViewRect = [self.view.window convertRect:atextView.bounds fromView:atextView];
     CGRect viewRect = [self.view.window convertRect:self.view.bounds fromView:self.view];
     CGFloat midline = textViewRect.origin.y + 0.5 * textViewRect.size.height;
@@ -174,6 +210,8 @@ CGFloat animatedDistance;
 }
 
 - (void)textViewDidEndEditing:(UITextView *)atextView {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+
     CGRect viewFrame = self.view.frame;
     if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
          (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
