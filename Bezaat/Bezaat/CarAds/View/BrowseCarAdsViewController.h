@@ -24,8 +24,9 @@
 #import "CarAdsManager.h"
 #import "ModelsViewController_iPad.h"
 #import "DistanceRangeTableViewController.h"
+#import "AdsCell.h"
 
-@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate, brandChoosingDelegate, DistanceRangeChoosingDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate>
+@interface BrowseCarAdsViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate, brandChoosingDelegate, DistanceRangeChoosingDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,GADInterstitialDelegate,GADBannerViewDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -79,6 +80,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *iPad_browseGalleriesSegmentBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_addStoreSegmentBtn;
 
+@property (strong, nonatomic) IBOutlet UIView *adBannerView;
 
 @property (strong, nonatomic) UIPopoverController * brandsPopOver;
 @property (strong, nonatomic) UIPopoverController * distanceRangePopOver;

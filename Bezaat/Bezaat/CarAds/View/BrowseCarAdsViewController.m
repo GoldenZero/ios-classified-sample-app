@@ -40,7 +40,10 @@
     bool dropDownfromYearFlag;
     DropDownView *dropDowntoYear;
     bool dropDowntoYearFlag;
-    
+
+    DFPInterstitial *interstitial_;
+    DFPBannerView* bannerView;
+
     NSMutableArray *distanseArray;
     NSArray *fromYearArray;
     NSArray *toYearArray;
@@ -110,6 +113,16 @@
 
 - (void)viewDidLoad
 {
+    bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    bannerView.adUnitID = @"/5245337/Bezaat..car..app..ios..Ads..listing..320x50";
+    bannerView.rootViewController = self;
+    bannerView.delegate = self;
+    
+    [bannerView loadRequest:[GADRequest request]];
+    
+    [self.adBannerView addSubview:bannerView];
+
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
         [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
@@ -337,6 +350,21 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Banner Ad handlig
+
+- (void)adViewDidReceiveAd:(GADBannerView *)view
+{
+    NSLog(@"recieved AD");
+}
+
+- (void)adView:(GADBannerView *)view
+didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    NSLog(@"error Ad : %@",error);
+}
+
+
 
 #pragma mark - tableView handlig
 
