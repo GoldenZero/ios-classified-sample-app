@@ -57,8 +57,13 @@
 @property (strong, nonatomic) IBOutlet  UIButton *iPad_setDetailsBtn;
 @property (strong, nonatomic) IBOutlet  UIView *iPad_uploadPhotosView;
 
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_kiloBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_mileBtn;
+
 @property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
 @property (strong, nonatomic) UIPopoverController * iPad_countryPopOver;
+
+
 
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;
@@ -75,6 +80,11 @@
 - (IBAction) iPad_setDetailsBtnPrss:(id) sender;
 
 - (IBAction)iPad_deleteUploadedImage:(id)sender;
+- (IBAction)iPad_kiloBtnPrss:(id)sender;
+- (IBAction)iPad_mileBtnPrss:(id)sender;
+
+- (IBAction)chooseProductionYear:(id)sender;
+- (IBAction)chooseCurrency:(id)sender;
 - (IBAction)chooseCountryCity:(id)sender;
 - (void) dismissSelfAfterFeaturing;
 

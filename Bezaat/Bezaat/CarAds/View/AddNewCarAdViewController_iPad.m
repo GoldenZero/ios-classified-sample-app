@@ -697,8 +697,22 @@
 
 #pragma mark - Buttons Actions
 
+- (IBAction)iPad_kiloBtnPrss:(id)sender {
+    kiloChoosen = YES;
+    
+    [self.iPad_kiloBtn setBackgroundImage:[UIImage imageNamed:@"tb_add_individual4_km_btn_on.png"] forState:UIControlStateNormal];
+    [self.iPad_mileBtn setBackgroundImage:[UIImage imageNamed:@"tb_add_individual4_mile_btn_off.png"] forState:UIControlStateNormal];
+    
+}
+- (IBAction)iPad_mileBtnPrss:(id)sender {
+    kiloChoosen = NO;
+    
+    [self.iPad_kiloBtn setBackgroundImage:[UIImage imageNamed:@"tb_add_individual4_km_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_mileBtn setBackgroundImage:[UIImage imageNamed:@"tb_add_individual4_mile_btn_on.png"] forState:UIControlStateNormal];
+}
 
-- (void) chooseProductionYear{
+
+- (IBAction)chooseProductionYear:(id)sender {
     
     self.pickerView.hidden=NO;
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
@@ -718,7 +732,7 @@
 
 }
 
-- (void) chooseCurrency{
+- (IBAction)chooseCurrency:(id)sender {
     self.pickerView.hidden=NO;
     
     
