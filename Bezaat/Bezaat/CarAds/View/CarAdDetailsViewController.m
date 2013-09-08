@@ -12,6 +12,7 @@
 #import "CarAdDetailsViewController.h"
 #import "labelAdViewController.h"
 #import "EditCarAdViewController.h"
+#import "EditCarAdViewController_iPad.h"
 #import "EditStoreAdViewController.h"
 #import "StoreDetailsViewController.h"
 #import "AppDelegate.h"
@@ -1996,14 +1997,29 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     //TODO fill down the array and then move to next page "Edit Ad"
     NSLog(@"loading result Array : %@",resultArray);
     
-    EditCarAdViewController *homeVC=[[EditCarAdViewController alloc] initWithNibName:@"EditCarAdViewController" bundle:nil];
-    homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    homeVC.myAdArray = resultArray;
-    homeVC.myImageIDArray = resultIDs;
-    homeVC.myDetails = currentDetailsObject;
-    [self hideLoadingIndicator];
-    
-    [self presentViewController:homeVC animated:YES completion:nil];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        EditCarAdViewController *homeVC=[[EditCarAdViewController alloc] initWithNibName:@"EditCarAdViewController" bundle:nil];
+        homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        homeVC.myAdArray = resultArray;
+        homeVC.myImageIDArray = resultIDs;
+        homeVC.myDetails = currentDetailsObject;
+        [self hideLoadingIndicator];
+        
+        [self presentViewController:homeVC animated:YES completion:nil];
+    }
+    else {
+        EditCarAdViewController_iPad *homeVC=[[EditCarAdViewController_iPad alloc] initWithNibName:@"EditCarAdViewController_iPad" bundle:nil];
+        homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        homeVC.myAdArray = resultArray;
+        homeVC.myImageIDArray = resultIDs;
+        homeVC.myDetails = currentDetailsObject;
+        [self hideLoadingIndicator];
+        
+        [self presentViewController:homeVC animated:YES completion:nil];
+
+    }
+        
     
 }
 

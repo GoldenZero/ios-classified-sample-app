@@ -11,7 +11,7 @@
 #import "CarDetails.h"
 #import "GAI.h"
 
-@interface EditCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate>
+@interface EditCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate, UIPopoverControllerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
@@ -39,12 +39,47 @@
 @property (strong,nonatomic) NSArray* myImageIDArray;
 @property (strong, nonatomic) CarDetails* myDetails;
 
+#pragma mark - iPad properties
+@property (strong, nonatomic) IBOutlet SSLabel *iPad_titleLabel;
+@property (strong, nonatomic) IBOutlet SSLabel *iPad_uploadImagesTitleLabel;
+@property (strong, nonatomic) IBOutlet UIScrollView *iPad_mainScrollView;
+
+@property (strong, nonatomic) IBOutlet UIView *iPad_chooseBrandView;
+@property (strong, nonatomic) IBOutlet UIScrollView *iPad_chooseBrandScrollView;
+@property (strong, nonatomic) IBOutlet UIView *iPad_setPhotoView;
+@property (strong, nonatomic) IBOutlet UIView *iPad_setDetailsView;
+
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_chooseBrandBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_setPhotosBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_setDetailsBtn;
+@property (strong, nonatomic) IBOutlet  UIView *iPad_uploadPhotosView;
+
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_kiloBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_mileBtn;
+
+@property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_countryPopOver;
+
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;
 
-- (IBAction)homeBtnPrss:(id)sender;
+- (IBAction) iPad_closeBtnPrss:(id) sender;
 - (IBAction)addBtnprss:(id)sender;
+- (IBAction)selectModelBtnPrss:(id)sender;
+- (IBAction)uploadImage: (id)sender;
 
+#pragma matk - iPad actions
+- (IBAction) iPad_chooseBrandBtnPrss:(id) sender;
+- (IBAction) iPad_setPhotosBtnPrss:(id) sender;
+- (IBAction) iPad_setDetailsBtnPrss:(id) sender;
+
+-(IBAction) ImageDelete:(id)sender;
+- (IBAction)iPad_kiloBtnPrss:(id)sender;
+- (IBAction)iPad_mileBtnPrss:(id)sender;
+
+- (IBAction)chooseProductionYear:(id)sender;
+- (IBAction)chooseCurrency:(id)sender;
+- (IBAction)chooseCountryCity:(id)sender;
 - (void) dismissSelfAfterFeaturing;
 
 @end

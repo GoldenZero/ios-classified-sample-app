@@ -320,7 +320,7 @@
         picker.allowsEditing = YES;
         picker.delegate = self;
         //[self presentViewController:picker animated:YES completion:nil];
-        
+        [self dismissKeyboard];
         self.iPad_cameraPopOver = [[UIPopoverController alloc] initWithContentViewController:picker];
         self.iPad_cameraPopOver.delegate = self;
         [self.iPad_cameraPopOver presentPopoverFromRect:self.view.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
@@ -756,10 +756,12 @@
     CountryListViewController* vc;
     vc = [[CountryListViewController alloc]initWithNibName:@"CountriesPopOver_iPad" bundle:nil];
     self.iPad_countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
-    [self.iPad_countryPopOver setPopoverContentSize:vc.view.frame.size];
-    //[self.countryPopOver setPopoverContentSize:CGSizeMake(500, 800)];
+    //[self.iPad_countryPopOver setPopoverContentSize:vc.view.frame.size];
+    //NSLog(@"w:%f, h:%f", vc.view.frame.size.width, vc.view.frame.size.height);
+    [self dismissKeyboard];
+    [self.iPad_countryPopOver setPopoverContentSize:CGSizeMake(500, 700)];
     vc.iPad_parentViewOfPopOver = self;
-    [self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    [self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.countryCity.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 
 }
 
@@ -1195,19 +1197,6 @@
     NSLog(@"No api method provided for deleting an uploaded image");
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        return UIInterfaceOrientationMaskPortrait;
-    else
-        return UIInterfaceOrientationMaskLandscape;
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        return UIInterfaceOrientationPortrait;
-    else
-        return UIInterfaceOrientationLandscapeLeft;
-}
 
 #pragma mark - iPad helper methods
 
@@ -1505,5 +1494,19 @@
 }
 
 //------------------------------- END OF LEVEL1: CHOOSING THE BRAND -------------------------------
+
+- (NSUInteger)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskLandscape;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationPortrait;
+    else
+        return UIInterfaceOrientationLandscapeLeft;
+}
 
 @end
