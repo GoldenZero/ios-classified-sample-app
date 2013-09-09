@@ -11,6 +11,7 @@
 #import "SignInViewController.h"
 #import "FeatureStoreAdViewController.h"
 #import "WhyFeatureStoreAdViewController.h"
+#import "CountryListViewController.h"
 
 @interface AddNewStoreViewController () {
     Store *store;
@@ -162,22 +163,43 @@
 }
 
 - (IBAction)chooseCountry:(id)sender {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    self.locationPickerView.hidden = NO;
-   
-    [self showPicker];
-    [self.locationPickerView reloadAllComponents];
-    int selectedCountryIndex = 0;
-    if (chosenCountry != nil) {
-        selectedCountryIndex = [countryArray indexOfObject:chosenCountry];
-    }else{
-       selectedCountryIndex = [countryArray indexOfObject:0];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        NSLog(@"%s", __PRETTY_FUNCTION__);
+        self.locationPickerView.hidden = NO;
+        [self showPicker];
+        [self.locationPickerView reloadAllComponents];
+        int selectedCountryIndex = 0;
+        if (chosenCountry != nil) {
+            selectedCountryIndex = [countryArray indexOfObject:chosenCountry];
+        }
+        else
+        {
+            selectedCountryIndex = [countryArray indexOfObject:0];
+        }
+        [self.locationPickerView selectRow:selectedCountryIndex inComponent:0 animated:YES];
+        NSString* temp = [(Country*)[countryArray objectAtIndex:selectedCountryIndex] countryName];
+        [self.countryCity setTitle:temp forState:UIControlStateNormal];
+        locationBtnPressedOnce = YES;
     }
-    [self.locationPickerView selectRow:selectedCountryIndex inComponent:0 animated:YES];
-    NSString* temp = [(Country*)[countryArray objectAtIndex:selectedCountryIndex] countryName];
-    [self.countryCity setTitle:temp forState:UIControlStateNormal];
-    locationBtnPressedOnce = YES;
-
+    else
+    {
+        CountryListViewController* vc;
+        
+        vc = [[CountryListViewController alloc]initWithNibName:@"CountriesPopOver_iPad" bundle:nil];
+        
+        self.countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
+        
+        CGRect myownRect=CGRectMake(262, 600, 500, 500);
+        
+        
+        [self.countryPopOver setPopoverContentSize:myownRect.size];
+            //[self.countryPopOver setPopoverContentSize:CGSizeMake(500, 800)];
+        vc.iPad_parentViewOfPopOver = self;
+        //CGRect frameInWindow = [self.countryCity convertRect:self.countryCity.frame toView:self.view];
+        
+        [self.countryPopOver presentPopoverFromRect:myownRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
 }
 
 - (IBAction)cancelBtnPress:(id)sender {
@@ -589,7 +611,6 @@
     [self.emailField resignFirstResponder];
     [self.phoneField resignFirstResponder];
     [self.passwordField resignFirstResponder];
-    [self.whatever resignFirstResponder];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
     {
@@ -602,21 +623,21 @@
 
 - (void) showLoadingIndicator {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
         loadingHUD = [MBProgressHUD2 showHUDAddedTo:self.view animated:YES];
         loadingHUD.mode = MBProgressHUDModeIndeterminate2;
         loadingHUD.labelText = @"جاري تحميل البيانات";
         loadingHUD.detailsLabelText = @"";
         loadingHUD.dimBackground = YES;
     }
-    else {
+    else
+    {
         iPad_loadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 170, 170)];
-        
         iPad_loadingView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
         iPad_loadingView.clipsToBounds = YES;
         iPad_loadingView.layer.cornerRadius = 10.0;
         iPad_loadingView.center = CGPointMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0);
-        
         
         iPad_activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         iPad_activityIndicator.frame = CGRectMake(65, 40, iPad_activityIndicator.bounds.size.width, iPad_activityIndicator.bounds.size.height);
@@ -636,6 +657,7 @@
     }
         
 }
+
 - (void) showLoadingIndicatorOnImages {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     imgsLoadingHUD = [MBProgressHUD2 showHUDAddedTo:self.storeImageView animated:YES];
@@ -663,6 +685,7 @@
         iPad_loadingLabel = nil;
     }
 }
+
 - (void) hideLoadingIndicatorOnImages {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     

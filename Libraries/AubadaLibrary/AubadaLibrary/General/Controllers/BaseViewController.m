@@ -78,23 +78,22 @@ CGFloat animatedDistance;
             heightFraction = 1.0;
         }
     }
-    else
+    else /////// PLEASE NOTICE THAT this code is written only for the IPad portrait Views 
     {
         midline = textFieldRect.origin.x + 0.5 * textFieldRect.size.width;
         numerator = midline - viewRect.origin.x - MINIMUM_SCROLL_FRACTION * viewRect.size.width;
         denominator = (MAXIMUM_SCROLL_FRACTION - MINIMUM_SCROLL_FRACTION) * viewRect.size.width;
         heightFraction = numerator / denominator;
         
-        if (heightFraction < 0.0) {
+        if (heightFraction < 0.0)
+        {
             heightFraction = 0.0;
         }
-        else if (heightFraction > 1.0) {
+        else if (heightFraction > 1.0)
+        {
             heightFraction = 1.0;
         }
     }
-
-    
-    
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (orientation == UIInterfaceOrientationPortrait ||
@@ -105,7 +104,8 @@ CGFloat animatedDistance;
         else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             animatedDistance = floor(IPAD_PORTRAIT_KEYBOARD_HEIGHT * heightFraction);
     }
-    else {
+    else
+    {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
             animatedDistance = floor(IPHONE_LANDSCAPE_KEYBOARD_HEIGHT * heightFraction);
         
@@ -117,7 +117,8 @@ CGFloat animatedDistance;
     CGRect viewFrame = self.view.frame;
     if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
          ((orientation == UIInterfaceOrientationLandscapeLeft) ||
-          (orientation == UIInterfaceOrientationLandscapeRight)) ) {
+          (orientation == UIInterfaceOrientationLandscapeRight)) )
+    {
         viewFrame.origin.x -= animatedDistance;
     }
     else //iPhone portrait
@@ -132,12 +133,14 @@ CGFloat animatedDistance;
     [UIView commitAnimations];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
     NSLog(@"%s", __PRETTY_FUNCTION__);
     CGRect viewFrame = self.view.frame;
     if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
          (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
-          ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) ) {
+          ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) )
+    {
         viewFrame.origin.x += animatedDistance;
     }
     else //iPhone portrait
@@ -157,9 +160,9 @@ CGFloat animatedDistance;
 #pragma mark -
 #pragma mark UITextView Delegate
 
-- (void) textViewDidBeginEditing:(UITextView *)atextView {
+- (void) textViewDidBeginEditing:(UITextView *)atextView
+{
     NSLog(@"%s", __PRETTY_FUNCTION__);
-
     CGRect textViewRect = [self.view.window convertRect:atextView.bounds fromView:atextView];
     CGRect viewRect = [self.view.window convertRect:self.view.bounds fromView:self.view];
     CGFloat midline = textViewRect.origin.y + 0.5 * textViewRect.size.height;
@@ -167,10 +170,12 @@ CGFloat animatedDistance;
     CGFloat denominator = (MAXIMUM_SCROLL_FRACTION - MINIMUM_SCROLL_FRACTION) * viewRect.size.height;
     CGFloat heightFraction = numerator / denominator;
     
-    if (heightFraction < 0.0) {
+    if (heightFraction < 0.0)
+    {
         heightFraction = 0.0;
     }
-    else if (heightFraction > 1.0) {
+    else if (heightFraction > 1.0)
+    {
         heightFraction = 1.0;
     }
     

@@ -34,7 +34,7 @@
 
 
 
-@property (weak, nonatomic) IBOutlet UITextField *whatever;
+
 
 @property (weak, nonatomic) IBOutlet UIButton *iPad_buyCarSegmentBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_addCarSegmentBtn;
@@ -56,5 +56,10 @@
 - (IBAction)doneBtnPrss:(id)sender;
 - (IBAction)saveBtnPress:(id)sender;
 - (IBAction)whatIsStoreBtnPrss:(id)sender;
+
+
+@property (strong, nonatomic) UIPopoverController * countryPopOver;
+- (void) iPad_userDidEndChoosingCountryFromPopOver;
+
 
 @end
