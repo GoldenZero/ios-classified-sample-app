@@ -17,7 +17,7 @@
 #import "GAI.h"
 #import "XCDFormInputAccessoryView.h"
 
-@interface AddNewStoreAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, StoreManagerDelegate,StorePostAdDelegate,PricingOptionsDelegate,LocationManagerDelegate>
+@interface AddNewStoreAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, StoreManagerDelegate,StorePostAdDelegate,PricingOptionsDelegate,LocationManagerDelegate, UIPopoverControllerDelegate>
 {
     
 }
@@ -58,11 +58,81 @@
 @property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
 @property (strong, nonatomic) UIViewController * parentStoreDetailsView;
 
+#pragma mark - iPad properties
+@property (strong, nonatomic) IBOutlet SSLabel *iPad_titleLabel;
+@property (strong, nonatomic) IBOutlet SSLabel *iPad_uploadImagesTitleLabel;
+@property (strong, nonatomic) IBOutlet UIScrollView *iPad_mainScrollView;
+
+@property (strong, nonatomic) IBOutlet UIView *iPad_chooseBrandView;
+@property (strong, nonatomic) IBOutlet UIScrollView *iPad_chooseBrandScrollView;
+@property (strong, nonatomic) IBOutlet UIView *iPad_setPhotoView;
+@property (strong, nonatomic) IBOutlet UIView *iPad_setDetailsView;
+
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_chooseBrandBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_setPhotosBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_setDetailsBtn;
+@property (strong, nonatomic) IBOutlet  UIView *iPad_uploadPhotosView;
+
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_kiloBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_mileBtn;
+
+//gear type
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_normalGearTypeBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_automaticGearTypeBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_tiptronicGearTypeBtn;
+
+//car type
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_frontWheelCarTypeBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_backWheelCarTypeBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_fourWheelCarTypeBtn;
+
+//car condition
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_newCarConditionBtn;
+@property (strong, nonatomic) IBOutlet  UIButton *iPad_usedCarConditionBtn;
+
+@property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_countryPopOver;
+
+
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;
 
 - (IBAction)homeBtnPrss:(id)sender;
+
+- (IBAction) iPad_closeBtnPrss:(id) sender;
 - (IBAction)addBtnprss:(id)sender;
 - (IBAction)selectModelBtnPrss:(id)sender;
+- (IBAction)uploadImage: (id)sender;
+
+
+#pragma matk - iPad actions
+- (IBAction) iPad_chooseBrandBtnPrss:(id) sender;
+- (IBAction) iPad_setPhotosBtnPrss:(id) sender;
+- (IBAction) iPad_setDetailsBtnPrss:(id) sender;
+
+- (IBAction)iPad_deleteUploadedImage:(id)sender;
+- (IBAction)iPad_kiloBtnPrss:(id)sender;
+- (IBAction)iPad_mileBtnPrss:(id)sender;
+
+- (IBAction)chooseStore:(id) sender;
+- (IBAction)chooseProductionYear:(id)sender;
+- (IBAction)chooseCurrency:(id)sender;
+- (IBAction)chooseCountryCity:(id)sender;
+
+- (IBAction)chooseBody:(id)sender;
+
+//gear type
+- (IBAction)iPad_normalGearTypeBtnPrss:(id) sender;
+- (IBAction)iPad_automaticGearTypeBtnPrss:(id) sender;
+- (IBAction)iPad_tiptronicGearTypeBtnPrss:(id) sender;
+
+//car type
+- (IBAction)iPad_frontWheelCarTypeBtnPrss:(id) sender;
+- (IBAction)iPad_backWheelCarTypeBtnPrss:(id) sender;
+- (IBAction)iPad_fourWheelCarTypeBtnPrss:(id) sender;
+
+//car condition
+- (IBAction)iPad_newCarConditionBtnPrss:(id) sender;
+- (IBAction)iPad_usedCarConditionBtnPrss:(id) sender;
 
 @end

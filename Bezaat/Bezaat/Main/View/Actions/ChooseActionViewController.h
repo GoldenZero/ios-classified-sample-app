@@ -40,6 +40,9 @@
 - (IBAction)countryBtnPrss:(id)sender;
 - (IBAction)exhibitBtnPrss:(id)sender;
 - (IBAction)iPad_signInBtnPressed:(id)sender;
+- (IBAction)iPad_myAdsBtnPressed:(id)sender;
+- (IBAction)iPad_storeOrdersBtnPressed:(id)sender;
+- (IBAction)iPad_settingsBtnPressed:(id)sender;
 
 - (void) iPad_userDidEndChoosingCountryFromPopOver;
 

@@ -12,6 +12,9 @@
 #import "ModelsViewController.h"
 #import "labelAdViewController.h"
 #import "StaticAttrsLoader.h"
+#import "ChooseModelView_iPad.h"
+#import "BrandCell.h"
+#import "ModelCell.h"
 
 #pragma mark - literals for use in post ad
 //These literals should used for posting any ad
@@ -92,10 +95,28 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    UIActivityIndicatorView * iPad_imgsActivityIndicator;
+    UIView * iPad_imgsLoadingView;
+    
+    UIImage * iPad_chooseBrandBtnImgOn;
+    UIImage * iPad_chooseBrandBtnImgOff;
+    
+    UIImage * iPad_setPhotosBtnImgOn;
+    UIImage * iPad_setPhotosBtnImgOff;
+    
+    UIImage * iPad_setDetailsBtnImgOn;
+    UIImage * iPad_setDetailsBtnImgOff;
+    
+    //choose brand view related:
+    NSMutableArray * brandCellsArray;
+    Brand * chosenBrand;
+    BOOL brandsOneSelectionMade;
+    ChooseModelView_iPad * dropDownView;
+    
+    NSArray* currentBrands;
+    NSArray* currentModels;
 }
-
-
-
 
 @end
 
@@ -214,6 +235,15 @@
     
     choosingStore = NO;
     
+    //initial gear type
+    gearchoosen = 1;        //automatic
+    
+    //initial car type
+    typechoosen = 1;          //back wheel
+    
+    //initial car condition
+    conditionchoosen = false; //used
+        
     [self loadDataArray];
     [self addButtonsToXib];
     [self setImagesArray];
@@ -406,7 +436,7 @@
     }
 }
 
-- (void) uploadImage: (id)sender{
+- (IBAction) uploadImage: (id)sender{
     
     UIButton * senderBtn = (UIButton *) sender;
     chosenImgBtnTag = senderBtn.tag;
@@ -969,7 +999,7 @@
 #pragma mark - Buttons Actions
 
 
--(void)chooseStore
+-(IBAction)chooseStore:(id) sender
 {
     self.locationPickerView.hidden=YES;
     self.bodyPickerView.hidden = YES;
@@ -998,7 +1028,7 @@
     [self showPicker];
 }
 
-- (void) chooseProductionYear{
+- (IBAction) chooseProductionYear:(id) sender{
     
     choosingStore = NO;
     
@@ -1025,7 +1055,7 @@
     
 }
 
-- (void) chooseCurrency{
+- (IBAction) chooseCurrency:(id) sender{
     
     choosingStore = NO;
     
@@ -1052,7 +1082,7 @@
     
 }
 
-- (void) chooseCountryCity{
+- (IBAction) chooseCountryCity:(id) sneder{
     
     choosingStore = NO;
     
@@ -1080,6 +1110,7 @@
     
 }
 
+/*
 - (void) chooseKiloMile{
     
     choosingStore = NO;
@@ -1094,7 +1125,7 @@
     
 }
 
--(void)chooseCarCondition
+-(IBAction)chooseCarCondition:(id)sender
 {
     choosingStore = NO;
     if (condition.selectedSegmentIndex==0) {
@@ -1106,7 +1137,7 @@
     }
 }
 
--(void) chooseGearType
+-(IBAction) chooseGearType:(id)sender
 {
     choosingStore = NO;
     if (gear.selectedSegmentIndex==0) {
@@ -1122,7 +1153,7 @@
     }
 }
 
--(void) chooseCarType
+-(IBAction) chooseCarType:(id)sender
 {
     choosingStore = NO;
     if (type.selectedSegmentIndex==0) {
@@ -1137,8 +1168,9 @@
         typechoosen=2;
     }
 }
+*/
 
--(void) chooseBody
+-(IBAction) chooseBody:(id)sender
 {
     choosingStore = NO;
     
@@ -1831,6 +1863,72 @@
     
     
    
+}
+
+#pragma mark - ipad actions
+//gear type
+- (IBAction)iPad_normalGearTypeBtnPrss:(id) sender {
+    gearchoosen = 0;
+    
+    [self.iPad_normalGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_normal_btn_on.png"] forState:UIControlStateNormal];
+    [self.iPad_automaticGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_auto_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_tiptronicGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_trebetonic_btn_off.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)iPad_automaticGearTypeBtnPrss:(id) sender {
+    gearchoosen = 1;
+    
+    [self.iPad_normalGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_normal_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_automaticGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_auto_btn_on.png"] forState:UIControlStateNormal];
+    [self.iPad_tiptronicGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_trebetonic_btn_off.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)iPad_tiptronicGearTypeBtnPrss:(id) sender {
+    gearchoosen = 2;
+    
+    [self.iPad_normalGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_normal_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_automaticGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_auto_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_tiptronicGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_trebetonic_btn_on.png"] forState:UIControlStateNormal];
+}
+
+//car type
+- (IBAction)iPad_frontWheelCarTypeBtnPrss:(id) sender {
+    typechoosen = 0;
+    
+    [self.iPad_frontWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_amaie_btn_on.png"] forState:UIControlStateNormal];
+    [self.iPad_backWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_behind_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_fourWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_4x4_btn_off.png"] forState:UIControlStateNormal];
+    
+}
+
+- (IBAction)iPad_backWheelCarTypeBtnPrss:(id) sender {
+    typechoosen = 1;
+    
+    [self.iPad_frontWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_amaie_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_backWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_behind_btn_on.png"] forState:UIControlStateNormal];
+    [self.iPad_fourWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_4x4_btn_off.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)iPad_fourWheelCarTypeBtnPrss:(id) sender {
+    typechoosen = 2;
+    
+    [self.iPad_frontWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_amaie_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_backWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_behind_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_fourWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_4x4_btn_on.png"] forState:UIControlStateNormal];
+}
+
+//car condition
+- (IBAction)iPad_newCarConditionBtnPrss:(id) sender {
+    conditionchoosen=true;
+    
+    [self.iPad_newCarConditionBtn setImage:[UIImage imageNamed:@"tb_add_individual4_new_btn_on"] forState:UIControlStateNormal];
+    [self.iPad_usedCarConditionBtn setImage:[UIImage imageNamed:@"tb_add_individual4_used_btn_off.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)iPad_usedCarConditionBtnPrss:(id) sender {
+    conditionchoosen=false;
+    [self.iPad_newCarConditionBtn setImage:[UIImage imageNamed:@"tb_add_individual4_new_btn_off"] forState:UIControlStateNormal];
+    [self.iPad_usedCarConditionBtn setImage:[UIImage imageNamed:@"tb_add_individual4_used_btn_on.png"] forState:UIControlStateNormal];
 }
 
 @end

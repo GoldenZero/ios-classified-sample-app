@@ -149,8 +149,6 @@
     currencyBtnPressedOnce = NO;
     yearBtnPressedOnce = NO;
     
-    
-    
     [self loadDataArray];
     [self loadData];
     //[self addButtonsToXib];
@@ -159,6 +157,57 @@
     [self setImagesToXib];
     
     [self closePicker];
+    
+    //set image names
+    iPad_chooseBrandBtnImgOn = [UIImage imageNamed:@"tb_add_individual1_choose_brand_button_on"];
+    iPad_chooseBrandBtnImgOff = [UIImage imageNamed:@"tb_add_individual1_choose_brand_button_off"];
+    
+    iPad_setPhotosBtnImgOn = [UIImage imageNamed:@"tb_add_individual1_car_images_button_on"];
+    iPad_setPhotosBtnImgOff = [UIImage imageNamed:@"tb_add_individual1_car_images_button_off"];
+    
+    iPad_setDetailsBtnImgOn = [UIImage imageNamed:@"tb_add_individual1_ads_details_button_on"];
+    iPad_setDetailsBtnImgOff = [UIImage imageNamed:@"tb_add_individual1_ads_details_button_off"];
+    
+    
+    //title label
+    [self.iPad_titleLabel setBackgroundColor:[UIColor clearColor]];
+    [self.iPad_titleLabel setTextAlignment:SSTextAlignmentCenter];
+    [self.iPad_titleLabel setTextColor:[UIColor whiteColor]];
+    [self.iPad_titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:26.0] ];
+    [self.iPad_titleLabel setText:@"إضافة إعلان"];
+    
+    //title label
+    [self.iPad_uploadImagesTitleLabel setBackgroundColor:[UIColor clearColor]];
+    [self.iPad_uploadImagesTitleLabel setTextAlignment:SSTextAlignmentCenter];
+    [self.iPad_uploadImagesTitleLabel setTextColor:[UIColor darkGrayColor]];
+    [self.iPad_uploadImagesTitleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:14.0] ];
+    [self.iPad_uploadImagesTitleLabel setText:@"حمل الصور الآن"];
+    
+    [self.iPad_mainScrollView setContentSize:CGSizeMake((1024 * 3), self.iPad_mainScrollView.frame.size.height)];
+    
+    //choose brand view:
+    //------------------
+    brandCellsArray = [NSMutableArray new];
+    
+    chosenBrand = nil;
+    self.currentModel = nil;
+    
+    brandsOneSelectionMade = NO;
+    dropDownView = nil;
+    
+    //display a locing indicator on brands view until brands get loaded
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicator.hidesWhenStopped = YES;
+    activityIndicator.hidden = NO;
+    activityIndicator.center = CGPointMake(self.iPad_chooseBrandView.frame.size.width /2, self.iPad_chooseBrandView.frame.size.height/2);
+    [self.iPad_chooseBrandView addSubview:activityIndicator];
+    [activityIndicator startAnimating];
+    [[BrandsManager sharedInstance] getBrandsAndModelsForPostAdWithDelegate:self];
+    
+    
+    [self iPad_srollToBrandsView];
+    [self iPad_setStepViews];
+    
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Edit Ad screen"];
     //end GA

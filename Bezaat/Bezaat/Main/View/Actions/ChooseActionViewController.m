@@ -82,9 +82,11 @@
     }
     else {
         if (savedProfile)
-            self.iPad_signInBtn.enabled = NO;
+            //self.iPad_signInBtn.enabled = NO;
+            [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_login_btn.png"] forState:UIControlStateNormal];//log out
         else
-            self.iPad_signInBtn.enabled = YES;
+            //self.iPad_signInBtn.enabled = YES;
+            [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_signin_btn.png"] forState:UIControlStateNormal];//log in
     }
     
     if (savedProfile.hasStores) {
@@ -161,6 +163,15 @@
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self customizeMenu];
+    } else {
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        if (savedProfile)
+            //self.iPad_signInBtn.enabled = NO;
+            [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_login_btn.png"] forState:UIControlStateNormal];//log out
+        else
+            //self.iPad_signInBtn.enabled = YES;
+            [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_signin_btn.png"] forState:UIControlStateNormal];//log in
     }
 }
 
@@ -344,12 +355,39 @@
 
 - (IBAction)iPad_signInBtnPressed:(id)sender {
     SignInViewController *vc;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-    else
-        vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
-    vc.returnPage = YES;
+        vc.returnPage = YES;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else {
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
+        if (savedProfile)
+            [self logout];
+        else {
+            vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
+            vc.returnPage = YES;
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+    }
+    
+}
+
+- (IBAction)iPad_myAdsBtnPressed:(id)sender {
+    
+}
+
+- (IBAction)iPad_storeOrdersBtnPressed:(id)sender {
+    //Ahmad
+    /*
+    StoreOrdersViewController *vc=[[StoreOrdersViewController alloc]initWithNibName:@"StoreOrdersViewController" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
+     */
+}
+
+- (IBAction)iPad_settingsBtnPressed:(id)sender {
+    
 }
 
 - (void) prepareImages {
@@ -646,6 +684,7 @@
     alert.tag = 1;
     [self hideLoadingIndicator];
     [alert show];
+    [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_signin_btn.png"] forState:UIControlStateNormal];//log in
     return;
     
 }

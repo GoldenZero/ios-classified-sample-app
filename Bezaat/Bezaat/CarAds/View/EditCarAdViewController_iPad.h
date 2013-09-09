@@ -11,7 +11,7 @@
 #import "CarDetails.h"
 #import "GAI.h"
 
-@interface EditCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate, UIPopoverControllerDelegate>
+@interface EditCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate, BrandManagerDelegate, UIPopoverControllerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
