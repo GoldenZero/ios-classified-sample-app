@@ -78,7 +78,7 @@ CGFloat animatedDistance;
             heightFraction = 1.0;
         }
     }
-    else /////// PLEASE NOTICE THAT this code is written only for the IPad portrait Views 
+    else /////// PLEASE NOTICE THAT this code is written only for the IPad Landscape Views 
     {
         midline = textFieldRect.origin.x + 0.5 * textFieldRect.size.width;
         numerator = midline - viewRect.origin.x - MINIMUM_SCROLL_FRACTION * viewRect.size.width;
