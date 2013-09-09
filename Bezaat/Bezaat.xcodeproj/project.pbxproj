@@ -773,6 +773,8 @@
 		61A3EA3D17D5EF7F009CB547 /* tb_create_your_store_signin_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 61A3EA2B17D5EF7F009CB547 /* tb_create_your_store_signin_btn@2x.png */; };
 		61B0A7BE172EF91C00F95807 /* MyStore_dotList.png in Resources */ = {isa = PBXBuildFile; fileRef = 61B0A7BC172EF91C00F95807 /* MyStore_dotList.png */; };
 		61B0A7BF172EF91C00F95807 /* MyStore_dotList@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 61B0A7BD172EF91C00F95807 /* MyStore_dotList@2x.png */; };
+		61D5D45F17DDCD32006DC50A /* tb_store_order_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 61D5D45D17DDCD32006DC50A /* tb_store_order_box.png */; };
+		61D5D46017DDCD32006DC50A /* tb_store_order_box@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 61D5D45E17DDCD32006DC50A /* tb_store_order_box@2x.png */; };
 		61E1DA821730399A0003D642 /* StoreList_icon_mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 61E1DA801730399A0003D642 /* StoreList_icon_mark.png */; };
 		61E1DA831730399A0003D642 /* StoreList_icon_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 61E1DA811730399A0003D642 /* StoreList_icon_mark@2x.png */; };
 		61EEB5F717DDBA9F00F3D5F0 /* StoreOrdersViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61EEB5F617DDBA9F00F3D5F0 /* StoreOrdersViewController_iPad.xib */; };
@@ -2768,6 +2770,8 @@
 		61A3EA2B17D5EF7F009CB547 /* tb_create_your_store_signin_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tb_create_your_store_signin_btn@2x.png"; sourceTree = "<group>"; };
 		61B0A7BC172EF91C00F95807 /* MyStore_dotList.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyStore_dotList.png; sourceTree = "<group>"; };
 		61B0A7BD172EF91C00F95807 /* MyStore_dotList@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MyStore_dotList@2x.png"; sourceTree = "<group>"; };
+		61D5D45D17DDCD32006DC50A /* tb_store_order_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_store_order_box.png; sourceTree = "<group>"; };
+		61D5D45E17DDCD32006DC50A /* tb_store_order_box@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tb_store_order_box@2x.png"; sourceTree = "<group>"; };
 		61E1DA801730399A0003D642 /* StoreList_icon_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StoreList_icon_mark.png; sourceTree = "<group>"; };
 		61E1DA811730399A0003D642 /* StoreList_icon_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "StoreList_icon_mark@2x.png"; sourceTree = "<group>"; };
 		61EEB5F617DDBA9F00F3D5F0 /* StoreOrdersViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreOrdersViewController_iPad.xib; sourceTree = "<group>"; };
@@ -4929,9 +4933,11 @@
 			path = "Create Your Store";
 			sourceTree = "<group>";
 		};
-		61EEB60517DDC27900F3D5F0 /* stores order */ = {
+		61EEB60517DDC27900F3D5F0 /* store order */ = {
 			isa = PBXGroup;
 			children = (
+				61D5D45D17DDCD32006DC50A /* tb_store_order_box.png */,
+				61D5D45E17DDCD32006DC50A /* tb_store_order_box@2x.png */,
 				61EEB60617DDC27900F3D5F0 /* tb_store_order_bank_btn.png */,
 				61EEB60717DDC27900F3D5F0 /* tb_store_order_bank_btn@2x.png */,
 				61EEB60817DDC27900F3D5F0 /* tb_store_order_btn.png */,
@@ -4939,6 +4945,7 @@
 				61EEB60A17DDC27900F3D5F0 /* tb_store_order_photo_box.png */,
 				61EEB60B17DDC27900F3D5F0 /* tb_store_order_photo_box@2x.png */,
 			);
+			name = "store order";
 			path = "stores order";
 			sourceTree = "<group>";
 		};
@@ -5469,7 +5476,7 @@
 		9E2558B717B8C2C4005CC915 /* Tablet resources */ = {
 			isa = PBXGroup;
 			children = (
-				61EEB60517DDC27900F3D5F0 /* stores order */,
+				61EEB60517DDC27900F3D5F0 /* store order */,
 				61A3EA1917D5EF7F009CB547 /* Create Your Store */,
 				6197B61617D5C26B0062CFC7 /* Create Store */,
 				9E6AB16A17D4AC9D001050B0 /* Default Images */,
@@ -8827,6 +8834,8 @@
 				61EEB60F17DDC27900F3D5F0 /* tb_store_order_btn@2x.png in Resources */,
 				61EEB61017DDC27900F3D5F0 /* tb_store_order_photo_box.png in Resources */,
 				61EEB61117DDC27900F3D5F0 /* tb_store_order_photo_box@2x.png in Resources */,
+				61D5D45F17DDCD32006DC50A /* tb_store_order_box.png in Resources */,
+				61D5D46017DDCD32006DC50A /* tb_store_order_box@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
