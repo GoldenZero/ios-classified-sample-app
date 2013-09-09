@@ -192,6 +192,7 @@
     [self iPad_srollToBrandsView];
     [self iPad_setStepViews];
     
+    /*
     //set the title of location button
     int defaultCountryID =  [[LocationManager sharedInstance] getSavedUserCountryID];
     int defaultCityID =  [[LocationManager sharedInstance] getSavedUserCityID];
@@ -211,7 +212,7 @@
         }
         
     }
-    
+    */
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Post Ad screen"];
     //end GA
