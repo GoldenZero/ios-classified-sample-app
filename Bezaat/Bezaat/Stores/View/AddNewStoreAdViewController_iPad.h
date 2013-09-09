@@ -135,4 +135,6 @@
 - (IBAction)iPad_newCarConditionBtnPrss:(id) sender;
 - (IBAction)iPad_usedCarConditionBtnPrss:(id) sender;
 
+- (void) iPad_userDidEndChoosingCountryFromPopOver;
+
 @end
