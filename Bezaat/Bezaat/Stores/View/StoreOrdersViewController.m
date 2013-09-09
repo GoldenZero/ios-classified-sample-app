@@ -160,7 +160,6 @@
         }
         //3- refresh table data
         [self.adsTable reloadData];
-        
     }
     
     //1- hide the loading indicator

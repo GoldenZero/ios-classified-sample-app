@@ -380,10 +380,17 @@
 
 - (IBAction)iPad_storeOrdersBtnPressed:(id)sender {
     //Ahmad
-    /*
-    StoreOrdersViewController *vc=[[StoreOrdersViewController alloc]initWithNibName:@"StoreOrdersViewController" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
-     */
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        StoreOrdersViewController *vc=[[StoreOrdersViewController alloc]initWithNibName:@"StoreOrdersViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else
+    {
+        StoreOrdersViewController *vc=[[StoreOrdersViewController alloc]initWithNibName:@"StoreOrdersViewController_iPad" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
 }
 
 - (IBAction)iPad_settingsBtnPressed:(id)sender {
