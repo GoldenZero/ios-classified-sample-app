@@ -11,6 +11,10 @@
 #import "ChooseActionViewController.h"
 #import "ModelsViewController.h"
 #import "labelAdViewController.h"
+#import "ChooseModelView_iPad.h"
+#import "BrandCell.h"
+#import "ModelCell.h"
+
 #pragma mark - literals for use in post ad
 //These literals should used for posting any ad
 #define AD_PERIOD_2_MONTHS_VALUE_ID     1189 //period = 2 months (fixed)
@@ -56,7 +60,7 @@
     
     NSInteger defaultStoreIndex;
     NSInteger myAdID;
-
+    
     
     //These objects should be set bt selecting the drop down menus.
     SingleValue * chosenCurrency;
@@ -99,6 +103,27 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    UIActivityIndicatorView * iPad_imgsActivityIndicator;
+    UIView * iPad_imgsLoadingView;
+    
+    UIImage * iPad_chooseBrandBtnImgOn;
+    UIImage * iPad_chooseBrandBtnImgOff;
+    
+    UIImage * iPad_setPhotosBtnImgOn;
+    UIImage * iPad_setPhotosBtnImgOff;
+    
+    UIImage * iPad_setDetailsBtnImgOn;
+    UIImage * iPad_setDetailsBtnImgOff;
+    
+    //choose brand view related:
+    NSMutableArray * brandCellsArray;
+    Brand * chosenBrand;
+    BOOL brandsOneSelectionMade;
+    ChooseModelView_iPad * dropDownView;
+    
+    NSArray* currentBrands;
+    NSArray* currentModels;
 }
 
 @end
@@ -120,7 +145,7 @@
     [super viewDidLoad];
     gearchoosen = 0;
     typechoosen = 0;
-
+    
     
     allUserStore = [[NSMutableArray alloc]init];
     
@@ -142,15 +167,11 @@
     timer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(indicator:) userInfo:nil repeats:YES];
     
     // Set tapping gesture
-    tap1 = [[UITapGestureRecognizer alloc]
-            initWithTarget:self
-            action:@selector(dismissKeyboard)];
-    [self.horizontalScrollView addGestureRecognizer:tap1];
-    
     tap2 = [[UITapGestureRecognizer alloc]
             initWithTarget:self
             action:@selector(dismissKeyboard)];
-    [self.verticalScrollView addGestureRecognizer:tap2];
+    //[self.verticalScrollView addGestureRecognizer:tap2];
+    [self.iPad_mainScrollView addGestureRecognizer:tap2];
     
     
     locationBtnPressedOnce = NO;
@@ -162,11 +183,61 @@
     
     [self loadDataArray];
     [self loadData];
-    [self addButtonsToXib];
+    [self customizeButtonsInXib];
     [self setImagesArray];
-    [self setImagesToXib];
     
     [self closePicker];
+    
+    //set image names
+    iPad_chooseBrandBtnImgOn = [UIImage imageNamed:@"tb_add_individual1_choose_brand_button_on"];
+    iPad_chooseBrandBtnImgOff = [UIImage imageNamed:@"tb_add_individual1_choose_brand_button_off"];
+    
+    iPad_setPhotosBtnImgOn = [UIImage imageNamed:@"tb_add_individual1_car_images_button_on"];
+    iPad_setPhotosBtnImgOff = [UIImage imageNamed:@"tb_add_individual1_car_images_button_off"];
+    
+    iPad_setDetailsBtnImgOn = [UIImage imageNamed:@"tb_add_individual1_ads_details_button_on"];
+    iPad_setDetailsBtnImgOff = [UIImage imageNamed:@"tb_add_individual1_ads_details_button_off"];
+    
+    
+    //title label
+    [self.iPad_titleLabel setBackgroundColor:[UIColor clearColor]];
+    [self.iPad_titleLabel setTextAlignment:SSTextAlignmentCenter];
+    [self.iPad_titleLabel setTextColor:[UIColor whiteColor]];
+    [self.iPad_titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:26.0] ];
+    [self.iPad_titleLabel setText:@"إضافة إعلان"];
+    
+    //title label
+    [self.iPad_uploadImagesTitleLabel setBackgroundColor:[UIColor clearColor]];
+    [self.iPad_uploadImagesTitleLabel setTextAlignment:SSTextAlignmentCenter];
+    [self.iPad_uploadImagesTitleLabel setTextColor:[UIColor darkGrayColor]];
+    [self.iPad_uploadImagesTitleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:14.0] ];
+    [self.iPad_uploadImagesTitleLabel setText:@"حمل الصور الآن"];
+    
+    [self.iPad_mainScrollView setContentSize:CGSizeMake((1024 * 3), self.iPad_mainScrollView.frame.size.height)];
+    
+    //choose brand view:
+    //------------------
+    brandCellsArray = [NSMutableArray new];
+    
+    chosenBrand = nil;
+    self.currentModel = nil;
+    
+    brandsOneSelectionMade = NO;
+    dropDownView = nil;
+    
+    //display a locing indicator on brands view until brands get loaded
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicator.hidesWhenStopped = YES;
+    activityIndicator.hidden = NO;
+    activityIndicator.center = CGPointMake(self.iPad_chooseBrandView.frame.size.width /2, self.iPad_chooseBrandView.frame.size.height/2);
+    [self.iPad_chooseBrandView addSubview:activityIndicator];
+    [activityIndicator startAnimating];
+    [[BrandsManager sharedInstance] getBrandsAndModelsForPostAdWithDelegate:self];
+    
+    
+    [self iPad_srollToBrandsView];
+    [self iPad_setStepViews];
+    
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Edit Ad screen"];
     //end GA
@@ -186,47 +257,47 @@
 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
     countryArray=resultArray;
-   // [self hideLoadingIndicator];
+    // [self hideLoadingIndicator];
     /*
-    // Setting default country
-    //defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
-    if  (defaultIndex!= -1){
-        chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
-        cityArray=[chosenCountry cities];
-        if (cityArray && cityArray.count)
-        {
-            defaultCityIndex = [locationMngr getIndexOfCity:[[SharedUser sharedInstance] getUserCityID] inCountry:chosenCountry];
-            if (defaultCityIndex != -1)
-                chosenCity=[cityArray objectAtIndex:defaultCityIndex];
-            else
-                chosenCity=[cityArray objectAtIndex:0];
-        }
-        [self.locationPickerView reloadAllComponents];
-    }*/
-[self hideLoadingIndicator];
-countryArray=resultArray;
-for (int i =0; i <= [countryArray count] - 1; i++) {
-    chosenCountry=[countryArray objectAtIndex:i];
-    if (chosenCountry.countryID == defaultCountryID) {
-        cityArray=[chosenCountry cities];
-        for (City* cit in cityArray) {
-            if (cit.cityID == defaultCityID)
-            {
-                myCountry = [countryArray objectAtIndex:i];
-                defaultCityID = [cityArray indexOfObject:cit];
-                chosenCity =[cityArray objectAtIndex:defaultCityID];
-                break;
-                //return;
+     // Setting default country
+     //defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+     defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
+     if  (defaultIndex!= -1){
+     chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
+     cityArray=[chosenCountry cities];
+     if (cityArray && cityArray.count)
+     {
+     defaultCityIndex = [locationMngr getIndexOfCity:[[SharedUser sharedInstance] getUserCityID] inCountry:chosenCountry];
+     if (defaultCityIndex != -1)
+     chosenCity=[cityArray objectAtIndex:defaultCityIndex];
+     else
+     chosenCity=[cityArray objectAtIndex:0];
+     }
+     [self.locationPickerView reloadAllComponents];
+     }*/
+    [self hideLoadingIndicator];
+    countryArray=resultArray;
+    for (int i =0; i <= [countryArray count] - 1; i++) {
+        chosenCountry=[countryArray objectAtIndex:i];
+        if (chosenCountry.countryID == defaultCountryID) {
+            cityArray=[chosenCountry cities];
+            for (City* cit in cityArray) {
+                if (cit.cityID == defaultCityID)
+                {
+                    myCountry = [countryArray objectAtIndex:i];
+                    defaultCityID = [cityArray indexOfObject:cit];
+                    chosenCity =[cityArray objectAtIndex:defaultCityID];
+                    break;
+                    //return;
+                }
             }
         }
+        
     }
     
-}
-
-[self.locationPickerView reloadAllComponents];
-
-
+    [self.locationPickerView reloadAllComponents];
+    
+    
 }
 
 // This method loads the device location initialli, and afterwards the loading of country lists comes after
@@ -260,7 +331,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     gearTypeArray = [[NSArray alloc] initWithObjects:@"عادي",@"اتوماتيك",@"تريبتونيك", nil];
     carTypeArray = [[NSArray alloc] initWithObjects:@"امامي",@"خلفي",@"4x4", nil];
     carBodyArray = [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadBodyValues]];
-
+    
     kiloChoosen=true;
 }
 - (void)didReceiveMemoryWarning
@@ -270,40 +341,24 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
 }
 
 #pragma mark - helper methods
-- (void) setImagesToXib{
-    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
-    
-}
 
 - (void) setImagesArray{
     
-    [self.horizontalScrollView setContentSize:CGSizeMake(640, 119)];
-    [self.horizontalScrollView setScrollEnabled:YES];
-    [self.horizontalScrollView setShowsHorizontalScrollIndicator:YES];
     CarAd* cardADS;
     int remainingImg = [self.myImageIDArray count];
     for (int i=0; i<6; i++) {
         if ([self.myImageIDArray count] == 0 || remainingImg == 0) {
-            UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 15, 77, 70)];
-            [temp setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
             
-            temp.tag = (i+1) * 10;
-            [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
-            [self.horizontalScrollView addSubview:temp];
+            UIButton * temp = (UIButton *)[self.iPad_setPhotoView viewWithTag:((i+1) *10)];
+            [temp setImage:[UIImage imageNamed:@"tb_add_individual3_add_image_btn.png"] forState:UIControlStateNormal];
         }else{
             cardADS = (CarAd*)[self.myImageIDArray objectAtIndex:i];
-            UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 15, 77, 70)];
+            
+            UIButton * temp = (UIButton *)[self.iPad_setPhotoView viewWithTag:((i+1) *10)];
             [temp setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:cardADS.ImageURL]]] forState:UIControlStateNormal];
-            temp.tag = (i+1) * 10;
-            [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
-            [self.horizontalScrollView addSubview:temp];
+            
             remainingImg-=1;
             
-            UIButton* removeImg = [[UIButton alloc] initWithFrame:CGRectMake(19+(104*i), 82, 79, 25)];
-            [removeImg setImage:[UIImage imageNamed:@"list_remove.png"] forState:UIControlStateNormal];
-            removeImg.tag = (i+1) * 100;
-            [removeImg addTarget:self action:@selector(ImageDelete:) forControlEvents:UIControlEventTouchUpInside];
-            [self.horizontalScrollView addSubview:removeImg];
         }
     }
 }
@@ -318,15 +373,16 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
                                                              delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil
                                                     otherButtonTitles:@"التقط صورة", @"اختر صورة", nil];
     
-    [actionSheet showInView:self.view];
+    //[actionSheet showInView:self.view];
+    [actionSheet showFromRect:senderBtn.frame inView:senderBtn animated:YES];
 }
 
--(void) ImageDelete:(id)sender {
+-(IBAction) ImageDelete:(id)sender {
     UIButton* senderBtn = (UIButton *)sender;
     chosenRemoveImgBtnTag = senderBtn.tag / 10;
     
-    UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenRemoveImgBtnTag];
-    [tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
+    UIButton * tappedBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:chosenRemoveImgBtnTag];
+    //[tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
     if (firstRemove) {
         
         if (chosenRemoveImgBtnTag/10 - removeCounter <= 0) {
@@ -366,7 +422,11 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         picker.allowsEditing = YES;
         picker.delegate = self;
-        [self presentViewController:picker animated:YES completion:nil];
+        //[self presentViewController:picker animated:YES completion:nil];
+        [self dismissKeyboard];
+        self.iPad_cameraPopOver = [[UIPopoverController alloc] initWithContentViewController:picker];
+        self.iPad_cameraPopOver.delegate = self;
+        [self.iPad_cameraPopOver presentPopoverFromRect:self.view.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
 }
 
@@ -395,7 +455,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     [mobileNum resignFirstResponder];
 }
 
-- (void) addButtonsToXib{
+- (void) customizeButtonsInXib{
     NSArray* citiesArray;
     for (int i =0; i <= [countryArray count] - 1; i++) {
         chosenCountry=[countryArray objectAtIndex:i];
@@ -410,85 +470,18 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         }
     }
     
-    [self.verticalScrollView setContentSize:CGSizeMake(320 , 650)];
-    [self.verticalScrollView setScrollEnabled:YES];
-    [self.verticalScrollView setShowsVerticalScrollIndicator:YES];
-    
-    numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
-    numberToolbar.barStyle = UIBarStyleBlackOpaque;
-    numberToolbar.items = [NSArray arrayWithObjects:
-                           [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelNumberPad)],
-                           [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                           [[UIBarButtonItem alloc]initWithTitle:@"Apply" style:UIBarButtonItemStyleDone target:self action:@selector(doneWithNumberPad)],
-                           nil];
-    [numberToolbar sizeToFit];
-    
-    
-    theStore=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
-    [theStore setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
-    [theStore setTitle:self.myDetails.storeName forState:UIControlStateNormal];
-    // TODO set the Store to the current
-    [theStore setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [theStore addTarget:self action:@selector(chooseStore) forControlEvents:UIControlEventTouchUpInside];
-    [self.verticalScrollView addSubview:theStore];
-    
-    
-    countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,60 ,260 ,30)];
-    [countryCity setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
+    [theStore setTitle:self.myDetails.storeName forState:UIControlStateNormal]; // TODO set the Store to the current
     
     [countryCity setTitle:defaultCityName forState:UIControlStateNormal]; //TODO chosen city
-    [countryCity setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [countryCity addTarget:self action:@selector(chooseCountryCity) forControlEvents:UIControlEventTouchUpInside];
-    [self.verticalScrollView addSubview:countryCity];
     
-    carAdTitle=[[UITextField alloc] initWithFrame:CGRectMake(30, 100,260 ,30)];
-    [carAdTitle setBorderStyle:UITextBorderStyleRoundedRect];
-    [carAdTitle setTextAlignment:NSTextAlignmentRight];
-    [carAdTitle setPlaceholder:@"عنوان الإعلان"];
     [carAdTitle setText:myAdInfo.title]; //TODO ad Title
-    [self.verticalScrollView addSubview:carAdTitle];
-    carAdTitle.delegate=self;
     
-    carDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,140 ,260 ,80 )];
-    [carDetails setTextAlignment:NSTextAlignmentRight];
     [carDetails setText:myAdInfo.desc]; //TODO get Description
-    [carDetails setKeyboardType:UIKeyboardTypeDefault];
-    [carDetails setFont:[UIFont systemFontOfSize:17]];
-    [self.verticalScrollView addSubview:carDetails];
-    carDetails.delegate =self;
     
-    placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,140 ,260 ,30)];
-    [placeholderTextField setTextAlignment:NSTextAlignmentRight];
-    [placeholderTextField setBorderStyle:UITextBorderStyleRoundedRect];
-    CGRect frame = placeholderTextField.frame;
-    frame.size.height = carDetails.frame.size.height;
-    placeholderTextField.frame = frame;
-    placeholderTextField.placeholder = @"تفاصيل الإعلان";
-    [self.verticalScrollView addSubview:placeholderTextField];
-    [self.verticalScrollView addSubview:carDetails];
-    
-    
-    
-    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,240 ,260 ,30)];
-    [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
-    [mobileNum setTextAlignment:NSTextAlignmentRight];
-    [mobileNum setPlaceholder:@"رقم الجوال"];
     [mobileNum setText:myAdInfo.mobileNum]; //TODO get mobile number
-    [mobileNum setKeyboardType:UIKeyboardTypePhonePad];
-    [self.verticalScrollView addSubview:mobileNum];
-    mobileNum.inputAccessoryView = numberToolbar;
-    mobileNum.delegate=self;
-
-    carPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,290 ,160 ,30)];
-    [carPrice setBorderStyle:UITextBorderStyleRoundedRect];
-    [carPrice setTextAlignment:NSTextAlignmentRight];
-    [carPrice setPlaceholder:@"السعر (اختياري)"];
-    [carPrice setText:[NSString stringWithFormat:@"%i",(int)myAdInfo.price]]; //TODO get Price
-    [carPrice setKeyboardType:UIKeyboardTypeNumberPad];
-    [self.verticalScrollView addSubview:carPrice];
-    carPrice.delegate=self;
     
-    // NSInteger defaultCurrencyID=[[StaticAttrsLoader sharedInstance] getCurrencyIdOfCountry:myAdInfo.currencyString.integerValue];
+    [carPrice setText:[NSString stringWithFormat:@"%i",(int)myAdInfo.price]]; //TODO get Price
+    
     NSInteger defaultCurrencyID1 = myAdInfo.currencyString.integerValue;
     NSInteger defaultcurrecncyIndex1=0;
     while (defaultcurrecncyIndex1<currencyArray.count) {
@@ -499,74 +492,63 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         defaultcurrecncyIndex1++;
     }
     
-    
-    
-    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 290, 80, 30)];
-    [currency setBackgroundImage:[UIImage imageNamed: @"AddCar_text_SM.png"] forState:UIControlStateNormal];
     [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal]; //TODO get currency
-    [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
-    [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [self.verticalScrollView addSubview:currency];
     
-    distance=[[UITextField alloc] initWithFrame:CGRectMake(130,350 ,160 ,30)];
-    [distance setBorderStyle:UITextBorderStyleRoundedRect];
-    [distance setTextAlignment:NSTextAlignmentRight];
-    [distance setPlaceholder:@"المسافة المقطوعة"];
     [distance setText:myAdInfo.distance]; //TODO get distance
-    [distance setKeyboardType:UIKeyboardTypeNumberPad];
-    [self.verticalScrollView addSubview:distance];
-    distance.delegate=self;
     
-    kiloMile = [[UISegmentedControl alloc] initWithItems:kiloMileArray];
-    kiloMile.frame = CGRectMake(30, 350, 80, 30);
-    kiloMile.segmentedControlStyle = UISegmentedControlStylePlain;
-    if (myAdInfo.distanceRangeInKm == 2675)
-        kiloMile.selectedSegmentIndex = 0;
-    else
-        kiloMile.selectedSegmentIndex = 1; // TODO get index of KM/MILE
-    [kiloMile addTarget:self action:@selector(chooseKiloMile) forControlEvents: UIControlEventValueChanged];
-    [self.verticalScrollView addSubview:kiloMile];
     
-    UIFont *font = [UIFont systemFontOfSize:17.0f];
-    NSDictionary *attributes = [NSDictionary dictionaryWithObject:font forKey:UITextAttributeFont];
+    if (myAdInfo.distanceRangeInKm == 2675) {
+        kiloChoosen=true;
+        [self iPad_kiloBtnPrss:nil];
+    }
+    else {
+        kiloChoosen=true;
+        [self iPad_mileBtnPrss:nil];
+    }
     
-    condition = [[UISegmentedControl alloc] initWithItems:carConditionArray];
-    condition.frame = CGRectMake(30, 410, 260, 40);
-    condition.segmentedControlStyle = UISegmentedControlStylePlain;
-    if (myAdInfo.carCondition == 1000626)
-        condition.selectedSegmentIndex = 0;
-    else
-        condition.selectedSegmentIndex = 1;
-    [condition setTitleTextAttributes:attributes forState:UIControlStateNormal];
-    [condition addTarget:self action:@selector(chooseCarCondition) forControlEvents: UIControlEventValueChanged];
-    [self.verticalScrollView addSubview:condition];
+    if (myAdInfo.carCondition == 1000626) {
+        //condition.selectedSegmentIndex = 0;
+        conditionchoosen=true;
+        [self iPad_newCarConditionBtnPrss:nil];
+    }
+    else {
+        //condition.selectedSegmentIndex = 1;
+        conditionchoosen=false;
+        [self iPad_usedCarConditionBtnPrss:nil];
+    }
     
-    gear = [[UISegmentedControl alloc] initWithItems:gearTypeArray];
-    gear.frame = CGRectMake(30, 470, 260, 40);
-    gear.segmentedControlStyle = UISegmentedControlStylePlain;
-    if (myAdInfo.gearType == 1000628)
-        gear.selectedSegmentIndex = 0;
-    else if (myAdInfo.gearType == 1000629)
-        gear.selectedSegmentIndex = 1;
-    else
-        gear.selectedSegmentIndex = 2;
+    if (myAdInfo.gearType == 1000628) {
+        //gear.selectedSegmentIndex = 0;
+        gearchoosen = 0;
+        [self iPad_normalGearTypeBtnPrss:nil];
+    }
+    else if (myAdInfo.gearType == 1000629) {
+        //gear.selectedSegmentIndex = 1;
+        gearchoosen = 1;
+        [self iPad_automaticGearTypeBtnPrss:nil];
+    }
+    else {
+        //gear.selectedSegmentIndex = 2;
+        gearchoosen = 2;
+        [self iPad_tiptronicGearTypeBtnPrss:nil];
+    }
     
-    [gear setTitleTextAttributes:attributes forState:UIControlStateNormal];
-    [gear addTarget:self action:@selector(chooseGearType) forControlEvents: UIControlEventValueChanged];
-    [self.verticalScrollView addSubview:gear];
+    if (myAdInfo.carType == 1000664) {
+        //type.selectedSegmentIndex = 0;
+        typechoosen = 0;
+        [self iPad_frontWheelCarTypeBtnPrss:nil];
+    }
+    else if (myAdInfo.carType == 1000665) {
+        //type.selectedSegmentIndex = 1;
+        typechoosen = 1;
+        [self iPad_backWheelCarTypeBtnPrss:nil];
+    }
+    else {
+        //type.selectedSegmentIndex = 2;
+        typechoosen = 2;
+        [self iPad_fourWheelCarTypeBtnPrss:nil];
+    }
     
-    type = [[UISegmentedControl alloc] initWithItems:carTypeArray];
-    type.frame = CGRectMake(30, 520, 260, 40);
-    type.segmentedControlStyle = UISegmentedControlStylePlain;
-    if (myAdInfo.carType == 1000664)
-        type.selectedSegmentIndex = 0;
-    else if (myAdInfo.carType == 1000665)
-        type.selectedSegmentIndex = 1;
-    else
-        type.selectedSegmentIndex = 2;
-    [type setTitleTextAttributes:attributes forState:UIControlStateNormal];
-    [type addTarget:self action:@selector(chooseCarType) forControlEvents: UIControlEventValueChanged];
-    [self.verticalScrollView addSubview:type];
     
     NSInteger defaultBodyID = myAdInfo.carBody;
     NSInteger defaultBodyIndex=0;
@@ -578,15 +560,8 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         }
         defaultBodyIndex++;
     }
-
     
-    body =[[UIButton alloc] initWithFrame:CGRectMake(30, 570, 260, 30)];
-    [body setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
     [body setTitle:bodyString forState:UIControlStateNormal];
-    [body addTarget:self action:@selector(chooseBody) forControlEvents:UIControlEventTouchUpInside];
-    [body setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [self.verticalScrollView addSubview:body];
-
     
     NSInteger defaultModelID = myAdInfo.modelYear;
     NSInteger defaultModelIndex=0;
@@ -599,14 +574,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         defaultModelIndex++;
     }
     
-    productionYear =[[UIButton alloc] initWithFrame:CGRectMake(30, 610, 260, 30)];
-    [productionYear setBackgroundImage:[UIImage imageNamed: @"AddCar_text_BG.png"] forState:UIControlStateNormal];
     [productionYear setTitle:modelString forState:UIControlStateNormal]; //TODO get the porduction year
-    [productionYear setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [productionYear addTarget:self action:@selector(chooseProductionYear) forControlEvents:UIControlEventTouchUpInside];
-    [self.verticalScrollView addSubview:productionYear];
-    
-      
     
 }
 
@@ -644,17 +612,25 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         [self.view addSubview:iPad_loadingView];
         [iPad_activityIndicator startAnimating];
     }
-        
+    
     
 }
 
 - (void) showLoadingIndicatorOnImages {
-    imgsLoadingHUD = [MBProgressHUD2 showHUDAddedTo:self.horizontalScrollView animated:YES];
-    imgsLoadingHUD.mode = MBProgressHUDModeCustomView2;
-    imgsLoadingHUD.labelText = @"";
-    imgsLoadingHUD.detailsLabelText = @"";
-    imgsLoadingHUD.dimBackground = YES;
-    imgsLoadingHUD.opacity = 0.5;
+    iPad_imgsLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 70, 70)];
+    
+    iPad_imgsLoadingView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+    iPad_imgsLoadingView.clipsToBounds = YES;
+    iPad_imgsLoadingView.layer.cornerRadius = 10.0;
+    iPad_imgsLoadingView.center = CGPointMake(self.iPad_uploadPhotosView.frame.size.width / 2.0, self.iPad_uploadPhotosView.frame.size.height / 2.0);
+    
+    iPad_imgsActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    iPad_imgsActivityIndicator.frame = CGRectMake(18, 18, iPad_imgsActivityIndicator.bounds.size.width, iPad_imgsActivityIndicator.bounds.size.height);
+    [iPad_imgsLoadingView addSubview:iPad_imgsActivityIndicator];
+    
+    
+    [self.iPad_uploadPhotosView addSubview:iPad_imgsLoadingView];
+    [iPad_imgsActivityIndicator startAnimating];
 }
 
 - (void) hideLoadingIndicator {
@@ -677,11 +653,15 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
 
 - (void) hideLoadingIndicatorOnImages {
     
-    if (imgsLoadingHUD)
-        [MBProgressHUD2 hideHUDForView:self.horizontalScrollView  animated:YES];
-    imgsLoadingHUD = nil;
-    
+    if ((iPad_imgsActivityIndicator) && (iPad_imgsLoadingView)) {
+        [iPad_imgsActivityIndicator stopAnimating];
+        [iPad_imgsLoadingView removeFromSuperview];
+    }
+    iPad_imgsActivityIndicator = nil;
+    iPad_imgsLoadingView = nil;
 }
+
+
 - (void) postTheAd {
     //call the post ad back end method
 }
@@ -848,9 +828,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
 {
-    if (pickerView==_locationPickerView) {
-        return 1;
-    }else if (pickerView == _bodyPickerView){
+    if (pickerView == _bodyPickerView){
         return 1;
     }else if (pickerView == _storePickerView){
         return 1;
@@ -862,13 +840,15 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    if (pickerView==_locationPickerView) {
+    /*
+     if (pickerView==_locationPickerView) {
         locationBtnPressedOnce = YES;
         cityArray=[myCountry cities];
         chosenCity=[cityArray objectAtIndex:row];
         NSString *temp= [NSString stringWithFormat:@"%@ : %@", myCountry.countryName , chosenCity.cityName];
         [countryCity setTitle:temp forState:UIControlStateNormal];
-    }else if (pickerView == _bodyPickerView)
+    }else*/
+    if (pickerView == _bodyPickerView)
     {
         SingleValue *choosen=[globalArray objectAtIndex:row];
         if ([carBodyArray containsObject:choosen]) {
@@ -898,9 +878,11 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    if (pickerView==_locationPickerView) {
+    /*
+     if (pickerView==_locationPickerView) {
         return [cityArray count];
-    }else if (pickerView==_bodyPickerView) {
+    }else*/
+    if (pickerView==_bodyPickerView) {
         return [globalArray count];
         
     }else if (pickerView == _storePickerView)
@@ -915,10 +897,12 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    if (pickerView==_locationPickerView) {
+    /*
+     if (pickerView==_locationPickerView) {
         City *temp=(City*)[cityArray objectAtIndex:row];
         return temp.cityName;
-    }else if (pickerView == _bodyPickerView){
+    }else*/
+    if (pickerView == _bodyPickerView){
         return [NSString stringWithFormat:@"%@",[(SingleValue*)[globalArray objectAtIndex:row] valueString]];
     }else if (pickerView == _storePickerView){
         myStore = [allUserStore objectAtIndex:row];
@@ -933,7 +917,21 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
 
 #pragma mark - Buttons Actions
 
--(void)chooseStore
+- (IBAction)iPad_kiloBtnPrss:(id)sender {
+    kiloChoosen = YES;
+    
+    [self.iPad_kiloBtn setBackgroundImage:[UIImage imageNamed:@"tb_add_individual4_km_btn_on.png"] forState:UIControlStateNormal];
+    [self.iPad_mileBtn setBackgroundImage:[UIImage imageNamed:@"tb_add_individual4_mile_btn_off.png"] forState:UIControlStateNormal];
+    
+}
+- (IBAction)iPad_mileBtnPrss:(id)sender {
+    kiloChoosen = NO;
+    
+    [self.iPad_kiloBtn setBackgroundImage:[UIImage imageNamed:@"tb_add_individual4_km_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_mileBtn setBackgroundImage:[UIImage imageNamed:@"tb_add_individual4_mile_btn_on.png"] forState:UIControlStateNormal];
+}
+
+-(IBAction)chooseStore:(id) sender
 {
     self.locationPickerView.hidden=YES;
     self.bodyPickerView.hidden = YES;
@@ -962,7 +960,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
 }
 
 
-- (void) chooseProductionYear{
+- (IBAction) chooseProductionYear:(id) sender {
     
     self.locationPickerView.hidden=YES;
     self.bodyPickerView.hidden = YES;
@@ -986,11 +984,11 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     [self.pickerView selectRow:0 inComponent:0 animated:YES];
     
     [self showPicker];
-
+    
     
 }
 
-- (void) chooseCurrency{
+- (IBAction) chooseCurrency:(id) sender{
     
     self.locationPickerView.hidden=YES;
     self.bodyPickerView.hidden = YES;
@@ -1017,8 +1015,8 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     
 }
 
-- (void) chooseCountryCity{
-    
+- (IBAction) chooseCountryCity:(id) sneder{
+    /*
     self.locationPickerView.hidden=NO;
     self.pickerView.hidden=YES;
     self.bodyPickerView.hidden = YES;
@@ -1029,16 +1027,28 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     NSString *temp= [NSString stringWithFormat:@"%@ :%@", myCountry.countryName , chosenCity.cityName];
     [countryCity setTitle:temp forState:UIControlStateNormal];
     if (!locationBtnPressedOnce) {
-    if (defaultIndex!=-1) {
-        [self.locationPickerView selectRow:defaultCityID inComponent:0 animated:YES];
-    }
+        if (defaultIndex!=-1) {
+            [self.locationPickerView selectRow:defaultCityID inComponent:0 animated:YES];
+        }
     }
     [self.locationPickerView reloadAllComponents];
     
-   // locationBtnPressedOnce = YES;
+    // locationBtnPressedOnce = YES;
+     */
+    // locationBtnPressedOnce = YES;
+    CountryListViewController* vc;
+    vc = [[CountryListViewController alloc]initWithNibName:@"CountriesPopOver_iPad" bundle:nil];
+    self.iPad_countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
+    //[self.iPad_countryPopOver setPopoverContentSize:vc.view.frame.size];
+    [self dismissKeyboard];
+    [self.iPad_countryPopOver setPopoverContentSize:CGSizeMake(500, 700)];
+    vc.iPad_parentViewOfPopOver = self;
+    [self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.countryCity.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+
     
 }
-
+/*
 - (void) chooseKiloMile{
     if (kiloMile.selectedSegmentIndex==0) {
         kiloChoosen=true;
@@ -1049,6 +1059,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     }
     
 }
+
 
 -(void)chooseCarCondition
 {
@@ -1090,8 +1101,9 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         typechoosen=2;
     }
 }
+ */
 
--(void) chooseBody
+-(IBAction) chooseBody:(id)sender
 {
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=YES;
@@ -1115,11 +1127,15 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     [self showPicker];
 }
 
+- (IBAction) iPad_closeBtnPrss:(id) sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (IBAction)doneBtnPrss:(id)sender {
     [self closePicker];
 }
 
+/*
 - (IBAction)homeBtnPrss:(id)sender {
     //[self dismissViewControllerAnimated:YES completion:nil];
     
@@ -1132,6 +1148,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     [self presentViewController:vc animated:YES completion:nil];
     
 }
+*/
 
 - (IBAction)addBtnprss:(id)sender {
     
@@ -1158,12 +1175,12 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         }
     }
     
-   /* //check country & city
-    if (!locationBtnPressedOnce)
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بلد ومدينة مناسبين" delegateVC:self];
-        return;
-    }*/
+    /* //check country & city
+     if (!locationBtnPressedOnce)
+     {
+     [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بلد ومدينة مناسبين" delegateVC:self];
+     return;
+     }*/
     
     if (!chosenCity)
     {
@@ -1203,7 +1220,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         }
     }
     
-
+    
     
     
     if (!bodyBtnPressedOnce)
@@ -1219,7 +1236,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال المسافه المقطوعه" delegateVC:self];
         return;
     }
-
+    
     
     
     
@@ -1239,10 +1256,10 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     
     if (conditionchoosen){
         conditionID = [self idForConditionNewAttribute];
-    myAdInfo.carCondition = [self idForConditionNewAttribute];
+        myAdInfo.carCondition = [self idForConditionNewAttribute];
     }else{
         conditionID = [self idForConditionUsedAttribute];
-    myAdInfo.carCondition = [self idForConditionUsedAttribute];
+        myAdInfo.carCondition = [self idForConditionUsedAttribute];
     }
     if (gearchoosen == 0) {
         gearID = [self idForGearAutoAttribute];
@@ -1277,7 +1294,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     if ([carPrice.text length] == 0) {
         carPrice.text = @"";
     }
-
+    
     /* [[CarAdsManager sharedInstance] postStoreAdOfBrand:_currentModel.brandID myStore:myStore.identifier
      Model:_currentModel.modelID
      InCity:chosenCity.cityID
@@ -1297,7 +1314,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
      kmVSmilesValueID:distanceUnitID
      imageIDs:currentImgsUploaded
      conditionID:conditionID
-     gearTypeID:gearID      
+     gearTypeID:gearID
      carTypeID:typeID
      carBodyID:chosenBody.valueID withCategory:_currentModel.brandID withCity1:chosenCity.cityID
      withDelegate:self];*/
@@ -1329,7 +1346,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     //UIImage * img = [info objectForKey:@"UIImagePickerControllerEditedImage"];
     UIImage * img = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+    UIButton * tappedBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:chosenImgBtnTag];
     [tappedBtn setImage:[GenericMethods imageWithImage:img scaledToSize:tappedBtn.frame.size] forState:UIControlStateNormal];
     
     [self useImage:img];
@@ -1348,12 +1365,14 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     
     [self hideLoadingIndicatorOnImages];
-    if (chosenImgBtnTag > -1)
+    /*
+     if (chosenImgBtnTag > -1)
     {
         UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
         
         [tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
     }
+     */
     
     
     //reset 'current' data
@@ -1370,7 +1389,7 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     if ((chosenImgBtnTag > -1) && (currentImageToUpload))
     {
         
-        UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+        UIButton * tappedBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:chosenImgBtnTag];
         int indexOfBtn = tappedBtn.tag / 10 - 1;
         if (indexOfBtn >= [CopyImageArr count]) {
             CarAd* adTest = [[CarAd alloc]initWithImageID:[NSString stringWithFormat:@"%i",ID] andImageURL:[url absoluteString]];
@@ -1467,27 +1486,431 @@ for (int i =0; i <= [countryArray count] - 1; i++) {
     //  allUserStore = st;
     
     //if (self.currentStore) {
-        for (int i =0; i < [allUserStore count]; i++) {
-            if (self.myDetails.storeID == [(Store *)[allUserStore objectAtIndex:i] identifier]) {
-                defaultStoreIndex = [(Store *)[allUserStore objectAtIndex:i] identifier];
-                self.currentStore = (Store *)[allUserStore objectAtIndex:i];
-                break;
-            }
+    for (int i =0; i < [allUserStore count]; i++) {
+        if (self.myDetails.storeID == [(Store *)[allUserStore objectAtIndex:i] identifier]) {
+            defaultStoreIndex = [(Store *)[allUserStore objectAtIndex:i] identifier];
+            self.currentStore = (Store *)[allUserStore objectAtIndex:i];
+            break;
         }
-        [theStore setTitle:self.currentStore.name forState:UIControlStateNormal];
-   // }
+    }
+    [theStore setTitle:self.currentStore.name forState:UIControlStateNormal];
+    // }
     [self.storePickerView reloadAllComponents];
     [self hideLoadingIndicator];
 }
 
 #pragma mark - UITextView
-- (void)textViewDidChange:(UITextView *)textView {
-    if ([@"" isEqualToString:textView.text]) {
-        placeholderTextField.placeholder = @"تفاصيل الإعلان";
+/*
+ - (void)textViewDidChange:(UITextView *)textView {
+ if ([@"" isEqualToString:textView.text]) {
+ placeholderTextField.placeholder = @"تفاصيل الإعلان";
+ }
+ else {
+ placeholderTextField.placeholder = @"";
+ }
+ }
+ */
+#pragma mark - ipad actions
+//gear type
+- (IBAction)iPad_normalGearTypeBtnPrss:(id) sender {
+    gearchoosen = 0;
+    
+    [self.iPad_normalGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_normal_btn_on.png"] forState:UIControlStateNormal];
+    [self.iPad_automaticGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_auto_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_tiptronicGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_trebetonic_btn_off.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)iPad_automaticGearTypeBtnPrss:(id) sender {
+    gearchoosen = 1;
+    
+    [self.iPad_normalGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_normal_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_automaticGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_auto_btn_on.png"] forState:UIControlStateNormal];
+    [self.iPad_tiptronicGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_trebetonic_btn_off.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)iPad_tiptronicGearTypeBtnPrss:(id) sender {
+    gearchoosen = 2;
+    
+    [self.iPad_normalGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_normal_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_automaticGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_auto_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_tiptronicGearTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_trebetonic_btn_on.png"] forState:UIControlStateNormal];
+}
+
+//car type
+- (IBAction)iPad_frontWheelCarTypeBtnPrss:(id) sender {
+    typechoosen = 0;
+    
+    [self.iPad_frontWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_amaie_btn_on.png"] forState:UIControlStateNormal];
+    [self.iPad_backWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_behind_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_fourWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_4x4_btn_off.png"] forState:UIControlStateNormal];
+    
+}
+
+- (IBAction)iPad_backWheelCarTypeBtnPrss:(id) sender {
+    typechoosen = 1;
+    
+    [self.iPad_frontWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_amaie_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_backWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_behind_btn_on.png"] forState:UIControlStateNormal];
+    [self.iPad_fourWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_4x4_btn_off.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)iPad_fourWheelCarTypeBtnPrss:(id) sender {
+    typechoosen = 2;
+    
+    [self.iPad_frontWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_amaie_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_backWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_behind_btn_off.png"] forState:UIControlStateNormal];
+    [self.iPad_fourWheelCarTypeBtn setImage:[UIImage imageNamed:@"tb_add_individual4_4x4_btn_on.png"] forState:UIControlStateNormal];
+}
+
+//car condition
+- (IBAction)iPad_newCarConditionBtnPrss:(id) sender {
+    conditionchoosen=true;
+    
+    [self.iPad_newCarConditionBtn setImage:[UIImage imageNamed:@"tb_add_individual4_new_btn_on"] forState:UIControlStateNormal];
+    [self.iPad_usedCarConditionBtn setImage:[UIImage imageNamed:@"tb_add_individual4_used_btn_off.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction)iPad_usedCarConditionBtnPrss:(id) sender {
+    conditionchoosen=false;
+    [self.iPad_newCarConditionBtn setImage:[UIImage imageNamed:@"tb_add_individual4_new_btn_off"] forState:UIControlStateNormal];
+    [self.iPad_usedCarConditionBtn setImage:[UIImage imageNamed:@"tb_add_individual4_used_btn_on.png"] forState:UIControlStateNormal];
+}
+
+- (IBAction) iPad_chooseBrandBtnPrss:(id) sender {
+    [self.iPad_chooseBrandBtn setBackgroundImage:iPad_chooseBrandBtnImgOn forState:UIControlStateNormal];
+    [self.iPad_setPhotosBtn setBackgroundImage:iPad_setPhotosBtnImgOff forState:UIControlStateNormal];
+    [self.iPad_setDetailsBtn setBackgroundImage:iPad_setDetailsBtnImgOff forState:UIControlStateNormal];
+    
+    [self iPad_srollToBrandsView];
+}
+
+- (IBAction) iPad_setPhotosBtnPrss:(id) sender {
+    
+    [self.iPad_chooseBrandBtn setBackgroundImage:iPad_chooseBrandBtnImgOn forState:UIControlStateNormal];
+    [self.iPad_setPhotosBtn setBackgroundImage:iPad_setPhotosBtnImgOn forState:UIControlStateNormal];
+    [self.iPad_setDetailsBtn setBackgroundImage:iPad_setDetailsBtnImgOff forState:UIControlStateNormal];
+    
+    [self iPad_srollToPhotosView];
+}
+
+- (IBAction) iPad_setDetailsBtnPrss:(id) sender {
+    [self.iPad_chooseBrandBtn setBackgroundImage:iPad_chooseBrandBtnImgOn forState:UIControlStateNormal];
+    [self.iPad_setPhotosBtn setBackgroundImage:iPad_setPhotosBtnImgOn forState:UIControlStateNormal];
+    [self.iPad_setDetailsBtn setBackgroundImage:iPad_setDetailsBtnImgOn forState:UIControlStateNormal];
+    
+    [self iPad_srollToDetailsView];
+    
+}
+
+#pragma mark - iPad helper methods
+
+//In order to get these functions work properly, I needed to stop autolayout
+- (void) iPad_srollToBrandsView {
+    
+    CGRect frame = self.iPad_mainScrollView.frame;
+    frame.origin.x = frame.size.width * 2;
+    frame.origin.y = 10;
+    [self.iPad_mainScrollView scrollRectToVisible:frame animated:YES];
+}
+
+- (void) iPad_srollToPhotosView {
+    
+    CGRect frame = self.iPad_mainScrollView.frame;
+    //frame.origin.x = frame.size.width * 1 - 10;
+    frame.origin.x = frame.size.width * 1;
+    frame.origin.y = 10;
+    [self.iPad_mainScrollView scrollRectToVisible:frame animated:YES];
+}
+
+- (void) iPad_srollToDetailsView {
+    
+    CGRect frame = self.iPad_mainScrollView.frame;
+    frame.origin.x = frame.size.width * 0;
+    frame.origin.y = 10;
+    [self.iPad_mainScrollView scrollRectToVisible:frame animated:YES];
+}
+
+- (void) iPad_setStepViews {
+    ModelsViewController_iPad * modelsVC = [[ModelsViewController_iPad alloc] initWithNibName:@"ModelsViewController_iPad" bundle:nil];
+    
+    //vc.tagOfCallXib=2;
+    modelsVC.displayedAsPopOver = NO;
+    //[self presentViewController:modelsVC animated:YES completion:nil];
+    
+}
+
+- (void) iPad_userDidEndChoosingCountryFromPopOver {
+    if (self.iPad_countryPopOver) {
+        locationBtnPressedOnce = YES;
+        defaultCountryID =  [[LocationManager sharedInstance] getSavedUserCountryID];
+        defaultCityID =  [[LocationManager sharedInstance] getSavedUserCityID];
+        for (int i =0; i <= [countryArray count] - 1; i++) {
+            if ([(Country *)[countryArray objectAtIndex:i] countryID] == defaultCountryID)
+            {
+                chosenCountry = [countryArray objectAtIndex:i];
+                cityArray=[chosenCountry cities];
+                for (int j = 0; j < chosenCountry.cities.count; j++) {
+                    if ([(City *)[cityArray objectAtIndex:j] cityID] == defaultCityID)
+                        chosenCity = [cityArray objectAtIndex:j];
+                }
+                NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
+                [countryCity setTitle:temp forState:UIControlStateNormal];
+                break;
+                //return;
+            }
+            
+        }
+        [self.iPad_countryPopOver dismissPopoverAnimated:YES];
     }
+    self.iPad_countryPopOver = nil;
+}
+
+//------------------------------ LEVEL1: CHOOSING BRANDS ------------------------------
+#pragma mark - LEVEL1: CHOOSING BRANDS
+
+- (void) brandsDidFinishLoadingWithData:(NSArray*) resultArray {
+    currentBrands=resultArray;
+    currentModels=((Brand*)resultArray[0]).models;
+    
+    //currentModels = ((Brand*)resultArray[0]).models;
+    chosenBrand =(Brand*)[currentBrands objectAtIndex:0];
+    
+    //hide the loading indicator in iPad_chooseBrandView
+    UIActivityIndicatorView * activityView = nil;
+    for (UIView * subview in self.iPad_chooseBrandView.subviews) {
+        if ([subview class] == [UIActivityIndicatorView class]) {
+            activityView = (UIActivityIndicatorView *) subview;
+            break;
+        }
+    }
+    
+    if (activityView) {
+        [activityView stopAnimating];
+        [activityView removeFromSuperview];
+    }
+    
+    [self DrawBrands];
+}
+
+//This method is called for the first time the popover is created
+- (void) selectFirstBrandCell {
+    if (brandCellsArray && brandCellsArray.count) {
+        UITapGestureRecognizer * tapOfFirstCell = [(BrandCell *) brandCellsArray[0] gestureRecognizers][0];
+        [self didSelectBrandCell:tapOfFirstCell];
+    }
+    
+}
+
+- (void) DrawBrands {
+    float currentX = 0;
+    float currentY = 0;
+    float totalHeight = 0;
+    
+    int rowCounter = 0;
+    int colCounter = 0;
+    
+    CGRect brandFrame;
+    
+    for (int i = 0; i < currentBrands.count; i++) {
+        Brand * currentItem = currentBrands[i];
+        
+        // Update the cell information
+        BrandCell* brandCell;
+        brandFrame = CGRectMake(-1, -1, 166, 166);//these are the dimensions of the brand cell
+        brandCell = (BrandCell*)[[NSBundle mainBundle] loadNibNamed:@"BrandCell_iPad" owner:self options:nil][0];
+        
+        
+        [brandCell reloadInformation:currentItem];
+        
+        if ((chosenBrand) && (chosenBrand.brandID == currentItem.brandID))
+            [brandCell selectCell];
+        
+        if (i == 0)
+            [brandCell selectCell];
+        
+        
+        if (i != 0) {
+            if (i % 6 == 0) {
+                rowCounter ++;
+                colCounter = 0;
+            }
+            else
+                colCounter ++;
+        }
+        
+        
+        currentX = (colCounter * brandFrame.size.width) + ((colCounter + 1) * 4);
+        currentY = (rowCounter * brandFrame.size.height) + ((rowCounter + 1) * 4);
+        
+        brandFrame.origin.x = currentX;
+        brandFrame.origin.y = currentY;
+        
+        brandCell.frame = brandFrame;
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectBrandCell:)];
+        tap.numberOfTapsRequired = 1;
+        [brandCell addGestureRecognizer:tap];
+        
+        [self.iPad_chooseBrandScrollView addSubview:brandCell];
+        [brandCellsArray addObject:brandCell];
+        //[brandsTapGesturesArray addObject:tap];
+        
+    }
+    totalHeight = 1 + brandFrame.size.height + currentY + 15;
+    [self.iPad_chooseBrandScrollView setContentSize:CGSizeMake(self.iPad_chooseBrandScrollView.contentSize.width, totalHeight)];
+}
+
+- (void) didSelectBrandCell:(id) sender {
+    
+    UITapGestureRecognizer * tap = (UITapGestureRecognizer *) sender;
+    BrandCell * senderCell = (BrandCell *) tap.view;
+    int indexOfSenderCell = [self locateBrandCell:senderCell];
+    chosenBrand = currentBrands[indexOfSenderCell];
+    
+    currentModels = chosenBrand.models;
+    
+    [senderCell selectCell];
+    for (int i = 0; i < brandCellsArray.count; i++) {
+        BrandCell * cell = (BrandCell *) brandCellsArray[i];
+        
+        if (cell.imgBrand.image != senderCell.imgBrand.image)
+            [cell unselectCell];
+    }
+    
+    CGRect newDropDownFrame = CGRectMake(25, 25, 590.0f, 200.0f);
+    CGRect containerFrame = CGRectMake(0, 0, newDropDownFrame.size.width + 50, newDropDownFrame.size.height + 50);
+    
+    dropDownView = (ChooseModelView_iPad *)[[NSBundle mainBundle] loadNibNamed:@"ChooseModelView_iPad" owner:self options:nil][0];
+    
+    dropDownView.owner = senderCell;
+    
+    dropDownView.frame = newDropDownFrame;
+    dropDownView.backgroundColor = [UIColor clearColor];
+    if (indexOfSenderCell == -1)
+        return ;
+    
+    int indexOfCurrentModel = -1;
+    if (!self.currentModel)
+        self.currentModel = currentModels[0]; //initially, the selected model is the first
     else {
-        placeholderTextField.placeholder = @"";
+        for (int i = 0; i < currentModels.count; i++) {
+            if ([(Model *)currentModels[i] modelID] == self.currentModel.modelID) {
+                indexOfCurrentModel = i;
+                break;
+            }
+        }
     }
+    [dropDownView drawModels:currentModels withIndexOfSelectedModel:(indexOfCurrentModel == -1 ? 0 : indexOfCurrentModel)];
+    [self setModelsTapGestures];
+    
+    
+    UIViewController * container = [[UIViewController alloc] init];
+    container.view = [[UIView alloc] initWithFrame:containerFrame];
+    dropDownView.containerViewController = container;
+    
+    //background
+    CGRect bgRect = CGRectMake(-1, -1, containerFrame.size.width + 2, containerFrame.size.height + 2);
+    UIImageView * bg = [[UIImageView alloc] initWithFrame:bgRect];
+    [bg setImage:[UIImage imageNamed:@"tb_choose_brand_box1.png"]];
+    [container.view addSubview:bg];
+    
+    //close button
+    UIButton * closeModelsButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [closeModelsButton setTitle:@"" forState:UIControlStateNormal];
+    [closeModelsButton setBackgroundImage:[UIImage imageNamed:@"tb_add_individual_ads_close_btn.png"] forState:UIControlStateNormal];
+    [closeModelsButton addTarget:self action:@selector(closeModelsBtnPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    [container.view addSubview:closeModelsButton];
+    
+    //models
+    [container.view addSubview:dropDownView];
+    
+    container.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:container animated:YES completion:nil];
+    container.view.superview.frame = containerFrame;
+    container.view.superview.bounds = containerFrame;
+    container.view.superview.center = CGPointMake(roundf(self.view.bounds.size.width / 2), roundf(self.view.bounds.size.height / 2));
+    
+    
+    
+    
+}
+
+- (void) didSelectModelCell:(id) sender {
+    
+    UITapGestureRecognizer * tap = (UITapGestureRecognizer *) sender;
+    ModelCell * senderCell = (ModelCell *) tap.view;
+    int indexOfSenderCell = [self locateModelCell:senderCell];
+    if (indexOfSenderCell != -1)
+        self.currentModel = currentModels[indexOfSenderCell];
+    
+    [senderCell setSelected:YES];
+    if (dropDownView) {
+        for (id cell  in dropDownView.modelsScrollView.subviews) {
+            if ( ([cell isKindOfClass:[ModelCell class]]) && (cell != senderCell))
+                [cell setSelected:NO];
+            
+        }
+        [dropDownView.containerViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (void) setModelsTapGestures {
+    if (dropDownView) {
+        for (id cell  in dropDownView.modelsScrollView.subviews) {
+            if ([cell isKindOfClass:[ModelCell class]]) {
+                UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectModelCell:)];
+                tap.numberOfTapsRequired = 1;
+                [cell addGestureRecognizer:tap];
+            }
+            
+        }
+    }
+}
+
+- (int) locateBrandCell:(BrandCell *) cell {
+    if (brandCellsArray && brandCellsArray.count) {
+        for (int i = 0; i < brandCellsArray.count; i++) {
+            if (brandCellsArray[i] == cell)
+                return i;
+        }
+        return -1;
+    }
+    else
+        return -1;
+}
+
+- (int) locateModelCell:(ModelCell *) cell {
+    if (dropDownView && dropDownView.modelCellsArray && dropDownView.modelCellsArray.count) {
+        for (int i = 0; i < dropDownView.modelCellsArray.count; i++) {
+            if (dropDownView.modelCellsArray[i] == cell)
+                return i;
+        }
+        return -1;
+    }
+    else
+        return -1;
+}
+
+- (void) closeModelsBtnPressed {    //this method is called on ly in the separate brands UI
+    if (dropDownView) {
+        [dropDownView.containerViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+//------------------------------- END OF LEVEL1: CHOOSING THE BRAND -------------------------------
+
+- (NSUInteger)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskLandscape;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationPortrait;
+    else
+        return UIInterfaceOrientationLandscapeLeft;
 }
 
 @end

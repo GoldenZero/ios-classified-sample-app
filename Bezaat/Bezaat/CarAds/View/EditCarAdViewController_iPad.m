@@ -292,7 +292,7 @@
     for (int i=0; i<6; i++) {
         if ([self.myImageIDArray count] == 0 || remainingImg == 0) {
 
-            UIButton * temp = (UIButton *)[self.iPad_setPhotoView viewWithTag:((i+1) *10)];
+            UIButton * temp = (UIButton *)[self.iPad_uploadPhotosView viewWithTag:((i+1) *10)];
             [temp setImage:[UIImage imageNamed:@"tb_add_individual3_add_image_btn.png"] forState:UIControlStateNormal];
             
             
@@ -329,8 +329,8 @@
     UIButton* senderBtn = (UIButton *)sender;
     chosenRemoveImgBtnTag = senderBtn.tag / 10;
     
-    UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenRemoveImgBtnTag];
-    [tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
+    UIButton * tappedBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:chosenRemoveImgBtnTag];
+    //[tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
     if (firstRemove) {
         
     if (chosenRemoveImgBtnTag/10 - removeCounter <= 0) {
@@ -961,12 +961,12 @@
     [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     
     [self hideLoadingIndicatorOnImages];
-    if (chosenImgBtnTag > -1)
-    {
-        UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+    //if (chosenImgBtnTag > -1)
+    //{
+        //UIButton * tappedBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:chosenImgBtnTag];
         
-        [tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
-    }
+        //[tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
+    //}
     
     
     //reset 'current' data
@@ -983,7 +983,7 @@
     if ((chosenImgBtnTag > -1) && (currentImageToUpload))
     {
         
-         UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+         UIButton * tappedBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:chosenImgBtnTag];
         int indexOfBtn = tappedBtn.tag / 10 - 1;
         if (indexOfBtn >= [CopyImageArr count]) {
             CarAd* adTest = [[CarAd alloc]initWithImageID:[NSString stringWithFormat:@"%i",ID] andImageURL:[url absoluteString]];

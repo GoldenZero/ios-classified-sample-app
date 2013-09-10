@@ -1604,7 +1604,7 @@
     [self hideLoadingIndicatorOnImages];
     if (chosenImgBtnTag > -1)
     {
-        UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+        //UIButton * tappedBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:chosenImgBtnTag];
         
         //[tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
     }
@@ -1621,17 +1621,19 @@
     [self hideLoadingIndicatorOnImages];
     
     //1- show the image on the button
-    if ((chosenImgBtnTag > -1) && (currentImageToUpload))
+    /*
+     if ((chosenImgBtnTag > -1) && (currentImageToUpload))
     {
-        /*
+        
         UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
         UIImageView * imgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tappedBtn.frame.size.width, tappedBtn.frame.size.height)];
         
         [tappedBtn addSubview:imgv];
         [imgv setImageWithURL:url placeholderImage:[UIImage imageNamed:@"AddCar_Car_logo.png"]];
-         */
+     
         
     }
+     */
     //2- add image data to this ad
     [currentImgsUploaded addObject:[NSNumber numberWithInteger:ID]];
     
