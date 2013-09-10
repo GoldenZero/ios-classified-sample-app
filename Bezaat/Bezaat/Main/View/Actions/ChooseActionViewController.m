@@ -375,7 +375,10 @@
 }
 
 - (IBAction)iPad_myAdsBtnPressed:(id)sender {
-    
+    /*
+    UserDetailsViewController *vc=[[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController_iPad" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+     */
 }
 
 - (IBAction)iPad_storeOrdersBtnPressed:(id)sender {
