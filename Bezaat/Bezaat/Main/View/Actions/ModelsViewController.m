@@ -161,7 +161,11 @@ static NSInteger lastBrandSelectedRow = -1;
         // TODO pass this information to the next view
         if (self.tagOfCallXib==2) {
             if (myStore.hasStores) {
-                AddNewStoreAdViewController *adNewCar=[[AddNewStoreAdViewController alloc] initWithNibName:@"AddNewStoreAdViewController" bundle:nil];
+                AddNewStoreAdViewController *adNewCar;
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                    adNewCar=[[AddNewStoreAdViewController alloc] initWithNibName:@"AddNewStoreAdViewController" bundle:nil];
+                else
+                    adNewCar=[[AddNewStoreAdViewController alloc] initWithNibName:@"AddNewStoreAdViewController_iPad" bundle:nil];
                 adNewCar.currentModel=selectedModel;
                 adNewCar.currentStore = self.sentStore;
                 [self presentViewController:adNewCar animated:YES completion:nil];

@@ -88,4 +88,6 @@
 - (IBAction)chooseCountryCity:(id)sender;
 - (void) dismissSelfAfterFeaturing;
 
+- (void) iPad_userDidEndChoosingCountryFromPopOver;
+
 @end
