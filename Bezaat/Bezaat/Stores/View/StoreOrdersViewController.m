@@ -38,7 +38,6 @@
     if (self) {
         // Custom initialization
         lastContentOffset=0;
-
     }
     return self;
 }
@@ -47,9 +46,12 @@
 {
     [super viewDidLoad];
     
-    [self.adsTable setSeparatorColor:[UIColor clearColor]];
-    [self.adsTable setBackgroundColor:[UIColor clearColor]];
-[self.noAdsImage setHidden:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        [self.adsTable setSeparatorColor:[UIColor clearColor]];
+        [self.adsTable setBackgroundColor:[UIColor clearColor]];
+    }
+    [self.noAdsImage setHidden:YES];
     isSecondPage = NO;
     //initialize the user to get info
     CurrentUser = [[UserProfile alloc]init];
@@ -69,7 +71,9 @@
 	asynchImgManager.fileCache = fileCache;
     
     //hide the scrolling indicator
-    [self.adsTable setShowsVerticalScrollIndicator:NO];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.adsTable setShowsVerticalScrollIndicator:NO];
+    }
     //[self.tableView setScrollEnabled:NO];
     
     dataLoadedFromCache = NO;
@@ -90,7 +94,12 @@
     [super viewWillAppear:animated];
     [self.adsTable setNeedsDisplay];
     [self.adsTable reloadData];
-    self.adsTable.contentSize=CGSizeMake(320, self.adsTable.contentSize.height);
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+    
+        self.adsTable.contentSize=CGSizeMake(320, self.adsTable.contentSize.height);
+    }
 }
 
 - (void) loadFirstDataOfOrdersWithPage:(NSInteger)pageNumb {
@@ -102,8 +111,8 @@
     [[CarAdsManager sharedInstance] setCurrentPageNum:1];
     [[CarAdsManager sharedInstance] setPageSizeToDefault];
     [self loadPageOfAdsOfOrderWithPage:pageNumb];
-    
 }
+
 - (void) loadPageOfAdsOfOrderWithPage:(NSInteger)pageNum {
     dataLoadedFromCache = NO;
     
@@ -116,10 +125,8 @@
     }else{
         page = pageNum;
     }
-    
     //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
-    
-//[[CarAdsManager sharedInstance] loadUserAdsOfStatus:status forPage:page andSize:[[CarAdsManager sharedInstance] getCurrentPageSize] WithDelegate:self];
+    //[[CarAdsManager sharedInstance] loadUserAdsOfStatus:status forPage:page andSize:[[CarAdsManager sharedInstance] getCurrentPageSize] WithDelegate:self];
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getStoreOrdersForPage:page andSize:[[CarAdsManager sharedInstance] getCurrentPageSize]];
 }
@@ -127,11 +134,9 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
     //4- cache the data
     
     //   [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"all" forPage:[[CarAdsManager sharedInstance] getCurrentPageNum] andSize:[[CarAdsManager sharedInstance] getCurrentPageSize] WithDelegate:self];
-    
 }
 
 
@@ -142,7 +147,6 @@
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
     [self.noAdsImage setHidden:NO];
     [self hideLoadingIndicator];
-
 }
 
 -(void)storeOrdersLoadDidFinishLoadingWithOrders:(NSArray *)orders
@@ -187,14 +191,17 @@
 
 #pragma mark - tableView handlig
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([storeOrdersArray count] == 0) {
-        return 130;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if ([storeOrdersArray count] == 0) {
+            return 130;
+        }
+        //store order - with image
+        return 130 ;
     }
-    
-
-
-    //store order - with image
-    return 130 ;
+    else
+    {
+        return 120;
+    }
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -212,6 +219,8 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
     static NSString *CellIdentifier = @"NCellId";
     xForShiftingTinyImg = 0;
     StoreOrder * orderObject;
@@ -226,11 +235,22 @@
     
     StoreOrderCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell){
-        cell = [[StoreOrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        NSArray* topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"StoreOrderCell" owner:self options:nil];
-        cell = [topLevelObjects objectAtIndex:0];
         
+        cell = [[StoreOrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            NSArray* topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"StoreOrderCell" owner:self options:nil];
+            cell = [topLevelObjects objectAtIndex:0];
+        }
+        else
+        {
+            NSArray* topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"StoreOrderCell_iPad" owner:self options:nil];
+            cell = [topLevelObjects objectAtIndex:0];
+        }
     }
+    
+    
     NSString * newThumbUrl = [orderObject.StoreImageURL stringByReplacingOccurrencesOfString:@"http://content.bezaat.com" withString:@"http://content.bezaat.com.s3-external-3.amazonaws.com"];
     
     [cell.storeImage setImageWithURL:[NSURL URLWithString:newThumbUrl] placeholderImage:[UIImage imageNamed:@"default-car.jpg"]];
@@ -257,33 +277,6 @@
     [cell.bankTransferBtn addTarget:self action:@selector(bankPayment:) forControlEvents:UIControlEventTouchUpInside];
     [cell.proceedBtn addTarget:self action:@selector(ProceedInvoked:) forControlEvents:UIControlEventTouchUpInside];
     
-    //customize the carAdCell with actual data
-            /* // just comment
-            cell.carTitle.text = carAdObject.title;
-            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-            if ([priceStr isEqualToString:@""])
-                cell.carPrice.text = priceStr;
-            else
-                cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
-            if (carAdObject.price < 1.0) {
-                cell.carPrice.text = @"";
-            }
-            cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];*/
-            
-            /*
-             cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
-             
-             if (carAdObject.viewCount > 0)
-             cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
-             else
-             {
-             cell.adViews.text = @"";
-             //[cell.countOfViewsTinyImg setHidden:YES];
-             }
-             
-             cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
-             */
-                     
             return cell;
         
     
