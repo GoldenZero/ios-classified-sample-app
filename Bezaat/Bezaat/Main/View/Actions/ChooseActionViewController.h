@@ -31,6 +31,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *countryBtn;
 @property (strong, nonatomic) IBOutlet UIButton *exihibiButton;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_signInBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_myAdsBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_storeOrdersBtn;
 
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender;

@@ -31,10 +31,19 @@
 - (IBAction)backInvoked:(id)sender;
 - (IBAction)filterAll:(id)sender;
 - (IBAction)filterSpecial:(id)sender;
-- (IBAction)filterTerminated:(id)sender;
+- (IBAction)filterTerminated:(id)sender; //non-active ads
 - (IBAction)filterFavourite:(id)sender;
 - (IBAction)EditInvoked:(id)sender;
 - (IBAction)AddingAdsInvoked:(id)sender;
+
+- (IBAction)iPad_filterNonTerminated:(id)sender; //active ads
+- (IBAction)iPad_addNewAd:(id)sender;
+
+- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender;
+
 
 @property (strong, nonatomic) IBOutlet UIImageView *noAdsImage;
 @property (weak, nonatomic) IBOutlet UILabel *noAdsLbl;
@@ -43,6 +52,24 @@
 @property (weak, nonatomic) IBOutlet UIButton *favouriteBtn;
 @property (weak, nonatomic) IBOutlet UILabel *userNameTitle;
 @property (weak, nonatomic) IBOutlet UILabel *userCityTitle;
+
+@property (weak, nonatomic) IBOutlet UILabel *iPad_userEmail;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_buyCarSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_addCarSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_browseGalleriesSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_addStoreSegmentBtn;
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *iPad_terminatedAdsImgV;
+@property (weak, nonatomic) IBOutlet UIImageView *iPad_nonTerminatedAdsImgV;
+@property (weak, nonatomic) IBOutlet UIImageView *iPad_specialAdsImgV;
+@property (weak, nonatomic) IBOutlet UIImageView *iPad_allAdsImgV;
+
+@property (weak, nonatomic) IBOutlet UIButton *iPad_terminatedAdsBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_nonTerminatedAdsBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_specialAdsBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_allAdsBtn;
+
 
 - (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
 - (void) removeAdWithAdID:(NSUInteger) adID;

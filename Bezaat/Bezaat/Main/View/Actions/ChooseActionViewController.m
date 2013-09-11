@@ -81,12 +81,21 @@
         [self prepareGestures];
     }
     else {
-        if (savedProfile)
+        if (savedProfile) {
             //self.iPad_signInBtn.enabled = NO;
             [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_login_btn.png"] forState:UIControlStateNormal];//log out
-        else
+            [self.iPad_myAdsBtn setEnabled:YES];
+            if (savedProfile.hasStores)
+                [self.iPad_storeOrdersBtn setEnabled:YES];
+            else
+                [self.iPad_storeOrdersBtn setEnabled:NO];
+        }
+        else {
             //self.iPad_signInBtn.enabled = YES;
             [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_signin_btn.png"] forState:UIControlStateNormal];//log in
+            [self.iPad_myAdsBtn setEnabled:NO];
+            [self.iPad_storeOrdersBtn setEnabled:NO];
+        }
     }
     
     if (savedProfile.hasStores) {
@@ -168,12 +177,21 @@
     } else {
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
-        if (savedProfile)
+        if (savedProfile) {
             //self.iPad_signInBtn.enabled = NO;
             [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_login_btn.png"] forState:UIControlStateNormal];//log out
-        else
+            [self.iPad_myAdsBtn setEnabled:YES];
+            if (savedProfile.hasStores)
+                [self.iPad_storeOrdersBtn setEnabled:YES];
+            else
+                [self.iPad_storeOrdersBtn setEnabled:NO];
+        }
+        else {
             //self.iPad_signInBtn.enabled = YES;
             [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_signin_btn.png"] forState:UIControlStateNormal];//log in
+            [self.iPad_myAdsBtn setEnabled:NO];
+            [self.iPad_storeOrdersBtn setEnabled:NO];
+        }
     }
 }
 
@@ -377,10 +395,10 @@
 }
 
 - (IBAction)iPad_myAdsBtnPressed:(id)sender {
-    /*
+    
     UserDetailsViewController *vc=[[UserDetailsViewController alloc] initWithNibName:@"UserDetailsViewController_iPad" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
-     */
+     
 }
 
 - (IBAction)iPad_storeOrdersBtnPressed:(id)sender {
@@ -697,6 +715,8 @@
     [self hideLoadingIndicator];
     [alert show];
     [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_signin_btn.png"] forState:UIControlStateNormal];//log in
+    [self.iPad_myAdsBtn setEnabled:NO];
+    [self.iPad_storeOrdersBtn setEnabled:NO];
     return;
     
 }

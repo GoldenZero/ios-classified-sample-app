@@ -10,6 +10,7 @@
 #import "ModelsViewController.h"
 #import "labelAdViewController.h"
 #import "CarAdDetailsViewController.h"
+#import "AddNewCarAdViewController_iPad.h"
 
 @interface UserDetailsViewController (){
     
@@ -30,6 +31,11 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    BOOL iPad_buyCarSegmentBtnChosen;
+    BOOL iPad_addCarSegmentBtnChosen;
+    BOOL iPad_browseGalleriesSegmentBtnChosen;
+    BOOL iPad_addStoreSegmentBtnChosen;
 }
 
 @end
@@ -79,6 +85,13 @@
 	NSString* cacheDirectory = [NSHomeDirectory() stringByAppendingString:@"/Library/Caches/imgcache/imgtable/"] ;
 	HJMOFileCache* fileCache = [[HJMOFileCache alloc] initWithRootPath:cacheDirectory];
 	asynchImgManager.fileCache = fileCache;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        iPad_buyCarSegmentBtnChosen = YES;
+        iPad_addCarSegmentBtnChosen = NO;
+        iPad_browseGalleriesSegmentBtnChosen = NO;
+        iPad_addStoreSegmentBtnChosen = NO;
+    }
     
     //hide the scrolling indicator
     [self.adsTable setShowsVerticalScrollIndicator:NO];
@@ -166,6 +179,7 @@
     
     self.userNameTitle.text = CurrentUser.userName;
     self.userCityTitle.text = [NSString stringWithFormat:@"%@, %@",defaultCountryName,defaultCityName];
+    self.iPad_userEmail.text = CurrentUser.emailAddress;
     
 }
 
@@ -240,21 +254,49 @@
     
     dataLoadedFromCache = NO;
     
-    //show loading indicator
-    //[self showLoadingIndicator];
-    
-    //load a page of data
-    //NSInteger page = 1;
-    //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
-//    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"active" forPage:page andSize:size WithDelegate:self];
-    currentStatus = @"active";
-    [self loadFirstDataOfStatus:@"active" andPage:1];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        
+        //show loading indicator
+        //[self showLoadingIndicator];
+        
+        //load a page of data
+        //NSInteger page = 1;
+        //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
+        //    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"active" forPage:page andSize:size WithDelegate:self];
+        currentStatus = @"active";
+        [self loadFirstDataOfStatus:@"active" andPage:1];
+    }
+    else {
+        //update appearance
+        [self.iPad_allAdsBtn setImage:[UIImage imageNamed:@"tb_view_all_ads_on.png"] forState:UIControlStateNormal];
+        [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
+        
+        
+        //show loading indicator
+        //[self showLoadingIndicator];
+        
+        //load a page of data
+        //NSInteger page = 1;
+        //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
+        //    [[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"all" forPage:page andSize:size WithDelegate:self];
+        currentStatus = @"all";
+        [self loadFirstDataOfStatus:@"all" andPage:1];
+    }
    
 }
 
 - (IBAction)filterSpecial:(id)sender {
-    [self.filterAllBtn setHighlighted:NO];
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.filterAllBtn setHighlighted:NO];
+    }
+    else {
+        [self.iPad_allAdsBtn setImage:[UIImage imageNamed:@"tb_view_all_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_on.png"] forState:UIControlStateNormal];
+        [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
+    }
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
     [self.adsTable setNeedsDisplay];
@@ -275,10 +317,20 @@
     currentStatus = @"featured-ads";
     [self loadFirstDataOfStatus:@"featured-ads" andPage:1];
     
+    
 }
 
 - (IBAction)filterTerminated:(id)sender {
-    [self.filterAllBtn setHighlighted:NO];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.filterAllBtn setHighlighted:NO];
+    }
+    else {
+        [self.iPad_allAdsBtn setImage:[UIImage imageNamed:@"tb_view_all_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_on.png"] forState:UIControlStateNormal];
+    }
+    
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
     [self.adsTable setNeedsDisplay];
@@ -299,6 +351,33 @@
     currentStatus = @"inactive";
     [self loadFirstDataOfStatus:@"inactive" andPage:1];
     
+}
+
+- (IBAction)iPad_filterNonTerminated:(id)sender {
+    [self.iPad_allAdsBtn setImage:[UIImage imageNamed:@"tb_view_all_ads_off.png"] forState:UIControlStateNormal];
+    [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
+    [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_on.png"] forState:UIControlStateNormal];
+    [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
+    
+    //emptying the table and the Array
+    [carAdsArray removeAllObjects];
+    [self.adsTable setNeedsDisplay];
+    [self.adsTable reloadData];
+    
+    [[CarAdsManager sharedInstance] setCurrentPageNum:1];
+    [[CarAdsManager sharedInstance] setPageSizeToDefault];
+    
+    dataLoadedFromCache = NO;
+    
+    //show loading indicator
+    //[self showLoadingIndicator];
+    
+    //load a page of data
+    //NSInteger page = 1;
+    //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
+    //[[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"featured-ads" forPage:page andSize:size WithDelegate:self];
+    currentStatus = @"active";
+    [self loadFirstDataOfStatus:@"active" andPage:1];
 }
 
 - (IBAction)filterFavourite:(id)sender {
@@ -347,6 +426,11 @@
     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     //vc.ButtonCheck = YES;
     [self presentViewController:vc animated:YES completion:nil];*/
+}
+
+- (IBAction)iPad_addNewAd:(id)sender {
+    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void)scrollToTheBottom
@@ -420,20 +504,33 @@
         if (carAdObject.storeID > 0)
         {
             
-            StoreAdsCell * cell = (StoreAdsCell *)[[[NSBundle mainBundle] loadNibNamed:@"StoreAdsCell" owner:self options:nil] objectAtIndex:0];
+            StoreAdsCell * cell = (StoreAdsCell *)[[[NSBundle mainBundle] loadNibNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"StoreAdsCell" : @"StoreAdsCell_iPad") owner:self options:nil] objectAtIndex:0];
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
-            
-            //customize the carAdCell with actual data
-            cell.carTitle.text = carAdObject.title;
-            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-            if ([priceStr isEqualToString:@""])
-                cell.carPrice.text = priceStr;
-            else
-                cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
-            if (carAdObject.price < 1.0) {
-                cell.carPrice.text = @"";
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                //customize the carAdCell with actual data
+                cell.carTitle.text = carAdObject.title;
+                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+                if ([priceStr isEqualToString:@""])
+                    cell.carPrice.text = priceStr;
+                else
+                    cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+                if (carAdObject.price < 1.0) {
+                    cell.carPrice.text = @"";
+                }
+            }
+            else {
+                //customize the carAdCell with actual data
+                cell.iPad_carTitle.text = carAdObject.title;
+                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+                if ([priceStr isEqualToString:@""])
+                    cell.iPad_carPrice.text = priceStr;
+                else
+                    cell.iPad_carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+                if (carAdObject.price < 1.0) {
+                    cell.iPad_carPrice.text = @"";
+                }
             }
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             
@@ -525,6 +622,25 @@
             cell.featureButton.tag = indexPath.row;
             [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
             
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                if (cell.isFeatured) {
+                    [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
+                    [cell.featureButton setHidden:YES];
+                    if (carAdObject.isFavorite)
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                }
+                else {
+                    [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
+                    [cell.featureButton setHidden:NO];
+                    if (carAdObject.isFavorite)
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                }
+                    
+            }
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
             
@@ -539,18 +655,36 @@
         //individual ad - with image
         else
         {
-            StoreAdsCell * cell = (StoreAdsCell *)[[[NSBundle mainBundle] loadNibNamed:@"StoreAdsCell" owner:self options:nil] objectAtIndex:0];
+            StoreAdsCell * cell = (StoreAdsCell *)[[[NSBundle mainBundle] loadNibNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"StoreAdsCell" : @"StoreAdsCell_iPad") owner:self options:nil] objectAtIndex:0];
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             
             //customize the carAdCell with actual data
-            cell.carTitle.text = carAdObject.title;
-            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-            if ([priceStr isEqualToString:@""])
-                cell.carPrice.text = priceStr;
-            else
-                cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                //customize the carAdCell with actual data
+                cell.carTitle.text = carAdObject.title;
+                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+                if ([priceStr isEqualToString:@""])
+                    cell.carPrice.text = priceStr;
+                else
+                    cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+                if (carAdObject.price < 1.0) {
+                    cell.carPrice.text = @"";
+                }
+            }
+            else {
+                //customize the carAdCell with actual data
+                cell.iPad_carTitle.text = carAdObject.title;
+                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+                if ([priceStr isEqualToString:@""])
+                    cell.iPad_carPrice.text = priceStr;
+                else
+                    cell.iPad_carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+                if (carAdObject.price < 1.0) {
+                    cell.iPad_carPrice.text = @"";
+                }
+            }
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             
             /*
@@ -644,6 +778,26 @@
             }
             cell.featureButton.tag = indexPath.row;
             [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                if (cell.isFeatured) {
+                    [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
+                    [cell.featureButton setHidden:YES];
+                    if (carAdObject.isFavorite)
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                }
+                else {
+                    [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
+                    [cell.featureButton setHidden:NO];
+                    if (carAdObject.isFavorite)
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                }
+                
+            }
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
             
@@ -662,18 +816,36 @@
         //store ad - no image
         if (carAdObject.storeID > 0)
         {
-            StoreAdsCell * cell = (StoreAdsCell *)[[[NSBundle mainBundle] loadNibNamed:@"StoreAdsCell" owner:self options:nil] objectAtIndex:0];
+            StoreAdsCell * cell = (StoreAdsCell *)[[[NSBundle mainBundle] loadNibNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"StoreAdsCell" : @"StoreAdsCell_iPad") owner:self options:nil] objectAtIndex:0];
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             
             //customize the carAdCell with actual data
-            cell.carTitle.text = carAdObject.title;
-            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-            if ([priceStr isEqualToString:@""])
-                cell.carPrice.text = priceStr;
-            else
-                cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                //customize the carAdCell with actual data
+                cell.carTitle.text = carAdObject.title;
+                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+                if ([priceStr isEqualToString:@""])
+                    cell.carPrice.text = priceStr;
+                else
+                    cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+                if (carAdObject.price < 1.0) {
+                    cell.carPrice.text = @"";
+                }
+            }
+            else {
+                //customize the carAdCell with actual data
+                cell.iPad_carTitle.text = carAdObject.title;
+                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+                if ([priceStr isEqualToString:@""])
+                    cell.iPad_carPrice.text = priceStr;
+                else
+                    cell.iPad_carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+                if (carAdObject.price < 1.0) {
+                    cell.iPad_carPrice.text = @"";
+                }
+            }
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             
             /*
@@ -760,6 +932,26 @@
             cell.isFeatured = carAdObject.isFeatured;
             cell.featureButton.tag = indexPath.row;
             [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                if (cell.isFeatured) {
+                    [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
+                    [cell.featureButton setHidden:YES];
+                    if (carAdObject.isFavorite)
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                }
+                else {
+                    [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
+                    [cell.featureButton setHidden:NO];
+                    if (carAdObject.isFavorite)
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                }
+                
+            }
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
             
@@ -775,18 +967,36 @@
         //individual - no image
         else
         {
-            StoreAdsCell * cell = (StoreAdsCell *)[[[NSBundle mainBundle] loadNibNamed:@"StoreAdsCell" owner:self options:nil] objectAtIndex:0];
+            StoreAdsCell * cell = (StoreAdsCell *)[[[NSBundle mainBundle] loadNibNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"StoreAdsCell" : @"StoreAdsCell_iPad") owner:self options:nil] objectAtIndex:0];
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             
             //customize the carAdCell with actual data
-            cell.carTitle.text = carAdObject.title;
-            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-            if ([priceStr isEqualToString:@""])
-                cell.carPrice.text = priceStr;
-            else
-                cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                //customize the carAdCell with actual data
+                cell.carTitle.text = carAdObject.title;
+                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+                if ([priceStr isEqualToString:@""])
+                    cell.carPrice.text = priceStr;
+                else
+                    cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+                if (carAdObject.price < 1.0) {
+                    cell.carPrice.text = @"";
+                }
+            }
+            else {
+                //customize the carAdCell with actual data
+                cell.iPad_carTitle.text = carAdObject.title;
+                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+                if ([priceStr isEqualToString:@""])
+                    cell.iPad_carPrice.text = priceStr;
+                else
+                    cell.iPad_carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+                if (carAdObject.price < 1.0) {
+                    cell.iPad_carPrice.text = @"";
+                }
+            }
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             
             /*
@@ -871,6 +1081,26 @@
             cell.isFeatured = carAdObject.isFeatured;
             cell.featureButton.tag = indexPath.row;
             [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                if (cell.isFeatured) {
+                    [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
+                    [cell.featureButton setHidden:YES];
+                    if (carAdObject.isFavorite)
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                }
+                else {
+                    [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
+                    [cell.featureButton setHidden:NO];
+                    if (carAdObject.isFavorite)
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
+                    else
+                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                }
+                
+            }
             
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
@@ -1070,6 +1300,72 @@
     NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:adID inArray:carAdsArray];
     [carAdsArray removeObjectAtIndex:index];
     [self.adsTable reloadData];
+}
+
+#pragma mark - iPad actions
+
+- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender {
+    
+    iPad_buyCarSegmentBtnChosen = YES;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = YES;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+    
+    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = YES;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = YES;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+#pragma mark - iPad helper methods
+- (void) iPad_updateSegmentButtons {
+    
+    UIImage * iPad_buyCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn_white.png"];
+    UIImage * iPad_buyCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn.png"];
+    
+    UIImage * iPad_addCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn_white.png"];
+    UIImage * iPad_addCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn.png"];
+    
+    UIImage * iPad_browseGalleriesSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn_white.png"];
+    UIImage * iPad_browseGalleriesSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn.png"];
+    
+    UIImage * iPad_addStoreSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn_white.png"];
+    UIImage * iPad_addStoreSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn.png"];
+    
+    [self.iPad_buyCarSegmentBtn setBackgroundImage:(iPad_buyCarSegmentBtnChosen ? iPad_buyCarSegmentBtnSelectedImage : iPad_buyCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_addCarSegmentBtn setBackgroundImage:(iPad_addCarSegmentBtnChosen ?  iPad_addCarSegmentBtnSelectedImage: iPad_addCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_browseGalleriesSegmentBtn setBackgroundImage:(iPad_browseGalleriesSegmentBtnChosen ? iPad_browseGalleriesSegmentBtnSelectedImage :  iPad_browseGalleriesSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_addStoreSegmentBtn setBackgroundImage:(iPad_addStoreSegmentBtnChosen ? iPad_addStoreSegmentBtnSelectedImage : iPad_addStoreSegmentBtnUnselectedImage) forState:UIControlStateNormal];
 }
 
 

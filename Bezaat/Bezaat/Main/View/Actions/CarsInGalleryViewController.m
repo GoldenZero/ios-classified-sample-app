@@ -308,6 +308,11 @@
             [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
             [cell.favoriteButton setHidden:NO];
             
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                [cell.iPad_phoneBtn setImage:[UIImage imageNamed:@"search_result_phone_btn_pink_bg"] forState:UIControlStateNormal];
+                [cell.iPad_smsBtn setImage:[UIImage imageNamed:@"search_result_sms_btn_pink_bg"] forState:UIControlStateNormal];
+            }
+            
         }
         
         //check owner

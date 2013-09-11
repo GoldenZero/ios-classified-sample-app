@@ -28,6 +28,10 @@
 @property (nonatomic, weak) IBOutlet UIImageView *featureTagImageView;
 @property (nonatomic, weak) IBOutlet UIImageView *bgImageView;
 
+@property (weak, nonatomic) IBOutlet SSLabel *iPad_carTitle;
+@property (weak, nonatomic) IBOutlet SSLabel *iPad_carPrice;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_favoriteButton;
+
 @property (nonatomic) BOOL isFeatured;
 
 - (IBAction)featureBtnPress:(id)sender;
