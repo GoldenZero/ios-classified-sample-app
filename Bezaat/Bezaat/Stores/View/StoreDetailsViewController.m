@@ -108,6 +108,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Manage store screen"];
+    [TestFlight passCheckpoint:@"Manage store screen"];
     //end GA
 }
 

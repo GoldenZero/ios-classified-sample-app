@@ -215,6 +215,7 @@
     */
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Post Ad screen"];
+    [TestFlight passCheckpoint:@"Post Ad screen"];
     //end GA
     
 }

@@ -194,6 +194,7 @@
         
         //GA
         [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
+        [TestFlight passCheckpoint:@"Browse Ads screen"];
         //end GA
     }
     else { //iPad
@@ -265,6 +266,8 @@
         
         //GA
         [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
+        [TestFlight passCheckpoint:@"Browse Ads screen"];
+
         //end GA
     }
     

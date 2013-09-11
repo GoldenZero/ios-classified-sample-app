@@ -62,6 +62,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"My Stores screen"];
+    [TestFlight passCheckpoint:@"My Stores screen"];    
     //end GA
 }
 -(void)didFinishLoadingWithData:(NSArray *)resultArray

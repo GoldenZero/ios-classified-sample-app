@@ -41,6 +41,7 @@
     [super viewDidLoad];
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Featured Ad Explain screen"];
+    [TestFlight passCheckpoint:@"Featured Ad Explain screen"];
     //end GA
 }
 

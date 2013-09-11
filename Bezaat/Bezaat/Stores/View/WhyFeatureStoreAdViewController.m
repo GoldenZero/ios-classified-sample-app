@@ -41,6 +41,7 @@
     
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Store explain screen"];
+    [TestFlight passCheckpoint:@"Store explain screen"];
     //end GA
     
 }

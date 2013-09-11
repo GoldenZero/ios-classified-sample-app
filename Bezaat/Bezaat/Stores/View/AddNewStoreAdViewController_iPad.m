@@ -300,6 +300,7 @@
     
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Create Store Ad screen"];
+    [TestFlight passCheckpoint:@"Create Store Ad screen"];
     //end GA
 }
 

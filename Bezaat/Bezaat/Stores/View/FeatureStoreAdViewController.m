@@ -80,6 +80,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     //[self purchaseProductWithIdentifier:@"com.bezaat.uae.test"];
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Store subscriptions screen"];
+    [TestFlight passCheckpoint:@"Store subscriptions screen"];
     //end GA
 }
 

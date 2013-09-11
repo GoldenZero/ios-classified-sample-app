@@ -50,6 +50,9 @@
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
     
+    //Test Flight SDK
+    [TestFlight takeOff:@"768f311e-8824-45e7-bccd-a08269d0d760"];
+    
     //NewRelic
     [NewRelicAgent startWithApplicationToken:@"AA9e046acc671b319dcf316d95e875cad7fce4d620"];
     //End NewRelic    

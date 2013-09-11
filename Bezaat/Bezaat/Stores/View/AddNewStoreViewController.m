@@ -105,6 +105,7 @@
     
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Create store screen"];
+    [TestFlight passCheckpoint:@"Create Store screen"];
     //end GA
     
 }

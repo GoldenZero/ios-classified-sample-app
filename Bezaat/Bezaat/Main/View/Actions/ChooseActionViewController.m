@@ -117,6 +117,7 @@
             }
         }
         [[GAI sharedInstance].defaultTracker sendView:@"Home Screen (Store)"];
+        [TestFlight passCheckpoint:@"Home Screen (Store)"];
     }
     else {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
@@ -146,6 +147,7 @@
             }
         }
         [[GAI sharedInstance].defaultTracker sendView:@"Home Screen (User)"];
+        [TestFlight passCheckpoint:@"Home Screen (User)"];
     }
 }
 

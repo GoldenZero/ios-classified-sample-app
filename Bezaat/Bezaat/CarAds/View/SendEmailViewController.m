@@ -34,6 +34,7 @@
     [super viewDidLoad];
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Send Email Screen"];
+    [TestFlight passCheckpoint:@"Send Email Screen"];
     //end GA
     
     UserProfile* user = [[SharedUser sharedInstance] getUserProfileData];

@@ -34,11 +34,13 @@
         self.titleTextView.text = [NSString stringWithFormat:@"عزيزنا العميل: %@\nشكرا لتعاملكم مع بيزات، لقد تم استلام طلبك رقم %@ الخاص بالإعلان رقم %i للإشتراك في باقة %@, وسيتم إنهاء الطلب بعد إتمام عملية الدفع يرجى استخدام احد حساباتنا التالية\n\nيرجى ارسال رقم او صورة عن التحويل البنكي الى البريد الالكتروني info@bezaat.com ،أو الاتصال على الرقم: (+966)-920004147",profile.userName,self.Order,self.AdID,self.ProductName];
         //GA
         [[GAI sharedInstance].defaultTracker sendView:@"FeatureAd bank-transfer screen"];
+        [TestFlight passCheckpoint:@"FeatureAd bank-transfer screen"];
         //end GA
     }else {
     self.titleTextView.text = [NSString stringWithFormat:@"عزيزنا العميل: %@\nشكرا لتعاملكم مع بيزات، لقد تم استلام طلبك رقم %@ الخاص بمتجر %@ للإشتراك في باقة %@, وسيتم إنهاء الطلب بعد إتمام عملية الدفع يرجى استخدام احد حساباتنا التالية\n\nيرجى ارسال رقم او صورة عن التحويل البنكي الى البريد الالكتروني info@bezaat.com ،أو الاتصال على الرقم (+966)-920004147",profile.userName,self.Order,self.StoreName,self.ProductName];
         //GA
         [[GAI sharedInstance].defaultTracker sendView:@"Store bank-transfer screen"];
+        [TestFlight passCheckpoint:@"Store bank-transfer screen"];
         //end GA
     }
     // Do any additional setup after loading the view from its nib.

@@ -39,6 +39,7 @@
     
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"User profile screen"];
+    [TestFlight passCheckpoint:@"User profile screen"];    
     //end GA
     
 }

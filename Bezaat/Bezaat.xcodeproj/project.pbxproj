@@ -815,6 +815,9 @@
 		842127F717290D360070FD76 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 842127F617290D360070FD76 /* CoreData.framework */; };
 		8421280117292CE90070FD76 /* ChooseLocationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 842127FF17292CE90070FD76 /* ChooseLocationVC.m */; };
 		8421280217292CE90070FD76 /* ChooseLocationVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8421280017292CE90070FD76 /* ChooseLocationVC.xib */; };
+		84274D1A17E0362400AADFD1 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84274D1417E0362400AADFD1 /* libTestFlight.a */; };
+		84274D1B17E0362400AADFD1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 84274D1517E0362400AADFD1 /* README.md */; };
+		84274D1C17E0362400AADFD1 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 84274D1617E0362400AADFD1 /* release_notes.md */; };
 		842801D9173903C900B28882 /* EditCarAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 842801D7173903C800B28882 /* EditCarAdViewController.m */; };
 		842801DA173903C900B28882 /* EditCarAdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 842801D8173903C800B28882 /* EditCarAdViewController.xib */; };
 		842801DC17391A6F00B28882 /* bankTransfer_ForBezaatApps.html in Resources */ = {isa = PBXBuildFile; fileRef = 842801DB17391A6F00B28882 /* bankTransfer_ForBezaatApps.html */; };
@@ -2837,6 +2840,12 @@
 		842127FE17292CE90070FD76 /* ChooseLocationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLocationVC.h; sourceTree = "<group>"; };
 		842127FF17292CE90070FD76 /* ChooseLocationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLocationVC.m; sourceTree = "<group>"; };
 		8421280017292CE90070FD76 /* ChooseLocationVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooseLocationVC.xib; sourceTree = "<group>"; };
+		84274D1417E0362400AADFD1 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		84274D1517E0362400AADFD1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		84274D1617E0362400AADFD1 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		84274D1717E0362400AADFD1 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		84274D1817E0362400AADFD1 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		84274D1917E0362400AADFD1 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		842801D6173903C800B28882 /* EditCarAdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCarAdViewController.h; sourceTree = "<group>"; };
 		842801D7173903C800B28882 /* EditCarAdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCarAdViewController.m; sourceTree = "<group>"; };
 		842801D8173903C800B28882 /* EditCarAdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditCarAdViewController.xib; sourceTree = "<group>"; };
@@ -4114,6 +4123,7 @@
 				06F9B4E9174C80AC00A49648 /* NewRelicAgent.framework in Frameworks */,
 				8438B88717A5218300EA1146 /* Parse.framework in Frameworks */,
 				8480B93617D8BB00009D7E21 /* libGoogleAdMobAds.a in Frameworks */,
+				84274D1A17E0362400AADFD1 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4992,6 +5002,19 @@
 				842127F417290CDF0070FD76 /* libGoogleAnalytics.a */,
 			);
 			name = GA;
+			sourceTree = "<group>";
+		};
+		84274D1317E0362400AADFD1 /* TestFlightSDK2.0.0 */ = {
+			isa = PBXGroup;
+			children = (
+				84274D1417E0362400AADFD1 /* libTestFlight.a */,
+				84274D1517E0362400AADFD1 /* README.md */,
+				84274D1617E0362400AADFD1 /* release_notes.md */,
+				84274D1717E0362400AADFD1 /* TestFlight+AsyncLogging.h */,
+				84274D1817E0362400AADFD1 /* TestFlight+ManualSessions.h */,
+				84274D1917E0362400AADFD1 /* TestFlight.h */,
+			);
+			path = TestFlightSDK2.0.0;
 			sourceTree = "<group>";
 		};
 		8439FDAA1727F4CD00CB1939 /* User Profile */ = {
@@ -6161,6 +6184,7 @@
 		9E78A7B516E34BA2000CA790 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84274D1317E0362400AADFD1 /* TestFlightSDK2.0.0 */,
 				8438B88617A5218200EA1146 /* Parse.framework */,
 				06F9B4EA174C80D900A49648 /* CoreTelephony.framework */,
 				06F9B4E8174C80AC00A49648 /* NewRelicAgent.framework */,
@@ -8900,6 +8924,8 @@
 				9E52B03B17DF957F00BD451C /* tb_view_all_ads_on.png in Resources */,
 				9E52B03C17DF957F00BD451C /* tb_view_all_ads_on@2x.png in Resources */,
 				9E52B04717DF9A1B00BD451C /* UserDetailsViewController_iPad.xib in Resources */,
+				84274D1B17E0362400AADFD1 /* README.md in Resources */,
+				84274D1C17E0362400AADFD1 /* release_notes.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9173,10 +9199,10 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Bezaat/Supporting classes/AdMobile\"",
+					"\"$(SRCROOT)/TestFlightSDK2.0.0\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-all_load",
 					"-lsqlite3.0",
 					"-DSF_IOS_CG",
 				);
@@ -9211,10 +9237,10 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Bezaat/Supporting classes/AdMobile\"",
+					"\"$(SRCROOT)/TestFlightSDK2.0.0\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-all_load",
 					"-lsqlite3.0",
 					"-DSF_IOS_CG",
 				);
