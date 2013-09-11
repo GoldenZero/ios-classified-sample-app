@@ -77,7 +77,7 @@
 								<string key="NSFrame">{{183, 16}, {258, 58}}</string>
 								<reference key="NSSuperview" ref="707739978"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="114784573"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<reference key="IBUIBackgroundColor" ref="622771672"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -251,7 +251,7 @@
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 								</object>
-								<object class="NSColor" key="IBUINormalTitleShadowColor" id="207027986">
+								<object class="NSColor" key="IBUINormalTitleShadowColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC41AA</bytes>
 								</object>
@@ -269,45 +269,12 @@
 									<int key="NSfFlags">16</int>
 								</object>
 							</object>
-							<object class="IBUIButton" id="114784573">
-								<reference key="NSNextResponder" ref="707739978"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{25, 84}, {18, 15}}</string>
-								<reference key="NSSuperview" ref="707739978"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="985814793"/>
-								<string key="NSReuseIdentifierKey">_NS:9</string>
-								<bool key="IBUIOpaque">NO</bool>
-								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<int key="IBUIContentHorizontalAlignment">0</int>
-								<int key="IBUIContentVerticalAlignment">0</int>
-								<reference key="IBUIHighlightedTitleColor" ref="694396072"/>
-								<object class="NSColor" key="IBUINormalTitleColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xOTYwNzg0MzE0IDAuMzA5ODAzOTIxNiAwLjUyMTU2ODYyNzUAA</bytes>
-								</object>
-								<reference key="IBUINormalTitleShadowColor" ref="207027986"/>
-								<object class="NSCustomResource" key="IBUINormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">tb_car_brand_blue_like.png</string>
-								</object>
-								<object class="IBUIFontDescription" key="IBUIFontDescription">
-									<int key="type">2</int>
-									<int key="size">2</int>
-								</object>
-								<object class="NSFont" key="IBUIFont">
-									<string key="NSName">Helvetica-Bold</string>
-									<double key="NSSize">18</double>
-									<int key="NSfFlags">16</int>
-								</object>
-							</object>
 							<object class="IBUIView" id="389878895">
 								<reference key="NSNextResponder" ref="707739978"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{453, 10}, {220, 90}}</string>
 								<reference key="NSSuperview" ref="707739978"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
@@ -428,14 +395,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">iPad_favoriteButton</string>
-						<reference key="source" ref="536215758"/>
-						<reference key="destination" ref="114784573"/>
-					</object>
-					<int key="connectionID">204</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">featureButton</string>
 						<reference key="source" ref="536215758"/>
 						<reference key="destination" ref="470966123"/>
@@ -466,7 +425,6 @@
 						<int key="objectID">2</int>
 						<reference key="object" ref="536215758"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="114784573"/>
 							<reference ref="470966123"/>
 							<reference ref="995995125"/>
 							<reference ref="1005007950"/>
@@ -481,12 +439,6 @@
 							<reference ref="389878895"/>
 						</array>
 						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">4</int>
-						<reference key="object" ref="114784573"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="536215758"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">5</int>
@@ -574,7 +526,6 @@
 				<string key="180.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="2.CustomClassName">StoreAdsCell</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.CustomClassName">SSLabel</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -637,7 +588,6 @@
 						<string key="featureTagImageView">UIImageView</string>
 						<string key="iPad_carPrice">SSLabel</string>
 						<string key="iPad_carTitle">SSLabel</string>
-						<string key="iPad_favoriteButton">UIButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="adTime">
@@ -704,10 +654,6 @@
 							<string key="name">iPad_carTitle</string>
 							<string key="candidateClassName">SSLabel</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="iPad_favoriteButton">
-							<string key="name">iPad_favoriteButton</string>
-							<string key="candidateClassName">UIButton</string>
-						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -726,7 +672,6 @@
 			<string key="Listing_icon_eye.png">{21, 20}</string>
 			<string key="ads_view_sale_white_bg.png">{37, 37}</string>
 			<string key="tb_ads_view_box.png">{694, 128}</string>
-			<string key="tb_car_brand_blue_like.png">{16, 14}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">2083</string>
 	</data>

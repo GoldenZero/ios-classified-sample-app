@@ -273,6 +273,10 @@
         [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
         [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
         
+        [self.iPad_allAdsImgV setHidden:NO];
+        [self.iPad_specialAdsImgV setHidden:YES];
+        [self.iPad_nonTerminatedAdsImgV setHidden:YES];
+        [self.iPad_terminatedAdsImgV setHidden:YES];
         
         //show loading indicator
         //[self showLoadingIndicator];
@@ -296,6 +300,11 @@
         [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_on.png"] forState:UIControlStateNormal];
         [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
         [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
+        
+        [self.iPad_allAdsImgV setHidden:YES];
+        [self.iPad_specialAdsImgV setHidden:NO];
+        [self.iPad_nonTerminatedAdsImgV setHidden:YES];
+        [self.iPad_terminatedAdsImgV setHidden:YES];
     }
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
@@ -329,6 +338,11 @@
         [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
         [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
         [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_on.png"] forState:UIControlStateNormal];
+        
+        [self.iPad_allAdsImgV setHidden:YES];
+        [self.iPad_specialAdsImgV setHidden:YES];
+        [self.iPad_nonTerminatedAdsImgV setHidden:YES];
+        [self.iPad_terminatedAdsImgV setHidden:NO];
     }
     
     //emptying the table and the Array
@@ -358,6 +372,11 @@
     [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
     [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_on.png"] forState:UIControlStateNormal];
     [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
+    
+    [self.iPad_allAdsImgV setHidden:YES];
+    [self.iPad_specialAdsImgV setHidden:YES];
+    [self.iPad_nonTerminatedAdsImgV setHidden:NO];
+    [self.iPad_terminatedAdsImgV setHidden:YES];
     
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
@@ -626,18 +645,12 @@
                 if (cell.isFeatured) {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
                     [cell.featureButton setHidden:YES];
-                    if (carAdObject.isFavorite)
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
-                    else
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                    
                 }
                 else {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
                     [cell.featureButton setHidden:NO];
-                    if (carAdObject.isFavorite)
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
-                    else
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                    
                 }
                     
             }
@@ -783,18 +796,12 @@
                 if (cell.isFeatured) {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
                     [cell.featureButton setHidden:YES];
-                    if (carAdObject.isFavorite)
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
-                    else
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                    
                 }
                 else {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
                     [cell.featureButton setHidden:NO];
-                    if (carAdObject.isFavorite)
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
-                    else
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                    
                 }
                 
             }
@@ -937,18 +944,12 @@
                 if (cell.isFeatured) {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
                     [cell.featureButton setHidden:YES];
-                    if (carAdObject.isFavorite)
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
-                    else
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                    
                 }
                 else {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
                     [cell.featureButton setHidden:NO];
-                    if (carAdObject.isFavorite)
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
-                    else
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                    
                 }
                 
             }
@@ -1086,18 +1087,12 @@
                 if (cell.isFeatured) {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
                     [cell.featureButton setHidden:YES];
-                    if (carAdObject.isFavorite)
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_orange_like.png"] forState:UIControlStateNormal];
-                    else
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                    
                 }
                 else {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
                     [cell.featureButton setHidden:NO];
-                    if (carAdObject.isFavorite)
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_car_brand_blue_like.png"] forState:UIControlStateNormal];
-                    else
-                        [cell.iPad_favoriteButton setImage:[UIImage imageNamed:@"tb_search_result_like.png"] forState:UIControlStateNormal];
+                    
                 }
                 
             }

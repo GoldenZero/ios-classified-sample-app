@@ -15,6 +15,7 @@
 #import "Model.h"
 #import "AddNewCarAdViewController.h"
 #import "AddNewStoreAdViewController.h"
+#import "AddNewStoreAdViewController_iPad.h"
 #import "BrowseCarAdsViewController.h"
 
 #define ALL_MODELS_TEXT     @"جميع الموديلات"
@@ -161,14 +162,13 @@ static NSInteger lastBrandSelectedRow = -1;
         // TODO pass this information to the next view
         if (self.tagOfCallXib==2) {
             if (myStore.hasStores) {
-                AddNewStoreAdViewController *adNewCar;
-                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-                    adNewCar=[[AddNewStoreAdViewController alloc] initWithNibName:@"AddNewStoreAdViewController" bundle:nil];
-                else
-                    adNewCar=[[AddNewStoreAdViewController alloc] initWithNibName:@"AddNewStoreAdViewController_iPad" bundle:nil];
+                
+                AddNewStoreAdViewController *adNewCar=[[AddNewStoreAdViewController alloc] initWithNibName:@"AddNewStoreAdViewController" bundle:nil];
+                
                 adNewCar.currentModel=selectedModel;
                 adNewCar.currentStore = self.sentStore;
                 [self presentViewController:adNewCar animated:YES completion:nil];
+                
             }else {
                 AddNewCarAdViewController *adNewCar=[[AddNewCarAdViewController alloc] initWithNibName:@"AddNewCarAdViewController" bundle:nil];
                 adNewCar.currentModel=selectedModel;

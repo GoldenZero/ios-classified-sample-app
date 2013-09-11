@@ -11,6 +11,8 @@
 #import "CarAdDetailsViewController.h"
 #import "CarAd.h"
 #import "ChooseActionViewController.h"
+#import "AddNewStoreAdViewController_iPad.h"
+#import "AddNewCarAdViewController_iPad.h"
 
 @interface StoreDetailsViewController () {
     StoreManager *storeStatusManager;
@@ -41,6 +43,11 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    BOOL iPad_buyCarSegmentBtnChosen;
+    BOOL iPad_addCarSegmentBtnChosen;
+    BOOL iPad_browseGalleriesSegmentBtnChosen;
+    BOOL iPad_addStoreSegmentBtnChosen;
 }
 
 @end
@@ -69,6 +76,12 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    iPad_buyCarSegmentBtnChosen = YES;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
     // Do any additional setup after loading the view from its nib.
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 
@@ -76,7 +89,8 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     currentStoreAds = [NSMutableArray array];
     allAdsLoaded = NO;
     currentPage = 1;
-    [menueBtn1 setImage:[UIImage imageNamed:@"MyStore_menu1_select"] forState:UIControlStateNormal];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        [menueBtn1 setImage:[UIImage imageNamed:@"MyStore_menu1_select"] forState:UIControlStateNormal];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSURL *imageURL = [NSURL URLWithString:currentStore.imageURL];
@@ -98,6 +112,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     
     storeTitleLabel.text = currentStore.name;
     storeCityLabel.text = currentStore.countryName;
+    
     
     noAdsImage.hidden = YES;
 
@@ -139,30 +154,95 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 }
 
 - (IBAction)addNewAdvBtnPress:(id)sender {
-    ModelsViewController *vc = [[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    vc.tagOfCallXib = 2;
-    vc.sentStore = self.currentStore;
-    [self presentViewController:vc animated:YES completion:nil];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        ModelsViewController *vc = [[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+        vc.tagOfCallXib = 2;
+        vc.sentStore = self.currentStore;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else {
+        AddNewStoreAdViewController_iPad *adNewCar=[[AddNewStoreAdViewController_iPad alloc] initWithNibName:@"AddNewStoreAdViewController_iPad" bundle:nil];
+        
+        adNewCar.currentStore = self.currentStore;
+        [self presentViewController:adNewCar animated:YES completion:nil];
+    }
 }
 
 - (IBAction)menueBtnPress:(id)sender {
-    [self resetButtonsImages];
-
-    if (sender == menueBtn1) {
-        [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu1_select"] forState:UIControlStateNormal];
-        storeAdsCurrentStatus = StoreAdsStatusAll;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self resetButtonsImages];
+        
+        if (sender == menueBtn1) {
+            [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu1_select"] forState:UIControlStateNormal];
+            storeAdsCurrentStatus = StoreAdsStatusAll;
+        }
+        else if (sender == menueBtn2) {
+            [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu2_select"] forState:UIControlStateNormal];
+            storeAdsCurrentStatus = StoreAdsStatusFeaturedAds;
+        }
+        else if (sender == menueBtn3) {
+            [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu3_select"] forState:UIControlStateNormal];
+            storeAdsCurrentStatus = StoreAdsStatusActive;
+        }
+        else if (sender == menueBtn4) {
+            [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu4_select"] forState:UIControlStateNormal];
+            storeAdsCurrentStatus = StoreAdsStatusInactive;
+        }
     }
-    else if (sender == menueBtn2) {
-        [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu2_select"] forState:UIControlStateNormal];
-        storeAdsCurrentStatus = StoreAdsStatusFeaturedAds;
-    }
-    else if (sender == menueBtn3) {
-        [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu3_select"] forState:UIControlStateNormal];
-        storeAdsCurrentStatus = StoreAdsStatusActive;
-    }
-    else if (sender == menueBtn4) {
-        [((UIButton *)sender) setImage:[UIImage imageNamed:@"MyStore_menu4_select"] forState:UIControlStateNormal];
-        storeAdsCurrentStatus = StoreAdsStatusInactive;
+    else {
+        
+        if (sender == menueBtn1) {
+            [menueBtn1 setImage:[UIImage imageNamed:@"tb_view_all_ads_on.png"] forState:UIControlStateNormal];
+            [menueBtn2 setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
+            [menueBtn3 setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
+            [menueBtn4 setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
+            
+            [self.iPad_allAdsImgV setHidden:NO];
+            [self.iPad_specialAdsImgV setHidden:YES];
+            [self.iPad_nonTerminatedAdsImgV setHidden:YES];
+            [self.iPad_terminatedAdsImgV setHidden:YES];
+            
+            storeAdsCurrentStatus = StoreAdsStatusAll;
+        }
+        else if (sender == menueBtn2) {
+            [menueBtn1 setImage:[UIImage imageNamed:@"tb_view_all_ads_off.png"] forState:UIControlStateNormal];
+            [menueBtn2 setImage:[UIImage imageNamed:@"tb_special_ads_on.png"] forState:UIControlStateNormal];
+            [menueBtn3 setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
+            [menueBtn4 setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
+            
+            [self.iPad_allAdsImgV setHidden:YES];
+            [self.iPad_specialAdsImgV setHidden:NO];
+            [self.iPad_nonTerminatedAdsImgV setHidden:YES];
+            [self.iPad_terminatedAdsImgV setHidden:YES];
+            
+            storeAdsCurrentStatus = StoreAdsStatusFeaturedAds;
+        }
+        else if (sender == menueBtn3) {
+            [menueBtn1 setImage:[UIImage imageNamed:@"tb_view_all_ads_off.png"] forState:UIControlStateNormal];
+            [menueBtn2 setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
+            [menueBtn3 setImage:[UIImage imageNamed:@"tb_effective_ads_on.png"] forState:UIControlStateNormal];
+            [menueBtn4 setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
+            
+            [self.iPad_allAdsImgV setHidden:YES];
+            [self.iPad_specialAdsImgV setHidden:YES];
+            [self.iPad_nonTerminatedAdsImgV setHidden:NO];
+            [self.iPad_terminatedAdsImgV setHidden:YES];
+            
+            storeAdsCurrentStatus = StoreAdsStatusActive;
+        }
+        else if (sender == menueBtn4) {
+            [menueBtn1 setImage:[UIImage imageNamed:@"tb_view_all_ads_off.png"] forState:UIControlStateNormal];
+            [menueBtn2 setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
+            [menueBtn3 setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
+            [menueBtn4 setImage:[UIImage imageNamed:@"tb_not_effective_ads_on.png"] forState:UIControlStateNormal];
+            
+            [self.iPad_allAdsImgV setHidden:YES];
+            [self.iPad_specialAdsImgV setHidden:YES];
+            [self.iPad_nonTerminatedAdsImgV setHidden:YES];
+            [self.iPad_terminatedAdsImgV setHidden:NO];
+            
+            storeAdsCurrentStatus = StoreAdsStatusInactive;
+        }
     }
     
     currentStoreAds = [NSMutableArray array];
@@ -483,6 +563,9 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     currentStore = store;
     [self refereshRemainingFreeFreatureAdsLabel];
     remainingDaysLabel.text = [NSString stringWithFormat:@"%d أيام متبقية",currentStore.remainingDays];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        self.iPad_storeAdsCountLabel.text = [NSString stringWithFormat:@"%d اإعلانات فعالة",currentStore.activeAdsCount];
+    
 }
 
 - (void) featureAdvDidFailWithError:(NSError *)error {
@@ -542,6 +625,70 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     [alert show];
     
     [self hideLoadingIndicator];
+}
+
+- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender {
+    
+    iPad_buyCarSegmentBtnChosen = YES;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = YES;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+    
+    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = YES;
+    iPad_addStoreSegmentBtnChosen = NO;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender {
+    iPad_buyCarSegmentBtnChosen = NO;
+    iPad_addCarSegmentBtnChosen = NO;
+    iPad_browseGalleriesSegmentBtnChosen = NO;
+    iPad_addStoreSegmentBtnChosen = YES;
+    
+    [self iPad_updateSegmentButtons];
+}
+
+#pragma mark - iPad helper methods
+- (void) iPad_updateSegmentButtons {
+    
+    UIImage * iPad_buyCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn_white.png"];
+    UIImage * iPad_buyCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn.png"];
+    
+    UIImage * iPad_addCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn_white.png"];
+    UIImage * iPad_addCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn.png"];
+    
+    UIImage * iPad_browseGalleriesSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn_white.png"];
+    UIImage * iPad_browseGalleriesSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn.png"];
+    
+    UIImage * iPad_addStoreSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn_white.png"];
+    UIImage * iPad_addStoreSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn.png"];
+    
+    [self.iPad_buyCarSegmentBtn setBackgroundImage:(iPad_buyCarSegmentBtnChosen ? iPad_buyCarSegmentBtnSelectedImage : iPad_buyCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_addCarSegmentBtn setBackgroundImage:(iPad_addCarSegmentBtnChosen ?  iPad_addCarSegmentBtnSelectedImage: iPad_addCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_browseGalleriesSegmentBtn setBackgroundImage:(iPad_browseGalleriesSegmentBtnChosen ? iPad_browseGalleriesSegmentBtnSelectedImage :  iPad_browseGalleriesSegmentBtnUnselectedImage) forState:UIControlStateNormal];
+    
+    [self.iPad_addStoreSegmentBtn setBackgroundImage:(iPad_addStoreSegmentBtnChosen ? iPad_addStoreSegmentBtnSelectedImage : iPad_addStoreSegmentBtnUnselectedImage) forState:UIControlStateNormal];
 }
 
 @end

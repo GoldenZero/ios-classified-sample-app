@@ -14,6 +14,7 @@
 #import "EditCarAdViewController.h"
 #import "EditCarAdViewController_iPad.h"
 #import "EditStoreAdViewController.h"
+#import "EditStoreAdViewController_iPad.h"
 #import "StoreDetailsViewController.h"
 #import "AppDelegate.h"
 #import "SendEmailViewController.h"
@@ -2033,15 +2034,26 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 -(void)RequestToEditStoreFinishWithData:(NSArray *)resultArray imagesArray:(NSArray *)resultIDs{
     //TODO fill down the array and then move to next page "Edit Ad"
     NSLog(@"loading result Array : %@",resultArray);
-    
-    EditStoreAdViewController *homeVC=[[EditStoreAdViewController alloc] initWithNibName:@"EditStoreAdViewController" bundle:nil];
-    homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    homeVC.myAdArray = resultArray;
-    homeVC.myImageIDArray = resultIDs;
-    homeVC.myDetails = currentDetailsObject;
-    [self hideLoadingIndicator];
-    
-    [self presentViewController:homeVC animated:YES completion:nil];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        EditStoreAdViewController *homeVC=[[EditStoreAdViewController alloc] initWithNibName:@"EditStoreAdViewController" bundle:nil];
+        homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        homeVC.myAdArray = resultArray;
+        homeVC.myImageIDArray = resultIDs;
+        homeVC.myDetails = currentDetailsObject;
+        [self hideLoadingIndicator];
+        
+        [self presentViewController:homeVC animated:YES completion:nil];
+    }
+    else {
+        EditStoreAdViewController_iPad *homeVC=[[EditStoreAdViewController_iPad alloc] initWithNibName:@"EditStoreAdViewController_iPad" bundle:nil];
+        homeVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        homeVC.myAdArray = resultArray;
+        homeVC.myImageIDArray = resultIDs;
+        homeVC.myDetails = currentDetailsObject;
+        [self hideLoadingIndicator];
+        
+        [self presentViewController:homeVC animated:YES completion:nil];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

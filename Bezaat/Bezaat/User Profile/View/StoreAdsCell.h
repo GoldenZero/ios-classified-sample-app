@@ -30,7 +30,6 @@
 
 @property (weak, nonatomic) IBOutlet SSLabel *iPad_carTitle;
 @property (weak, nonatomic) IBOutlet SSLabel *iPad_carPrice;
-@property (weak, nonatomic) IBOutlet UIButton *iPad_favoriteButton;
 
 @property (nonatomic) BOOL isFeatured;
 
