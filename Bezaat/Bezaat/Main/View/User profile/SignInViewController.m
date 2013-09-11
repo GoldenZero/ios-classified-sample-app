@@ -100,8 +100,11 @@
 }
 
 - (IBAction)signUpBtnPressed:(id)sender {
-    
-    SignUpViewController * signUpVC = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    SignUpViewController * signUpVC;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        signUpVC = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController" bundle:nil];
+    else
+        signUpVC = [[SignUpViewController alloc] initWithNibName:@"SignUpViewController_iPad" bundle:nil];
     [self presentViewController:signUpVC animated:YES completion:nil];
 }
 

@@ -42,7 +42,10 @@
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
            action:@selector(dismissKeyboard)];
-    [self.contentView addGestureRecognizer:tap];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        [self.contentView addGestureRecognizer:tap];
+    else
+        [self.view addGestureRecognizer:tap];
     [self setBackgroundImages];
     
     //GA
@@ -579,5 +582,19 @@
 
 - (IBAction)backInvoked:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskLandscape;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationPortrait;
+    else
+        return UIInterfaceOrientationLandscapeLeft;
 }
 @end
