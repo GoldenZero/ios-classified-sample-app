@@ -103,7 +103,11 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 - (IBAction)laterBtnPressed:(id)sender {
     
-    StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
+    StoreDetailsViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc= [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
+    else
+        vc= [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController_iPad" bundle:nil];
     vc.currentStore = self.storeID;
     vc.fromSubscribtion = YES;
     [self presentViewController:vc animated:YES completion:nil];
@@ -563,7 +567,11 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 5) {
-        StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
+        StoreDetailsViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc= [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
+        else
+            vc= [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController_iPad" bundle:nil];
         vc.currentStore = self.storeID;
         vc.fromSubscribtion = YES;
         [self presentViewController:vc animated:YES completion:nil];

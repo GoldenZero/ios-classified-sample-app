@@ -57,9 +57,6 @@
     else {
         if (isFeatured) {
             [featureButton setHidden:YES];
-            CGRect frame = featureButton.frame;
-            frame.origin.y = 84;
-            featureButton.frame = frame;
             bgImageView.image = [UIImage imageNamed:@"tb_ads_view_orange_box"];
             
         }

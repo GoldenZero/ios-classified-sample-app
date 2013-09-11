@@ -300,7 +300,11 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     
     if (cell.myTag == 2) {
 
-        StoreDetailsViewController *vc = [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
+        StoreDetailsViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc= [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
+        else
+            vc= [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController_iPad" bundle:nil];
         vc.currentStore = allUserStores[indexPath.row];
         [_tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self presentViewController:vc animated:YES completion:nil];

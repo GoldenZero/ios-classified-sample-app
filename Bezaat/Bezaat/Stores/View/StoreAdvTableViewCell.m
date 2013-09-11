@@ -64,7 +64,10 @@
 
 - (void)setTitle:(NSString *)_title {
     title = _title;
-    titleLabel.text = title;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        titleLabel.text = title;
+    else
+        self.iPad_titleLabel.text = title;
 }
 
 - (NSString *) price {
@@ -73,7 +76,10 @@
 
 - (void) setPrice:(NSString *)_price {
     price = _price;
-    priceLabel.text = price;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        priceLabel.text = price;
+    else
+        self.iPad_priceLabel.text = price;
 }
 
 - (BOOL) isFeatured {
@@ -82,23 +88,39 @@
 
 - (void) setIsFeatured:(BOOL)_isFeatured {
     isFeatured = _isFeatured;
-    if (isFeatured) {
-        //[featureButton setImage:[UIImage imageNamed:@"MyStore_special_help"] forState:UIControlStateNormal];
-        [featureButton setImage:[UIImage imageNamed:@"scarified_dollar"] forState:UIControlStateNormal];
-        CGRect frame = featureButton.frame;
-        frame.origin.y = 84;
-        featureButton.frame = frame;
-        bgImageView.image = [UIImage imageNamed:@"MyStore_special_bg"];
-        featureTagImageView.hidden = NO;
-        self.bottomBarView.frame = CGRectMake(self.bottomBarView.frame.origin.x, self.bottomBarView.frame.origin.y - 3, self.bottomBarView.frame.size.width, self.bottomBarView.frame.size.height);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (isFeatured) {
+            //[featureButton setImage:[UIImage imageNamed:@"MyStore_special_help"] forState:UIControlStateNormal];
+            [featureButton setImage:[UIImage imageNamed:@"scarified_dollar"] forState:UIControlStateNormal];
+            CGRect frame = featureButton.frame;
+            frame.origin.y = 84;
+            featureButton.frame = frame;
+            bgImageView.image = [UIImage imageNamed:@"MyStore_special_bg"];
+            featureTagImageView.hidden = NO;
+            self.bottomBarView.frame = CGRectMake(self.bottomBarView.frame.origin.x, self.bottomBarView.frame.origin.y - 3, self.bottomBarView.frame.size.width, self.bottomBarView.frame.size.height);
+        }
+        else {
+            [featureButton setImage:[UIImage imageNamed:@"MyStore_icon_dollar"] forState:UIControlStateNormal];
+            CGRect frame = featureButton.frame;
+            frame.origin.y = 88;
+            featureButton.frame = frame;
+            bgImageView.image = [UIImage imageNamed:@"MyStore_box_bg"];
+            featureTagImageView.hidden = YES;
+        }
     }
     else {
-        [featureButton setImage:[UIImage imageNamed:@"MyStore_icon_dollar"] forState:UIControlStateNormal];
-        CGRect frame = featureButton.frame;
-        frame.origin.y = 88;
-        featureButton.frame = frame;
-        bgImageView.image = [UIImage imageNamed:@"MyStore_box_bg"];
-        featureTagImageView.hidden = YES;
+        if (isFeatured) {
+            //[featureButton setImage:[UIImage imageNamed:@"MyStore_special_help"] forState:UIControlStateNormal];
+            [featureButton setImage:[UIImage imageNamed:@"ads_view_not_for_sale_pink_bg"] forState:UIControlStateNormal];
+            bgImageView.image = [UIImage imageNamed:@"tb_ads_view_orange_box"];
+            
+        }
+        else {
+            [featureButton setImage:[UIImage imageNamed:@"ads_view_sale_white_bg"] forState:UIControlStateNormal];
+            
+            bgImageView.image = [UIImage imageNamed:@"tb_ads_view_box.png"];
+            
+        }
     }
 }
 

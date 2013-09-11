@@ -365,7 +365,8 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     StoreAdvTableViewCell *cell = (StoreAdvTableViewCell *)[_tableView dequeueReusableCellWithIdentifier:storeAdsTableCellIdentifier];
     if (cell == nil)
     {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreAdvTableViewCell" owner:self options:nil];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:
+                        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"StoreAdvTableViewCell" : @"StoreAdvTableViewCell_iPad") owner:self options:nil];
         cell = [nib objectAtIndex:0];
         cell.delegate = self;
     }
@@ -373,12 +374,22 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     CarAd *adv = currentStoreAds[indexPath.row];
     cell.advID = adv.adID;
     cell.imageURL = adv.thumbnailURL;
-    cell.title = adv.title;
-    NSString * priceStr = [GenericMethods formatPrice:adv.price];
-    if ([priceStr isEqualToString:@""])
-        cell.priceLabel.text = priceStr;
-    else
-        cell.priceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, adv.currencyString];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        cell.title = adv.title;
+        NSString * priceStr = [GenericMethods formatPrice:adv.price];
+        if ([priceStr isEqualToString:@""])
+            cell.priceLabel.text = priceStr;
+        else
+            cell.priceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, adv.currencyString];
+    }
+    else {
+        cell.title = adv.title;
+        NSString * priceStr = [GenericMethods formatPrice:adv.price];
+        if ([priceStr isEqualToString:@""])
+            cell.iPad_priceLabel.text = priceStr;
+        else
+            cell.iPad_priceLabel.text = [NSString stringWithFormat:@"%@ %@", priceStr, adv.currencyString];
+    }
     cell.postedSinceLabel.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:adv.postedOnDate];
     cell.modelYear = adv.modelYear;
     cell.distanceRange = adv.distance.integerValue;
