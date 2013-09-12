@@ -125,6 +125,9 @@
                 
             }
         }
+        else {
+            [AddStoreButton setBackgroundImage:[UIImage imageNamed:@"sim_home_open_store_btn.png"] forState:UIControlStateNormal];
+        }
         [[GAI sharedInstance].defaultTracker sendView:@"Home Screen (Store)"];
         [TestFlight passCheckpoint:@"Home Screen (Store)"];
     }
@@ -191,6 +194,15 @@
             [self.iPad_signInBtn setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_signin_btn.png"] forState:UIControlStateNormal];//log in
             [self.iPad_myAdsBtn setEnabled:NO];
             [self.iPad_storeOrdersBtn setEnabled:NO];
+        }
+        
+        if (savedProfile.hasStores) {
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                [AddStoreButton setBackgroundImage:[UIImage imageNamed:@"sim_home_open_store_btn.png"] forState:UIControlStateNormal];
+        }
+        else {
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                [AddStoreButton setBackgroundImage:[UIImage imageNamed:@"tb_sim_home_open_store_btn.png"] forState:UIControlStateNormal];
         }
     }
 }
