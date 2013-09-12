@@ -13,6 +13,7 @@
 #import "CarDetails.h"
 #import "carInGalleryCell.h"
 #import "AddNewCarAdViewController_iPad.h"
+#import "AddNewStoreViewController.h"
 
 @interface CarsInGalleryViewController (){
     NSMutableArray *adsArray;
@@ -795,6 +796,12 @@
     iPad_addStoreSegmentBtnChosen = YES;
     
     [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_OpenYourGallery:(id)sender {
+    AddNewStoreViewController *vc;
+        vc =[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController_iPad" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 #pragma mark - iPad helper methods
