@@ -38,10 +38,14 @@
 - (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
 - (void) removeAdWithAdID:(NSUInteger) adID;
 
+
+
 #pragma mark - iPad actions
 - (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender;
 - (IBAction)iPad_addCarSegmentBtnPressed:(id)sender;
 - (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender;
 - (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender;
+
+- (IBAction)iPad_addNewStoreAd:(id)sender;
 
 @end

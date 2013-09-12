@@ -396,6 +396,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     cell.viewCount = adv.viewCount;
     cell.isFeatured = adv.isFeatured;
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -575,7 +576,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     [self refereshRemainingFreeFreatureAdsLabel];
     remainingDaysLabel.text = [NSString stringWithFormat:@"%d أيام متبقية",currentStore.remainingDays];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        self.iPad_storeAdsCountLabel.text = [NSString stringWithFormat:@"%d اإعلانات فعالة",currentStore.activeAdsCount];
+        self.iPad_storeAdsCountLabel.text = [NSString stringWithFormat:@"%d إعلانات فعالة",currentStore.activeAdsCount];
     
 }
 
@@ -676,6 +677,13 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     iPad_addStoreSegmentBtnChosen = YES;
     
     [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_addNewStoreAd:(id)sender {
+    AddNewStoreAdViewController_iPad *adNewCar=[[AddNewStoreAdViewController_iPad alloc] initWithNibName:@"AddNewStoreAdViewController_iPad" bundle:nil];
+    
+    adNewCar.currentStore = self.currentStore;
+    [self presentViewController:adNewCar animated:YES completion:nil];
 }
 
 #pragma mark - iPad helper methods

@@ -336,6 +336,7 @@
 								<string key="NSFrame">{{192, 11}, {115, 110}}</string>
 								<reference key="NSSuperview" ref="355863806"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -554,7 +555,7 @@
 								<bool key="IBUIAlwaysBounceVertical">YES</bool>
 								<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
 								<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-								<float key="IBUIRowHeight">44</float>
+								<float key="IBUIRowHeight">115</float>
 								<float key="IBUISectionHeaderHeight">22</float>
 								<float key="IBUISectionFooterHeight">22</float>
 							</object>
@@ -1031,12 +1032,12 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">iPad_addNewAd:</string>
+						<string key="label">iPad_addNewStoreAd:</string>
 						<reference key="source" ref="439128454"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">963</int>
+					<int key="connectionID">1294</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -4285,7 +4286,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1292</int>
+			<int key="maxID">1294</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4304,6 +4305,7 @@
 						<string key="addNewAdvBtnPress:">id</string>
 						<string key="backBtnPress:">id</string>
 						<string key="iPad_addCarSegmentBtnPressed:">id</string>
+						<string key="iPad_addNewStoreAd:">id</string>
 						<string key="iPad_addStoreSegmentBtnPressed:">id</string>
 						<string key="iPad_browseGalleriesSegmentBtnPressed:">id</string>
 						<string key="iPad_buyCarSegmentBtnPressed:">id</string>
@@ -4320,6 +4322,10 @@
 						</object>
 						<object class="IBActionInfo" key="iPad_addCarSegmentBtnPressed:">
 							<string key="name">iPad_addCarSegmentBtnPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="iPad_addNewStoreAd:">
+							<string key="name">iPad_addNewStoreAd:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="iPad_addStoreSegmentBtnPressed:">

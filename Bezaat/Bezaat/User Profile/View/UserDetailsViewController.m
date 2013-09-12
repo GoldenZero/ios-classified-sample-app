@@ -662,6 +662,7 @@
                 [self.favouriteBtn setHidden:YES];
             }
             
+            
             return cell;
         }
         
@@ -812,6 +813,7 @@
             if(!savedProfile){
                 [self.favouriteBtn setHidden:YES];
             }
+            
             
             return cell;
         }

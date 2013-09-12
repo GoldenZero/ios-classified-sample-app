@@ -165,7 +165,8 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
         StoreTableViewCell *cell = (StoreTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
         if (cell == nil)
         {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreTableViewCell" owner:self options:nil];
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:
+                            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"StoreTableViewCell" : @"StoreTableViewCell_iPad") owner:self options:nil];
             cell = [nib objectAtIndex:0];
         }
         
@@ -184,7 +185,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
         cell.remainingFeaturesLabel.text = [NSString stringWithFormat:@"%i إعلان متميز متبقي",store.remainingFreeFeatureAds];
         cell.remainingDaysLabel.text = [NSString stringWithFormat:@"%i أيام متبقية",store.remainingDays];
         
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
 
     }else if (store.status == 0)    //created
@@ -211,7 +212,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
         cell.remainingFeaturesLabel.text = [NSString stringWithFormat:@"%i إعلان متميز متبقي",store.remainingFreeFeatureAds];
         cell.remainingDaysLabel.text = [NSString stringWithFormat:@"%i أيام متبقية",store.remainingDays];
         
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
 
      }else if (store.status == 3)    //rejected
@@ -238,7 +239,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
      cell.remainingFeaturesLabel.text = [NSString stringWithFormat:@"%i إعلان متميز متبقي",store.remainingFreeFeatureAds];
      cell.remainingDaysLabel.text = [NSString stringWithFormat:@"%i أيام متبقية",store.remainingDays];
      
-     
+     cell.selectionStyle = UITableViewCellSelectionStyleNone;
      return cell;
      
      }else if (store.status == 5)    //deactivated
@@ -265,7 +266,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
      cell.remainingFeaturesLabel.text = [NSString stringWithFormat:@"%i إعلان متميز متبقي",store.remainingFreeFeatureAds];
      cell.remainingDaysLabel.text = [NSString stringWithFormat:@"%i أيام متبقية",store.remainingDays];
      
-     
+     cell.selectionStyle = UITableViewCellSelectionStyleNone;
      return cell;
      
      }/*

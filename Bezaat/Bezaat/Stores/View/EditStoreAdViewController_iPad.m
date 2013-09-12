@@ -798,9 +798,16 @@
 -(IBAction)closePicker
 {
     [self.pickersView setHidden:YES];
-    [UIView animateWithDuration:0.3 animations:^{
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        /*
+         self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
+         [[UIScreen mainScreen] bounds].size.height,
+         self.pickersView.frame.size.width,
+         self.pickersView.frame.size.height);
+         */
         self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
-                                            [[UIScreen mainScreen] bounds].size.height,
+                                            self.view.frame.size.height,
                                             self.pickersView.frame.size.width,
                                             self.pickersView.frame.size.height);
     }];
@@ -816,12 +823,20 @@
     [carDetails resignFirstResponder];
     
     [self.pickersView setHidden:NO];
-    [self.pickersView setHidden:NO];
+    /*
     [UIView animateWithDuration:0.3 animations:^{
         self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
                                             [[UIScreen mainScreen] bounds].size.height-self.self.pickersView.frame.size.height,
                                             self.pickersView.frame.size.width,
                                             self.pickersView.frame.size.height);
+    }];*/
+    [UIView animateWithDuration:0.3f animations:^{
+        
+        self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
+                                            508.0f,
+                                            self.pickersView.frame.size.width,
+                                            self.pickersView.frame.size.height);
+        
     }];
 }
 
