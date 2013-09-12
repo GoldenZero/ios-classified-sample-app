@@ -20,6 +20,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *whatIsStoreImg;
 @property (strong, nonatomic) IBOutlet UIButton *whatIsStoreBtn;
 @property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
+@property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
 
 
 @property (weak, nonatomic) IBOutlet UIImageView *storeImageView;
