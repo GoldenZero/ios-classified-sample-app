@@ -46,6 +46,10 @@
 - (IBAction)iPad_storeOrdersBtnPressed:(id)sender;
 - (IBAction)iPad_settingsBtnPressed:(id)sender;
 
+- (IBAction)iPad_aboutAppBtnPressed:(id)sender;
+- (IBAction)iPad_facebookBtnPressed:(id)sender;
+- (IBAction)iPad_twitterBtnPressed:(id)sender;
+
 - (void) iPad_userDidEndChoosingCountryFromPopOver;
 
 @property (strong, nonatomic) UIPopoverController * countryPopOver;

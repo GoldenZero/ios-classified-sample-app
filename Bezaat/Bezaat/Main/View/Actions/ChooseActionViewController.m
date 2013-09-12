@@ -436,6 +436,20 @@
     
 }
 
+- (IBAction)iPad_aboutAppBtnPressed:(id)sender {
+    AboutAppViewController *vc=[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController_iPad" bundle:nil];
+    
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (IBAction)iPad_facebookBtnPressed:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.facebook.com/bezaaty"]];
+}
+
+- (IBAction)iPad_twitterBtnPressed:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/bezaaty"]];
+}
+
 - (void) prepareImages {
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 }

@@ -584,6 +584,33 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">iPad_aboutAppBtnPressed:</string>
+						<reference key="source" ref="232740691"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">558</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">iPad_facebookBtnPressed:</string>
+						<reference key="source" ref="399292608"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">559</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">iPad_twitterBtnPressed:</string>
+						<reference key="source" ref="936488226"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">560</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">BuyCarBtnPressed:</string>
 						<reference key="source" ref="135640388"/>
 						<reference key="destination" ref="372490531"/>
@@ -2731,7 +2758,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">557</int>
+			<int key="maxID">560</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2744,10 +2771,13 @@
 						<string key="BuyCarBtnPressed:">id</string>
 						<string key="countryBtnPrss:">id</string>
 						<string key="exhibitBtnPrss:">id</string>
+						<string key="iPad_aboutAppBtnPressed:">id</string>
+						<string key="iPad_facebookBtnPressed:">id</string>
 						<string key="iPad_myAdsBtnPressed:">id</string>
 						<string key="iPad_settingsBtnPressed:">id</string>
 						<string key="iPad_signInBtnPressed:">id</string>
 						<string key="iPad_storeOrdersBtnPressed:">id</string>
+						<string key="iPad_twitterBtnPressed:">id</string>
 						<string key="sideMenuBtnPressed:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -2771,6 +2801,14 @@
 							<string key="name">exhibitBtnPrss:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="iPad_aboutAppBtnPressed:">
+							<string key="name">iPad_aboutAppBtnPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="iPad_facebookBtnPressed:">
+							<string key="name">iPad_facebookBtnPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="iPad_myAdsBtnPressed:">
 							<string key="name">iPad_myAdsBtnPressed:</string>
 							<string key="candidateClassName">id</string>
@@ -2785,6 +2823,10 @@
 						</object>
 						<object class="IBActionInfo" key="iPad_storeOrdersBtnPressed:">
 							<string key="name">iPad_storeOrdersBtnPressed:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="iPad_twitterBtnPressed:">
+							<string key="name">iPad_twitterBtnPressed:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="sideMenuBtnPressed:">
