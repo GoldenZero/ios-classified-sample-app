@@ -193,7 +193,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
         StoreCreatedTableViewCell *cell = (StoreCreatedTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
         if (cell == nil)
         {
-            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreCreatedTableViewCell" owner:self options:nil];
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"StoreCreatedTableViewCell" : @"StoreCreatedTableViewCell_iPad") owner:self options:nil];
             cell = [nib objectAtIndex:0];
         }
         
@@ -220,7 +220,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
      StoreRejectedTableViewCell *cell = (StoreRejectedTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
      if (cell == nil)
      {
-     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreRejectedTableViewCell" owner:self options:nil];
+         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"StoreRejectedTableViewCell" : @"StoreRejectedTableViewCell_iPad") owner:self options:nil];
      cell = [nib objectAtIndex:0];
      }
      
@@ -247,7 +247,7 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
      StoreExpiredTableViewCell *cell = (StoreExpiredTableViewCell *)[tableView dequeueReusableCellWithIdentifier:storeTableCellIdentifier];
      if (cell == nil)
      {
-     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"StoreExpiredTableViewCell" owner:self options:nil];
+         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"StoreExpiredTableViewCell" :@"StoreExpiredTableViewCell_iPad") owner:self options:nil];
      cell = [nib objectAtIndex:0];
      }
      
