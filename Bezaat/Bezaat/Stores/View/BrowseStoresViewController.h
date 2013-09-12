@@ -13,4 +13,8 @@
 
 - (IBAction)backBtnPress:(id)sender;
 
+#pragma mark - iPad properties
+@property (weak, nonatomic) IBOutlet SSLabel *iPad_titleLabel;
+
+
 @end

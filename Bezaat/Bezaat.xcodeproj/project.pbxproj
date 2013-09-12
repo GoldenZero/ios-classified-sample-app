@@ -1432,6 +1432,10 @@
 		9E52B0D517E189AB00BD451C /* tb_store_order_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B0C917E189AB00BD451C /* tb_store_order_bg@2x.png */; };
 		9E52B0DB17E18B0700BD451C /* sim_home_open_store_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B0D917E18B0700BD451C /* sim_home_open_store_btn@2x.png */; };
 		9E52B0DC17E18B0700BD451C /* sim_home_open_store_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B0DA17E18B0700BD451C /* sim_home_open_store_btn.png */; };
+		9E52B0E417E1A2C800BD451C /* StoreTableViewCell_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B0E317E1A2C200BD451C /* StoreTableViewCell_iPad.xib */; };
+		9E52B0E617E1A2E400BD451C /* StoreExpiredTableViewCell_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B0E517E1A2E100BD451C /* StoreExpiredTableViewCell_iPad.xib */; };
+		9E52B0E817E1A2FB00BD451C /* StoreCreatedTableViewCell_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B0E717E1A2F800BD451C /* StoreCreatedTableViewCell_iPad.xib */; };
+		9E52B0EA17E1A31100BD451C /* StoreRejectedTableViewCell_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B0E917E1A30F00BD451C /* StoreRejectedTableViewCell_iPad.xib */; };
 		9E53BB821715BCF30097DA8E /* CarDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53BB811715BCF30097DA8E /* CarDetails.m */; };
 		9E53BB851715BD040097DA8E /* CarDetailsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53BB841715BD040097DA8E /* CarDetailsManager.m */; };
 		9E53BBC41716DFC60097DA8E /* CarAdNoImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53BBC21716DFC60097DA8E /* CarAdNoImageCell.m */; };
@@ -3610,6 +3614,10 @@
 		9E52B0C917E189AB00BD451C /* tb_store_order_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tb_store_order_bg@2x.png"; sourceTree = "<group>"; };
 		9E52B0D917E18B0700BD451C /* sim_home_open_store_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sim_home_open_store_btn@2x.png"; sourceTree = "<group>"; };
 		9E52B0DA17E18B0700BD451C /* sim_home_open_store_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sim_home_open_store_btn.png; sourceTree = "<group>"; };
+		9E52B0E317E1A2C200BD451C /* StoreTableViewCell_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreTableViewCell_iPad.xib; sourceTree = "<group>"; };
+		9E52B0E517E1A2E100BD451C /* StoreExpiredTableViewCell_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreExpiredTableViewCell_iPad.xib; sourceTree = "<group>"; };
+		9E52B0E717E1A2F800BD451C /* StoreCreatedTableViewCell_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreCreatedTableViewCell_iPad.xib; sourceTree = "<group>"; };
+		9E52B0E917E1A30F00BD451C /* StoreRejectedTableViewCell_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreRejectedTableViewCell_iPad.xib; sourceTree = "<group>"; };
 		9E53BB801715BCF30097DA8E /* CarDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarDetails.h; sourceTree = "<group>"; };
 		9E53BB811715BCF30097DA8E /* CarDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarDetails.m; sourceTree = "<group>"; };
 		9E53BB831715BD040097DA8E /* CarDetailsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarDetailsManager.h; sourceTree = "<group>"; };
@@ -6817,15 +6825,19 @@
 				613522A21725CB1800011D7D /* StoreTableViewCell.h */,
 				613522A31725CB1800011D7D /* StoreTableViewCell.m */,
 				613522A01725C90400011D7D /* StoreTableViewCell.xib */,
+				9E52B0E317E1A2C200BD451C /* StoreTableViewCell_iPad.xib */,
 				84FF1CC7173661E1004F860D /* StoreExpiredTableViewCell.h */,
 				84FF1CC8173661E2004F860D /* StoreExpiredTableViewCell.m */,
 				84FF1CCC17366216004F860D /* StoreExpiredTableViewCell.xib */,
+				9E52B0E517E1A2E100BD451C /* StoreExpiredTableViewCell_iPad.xib */,
 				84123728173E2296008C3532 /* StoreCreatedTableViewCell.h */,
 				84123729173E2296008C3532 /* StoreCreatedTableViewCell.m */,
 				8412372B173E22A6008C3532 /* StoreCreatedTableViewCell.xib */,
+				9E52B0E717E1A2F800BD451C /* StoreCreatedTableViewCell_iPad.xib */,
 				8412372D173E23B4008C3532 /* StoreRejectedTableViewCell.h */,
 				8412372E173E23B4008C3532 /* StoreRejectedTableViewCell.m */,
 				84123730173E23CB008C3532 /* StoreRejectedTableViewCell.xib */,
+				9E52B0E917E1A30F00BD451C /* StoreRejectedTableViewCell_iPad.xib */,
 				61713F93172D7CF500BB256D /* StoreAdvTableViewCell.h */,
 				61713F94172D7CF500BB256D /* StoreAdvTableViewCell.m */,
 				61713F96172D7D0900BB256D /* StoreAdvTableViewCell.xib */,
@@ -9122,6 +9134,10 @@
 				9E52B0D517E189AB00BD451C /* tb_store_order_bg@2x.png in Resources */,
 				9E52B0DB17E18B0700BD451C /* sim_home_open_store_btn@2x.png in Resources */,
 				9E52B0DC17E18B0700BD451C /* sim_home_open_store_btn.png in Resources */,
+				9E52B0E417E1A2C800BD451C /* StoreTableViewCell_iPad.xib in Resources */,
+				9E52B0E617E1A2E400BD451C /* StoreExpiredTableViewCell_iPad.xib in Resources */,
+				9E52B0E817E1A2FB00BD451C /* StoreCreatedTableViewCell_iPad.xib in Resources */,
+				9E52B0EA17E1A31100BD451C /* StoreRejectedTableViewCell_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

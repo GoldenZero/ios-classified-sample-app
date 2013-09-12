@@ -60,6 +60,13 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     [[StoreManager sharedInstance] getUserStores];
     [self showLoadingIndicator];
     
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.iPad_titleLabel setBackgroundColor:[UIColor clearColor]];
+        [self.iPad_titleLabel setTextAlignment:SSTextAlignmentCenter];
+        [self.iPad_titleLabel setTextColor:[UIColor whiteColor]];
+        [self.iPad_titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:30.0] ];
+        [self.iPad_titleLabel setText:@"قائمة المتاجر"];
+    }
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"My Stores screen"];
     [TestFlight passCheckpoint:@"My Stores screen"];    
@@ -344,4 +351,17 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     [self hideLoadingIndicator];
 }
 
+- (NSUInteger)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskLandscape;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationPortrait;
+    else
+        return UIInterfaceOrientationLandscapeLeft;
+}
 @end

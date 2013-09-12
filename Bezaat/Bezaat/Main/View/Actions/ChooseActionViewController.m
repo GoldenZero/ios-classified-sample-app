@@ -324,7 +324,11 @@
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     
     if (savedProfile.hasStores) {
-        BrowseStoresViewController *vc =[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
+        BrowseStoresViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
+        else
+            vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController_iPad" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
         
     }else{
