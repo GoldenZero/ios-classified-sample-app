@@ -18,6 +18,9 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    UICustomDatePicker * iPad_datePicker;
+    UIViewController * iPad_datePickercontainer;
 
 }
 @end
@@ -45,16 +48,43 @@
             action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
     
-    _DatePicker.delegate = self;
-    [_DatePicker setDate:[NSDate date]];
-    NSCalendar* cal = [NSCalendar currentCalendar];
-    NSDateComponents* component = [cal components:(NSYearCalendarUnit) fromDate:[[NSDate alloc] init]];
-    [component setYear:[component year] - 80];
-    NSDate* dateFrom = [cal dateFromComponents:component];
-    [_DatePicker setMinimumDate:dateFrom];
-    [_DatePicker setMaximumDate:[NSDate date]];
-    NSDateFormatter* df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"dd LL yyyy"];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        _DatePicker.delegate = self;
+        _DatePicker.shownInPopOver = NO;
+        [_DatePicker setDate:[NSDate date]];
+        NSCalendar* cal = [NSCalendar currentCalendar];
+        NSDateComponents* component = [cal components:(NSYearCalendarUnit) fromDate:[[NSDate alloc] init]];
+        [component setYear:[component year] - 80];
+        NSDate* dateFrom = [cal dateFromComponents:component];
+        [_DatePicker setMinimumDate:dateFrom];
+        [_DatePicker setMaximumDate:[NSDate date]];
+        NSDateFormatter* df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"dd LL yyyy"];
+    }
+    else {
+        iPad_datePicker = [[UICustomDatePicker alloc] initWithFrame:CGRectMake(0, 0, 400, 350)];
+        //iPad_datePicker = [[UICustomDatePicker alloc] initWithFrame:CGRectMake(50, 50, 400, 350)];
+        iPad_datePicker.shownInPopOver = YES;
+        iPad_datePicker.delegate = self;
+        iPad_datePicker.tag = 0;
+        iPad_datePicker.datePickerMode = UIDatePickerModeDate;
+        [iPad_datePicker setHidden:NO];
+        //iPad_datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"es_ES"];
+        [iPad_datePicker setDate:[NSDate date]];
+        NSCalendar* cal = [NSCalendar currentCalendar];
+        NSDateComponents* component = [cal components:(NSYearCalendarUnit) fromDate:[[NSDate alloc] init]];
+        [component setYear:[component year] - 80];
+        NSDate* dateFrom = [cal dateFromComponents:component];
+        [iPad_datePicker setMinimumDate:dateFrom];
+        [iPad_datePicker setMaximumDate:[NSDate date]];
+        NSDateFormatter* df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"dd LL yyyy"];
+        
+        iPad_datePickercontainer = [[UIViewController alloc] init];
+        iPad_datePickercontainer.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 400, 350)];
+                                         //iPad_datePicker.frame];
+        [iPad_datePickercontainer.view addSubview:iPad_datePicker];
+    }
     
 
 
@@ -134,7 +164,17 @@
 
 - (IBAction)dateInvoked:(id)sender {
     [self dismissKeyboard];
-    _DatePicker.hidden = NO;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        _DatePicker.hidden = NO;
+    else {
+
+        self.iPad_datePopOver = [[UIPopoverController alloc] initWithContentViewController:iPad_datePickercontainer];
+        [self.iPad_datePopOver setPopoverContentSize:iPad_datePickercontainer.view.frame.size];
+        [iPad_datePicker setHidden:NO];
+        //NSLog(@"%@", iPad_datePicker.delegate);
+        [self.iPad_datePopOver presentPopoverFromRect:self.transferDateBtn.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+
+    }
 }
 
 - (void) showLoadingIndicator {

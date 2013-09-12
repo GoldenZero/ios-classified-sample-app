@@ -269,9 +269,10 @@
     [cell.orderDate setText:[df stringFromDate:orderObject.LastModifiedOn]];
     [cell.orderId setText:[NSString stringWithFormat:@"%i", orderObject.OrderID]];
 
+    /*
     if (orderObject.OrderStatus != 1) {
         [cell.bankTransferBtn setHidden:YES];
-    }
+    }*/
     cell.bankTransferBtn.tag = indexPath.row;
     cell.proceedBtn.tag = indexPath.row;
     
@@ -367,12 +368,22 @@
     StoreOrder * orderObject = (StoreOrder *)[storeOrdersArray objectAtIndex:btn.tag];
    
     BankTransferPaymentVC *vc;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         vc =[[BankTransferPaymentVC alloc] initWithNibName:@"BankTransferPaymentVC" bundle:nil];
-    else
+        vc.currentOrder = orderObject;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else {
         vc =[[BankTransferPaymentVC alloc] initWithNibName:@"BankTransferPaymentVC_iPad" bundle:nil];
-    vc.currentOrder = orderObject;
-    [self presentViewController:vc animated:YES completion:nil];
+        
+        vc.currentOrder = orderObject;
+        vc.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentViewController:vc animated:YES completion:nil];
+        vc.view.superview.frame = CGRectMake(0, 0, 500, 400);
+        vc.view.superview.bounds = CGRectMake(0, 0, 500, 400);
+        vc.view.superview.center = CGPointMake(roundf(self.view.bounds.size.width / 2), roundf(self.view.bounds.size.height / 2));
+    }
+    
     
     
 }
