@@ -20,7 +20,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *transferDateBtn;
 @property (strong, nonatomic) StoreOrder* currentOrder;
 
-@property (strong, nonatomic) UIPopoverController * iPad_datePopOver;
+@property (strong, nonatomic) IBOutlet UIPopoverController *iPad_datePickerPopOver;
+@property (strong, nonatomic) IBOutlet UIDatePicker *iPad_datePicker;
 
 @property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
 

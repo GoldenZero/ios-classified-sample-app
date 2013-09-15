@@ -269,10 +269,10 @@
     [cell.orderDate setText:[df stringFromDate:orderObject.LastModifiedOn]];
     [cell.orderId setText:[NSString stringWithFormat:@"%i", orderObject.OrderID]];
 
-    /*
+    
     if (orderObject.OrderStatus != 1) {
         [cell.bankTransferBtn setHidden:YES];
-    }*/
+    }
     cell.bankTransferBtn.tag = indexPath.row;
     cell.proceedBtn.tag = indexPath.row;
     
