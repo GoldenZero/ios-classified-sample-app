@@ -664,10 +664,23 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
     if (![currentDetailsObject.emailAddress isEqualToString:@""])
     {
-        SendEmailViewController *vc=[[SendEmailViewController alloc] initWithNibName:@"SendEmailViewController" bundle:nil];
-        vc.DetailsObject = currentDetailsObject;
-        
-        [self presentViewController:vc animated:YES completion:nil];
+        SendEmailViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            vc=[[SendEmailViewController alloc] initWithNibName:@"SendEmailViewController" bundle:nil];
+            vc.DetailsObject = currentDetailsObject;
+            
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+        else {
+            vc=[[SendEmailViewController alloc] initWithNibName:@"SendEmailViewController_iPad" bundle:nil];
+            vc.DetailsObject = currentDetailsObject;
+
+            vc.modalPresentationStyle = UIModalPresentationFormSheet;
+            [self presentViewController:vc animated:YES completion:nil];
+            vc.view.superview.frame = CGRectMake(0, 0, 600, 500);
+            vc.view.superview.bounds = CGRectMake(0, 0, 600, 500);
+            vc.view.superview.center = CGPointMake(roundf(self.view.bounds.size.width / 2), roundf(self.view.bounds.size.height / 2));
+        }
         /*
          if ([MFMailComposeViewController canSendMail])
          {
