@@ -716,7 +716,17 @@
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         picker.allowsEditing = YES;
         picker.delegate = self;
-        [self presentViewController:picker animated:YES completion:nil];
+        //[self presentViewController:picker animated:YES completion:nil];
+        
+        if (!(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone))
+        {
+            [self dismissKeyboard];
+            self.iPad_cameraPopOver = [[UIPopoverController alloc] initWithContentViewController:picker];
+            self.iPad_cameraPopOver.delegate = self;
+            [self.iPad_cameraPopOver presentPopoverFromRect:self.view.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            
+        }
+
     }
 }
 
