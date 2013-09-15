@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIView *pickersView;
 
 
+@property (strong, nonatomic) UIPopoverController * iPad_countryPopOver;
 
 
 

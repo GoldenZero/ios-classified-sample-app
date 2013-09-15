@@ -17,12 +17,13 @@
     Store *store;
     
     NSString* myStore;
-    
+    NSArray *countryArray;
+    NSArray *cityArray;
+    City * chosenCity;
     BOOL uploadingLOGO;
     NSString* myURL;
     UIImage *storeImage;
     Country *chosenCountry;
-    NSArray *countryArray;
     UITapGestureRecognizer *tap;
     MBProgressHUD2 *loadingHUD;
     MBProgressHUD2 *imgsLoadingHUD;
@@ -46,6 +47,8 @@
 @end
 
 @implementation AddNewStoreViewController
+
+@synthesize countryCity;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -189,17 +192,17 @@
         
         vc = [[CountryListViewController alloc]initWithNibName:@"CountriesPopOver_iPad" bundle:nil];
         
-        self.countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
+        self.iPad_countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
         
         CGRect myownRect=CGRectMake(262, 600, 500, 500);
         
         
-        [self.countryPopOver setPopoverContentSize:myownRect.size];
+        [self.iPad_countryPopOver setPopoverContentSize:myownRect.size];
             //[self.countryPopOver setPopoverContentSize:CGSizeMake(500, 800)];
         vc.iPad_parentViewOfPopOver = self;
         //CGRect frameInWindow = [self.countryCity convertRect:self.countryCity.frame toView:self.view];
         
-        [self.countryPopOver presentPopoverFromRect:myownRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        [self.iPad_countryPopOver presentPopoverFromRect:myownRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
     }
 }
 
@@ -796,6 +799,41 @@
     
     [self.iPad_addStoreSegmentBtn setBackgroundImage:(iPad_addStoreSegmentBtnChosen ? iPad_addStoreSegmentBtnSelectedImage : iPad_addStoreSegmentBtnUnselectedImage) forState:UIControlStateNormal];
 }
+
+
+- (void) iPad_userDidEndChoosingCountryFromPopOver {
+    if (self.iPad_countryPopOver) {
+        locationBtnPressedOnce = YES;
+        int defaultCountryID =  [[LocationManager sharedInstance] getSavedUserCountryID];
+        int defaultCityID =  [[LocationManager sharedInstance] getSavedUserCityID];
+        for (int i =0; i <= [countryArray count] - 1; i++) {
+            if ([(Country *)[countryArray objectAtIndex:i] countryID] == defaultCountryID)
+            {
+                chosenCountry = [countryArray objectAtIndex:i];
+                cityArray=[chosenCountry cities];
+                for (int j = 0; j < chosenCountry.cities.count; j++) {
+                    if ([(City *)[cityArray objectAtIndex:j] cityID] == defaultCityID)
+                        chosenCity = [cityArray objectAtIndex:j];
+                }
+                NSString *temp= [NSString stringWithFormat:@"%@ : %@", chosenCountry.countryName , chosenCity.cityName];
+                [countryCity setTitle:temp forState:UIControlStateNormal];
+                break;
+                //return;
+            }
+            
+        }
+        [self.iPad_countryPopOver dismissPopoverAnimated:YES];
+    }
+    self.iPad_countryPopOver = nil;
+}
+
+
+
+
+
+
+
+
 
 
 
