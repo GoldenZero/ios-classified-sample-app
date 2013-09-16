@@ -412,7 +412,16 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     if (alertView.tag == 5) {
-        FeatureStoreAdViewController *vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+        FeatureStoreAdViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        {
+            vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+        }
+        else
+        {
+            vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController_iPad" bundle:nil];
+        }
+        
         //vc.currentAdID = adID;
         vc.storeID = store;
         [self presentViewController:vc animated:YES completion:nil];
