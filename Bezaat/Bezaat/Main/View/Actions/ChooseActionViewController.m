@@ -433,7 +433,17 @@
 }
 
 - (IBAction)iPad_settingsBtnPressed:(id)sender {
-    
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (!savedProfile) {
+        GuestProfileViewController *vc=[[GuestProfileViewController alloc]initWithNibName:@"GuestProfileViewController_iPad" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+        
+    }else{
+        /*
+        ProfileDetailsViewController *vc=[[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+         */
+    }
 }
 
 - (IBAction)iPad_aboutAppBtnPressed:(id)sender {

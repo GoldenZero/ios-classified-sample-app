@@ -1514,6 +1514,7 @@
 		9E52B1BB17E5F73800BD451C /* tb_personal_settings_white_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B18317E5F73800BD451C /* tb_personal_settings_white_box.png */; };
 		9E52B1BC17E5F73800BD451C /* tb_personal_settings_white_box@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B18417E5F73800BD451C /* tb_personal_settings_white_box@2x.png */; };
 		9E52B1BE17E5F74C00BD451C /* GuestProfileViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B1BD17E5F74B00BD451C /* GuestProfileViewController_iPad.xib */; };
+		9E52B1C317E6E65F00BD451C /* DropDownCell_settings_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E52B1C217E6E65700BD451C /* DropDownCell_settings_iPad.xib */; };
 		9E53BB821715BCF30097DA8E /* CarDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53BB811715BCF30097DA8E /* CarDetails.m */; };
 		9E53BB851715BD040097DA8E /* CarDetailsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53BB841715BD040097DA8E /* CarDetailsManager.m */; };
 		9E53BBC41716DFC60097DA8E /* CarAdNoImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E53BBC21716DFC60097DA8E /* CarAdNoImageCell.m */; };
@@ -1880,8 +1881,6 @@
 		9ECB638B17CE357200ED15EC /* tb_bank_info_transfer_cancel_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ECB638317CE357200ED15EC /* tb_bank_info_transfer_cancel_btn@2x.png */; };
 		9ECB638C17CE357200ED15EC /* tb_bank_info_transfer_pay_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ECB638417CE357200ED15EC /* tb_bank_info_transfer_pay_btn.png */; };
 		9ECB638D17CE357200ED15EC /* tb_bank_info_transfer_pay_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ECB638517CE357200ED15EC /* tb_bank_info_transfer_pay_btn@2x.png */; };
-		9ECB638E17CE357200ED15EC /* tb_store_order_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ECB638617CE357200ED15EC /* tb_store_order_bg.png */; };
-		9ECB638F17CE357200ED15EC /* tb_store_order_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ECB638717CE357200ED15EC /* tb_store_order_bg@2x.png */; };
 		9ECB639217CE362B00ED15EC /* tb_arrow_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ECB639017CE362B00ED15EC /* tb_arrow_btn.png */; };
 		9ECB639317CE362B00ED15EC /* tb_arrow_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9ECB639117CE362B00ED15EC /* tb_arrow_btn@2x.png */; };
 		9ECB639817CE40B300ED15EC /* CarAdDetailsViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9ECB639717CE40B300ED15EC /* CarAdDetailsViewController_iPad.xib */; };
@@ -3773,6 +3772,7 @@
 		9E52B18317E5F73800BD451C /* tb_personal_settings_white_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_personal_settings_white_box.png; sourceTree = "<group>"; };
 		9E52B18417E5F73800BD451C /* tb_personal_settings_white_box@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tb_personal_settings_white_box@2x.png"; sourceTree = "<group>"; };
 		9E52B1BD17E5F74B00BD451C /* GuestProfileViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuestProfileViewController_iPad.xib; sourceTree = "<group>"; };
+		9E52B1C217E6E65700BD451C /* DropDownCell_settings_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DropDownCell_settings_iPad.xib; sourceTree = "<group>"; };
 		9E53BB801715BCF30097DA8E /* CarDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarDetails.h; sourceTree = "<group>"; };
 		9E53BB811715BCF30097DA8E /* CarDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarDetails.m; sourceTree = "<group>"; };
 		9E53BB831715BD040097DA8E /* CarDetailsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarDetailsManager.h; sourceTree = "<group>"; };
@@ -5298,6 +5298,7 @@
 				8439FDD51727F4CD00CB1939 /* DropDownCell.xib */,
 				9E2558DB17B8F4E0005CC915 /* DropDownCell_iPad.xib */,
 				9ECB635917CDFEB700ED15EC /* DropDownCell_popOver_iPad.xib */,
+				9E52B1C217E6E65700BD451C /* DropDownCell_settings_iPad.xib */,
 				8439FDD61727F4CD00CB1939 /* ProfileCell.h */,
 				8439FDD71727F4CD00CB1939 /* ProfileCell.m */,
 				8439FDD81727F4CD00CB1939 /* ProfileCell.xib */,
@@ -8869,8 +8870,6 @@
 				9ECB638B17CE357200ED15EC /* tb_bank_info_transfer_cancel_btn@2x.png in Resources */,
 				9ECB638C17CE357200ED15EC /* tb_bank_info_transfer_pay_btn.png in Resources */,
 				9ECB638D17CE357200ED15EC /* tb_bank_info_transfer_pay_btn@2x.png in Resources */,
-				9ECB638E17CE357200ED15EC /* tb_store_order_bg.png in Resources */,
-				9ECB638F17CE357200ED15EC /* tb_store_order_bg@2x.png in Resources */,
 				9ECB639217CE362B00ED15EC /* tb_arrow_btn.png in Resources */,
 				9ECB639317CE362B00ED15EC /* tb_arrow_btn@2x.png in Resources */,
 				9ECB639817CE40B300ED15EC /* CarAdDetailsViewController_iPad.xib in Resources */,
@@ -9464,6 +9463,7 @@
 				9E52B1BB17E5F73800BD451C /* tb_personal_settings_white_box.png in Resources */,
 				9E52B1BC17E5F73800BD451C /* tb_personal_settings_white_box@2x.png in Resources */,
 				9E52B1BE17E5F74C00BD451C /* GuestProfileViewController_iPad.xib in Resources */,
+				9E52B1C317E6E65F00BD451C /* DropDownCell_settings_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

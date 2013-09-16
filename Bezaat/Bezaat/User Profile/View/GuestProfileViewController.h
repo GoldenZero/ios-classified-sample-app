@@ -19,6 +19,7 @@
     NSString* defaultCityName;
     LocationManager * locationMngr;
     Country* chosenCountry;
+    City * iPad_chosenCity;
     NSArray * countriesArray;
     NSArray * citiesArray;
 }
@@ -27,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property BOOL ButtonCheck;
 
+#pragma mark - iPad properties
+@property (weak, nonatomic) IBOutlet UITableView *iPad_countriesTable;
 - (IBAction)backInvoked:(id)sender;
 
 
