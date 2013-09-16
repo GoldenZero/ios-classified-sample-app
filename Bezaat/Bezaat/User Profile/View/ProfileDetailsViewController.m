@@ -13,6 +13,8 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    UITapGestureRecognizer * iPad_tap;
 }
 @end
 
@@ -36,6 +38,11 @@
     //[[ProfileManager sharedInstance] loginWithDelegate:self email:@"akbarbunere2@gmail.com" password:@"12345"];
     
     locationMngr = [LocationManager sharedInstance];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        iPad_tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iPad_dismissKeyboard)];
+        [self.view addGestureRecognizer:iPad_tap];
+    }
     
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"User profile screen"];
@@ -781,4 +788,11 @@
     }
 }
 
+
+- (void) iPad_dismissKeyboard {
+    [self.iPad_userNameTextField resignFirstResponder];
+    [self.iPad_oldPwdTextField resignFirstResponder];
+    [self.iPad_newPwdTextField resignFirstResponder];
+    [self.iPad_confirmPwdTextField resignFirstResponder];
+}
 @end
