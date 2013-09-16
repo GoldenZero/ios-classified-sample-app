@@ -439,10 +439,10 @@
         [self presentViewController:vc animated:YES completion:nil];
         
     }else{
-        /*
-        ProfileDetailsViewController *vc=[[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController" bundle:nil];
+        
+        ProfileDetailsViewController *vc=[[ProfileDetailsViewController alloc]initWithNibName:@"ProfileDetailsViewController_iPad" bundle:nil];
         [self presentViewController:vc animated:YES completion:nil];
-         */
+        
     }
 }
 

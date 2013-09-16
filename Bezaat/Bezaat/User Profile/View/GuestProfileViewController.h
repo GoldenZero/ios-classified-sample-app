@@ -30,6 +30,7 @@
 
 #pragma mark - iPad properties
 @property (weak, nonatomic) IBOutlet UITableView *iPad_countriesTable;
+
 - (IBAction)backInvoked:(id)sender;
 
 

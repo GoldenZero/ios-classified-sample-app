@@ -15,7 +15,7 @@
 #import "ChooseActionViewController.h"
 #import "GAI.h"
 
-@interface ProfileDetailsViewController : UIViewController<ProfileManagerDelegate,UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate>
+@interface ProfileDetailsViewController : BaseViewController<ProfileManagerDelegate,UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate>
 {
     UserProfile* CurrentUser;
     MBProgressHUD2 * loadingHUD;
@@ -24,6 +24,7 @@
     NSString* defaultCityName;
      LocationManager * locationMngr;
     Country* chosenCountry;
+    City * iPad_chosenCity;
     NSArray * countriesArray;
     NSArray * citiesArray;
 
@@ -37,9 +38,26 @@
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property BOOL ButtonCheck;
 
+#pragma mark - iPad properties
+
+@property (weak, nonatomic) IBOutlet UIView *iPad_changeNameView;
+@property (weak, nonatomic) IBOutlet UIView *iPad_changePasswordView;
+@property (weak, nonatomic) IBOutlet UIView *iPad_changeCountryView;
+
+@property (weak, nonatomic) IBOutlet UITextField *iPad_userNameTextField;
+
+@property (weak, nonatomic) IBOutlet UITextField *iPad_oldPwdTextField;
+@property (weak, nonatomic) IBOutlet UITextField *iPad_newPwdTextField;
+@property (weak, nonatomic) IBOutlet UITextField *iPad_confirmPwdTextField;
+
+@property (weak, nonatomic) IBOutlet UITableView *iPad_countriesTable;
+
 - (IBAction)choseCityInvoked:(id)sender;
 - (IBAction)backInvoked:(id)sender;
 - (IBAction)logoutInvoked:(id)sender;
 - (IBAction)changePwdInvoked:(id)sender;
+
+- (IBAction)iPad_saveNameInvoked:(id)sender;
+- (IBAction)iPad_savePwdInvoked:(id)sender;
 
 @end

@@ -34,12 +34,12 @@
     //[self showLoadingIndicator];
     CurrentUser = [[UserProfile alloc]init];
     //[[ProfileManager sharedInstance] loginWithDelegate:self email:@"akbarbunere2@gmail.com" password:@"12345"];
-   
+    
     locationMngr = [LocationManager sharedInstance];
     
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"User profile screen"];
-    [TestFlight passCheckpoint:@"User profile screen"];    
+    [TestFlight passCheckpoint:@"User profile screen"];
     //end GA
     
 }
@@ -62,7 +62,7 @@
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
     
     [self.profileTable reloadData];
-
+    
 }
 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
@@ -102,7 +102,7 @@
 - (void) userFailLoginWithError:(NSError *)error {
     [self hideLoadingIndicator];
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -132,70 +132,220 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    return 3;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (tableView == self.profileTable)
+            return 3;
+        return 0;
+    }
+    else {
+        if (tableView == self.profileTable)
+            return 2;
+        else
+            return 0;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    switch (section) {
-        case 0:
-            return 2;
-            break;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        // Return the number of rows in the section.
+        switch (section) {
+            case 0:
+                return 2;
+                break;
+                
+            case 1:
+                return 2;
+                break;
+                
+            case 2:
+                return 1;
+                break;
+                
+            default:
+                return 1;
+                break;
+        }
+    }
+    else {
+        if (tableView == self.profileTable) {
+            // Return the number of rows in the section.
+            switch (section) {
+                case 0:
+                    return 4;
+                    break;
+                    
+                case 1:
+                    return 1;
+                    break;
+                    
+                default:
+                    return 1;
+                    break;
+            }
+        }
+        else {
             
-        case 1:
-            return 2;
-            break;
-            
-        case 2:
-            return 1;
-            break;
-            
-        default:
-            return 1;
-            break;
+        }
     }
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    static NSString *DropDownCellIdentifier = @"profileCell";
-    
-    switch ([indexPath section]) {
-        case 0:
-            switch ([indexPath row]) {
-                case 0: {
-                    
-                    ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
-                    
-                    if (cell == nil){
-                        NSLog(@"New Cell Made");
-                        
-                        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
-                        
-                        for(id currentObject in topLevelObjects)
-                        {
-                            if([currentObject isKindOfClass:[ProfileCell class]])
-                            {
-                                cell = (ProfileCell *)currentObject;
-                                break;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (tableView == self.profileTable) {
+            static NSString *CellIdentifier = @"Cell";
+            static NSString *DropDownCellIdentifier = @"profileCell";
+            
+            switch ([indexPath section]) {
+                case 0:
+                    switch ([indexPath row]) {
+                        case 0: {
+                            
+                            ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
+                            
+                            if (cell == nil){
+                                NSLog(@"New Cell Made");
+                                
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                
+                                for(id currentObject in topLevelObjects)
+                                {
+                                    if([currentObject isKindOfClass:[ProfileCell class]])
+                                    {
+                                        cell = (ProfileCell *)currentObject;
+                                        break;
+                                    }
+                                }
                             }
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_user.png"]];
+                            cell.customLbl.text = @"إسم المستخدم";
+                            cell.customTitle.text = CurrentUser.userName;
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                        case 1: {
+                            
+                            ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
+                            
+                            if (cell == nil){
+                                NSLog(@"New Cell Made");
+                                
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                
+                                for(id currentObject in topLevelObjects)
+                                {
+                                    if([currentObject isKindOfClass:[ProfileCell class]])
+                                    {
+                                        cell = (ProfileCell *)currentObject;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_email.png"]];
+                            cell.customLbl.text = @"البريد الإلكتروني";
+                            cell.customTitle.text = CurrentUser.emailAddress;
+                            [cell.arrowImg setImage:nil];
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                        default: {
+                            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                            
+                            if (cell == nil) {
+                                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                            }
+                            
+                            [[cell textLabel] setText:@""];
+                            
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
                         }
                     }
-                    
-                    [cell.iconImg setImage:[UIImage imageNamed:@"setting_user.png"]];
-                    cell.customLbl.text = @"إسم المستخدم";
-                    cell.customTitle.text = CurrentUser.userName;
-                    // Configure the cell.
-                    return cell;
-                    
                     break;
-                }
-                case 1: {
-                    
+                case 1:
+                    switch ([indexPath row]) {
+                        case 0: {
+                            
+                            ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
+                            
+                            if (cell == nil){
+                                NSLog(@"New Cell Made");
+                                
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                
+                                for(id currentObject in topLevelObjects)
+                                {
+                                    if([currentObject isKindOfClass:[ProfileCell class]])
+                                    {
+                                        cell = (ProfileCell *)currentObject;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_changecity.png"]];
+                            cell.customLbl.text = @"المدينة";
+                            cell.customTitle.text = defaultCityName;
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                        case 1: {
+                            
+                            ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
+                            
+                            if (cell == nil){
+                                NSLog(@"New Cell Made");
+                                
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                
+                                for(id currentObject in topLevelObjects)
+                                {
+                                    if([currentObject isKindOfClass:[ProfileCell class]])
+                                    {
+                                        cell = (ProfileCell *)currentObject;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_changePass.png"]];
+                            cell.customLbl.text = @"تغيير كلمة السر";
+                            cell.customTitle.text = @"";
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                        default: {
+                            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                            
+                            if (cell == nil) {
+                                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                            }
+                            
+                            [[cell textLabel] setText:@""];
+                            
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                    }
+                    break;
+                case 2:
+                {
                     ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
                     
                     if (cell == nil){
@@ -213,210 +363,332 @@
                         }
                     }
                     
-                    [cell.iconImg setImage:[UIImage imageNamed:@"setting_email.png"]];
-                    cell.customLbl.text = @"البريد الإلكتروني";
-                    cell.customTitle.text = CurrentUser.emailAddress;
+                    [cell.iconImg setImage:[UIImage imageNamed:@"setting_signOut.png"]];
+                    cell.customLbl.text = @"تسجيل الخروج";
+                    cell.customTitle.text = @"";
+                    cell.customLbl.textAlignment = NSTextAlignmentLeft;
+                    cell.customLbl.textColor = [UIColor whiteColor];
+                    cell.customLbl.font = [UIFont boldSystemFontOfSize:25];
+                    cell.backgroundColor = [UIColor colorWithRed:114.0/255 green:115.0/255 blue:115.0/255 alpha:1.0f];
+                    //cell.backgroundColor = [UIColor blackColor];
                     [cell.arrowImg setImage:nil];
                     // Configure the cell.
                     return cell;
                     
                     break;
                 }
-                default: {
-                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
                     
-                    if (cell == nil) {
-                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-                    }
-                                       
-                    [[cell textLabel] setText:@""];
-                    
-                    // Configure the cell.
-                    return cell;
-                    
+                default:
                     break;
-                }
-            }
-            break;
-            case 1:
-            switch ([indexPath row]) {
-                case 0: {
-                    
-                    ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
-                    
-                    if (cell == nil){
-                        NSLog(@"New Cell Made");
-                        
-                        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
-                        
-                        for(id currentObject in topLevelObjects)
-                        {
-                            if([currentObject isKindOfClass:[ProfileCell class]])
-                            {
-                                cell = (ProfileCell *)currentObject;
-                                break;
-                            }
-                        }
-                    }
-                    
-                    [cell.iconImg setImage:[UIImage imageNamed:@"setting_changecity.png"]];
-                    cell.customLbl.text = @"المدينة";
-                    cell.customTitle.text = defaultCityName;
-                    // Configure the cell.
-                    return cell;
-                    
-                    break;
-                }
-                case 1: {
-                    
-                    ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
-                    
-                    if (cell == nil){
-                        NSLog(@"New Cell Made");
-                        
-                        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
-                        
-                        for(id currentObject in topLevelObjects)
-                        {
-                            if([currentObject isKindOfClass:[ProfileCell class]])
-                            {
-                                cell = (ProfileCell *)currentObject;
-                                break;
-                            }
-                        }
-                    }
-                    
-                    [cell.iconImg setImage:[UIImage imageNamed:@"setting_changePass.png"]];
-                    cell.customLbl.text = @"تغيير كلمة السر";
-                    cell.customTitle.text = @"";
-                    // Configure the cell.
-                    return cell;
-                    
-                    break;
-                }
-                default: {
-                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-                    
-                    if (cell == nil) {
-                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-                    }
-                    
-                    [[cell textLabel] setText:@""];
-                    
-                    // Configure the cell.
-                    return cell;
-                    
-                    break;
-                }
-            }
-            break;
-        case 2:
-        {
-            ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
-            
-            if (cell == nil){
-                NSLog(@"New Cell Made");
-                
-                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
-                
-                for(id currentObject in topLevelObjects)
-                {
-                    if([currentObject isKindOfClass:[ProfileCell class]])
-                    {
-                        cell = (ProfileCell *)currentObject;
-                        break;
-                    }
-                }
             }
             
-            [cell.iconImg setImage:[UIImage imageNamed:@"setting_signOut.png"]];
-            cell.customLbl.text = @"تسجيل الخروج";
-            cell.customTitle.text = @"";
-            cell.customLbl.textAlignment = NSTextAlignmentLeft;
-            cell.customLbl.textColor = [UIColor whiteColor];
-            cell.customLbl.font = [UIFont boldSystemFontOfSize:25];
-            cell.backgroundColor = [UIColor colorWithRed:114.0/255 green:115.0/255 blue:115.0/255 alpha:1.0f];
-            //cell.backgroundColor = [UIColor blackColor];
-            [cell.arrowImg setImage:nil];
-            // Configure the cell.
-            return cell;
-            
-            break;
+            return nil;
         }
-
-        default:
-            break;
     }
-   
-    return nil;
+    else {
+        if (tableView == self.profileTable) {
+            static NSString *CellIdentifier = @"Cell";
+            static NSString *DropDownCellIdentifier = @"profileCell";
+            
+            switch ([indexPath section]) {
+                case 0:
+                    switch ([indexPath row]) {
+                        case 0: {
+                            
+                            ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
+                            
+                            if (cell == nil){
+                                NSLog(@"New Cell Made");
+                                
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                
+                                for(id currentObject in topLevelObjects)
+                                {
+                                    if([currentObject isKindOfClass:[ProfileCell class]])
+                                    {
+                                        cell = (ProfileCell *)currentObject;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_user.png"]];
+                            cell.customLbl.text = @"إسم المستخدم";
+                            cell.customTitle.text = CurrentUser.userName;
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                        case 1: {
+                            
+                            ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
+                            
+                            if (cell == nil){
+                                NSLog(@"New Cell Made");
+                                
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                
+                                for(id currentObject in topLevelObjects)
+                                {
+                                    if([currentObject isKindOfClass:[ProfileCell class]])
+                                    {
+                                        cell = (ProfileCell *)currentObject;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_email.png"]];
+                            cell.customLbl.text = @"البريد الإلكتروني";
+                            cell.customTitle.text = CurrentUser.emailAddress;
+                            [cell.arrowImg setImage:nil];
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                        case 2: {
+                            
+                            ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
+                            
+                            if (cell == nil){
+                                NSLog(@"New Cell Made");
+                                
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                
+                                for(id currentObject in topLevelObjects)
+                                {
+                                    if([currentObject isKindOfClass:[ProfileCell class]])
+                                    {
+                                        cell = (ProfileCell *)currentObject;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_changecity.png"]];
+                            cell.customLbl.text = @"المدينة";
+                            cell.customTitle.text = defaultCityName;
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                        case 3: {
+                            
+                            ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
+                            
+                            if (cell == nil){
+                                NSLog(@"New Cell Made");
+                                
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                
+                                for(id currentObject in topLevelObjects)
+                                {
+                                    if([currentObject isKindOfClass:[ProfileCell class]])
+                                    {
+                                        cell = (ProfileCell *)currentObject;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_changePass.png"]];
+                            cell.customLbl.text = @"تغيير كلمة السر";
+                            cell.customTitle.text = @"";
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                        default: {
+                            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                            
+                            if (cell == nil) {
+                                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                            }
+                            
+                            [[cell textLabel] setText:@""];
+                            
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                    }
+                    break;
+                case 1:
+                    switch ([indexPath row]) {
+                        case 0:
+                        {
+                            ProfileCell *cell = (ProfileCell*) [tableView dequeueReusableCellWithIdentifier:DropDownCellIdentifier];
+                            
+                            if (cell == nil){
+                                NSLog(@"New Cell Made");
+                                
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                
+                                for(id currentObject in topLevelObjects)
+                                {
+                                    if([currentObject isKindOfClass:[ProfileCell class]])
+                                    {
+                                        cell = (ProfileCell *)currentObject;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_signOut.png"]];
+                            cell.customLbl.text = @"تسجيل الخروج";
+                            cell.customTitle.text = @"";
+                            cell.customLbl.textAlignment = NSTextAlignmentLeft;
+                            cell.customLbl.textColor = [UIColor whiteColor];
+                            cell.customLbl.font = [UIFont boldSystemFontOfSize:25];
+                            cell.backgroundColor = [UIColor colorWithRed:114.0/255 green:115.0/255 blue:115.0/255 alpha:1.0f];
+                            //cell.backgroundColor = [UIColor blackColor];
+                            [cell.arrowImg setImage:nil];
+                            // Configure the cell.
+                            return cell;
+                            
+                            break;
+                        }
+                            
+                        default:
+                            break;
+                    }
+                    break;
+            }
+            
+            return nil;
+        }
+    }
 }
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch ([indexPath section]) {
-        case 0:
-            switch ([indexPath row]) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (tableView == self.profileTable) {
+            switch ([indexPath section]) {
                 case 0:
-                {
-                    ChangeNameViewController* vc = [[ChangeNameViewController alloc]initWithNibName:@"ChangeNameViewController" bundle:nil];
-                    vc.theName = CurrentUser.userName;
-                    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-                    [self presentViewController:vc animated:YES completion:nil];
-                    
-                    return;
-                    break;
-                }
-                    
-                default:
-                    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-                    return;
-                    break;
-                    
-            }
-        case 1:
-            switch ([indexPath row]) {
-                case 0:{
-                    CountryListViewController* vc;
-                    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-                        vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
-                    else
-                        vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController_iPad" bundle:nil];
-                    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-                    [self presentViewController:vc animated:YES completion:nil];
-                    return;
-                    break;
-                }
-                    
+                    switch ([indexPath row]) {
+                        case 0:
+                        {
+                            ChangeNameViewController* vc = [[ChangeNameViewController alloc]initWithNibName:@"ChangeNameViewController" bundle:nil];
+                            vc.theName = CurrentUser.userName;
+                            vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                            [self presentViewController:vc animated:YES completion:nil];
+                            
+                            return;
+                            break;
+                        }
+                            
+                        default:
+                            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                            return;
+                            break;
+                            
+                    }
                 case 1:
+                    switch ([indexPath row]) {
+                        case 0:{
+                            CountryListViewController* vc;
+                            
+                            vc = [[CountryListViewController alloc]initWithNibName:@"CountryListViewController" bundle:nil];
+                            vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                            [self presentViewController:vc animated:YES completion:nil];
+                            
+                            return;
+                            break;
+                        }
+                            
+                        case 1:
+                        {
+                            
+                            ChangePasswordViewController* vc = [[ChangePasswordViewController alloc]initWithNibName:@"ChangePasswordViewController" bundle:nil];
+                            vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                            [self presentViewController:vc animated:YES completion:nil];
+                            
+                            return;
+                            break;
+                        }
+                        default:
+                            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                            return;
+                            break;
+                    }
+                case 2:
                 {
-                    ChangePasswordViewController* vc = [[ChangePasswordViewController alloc]initWithNibName:@"ChangePasswordViewController" bundle:nil];
-                    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-                    [self presentViewController:vc animated:YES completion:nil];
+                    //logout
+                    
+                    [self logout];
                     return;
                     break;
                 }
+                    
                 default:
-                    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-                    return;
                     break;
             }
-        case 2:
-        {
-           //logout
             
-            [self logout];
-            return;
-            break;
+            
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
-            
-        default:
-            break;
     }
-    
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    else {  //iPad
+        if (tableView == self.profileTable) {
+            switch ([indexPath section]) {
+                case 0:
+                    switch ([indexPath row]) {
+                        case 0:
+                        {
+                            [self.iPad_changeNameView setHidden:NO];
+                            [self.iPad_changePasswordView setHidden:YES];
+                            [self.iPad_changeCountryView setHidden:YES];
+                            
+                            return;
+                            break;
+                        }
+                        case 2:{
+                            [self.iPad_changeNameView setHidden:YES];
+                            [self.iPad_changePasswordView setHidden:YES];
+                            [self.iPad_changeCountryView setHidden:NO];
+                            return;
+                            break;
+                        }
+                            
+                        case 3:
+                        {
+                            
+                            [self.iPad_changeNameView setHidden:YES];
+                            [self.iPad_changePasswordView setHidden:NO];
+                            [self.iPad_changeCountryView setHidden:YES];
+                            
+                            return;
+                            break;
+                        }
+                            
+                        default:
+                            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                            return;
+                            break;
+                            
+                    }
+                case 1:
+                    //logout
+                    [self logout];
+                    return;
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
+    }
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -430,7 +702,7 @@
     //[[LocationManager locationKeyChainItemSharedInstance] resetKeychainItem];
     [FBSession.activeSession closeAndClearTokenInformation];
     [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
-
+    
     
     UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تم تسجيل الخروج" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
     alert.tag = 0;
@@ -488,7 +760,7 @@
         [self.view addSubview:iPad_loadingView];
         [iPad_activityIndicator startAnimating];
     }
-        
+    
     
 }
 
