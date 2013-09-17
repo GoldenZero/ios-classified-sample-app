@@ -13,8 +13,8 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
-    
-    UITapGestureRecognizer * iPad_tap;
+
+    BOOL iPad_isLoggingOut;
 }
 @end
 
@@ -40,8 +40,13 @@
     locationMngr = [LocationManager sharedInstance];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        iPad_tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iPad_dismissKeyboard)];
-        [self.view addGestureRecognizer:iPad_tap];
+        UITapGestureRecognizer * iPad_tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iPad_dismissKeyboard)];
+        [self.iPad_changeNameView addGestureRecognizer:iPad_tap1];
+        
+        UITapGestureRecognizer * iPad_tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iPad_dismissKeyboard)];
+        [self.iPad_changePasswordView addGestureRecognizer:iPad_tap2];
+        
+        iPad_isLoggingOut = NO;
     }
     
     //GA
@@ -69,6 +74,10 @@
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
     
     [self.profileTable reloadData];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.iPad_userNameTextField.text = CurrentUser.userName;
+    }
     
 }
 
@@ -192,7 +201,7 @@
             }
         }
         else {
-            
+            return 000;
         }
     }
     
@@ -570,6 +579,7 @@
             return nil;
         }
     }
+    return nil;
 }
 
 #pragma mark - Table view delegate
@@ -710,7 +720,7 @@
     [FBSession.activeSession closeAndClearTokenInformation];
     [[ProfileManager loginKeyChainItemSharedInstance] resetKeychainItem];
     
-    
+    iPad_isLoggingOut = YES;
     UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"شكرا" message:@"لقد تم تسجيل الخروج" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
     alert.tag = 0;
     [self hideLoadingIndicator];
@@ -721,16 +731,26 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 0) {
-        //[self dismissViewControllerAnimated:YES completion:nil];
-        ChooseActionViewController *vc;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-            vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
-        else
-            vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
-        vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        [self presentViewController:vc animated:YES completion:nil];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            //[self dismissViewControllerAnimated:YES completion:nil];
+            ChooseActionViewController *vc;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+            else
+                vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
+            vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+        else {
+            if (iPad_isLoggingOut) {
+                iPad_isLoggingOut = NO;
+                ChooseActionViewController *vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
+                vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+                [self presentViewController:vc animated:YES completion:nil];
+                
+            }
+        }
     }
-    
     
 }
 
@@ -788,11 +808,126 @@
     }
 }
 
+#pragma mark - iPad actions
+
+- (IBAction)iPad_saveNameInvoked:(id)sender {
+    [self iPad_dismissKeyboard];
+    NSString* Name = self.iPad_userNameTextField.text;
+    
+    
+    if ([Name length] < 1) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من تعبئة الحقل"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    [self iPad_changeName:Name];
+}
+
+- (IBAction)iPad_savePwdInvoked:(id)sender {
+    
+    [self iPad_dismissKeyboard];
+    
+    CurrentUser = [[ProfileManager sharedInstance] getSavedUserProfile];
+    
+    
+    NSString* oldPassword = self.iPad_oldPwdTextField.text;
+    NSString* newPassword = self.iPad_newPwdTextField.text;
+    NSString* newPassword2 = self.iPad_confirmPwdTextField.text;
+    
+    
+    if ([oldPassword length] < 1) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من كلمة السر القديمة"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+    if ([newPassword length] < 1) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من كلمة السر الجديدة"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+        
+    }
+    
+    if (![newPassword isEqualToString:newPassword2]) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"كلمة السر غير متوافقة"
+                                                       delegate:nil cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+        
+    }
+    
+    [self showLoadingIndicator];
+    [self iPad_changePwd:newPassword anduserName:CurrentUser.userName];
+}
+
+#pragma mark - iPad helper methods
 
 - (void) iPad_dismissKeyboard {
     [self.iPad_userNameTextField resignFirstResponder];
     [self.iPad_oldPwdTextField resignFirstResponder];
     [self.iPad_newPwdTextField resignFirstResponder];
     [self.iPad_confirmPwdTextField resignFirstResponder];
+}
+
+- (void) iPad_changeName :(NSString*)name
+{
+    [self showLoadingIndicator];
+    [[ProfileManager sharedInstance] updateUserWithDelegate:self userName:name andPassword:@""];
+    
+}
+
+-(void)iPad_changePwd:(NSString*)newPwd anduserName:(NSString*)name
+{
+    
+    [[ProfileManager sharedInstance] updateUserWithDelegate:self userName:name andPassword:newPwd];
+}
+
+#pragma mark - profileUpdate delegate methods
+
+-(void)userUpdateWithData:(UserProfile *)newData
+{
+    //NSLog(@"%@",newData);
+    [[ProfileManager sharedInstance] storeUserProfile:newData];
+    [self hideLoadingIndicator];
+    
+    self.iPad_oldPwdTextField.text = @"";
+    self.iPad_newPwdTextField.text = @"";
+    self.iPad_confirmPwdTextField.text = @"";
+    
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تمت العملية بنجاح" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+    alert.tag = 0;
+    [alert show];
+    
+    return;
+}
+
+-(void)userFailUpdateWithError:(NSError *)error {
+    [self hideLoadingIndicator];
+    [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    
+}
+
+#pragma mark - 
+
+- (NSUInteger)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        return UIInterfaceOrientationMaskLandscape;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationPortrait;
+    else
+        return UIInterfaceOrientationLandscapeLeft;
 }
 @end

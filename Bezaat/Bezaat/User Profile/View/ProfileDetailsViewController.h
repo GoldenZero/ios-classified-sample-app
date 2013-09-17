@@ -15,7 +15,7 @@
 #import "ChooseActionViewController.h"
 #import "GAI.h"
 
-@interface ProfileDetailsViewController : BaseViewController<ProfileManagerDelegate,UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate>
+@interface ProfileDetailsViewController : BaseViewController<ProfileManagerDelegate,UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate, ProfileUpdateDelegate>
 {
     UserProfile* CurrentUser;
     MBProgressHUD2 * loadingHUD;
