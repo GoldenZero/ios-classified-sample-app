@@ -728,9 +728,10 @@
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         picker.allowsEditing = YES;
         picker.delegate = self;
-        //[self presentViewController:picker animated:YES completion:nil];
-        
-        if (!(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone))
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            [self presentViewController:picker animated:YES completion:nil];
+        //if (!(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone))
+        else
         {
             [self dismissKeyboard];
             self.iPad_cameraPopOver = [[UIPopoverController alloc] initWithContentViewController:picker];

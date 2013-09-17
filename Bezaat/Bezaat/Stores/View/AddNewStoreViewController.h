@@ -11,7 +11,7 @@
 #import "GAI.h"
 #import "XCDFormInputAccessoryView.h"
 
-@interface AddNewStoreViewController : BaseViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UIActionSheetDelegate,UIPickerViewDataSource, UIPickerViewDelegate,LocationManagerDelegate,StoreManagerDelegate>
+@interface AddNewStoreViewController : BaseViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate,UIActionSheetDelegate,UIPickerViewDataSource, UIPickerViewDelegate,LocationManagerDelegate,StoreManagerDelegate, UIPopoverControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *countryCity;
 @property (strong, nonatomic) UITextField* userPassword;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
