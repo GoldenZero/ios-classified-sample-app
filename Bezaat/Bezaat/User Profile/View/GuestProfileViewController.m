@@ -372,7 +372,7 @@
                         if (cell == nil){
                             NSLog(@"New Cell Made");
                             
-                            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                            NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"ProfileCell" : @"ProfileCell_iPad") owner:nil options:nil];
                             
                             for(id currentObject in topLevelObjects)
                             {
@@ -517,7 +517,15 @@
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else {
-        if (tableView == self.iPad_countriesTable) {
+        if (tableView == self.profileTable) {
+            ProfileCell *cell = (ProfileCell*) [tableView cellForRowAtIndexPath:indexPath];
+            
+            [cell.iconImg setImage:[UIImage imageNamed:@"setting_changecity_inverted.png"]];
+            [cell.arrowImg setImage:[UIImage imageNamed:@"arrow_inverted@2x.png"]];
+        }
+        //if (tableView == self.iPad_countriesTable)
+        else
+        {
             switch ([indexPath row]) {
                 case 0:
                 {

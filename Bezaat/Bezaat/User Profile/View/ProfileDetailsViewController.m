@@ -624,7 +624,7 @@
             return nil;
         }
     }
-    else {
+    else {  //iPad
         if (tableView == self.profileTable) {
             static NSString *CellIdentifier = @"Cell";
             static NSString *DropDownCellIdentifier = @"profileCell";
@@ -639,7 +639,7 @@
                             if (cell == nil){
                                 NSLog(@"New Cell Made");
                                 
-                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell_iPad" owner:nil options:nil];
                                 
                                 for(id currentObject in topLevelObjects)
                                 {
@@ -655,6 +655,7 @@
                             cell.customLbl.text = @"إسم المستخدم";
                             cell.customTitle.text = CurrentUser.userName;
                             // Configure the cell.
+                            cell.selectionStyle = UITableViewCellSelectionStyleNone;
                             return cell;
                             
                             break;
@@ -666,7 +667,7 @@
                             if (cell == nil){
                                 NSLog(@"New Cell Made");
                                 
-                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell_iPad" owner:nil options:nil];
                                 
                                 for(id currentObject in topLevelObjects)
                                 {
@@ -683,6 +684,7 @@
                             cell.customTitle.text = CurrentUser.emailAddress;
                             [cell.arrowImg setImage:nil];
                             // Configure the cell.
+                            cell.selectionStyle = UITableViewCellSelectionStyleNone;
                             return cell;
                             
                             break;
@@ -694,7 +696,7 @@
                             if (cell == nil){
                                 NSLog(@"New Cell Made");
                                 
-                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell_iPad" owner:nil options:nil];
                                 
                                 for(id currentObject in topLevelObjects)
                                 {
@@ -710,6 +712,7 @@
                             cell.customLbl.text = @"المدينة";
                             cell.customTitle.text = defaultCityName;
                             // Configure the cell.
+                            cell.selectionStyle = UITableViewCellSelectionStyleNone;
                             return cell;
                             
                             break;
@@ -721,7 +724,7 @@
                             if (cell == nil){
                                 NSLog(@"New Cell Made");
                                 
-                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell_iPad" owner:nil options:nil];
                                 
                                 for(id currentObject in topLevelObjects)
                                 {
@@ -737,6 +740,7 @@
                             cell.customLbl.text = @"تغيير كلمة السر";
                             cell.customTitle.text = @"";
                             // Configure the cell.
+                            cell.selectionStyle = UITableViewCellSelectionStyleNone;
                             return cell;
                             
                             break;
@@ -751,6 +755,7 @@
                             [[cell textLabel] setText:@""];
                             
                             // Configure the cell.
+                            cell.selectionStyle = UITableViewCellSelectionStyleNone;
                             return cell;
                             
                             break;
@@ -766,7 +771,7 @@
                             if (cell == nil){
                                 NSLog(@"New Cell Made");
                                 
-                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell" owner:nil options:nil];
+                                NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"ProfileCell_iPad" owner:nil options:nil];
                                 
                                 for(id currentObject in topLevelObjects)
                                 {
@@ -788,6 +793,7 @@
                             //cell.backgroundColor = [UIColor blackColor];
                             [cell.arrowImg setImage:nil];
                             // Configure the cell.
+                            cell.selectionStyle = UITableViewCellSelectionStyleNone;
                             return cell;
                             
                             break;
@@ -954,6 +960,19 @@
                             [self.iPad_changePasswordView setHidden:YES];
                             [self.iPad_changeCountryView setHidden:YES];
                             
+                            ProfileCell *cell = (ProfileCell*) [tableView cellForRowAtIndexPath:indexPath];
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_user_inverted.png"]]
+                            ;
+                            [cell.arrowImg setImage:[UIImage imageNamed:@"arrow_inverted@2x.png"]];
+                            return;
+                            break;
+                        }
+                        case 1:
+                        {
+                            ProfileCell *cell = (ProfileCell*) [tableView cellForRowAtIndexPath:indexPath];
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_email_inverted.png"]];
                             return;
                             break;
                         }
@@ -961,6 +980,10 @@
                             [self.iPad_changeNameView setHidden:YES];
                             [self.iPad_changePasswordView setHidden:YES];
                             [self.iPad_changeCountryView setHidden:NO];
+                            ProfileCell *cell = (ProfileCell*) [tableView cellForRowAtIndexPath:indexPath];
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_changecity_inverted.png"]];
+                            [cell.arrowImg setImage:[UIImage imageNamed:@"arrow_inverted@2x.png"]];
                             return;
                             break;
                         }
@@ -972,6 +995,10 @@
                             [self.iPad_changePasswordView setHidden:NO];
                             [self.iPad_changeCountryView setHidden:YES];
                             
+                            ProfileCell *cell = (ProfileCell*) [tableView cellForRowAtIndexPath:indexPath];
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_changePass_inverted.png"]];
+                            [cell.arrowImg setImage:[UIImage imageNamed:@"arrow_inverted@2x.png"]];
                             return;
                             break;
                         }
@@ -1115,6 +1142,61 @@
                 }
             }
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
+    }
+}
+
+- (void) tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if (tableView == self.profileTable) {
+            switch ([indexPath section]) {
+                case 0:
+                    switch ([indexPath row]) {
+                        case 0: {
+                            //username cell
+                            ProfileCell *cell = (ProfileCell*) [tableView cellForRowAtIndexPath:indexPath];
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_user.png"]];
+                            [cell.arrowImg setImage:[UIImage imageNamed:@"arrow@2x.png"]];
+                            //cell.customLbl.text = @"إسم المستخدم";
+                            break;
+                        }
+                        case 1: {
+                            //email cell
+                            ProfileCell *cell = (ProfileCell*) [tableView cellForRowAtIndexPath:indexPath];
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_email.png"]];
+                            //cell.customLbl.text = @"البريد الإلكتروني";
+                            
+                            break;
+                        }
+                        case 2: {
+                            //city cell
+                            ProfileCell *cell = (ProfileCell*) [tableView cellForRowAtIndexPath:indexPath];
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_changecity.png"]];
+                            [cell.arrowImg setImage:[UIImage imageNamed:@"arrow@2x.png"]];
+                            //cell.customLbl.text = @"المدينة";
+                            
+                            break;
+                        }
+                        case 3: {
+                            //change password cell
+                            ProfileCell *cell = (ProfileCell*) [tableView cellForRowAtIndexPath:indexPath];
+                            
+                            [cell.iconImg setImage:[UIImage imageNamed:@"setting_changePass.png"]];
+                            [cell.arrowImg setImage:[UIImage imageNamed:@"arrow@2x.png"]];
+                            //cell.customLbl.text = @"تغيير كلمة السر";
+                            
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                    break;
+                case 1:
+                    break;
+            }
         }
     }
 }
