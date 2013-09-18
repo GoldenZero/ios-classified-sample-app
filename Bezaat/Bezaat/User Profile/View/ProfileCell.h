@@ -14,4 +14,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *customLbl;
 @property (weak, nonatomic) IBOutlet UILabel *customTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImg;
+
 @end
