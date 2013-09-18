@@ -189,20 +189,14 @@
     else
     {
         CountryListViewController* vc;
-        
         vc = [[CountryListViewController alloc]initWithNibName:@"CountriesPopOver_iPad" bundle:nil];
-        
         self.iPad_countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
-        
-        CGRect myownRect=CGRectMake(262, 600, 500, 500);
-        
-        
-        [self.iPad_countryPopOver setPopoverContentSize:myownRect.size];
-            //[self.countryPopOver setPopoverContentSize:CGSizeMake(500, 800)];
+        //[self.iPad_countryPopOver setPopoverContentSize:vc.view.frame.size];
+        //NSLog(@"w:%f, h:%f", vc.view.frame.size.width, vc.view.frame.size.height);
+        [self dismissKeyboard];
+        [self.iPad_countryPopOver setPopoverContentSize:CGSizeMake(500, 700)];
         vc.iPad_parentViewOfPopOver = self;
-        //CGRect frameInWindow = [self.countryCity convertRect:self.countryCity.frame toView:self.view];
-        
-        [self.iPad_countryPopOver presentPopoverFromRect:myownRect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        [self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.countryCity.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
 }
 
