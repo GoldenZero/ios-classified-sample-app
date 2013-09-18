@@ -469,9 +469,9 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     {
         PricingOption * currentItem = pricingOptions[i];
         // Update the cell information
-        BrandCell* brandCell;
+        FeatureAdCell * brandCell;
         brandFrame = CGRectMake(-1, -1, 166, 166);//these are the dimensions of the brand cell
-        brandCell = (BrandCell*)[[NSBundle mainBundle] loadNibNamed:@"BrandCell_iPad" owner:self options:nil][0];
+        brandCell = (FeatureAdCell*)[[NSBundle mainBundle] loadNibNamed:@"FeatureAdCell_iPad" owner:self options:nil][0];
         
         //[brandCell reloadInformation:currentItem];
         
