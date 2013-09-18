@@ -12,6 +12,7 @@
 #import "ChooseActionViewController.h"
 #import "BankInfoViewController.h"
 #import "StoreDetailsViewController.h"
+#import "BrandCell.h"
 
 @interface FeatureStoreAdViewController (){
     NSArray * productsArr;
@@ -84,9 +85,9 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     //end GA
 }
 
-- (void) viewWillAppear:(BOOL)animated {
+- (void) viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:MyStorePurchasedNotification object:nil];
 }
 
@@ -97,12 +98,13 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 }
 
 #pragma mark - Actions
-- (IBAction)backBtnPressed:(id)sender {
+- (IBAction)backBtnPressed:(id)sender
+{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)laterBtnPressed:(id)sender {
-    
+- (IBAction)laterBtnPressed:(id)sender
+{
     StoreDetailsViewController *vc;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         vc= [[StoreDetailsViewController alloc] initWithNibName:@"StoreDetailsViewController" bundle:nil];
@@ -390,9 +392,9 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         [self.view addSubview:iPad_loadingView];
         [iPad_activityIndicator startAnimating];
     }
-        
-    
 }
+
+
 
 - (void) hideLoadingIndicator {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
@@ -409,7 +411,6 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         iPad_loadingView = nil;
         iPad_loadingLabel = nil;
     }
-    
 }
 
 #pragma mark - PricingOptions Delegate
@@ -425,12 +426,11 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     [self.nowBtn setHidden:YES];
     [self.bankBtn setHidden:YES];
     [self.bgBtns setHidden:YES];
-
 }
 
 - (void) optionsDidFinishLoadingWithData:(NSArray *)resultArray {
-    [self hideLoadingIndicator];
     
+    [self hideLoadingIndicator];
     pricingOptions = [NSArray arrayWithArray:resultArray];
 
     if (resultArray && resultArray.count)
@@ -449,10 +449,67 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         [self.bankBtn setHidden:YES];
         [self.bgBtns setHidden:YES];
     }
-
-    
    // [self.tableView reloadData];
+    [self DrawOptions];
 }
+
+
+
+- (void) DrawOptions {
+    float currentX = 0;
+    float currentY = 0;
+    float totalHeight = 0;
+    
+    int rowCounter = 0;
+    int colCounter = 0;
+    
+    CGRect brandFrame;
+    
+    for (int i = 0; i < pricingOptions.count; i++)
+    {
+        PricingOption * currentItem = pricingOptions[i];
+        // Update the cell information
+        BrandCell* brandCell;
+        brandFrame = CGRectMake(-1, -1, 166, 166);//these are the dimensions of the brand cell
+        brandCell = (BrandCell*)[[NSBundle mainBundle] loadNibNamed:@"BrandCell_iPad" owner:self options:nil][0];
+        
+        //[brandCell reloadInformation:currentItem];
+        
+        //if ((chosenBrand) && (chosenBrand.brandID == currentItem.brandID))
+        //    [brandCell selectCell];
+        
+        //if (i == 0)
+        //    [brandCell selectCell];
+        
+        if (i != 0) {
+            if (i % 6 == 0) {
+                rowCounter ++;
+                colCounter = 0;
+            }
+            else
+                colCounter ++;
+        }
+        
+        currentX = (colCounter * brandFrame.size.width) + ((colCounter + 1) * 4);
+        currentY = (rowCounter * brandFrame.size.height) + ((rowCounter + 1) * 4);
+        
+        brandFrame.origin.x = currentX;
+        brandFrame.origin.y = currentY;
+        
+        brandCell.frame = brandFrame;
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectBrandCell:)];
+        tap.numberOfTapsRequired = 1;
+        [brandCell addGestureRecognizer:tap];
+        
+        [self.MyScrollView addSubview:brandCell];
+        //[brandCellsArray addObject:brandCell];
+        //[brandsTapGesturesArray addObject:tap];
+        
+    }
+    totalHeight = 1 + brandFrame.size.height + currentY + 15;
+    [self.MyScrollView setContentSize:CGSizeMake(self.MyScrollView.contentSize.width, totalHeight)];
+}
+
 
 -(void)storeOptionsDidFailLoadingWithError:(NSError *)error
 {
@@ -488,6 +545,8 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         [self.bankBtn setHidden:YES];
         [self.bgBtns setHidden:YES];
     }
+    
+    [self DrawOptions];
 }
 
 -(void)StoreOrderDidFailCreationWithError:(NSError *)error
@@ -515,7 +574,6 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 -(void)BankStoreOrderDidFailCreationWithError:(NSError *)error
 {
     [self hideLoadingIndicator];
-    
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
 }
 
