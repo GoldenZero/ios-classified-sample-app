@@ -593,7 +593,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         }
         else
         {
-            labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+            labelAdViewController *vc;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+            else
+                vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController_iPad" bundle:nil];
             vc.currentAdID = currentAdID;
             vc.countryAdID = currentDetailsObject.countryID;
             vc.currentAdHasImages = NO;
@@ -2099,7 +2103,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         }
     }
     else if (alertView.tag == 100) {
-        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        labelAdViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        else
+            vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController_iPad" bundle:nil];
         vc.currentAdID = currentAdID;
         vc.countryAdID = currentStore.countryID;
         

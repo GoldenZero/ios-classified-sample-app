@@ -1980,7 +1980,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     
-    labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+    labelAdViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+    else
+        vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController_iPad" bundle:nil];
     
     //COME BACK HERE
     vc.currentAdID = carAdObject.adID;

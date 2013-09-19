@@ -1730,7 +1730,7 @@
     }
     else if (alertView.tag == 6)
     {
-        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController_iPad" bundle:nil];
         vc.currentAdID = myAdID;
         vc.countryAdID = chosenCountry.countryID;
         vc.currentAdHasImages = NO;

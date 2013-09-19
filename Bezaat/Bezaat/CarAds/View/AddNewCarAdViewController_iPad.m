@@ -1155,10 +1155,10 @@
         details.checkPage = YES;
         [self presentViewController:details animated:YES completion:nil];
     }else {
-        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController_iPad" bundle:nil];
         vc.currentAdID = myAdID;
         vc.countryAdID = chosenCountry.countryID;
-        vc.parentNewCarVC = self;
+        vc.iPad_parentNewCarVC = self;
         vc.currentAdHasImages = NO;
         if (currentImgsUploaded && currentImgsUploaded.count)
             vc.currentAdHasImages = YES;

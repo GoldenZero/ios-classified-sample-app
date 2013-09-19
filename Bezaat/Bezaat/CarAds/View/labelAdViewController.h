@@ -10,6 +10,7 @@
 #import <StoreKit/StoreKit.h>
 #import "FeaturingManager.h"
 #import "AddNewCarAdViewController.h"
+#import "AddNewCarAdViewController_iPad.h"
 #import "ChooseActionViewController.h"
 
 @interface labelAdViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate, PricingOptionsDelegate, FeaturingOrderDelegate>
@@ -34,6 +35,14 @@
 @property (strong, nonatomic) IBOutlet UIImageView *whiteRectImg;
 
 @property (strong, nonatomic) AddNewCarAdViewController * parentNewCarVC;
+@property (strong, nonatomic) AddNewCarAdViewController_iPad * iPad_parentNewCarVC;
 @property (nonatomic) BOOL currentAdHasImages;
+
+#pragma mark - iPad properties
+@property (weak, nonatomic) IBOutlet SSLabel *iPad_titleLabel;
+@property (weak, nonatomic) IBOutlet UIView *iPad_storeDetailsView;
+@property (weak, nonatomic) IBOutlet UILabel *iPad_storeCountOfRemainingFeaturedAds;
+@property (weak, nonatomic) IBOutlet UILabel *iPad_storeCountOfRemainingDays;
+@property (weak, nonatomic) IBOutlet UIView *iPad_pricingtableContainerView;
 
 @end

@@ -1151,7 +1151,11 @@
 {
     UIButton* Btn = (UIButton*)sender;
     myAdObject = (CarAd *)[carAdsArray objectAtIndex:Btn.tag];
-    labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+    labelAdViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+    else
+        vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController_iPad" bundle:nil];
    // vc.currentAdID = [[self.adsTable cellForRowAtIndexPath:0] ];
     vc.currentAdID = myAdObject.adID;
     vc.countryAdID = myAdObject.countryID;

@@ -70,6 +70,25 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
     currentOrderID = @"";
     currentProductID = @"";
     chosenPricingOption = nil;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.iPad_titleLabel setBackgroundColor:[UIColor clearColor]];
+        [self.iPad_titleLabel setTextAlignment:SSTextAlignmentCenter];
+        [self.iPad_titleLabel setTextColor:[UIColor whiteColor]];
+        [self.iPad_titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:30.0] ];
+        [self.iPad_titleLabel setText:@"ميز إعلانك في المتجر الخاص بك"];
+        
+        // horizontal table
+        // -90 degrees rotation will move top of your tableview to the left
+        self.tableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
+        
+        //Just so your table is not at a random place in your view
+        self.tableView.frame = CGRectMake(0,
+                                          0,
+                                          self.iPad_pricingtableContainerView.frame.size.height,
+                                          self.iPad_pricingtableContainerView.frame.size.width
+                                          );
+    }
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -179,7 +198,12 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
 #pragma mark - handle table
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 76;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return 76;
+    else
+        //return (213 + 5);
+        //return 213;
+        return 210;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -194,7 +218,7 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
     
     if ((pricingOptions) && (pricingOptions.count))
     {
-        labelAdCell * cell = (labelAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"labelAdCell" owner:self options:nil] objectAtIndex:0];
+        labelAdCell * cell = (labelAdCell *)[[[NSBundle mainBundle] loadNibNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"labelAdCell" : @"labelAdCell_iPad") owner:self options:nil] objectAtIndex:0];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         //[cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
         if (indexPath.row==choosenCell) {
@@ -210,6 +234,10 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
         cell.periodLabel.text = option.pricingName;
         cell.detailsLabel.text = @"";
         
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            cell.transform = CGAffineTransformMakeRotation(M_PI_2);
+            //cell.frame = CGRectMake(0, 0, 172.0, 213.0);
+        }
         return cell;
     }
     return [UITableViewCell new];

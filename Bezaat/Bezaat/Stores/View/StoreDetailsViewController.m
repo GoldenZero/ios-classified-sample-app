@@ -489,7 +489,11 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 100) {
-        labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        labelAdViewController *vc;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
+        else
+            vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController_iPad" bundle:nil];
         vc.currentAdID = currentAdvID;
         vc.countryAdID = currentStore.countryID;
         
