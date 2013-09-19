@@ -360,6 +360,7 @@
 										<string key="NSFrame">{{234, 16}, {62, 62}}</string>
 										<reference key="NSSuperview" ref="2021579"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -380,12 +381,20 @@
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
+										<double key="IBUIImageEdgeInsets.top">0.0</double>
+										<double key="IBUIImageEdgeInsets.bottom">0.0</double>
+										<double key="IBUIImageEdgeInsets.left">0.0</double>
+										<double key="IBUIImageEdgeInsets.right">50</double>
 										<reference key="IBUIHighlightedTitleColor" ref="142647110"/>
 										<object class="NSColor" key="IBUINormalTitleColor">
 											<int key="NSColorSpace">1</int>
 											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 										</object>
 										<reference key="IBUINormalTitleShadowColor" ref="765812182"/>
+										<object class="NSCustomResource" key="IBUINormalImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">tb_ads_view_add_car_ad.png</string>
+										</object>
 										<reference key="IBUIFontDescription" ref="623693887"/>
 										<reference key="IBUIFont" ref="190216908"/>
 									</object>
@@ -3547,6 +3556,7 @@
 				<boolean value="NO" key="525.IBViewMetadataTranslatesAutoresizingMaskIntoConstraints"/>
 				<string key="533.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="534.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="2" key="534.IBUIButtonInspectorSelectedEdgeInsetMetadataKey"/>
 				<array class="NSMutableArray" key="534.IBViewMetadataConstraints">
 					<reference ref="536087593"/>
 				</array>
@@ -3898,6 +3908,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="tb_ads_view_add_car_ad.png">{161, 20}</string>
 			<string key="tb_ads_view_bar.png">{703, 36}</string>
 			<string key="tb_ads_view_bar_line.png">{3, 25}</string>
 			<string key="tb_ads_view_bar_select_mark.png">{20, 10}</string>
