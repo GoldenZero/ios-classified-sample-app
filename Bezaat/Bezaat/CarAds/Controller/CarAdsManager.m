@@ -82,6 +82,7 @@ static NSString * ads_url = @"/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&te
 static NSString * upload_image_url = @"/json/upload-image?theFile=";
 static NSString * post_ad_url = @"/json/post-an-ad?brandId=%@&cityId=%@&fromPhone=%i&userEmail=%@&collection=%@";
 static NSString * post_store_ad_url = @"/json/post-a-store-ad?brandid=%@&cityId=%@&storeid=%@&collection=%@";
+
 static NSString * user_ads_url = @"/json/myads?status=%@&pageNo=%@&pageSize=%@";
 static NSString * request_edit_ads_url = @"/json/request-to-edit?enceditid=%@";
 static NSString * request_edit_store_ads_url = @"/json/request-to-edit-store-ad?encadid=%@&storeid=%@";
@@ -1129,6 +1130,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              MY_ATTR_ID,[NSString stringWithFormat:@"%i",cityID],
                              IMAGES_ID_POST_KEY, [self getIDsStringFromArray:aImageIDsArray]
                              ];
+       
         
         
         
@@ -1251,42 +1253,141 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         // NSNumber * brandKeyForModel = [brandKeysDict objectForKey:[NSNumber numberWithInteger:brandID]];
         
         
-        //post keys
+        
         NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@",
+                             
                              TITLE_ATTR_ID, aTitle,
+                             
                              DESCRIPTION_ATTR_ID, aDescription,
+                             
                              PRICE_ATTR_ID, aPrice,
+                             
                              ADVERTISING_PERIOD_ATTR_ID, [NSString stringWithFormat:@"%i", aPeriodValueID],
+                             
                              MOBILE_NUMBER_ATTR_ID, aMobileNum,
+                             
                              CURRENCY_NAME_ATTR_ID, [NSString stringWithFormat:@"%i",aCurrencyValueID],
+                             
                              SERVICE_NAME_ATTR_ID, [NSString stringWithFormat:@"%i",aServiceValueID],
+                             
                              MANUFACTURE_YEAR_ATTR_ID, [NSString stringWithFormat:@"%i",aModelYearValueID],
+                             
                              DISTANCE_VALUE_ATTR_ID, aDistance,
+                             
                              PHONE_ATTR_ID,aPhoneNumer,
+                             
                              PHONE_NUMBER_ATTR_ID, usermail,
+                             
                              ADCOMMENTS_EMAIL_ATTR_ID, [NSString stringWithFormat:@"%i",aAdCommentsEmail],
+                             
                              KM_MILES_ATTR_ID, [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
+                             
                              952,[NSString stringWithFormat:@"%i",anine52],
+                             
                              //528,[NSString stringWithFormat:@"%i",anine52],
+                             
                              506,aPrice,
+                             
                              906,anine06,
+                             
                              -101,aone01,
+                             
                              -98,[NSString stringWithFormat:@"%i",aninty8],
+                             
                              MY_ATTR_ID,[NSString stringWithFormat:@"%i",cityID],
+                             
                              //SERVICE_NAME_ATTR_ID,aServiceName,
+                             
                              //ADCOMMENTS_EMAIL_ATTR_ID,[NSString stringWithFormat:@"%i",aAdcommentsEmail],
+                             
                              CAR_CONDITION_ATTR_ID,[NSString stringWithFormat:@"%i",aCondition],
+                             
                              GEAR_TYPE_ATTR_ID,[NSString stringWithFormat:@"%i",aGearType],
+                             
                              CAR_ENGINE_ATTR_ID,[NSString stringWithFormat:@"%i",aCarEngine],
+                             
                              CAR_TYPE_ATTR_ID,[NSString stringWithFormat:@"%i",aCarType],
+                             
                              CAR_BODY_ATTR_ID,[NSString stringWithFormat:@"%i",aCarBody],
+                             
                              CAR_CD_ATTR_ID,[NSString stringWithFormat:@"%i",aCarCD],
+                             
                              CAR_HEADS_ATTR_ID,[NSString stringWithFormat:@"%i",aCarHeads],
+                             
                              COLOR_ATTR_ID, aColor,
+                             
                              IMAGES_ID_POST_KEY, [self getIDsStringFromArray:aImageIDsArray]];
         
+        /*
+        //post keys
+        //NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@",
+        //NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@&EncEditID=%@",
+        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@&%i=%@&EncEditID=%@",
+                             DISTANCE_VALUE_ATTR_ID, aDistance,
+                             KM_MILES_ATTR_ID, [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
+                             PRICE_ATTR_ID, aPrice,
+                             CURRENCY_NAME_ATTR_ID, [NSString stringWithFormat:@"%i",aCurrencyValueID],
+                             MANUFACTURE_YEAR_ATTR_ID, [NSString stringWithFormat:@"%i",aModelYearValueID],
+                             TITLE_ATTR_ID, aTitle,
+                             ADVERTISING_PERIOD_ATTR_ID, [NSString stringWithFormat:@"%i", aPeriodValueID],
+                             SERVICE_NAME_ATTR_ID, [NSString stringWithFormat:@"%i",aServiceValueID],
+                             DESCRIPTION_ATTR_ID, aDescription,
+                             CAR_CONDITION_ATTR_ID,[NSString stringWithFormat:@"%i",aCondition],
+                             GEAR_TYPE_ATTR_ID,[NSString stringWithFormat:@"%i",aGearType],
+                             -98,[NSString stringWithFormat:@"%i",aninty8],
+                             MOBILE_NUMBER_ATTR_ID, aMobileNum,
+                             CAR_TYPE_ATTR_ID,[NSString stringWithFormat:@"%i",aCarType],
+                             CAR_BODY_ATTR_ID,[NSString stringWithFormat:@"%i",aCarBody],
+                             MY_ATTR_ID,[NSString stringWithFormat:@"%i",cityID],
+                             IMAGES_ID_POST_KEY, [self getIDsStringFromArray:aImageIDsArray],
+                             PHONE_NUMBER_ATTR_ID, usermail,
+                             editADID
+                             ];
+                             
+                             //PHONE_ATTR_ID,aPhoneNumer,
+                             //ADCOMMENTS_EMAIL_ATTR_ID, [NSString stringWithFormat:@"%i",aAdCommentsEmail],
+                             //952,[NSString stringWithFormat:@"%i",anine52],
+                             //528,[NSString stringWithFormat:@"%i",anine52],
+                             //506,aPrice,
+                             //906,anine06,
+                             //-101,aone01,
+                             //SERVICE_NAME_ATTR_ID,aServiceName,
+                             //ADCOMMENTS_EMAIL_ATTR_ID,[NSString stringWithFormat:@"%i",aAdcommentsEmail],
+                             //CAR_ENGINE_ATTR_ID,[NSString stringWithFormat:@"%i",aCarEngine],
+                             //CAR_CD_ATTR_ID,[NSString stringWithFormat:@"%i",aCarCD],
+                             //CAR_HEADS_ATTR_ID,[NSString stringWithFormat:@"%i",aCarHeads],
+                             //COLOR_ATTR_ID, aColor,
+                             //,editADID];
+                             //];
         
-        
+        */
+         /*
+        //NSString * prePost =[NSString stringWithFormat:@"524=%@&523=%@&502=%@&507=%@&520=%@&508=%@&505=%@&509=%@&518=%@&528=%@&868=%@&907=%@&1076=%@&-98=%@&-99=%@&-100=%@&-180=%@&ImagesID=%@&EncEditID=%@",
+        //NSString * prePost =[NSString stringWithFormat:@"524=%@&523=%@&502=%@&507=%@&520=%@&508=%@&505=%@&509=%@&518=%@&528=%@&868=%@&907=%@&1076=%@&-98=%@&-100=%@&-180=%@&ImagesID=%@&EncEditID=%@",
+        //NSString * prePost =[NSString stringWithFormat:@"524=%@&523=%@&502=%@&507=%@&520=%@&508=%@&505=%@&509=%@&518=%@&528=%@&868=%@&907=%@&1076=%@&-98=%@&-99=%@&-100=%@&ImagesID=%@&EncEditID=%@",
+                             aTitle,
+                             aDescription,
+                             [NSString stringWithFormat:@"%i", aPeriodValueID],
+                             aPrice,
+                             aMobileNum,
+                             [NSString stringWithFormat:@"%i",aCurrencyValueID],
+                             [NSString stringWithFormat:@"%i",aServiceValueID],
+                             [NSString stringWithFormat:@"%i",aModelYearValueID],
+                             aDistance,
+                             aColor,
+                             aPhoneNumer,
+                             [NSString stringWithFormat:@"%i",aAdCommentsEmail],
+                             [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
+                             [NSString stringWithFormat:@"%i",aninty8],
+                             [NSString stringWithFormat:@"%i",cityID],//-99
+                             //@"",
+                             usermail,
+                             //[NSString stringWithFormat:@"%i",cityID],
+                             @"",
+                             [self getIDsStringFromArray:aImageIDsArray],
+                             editADID
+                             ];
+        */
         /*
          NSString * prePost = @"524=text&523=نص&507=987123&502=1189&520=3210987456&508=1235&505=830&509=1207&518=321789&528=&868=&907=1&1076=2675&952=1553&ImagesID=7730822,7730862";
          */
@@ -1298,11 +1399,6 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         //[request setTimeoutInterval:60];
-        
-        [request setURL:correctURL];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         
         //4- set user credentials in HTTP header
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
@@ -1325,6 +1421,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
         
+        [request setURL:correctURL];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+        [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
         
         [request setHTTPBody:postData];
         
@@ -1401,6 +1501,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         NSDictionary * brandKeysDict = [[StaticAttrsLoader sharedInstance] loadBrandKeys];
         NSNumber * brandKeyForModel = [brandKeysDict objectForKey:[NSNumber numberWithInteger:brandID]];
         
+        /*
         //post keys
         NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@",
                              TITLE_ATTR_ID, aTitle,
@@ -1418,8 +1519,44 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              ADCOMMENTS_EMAIL_ATTR_ID, [NSString stringWithFormat:@"%i",aAdCommentsEmail],
                              KM_MILES_ATTR_ID, [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
                              brandKeyForModel.integerValue, [NSString stringWithFormat:@"%i",modelID],
-                             IMAGES_ID_POST_KEY, [self getIDsStringFromArray:aImageIDsArray],CAR_CONDITION_ATTR_ID,[NSString stringWithFormat:@"%i",carConditionID],GEAR_TYPE_ATTR_ID,[NSString stringWithFormat:@"%i",gearTypeID],CAR_TYPE_ATTR_ID,[NSString stringWithFormat:@"%i",carTypeID],CAR_BODY_ATTR_ID,[NSString stringWithFormat:@"%i",carBodyID],BRAND_ATTR_ID,[NSString stringWithFormat:@"%i",brandID],CITY_ATTR_ID,[NSString stringWithFormat:@"%i",cityID],10099,@"1000637",10102,@"1000667",10103,@"1000672"
+                             IMAGES_ID_POST_KEY, [self getIDsStringFromArray:aImageIDsArray],
+                             CAR_CONDITION_ATTR_ID,[NSString stringWithFormat:@"%i",carConditionID],
+                             GEAR_TYPE_ATTR_ID,[NSString stringWithFormat:@"%i",gearTypeID],
+                             CAR_TYPE_ATTR_ID,[NSString stringWithFormat:@"%i",carTypeID],
+                             CAR_BODY_ATTR_ID,[NSString stringWithFormat:@"%i",carBodyID],
+                             BRAND_ATTR_ID,[NSString stringWithFormat:@"%i",brandID],
+                             CITY_ATTR_ID,[NSString stringWithFormat:@"%i",cityID],
+                             10099,@"1000637",
+                             10102,@"1000667",
+                             10103,@"1000672"
                              ];
+         */
+        //NSString * prePost = [NSString stringWithFormat:@"1076=%@,524=%@,502=%@,505=%@,518=%@,523=%@,10097=%@,10098=%@,10099=%@,10100=%@,10102=%@,10103=%@,-98=%@,-180=%@,-181=%@,ImagesID=%@,-100=%@",
+        //NSString * prePost = [NSString stringWithFormat:@"1076=%@,524=%@,502=%@,505=%@,518=%@,523=%@,10097=%@,10098=%@,10099=%@,10100=%@,10102=%@,10103=%@,-98=%@,-180=%@,ImagesID=%@,-100=%@",
+        //NSString * prePost = [NSString stringWithFormat:@"1076=%@&524=%@&502=%@&505=%@&518=%@&523=%@&10097=%@&10098=%@&10099=%@&10100=%@&-98=%@&-180=%@&ImagesID=%@&-100=%@&%i=%@",
+        NSString * prePost = [NSString stringWithFormat:@"1076=%@&524=%@&502=%@&505=%@&518=%@&523=%@&10097=%@&10098=%@&10100=%@&-98=%@&-180=%@&ImagesID=%@&-100=%@&%i=%@",
+                [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
+                aTitle,
+                [NSString stringWithFormat:@"%i", aPeriodValueID],
+                [NSString stringWithFormat:@"%i",aServiceValueID],
+                aDistance,
+                aDescription,
+                [NSString stringWithFormat:@"%i",carConditionID],
+                [NSString stringWithFormat:@"%i",gearTypeID],
+                //@"1000637",
+                [NSString stringWithFormat:@"%i",carBodyID],
+                //@"1000667",
+                //@"",
+                //@"1000672",
+                //@"",
+                [NSString stringWithFormat:@"%i",brandID],
+                [NSString stringWithFormat:@"%i",cityID],
+                //@"",
+                [self getIDsStringFromArray:aImageIDsArray],
+                aPhoneNumer,
+                brandKeyForModel.integerValue, [NSString stringWithFormat:@"%i",modelID]
+                ];
+                              
         /*BRAND_ATTR_ID
          NSString * prePost = @"524=text&523=نص&507=987123&502=1189&520=3210987456&508=1235&505=830&509=1207&518=321789&528=&868=&907=1&1076=2675&952=1553&ImagesID=\"7730822, 7730862\"";
          
