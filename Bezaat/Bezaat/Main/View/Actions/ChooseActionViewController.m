@@ -264,16 +264,19 @@
 }
 #pragma mark - actions
 - (IBAction)AddNewCarAdBtnPressed:(id)sender {
-    /*
-    [self hideMenu];
-    ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-    vc.tagOfCallXib=1;
-    [self presentViewController:vc animated:YES completion:nil];
-    */
-    
-    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+
+        [self hideMenu];
+        ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
+        //vc.tagOfCallXib=1;
+        vc.tagOfCallXib=2;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else {
+        
+        AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
     //GA
     [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"
                                                     withAction:@"buttonPress"
@@ -288,7 +291,8 @@
         //  UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         //if (savedProfile) {
         ModelsViewController *vc=[[ModelsViewController alloc] initWithNibName:@"ModelsViewController" bundle:nil];
-        vc.tagOfCallXib=2;
+        //vc.tagOfCallXib=2;
+        vc.tagOfCallXib=1;
         [self presentViewController:vc animated:YES completion:nil];
         // }
         // else{
