@@ -169,20 +169,18 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     return 1;
 }
 
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-    
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if ((pricingOptions) && (pricingOptions.count))
     {
-        
         FeatureAdCell * cell = (FeatureAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"FeatureAdCell" owner:self options:nil] objectAtIndex:0];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         //[cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
         if (indexPath.row==choosenCell) {
             [cell.checkButton setBackgroundImage:[UIImage imageNamed:checkedImageName] forState:UIControlStateNormal];
         }
-        else{
+        else
+        {
             [cell.checkButton setBackgroundImage:[UIImage imageNamed:unCheckedImageName] forState:UIControlStateNormal];
         }
         
@@ -191,12 +189,15 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         cell.costLabel.text = [NSString stringWithFormat:@"%@",[GenericMethods formatPrice:option.price]];
         cell.periodLabel.text = option.pricingName;
         cell.detailsLabel.text = @"";
-        if (!option.pricingTierID || option.pricingTierID == 0){
+        if (!option.pricingTierID || option.pricingTierID == 0)
+        {
             [cell.itunesImg setHidden:YES];
            // [self.nowBtn setEnabled:NO];
-        }else{
+        }
+        else
+        {
             [cell.itunesImg setHidden:NO];
-           // [self.nowBtn setEnabled:YES];
+            // [self.nowBtn setEnabled:YES];
         }
         return cell;
     }
@@ -467,22 +468,21 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     
     for (int i = 0; i < pricingOptions.count; i++)
     {
+        
+        
         PricingOption * currentItem = pricingOptions[i];
         // Update the cell information
         FeatureAdCell * brandCell;
-        brandFrame = CGRectMake(-1, -1, 166, 166);//these are the dimensions of the brand cell
+        brandFrame = CGRectMake(-1, -1, 172, 213);//these are the dimensions of the brand cell
         brandCell = (FeatureAdCell*)[[NSBundle mainBundle] loadNibNamed:@"FeatureAdCell_iPad" owner:self options:nil][0];
         
-        //[brandCell reloadInformation:currentItem];
+        brandCell.cellID=i;
+        brandCell.costLabel.text = [NSString stringWithFormat:@"%@",[GenericMethods formatPrice:currentItem.price]];
+        brandCell.periodLabel.text = currentItem.pricingName;
         
-        //if ((chosenBrand) && (chosenBrand.brandID == currentItem.brandID))
-        //    [brandCell selectCell];
-        
-        //if (i == 0)
-        //    [brandCell selectCell];
         
         if (i != 0) {
-            if (i % 6 == 0) {
+            if (i % 5 == 0) {
                 rowCounter ++;
                 colCounter = 0;
             }
@@ -508,6 +508,22 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     }
     totalHeight = 1 + brandFrame.size.height + currentY + 15;
     [self.MyScrollView setContentSize:CGSizeMake(self.MyScrollView.contentSize.width, totalHeight)];
+}
+
+
+
+- (void) didSelectBrandCell:(id) sender {
+    
+    
+    UITapGestureRecognizer * tap = (UITapGestureRecognizer *) sender;
+    FeatureAdCell * senderCell = (FeatureAdCell *) tap.view;
+    choosenCell=senderCell.cellID;
+    [senderCell.checkButton setSelected:YES];
+    PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
+    if (!option.pricingTierID || option.pricingTierID == 0)
+        [self.nowBtn setEnabled:NO];
+    else
+        [self.nowBtn setEnabled:YES];
 }
 
 
