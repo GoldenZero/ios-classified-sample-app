@@ -1,5 +1,5 @@
 //
-//  labelAdViewController.h
+//  labelStoreAdViewController_iPad.h
 //  Bezaat
 //
 //  Created by Noor Alssarraj on 4/7/13.
@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 #import "FeaturingManager.h"
+#import "StoreManager.h"
 #import "Store.h"
 #import "AddNewCarAdViewController.h"
 #import "AddNewCarAdViewController_iPad.h"
 #import "ChooseActionViewController.h"
 
-@interface labelAdViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate, PricingOptionsDelegate, FeaturingOrderDelegate>
+@interface labelStoreAdViewController_iPad : UIViewController <UITableViewDataSource,UITableViewDelegate, SKPaymentTransactionObserver, SKProductsRequestDelegate, PricingOptionsDelegate, FeaturingOrderDelegate, StoreManagerDelegate>
 
 #pragma mark - actions
 - (IBAction)backBtnPressed:(id)sender;
@@ -45,7 +46,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *iPad_storeCountOfRemainingDays;
 @property (weak, nonatomic) IBOutlet UIView *iPad_pricingtableContainerView;
 
-@property (nonatomic) BOOL iPad_isStoreAd;
 @property (strong, nonatomic) Store * iPad_currentStore;
 
 @end

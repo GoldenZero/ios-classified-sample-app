@@ -18,6 +18,7 @@
 #import "StoreDetailsViewController.h"
 #import "AppDelegate.h"
 #import "SendEmailViewController.h"
+#import "labelStoreAdViewController_iPad.h"
 #import "AddNewCarAdViewController_iPad.h"
 #import <MessageUI/MessageUI.h>
 
@@ -2181,51 +2182,64 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 - (void)featurecurrentStoreAd:(NSInteger)advID {
     if (currentStore)
     {
-        if (currentStore.remainingFreeFeatureAds <= 0) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
-                                                            message:@"لقد تجاوزت عدد الإعلانات المحجوزة، بإمكانك إلغاء إعلان آخر ثم تمييز هذا الإعلان."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"موافق"
-                                                  otherButtonTitles:nil];
-            alert.tag = 100;
-            [alert show];
-        }
-        else if (currentStore.remainingDays < 3) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
-                                                            message:@"عدد الأيام المتبقية لديك غير كاف، قم بتجديد اشتراكك لتستطيع تمييز هذا الإعلان."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"موافق"
-                                                  otherButtonTitles:nil];
-            alert.tag = 100;
-            [alert show];
-        }
-        else {
-            UIActionSheet *actionSheet = nil;
-            
-            if (currentStore.remainingDays < 7) {
-                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
-                                                          delegate:self
-                                                 cancelButtonTitle:@"إلغاء"
-                                            destructiveButtonTitle:nil
-                                                 otherButtonTitles:@"٣ أيام", nil];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (currentStore.remainingFreeFeatureAds <= 0) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
+                                                                message:@"لقد تجاوزت عدد الإعلانات المحجوزة، بإمكانك إلغاء إعلان آخر ثم تمييز هذا الإعلان."
+                                                               delegate:self
+                                                      cancelButtonTitle:@"موافق"
+                                                      otherButtonTitles:nil];
+                alert.tag = 100;
+                [alert show];
             }
-            else if (currentStore.remainingDays < 28) {
-                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
-                                                          delegate:self
-                                                 cancelButtonTitle:@"إلغاء"
-                                            destructiveButtonTitle:nil
-                                                 otherButtonTitles:@"٣ أيام", @"اسبوع", nil];
+            else if (currentStore.remainingDays < 3) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
+                                                                message:@"عدد الأيام المتبقية لديك غير كاف، قم بتجديد اشتراكك لتستطيع تمييز هذا الإعلان."
+                                                               delegate:self
+                                                      cancelButtonTitle:@"موافق"
+                                                      otherButtonTitles:nil];
+                alert.tag = 100;
+                [alert show];
             }
             else {
-                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
-                                                          delegate:self
-                                                 cancelButtonTitle:@"إلغاء"
-                                            destructiveButtonTitle:nil
-                                                 otherButtonTitles:@"٣ أيام", @"اسبوع", @"شهر", nil];
+                UIActionSheet *actionSheet = nil;
+                
+                if (currentStore.remainingDays < 7) {
+                    actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                              delegate:self
+                                                     cancelButtonTitle:@"إلغاء"
+                                                destructiveButtonTitle:nil
+                                                     otherButtonTitles:@"٣ أيام", nil];
+                }
+                else if (currentStore.remainingDays < 28) {
+                    actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                              delegate:self
+                                                     cancelButtonTitle:@"إلغاء"
+                                                destructiveButtonTitle:nil
+                                                     otherButtonTitles:@"٣ أيام", @"اسبوع", nil];
+                }
+                else {
+                    actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                              delegate:self
+                                                     cancelButtonTitle:@"إلغاء"
+                                                destructiveButtonTitle:nil
+                                                     otherButtonTitles:@"٣ أيام", @"اسبوع", @"شهر", nil];
+                }
+                [actionSheet showInView:self.view];
             }
-            [actionSheet showInView:self.view];
         }
     }
+    else { //iPad
+        labelStoreAdViewController_iPad *vc=[[labelStoreAdViewController_iPad alloc] initWithNibName:@"labelStoreAdViewController_iPad" bundle:nil];
+        vc.currentAdID = currentAdID;
+        vc.countryAdID = currentStore.countryID;
+        vc.iPad_currentStore = currentStore;
+        vc.currentAdHasImages = NO;
+        if (currentDetailsObject.adImages && currentDetailsObject.adImages.count)
+            vc.currentAdHasImages = YES;
+        
+        [self presentViewController:vc animated:YES completion:nil];
+        }
 }
 
 - (void)unfeaturecurrentStoreAd:(NSInteger)advID {

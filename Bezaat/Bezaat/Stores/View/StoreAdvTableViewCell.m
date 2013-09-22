@@ -64,10 +64,8 @@
 
 - (void)setTitle:(NSString *)_title {
     title = _title;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        titleLabel.text = title;
-    else
-        self.iPad_titleLabel.text = title;
+    titleLabel.text = title;
+    
 }
 
 - (NSString *) price {
@@ -76,10 +74,8 @@
 
 - (void) setPrice:(NSString *)_price {
     price = _price;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        priceLabel.text = price;
-    else
-        self.iPad_priceLabel.text = price;
+    priceLabel.text = price;
+    
 }
 
 - (BOOL) isFeatured {

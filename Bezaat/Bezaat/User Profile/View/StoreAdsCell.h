@@ -28,8 +28,8 @@
 @property (nonatomic, weak) IBOutlet UIImageView *featureTagImageView;
 @property (nonatomic, weak) IBOutlet UIImageView *bgImageView;
 
-@property (weak, nonatomic) IBOutlet SSLabel *iPad_carTitle;
-@property (weak, nonatomic) IBOutlet SSLabel *iPad_carPrice;
+
+
 
 @property (nonatomic) BOOL isFeatured;
 

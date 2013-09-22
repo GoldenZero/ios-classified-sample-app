@@ -31,9 +31,6 @@
 @property (strong, nonatomic) IBOutlet UIView *bottomBarView;
 
 
-@property (nonatomic, weak) IBOutlet SSLabel *iPad_titleLabel;
-@property (nonatomic, weak) IBOutlet SSLabel *iPad_priceLabel;
-
 @property (nonatomic) NSInteger advID;
 @property (nonatomic, strong) NSURL *imageURL;
 @property (nonatomic, strong) NSString *title;

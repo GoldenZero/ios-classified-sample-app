@@ -15,6 +15,7 @@
 #import "ChooseModelView_iPad.h"
 #import "BrandCell.h"
 #import "ModelCell.h"
+#import "labelStoreAdViewController_iPad.h"
 
 #pragma mark - literals for use in post ad
 //These literals should used for posting any ad
@@ -35,7 +36,7 @@
     NSArray *countryArray;
     NSArray *cityArray;
     NSArray *kiloMileArray;
-
+    
     NSArray *carConditionArray;
     NSArray *gearTypeArray;
     NSArray *carTypeArray;
@@ -51,14 +52,14 @@
     
     NSInteger defaultStoreIndex;
     NSInteger myAdID;
-
+    
     MBProgressHUD2 *loadingHUD;
     MBProgressHUD2 *imgsLoadingHUD;
     int chosenImgBtnTag;
     UIImage * currentImageToUpload;
     LocationManager * locationMngr;
     StoreManager *advFeatureManager;
-
+    
     CLLocationManager * deviceLocationDetector;
     
     NSUInteger defaultIndex;
@@ -89,7 +90,7 @@
     IBOutlet UITextField *placeholderTextField;
     NSUInteger defaultCurrencyID;
     NSUInteger defaultcurrecncyIndex;
-
+    
     BOOL choosingStore;
     
     UIActivityIndicatorView * iPad_activityIndicator;
@@ -144,7 +145,7 @@
     
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] getUserStores];
-
+    
     
     locationMngr = [LocationManager sharedInstance];
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
@@ -160,15 +161,15 @@
         if (self.currentStore) {
             defaultIndex = [locationMngr getIndexOfCountry:self.currentStore.countryID];
         }else
-        defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
+            defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
         
         if  (defaultIndex!= -1){
             chosenCountry =[countryArray objectAtIndex:defaultIndex];
             cityArray=[chosenCountry cities];
             if (self.currentStore) {
-               defaultCountryID = self.currentStore.countryID; 
+                defaultCountryID = self.currentStore.countryID;
             }else
-            defaultCountryID = [[SharedUser sharedInstance] getUserCountryID];
+                defaultCountryID = [[SharedUser sharedInstance] getUserCountryID];
             defaultCityID =  ((City *)chosenCountry.cities[0]).cityID;
         }
         
@@ -190,21 +191,21 @@
         }
         
     }
-
+    
     
     //[self.locationPickerView reloadAllComponents];
-
+    
     /*
-    defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
-    if  (defaultIndex!= -1){
-        chosenCountry =[countryArray objectAtIndex:defaultIndex];
-        cityArray=[chosenCountry cities];
-    }
-
-    defaultCityID =  [[LocationManager sharedInstance] getSavedUserCityID];
-    defaultCountryID = [[LocationManager sharedInstance] getSavedUserCountryID];
-    NSLog(@"%i",defaultCityID);
-    */
+     defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+     if  (defaultIndex!= -1){
+     chosenCountry =[countryArray objectAtIndex:defaultIndex];
+     cityArray=[chosenCountry cities];
+     }
+     
+     defaultCityID =  [[LocationManager sharedInstance] getSavedUserCityID];
+     defaultCountryID = [[LocationManager sharedInstance] getSavedUserCountryID];
+     NSLog(@"%i",defaultCityID);
+     */
     
     //[locationMngr loadCountriesAndCitiesWithDelegate:self];
     
@@ -240,7 +241,7 @@
     
     //initial car condition
     conditionchoosen = false; //used
-        
+    
     [self loadDataArray];
     //[self addButtonsToXib];
     //[self setImagesArray];
@@ -320,120 +321,120 @@
     countryArray=resultArray;
 }
 /*
-#pragma mark - location handler.
-- (void) didFinishLoadingWithData:(NSArray*) resultArray{
-    [self hideLoadingIndicator];
-    countryArray=resultArray;
-    
-    
-    if (resultArray && resultArray.count)
-    {
-        defaultIndex = [locationMngr getIndexOfCountry:self.currentStore.countryID];
-        
-        if  (defaultIndex!= -1){
-            chosenCountry =[countryArray objectAtIndex:defaultIndex];
-            cityArray=[chosenCountry cities];
-            defaultCountryID = self.currentStore.countryID;
-            defaultCityID =  ((City *)chosenCountry.cities[0]).cityID;
-        }
-        
-    }
-    for (int i =0; i <= [countryArray count] - 1; i++) {
-        chosenCountry=[countryArray objectAtIndex:i];
-        if (chosenCountry.countryID == defaultCountryID) {
-            cityArray=[chosenCountry cities];
-            for (City* cit in cityArray) {
-                if (cit.cityID == defaultCityID)
-                {
-                    myCountry = [countryArray objectAtIndex:i];
-                    defaultCityID = [cityArray indexOfObject:cit];
-                    chosenCity =[cityArray objectAtIndex:defaultCityID];
-                    break;
-                    //return;
-                }
-            }
-        }
-        
-    }
-    
-    [self.locationPickerView reloadAllComponents];
-}
-*/
+ #pragma mark - location handler.
+ - (void) didFinishLoadingWithData:(NSArray*) resultArray{
+ [self hideLoadingIndicator];
+ countryArray=resultArray;
+ 
+ 
+ if (resultArray && resultArray.count)
+ {
+ defaultIndex = [locationMngr getIndexOfCountry:self.currentStore.countryID];
+ 
+ if  (defaultIndex!= -1){
+ chosenCountry =[countryArray objectAtIndex:defaultIndex];
+ cityArray=[chosenCountry cities];
+ defaultCountryID = self.currentStore.countryID;
+ defaultCityID =  ((City *)chosenCountry.cities[0]).cityID;
+ }
+ 
+ }
+ for (int i =0; i <= [countryArray count] - 1; i++) {
+ chosenCountry=[countryArray objectAtIndex:i];
+ if (chosenCountry.countryID == defaultCountryID) {
+ cityArray=[chosenCountry cities];
+ for (City* cit in cityArray) {
+ if (cit.cityID == defaultCityID)
+ {
+ myCountry = [countryArray objectAtIndex:i];
+ defaultCityID = [cityArray indexOfObject:cit];
+ chosenCity =[cityArray objectAtIndex:defaultCityID];
+ break;
+ //return;
+ }
+ }
+ }
+ 
+ }
+ 
+ [self.locationPickerView reloadAllComponents];
+ }
+ */
 // This method loads the device location initialli, and afterwards the loading of country lists comes after
 /*
-- (void) loadData {
-    
-    if (![GenericMethods connectedToInternet])
-    {
-        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
-        [locationMngr loadCountriesAndCitiesWithDelegate:self];
-        return;
-    }
-    
-    if ([CLLocationManager locationServicesEnabled])
-    {
-        if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
-            ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized))
-        {
-            if (!deviceLocationDetector)
-                deviceLocationDetector = [[CLLocationManager alloc] init];
-            
-            [self showLoadingIndicator];
-            deviceLocationDetector.delegate = self;
-            deviceLocationDetector.distanceFilter = 500;
-            deviceLocationDetector.desiredAccuracy = kCLLocationAccuracyKilometer;
-            deviceLocationDetector.pausesLocationUpdatesAutomatically = YES;
-            
-            [deviceLocationDetector startUpdatingLocation];
-        }
-        else
-        {
-            [LocationManager sharedInstance].deviceLocationCountryCode = @"";
-            [locationMngr loadCountriesAndCitiesWithDelegate:self];
-        }
-    }
-    else
-    {
-        [LocationManager sharedInstance].deviceLocationCountryCode = @"";
-        [locationMngr loadCountriesAndCitiesWithDelegate:self];
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
-    [deviceLocationDetector stopUpdatingLocation];
-    
-    //currentLocation = newLocation;
-    
-    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        
-        MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
-        NSString * code = mark.countryCode;
-        
-        [LocationManager sharedInstance].deviceLocationCountryCode = code;
-        
-        [locationMngr loadCountriesAndCitiesWithDelegate:self];
-        
-        //self initialize drop down lists
-        [self.locationPickerView reloadAllComponents];
-        
-    }];
-    
-}
-
-- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:error.localizedDescription delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-    [alert show];
-    
-    [deviceLocationDetector stopUpdatingLocation];
-    
-    [LocationManager sharedInstance].deviceLocationCountryCode = @"";
-    
-    [locationMngr loadCountriesAndCitiesWithDelegate:self];
-}
-*/
+ - (void) loadData {
+ 
+ if (![GenericMethods connectedToInternet])
+ {
+ [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+ [locationMngr loadCountriesAndCitiesWithDelegate:self];
+ return;
+ }
+ 
+ if ([CLLocationManager locationServicesEnabled])
+ {
+ if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
+ ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized))
+ {
+ if (!deviceLocationDetector)
+ deviceLocationDetector = [[CLLocationManager alloc] init];
+ 
+ [self showLoadingIndicator];
+ deviceLocationDetector.delegate = self;
+ deviceLocationDetector.distanceFilter = 500;
+ deviceLocationDetector.desiredAccuracy = kCLLocationAccuracyKilometer;
+ deviceLocationDetector.pausesLocationUpdatesAutomatically = YES;
+ 
+ [deviceLocationDetector startUpdatingLocation];
+ }
+ else
+ {
+ [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+ [locationMngr loadCountriesAndCitiesWithDelegate:self];
+ }
+ }
+ else
+ {
+ [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+ [locationMngr loadCountriesAndCitiesWithDelegate:self];
+ }
+ }
+ 
+ - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+ 
+ [deviceLocationDetector stopUpdatingLocation];
+ 
+ //currentLocation = newLocation;
+ 
+ CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+ [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+ 
+ MKPlacemark * mark = [[MKPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]];
+ NSString * code = mark.countryCode;
+ 
+ [LocationManager sharedInstance].deviceLocationCountryCode = code;
+ 
+ [locationMngr loadCountriesAndCitiesWithDelegate:self];
+ 
+ //self initialize drop down lists
+ [self.locationPickerView reloadAllComponents];
+ 
+ }];
+ 
+ }
+ 
+ - (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+ 
+ UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:error.localizedDescription delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+ [alert show];
+ 
+ [deviceLocationDetector stopUpdatingLocation];
+ 
+ [LocationManager sharedInstance].deviceLocationCountryCode = @"";
+ 
+ [locationMngr loadCountriesAndCitiesWithDelegate:self];
+ }
+ */
 - (void) loadDataArray{
     productionYearArray=[[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadModelYearValues]];
     currencyArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
@@ -442,7 +443,7 @@
     gearTypeArray = [[NSArray alloc] initWithObjects:@"عادي",@"اتوماتيك",@"تريبتونيك", nil];
     carTypeArray = [[NSArray alloc] initWithObjects:@"امامي",@"خلفي",@"4x4", nil];
     carBodyArray = [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadBodyValues]];
-   
+    
     defaultCurrencyID=[[StaticAttrsLoader sharedInstance] getCurrencyIdOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
     defaultcurrecncyIndex=0;
     while (defaultcurrecncyIndex<currencyArray.count) {
@@ -452,7 +453,7 @@
         defaultcurrecncyIndex++;
     }
     chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex];
-
+    
     [self.modelNameLabel setText:self.currentModel.modelName];
     kiloChoosen=true;
 }
@@ -576,7 +577,7 @@
     [carAdTitle setBorderStyle:UITextBorderStyleRoundedRect];
     [carAdTitle setTextAlignment:NSTextAlignmentRight];
     [carAdTitle setPlaceholder:@"عنوان الإعلان"];
-//    [carAdTitle setKeyboardType:UIKeyboardTypeAlphabet];
+    //    [carAdTitle setKeyboardType:UIKeyboardTypeAlphabet];
     [self.verticalScrollView addSubview:carAdTitle];
     carAdTitle.delegate=self;
     
@@ -604,7 +605,7 @@
     placeholderTextField.placeholder = @"تفاصيل الإعلان";
     //[self.verticalScrollView addSubview:placeholderTextField];
     [self.verticalScrollView addSubview:carDetails];
-
+    
     mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,260 ,260 ,30)];  //610
     [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
     [mobileNum setTextAlignment:NSTextAlignmentRight];
@@ -685,7 +686,7 @@
     [self.verticalScrollView addSubview:productionYear];
     
     
-   
+    
     
     
 }
@@ -723,7 +724,7 @@
         [self.view addSubview:iPad_loadingView];
         [iPad_activityIndicator startAnimating];
     }
-        
+    
     
 }
 
@@ -922,8 +923,8 @@
                                             self.pickersView.frame.size.width,
                                             self.pickersView.frame.size.height);
     }];
-
-
+    
+    
 }
 
 -(IBAction)showPicker
@@ -936,13 +937,13 @@
     
     [self.pickersView setHidden:NO];
     /*
-    [UIView animateWithDuration:0.3 animations:^{
-        self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
-                                            [[UIScreen mainScreen] bounds].size.height-self.self.pickersView.frame.size.height,
-                                            self.pickersView.frame.size.width,
-                                            self.pickersView.frame.size.height);
-    }];*/
-
+     [UIView animateWithDuration:0.3 animations:^{
+     self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
+     [[UIScreen mainScreen] bounds].size.height-self.self.pickersView.frame.size.height,
+     self.pickersView.frame.size.width,
+     self.pickersView.frame.size.height);
+     }];*/
+    
     [UIView animateWithDuration:0.3f animations:^{
         
         self.pickersView.frame = CGRectMake(self.pickersView.frame.origin.x,
@@ -956,7 +957,7 @@
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
 {
-
+    
     if (pickerView == _bodyPickerView){
         return 1;
     }else if (pickerView == _storePickerView){
@@ -971,13 +972,13 @@
 {
     /*
      if (pickerView==_locationPickerView) {
-        cityArray=[myCountry cities];
-        chosenCity=[cityArray objectAtIndex:row];
-        NSString *temp= [NSString stringWithFormat:@"%@ : %@", myCountry.countryName , chosenCity.cityName];
-        [countryCity setTitle:temp forState:UIControlStateNormal];
-        locationBtnPressedOnce = YES;
-        
-    }else */
+     cityArray=[myCountry cities];
+     chosenCity=[cityArray objectAtIndex:row];
+     NSString *temp= [NSString stringWithFormat:@"%@ : %@", myCountry.countryName , chosenCity.cityName];
+     [countryCity setTitle:temp forState:UIControlStateNormal];
+     locationBtnPressedOnce = YES;
+     
+     }else */
     if (pickerView == _bodyPickerView)
     {
         SingleValue *choosen=[globalArray objectAtIndex:row];
@@ -986,7 +987,7 @@
             [body setTitle:choosen.valueString forState:UIControlStateNormal];
         }
         bodyBtnPressedOnce = YES;
-
+        
     }else if (pickerView == _storePickerView){
         myStore = [allUserStore objectAtIndex:row];
         [theStore setTitle:myStore.name forState:UIControlStateNormal];
@@ -1033,11 +1034,11 @@
 {
     /*
      if (pickerView==_locationPickerView) {
-        
-        return [cityArray count];
-    
-    }
-    else */
+     
+     return [cityArray count];
+     
+     }
+     else */
     if (pickerView==_bodyPickerView) {
         return [globalArray count];
         
@@ -1056,9 +1057,9 @@
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     /*
      if (pickerView ==_locationPickerView) {
-            City *temp=(City*)[cityArray objectAtIndex:row];
-            return temp.cityName;
-    }else */
+     City *temp=(City*)[cityArray objectAtIndex:row];
+     return temp.cityName;
+     }else */
     if (pickerView == _bodyPickerView){
         return [NSString stringWithFormat:@"%@",[(SingleValue*)[globalArray objectAtIndex:row] valueString]];
     }else if (pickerView == _storePickerView){
@@ -1138,7 +1139,7 @@
         if (globalArray && globalArray.count)
             chosenYear = (SingleValue *)[globalArray objectAtIndex:0];
     }
-
+    
     [self showPicker];
     
 }
@@ -1152,8 +1153,8 @@
     self.storePickerView.hidden = YES;
     self.pickerView.hidden=NO;
     [self dismissKeyboard];
-
-   NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)chosenCurrency valueString]];
+    
+    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)chosenCurrency valueString]];
     [currency setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=currencyArray;
@@ -1174,26 +1175,26 @@
     
     choosingStore = NO;
     /*
-    self.locationPickerView.hidden=NO;
-    self.pickerView.hidden=YES;
-    self.bodyPickerView.hidden = YES;
-    self.storePickerView.hidden = YES;
-    [self dismissKeyboard];
-
-    
-    NSString *temp= [NSString stringWithFormat:@"%@ :%@", myCountry.countryName , chosenCity.cityName];
-    [countryCity setTitle:temp forState:UIControlStateNormal];
-    
-    [self.locationPickerView reloadAllComponents];
-    if (!locationBtnPressedOnce)
-    {
-        if (defaultIndex!=-1) {
-            [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
-            
-            
-        }
-    }
-    [self showPicker];
+     self.locationPickerView.hidden=NO;
+     self.pickerView.hidden=YES;
+     self.bodyPickerView.hidden = YES;
+     self.storePickerView.hidden = YES;
+     [self dismissKeyboard];
+     
+     
+     NSString *temp= [NSString stringWithFormat:@"%@ :%@", myCountry.countryName , chosenCity.cityName];
+     [countryCity setTitle:temp forState:UIControlStateNormal];
+     
+     [self.locationPickerView reloadAllComponents];
+     if (!locationBtnPressedOnce)
+     {
+     if (defaultIndex!=-1) {
+     [self.locationPickerView selectRow:defaultIndex inComponent:0 animated:YES];
+     
+     
+     }
+     }
+     [self showPicker];
      */
     locationBtnPressedOnce = YES;
     CountryListViewController* vc;
@@ -1208,64 +1209,64 @@
 }
 
 /*
-- (void) chooseKiloMile{
-    
-    choosingStore = NO;
-    
-    if (kiloMile.selectedSegmentIndex==0) {
-        kiloChoosen=true;
-    }
-    else if (kiloMile.selectedSegmentIndex==1){
-        
-        kiloChoosen=false;
-    }
-    
-}
-
--(IBAction)chooseCarCondition:(id)sender
-{
-    choosingStore = NO;
-    if (condition.selectedSegmentIndex==0) {
-        conditionchoosen=true;
-    }
-    else if (condition.selectedSegmentIndex==1){
-        
-        conditionchoosen=false;
-    }
-}
-
--(IBAction) chooseGearType:(id)sender
-{
-    choosingStore = NO;
-    if (gear.selectedSegmentIndex==0) {
-        gearchoosen = 0;
-    }
-    else if (gear.selectedSegmentIndex==1){
-        
-        gearchoosen = 1;
-    }
-    else if (gear.selectedSegmentIndex==2){
-        
-        gearchoosen = 2;
-    }
-}
-
--(IBAction) chooseCarType:(id)sender
-{
-    choosingStore = NO;
-    if (type.selectedSegmentIndex==0) {
-        typechoosen=0;
-    }
-    else if (type.selectedSegmentIndex==1){
-        
-        typechoosen=1;
-    }
-    else if (type.selectedSegmentIndex==2){
-        
-        typechoosen=2;
-    }
-}
-*/
+ - (void) chooseKiloMile{
+ 
+ choosingStore = NO;
+ 
+ if (kiloMile.selectedSegmentIndex==0) {
+ kiloChoosen=true;
+ }
+ else if (kiloMile.selectedSegmentIndex==1){
+ 
+ kiloChoosen=false;
+ }
+ 
+ }
+ 
+ -(IBAction)chooseCarCondition:(id)sender
+ {
+ choosingStore = NO;
+ if (condition.selectedSegmentIndex==0) {
+ conditionchoosen=true;
+ }
+ else if (condition.selectedSegmentIndex==1){
+ 
+ conditionchoosen=false;
+ }
+ }
+ 
+ -(IBAction) chooseGearType:(id)sender
+ {
+ choosingStore = NO;
+ if (gear.selectedSegmentIndex==0) {
+ gearchoosen = 0;
+ }
+ else if (gear.selectedSegmentIndex==1){
+ 
+ gearchoosen = 1;
+ }
+ else if (gear.selectedSegmentIndex==2){
+ 
+ gearchoosen = 2;
+ }
+ }
+ 
+ -(IBAction) chooseCarType:(id)sender
+ {
+ choosingStore = NO;
+ if (type.selectedSegmentIndex==0) {
+ typechoosen=0;
+ }
+ else if (type.selectedSegmentIndex==1){
+ 
+ typechoosen=1;
+ }
+ else if (type.selectedSegmentIndex==2){
+ 
+ typechoosen=2;
+ }
+ }
+ */
 
 -(IBAction) chooseBody:(id)sender
 {
@@ -1321,16 +1322,16 @@
     [self closePicker];
 }
 /*
-- (IBAction)homeBtnPrss:(id)sender {
-    ChooseActionViewController *vc;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
-    else
-        vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
-    
-}
-*/
+ - (IBAction)homeBtnPrss:(id)sender {
+ ChooseActionViewController *vc;
+ if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+ vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+ else
+ vc =[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController_iPad" bundle:nil];
+ [self presentViewController:vc animated:YES completion:nil];
+ 
+ }
+ */
 
 - (IBAction)addBtnprss:(id)sender {
     
@@ -1408,7 +1409,7 @@
             
         }
     }
-
+    
     if (!chosenBody)
     {
         
@@ -1416,7 +1417,7 @@
         return;
         
     }
-
+    
     //check phone number
     if (!mobileNum.text)
     {
@@ -1425,12 +1426,12 @@
     }
     
     /*if ([distance.text length] == 0)
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال المسافه المقطوعه" delegateVC:self];
-        return;
-    }*/
+     {
+     [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال المسافه المقطوعه" delegateVC:self];
+     return;
+     }*/
     
-   
+    
     
     
     
@@ -1477,7 +1478,7 @@
         carPrice.text = @"";
     }
     
-        
+    
     [[CarAdsManager sharedInstance] postStoreAdOfBrand:_currentModel.brandID myStore:myStore.identifier
                                                  Model:_currentModel.modelID
                                                 InCity:chosenCity.cityID
@@ -1536,38 +1537,38 @@
             details.currentAdID=myAdID;
             details.checkPage = YES;
             [self presentViewController:details animated:YES completion:nil];
-
+            
         }
         else {
-        if ((myAdID == 0) || (myAdID == -1)) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
-                                                            message:@"لم يتم تحديد إعلان."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"موافق"
-                                                  otherButtonTitles:nil];
-            [alert show];
-            return;
+            if ((myAdID == 0) || (myAdID == -1)) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
+                                                                message:@"لم يتم تحديد إعلان."
+                                                               delegate:self
+                                                      cancelButtonTitle:@"موافق"
+                                                      otherButtonTitles:nil];
+                [alert show];
+                return;
+            }
+            NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+            NSInteger featureDays = 3;
+            if ([@"٣ أيام" isEqualToString:buttonTitle]) {
+                featureDays = 3;
+            }
+            else if ([@"اسبوع" isEqualToString:buttonTitle]) {
+                featureDays = 7;
+            }
+            else if ([@"شهر" isEqualToString:buttonTitle]) {
+                featureDays = 28;
+            }
+            if (myStore)
+            {
+                [advFeatureManager featureAdv:myAdID
+                                      inStore:myStore.identifier
+                                  featureDays:featureDays];
+                [self showLoadingIndicator];
+            }
         }
-        NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-        NSInteger featureDays = 3;
-        if ([@"٣ أيام" isEqualToString:buttonTitle]) {
-            featureDays = 3;
-        }
-        else if ([@"اسبوع" isEqualToString:buttonTitle]) {
-            featureDays = 7;
-        }
-        else if ([@"شهر" isEqualToString:buttonTitle]) {
-            featureDays = 28;
-        }
-        if (myStore)
-        {
-            [advFeatureManager featureAdv:myAdID
-                                  inStore:myStore.identifier
-                              featureDays:featureDays];
-            [self showLoadingIndicator];
-        }
-    }
-    
+        
     }
     else if (actionSheet.tag == 1){
         if (buttonIndex == 0)
@@ -1613,7 +1614,7 @@
     
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
     [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
-
+    
     [self hideLoadingIndicatorOnImages];
     if (chosenImgBtnTag > -1)
     {
@@ -1636,16 +1637,16 @@
     //1- show the image on the button
     /*
      if ((chosenImgBtnTag > -1) && (currentImageToUpload))
-    {
-        
-        UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
-        UIImageView * imgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tappedBtn.frame.size.width, tappedBtn.frame.size.height)];
-        
-        [tappedBtn addSubview:imgv];
-        [imgv setImageWithURL:url placeholderImage:[UIImage imageNamed:@"AddCar_Car_logo.png"]];
+     {
      
-        
-    }
+     UIButton * tappedBtn = (UIButton *) [self.horizontalScrollView viewWithTag:chosenImgBtnTag];
+     UIImageView * imgv = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, tappedBtn.frame.size.width, tappedBtn.frame.size.height)];
+     
+     [tappedBtn addSubview:imgv];
+     [imgv setImageWithURL:url placeholderImage:[UIImage imageNamed:@"AddCar_Car_logo.png"]];
+     
+     
+     }
      */
     //2- add image data to this ad
     [currentImgsUploaded addObject:[NSNumber numberWithInteger:ID]];
@@ -1662,7 +1663,7 @@
 {
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
     [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
-
+    
     [self hideLoadingIndicator];
 }
 
@@ -1673,13 +1674,13 @@
     myAdID = adID;
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
     if (adID != 0) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"شكرا"
-                                                    message:@"تمت إضافة إعلانك بنجاج"
-                                                   delegate:self
-                                          cancelButtonTitle:@"موافق"
-                                          otherButtonTitles:nil];
-    alert.tag = 1;
-    [alert show];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"شكرا"
+                                                        message:@"تمت إضافة إعلانك بنجاج"
+                                                       delegate:self
+                                              cancelButtonTitle:@"موافق"
+                                              otherButtonTitles:nil];
+        alert.tag = 1;
+        [alert show];
         return;
     }else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"نعتذر"
@@ -1696,14 +1697,14 @@
     if (alertView.tag == 1) {
         alertView.hidden = YES;
         [self featurecurrentStoreAd:myAdID];
-     
+        
     }
     else if (alertView.tag == 2) {
         [[FeaturingManager sharedInstance] loadPricingOptionsForCountry:chosenCountry.countryID withDelegate:self];
         /*
-        //[self dismissViewControllerAnimated:YES completion:nil];
-        BrowseStoresViewController *vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
-        [self presentViewController:vc animated:YES completion:nil];*/
+         //[self dismissViewControllerAnimated:YES completion:nil];
+         BrowseStoresViewController *vc=[[BrowseStoresViewController alloc] initWithNibName:@"BrowseStoresViewController" bundle:nil];
+         [self presentViewController:vc animated:YES completion:nil];*/
     }
     else if (alertView.tag == 3)
     {
@@ -1726,7 +1727,7 @@
         details.currentAdID=myAdID;
         details.checkPage = YES;
         [self presentViewController:details animated:YES completion:nil];
-
+        
     }
     else if (alertView.tag == 6)
     {
@@ -1746,30 +1747,30 @@
 
 - (void) userStoresRetrieveDidFailWithError:(NSError *)error {
     /*UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"خطأ"
-                                                    message:@"حدث خطأ في تحميل المتاجر"
-                                                   delegate:self
-                                          cancelButtonTitle:@"موافق"
-                                          otherButtonTitles:nil];
-    [alert show];*/
+     message:@"حدث خطأ في تحميل المتاجر"
+     delegate:self
+     cancelButtonTitle:@"موافق"
+     otherButtonTitles:nil];
+     [alert show];*/
     [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     [self hideLoadingIndicator];
 }
 
 - (void) userStoresRetrieveDidSucceedWithStores:(NSArray *)stores {
-   
+    
     for (int i =0; i<[stores count]; i++) {
         Store* temp = [stores objectAtIndex:i];
-
+        
         if (temp.status == 2) {
             [allUserStore addObject:temp];
         }
     }
-     //  allUserStore = st;
+    //  allUserStore = st;
     
     if (self.currentStore) {
         for (int i =0; i < [allUserStore count]; i++) {
             if (self.currentStore.identifier == [(Store *)[allUserStore objectAtIndex:i] identifier]) {
-            defaultStoreIndex = [(Store *)[allUserStore objectAtIndex:i] identifier];
+                defaultStoreIndex = [(Store *)[allUserStore objectAtIndex:i] identifier];
                 break;
             }
         }
@@ -1779,50 +1780,50 @@
     [self hideLoadingIndicator];
 }
 /*
-
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    [self closePicker];
-}
-
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-}
-*/
+ 
+ -(void)textFieldDidBeginEditing:(UITextField *)textField
+ {
+ [self closePicker];
+ }
+ 
+ -(void)textFieldDidEndEditing:(UITextField *)textField
+ {
+ [textField resignFirstResponder];
+ }
+ */
 #pragma mark - UITextView
 /*
-- (void)textViewDidChange:(UITextView *)textView {
-    if ([@"" isEqualToString:textView.text]) {
-        //placeholderTextField.placeholder = @"تفاصيل الإعلان";
-    }
-    else {
-        //placeholderTextField.placeholder = @"";
-    }
-}
-
-- (void)textViewDidBeginEditing:(UITextView *)textView {
-    if ([[UIScreen mainScreen] bounds].size.height == 568)
-        self.view.frame = CGRectMake(0, -160, 320, 568);
-    else
-        self.view.frame = CGRectMake(0, -160, 320, 480);
-    
-    if (!textView.editable && [textView baseWritingDirectionForPosition:[textView beginningOfDocument] inDirection:UITextStorageDirectionForward] == UITextWritingDirectionRightToLeft) {
-        // if yes, set text alignment right
-        textView.textAlignment = NSTextAlignmentRight;
-    } else {
-        // for all other cases, set text alignment left
-        textView.textAlignment = NSTextAlignmentLeft;
-    }
-    //textView.textAlignment=NSTextAlignmentRight;
-}
-
-
--(void)textViewDidEndEditing:(UITextView *)textView
-{
-    [self dismissKeyboard];
-}
-*/
+ - (void)textViewDidChange:(UITextView *)textView {
+ if ([@"" isEqualToString:textView.text]) {
+ //placeholderTextField.placeholder = @"تفاصيل الإعلان";
+ }
+ else {
+ //placeholderTextField.placeholder = @"";
+ }
+ }
+ 
+ - (void)textViewDidBeginEditing:(UITextView *)textView {
+ if ([[UIScreen mainScreen] bounds].size.height == 568)
+ self.view.frame = CGRectMake(0, -160, 320, 568);
+ else
+ self.view.frame = CGRectMake(0, -160, 320, 480);
+ 
+ if (!textView.editable && [textView baseWritingDirectionForPosition:[textView beginningOfDocument] inDirection:UITextStorageDirectionForward] == UITextWritingDirectionRightToLeft) {
+ // if yes, set text alignment right
+ textView.textAlignment = NSTextAlignmentRight;
+ } else {
+ // for all other cases, set text alignment left
+ textView.textAlignment = NSTextAlignmentLeft;
+ }
+ //textView.textAlignment=NSTextAlignmentRight;
+ }
+ 
+ 
+ -(void)textViewDidEndEditing:(UITextView *)textView
+ {
+ [self dismissKeyboard];
+ }
+ */
 
 #pragma mark - PricingOptions Delegate
 
@@ -1844,7 +1845,7 @@
         else
             details = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdNoPhotoDetailsViewController_iPad" bundle:nil];
     }
-   
+    
     details.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     details.currentAdID = myAdID;
     details.checkPage = YES;
@@ -1896,51 +1897,66 @@
 - (void)featurecurrentStoreAd:(NSInteger)advID {
     if (myStore)
     {
-        if (myStore.remainingFreeFeatureAds <= 0) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
-                                                            message:@"لقد تجاوزت عدد الإعلانات المحجوزة."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"موافق"
-                                                  otherButtonTitles:nil];
-            alert.tag = 2;
-            [alert show];
-        }
-        else if (myStore.remainingDays < 3) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
-                                                            message:@"عدد الأيام المتبقية لديك غير كاف."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"موافق"
-                                                  otherButtonTitles:nil];
-            alert.tag = 2;
-            [alert show];
-        }
-        else {
-            UIActionSheet *actionSheet = nil;
-            
-            if (myStore.remainingDays < 7) {
-                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
-                                                          delegate:self
-                                                 cancelButtonTitle:@"لاحقا"
-                                            destructiveButtonTitle:nil
-                                                 otherButtonTitles:@"٣ أيام", nil];
+        /*
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (myStore.remainingFreeFeatureAds <= 0) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
+                                                                message:@"لقد تجاوزت عدد الإعلانات المحجوزة."
+                                                               delegate:self
+                                                      cancelButtonTitle:@"موافق"
+                                                      otherButtonTitles:nil];
+                alert.tag = 2;
+                [alert show];
             }
-            else if (myStore.remainingDays < 28) {
-                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
-                                                          delegate:self
-                                                 cancelButtonTitle:@"لاحقا"
-                                            destructiveButtonTitle:nil
-                                                 otherButtonTitles:@"٣ أيام", @"اسبوع", nil];
+            else if (myStore.remainingDays < 3) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
+                                                                message:@"عدد الأيام المتبقية لديك غير كاف."
+                                                               delegate:self
+                                                      cancelButtonTitle:@"موافق"
+                                                      otherButtonTitles:nil];
+                alert.tag = 2;
+                [alert show];
             }
             else {
-                actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
-                                                          delegate:self
-                                                 cancelButtonTitle:@"لاحقا"
-                                            destructiveButtonTitle:nil
-                                                 otherButtonTitles:@"٣ أيام", @"اسبوع", @"شهر", nil];
+                UIActionSheet *actionSheet = nil;
+                
+                if (myStore.remainingDays < 7) {
+                    actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                              delegate:self
+                                                     cancelButtonTitle:@"لاحقا"
+                                                destructiveButtonTitle:nil
+                                                     otherButtonTitles:@"٣ أيام", nil];
+                }
+                else if (myStore.remainingDays < 28) {
+                    actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                              delegate:self
+                                                     cancelButtonTitle:@"لاحقا"
+                                                destructiveButtonTitle:nil
+                                                     otherButtonTitles:@"٣ أيام", @"اسبوع", nil];
+                }
+                else {
+                    actionSheet = [[UIActionSheet alloc] initWithTitle:@"اختر مدة التمييز"
+                                                              delegate:self
+                                                     cancelButtonTitle:@"لاحقا"
+                                                destructiveButtonTitle:nil
+                                                     otherButtonTitles:@"٣ أيام", @"اسبوع", @"شهر", nil];
+                }
+                actionSheet.tag = 100;
+                [actionSheet showInView:self.view];
             }
-            actionSheet.tag = 100;
-            [actionSheet showInView:self.view];
         }
+        else { //iPad
+            */
+        labelStoreAdViewController_iPad *vc=[[labelStoreAdViewController_iPad alloc] initWithNibName:@"labelStoreAdViewController_iPad" bundle:nil];
+        vc.currentAdID = myAdID;
+        vc.countryAdID = chosenCountry.countryID;
+        vc.iPad_currentStore = myStore;
+        vc.currentAdHasImages = NO;
+        if (currentImgsUploaded && currentImgsUploaded.count)
+            vc.currentAdHasImages = YES;
+        
+        [self presentViewController:vc animated:YES completion:nil];
+        //}
     }
 }
 
@@ -1974,7 +1990,7 @@
     [alert show];
     
     
-   
+    
 }
 
 #pragma mark - ipad actions
