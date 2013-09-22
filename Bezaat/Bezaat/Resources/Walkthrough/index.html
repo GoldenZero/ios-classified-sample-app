@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>RoyalSlider - Touch-Enabled Image Gallery and Content Slider Plugin</title>
+<meta content="Touch-enabled image gallery and content slider plugin, that focuses on providing great user experience on every desktop and mobile device." name="description">
+<meta name="keywords" content="content slider, gallery, plugin, jquery, banner rotator">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<link href="myappcss://styles.css" rel="stylesheet">
+<script src="myappjs://jquery.js"></script>
+<script src="myappjs9://royalslider.js"></script>
+</head>
+<body  class="home-page" >
+<div class="full-width-wrap clearfix">
+  <div class="row wrapper" id="divWithScrollingBackground">
+    <div class=" col span_4 fwImage">
+      <div id="homeSlider" class="royalSlider rsDefaultInv">
+      
+        <div class="rsContent" data-rsDelay="1000">
+          <h1 class="rsABlock rsFirstSlideTitle rsSlideTitle"><img src="myapp://01.png" border="0" id="car"></h1>
+          <h2 class="rsABlock rsSecondSlideTitle rsSlideTitle" data-delay="400">ﺗﺤﺴﻴﻨﺎت ﻟﻮاﺟﻬﺔ ﻟﻤﺴﺘﺨﺪم </h2>
+          <nav class="da-dots"><span class="select"></span><span></span><span></span><span></span><span></span><span></span></nav>
+        </div>
+        <div class="rsContent" data-rsDelay="1000">
+          <h1 class="rsABlock rsFirstSlideTitle rsSlideTitle"><img src="myapp://01.png" border="0"></h1>
+          <h2 class="rsABlock rsSecondSlideTitle rsSlideTitle" data-delay="400">اﻟﺘﻨﺒﻴﻬﺎت ﻋﻠﻰ أﺧﺒﺎر اﻟﺸﺮﻛﺎت  ﻣﺰاﻣﻨﺔ ﻣﻊ ﺷ</h2>
+          <nav class="da-dots"><span></span><span class="select"></span><span></span><span></span><span></span><span></span></nav>
+        </div>
+        <div class="rsContent" data-rsDelay="1000">
+          <h1 class="rsABlock rsFirstSlideTitle rsSlideTitle"><img src="myapp://01.png" border="0"></h1>
+          <h2 class="rsABlock rsSecondSlideTitle rsSlideTitle" data-delay="400">ﺳﻬﻮﻟﺔ اﻟﺘﻨﻘﻞ ﺑﻴﻦ الأﺳﻮاق واﻟﺸﺮﻛﺎت </h2>
+          <nav class="da-dots"><span></span><span></span><span class="select"></span><span></span><span></span><span></span></nav>
+        </div>
+        <div class="rsContent" data-rsDelay="1000">
+          <h1 class="rsABlock rsFirstSlideTitle rsSlideTitle"><img src="myapp://01.png" border="0"></h1>
+          <h2 class="rsABlock rsSecondSlideTitle rsSlideTitle" data-delay="400">ﺗﺤﺴﻴﻨﺎت ﻓﻲ اﻟﺴﺮﻋﺔ والأداء </h2>
+          <nav class="da-dots"><span></span><span></span><span></span><span class="select"></span><span></span><span></span></nav>
+        </div>
+        <div class="rsContent" data-rsDelay="1000">
+          <h1 class="rsABlock rsFirstSlideTitle rsSlideTitle"><img src="myapp://01.png" border="0"></h1>
+          <h2 class="rsABlock rsSecondSlideTitle rsSlideTitle" data-delay="400">ﺳﻬﻮﻟﺔ اﺿﺎﻓﺔ وﺣﺬف اﻟﺸﺮﻛﺎت  ﻣﻦ اﻟﺘﻨﺒﻴﻬﺎت </h2>
+          <nav class="da-dots"><span></span><span></span><span></span><span></span><span class="select"></span><span></span></nav>
+        </div>
+        <div class="rsContent" data-rsDelay="1000">
+          <h1 class="rsABlock rsFirstSlideTitle rsSlideTitle"><img src="myapp://01.png" border="0"></h1>
+          <h2 class="rsABlock rsSecondSlideTitle rsSlideTitle" data-delay="400"><a href="#" class="go-to">ابدأ التطبيق</a></span></h2>
+          <nav class="da-dots"><span></span><span></span><span></span><span></span><span></span><span class="select"></span></nav>
+        </div>
+      </div>
+      
+      <div id="car1"></div>
+      <div id="car2"></div>
+      <div id="light"></div>
+      
+    </div>
+  </div>
+</div>
+
+<script>
+
+	$("#divWithScrollingBackground").animate({"background-position-x" : 999999999}, 999);
+    jQuery(document).ready(function($) {
+  	var opts = {
+    controlNavigation:'thumbnails',
+    imageScaleMode: 'fill',
+    arrowsNav: true,
+    arrowsNavHideOnTouch: true,
+    fullscreen: true,
+    loop: false,
+    thumbs: {
+      firstMargin: false,
+      paddingBottom: 0
+    },
+	
+    numImagesToPreload: 3,
+    thumbsFirstMargin: false,
+    autoScaleSlider: true, 
+    autoScaleSliderWidth: 768,     
+    autoScaleSliderHeight: 1024,
+    keyboardNavEnabled: true,
+    navigateByClick: true,
+    fadeinLoadedSlide: true,
+    imgWidth: 707,
+    imgHeight: 397	
+  };
+  ///* if(!$.browser.webkit) {
+    opts.imgWidth = 707;
+    opts.imgHeight = 397;
+  //} */
+  var sliderJQ = $('#homeSlider').royalSlider(opts);
+  
+
+});
+
+</script>
+
+<script charset="utf-8" type="text/javascript" src="myappjs://jquery-1.6.2.js"></script>
+<script charset="utf-8" type="text/javascript">
+var scrollSpeed = 5; // Speed in milliseconds
+var step = 0.4; // How many pixels to move per step
+var current = 0; // The current pixel row
+var btmCurrent=0;
+var btmCurrent2=0;
+var btmCurrent3=0;
+var imageWidth = 1024; // Background image width
+var headerWidth = 280; // How wide the header is.
+var restartPosition = -(imageWidth - headerWidth);
+function scrollBg(){
+current -= step;
+btmCurrent += (step*6);
+btmCurrent2 += (step*4);
+if (current == restartPosition){
+current = 0;
+btmCurrent = 0;
+}
+$('body').css("background-position",current+"px bottom");
+$('#car1').css("background-position",btmCurrent+"px bottom");
+$('#car2').css("background-position",btmCurrent2+"px bottom");
+$('#light').css("background-position",btmCurrent3+"px bottom");
+}
+var init = setInterval("scrollBg()", scrollSpeed);
+</script>
+
+
+<div style="display:none;"><script type="text/javascript">
+  (function(w, c) {
+      (w[c] = w[c] || []).push(function() {
+          try {
+              w.yaCounter11382601 = new Ya.Metrika({id:11382601, enableAll: true, trackHash:false, webvisor:true});
+          }
+          catch(e) { }
+      });
+  })(window, "yandex_metrika_callbacks");
+</script></div>
+</body>
+</html>
