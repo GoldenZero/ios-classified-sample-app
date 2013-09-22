@@ -22,7 +22,6 @@
 - (IBAction)labelAdBtnPressed:(id)sender;
 - (IBAction)explainAdBtnPrss:(id)sender;
 - (IBAction)noServiceBackBtnPrss:(id)sender;
-- (IBAction)bankTransferBtnPressed:(id)sender;
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
@@ -41,7 +40,12 @@
 
 #pragma mark - iPad properties
 @property (weak, nonatomic) IBOutlet SSLabel *iPad_titleLabel;
+@property (weak, nonatomic) IBOutlet UIView *iPad_storeDetailsView;
+@property (weak, nonatomic) IBOutlet UILabel *iPad_storeCountOfRemainingFeaturedAds;
+@property (weak, nonatomic) IBOutlet UILabel *iPad_storeCountOfRemainingDays;
 @property (weak, nonatomic) IBOutlet UIView *iPad_pricingtableContainerView;
 
+@property (nonatomic) BOOL iPad_isStoreAd;
+@property (strong, nonatomic) Store * iPad_currentStore;
 
 @end

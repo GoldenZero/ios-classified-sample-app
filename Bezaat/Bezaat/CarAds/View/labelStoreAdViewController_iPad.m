@@ -88,6 +88,11 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
                                           self.iPad_pricingtableContainerView.frame.size.height,
                                           self.iPad_pricingtableContainerView.frame.size.width
                                           );
+        if (self.iPad_isStoreAd) {
+            [self.iPad_storeDetailsView setHidden:NO];
+            self.iPad_storeCountOfRemainingDays.text = [NSString stringWithFormat:@"%i", self.iPad_currentStore.remainingDays];
+            self.iPad_storeCountOfRemainingFeaturedAds.text = [NSString stringWithFormat:@"%i", self.iPad_currentStore.remainingFreeFeatureAds];
+        }
     }
 }
 
