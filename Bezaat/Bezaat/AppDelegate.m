@@ -87,6 +87,14 @@
         self.splashVC=[[SplashViewController alloc] initWithNibName:@"SplashViewController_iPad" bundle:nil];
     self.window.rootViewController = self.splashVC;
     
+    
+    //3-Walkthrough
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        self.walkThroughVC =[[WalkThroughVC alloc]initWithNibName:@"WalkThroughVC" bundle:nil];
+    else
+        self.walkThroughVC =[[WalkThroughVC alloc]initWithNibName:@"WalkThroughVC_iPad" bundle:nil];
+    
+    //self.window.rootViewController = self.walkThroughVC;
     //  test friend list
     //self.friendVC=[[FriendsListViewController alloc] initWithNibName:@"FriendsListViewController" bundle:nil];
     //self.window.rootViewController = self.friendVC;
@@ -133,7 +141,9 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
 - (void) onSplashScreenDone {
     [self.splashVC.view removeFromSuperview];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
-        self.window.rootViewController = self.chooseLocationVC1;
+        //self.walkThroughVC=[[WalkThroughVC alloc] initWithNibName:@"WalkThroughVC" bundle:nil];
+
+        self.window.rootViewController = self.walkThroughVC;
     }
     else{
         self.window.rootViewController = self.homeVC;
@@ -142,6 +152,34 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
 
     [self.window makeKeyAndVisible];
 }
+
+- (void) onWalkthroughScreenDone {
+    [self.walkThroughVC.view removeFromSuperview];
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+        //self.chooseLocationVC1=[[chooseLocationVC1 alloc] initWithNibName:@"chooseLocationVC1" bundle:nil];
+        
+        self.window.rootViewController = self.chooseLocationVC1;
+        
+        //UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.chooseMarketVC];
+        //[nav setNavigationBarHidden:YES];
+        //self.window.rootViewController = nav;
+    }
+    else{
+        self.window.rootViewController = self.homeVC;
+        /*ChooseActionViewController *c=[[ChooseActionViewController alloc]initWithNibName:@"ChooseActionViewController" bundle:nil];
+        
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:c];
+        [nav setNavigationBarHidden:YES];
+        self.window.rootViewController = nav;*/
+        
+    }
+    
+    
+    
+    
+    [self.window makeKeyAndVisible];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

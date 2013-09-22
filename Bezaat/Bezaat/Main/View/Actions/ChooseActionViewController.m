@@ -26,6 +26,8 @@
 #import "StoreOrdersViewController.h"
 #import "ChooseLocationVC.h"
 #import "BrowseCarAdsViewController.h"
+#import "WalkThroughVC.h"
+
 
 @interface ChooseActionViewController (){
     NSArray *menuArray;
@@ -451,7 +453,11 @@
 }
 
 - (IBAction)iPad_aboutAppBtnPressed:(id)sender {
-    AboutAppViewController *vc=[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController_iPad" bundle:nil];
+/*    AboutAppViewController *vc=[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController_iPad" bundle:nil];
+    
+    [self presentViewController:vc animated:YES completion:nil];*/
+    WalkThroughVC *vc;
+        vc =[[WalkThroughVC alloc]initWithNibName:@"WalkThroughVC_iPad" bundle:nil];
     
     [self presentViewController:vc animated:YES completion:nil];
 }
@@ -722,6 +728,14 @@
             case 11:
             {
                 [self hideMenu];
+                WalkThroughVC *vc;
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                    vc =[[WalkThroughVC alloc]initWithNibName:@"WalkThroughVC" bundle:nil];
+                else
+                    vc =[[WalkThroughVC alloc]initWithNibName:@"WalkThroughVC_iPad" bundle:nil];
+                
+                [self presentViewController:vc animated:YES completion:nil];
+                /*
                 AboutAppViewController *vc;
                 if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
                     vc =[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController" bundle:nil];
@@ -729,6 +743,8 @@
                     vc =[[AboutAppViewController alloc]initWithNibName:@"AboutAppViewController_iPad" bundle:nil];
                 
                 [self presentViewController:vc animated:YES completion:nil];
+                 */
+                
                 
             }
             case 12:
