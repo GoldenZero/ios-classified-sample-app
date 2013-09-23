@@ -2228,18 +2228,19 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                 [actionSheet showInView:self.view];
             }
         }
-    }
-    else { //iPad
-        labelStoreAdViewController_iPad *vc=[[labelStoreAdViewController_iPad alloc] initWithNibName:@"labelStoreAdViewController_iPad" bundle:nil];
-        vc.currentAdID = currentAdID;
-        vc.countryAdID = currentStore.countryID;
-        vc.iPad_currentStore = currentStore;
-        vc.currentAdHasImages = NO;
-        if (currentDetailsObject.adImages && currentDetailsObject.adImages.count)
-            vc.currentAdHasImages = YES;
-        
-        [self presentViewController:vc animated:YES completion:nil];
+        else { //iPad
+            labelStoreAdViewController_iPad *vc=[[labelStoreAdViewController_iPad alloc] initWithNibName:@"labelStoreAdViewController_iPad" bundle:nil];
+            vc.currentAdID = currentAdID;
+            vc.countryAdID = currentStore.countryID;
+            vc.iPad_currentStore = currentStore;
+            vc.currentAdHasImages = NO;
+            if (currentDetailsObject.adImages && currentDetailsObject.adImages.count)
+                vc.currentAdHasImages = YES;
+            
+            [self presentViewController:vc animated:YES completion:nil];
         }
+    }
+
 }
 
 - (void)unfeaturecurrentStoreAd:(NSInteger)advID {

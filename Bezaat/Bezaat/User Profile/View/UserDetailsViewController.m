@@ -104,7 +104,7 @@
     [self loadFirstDataOfStatus:currentStatus andPage:1];
     
     // Do any additional setup after loading the view from its nib.
-
+    
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"User my ads screen"];
     [TestFlight passCheckpoint:@"User my ads screen"];
@@ -222,14 +222,14 @@
     //3- refresh table data
     [self.adsTable reloadData];
     /*
-    if ([carAdsArray count] <= 10 && [carAdsArray count] != 0) {
-        [self.adsTable scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-        [self.adsTable setContentOffset:CGPointZero animated:YES]; 
-    }
+     if ([carAdsArray count] <= 10 && [carAdsArray count] != 0) {
+     [self.adsTable scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+     [self.adsTable setContentOffset:CGPointZero animated:YES];
+     }
      */
     //1- hide the loading indicator
     [self hideLoadingIndicator];
-        
+    
 }
 
 
@@ -288,7 +288,7 @@
         currentStatus = @"all";
         [self loadFirstDataOfStatus:@"all" andPage:1];
     }
-   
+    
 }
 
 - (IBAction)filterSpecial:(id)sender {
@@ -416,13 +416,13 @@
     //[self showLoadingIndicator];
     
     //load a page of data
-   // NSInteger page = 1;
-   // NSInteger size = [[CarAdsManager sharedInstance] pageSize];
+    // NSInteger page = 1;
+    // NSInteger size = [[CarAdsManager sharedInstance] pageSize];
     
     //[[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"favorites" forPage:page andSize:size WithDelegate:self];
     currentStatus = @"favorites";
     [self loadFirstDataOfStatus:@"favorites" andPage:1];
-
+    
     
     
 }
@@ -441,10 +441,10 @@
     vc.tagOfCallXib=2;
     [self presentViewController:vc animated:YES completion:nil];
     /*
-    AddNewCarAdViewController* vc = [[AddNewCarAdViewController alloc]initWithNibName:@"AddNewCarAdViewController" bundle:nil];
-    vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    //vc.ButtonCheck = YES;
-    [self presentViewController:vc animated:YES completion:nil];*/
+     AddNewCarAdViewController* vc = [[AddNewCarAdViewController alloc]initWithNibName:@"AddNewCarAdViewController" bundle:nil];
+     vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+     //vc.ButtonCheck = YES;
+     [self presentViewController:vc animated:YES completion:nil];*/
 }
 
 - (IBAction)iPad_addNewAd:(id)sender {
@@ -465,7 +465,7 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
-   
+    
     //ad with image
     int separatorHeight = 6;//extra value for separating
     if (carAdObject.thumbnailURL)
@@ -527,44 +527,32 @@
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-                //customize the carAdCell with actual data
-                cell.carTitle.text = carAdObject.title;
-                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-                if ([priceStr isEqualToString:@""])
-                    cell.carPrice.text = priceStr;
-                else
-                    cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
-                if (carAdObject.price < 1.0) {
-                    cell.carPrice.text = @"";
-                }
+            
+            //customize the carAdCell with actual data
+            cell.carTitle.text = carAdObject.title;
+            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+            if ([priceStr isEqualToString:@""])
+                cell.carPrice.text = priceStr;
+            else
+                cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+            if (carAdObject.price < 1.0) {
+                cell.carPrice.text = @"";
             }
-            else {
-                //customize the carAdCell with actual data
-                cell.iPad_carTitle.text = carAdObject.title;
-                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-                if ([priceStr isEqualToString:@""])
-                    cell.iPad_carPrice.text = priceStr;
-                else
-                    cell.iPad_carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
-                if (carAdObject.price < 1.0) {
-                    cell.iPad_carPrice.text = @"";
-                }
-            }
+            
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             
             /*
-            cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
-            
-            if (carAdObject.viewCount > 0)
-                cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
-            else
-            {
-                cell.adViews.text = @"";
-                //[cell.countOfViewsTinyImg setHidden:YES];
-            }
-            
-            cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+             cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+             
+             if (carAdObject.viewCount > 0)
+             cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+             else
+             {
+             cell.adViews.text = @"";
+             //[cell.countOfViewsTinyImg setHidden:YES];
+             }
+             
+             cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
              */
             
             
@@ -652,7 +640,7 @@
                     [cell.featureButton setHidden:NO];
                     
                 }
-                    
+                
             }
             //check owner
             UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
@@ -675,44 +663,32 @@
             
             
             //customize the carAdCell with actual data
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-                //customize the carAdCell with actual data
-                cell.carTitle.text = carAdObject.title;
-                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-                if ([priceStr isEqualToString:@""])
-                    cell.carPrice.text = priceStr;
-                else
-                    cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
-                if (carAdObject.price < 1.0) {
-                    cell.carPrice.text = @"";
-                }
+            
+            //customize the carAdCell with actual data
+            cell.carTitle.text = carAdObject.title;
+            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+            if ([priceStr isEqualToString:@""])
+                cell.carPrice.text = priceStr;
+            else
+                cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+            if (carAdObject.price < 1.0) {
+                cell.carPrice.text = @"";
             }
-            else {
-                //customize the carAdCell with actual data
-                cell.iPad_carTitle.text = carAdObject.title;
-                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-                if ([priceStr isEqualToString:@""])
-                    cell.iPad_carPrice.text = priceStr;
-                else
-                    cell.iPad_carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
-                if (carAdObject.price < 1.0) {
-                    cell.iPad_carPrice.text = @"";
-                }
-            }
+            
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             
             /*
-            cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
-            
-            if (carAdObject.viewCount > 0)
-                cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
-            else
-            {
-                cell.adViews.text = @"";
-                //[cell.countOfViewsTinyImg setHidden:YES];
-            }
-            
-            cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+             cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+             
+             if (carAdObject.viewCount > 0)
+             cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+             else
+             {
+             cell.adViews.text = @"";
+             //[cell.countOfViewsTinyImg setHidden:YES];
+             }
+             
+             cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
              */
             
             //hiding & shifting
@@ -788,7 +764,7 @@
                 [cell.featureButton setHidden:NO];
             }else{
                 [cell.featureButton setHidden:YES];
-
+                
             }
             cell.featureButton.tag = indexPath.row;
             [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
@@ -831,45 +807,33 @@
             
             
             //customize the carAdCell with actual data
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-                //customize the carAdCell with actual data
-                cell.carTitle.text = carAdObject.title;
-                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-                if ([priceStr isEqualToString:@""])
-                    cell.carPrice.text = priceStr;
-                else
-                    cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
-                if (carAdObject.price < 1.0) {
-                    cell.carPrice.text = @"";
-                }
+            
+            //customize the carAdCell with actual data
+            cell.carTitle.text = carAdObject.title;
+            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+            if ([priceStr isEqualToString:@""])
+                cell.carPrice.text = priceStr;
+            else
+                cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+            if (carAdObject.price < 1.0) {
+                cell.carPrice.text = @"";
             }
-            else {
-                //customize the carAdCell with actual data
-                cell.iPad_carTitle.text = carAdObject.title;
-                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-                if ([priceStr isEqualToString:@""])
-                    cell.iPad_carPrice.text = priceStr;
-                else
-                    cell.iPad_carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
-                if (carAdObject.price < 1.0) {
-                    cell.iPad_carPrice.text = @"";
-                }
-            }
+            
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             
             /*
-            cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
-            
-            if (carAdObject.viewCount > 0)
-                cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
-            else
-            {
-                cell.adViews.text = @"";
-                //[cell.countOfViewsTinyImg setHidden:YES];
-            }
-            
-            cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
-            */
+             cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+             
+             if (carAdObject.viewCount > 0)
+             cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+             else
+             {
+             cell.adViews.text = @"";
+             //[cell.countOfViewsTinyImg setHidden:YES];
+             }
+             
+             cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+             */
             
             //hiding & shifting
             if (carAdObject.modelYear > 0)
@@ -931,8 +895,8 @@
                 [cell.adViewsTinyImg setHidden:YES];
             }
             
-             
-             //load image as URL
+            
+            //load image as URL
             [cell.carImage clear];
             [cell.carImage setImage:[UIImage imageNamed:@"default-car.jpg"]];
             [cell.carImage.imageView setContentMode:UIViewContentModeScaleAspectFill];
@@ -976,44 +940,32 @@
             
             
             //customize the carAdCell with actual data
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-                //customize the carAdCell with actual data
-                cell.carTitle.text = carAdObject.title;
-                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-                if ([priceStr isEqualToString:@""])
-                    cell.carPrice.text = priceStr;
-                else
-                    cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
-                if (carAdObject.price < 1.0) {
-                    cell.carPrice.text = @"";
-                }
+            
+            //customize the carAdCell with actual data
+            cell.carTitle.text = carAdObject.title;
+            NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
+            if ([priceStr isEqualToString:@""])
+                cell.carPrice.text = priceStr;
+            else
+                cell.carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
+            if (carAdObject.price < 1.0) {
+                cell.carPrice.text = @"";
             }
-            else {
-                //customize the carAdCell with actual data
-                cell.iPad_carTitle.text = carAdObject.title;
-                NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
-                if ([priceStr isEqualToString:@""])
-                    cell.iPad_carPrice.text = priceStr;
-                else
-                    cell.iPad_carPrice.text = [NSString stringWithFormat:@"%@ %@", priceStr, carAdObject.currencyString];
-                if (carAdObject.price < 1.0) {
-                    cell.iPad_carPrice.text = @"";
-                }
-            }
+            
             cell.adTime.text = [[CarAdsManager sharedInstance] getDateDifferenceStringFromDate:carAdObject.postedOnDate];
             
             /*
-            cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
-            
-            if (carAdObject.viewCount > 0)
-                cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
-            else
-            {
-                cell.adViews.text = @"";
-                //[cell.countOfViewsTinyImg setHidden:YES];
-            }
-            
-            cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
+             cell.carModel.text = [NSString stringWithFormat:@"%i", carAdObject.modelYear];
+             
+             if (carAdObject.viewCount > 0)
+             cell.adViews.text = [NSString stringWithFormat:@"%i", carAdObject.viewCount];
+             else
+             {
+             cell.adViews.text = @"";
+             //[cell.countOfViewsTinyImg setHidden:YES];
+             }
+             
+             cell.carDistance.text = [NSString stringWithFormat:@"%i KM", carAdObject.distanceRangeInKm];
              */
             
             //hiding & shifting
@@ -1156,7 +1108,7 @@
         vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
     else
         vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController_iPad" bundle:nil];
-   // vc.currentAdID = [[self.adsTable cellForRowAtIndexPath:0] ];
+    // vc.currentAdID = [[self.adsTable cellForRowAtIndexPath:0] ];
     vc.currentAdID = myAdObject.adID;
     vc.countryAdID = myAdObject.countryID;
     vc.currentAdHasImages = NO;
@@ -1266,7 +1218,7 @@
         [self.view addSubview:iPad_loadingView];
         [iPad_activityIndicator startAnimating];
     }
-        
+    
     
 }
 

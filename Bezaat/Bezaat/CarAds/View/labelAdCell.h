@@ -15,5 +15,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *periodLabel;
 @property (strong, nonatomic) IBOutlet UIButton *checkButton;
 @property (strong, nonatomic) IBOutlet UILabel *detailsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *iPad_currencyLabel;
 
 @end

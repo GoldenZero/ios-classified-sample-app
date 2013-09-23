@@ -486,9 +486,18 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
         vc.countryAdID = currentStore.countryID;
         vc.iPad_currentStore = currentStore;
         vc.currentAdHasImages = NO;
-        //if (currentImgsUploaded && currentImgsUploaded.count)
-            //vc.currentAdHasImages = YES;
-        
+        int index = -1;
+        for (int i =0; i < currentStoreAds.count; i++) {
+            if ([(CarAd *)currentStoreAds[i] adID] == currentAdvID) {
+                index = i;
+                break;
+            }
+        }
+        if (index > -1) {
+            
+            if ([(CarAd *) currentStoreAds[index] thumbnailURL]) //ad with images
+                vc.currentAdHasImages = YES;
+        }
         [self presentViewController:vc animated:YES completion:nil];
     }
     
