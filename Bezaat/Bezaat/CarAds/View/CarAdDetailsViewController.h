@@ -109,12 +109,6 @@
 - (IBAction)facebookAction:(id)sender;
 - (IBAction)mailAction:(id)sender;
 
-#pragma mark - iPad actions
-
-- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender;
-- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender;
-- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender;
-- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender;
 
 - (void) resetGalleryViewToNil;
 

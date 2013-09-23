@@ -57,10 +57,6 @@
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
     
-    BOOL iPad_buyCarSegmentBtnChosen;
-    BOOL iPad_addCarSegmentBtnChosen;
-    BOOL iPad_browseGalleriesSegmentBtnChosen;
-    BOOL iPad_addStoreSegmentBtnChosen;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
@@ -220,10 +216,6 @@
         galleryView = nil;
         xForShiftingTinyImg = 0;
         
-        iPad_buyCarSegmentBtnChosen = NO;
-        iPad_addCarSegmentBtnChosen = NO;
-        iPad_browseGalleriesSegmentBtnChosen = NO;
-        iPad_addStoreSegmentBtnChosen = NO;
     }
     
     //[self prepareShareButton];
@@ -2873,72 +2865,6 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         
         [self AddNewComment:resultComment animated:YES];
     }
-}
-#pragma mark - iPad helper methods
-
-- (void) iPad_updateSegmentButtons {
-    
-    UIImage * iPad_buyCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn_white.png"];
-    UIImage * iPad_buyCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_buy_car_btn.png"];
-    
-    UIImage * iPad_addCarSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn_white.png"];
-    UIImage * iPad_addCarSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_sell_car_btn.png"];
-    
-    UIImage * iPad_browseGalleriesSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn_white.png"];
-    UIImage * iPad_browseGalleriesSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_list_exhibition_btn.png"];
-    
-    UIImage * iPad_addStoreSegmentBtnSelectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn_white.png"];
-    UIImage * iPad_addStoreSegmentBtnUnselectedImage = [UIImage imageNamed:@"tb_car_brand_open_store_btn.png"];
-    
-    [self.iPad_buyCarSegmentBtn setBackgroundImage:(iPad_buyCarSegmentBtnChosen ? iPad_buyCarSegmentBtnSelectedImage : iPad_buyCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
-    
-    [self.iPad_addCarSegmentBtn setBackgroundImage:(iPad_addCarSegmentBtnChosen ?  iPad_addCarSegmentBtnSelectedImage: iPad_addCarSegmentBtnUnselectedImage) forState:UIControlStateNormal];
-    
-    [self.iPad_browseGalleriesSegmentBtn setBackgroundImage:(iPad_browseGalleriesSegmentBtnChosen ? iPad_browseGalleriesSegmentBtnSelectedImage :  iPad_browseGalleriesSegmentBtnUnselectedImage) forState:UIControlStateNormal];
-    
-    [self.iPad_addStoreSegmentBtn setBackgroundImage:(iPad_addStoreSegmentBtnChosen ? iPad_addStoreSegmentBtnSelectedImage : iPad_addStoreSegmentBtnUnselectedImage) forState:UIControlStateNormal];
-}
-
-#pragma mark - iPad actions
-
-- (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender {
-    
-    iPad_buyCarSegmentBtnChosen = YES;
-    iPad_addCarSegmentBtnChosen = NO;
-    iPad_browseGalleriesSegmentBtnChosen = NO;
-    iPad_addStoreSegmentBtnChosen = NO;
-    
-    [self iPad_updateSegmentButtons];
-}
-
-- (IBAction)iPad_addCarSegmentBtnPressed:(id)sender {
-    iPad_buyCarSegmentBtnChosen = NO;
-    iPad_addCarSegmentBtnChosen = YES;
-    iPad_browseGalleriesSegmentBtnChosen = NO;
-    iPad_addStoreSegmentBtnChosen = NO;
-    
-    [self iPad_updateSegmentButtons];
-    
-    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
-}
-
-- (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {
-    iPad_buyCarSegmentBtnChosen = NO;
-    iPad_addCarSegmentBtnChosen = NO;
-    iPad_browseGalleriesSegmentBtnChosen = YES;
-    iPad_addStoreSegmentBtnChosen = NO;
-    
-    [self iPad_updateSegmentButtons];
-}
-
-- (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender {
-    iPad_buyCarSegmentBtnChosen = NO;
-    iPad_addCarSegmentBtnChosen = NO;
-    iPad_browseGalleriesSegmentBtnChosen = NO;
-    iPad_addStoreSegmentBtnChosen = YES;
-    
-    [self iPad_updateSegmentButtons];
 }
 
 @end
