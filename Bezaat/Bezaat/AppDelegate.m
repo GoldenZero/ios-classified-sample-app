@@ -142,8 +142,9 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self.splashVC.view removeFromSuperview];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
         //self.walkThroughVC=[[WalkThroughVC alloc] initWithNibName:@"WalkThroughVC" bundle:nil];
+        //self.window.rootViewController = self.walkThroughVC;
 
-        self.window.rootViewController = self.walkThroughVC;
+        self.window.rootViewController = self.chooseLocationVC1;
     }
     else{
         self.window.rootViewController = self.homeVC;
