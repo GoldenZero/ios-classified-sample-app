@@ -270,12 +270,12 @@
         //update appearance
         [self.iPad_allAdsBtn setImage:[UIImage imageNamed:@"tb_view_all_ads_on.png"] forState:UIControlStateNormal];
         [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
-        [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_favoriteAdsBtn setImage:[UIImage imageNamed:@"tb_watchlist_ads_off.png"] forState:UIControlStateNormal];
         [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
         
         [self.iPad_allAdsImgV setHidden:NO];
         [self.iPad_specialAdsImgV setHidden:YES];
-        [self.iPad_nonTerminatedAdsImgV setHidden:YES];
+        [self.iPad_favoriteAdsImgV setHidden:YES];
         [self.iPad_terminatedAdsImgV setHidden:YES];
         
         //show loading indicator
@@ -298,12 +298,12 @@
     else {
         [self.iPad_allAdsBtn setImage:[UIImage imageNamed:@"tb_view_all_ads_off.png"] forState:UIControlStateNormal];
         [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_on.png"] forState:UIControlStateNormal];
-        [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_favoriteAdsBtn setImage:[UIImage imageNamed:@"tb_watchlist_ads_off.png"] forState:UIControlStateNormal];
         [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
         
         [self.iPad_allAdsImgV setHidden:YES];
         [self.iPad_specialAdsImgV setHidden:NO];
-        [self.iPad_nonTerminatedAdsImgV setHidden:YES];
+        [self.iPad_favoriteAdsImgV setHidden:YES];
         [self.iPad_terminatedAdsImgV setHidden:YES];
     }
     //emptying the table and the Array
@@ -336,12 +336,12 @@
     else {
         [self.iPad_allAdsBtn setImage:[UIImage imageNamed:@"tb_view_all_ads_off.png"] forState:UIControlStateNormal];
         [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
-        [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_favoriteAdsBtn setImage:[UIImage imageNamed:@"tb_watchlist_ads_off.png"] forState:UIControlStateNormal];
         [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_on.png"] forState:UIControlStateNormal];
         
         [self.iPad_allAdsImgV setHidden:YES];
         [self.iPad_specialAdsImgV setHidden:YES];
-        [self.iPad_nonTerminatedAdsImgV setHidden:YES];
+        [self.iPad_favoriteAdsImgV setHidden:YES];
         [self.iPad_terminatedAdsImgV setHidden:NO];
     }
     
@@ -367,41 +367,22 @@
     
 }
 
-- (IBAction)iPad_filterNonTerminated:(id)sender {
-    [self.iPad_allAdsBtn setImage:[UIImage imageNamed:@"tb_view_all_ads_off.png"] forState:UIControlStateNormal];
-    [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
-    [self.iPad_nonTerminatedAdsBtn setImage:[UIImage imageNamed:@"tb_effective_ads_on.png"] forState:UIControlStateNormal];
-    [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
-    
-    [self.iPad_allAdsImgV setHidden:YES];
-    [self.iPad_specialAdsImgV setHidden:YES];
-    [self.iPad_nonTerminatedAdsImgV setHidden:NO];
-    [self.iPad_terminatedAdsImgV setHidden:YES];
-    
-    //emptying the table and the Array
-    [carAdsArray removeAllObjects];
-    [self.adsTable setNeedsDisplay];
-    [self.adsTable reloadData];
-    
-    [[CarAdsManager sharedInstance] setCurrentPageNum:1];
-    [[CarAdsManager sharedInstance] setPageSizeToDefault];
-    
-    dataLoadedFromCache = NO;
-    
-    //show loading indicator
-    //[self showLoadingIndicator];
-    
-    //load a page of data
-    //NSInteger page = 1;
-    //NSInteger size = [[CarAdsManager sharedInstance] pageSize];
-    //[[CarAdsManager sharedInstance] loadUserAdsOfStatus:@"featured-ads" forPage:page andSize:size WithDelegate:self];
-    currentStatus = @"active";
-    [self loadFirstDataOfStatus:@"active" andPage:1];
-}
 
 - (IBAction)filterFavourite:(id)sender {
-    [self.filterAllBtn setHighlighted:NO];
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self.filterAllBtn setHighlighted:NO];
+    }
+    else {
+        [self.iPad_allAdsBtn setImage:[UIImage imageNamed:@"tb_view_all_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_specialAdsBtn setImage:[UIImage imageNamed:@"tb_special_ads_off.png"] forState:UIControlStateNormal];
+        [self.iPad_favoriteAdsBtn setImage:[UIImage imageNamed:@"tb_watchlist_ads_on.png"] forState:UIControlStateNormal];
+        [self.iPad_terminatedAdsBtn setImage:[UIImage imageNamed:@"tb_not_effective_ads_off.png"] forState:UIControlStateNormal];
+        
+        [self.iPad_allAdsImgV setHidden:YES];
+        [self.iPad_specialAdsImgV setHidden:YES];
+        [self.iPad_favoriteAdsImgV setHidden:NO];
+        [self.iPad_terminatedAdsImgV setHidden:YES];
+    }
     //emptying the table and the Array
     [carAdsArray removeAllObjects];
     [self.adsTable setNeedsDisplay];

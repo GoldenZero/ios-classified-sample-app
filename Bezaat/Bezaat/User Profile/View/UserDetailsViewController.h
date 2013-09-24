@@ -59,14 +59,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *iPad_browseGalleriesSegmentBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_addStoreSegmentBtn;
 
-
+@property (weak, nonatomic) IBOutlet UIImageView *iPad_favoriteAdsImgV;
 @property (weak, nonatomic) IBOutlet UIImageView *iPad_terminatedAdsImgV;
-@property (weak, nonatomic) IBOutlet UIImageView *iPad_nonTerminatedAdsImgV;
 @property (weak, nonatomic) IBOutlet UIImageView *iPad_specialAdsImgV;
 @property (weak, nonatomic) IBOutlet UIImageView *iPad_allAdsImgV;
 
+
+@property (weak, nonatomic) IBOutlet UIButton *iPad_favoriteAdsBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_terminatedAdsBtn;
-@property (weak, nonatomic) IBOutlet UIButton *iPad_nonTerminatedAdsBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_specialAdsBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_allAdsBtn;
 
