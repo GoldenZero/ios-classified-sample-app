@@ -2698,8 +2698,10 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     }
     [self.nocarImg setHidden:NO];
     [self.tableContainer setHidden:YES];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        [self.iPad_contentView setHidden:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.iPad_collectionView setHidden:YES];
+        [self iPad_hideSideMenu];
+    }
 }
 
 - (void) adsDidFinishLoadingWithData:(NSArray *)resultArray {
@@ -2719,7 +2721,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [self.nocarImg setHidden:YES];
         [self.tableContainer setHidden:NO];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            [self.iPad_contentView setHidden:NO];
+            [self.iPad_collectionView setHidden:NO];
         for (CarAd * newAd in resultArray)
         {
             NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:newAd.adID inArray:carAdsArray];
@@ -2738,8 +2740,10 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         {
             [self.nocarImg setHidden:NO];
             [self.tableContainer setHidden:YES];
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                [self.iPad_contentView setHidden:YES];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                [self.iPad_collectionView setHidden:YES];
+                [self iPad_hideSideMenu];
+            }
             [self hideLoadingIndicator];
         }
     }
