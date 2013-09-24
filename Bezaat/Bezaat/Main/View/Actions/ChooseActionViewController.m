@@ -308,10 +308,16 @@
         [self presentViewController:browseCarAdsVC animated:YES completion:nil];
          */
         
+        /*
         ModelsViewController_iPad *vc=[[ModelsViewController_iPad alloc] initWithNibName:@"ModelsViewController_iPad" bundle:nil];
         vc.tagOfCallXib=2;
         vc.displayedAsPopOver = NO;
         [self presentViewController:vc animated:YES completion:nil];
+         */
+        
+        BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController_iPad" bundle:nil];
+        carAdsMenu.currentModel=nil;    //load all cars by default
+        [self presentViewController:carAdsMenu animated:YES completion:nil];
         
     }
     
