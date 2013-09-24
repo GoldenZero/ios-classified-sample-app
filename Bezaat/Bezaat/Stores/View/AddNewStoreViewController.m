@@ -106,6 +106,24 @@
     chosenCountry = (Country*)[countryArray objectAtIndex:0];
     [self closePicker];
     
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIView *paddingView1 = [[UIView alloc] initWithFrame:CGRectMake(self.userPassword.frame.size.width - 20, 0, 5, self.userPassword.frame.size.height)];
+        self.nameField.rightView = paddingView1;
+        self.nameField.rightViewMode = UITextFieldViewModeAlways;
+        
+        UIView *paddingView2 = [[UIView alloc] initWithFrame:CGRectMake(self.emailField.frame.size.width - 20, 0, 5, self.emailField.frame.size.height)];
+        self.emailField.rightView = paddingView2;
+        self.emailField.rightViewMode = UITextFieldViewModeAlways;
+        
+        UIView *paddingView3 = [[UIView alloc] initWithFrame:CGRectMake(self.passwordField.frame.size.width - 20, 0, 5, self.passwordField.frame.size.height)];
+        self.passwordField.rightView = paddingView3;
+        self.passwordField.rightViewMode = UITextFieldViewModeAlways;
+        
+        UIView *paddingView4 = [[UIView alloc] initWithFrame:CGRectMake(self.phoneField.frame.size.width - 20, 0, 5, self.phoneField.frame.size.height)];
+        self.phoneField.rightView = paddingView4;
+        self.phoneField.rightViewMode = UITextFieldViewModeAlways;
+    }
+    
     //GA
     [[GAI sharedInstance].defaultTracker sendView:@"Create store screen"];
     [TestFlight passCheckpoint:@"Create Store screen"];
@@ -163,7 +181,13 @@
                                       destructiveButtonTitle:nil
                                            otherButtonTitles:@"من الكاميرا", @"من مكتبة الصور", nil];
     
-    [as showInView:self.view];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        [as showInView:self.view];
+    else { //iPad
+        UIButton * senderBtn = (UIButton *) sender;
+        [as showFromRect:senderBtn.frame inView:senderBtn animated:YES];
+    }
+    
 }
 
 - (IBAction)chooseCountry:(id)sender {
@@ -435,6 +459,9 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     NSLog(@"%s", __PRETTY_FUNCTION__);
+    if (self.iPad_cameraPopOver)
+        [self.iPad_cameraPopOver dismissPopoverAnimated:YES];
+    
     [picker dismissViewControllerAnimated:YES completion:nil];
     storeImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     //NSLog(@"imagePickerController:didFinishPickingMediaWithInfo:%f",storeImage.size.width);
@@ -730,7 +757,7 @@
             [self dismissKeyboard];
             self.iPad_cameraPopOver = [[UIPopoverController alloc] initWithContentViewController:picker];
             self.iPad_cameraPopOver.delegate = self;
-            [self.iPad_cameraPopOver presentPopoverFromRect:self.view.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            [self.iPad_cameraPopOver presentPopoverFromRect:self.iPad_chooseImageBtn.frame inView:self.iPad_chooseImageBtn permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
             
         }
 

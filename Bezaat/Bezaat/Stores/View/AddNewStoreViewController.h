@@ -20,7 +20,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *whatIsStoreImg;
 @property (strong, nonatomic) IBOutlet UIButton *whatIsStoreBtn;
 @property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
-@property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
 
 
 @property (weak, nonatomic) IBOutlet UIImageView *storeImageView;
@@ -36,6 +35,7 @@
 
 @property (strong, nonatomic) UIPopoverController * iPad_countryPopOver;
 
+@property (weak, nonatomic) IBOutlet UIButton *iPad_chooseImageBtn;
 
 
 @property (weak, nonatomic) IBOutlet UIButton *iPad_buyCarSegmentBtn;
@@ -61,6 +61,7 @@
 
 
 @property (strong, nonatomic) UIPopoverController * countryPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
 - (void) iPad_userDidEndChoosingCountryFromPopOver;
 
 

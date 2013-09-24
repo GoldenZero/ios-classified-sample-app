@@ -2698,6 +2698,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     }
     [self.nocarImg setHidden:NO];
     [self.tableContainer setHidden:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [self.iPad_contentView setHidden:YES];
 }
 
 - (void) adsDidFinishLoadingWithData:(NSArray *)resultArray {
@@ -2716,6 +2718,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         NSMutableArray * URLsToPrefetch = [NSMutableArray new];
         [self.nocarImg setHidden:YES];
         [self.tableContainer setHidden:NO];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            [self.iPad_contentView setHidden:NO];
         for (CarAd * newAd in resultArray)
         {
             NSInteger index = [[CarAdsManager sharedInstance] getIndexOfAd:newAd.adID inArray:carAdsArray];
@@ -2734,6 +2738,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         {
             [self.nocarImg setHidden:NO];
             [self.tableContainer setHidden:YES];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                [self.iPad_contentView setHidden:YES];
             [self hideLoadingIndicator];
         }
     }

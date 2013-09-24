@@ -110,7 +110,8 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
         //UIImage *small = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
         
         //imageData = UIImageJPEGRepresentation(small, 90);
-        imageData = UIImageJPEGRepresentation(image, 0.9);
+        //imageData = UIImageJPEGRepresentation(image, 0.9);
+        imageData = UIImageJPEGRepresentation(image, 0.15);
     }
     
 	// setting up the request object now
@@ -118,7 +119,8 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [request setHTTPShouldHandleCookies:NO];
-    [request setTimeoutInterval:30];
+    //[request setTimeoutInterval:30];
+    [request setTimeoutInterval:300];
     [request setHTTPMethod:@"POST"];
     
     /// set user credentials in HTTP header

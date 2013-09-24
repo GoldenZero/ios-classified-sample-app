@@ -1867,7 +1867,8 @@
             
         }
         [dropDownView.containerViewController dismissViewControllerAnimated:YES completion:nil];
-        [self iPad_srollToPhotosView];
+        //[self iPad_srollToPhotosView];
+        [self iPad_setPhotosBtnPrss:nil];
     }
 }
 
