@@ -14,6 +14,7 @@
 #import "StoreDetailsViewController.h"
 #import "ChooseActionViewController.h"
 #import "FeatureStoreAdViewController.h"
+#import "AddNewStoreViewController.h"
 
 @interface BrowseStoresViewController () {
     NSArray *allUserStores;
@@ -97,6 +98,11 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
     [self presentViewController:vc animated:YES completion:nil];
 }
 
+- (IBAction)iPad_addNewStoreBtnPress:(id)sender {
+
+    AddNewStoreViewController * vc =[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController_iPad" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+}
 #pragma mark - Private Methods
 
 - (void) showLoadingIndicator {

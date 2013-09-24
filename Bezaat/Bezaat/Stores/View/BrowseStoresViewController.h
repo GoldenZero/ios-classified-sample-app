@@ -16,5 +16,5 @@
 #pragma mark - iPad properties
 @property (weak, nonatomic) IBOutlet SSLabel *iPad_titleLabel;
 
-
+- (IBAction)iPad_addNewStoreBtnPress:(id)sender;
 @end
