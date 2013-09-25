@@ -234,10 +234,11 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
             return UIInterfaceOrientationMaskPortrait;
         else
-            return UIInterfaceOrientationMaskLandscape;
+            return (UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight);
     }
     
 }
+
 
 - (void) setShowingFBBrowser:(BOOL) status {
     self.showingFBBrowserView = status;

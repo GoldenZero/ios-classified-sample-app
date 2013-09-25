@@ -153,26 +153,6 @@
 }
 
 
-- (NSUInteger)supportedInterfaceOrientations {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        return UIInterfaceOrientationMaskPortrait;
-    else
-        return UIInterfaceOrientationMaskLandscape;
-}
-
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        return UIInterfaceOrientationPortrait;
-    else
-        return UIInterfaceOrientationLandscapeLeft;
-}
-
-
-
-
-
 - (IBAction)chooseImageBtnPress:(id)sender {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
