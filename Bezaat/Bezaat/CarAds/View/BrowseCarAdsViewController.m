@@ -247,10 +247,6 @@
         isSearching = NO;
         userDidScroll = NO;
         
-        //set up the refresher
-        refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
-        [refreshControl addTarget:self action:@selector(refreshAds:) forControlEvents:UIControlEventValueChanged];
-        
         iPad_buyCarSegmentBtnChosen = YES;
         iPad_addCarSegmentBtnChosen = NO;
         iPad_browseGalleriesSegmentBtnChosen = NO;
@@ -2708,11 +2704,6 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     //1- hide the loading indicator
     [self hideLoadingIndicator];
     
-    if (isRefreshing)
-    {
-        isRefreshing = NO;
-        [refreshControl endRefreshing];
-    }
     
     //2- append the newly loaded ads
     if (resultArray && resultArray.count)
@@ -2751,11 +2742,23 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     [self createRowHeightsArray];
     
     //3- refresh table data
+    
     userDidScroll = NO;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         [self.tableView reloadData];
-    else
+    else {
         [self.iPad_collectionView reloadData];
+        if (isRefreshing) {
+            [self.iPad_collectionView setContentOffset:CGPointZero animated:YES];
+        }
+    }
+    
+    if (isRefreshing)
+    {
+        isRefreshing = NO;
+        [refreshControl endRefreshing];
+    }
+    
     //self.tableView.contentSize=CGSizeMake(320, self.tableView.contentSize.height);
     /*
      if ([carAdsArray count] <= 10 && [carAdsArray count] != 0) {
@@ -3475,6 +3478,10 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     iPad_addStoreSegmentBtnChosen = YES;
     
     [self iPad_updateSegmentButtons];
+}
+
+- (IBAction)iPad_refreshBtnPressed:(id)sender {
+    [self refreshAds:nil];
 }
 
 

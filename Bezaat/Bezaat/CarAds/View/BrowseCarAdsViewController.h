@@ -108,6 +108,7 @@
 - (IBAction)iPad_addCarSegmentBtnPressed:(id)sender;
 - (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender;
 - (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender;
+- (IBAction)iPad_refreshBtnPressed:(id)sender;
 
 - (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
 - (void) removeAdWithAdID:(NSUInteger) adID;
