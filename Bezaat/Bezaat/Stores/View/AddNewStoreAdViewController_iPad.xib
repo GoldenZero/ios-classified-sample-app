@@ -1197,12 +1197,9 @@
 												<int key="IBUIButtonType">1</int>
 												<string key="IBUINormalTitle">اختر المتجر</string>
 												<reference key="IBUIHighlightedTitleColor" ref="848220291"/>
-												<reference key="IBUINormalTitleColor" ref="489350410"/>
+												<reference key="IBUINormalTitleColor" ref="577014958"/>
 												<reference key="IBUINormalTitleShadowColor" ref="577014958"/>
-												<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="825988251">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">tb_add_individual3_dropbox.png</string>
-												</object>
+												<reference key="IBUINormalBackgroundImage" ref="701732357"/>
 												<reference key="IBUIFontDescription" ref="423240593"/>
 												<reference key="IBUIFont" ref="870018883"/>
 											</object>
@@ -1221,26 +1218,11 @@
 												<int key="IBUIButtonType">1</int>
 												<string key="IBUINormalTitle">اختر البلد</string>
 												<reference key="IBUIHighlightedTitleColor" ref="848220291"/>
-												<reference key="IBUINormalTitleColor" ref="489350410"/>
+												<reference key="IBUINormalTitleColor" ref="577014958"/>
 												<reference key="IBUINormalTitleShadowColor" ref="577014958"/>
-												<reference key="IBUINormalBackgroundImage" ref="825988251"/>
+												<reference key="IBUINormalBackgroundImage" ref="701732357"/>
 												<reference key="IBUIFontDescription" ref="423240593"/>
 												<reference key="IBUIFont" ref="870018883"/>
-											</object>
-											<object class="IBUIImageView" id="1005315938">
-												<reference key="NSNextResponder" ref="579772546"/>
-												<int key="NSvFlags">292</int>
-												<string key="NSFrame">{{20, 166}, {374, 120}}</string>
-												<reference key="NSSuperview" ref="579772546"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="775310228"/>
-												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<bool key="IBUIUserInteractionEnabled">NO</bool>
-												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-												<object class="NSCustomResource" key="IBUIImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">tb_add_individual3_description_box.png</string>
-												</object>
 											</object>
 											<object class="IBUITextField" id="447365391">
 												<reference key="NSNextResponder" ref="579772546"/>
@@ -1248,7 +1230,7 @@
 												<string key="NSFrame">{{20, 118}, {374, 40}}</string>
 												<reference key="NSSuperview" ref="579772546"/>
 												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="1005315938"/>
+												<reference key="NSNextKeyView" ref="775310228"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
@@ -1286,7 +1268,7 @@
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="892682479"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
-												<reference key="IBUIBackgroundColor" ref="870454705"/>
+												<reference key="IBUIBackgroundColor" ref="848220291"/>
 												<bool key="IBUIClipsSubviews">YES</bool>
 												<bool key="IBUIMultipleTouchEnabled">YES</bool>
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -1555,6 +1537,7 @@
 								<string key="NSFrame">{{0, 44}, {1024, 216}}</string>
 								<reference key="NSSuperview" ref="800811147"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<bool key="IBUIShowsSelectionIndicator">YES</bool>
@@ -2604,7 +2587,6 @@
 						<reference key="object" ref="579772546"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="187700794"/>
-							<reference ref="1005315938"/>
 							<reference ref="775310228"/>
 							<reference ref="608051074"/>
 							<reference ref="700206008"/>
@@ -2798,11 +2780,6 @@
 						<reference key="parent" ref="579772546"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">613</int>
-						<reference key="object" ref="1005315938"/>
-						<reference key="parent" ref="579772546"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">609</int>
 						<reference key="object" ref="775310228"/>
 						<reference key="parent" ref="579772546"/>
@@ -2891,7 +2868,6 @@
 				<string key="601.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<real value="1" key="601.IBUIButtonInspectorSelectedEdgeInsetMetadataKey"/>
 				<string key="609.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="613.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="617.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="622.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="625.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -3342,8 +3318,6 @@
 			<string key="tb_add_individual3_add_image_btn.png">{71, 64}</string>
 			<string key="tb_add_individual3_bottom_box.png">{429, 56}</string>
 			<string key="tb_add_individual3_delete_btn.png">{18, 17}</string>
-			<string key="tb_add_individual3_description_box.png">{395, 89}</string>
-			<string key="tb_add_individual3_dropbox.png">{401, 40}</string>
 			<string key="tb_add_individual3_image_box.png">{124, 91}</string>
 			<string key="tb_add_individual3_middle_box.png">{429, 252}</string>
 			<string key="tb_add_individual3_note.png">{620, 69}</string>

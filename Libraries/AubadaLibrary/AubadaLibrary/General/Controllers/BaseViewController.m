@@ -78,7 +78,8 @@ CGFloat animatedDistance;
             heightFraction = 1.0;
         }
     }
-    else /////// PLEASE NOTICE THAT this code is written only for the IPad Landscape Views 
+    
+    else /////// PLEASE NOTICE THAT this code is written only for the IPad Landscape Views
     {
         midline = textFieldRect.origin.x + 0.5 * textFieldRect.size.width;
         numerator = midline - viewRect.origin.x - MINIMUM_SCROLL_FRACTION * viewRect.size.width;
@@ -115,14 +116,17 @@ CGFloat animatedDistance;
     
     NSLog(@"%f",animatedDistance);
     CGRect viewFrame = self.view.frame;
-    if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
-         ((orientation == UIInterfaceOrientationLandscapeLeft) ||
-          (orientation == UIInterfaceOrientationLandscapeRight)) )
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
-        viewFrame.origin.x -= animatedDistance;
+        if (orientation == UIInterfaceOrientationLandscapeLeft)
+            viewFrame.origin.x -= animatedDistance;
+        else if (orientation == UIInterfaceOrientationLandscapeRight)
+            viewFrame.origin.x += animatedDistance;
     }
     else //iPhone portrait
         viewFrame.origin.y -= animatedDistance;
+    
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
@@ -137,15 +141,18 @@ CGFloat animatedDistance;
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     CGRect viewFrame = self.view.frame;
-    if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
-         (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
-          ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) )
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
-        viewFrame.origin.x += animatedDistance;
+        if (orientation == UIInterfaceOrientationLandscapeLeft)
+            viewFrame.origin.x += animatedDistance;
+        else if (orientation == UIInterfaceOrientationLandscapeRight)
+            viewFrame.origin.x -= animatedDistance;
     }
     else //iPhone portrait
         viewFrame.origin.y += animatedDistance;
-    
+
+
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:KEYBOARD_ANIMATION_DURATION];
@@ -197,14 +204,16 @@ CGFloat animatedDistance;
     }
     
     CGRect viewFrame = self.view.frame;
-    if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
-         ((orientation == UIInterfaceOrientationLandscapeLeft) ||
-          (orientation == UIInterfaceOrientationLandscapeRight)) ) {
-        viewFrame.origin.x -= animatedDistance;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        if (orientation == UIInterfaceOrientationLandscapeLeft)
+            viewFrame.origin.x -= animatedDistance;
+        else if (orientation == UIInterfaceOrientationLandscapeRight)
+            viewFrame.origin.x += animatedDistance;
     }
     else //iPhone portrait
         viewFrame.origin.y -= animatedDistance;
-    
+
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:KEYBOARD_ANIMATION_DURATION];
@@ -218,14 +227,17 @@ CGFloat animatedDistance;
     NSLog(@"%s", __PRETTY_FUNCTION__);
 
     CGRect viewFrame = self.view.frame;
-    if  ( (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) &&
-         (([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft) ||
-          ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight)) ) {
-        viewFrame.origin.x += animatedDistance;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        if (orientation == UIInterfaceOrientationLandscapeLeft)
+            viewFrame.origin.x += animatedDistance;
+        else if (orientation == UIInterfaceOrientationLandscapeRight)
+            viewFrame.origin.x -= animatedDistance;
     }
     else //iPhone portrait
         viewFrame.origin.y += animatedDistance;
-    
+
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:KEYBOARD_ANIMATION_DURATION];

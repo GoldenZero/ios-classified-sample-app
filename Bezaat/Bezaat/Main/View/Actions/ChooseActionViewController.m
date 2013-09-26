@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "AddNewCarAdViewController.h"
 #import "AddNewCarAdViewController_iPad.h"
+#import "AddNewStoreAdViewController_iPad.h"
 #import "labelAdViewController.h"
 #import "ProfileDetailsViewController.h"
 #import "UserDetailsViewController.h"
@@ -275,9 +276,18 @@
         [self presentViewController:vc animated:YES completion:nil];
     }
     else {
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         
-        AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
-        [self presentViewController:vc animated:YES completion:nil];
+        if (savedProfile.hasStores) {
+            AddNewStoreAdViewController_iPad *adNewCar=[[AddNewStoreAdViewController_iPad alloc] initWithNibName:@"AddNewStoreAdViewController_iPad" bundle:nil];
+            
+            //adNewCar.currentStore = self.currentStore;
+            [self presentViewController:adNewCar animated:YES completion:nil];
+        }
+        else {
+            AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
     }
     //GA
     [[GAI sharedInstance].defaultTracker sendEventWithCategory:@"uiAction"

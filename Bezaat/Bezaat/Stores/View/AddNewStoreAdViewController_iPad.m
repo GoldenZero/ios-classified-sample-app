@@ -276,6 +276,9 @@
     
     [self.iPad_mainScrollView setContentSize:CGSizeMake((1024 * 3), self.iPad_mainScrollView.frame.size.height)];
     
+    self.carDetails.layer.cornerRadius = 10.0f;
+    [self.carDetails setNeedsDisplay];
+    
     //choose brand view:
     //------------------
     brandCellsArray = [NSMutableArray new];
@@ -1200,11 +1203,12 @@
     CountryListViewController* vc;
     vc = [[CountryListViewController alloc]initWithNibName:@"CountriesPopOver_iPad" bundle:nil];
     self.iPad_countryPopOver = [[UIPopoverController alloc] initWithContentViewController:vc];
-    //[self.iPad_countryPopOver setPopoverContentSize:vc.view.frame.size];
+    [self.iPad_countryPopOver setPopoverContentSize:vc.view.frame.size];
     [self dismissKeyboard];
-    [self.iPad_countryPopOver setPopoverContentSize:CGSizeMake(500, 700)];
+    //[self.iPad_countryPopOver setPopoverContentSize:CGSizeMake(500, 700)];
     vc.iPad_parentViewOfPopOver = self;
-    [self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.countryCity.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    //[self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.countryCity.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.countryCity permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
     
 }
 

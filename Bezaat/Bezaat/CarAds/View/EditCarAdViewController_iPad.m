@@ -185,6 +185,9 @@
     
     [self.iPad_mainScrollView setContentSize:CGSizeMake((1024 * 3), self.iPad_mainScrollView.frame.size.height)];
     
+    self.carDetails.layer.cornerRadius = 10.0f;
+    [self.carDetails setNeedsDisplay];
+    
     //choose brand view:
     //------------------
     brandCellsArray = [NSMutableArray new];
@@ -806,7 +809,8 @@
     //[self.countryPopOver setPopoverContentSize:CGSizeMake(500, 800)];
     [self dismissKeyboard];
     vc.iPad_parentViewOfPopOver = self;
-    [self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.countryCity.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    //[self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.countryCity.superview permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    [self.iPad_countryPopOver presentPopoverFromRect:self.countryCity.frame inView:self.countryCity permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
 
 - (void) chooseKiloMile{

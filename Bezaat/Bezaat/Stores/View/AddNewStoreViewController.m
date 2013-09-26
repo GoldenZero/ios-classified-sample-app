@@ -107,6 +107,8 @@
     [self closePicker];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        
+        //add some padding to textfields
         UIView *paddingView1 = [[UIView alloc] initWithFrame:CGRectMake(self.userPassword.frame.size.width - 20, 0, 5, self.userPassword.frame.size.height)];
         self.nameField.rightView = paddingView1;
         self.nameField.rightViewMode = UITextFieldViewModeAlways;
@@ -122,6 +124,9 @@
         UIView *paddingView4 = [[UIView alloc] initWithFrame:CGRectMake(self.phoneField.frame.size.width - 20, 0, 5, self.phoneField.frame.size.height)];
         self.phoneField.rightView = paddingView4;
         self.phoneField.rightViewMode = UITextFieldViewModeAlways;
+        
+        self.descriptionField.layer.cornerRadius = 10.0;
+        [self.descriptionField setNeedsDisplay];
     }
     
     //GA
@@ -448,6 +453,11 @@
     uploadingLOGO = YES;
     //storeImageView.image = storeImage;
     self.storeImageView.image = [GenericMethods imageWithImage:storeImage scaledToSize:self.storeImageView.frame.size];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        self.storeImageView.layer.masksToBounds = YES;
+        self.storeImageView.layer.cornerRadius = 10.0f;
+        [self.storeImageView setNeedsDisplay];
+    }
     [self showLoadingIndicatorOnImages];
     [StoreManager sharedInstance].delegate = self;
     [[StoreManager sharedInstance] uploadLOGO:storeImage];
