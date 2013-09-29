@@ -1500,7 +1500,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                         
                         valuelabel.text = attr.attributeValue;
                         valuelabel.textAlignment = NSTextAlignmentRight;
-                        valuelabel.font = [UIFont systemFontOfSize:12];
+                        valuelabel.font = [UIFont systemFontOfSize:14];
                         valuelabel.textColor = [UIColor colorWithRed:56.0/255 green:127.0/255 blue:161.0/255 alpha:1.0f];
                         valuelabel.backgroundColor = [UIColor clearColor];
                         
@@ -1508,7 +1508,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                         
                         attrNameLabel.text = attr_name_text;
                         attrNameLabel.textAlignment = NSTextAlignmentRight;
-                        attrNameLabel.font = [UIFont systemFontOfSize:12];
+                        attrNameLabel.font = [UIFont systemFontOfSize:15];
                         attrNameLabel.backgroundColor = [UIColor clearColor];
                         attrNameLabel.numberOfLines = 0;
                         
