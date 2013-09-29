@@ -1921,4 +1921,11 @@
 
 //------------------------------- END OF LEVEL1: CHOOSING THE BRAND -------------------------------
 
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+
+    if ((toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) ||
+        (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight))
+        [self dismissKeyboard];
+
+}
 @end

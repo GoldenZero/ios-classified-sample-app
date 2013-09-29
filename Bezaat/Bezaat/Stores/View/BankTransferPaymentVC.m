@@ -275,4 +275,12 @@
 - (IBAction)iPad_cancelInvoked:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if ((toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) ||
+            (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight))
+            [self dismissKeyboard];
+    }
+}
 @end

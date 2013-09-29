@@ -453,4 +453,12 @@
     }
 }
 
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if ((toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) ||
+            (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight))
+            [self dismissKeyboard];
+    }
+}
+
 @end

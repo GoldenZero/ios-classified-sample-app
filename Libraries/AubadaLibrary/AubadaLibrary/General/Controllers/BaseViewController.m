@@ -22,6 +22,7 @@ static const CGFloat IPAD_PORTRAIT_KEYBOARD_HEIGHT = 264;
 static const CGFloat IPAD_LANDSCAPE_KEYBOARD_HEIGHT = 352;
 
 CGFloat animatedDistance;
+//CGFloat prevOrigin;
 
 @implementation UINavigationController (RotationIn_IOS6)
 
@@ -119,10 +120,27 @@ CGFloat animatedDistance;
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
-        if (orientation == UIInterfaceOrientationLandscapeLeft)
-            viewFrame.origin.x -= animatedDistance;
-        else if (orientation == UIInterfaceOrientationLandscapeRight)
-            viewFrame.origin.x += animatedDistance;
+        if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            if (self.modalPresentationStyle == UIModalPresentationFormSheet) {
+                //prevOrigin = viewFrame.origin.y;
+                viewFrame.origin.y -= (animatedDistance /2);
+            }
+            else {
+                //prevOrigin = viewFrame.origin.x;
+                viewFrame.origin.x -= animatedDistance;
+            }
+        }
+        
+        else if (orientation == UIInterfaceOrientationLandscapeRight) {
+            if (self.modalPresentationStyle == UIModalPresentationFormSheet) {
+                //prevOrigin = viewFrame.origin.y;
+                viewFrame.origin.y += (animatedDistance /2);
+            }
+            else {
+                //prevOrigin = viewFrame.origin.x;
+                viewFrame.origin.x += animatedDistance;
+            }
+        }
     }
     else //iPhone portrait
         viewFrame.origin.y -= animatedDistance;
@@ -144,10 +162,26 @@ CGFloat animatedDistance;
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
-        if (orientation == UIInterfaceOrientationLandscapeLeft)
-            viewFrame.origin.x += animatedDistance;
-        else if (orientation == UIInterfaceOrientationLandscapeRight)
-            viewFrame.origin.x -= animatedDistance;
+        if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            if (self.modalPresentationStyle == UIModalPresentationFormSheet) {
+                //if (prevOrigin < viewFrame.origin.y)
+                    viewFrame.origin.y += (animatedDistance /2);
+                //else
+                //    viewFrame.origin.y -= (animatedDistance /2);
+            }
+            else {
+                //if (prevOrigin < viewFrame.origin.x)
+                    viewFrame.origin.x += animatedDistance;
+                //else
+                //    viewFrame.origin.x -= animatedDistance;
+            }
+        }
+        else if (orientation == UIInterfaceOrientationLandscapeRight) {
+            if (self.modalPresentationStyle == UIModalPresentationFormSheet)
+                viewFrame.origin.y -= (animatedDistance /2);
+            else
+                viewFrame.origin.x -= animatedDistance;
+        }
     }
     else //iPhone portrait
         viewFrame.origin.y += animatedDistance;
@@ -206,10 +240,18 @@ CGFloat animatedDistance;
     CGRect viewFrame = self.view.frame;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
-        if (orientation == UIInterfaceOrientationLandscapeLeft)
-            viewFrame.origin.x -= animatedDistance;
-        else if (orientation == UIInterfaceOrientationLandscapeRight)
-            viewFrame.origin.x += animatedDistance;
+        if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            if (self.modalPresentationStyle == UIModalPresentationFormSheet)
+                viewFrame.origin.y -= (animatedDistance /2);
+            else
+                viewFrame.origin.x -= animatedDistance;
+        }
+        else if (orientation == UIInterfaceOrientationLandscapeRight) {
+            if (self.modalPresentationStyle == UIModalPresentationFormSheet)
+                viewFrame.origin.y += (animatedDistance /2);
+            else
+                viewFrame.origin.x += animatedDistance;
+        }
     }
     else //iPhone portrait
         viewFrame.origin.y -= animatedDistance;
@@ -230,10 +272,18 @@ CGFloat animatedDistance;
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
-        if (orientation == UIInterfaceOrientationLandscapeLeft)
-            viewFrame.origin.x += animatedDistance;
-        else if (orientation == UIInterfaceOrientationLandscapeRight)
-            viewFrame.origin.x -= animatedDistance;
+        if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            if (self.modalPresentationStyle == UIModalPresentationFormSheet)
+                viewFrame.origin.y += (animatedDistance /2);
+            else
+                viewFrame.origin.x += animatedDistance;
+        }
+        else if (orientation == UIInterfaceOrientationLandscapeRight) {
+            if (self.modalPresentationStyle == UIModalPresentationFormSheet)
+                viewFrame.origin.y -= (animatedDistance /2);
+            else
+                viewFrame.origin.x -= animatedDistance;
+        }
     }
     else //iPhone portrait
         viewFrame.origin.y += animatedDistance;
@@ -296,6 +346,5 @@ CGFloat animatedDistance;
     }
     
 }
-
 
 @end
