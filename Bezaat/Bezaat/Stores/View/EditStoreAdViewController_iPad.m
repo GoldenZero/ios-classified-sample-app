@@ -1387,6 +1387,10 @@
     //UIImage * img = [info objectForKey:@"UIImagePickerControllerEditedImage"];
     UIImage * img = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     UIButton * tappedBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:chosenImgBtnTag];
+    
+    tappedBtn.clipsToBounds = YES;
+    tappedBtn.layer.cornerRadius = 10.0f;
+    
     [tappedBtn setImage:[GenericMethods imageWithImage:img scaledToSize:tappedBtn.frame.size] forState:UIControlStateNormal];
     
     [self useImage:img];

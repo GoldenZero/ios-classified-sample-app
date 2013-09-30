@@ -80,6 +80,12 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
                                           self.iPad_pricingtableContainerView.frame.size.height,
                                           self.iPad_pricingtableContainerView.frame.size.width
                                           );
+        
+        [self.iPad_titleLabel setBackgroundColor:[UIColor clearColor]];
+        [self.iPad_titleLabel setTextAlignment:SSTextAlignmentCenter];
+        [self.iPad_titleLabel setTextColor:[UIColor colorWithRed:62/255.0f green:141/255.0f blue:188/255.0f alpha:1.0f]];
+        [self.iPad_titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:30.0] ];
+        [self.iPad_titleLabel setText:@"اختر الباقة المناسبة"];
     }
     
     //init the productsArr

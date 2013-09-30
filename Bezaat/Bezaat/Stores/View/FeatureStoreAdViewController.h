@@ -36,5 +36,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *nowBtn;
 //@property (weak, nonatomic) IBOutlet UIScrollView *MyScrollView;
 @property (weak, nonatomic) IBOutlet UIView *iPad_pricingtableContainerView;
+@property (weak, nonatomic) IBOutlet SSLabel * iPad_titleLabel;
 
 @end
