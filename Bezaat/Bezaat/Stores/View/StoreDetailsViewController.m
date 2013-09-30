@@ -93,6 +93,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         [menueBtn1 setImage:[UIImage imageNamed:@"MyStore_menu1_select"] forState:UIControlStateNormal];
     
+    /*
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSURL *imageURL = [NSURL URLWithString:currentStore.imageURL];
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
@@ -103,6 +104,24 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
             [storeImage setNeedsDisplay];
         });
     });
+     */
+    
+    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    activityIndicator.hidesWhenStopped = YES;
+    activityIndicator.hidden = NO;
+    activityIndicator.center = CGPointMake(storeImage.frame.size.width /2, storeImage.frame.size.height/2);
+    
+    [storeImage addSubview:activityIndicator];
+    
+    NSURL *imageURL = [NSURL URLWithString:currentStore.imageURL];
+    [activityIndicator startAnimating];
+    [storeImage setImageWithURL:imageURL
+                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {  [activityIndicator stopAnimating];
+                         [activityIndicator removeFromSuperview];}];
+
+    
+    
     
     advFeatureManager = [[StoreManager alloc] init];
     advFeatureManager.delegate = self;
