@@ -188,6 +188,24 @@
     self.carDetails.layer.cornerRadius = 10.0f;
     [self.carDetails setNeedsDisplay];
     
+    
+    //add margins to textfields
+    UIView *paddingView1 = [[UIView alloc] initWithFrame:CGRectMake(self.carAdTitle.frame.size.width - 20, 0, 5, self.carAdTitle.frame.size.height)];
+    self.carAdTitle.rightView = paddingView1;
+    self.carAdTitle.rightViewMode = UITextFieldViewModeAlways;
+    
+    UIView *paddingView2 = [[UIView alloc] initWithFrame:CGRectMake(self.mobileNum.frame.size.width - 20, 0, 5, self.mobileNum.frame.size.height)];
+    self.mobileNum.rightView = paddingView2;
+    self.mobileNum.rightViewMode = UITextFieldViewModeAlways;
+    
+    UIView *paddingView3 = [[UIView alloc] initWithFrame:CGRectMake(self.carPrice.frame.size.width - 20, 0, 5, self.carPrice.frame.size.height)];
+    self.carPrice.rightView = paddingView3;
+    self.carPrice.rightViewMode = UITextFieldViewModeAlways;
+    
+    UIView *paddingView4 = [[UIView alloc] initWithFrame:CGRectMake(self.distance.frame.size.width - 20, 0, 5, self.distance.frame.size.height)];
+    self.distance.rightView = paddingView4;
+    self.distance.rightViewMode = UITextFieldViewModeAlways;
+    
     //choose brand view:
     //------------------
     brandCellsArray = [NSMutableArray new];
@@ -726,6 +744,7 @@
 #pragma mark - Buttons Actions
 
 - (IBAction)iPad_kiloBtnPrss:(id)sender {
+    [self dismissKeyboard];
     kiloChoosen = YES;
     
     [self.iPad_kiloBtn setBackgroundImage:[UIImage imageNamed:@"tb_add_individual4_km_btn_on.png"] forState:UIControlStateNormal];
@@ -733,6 +752,7 @@
     
 }
 - (IBAction)iPad_mileBtnPrss:(id)sender {
+    [self dismissKeyboard];
     kiloChoosen = NO;
     
     [self.iPad_kiloBtn setBackgroundImage:[UIImage imageNamed:@"tb_add_individual4_km_btn_off.png"] forState:UIControlStateNormal];
@@ -740,7 +760,7 @@
 }
 
 - (IBAction)chooseProductionYear:(id)sender{
-    
+    [self dismissKeyboard];
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
@@ -759,7 +779,7 @@
 }
 
 - (IBAction)chooseCurrency:(id)sender{
-    
+    [self dismissKeyboard];
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[currencyArray objectAtIndex:0] valueString]];

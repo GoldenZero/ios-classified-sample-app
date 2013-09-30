@@ -46,6 +46,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrameSize">{200, 235}</string>
 								<reference key="NSSuperview" ref="627612138"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="441552095"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -60,6 +61,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{135, 197}, {50, 30}}</string>
 								<reference key="NSSuperview" ref="627612138"/>
+								<reference key="NSWindow"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -95,6 +97,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{78, 200}, {49, 23}}</string>
 								<reference key="NSSuperview" ref="627612138"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1040268202"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -128,6 +131,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{67, 6}, {66, 66}}</string>
 								<reference key="NSSuperview" ref="627612138"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="816226654"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -159,6 +163,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{4, 77}, {193, 43}}</string>
 								<reference key="NSSuperview" ref="627612138"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="90627624"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -190,6 +195,7 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{7, 128}, {190, 53}}</string>
 								<reference key="NSSuperview" ref="627612138"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="654150498"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -223,6 +229,7 @@
 						</array>
 						<string key="NSFrameSize">{200, 234}</string>
 						<reference key="NSSuperview" ref="510370649"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="669600829"/>
 						<string key="NSReuseIdentifierKey">_NS:11</string>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -238,6 +245,7 @@
 				</array>
 				<string key="NSFrameSize">{200, 235}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="627612138"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -377,7 +385,47 @@
 			<nil key="sourceID"/>
 			<int key="maxID">174</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">labelAdCell</string>
+					<string key="superclassName">UITableViewCell</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="checkButton">UIButton</string>
+						<string key="costLabel">UILabel</string>
+						<string key="detailsLabel">UILabel</string>
+						<string key="iPad_currencyLabel">UILabel</string>
+						<string key="periodLabel">UILabel</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="checkButton">
+							<string key="name">checkButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="costLabel">
+							<string key="name">costLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="detailsLabel">
+							<string key="name">detailsLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="iPad_currencyLabel">
+							<string key="name">iPad_currencyLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="periodLabel">
+							<string key="name">periodLabel</string>
+							<string key="candidateClassName">UILabel</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/labelAdCell.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>

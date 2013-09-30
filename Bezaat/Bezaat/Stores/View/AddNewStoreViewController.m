@@ -758,6 +758,7 @@
 #pragma mark - iPad actions
 
 - (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender {
+    
     NSLog(@"%s", __PRETTY_FUNCTION__);
     iPad_buyCarSegmentBtnChosen = YES;
     iPad_addCarSegmentBtnChosen = NO;
@@ -765,6 +766,7 @@
     iPad_addStoreSegmentBtnChosen = NO;
     
     [self iPad_updateSegmentButtons];
+
 }
 
 - (IBAction)iPad_addCarSegmentBtnPressed:(id)sender {

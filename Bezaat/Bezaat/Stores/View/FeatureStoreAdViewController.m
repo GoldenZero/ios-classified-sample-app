@@ -68,6 +68,20 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         self.storeID.imageURL = self.currentOrder.StoreImageURL;
         self.storeID.countryID = self.currentOrder.CountryID;
     }
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        // horizontal table
+        // -90 degrees rotation will move top of your tableview to the left
+        self.tableView.transform = CGAffineTransformMakeRotation(-M_PI_2);
+        
+        //Just so your table is not at a random place in your view
+        self.tableView.frame = CGRectMake(0,
+                                          0,
+                                          self.iPad_pricingtableContainerView.frame.size.height,
+                                          self.iPad_pricingtableContainerView.frame.size.width
+                                          );
+    }
+    
     //init the productsArr
     productsArr = [NSArray new];
     
@@ -158,7 +172,10 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 #pragma mark - handle table
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 66;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return 66;
+    else //iPad
+        return 185;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -173,7 +190,8 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 {
     if ((pricingOptions) && (pricingOptions.count))
     {
-        FeatureAdCell * cell = (FeatureAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"FeatureAdCell" owner:self options:nil] objectAtIndex:0];
+        FeatureAdCell * cell = (FeatureAdCell *)[[[NSBundle mainBundle] loadNibNamed:
+                                                  (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"FeatureAdCell" : @"FeatureAdCell_iPad") owner:self options:nil] objectAtIndex:0];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         //[cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
         if (indexPath.row==choosenCell) {
@@ -198,6 +216,10 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         {
             [cell.itunesImg setHidden:NO];
             // [self.nowBtn setEnabled:YES];
+        }
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            cell.transform = CGAffineTransformMakeRotation(M_PI_2);
         }
         return cell;
     }
@@ -450,12 +472,12 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         [self.bankBtn setHidden:YES];
         [self.bgBtns setHidden:YES];
     }
-   // [self.tableView reloadData];
-    [self DrawOptions];
+    //[self.tableView reloadData];
+    //[self DrawOptions];
 }
 
 
-
+/*
 - (void) DrawOptions {
     float currentX = 0;
     float currentY = 0;
@@ -509,7 +531,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     totalHeight = 1 + brandFrame.size.height + currentY + 15;
     [self.MyScrollView setContentSize:CGSizeMake(self.MyScrollView.contentSize.width, totalHeight)];
 }
-
+*/
 
 
 - (void) didSelectBrandCell:(id) sender {
@@ -562,7 +584,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         [self.bgBtns setHidden:YES];
     }
     
-    [self DrawOptions];
+    //[self DrawOptions];
 }
 
 -(void)StoreOrderDidFailCreationWithError:(NSError *)error
