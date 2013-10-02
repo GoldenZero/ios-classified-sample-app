@@ -686,6 +686,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     iPad_addStoreSegmentBtnChosen = NO;
     
     [self iPad_updateSegmentButtons];
+
 }
 
 - (IBAction)iPad_addCarSegmentBtnPressed:(id)sender {

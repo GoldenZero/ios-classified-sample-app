@@ -206,11 +206,15 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         //[cell.checkButton addTarget:self action:@selector(chosenPeriodPressed) forControlEvents:UIControlEventTouchUpInside];
         if (indexPath.row==choosenCell) {
-            [cell.checkButton setBackgroundImage:[UIImage imageNamed:checkedImageName] forState:UIControlStateNormal];
+            //[cell.checkButton setBackgroundImage:[UIImage imageNamed:checkedImageName] forState:UIControlStateNormal];
+            
+            [cell.checkButton setBackgroundImage:[UIImage imageNamed:@"storebackegeOn.png"] forState:UIControlStateNormal];
         }
         else
         {
-            [cell.checkButton setBackgroundImage:[UIImage imageNamed:unCheckedImageName] forState:UIControlStateNormal];
+            //[cell.checkButton setBackgroundImage:[UIImage imageNamed:unCheckedImageName] forState:UIControlStateNormal];
+            [cell.checkButton setBackgroundImage:[UIImage imageNamed:@"storebackegeOff.png"] forState:UIControlStateNormal];
+            
         }
         
         PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:indexPath.row];

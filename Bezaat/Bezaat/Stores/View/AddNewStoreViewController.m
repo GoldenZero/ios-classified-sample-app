@@ -688,7 +688,15 @@
 
 - (void) showLoadingIndicatorOnImages {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    imgsLoadingHUD = [MBProgressHUD2 showHUDAddedTo:self.storeImageView animated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        imgsLoadingHUD = [MBProgressHUD2 showHUDAddedTo:self.storeImageView animated:YES];
+    else { //iPad
+        imgsLoadingHUD = [MBProgressHUD2 showHUDAddedTo:self.storeImageView.superview.superview animated:YES];
+        
+        CGPoint center = self.storeImageView.superview.superview.center;
+        center.y = center.y + 50;
+        imgsLoadingHUD.center = center;
+    }
     imgsLoadingHUD.mode = MBProgressHUDModeCustomView2;
     imgsLoadingHUD.labelText = @"";
     imgsLoadingHUD.detailsLabelText = @"";
