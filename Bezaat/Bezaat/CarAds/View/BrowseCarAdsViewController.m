@@ -75,6 +75,9 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    UISwipeGestureRecognizer * iPad_leftSwipe;
+    UISwipeGestureRecognizer * iPad_rightSwipe;
 }
 
 @end
@@ -228,6 +231,14 @@
                initWithTarget:self
                action:@selector(dismissKeyboard)];
         [self.iPad_searchSideMenuView addGestureRecognizer:tap];
+        
+        iPad_leftSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(iPad_handleSwipeLeft:)];
+        [iPad_leftSwipe setDirection:UISwipeGestureRecognizerDirectionLeft];
+        [self.iPad_searchPanelBtn addGestureRecognizer:iPad_leftSwipe];
+        
+        iPad_rightSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(iPad_handleSwipeRight:)];
+        [iPad_rightSwipe setDirection:UISwipeGestureRecognizerDirectionRight];
+        [self.iPad_searchPanelBtn addGestureRecognizer:iPad_rightSwipe];
         
         //init search panel attributes
         searchWithImage=false;
@@ -3377,6 +3388,17 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     [self.iPad_addStoreSegmentBtn setBackgroundImage:(iPad_addStoreSegmentBtnChosen ? iPad_addStoreSegmentBtnSelectedImage : iPad_addStoreSegmentBtnUnselectedImage) forState:UIControlStateNormal];
 }
 
+-(void)iPad_handleSwipeLeft:(UISwipeGestureRecognizer*)recognizer{
+    if(self.iPad_contentView.frame.origin.x == 0)
+        [self iPad_showSideMenu];
+
+}
+
+-(void)iPad_handleSwipeRight:(UISwipeGestureRecognizer*)recognizer{
+    if(self.iPad_contentView.frame.origin.x != 0)
+        [self iPad_hideSideMenu];
+}
+
 #pragma mark - iPad actions
 
 - (IBAction) iPad_searchSideMenuBtn:(id)sender {
@@ -3510,7 +3532,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     //reload data
     currentModel = model;
     
-    NSLog(@"reloading data ...");
+    if(self.iPad_contentView.frame.origin.x != 0)
+        [self iPad_hideSideMenu];
+    
+    [self loadFirstData];
+    //NSLog(@"reloading data ...");
 }
 
 #pragma mark - DistanceRangeChoosing Delegate method

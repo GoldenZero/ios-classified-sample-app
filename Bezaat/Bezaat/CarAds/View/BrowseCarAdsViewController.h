@@ -79,6 +79,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *iPad_addCarSegmentBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_browseGalleriesSegmentBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_addStoreSegmentBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_searchPanelBtn;
 
 @property (strong, nonatomic) IBOutlet UIView *adBannerView;
 
