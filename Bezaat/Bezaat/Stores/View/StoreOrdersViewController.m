@@ -392,8 +392,12 @@
 {
     UIButton* btn = (UIButton*)sender;
     StoreOrder * orderObject = (StoreOrder *)[storeOrdersArray objectAtIndex:btn.tag];
-    
-    FeatureStoreAdViewController *vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+    FeatureStoreAdViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            vc =[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+    else
+        vc =[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController_iPad" bundle:nil];
+ 
     vc.currentOrder = orderObject;
     [self presentViewController:vc animated:YES completion:nil];
     

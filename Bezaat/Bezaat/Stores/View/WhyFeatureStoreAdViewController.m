@@ -31,12 +31,22 @@
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
     CGSize result = [[UIScreen mainScreen] bounds].size;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
     [self.scrollView setContentSize:CGSizeMake(result.width*3, result.height-self.toolBar.frame.size.height - 33)];
     [self.scrollView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
     [self.scrollView addSubview:[self prepareImge:@"feature.png" :0]];
     [self.scrollView addSubview:[self prepareImge:@"logo.png" :1]];
     [self.scrollView addSubview:[self prepareImge:@"manage.png" :2]];
-    
+    }
+    else
+    {
+        [self.scrollView setContentSize:CGSizeMake(result.height*3, result.width-43)];
+        [self.scrollView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin];
+        [self.scrollView addSubview:[self prepareImge:@"feature_iPad.jpg" :0]];
+        [self.scrollView addSubview:[self prepareImge:@"logo_iPad.jpg" :1]];
+        [self.scrollView addSubview:[self prepareImge:@"manage_iPad.jpg" :2]];
+    }
     [super viewDidLoad];
     
     //GA

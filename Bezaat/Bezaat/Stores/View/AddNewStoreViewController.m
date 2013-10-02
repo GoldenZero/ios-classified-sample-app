@@ -291,7 +291,11 @@
 
 - (IBAction)whatIsStoreBtnPrss:(id)sender {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    WhyFeatureStoreAdViewController *vc=[[WhyFeatureStoreAdViewController alloc] initWithNibName:@"WhyFeatureStoreAdViewController" bundle:nil];
+    WhyFeatureStoreAdViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc =[[WhyFeatureStoreAdViewController alloc] initWithNibName:@"WhyFeatureStoreAdViewController" bundle:nil];
+    else
+        vc =[[WhyFeatureStoreAdViewController alloc] initWithNibName:@"WhyFeatureStoreAdViewController_iPad" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
 }
 

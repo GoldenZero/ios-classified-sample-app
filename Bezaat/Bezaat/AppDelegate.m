@@ -141,10 +141,16 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
 - (void) onSplashScreenDone {
     [self.splashVC.view removeFromSuperview];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
-        //self.walkThroughVC=[[WalkThroughVC alloc] initWithNibName:@"WalkThroughVC" bundle:nil];
-        //self.window.rootViewController = self.walkThroughVC;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        {
+            self.window.rootViewController = self.chooseLocationVC1;
+        }else
+        {
+            self.walkThroughVC =[[WalkThroughVC alloc]initWithNibName:@"WalkThroughVC_iPad" bundle:nil];
 
-        self.window.rootViewController = self.chooseLocationVC1;
+        self.window.rootViewController = self.walkThroughVC;
+    }
+        //self.window.rootViewController = self.chooseLocationVC1;
     }
     else{
         self.window.rootViewController = self.homeVC;

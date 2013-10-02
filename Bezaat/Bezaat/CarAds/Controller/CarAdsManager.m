@@ -1254,7 +1254,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         
         
-        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@",
+        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@&%i=%@",
                              
                              TITLE_ATTR_ID, aTitle,
                              
@@ -1316,7 +1316,9 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              
                              COLOR_ATTR_ID, aColor,
                              
-                             IMAGES_ID_POST_KEY, [self getIDsStringFromArray:aImageIDsArray]];
+                             IMAGES_ID_POST_KEY, [self getIDsStringFromArray:aImageIDsArray],
+                             
+                             CITY_ATTR_ID,[NSString stringWithFormat:@"%i",cityID]];
         
         /*
         //post keys
@@ -1501,9 +1503,10 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         NSDictionary * brandKeysDict = [[StaticAttrsLoader sharedInstance] loadBrandKeys];
         NSNumber * brandKeyForModel = [brandKeysDict objectForKey:[NSNumber numberWithInteger:brandID]];
         
-        /*
+        
         //post keys
-        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@",
+        /*
+        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@",
                              TITLE_ATTR_ID, aTitle,
                              DESCRIPTION_ATTR_ID, aDescription,
                              //PHONE_NUMBER_ATTR_ID, usermail, //Todo remove if ness
@@ -1514,7 +1517,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              SERVICE_NAME_ATTR_ID, [NSString stringWithFormat:@"%i",aServiceValueID],
                              MANUFACTURE_YEAR_ATTR_ID, [NSString stringWithFormat:@"%i",aModelYearValueID],
                              DISTANCE_VALUE_ATTR_ID, aDistance,
-                             COLOR_ATTR_ID, aColor,
+                             COLOR_ATTR_ID, @" ",
                              PHONE_NUMBER_ATTR_ID, aPhoneNumer,
                              ADCOMMENTS_EMAIL_ATTR_ID, [NSString stringWithFormat:@"%i",aAdCommentsEmail],
                              KM_MILES_ATTR_ID, [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
@@ -1528,18 +1531,20 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              CITY_ATTR_ID,[NSString stringWithFormat:@"%i",cityID],
                              10099,@"1000637",
                              10102,@"1000667",
-                             10103,@"1000672"
-                             ];
-         */
+                             10103,@"1000672",
+                             -181,@"0"
+                             ];*/
+         
         //NSString * prePost = [NSString stringWithFormat:@"1076=%@,524=%@,502=%@,505=%@,518=%@,523=%@,10097=%@,10098=%@,10099=%@,10100=%@,10102=%@,10103=%@,-98=%@,-180=%@,-181=%@,ImagesID=%@,-100=%@",
         //NSString * prePost = [NSString stringWithFormat:@"1076=%@,524=%@,502=%@,505=%@,518=%@,523=%@,10097=%@,10098=%@,10099=%@,10100=%@,10102=%@,10103=%@,-98=%@,-180=%@,ImagesID=%@,-100=%@",
         //NSString * prePost = [NSString stringWithFormat:@"1076=%@&524=%@&502=%@&505=%@&518=%@&523=%@&10097=%@&10098=%@&10099=%@&10100=%@&-98=%@&-180=%@&ImagesID=%@&-100=%@&%i=%@",
-        NSString * prePost = [NSString stringWithFormat:@"1076=%@&524=%@&502=%@&505=%@&518=%@&523=%@&10097=%@&10098=%@&10100=%@&-98=%@&-180=%@&ImagesID=%@&-100=%@&%i=%@",
+        NSString * prePost = [NSString stringWithFormat:@"1076=%@&524=%@&502=%@&505=%@&518=%@&520=%@&523=%@&10097=%@&10098=%@&10100=%@&-98=%@&-180=%@&ImagesID=%@&-100=%@&%i=%@",
                 [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
                 aTitle,
                 [NSString stringWithFormat:@"%i", aPeriodValueID],
                 [NSString stringWithFormat:@"%i",aServiceValueID],
                 aDistance,
+                              aMobileNum,
                 aDescription,
                 [NSString stringWithFormat:@"%i",carConditionID],
                 [NSString stringWithFormat:@"%i",gearTypeID],
@@ -1556,7 +1561,36 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                 aPhoneNumer,
                 brandKeyForModel.integerValue, [NSString stringWithFormat:@"%i",modelID]
                 ];
-                              
+        
+        
+        /*  NSString * prePost = [NSString stringWithFormat:@"1076=%@&524=%@&502=%@&505=%@&518=%@&520=%@&507=%@&10100=%i&10097=%i&10098=%i&523=%@&10097=%@&10098=%@&10100=%@&-98=%@&-180=%@&ImagesID=%@&-100=%@&%i=%@",
+         [NSString stringWithFormat:@"%i",aKmVSmilesValueID],
+         aTitle,
+         [NSString stringWithFormat:@"%i", aPeriodValueID],
+         [NSString stringWithFormat:@"%i",aServiceValueID],
+         aDistance,
+         aMobileNum,
+         aPrice,
+         carBodyID,
+         carConditionID,
+         gearTypeID,
+         aDescription,
+         [NSString stringWithFormat:@"%i",carConditionID],
+         [NSString stringWithFormat:@"%i",gearTypeID],
+         //@"1000637",
+         [NSString stringWithFormat:@"%i",carBodyID],
+         //@"1000667",
+         //@"",
+         //@"1000672",
+         //@"",
+         [NSString stringWithFormat:@"%i",brandID],
+         [NSString stringWithFormat:@"%i",cityID],
+         //@"",
+         [self getIDsStringFromArray:aImageIDsArray],
+         aPhoneNumer,
+         brandKeyForModel.integerValue, [NSString stringWithFormat:@"%i",modelID]
+         ];
+         */
         /*BRAND_ATTR_ID
          NSString * prePost = @"524=text&523=نص&507=987123&502=1189&520=3210987456&508=1235&505=830&509=1207&518=321789&528=&868=&907=1&1076=2675&952=1553&ImagesID=\"7730822, 7730862\"";
          

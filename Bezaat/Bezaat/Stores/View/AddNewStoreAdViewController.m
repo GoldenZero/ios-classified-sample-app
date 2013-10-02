@@ -1762,6 +1762,7 @@
                                                   otherButtonTitles:nil];
             alert.tag = 2;
             [alert show];
+            return;
         }
         else if (myStore.remainingDays < 3) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"لايمكن تمييز هذ االاعلان"
@@ -1771,6 +1772,7 @@
                                                   otherButtonTitles:nil];
             alert.tag = 2;
             [alert show];
+            return;
         }
         else {
             UIActionSheet *actionSheet = nil;

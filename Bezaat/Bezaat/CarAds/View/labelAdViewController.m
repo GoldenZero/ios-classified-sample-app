@@ -168,7 +168,11 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
 }
 
 - (IBAction)explainAdBtnPrss:(id)sender {
-    whyLabelAdViewController *vc=[[whyLabelAdViewController alloc] initWithNibName:@"whyLabelAdViewController" bundle:nil];
+    whyLabelAdViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc =[[whyLabelAdViewController alloc] initWithNibName:@"whyLabelAdViewController" bundle:nil];
+    else
+        vc =[[whyLabelAdViewController alloc] initWithNibName:@"whyLabelAdViewController_iPad" bundle:nil];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -570,7 +574,12 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     [self GAIonPurchaseCompletedBT];
     
-    BankInfoViewController *vc=[[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
+    BankInfoViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc= [[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
+    else
+        vc= [[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController_iPad" bundle:nil];
+    
     vc.Order = orderID;
     vc.AdID = self.currentAdID;
     vc.ProductName = option.pricingName;

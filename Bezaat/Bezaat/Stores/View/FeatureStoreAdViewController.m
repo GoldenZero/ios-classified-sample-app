@@ -152,7 +152,12 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
 }
 
 - (IBAction)explainAdBtnPrss:(id)sender {
-    WhyFeatureStoreAdViewController *vc=[[WhyFeatureStoreAdViewController alloc] initWithNibName:@"WhyFeatureStoreAdViewController" bundle:nil];
+    WhyFeatureStoreAdViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc =[[WhyFeatureStoreAdViewController alloc] initWithNibName:@"WhyFeatureStoreAdViewController" bundle:nil];
+    else
+        vc =[[WhyFeatureStoreAdViewController alloc] initWithNibName:@"WhyFeatureStoreAdViewController_iPad" bundle:nil];
+    
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -630,7 +635,11 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     [self GAIonPurchaseCompletedBT];
     
-    BankInfoViewController *vc=[[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
+    BankInfoViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc= [[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController" bundle:nil];
+    else
+        vc= [[BankInfoViewController alloc] initWithNibName:@"BankInfoViewController_iPad" bundle:nil];
     vc.Order = orderID;
     vc.StoreName = self.storeID.name;
     vc.ProductName = option.pricingName;
