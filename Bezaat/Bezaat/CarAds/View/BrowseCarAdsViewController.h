@@ -57,6 +57,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *viewBgImg;
 //@property (weak, nonatomic) IBOutlet UIScrollView *tableScrollView;
 @property (weak, nonatomic) IBOutlet UIView *tableContainer;
+@property (weak, nonatomic) IBOutlet UIView *coach_view;
 
 @property (assign) CGPoint lastScrollPosition;
 

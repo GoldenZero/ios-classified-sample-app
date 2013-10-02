@@ -183,8 +183,6 @@
         refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
         [refreshControl addTarget:self action:@selector(refreshAds:) forControlEvents:UIControlEventValueChanged];
         
-        //load the first page of data
-        [self loadFirstData];
         distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
         [self prepareDropDownLists];
         
@@ -268,14 +266,25 @@
         [self.iPad_collectionView registerNib:[UINib nibWithNibName:@"CarAdCell_iPad" bundle:nil] forCellWithReuseIdentifier:@"CarAdCell_iPad"];
         [self.iPad_collectionView registerNib:[UINib nibWithNibName:@"CarAdWithStoreCell_iPad" bundle:nil] forCellWithReuseIdentifier:@"CarAdWithStoreCell_iPad"];
         
-        //load the first page of data
-        [self loadFirstData];
-        
         //GA
         [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
         [TestFlight passCheckpoint:@"Browse Ads screen"];
 
         //end GA
+    }
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) { //first launch
+        //In your viewDidLoad method of your view controller
+        [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(hideCoachView) userInfo:nil repeats:NO];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    else {
+        [self.coach_view setHidden:YES];
+        
+        //load the first page of data
+        [self loadFirstData];
     }
     
 }
@@ -1719,6 +1728,18 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 
 # pragma mark - hide bars while scrolling
 # pragma mark - custom methods
+
+- (void) hideCoachView {
+    //[self.coach_view setHidden:YES];
+    [UIView transitionWithView:self.coach_view
+                      duration:0.4
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:NULL
+                    completion:NULL];
+    
+    self.coach_view.hidden = YES;
+    [self loadFirstData];
+}
 
 - (void) addToFavoritePressed:(id)sender event:(id)event {
     //get the tapping position on table to determine the tapped cell
