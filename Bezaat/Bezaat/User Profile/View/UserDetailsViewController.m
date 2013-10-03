@@ -610,6 +610,9 @@
             cell.featureButton.tag = indexPath.row;
             [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
             
+            //check owner
+            UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+            
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
                 if (cell.isFeatured) {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
@@ -618,13 +621,16 @@
                 }
                 else {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
-                    [cell.featureButton setHidden:NO];
+                    if (carAdObject.ownerID == savedProfile.userID)
+                        [cell.featureButton setHidden:NO];
+                    else
+                        [cell.featureButton setHidden:YES];
+                    
                     
                 }
                 
             }
-            //check owner
-            UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+            
             
             // Not logged in
             if(!savedProfile){
@@ -750,6 +756,9 @@
             cell.featureButton.tag = indexPath.row;
             [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
             
+            //check owner
+            UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
                 if (cell.isFeatured) {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
@@ -758,13 +767,14 @@
                 }
                 else {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
-                    [cell.featureButton setHidden:NO];
+                    if (carAdObject.ownerID == savedProfile.userID)
+                        [cell.featureButton setHidden:NO];
+                    else
+                        [cell.featureButton setHidden:YES];
                     
                 }
                 
             }
-            //check owner
-            UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
             
             // Not logged in
             if(!savedProfile){
@@ -887,6 +897,9 @@
             cell.featureButton.tag = indexPath.row;
             [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
             
+            //check owner
+            UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+            
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
                 if (cell.isFeatured) {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
@@ -895,13 +908,15 @@
                 }
                 else {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
-                    [cell.featureButton setHidden:NO];
+                    if (carAdObject.ownerID == savedProfile.userID)
+                        [cell.featureButton setHidden:NO];
+                    else
+                        [cell.featureButton setHidden:YES];
                     
                 }
                 
             }
-            //check owner
-            UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+           
             
             // Not logged in
             if(!savedProfile){
@@ -1018,6 +1033,9 @@
             cell.featureButton.tag = indexPath.row;
             [cell.featureButton addTarget:self action:@selector(featureTheAd:) forControlEvents:UIControlEventTouchUpInside];
             
+            //check owner
+            UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+            
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
                 if (cell.isFeatured) {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_orange_box"]];
@@ -1026,14 +1044,16 @@
                 }
                 else {
                     [cell.bgImageView setImage:[UIImage imageNamed:@"tb_ads_view_box.png"]];
-                    [cell.featureButton setHidden:NO];
+                    if (carAdObject.ownerID == savedProfile.userID)
+                        [cell.featureButton setHidden:NO];
+                    else
+                        [cell.featureButton setHidden:YES];
                     
                 }
                 
             }
             
-            //check owner
-            UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+            
             
             // Not logged in
             if(!savedProfile){
