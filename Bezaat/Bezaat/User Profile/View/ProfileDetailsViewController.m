@@ -607,7 +607,7 @@
                     cell.customTitle.text = @"";
                     cell.customLbl.textAlignment = NSTextAlignmentLeft;
                     cell.customLbl.textColor = [UIColor whiteColor];
-                    cell.customLbl.font = [UIFont boldSystemFontOfSize:25];
+                    cell.customLbl.font = [UIFont boldSystemFontOfSize:23];
                     cell.backgroundColor = [UIColor colorWithRed:114.0/255 green:115.0/255 blue:115.0/255 alpha:1.0f];
                     //cell.backgroundColor = [UIColor blackColor];
                     [cell.arrowImg setImage:nil];
@@ -788,7 +788,7 @@
                             cell.customTitle.text = @"";
                             cell.customLbl.textAlignment = NSTextAlignmentLeft;
                             cell.customLbl.textColor = [UIColor whiteColor];
-                            cell.customLbl.font = [UIFont boldSystemFontOfSize:25];
+                            cell.customLbl.font = [UIFont boldSystemFontOfSize:23];
                             cell.backgroundColor = [UIColor colorWithRed:114.0/255 green:115.0/255 blue:115.0/255 alpha:1.0f];
                             //cell.backgroundColor = [UIColor blackColor];
                             [cell.arrowImg setImage:nil];
