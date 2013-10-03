@@ -605,7 +605,17 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                  [asynchImgManager manage:cell.storeImage];
                  */
                 
-                [cell.storeImage setImageWithURL:carAdObject.storeLogoURL];
+                UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                activityIndicator.hidesWhenStopped = YES;
+                activityIndicator.hidden = NO;
+                activityIndicator.center = CGPointMake(cell.storeImage.frame.size.width /2, cell.storeImage.frame.size.height/2);
+                
+                [cell.storeImage addSubview:activityIndicator];
+                [activityIndicator startAnimating];
+                [cell.storeImage setImageWithURL:carAdObject.storeLogoURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType){  [activityIndicator stopAnimating];
+                    [activityIndicator removeFromSuperview];}
+                 ];
+                
                 [cell.storeImage setContentMode:UIViewContentModeScaleToFill];
                 [cell.storeImage setClipsToBounds:YES];
             }
@@ -978,7 +988,17 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                  cell.storeImage.url = carAdObject.storeLogoURL;
                  [asynchImgManager manage:cell.storeImage];
                  */
-                [cell.storeImage setImageWithURL:carAdObject.storeLogoURL];
+                UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                activityIndicator.hidesWhenStopped = YES;
+                activityIndicator.hidden = NO;
+                activityIndicator.center = CGPointMake(cell.storeImage.frame.size.width /2, cell.storeImage.frame.size.height/2);
+                
+                [cell.storeImage addSubview:activityIndicator];
+                [activityIndicator startAnimating];
+                [cell.storeImage setImageWithURL:carAdObject.storeLogoURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType){  [activityIndicator stopAnimating];
+                    [activityIndicator removeFromSuperview];}
+                 ];
+                
                 [cell.storeImage setContentMode:UIViewContentModeScaleToFill];
                 [cell.storeImage setClipsToBounds:YES];
             }
@@ -1458,12 +1478,22 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         {
             [cell.storeImage setHidden:NO];
             
-            [cell.storeImage setImageWithURL:carAdObject.storeLogoURL];
+            UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            activityIndicator.hidesWhenStopped = YES;
+            activityIndicator.hidden = NO;
+            activityIndicator.center = CGPointMake(cell.storeImage.frame.size.width /2, cell.storeImage.frame.size.height/2);
+            
+            [cell.storeImage addSubview:activityIndicator];
+            [activityIndicator startAnimating];
+            [cell.storeImage setImageWithURL:carAdObject.storeLogoURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType){  [activityIndicator stopAnimating];
+                [activityIndicator removeFromSuperview];}
+             ];
+            
             [cell.storeImage setContentMode:UIViewContentModeScaleToFill];
             [cell.storeImage setClipsToBounds:YES];
         }
-        else
-            [cell.storeImage setHidden:YES];
+        //else
+            //[cell.storeImage setHidden:YES];
         
         
         
