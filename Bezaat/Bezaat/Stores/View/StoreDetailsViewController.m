@@ -14,6 +14,8 @@
 #import "AddNewStoreAdViewController_iPad.h"
 #import "AddNewCarAdViewController_iPad.h"
 #import "labelStoreAdViewController_iPad.h"
+#import "ExhibitViewController.h"
+#import "AddNewStoreViewController.h"
 
 @interface StoreDetailsViewController () {
     StoreManager *storeStatusManager;
@@ -686,6 +688,10 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     iPad_addStoreSegmentBtnChosen = NO;
     
     [self iPad_updateSegmentButtons];
+    
+    BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController_iPad" bundle:nil];
+    carAdsMenu.currentModel=nil;    //load all cars by default
+    [self presentViewController:carAdsMenu animated:YES completion:nil];
 
 }
 
@@ -697,8 +703,21 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     
     [self iPad_updateSegmentButtons];
     
-    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (!savedProfile) {
+        AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else if (savedProfile.hasStores) {
+        AddNewStoreAdViewController_iPad *adNewCar=[[AddNewStoreAdViewController_iPad alloc] initWithNibName:@"AddNewStoreAdViewController_iPad" bundle:nil];
+        
+        adNewCar.currentStore = self.currentStore;
+        [self presentViewController:adNewCar animated:YES completion:nil];
+    }
+    else {
+        AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
 }
 
 - (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {
@@ -708,6 +727,14 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     iPad_addStoreSegmentBtnChosen = NO;
     
     [self iPad_updateSegmentButtons];
+    
+    ExhibitViewController *exVC;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
+    else
+        exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController_iPad" bundle:nil];
+    //exVC.countryID=chosenCountry.countryID;
+    [self presentViewController:exVC animated:YES completion:nil];
 }
 
 - (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender {
@@ -717,6 +744,14 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     iPad_addStoreSegmentBtnChosen = YES;
     
     [self iPad_updateSegmentButtons];
+    
+    AddNewStoreViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc =[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+    else
+        vc =[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController_iPad" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
+
 }
 
 - (IBAction)iPad_addNewStoreAd:(id)sender {

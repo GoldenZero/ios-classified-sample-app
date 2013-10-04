@@ -18,6 +18,9 @@
 #import "DistanceRange.h"
 #import "whyLabelAdViewController.h"
 #import "AddNewCarAdViewController_iPad.h"
+#import "AddNewStoreAdViewController_iPad.h"
+#import "ExhibitViewController.h"
+#import "AddNewStoreViewController.h"
 
 @interface BrowseCarAdsViewController (){
     
@@ -328,6 +331,9 @@
         [self.iPad_collectionView reloadData];
         [self.iPad_collectionView setNeedsDisplay];
     }
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [self iPad_buyCarSegmentBtnPressed:nil];
     
 }
 
@@ -2370,7 +2376,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         
         if (self.distanceRangePopOver)
             [self.distanceRangePopOver dismissPopoverAnimated:YES];
-        
+        [self.carNameText resignFirstResponder];
         [self.lowerPriceText resignFirstResponder];
         [self.higherPriceText resignFirstResponder];
     }
@@ -2593,6 +2599,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
               orderby:(NSString *) orderByString
         lastRefreshed:(NSString *) lasRefreshedString {
     
+    
+    if ( ([aFromYearString isEqualToString:(NSString *)fromYearArray[fromYearArray.count - 1]])//before 2003
+        && ([aToYearString isEqualToString:(NSString *)fromYearArray[0]])//2013
+        ) {
+        aFromYearString = @"";
+        aToYearString = @"";
+    }
     
     [[CarAdsManager sharedInstance] searchCarAdsOfPage:page
                                               forBrand:brandID
@@ -3578,8 +3591,22 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
     [self iPad_updateSegmentButtons];
     
-    AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
-    [self presentViewController:vc animated:YES completion:nil];
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (!savedProfile) {
+        AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else if (savedProfile.hasStores) {
+        AddNewStoreAdViewController_iPad *adNewCar=[[AddNewStoreAdViewController_iPad alloc] initWithNibName:@"AddNewStoreAdViewController_iPad" bundle:nil];
+        
+        //adNewCar.currentStore = store;
+        [self presentViewController:adNewCar animated:YES completion:nil];
+    }
+    else {
+        AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    
 }
 
 - (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {
@@ -3589,6 +3616,14 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     iPad_addStoreSegmentBtnChosen = NO;
     
     [self iPad_updateSegmentButtons];
+    
+    ExhibitViewController *exVC;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
+    else
+        exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController_iPad" bundle:nil];
+    //exVC.countryID=chosenCountry.countryID;
+    [self presentViewController:exVC animated:YES completion:nil];
 }
 
 - (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender {
@@ -3598,6 +3633,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     iPad_addStoreSegmentBtnChosen = YES;
     
     [self iPad_updateSegmentButtons];
+    
+    AddNewStoreViewController *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        vc =[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController" bundle:nil];
+    else
+        vc =[[AddNewStoreViewController alloc] initWithNibName:@"AddNewStoreViewController_iPad" bundle:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)iPad_refreshBtnPressed:(id)sender {

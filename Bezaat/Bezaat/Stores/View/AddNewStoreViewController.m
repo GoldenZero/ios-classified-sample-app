@@ -12,6 +12,10 @@
 #import "FeatureStoreAdViewController.h"
 #import "WhyFeatureStoreAdViewController.h"
 #import "CountryListViewController.h"
+#import "AddNewStoreAdViewController_iPad.h"
+#import "AddNewCarAdViewController_iPad.h"
+#import "ExhibitViewController.h"
+#import "BrowseCarAdsViewController.h"
 
 @interface AddNewStoreViewController () {
     Store *store;
@@ -136,6 +140,14 @@
     
 }
 
+
+- (void) viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [self iPad_addStoreSegmentBtnPressed:nil];
+}
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -778,6 +790,10 @@
     iPad_addStoreSegmentBtnChosen = NO;
     
     [self iPad_updateSegmentButtons];
+    
+    BrowseCarAdsViewController *carAdsMenu=[[BrowseCarAdsViewController alloc] initWithNibName:@"BrowseCarAdsViewController_iPad" bundle:nil];
+    carAdsMenu.currentModel=nil;    //load all cars by default
+    [self presentViewController:carAdsMenu animated:YES completion:nil];
 
 }
 
@@ -789,6 +805,26 @@
     iPad_addStoreSegmentBtnChosen = NO;
     
     [self iPad_updateSegmentButtons];
+    
+    UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+    if (!savedProfile) {
+        AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else if (savedProfile.hasStores) {
+        AddNewStoreAdViewController_iPad *adNewCar=[[AddNewStoreAdViewController_iPad alloc] initWithNibName:@"AddNewStoreAdViewController_iPad" bundle:nil];
+        
+        adNewCar.currentStore = store;
+        [self presentViewController:adNewCar animated:YES completion:nil];
+    }
+    else {
+        AddNewCarAdViewController_iPad * vc = [[AddNewCarAdViewController_iPad alloc] initWithNibName:@"AddNewCarAdViewController_iPad" bundle:nil];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    
+    
+    
+    
 }
 
 - (IBAction)iPad_browseGalleriesSegmentBtnPressed:(id)sender {
@@ -799,6 +835,14 @@
     iPad_addStoreSegmentBtnChosen = NO;
     
     [self iPad_updateSegmentButtons];
+    
+    ExhibitViewController *exVC;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController" bundle:nil];
+    else
+        exVC=[[ExhibitViewController alloc] initWithNibName:@"ExhibitViewController_iPad" bundle:nil];
+    //exVC.countryID=chosenCountry.countryID;
+    [self presentViewController:exVC animated:YES completion:nil];
 }
 
 - (IBAction)iPad_addStoreSegmentBtnPressed:(id)sender {
