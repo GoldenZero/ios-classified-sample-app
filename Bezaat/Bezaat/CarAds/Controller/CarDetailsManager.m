@@ -81,16 +81,20 @@
     InternetManager * internetMngr;
     InternetManager * postCommentMngr;
     InternetManager * getCommentsMngr;
+    InternetManager * abuseMngr;
+
 }
 @end
 
 @implementation CarDetailsManager
 
-@synthesize delegate, commentsDel;
+@synthesize delegate, commentsDel,abuseAdDelegate;
 
 static NSString * details_url = @"/json/ad-details?adId=%li";
 static NSString * post_comment_url = @"/json/post-comment";
 static NSString * get_ad_comments_url = @"/json/get-ad-comments?adId=%@&pageNo=%@&pageSize=%@";
+static NSString * abuse_ad_url = @"/json/report-abuse?adID=%i&reasonID=%i";
+
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
@@ -99,10 +103,12 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     if (self) {
         self.delegate = nil;
         self.commentsDel = nil;
-        
+        self.abuseAdDelegate = nil;
         details_url = [API_MAIN_URL stringByAppendingString:details_url];
         post_comment_url = [API_MAIN_URL stringByAppendingString:post_comment_url];
         get_ad_comments_url = [API_MAIN_URL stringByAppendingString:get_ad_comments_url];
+        abuse_ad_url = [API_MAIN_URL stringByAppendingString:abuse_ad_url];
+
         
     }
     return self;
@@ -395,6 +401,73 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 
 }
 
+
+- (void) abuseForAd:(NSUInteger) adID WithReason:(NSInteger) reasonID WithDelegate:(id <AbuseAdDelegate>) del {
+    
+    //1- set the delegate
+    self.abuseAdDelegate = del;
+    
+    //2- check connectivity
+    if (![GenericMethods connectedToInternet])
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
+        
+        if (self.abuseAdDelegate)
+            [self.abuseAdDelegate abuseDidFailLoadingWithError:error];
+        return ;
+    }
+    
+    //3- set the url string
+    NSString * fullURLString = [NSString stringWithFormat:abuse_ad_url,
+                                adID,
+                                reasonID];
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableURLRequest * request = [[NSMutableURLRequest alloc] init];
+    NSURL * correctURL = [NSURL URLWithString:correctURLstring];
+    
+    if (correctURL)
+    {
+        //4- set user credentials in HTTP header
+        UserProfile * savedProfile = [[ProfileManager sharedInstance] getSavedUserProfile];
+        
+        //passing device token as a http header request
+        NSString * deviceTokenString = [[ProfileManager sharedInstance] getSavedDeviceToken];
+        [request addValue:deviceTokenString forHTTPHeaderField:DEVICE_TOKEN_HTTP_HEADER_KEY];
+        
+        //passing user id as a http header request
+        NSString * userIDString = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the ID
+            userIDString = [NSString stringWithFormat:@"%i", savedProfile.userID];
+        
+        [request addValue:userIDString forHTTPHeaderField:USER_ID_HTTP_HEADER_KEY];
+        
+        //passing password as a http header request
+        NSString * passwordMD5String = @"";
+        if (savedProfile) //if user is logged and not a visitor --> set the password
+            passwordMD5String = savedProfile.passwordMD5;
+        
+        [request addValue:passwordMD5String forHTTPHeaderField:PASSWORD_HTTP_HEADER_KEY];
+        
+        //5- send the request
+        [request setURL:correctURL];
+        abuseMngr = [[InternetManager alloc] initWithTempFileName:internetMngrTempFileName urlRequest:request delegate:self startImmediately:YES responseType:@"JSON"];
+    }
+    else
+    {
+        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+        [error setDescMessage:@"فشل تحميل البيانات"];
+        
+        if (self.abuseAdDelegate)
+            [self.abuseAdDelegate abuseDidFailLoadingWithError:error];
+        return ;
+    }
+    
+}
+
+
 #pragma mark - Data delegate methods
 
 - (void) manager:(BaseDataManager*)manager connectionDidFailWithError:(NSError*) error {
@@ -413,6 +486,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         if (self.commentsDel)
             [commentsDel commentsDidFailLoadingWithError:error];
+    }
+    else if (manager == abuseMngr) {
+        
+        if (self.abuseAdDelegate)
+            [abuseAdDelegate abuseDidFailLoadingWithError:error];
     }
 }
 
@@ -437,6 +515,11 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             
             if (self.commentsDel)
                 [commentsDel commentsDidFailLoadingWithError:error];
+        }
+        else if (manager == abuseMngr) {
+            
+            if (self.abuseAdDelegate)
+                [abuseAdDelegate abuseDidFailLoadingWithError:error];
         }
     }
     else
@@ -503,15 +586,39 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
             
         }
         
-        else if (manager == getCommentsMngr) {
+        else if (manager == getCommentsMngr)
+        {
             
             if (self.commentsDel) {
-                //NSLog(@"comments loaded successfully, comments are:");
-                //NSLog(@"%@", result);
                 NSArray * commentsArray = [self createCommentsArrayWithData:(NSArray *)result];
                 [self.commentsDel commentsDidFinishLoadingWithData:commentsArray];
             }
             
+        }
+        else if (manager == abuseMngr)
+        {
+            NSArray * data = (NSArray *) result;
+            if ((data) && (data.count > 0))
+            {
+                NSDictionary * totalDict = [data objectAtIndex:0];
+                NSString * statusCodeString = [NSString stringWithFormat:@"%@", [totalDict objectForKey:DETAILS_STATUS_CODE_JKEY]];
+                NSInteger statusCode = statusCodeString.integerValue;
+                
+                NSString * statusMessageProcessed = [[[totalDict objectForKey:DETAILS_STATUS_MSG_JKEY] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+                
+                if ((statusCode == 200) && ([statusMessageProcessed isEqualToString:@"ok"]))
+                {
+                    if (self.abuseAdDelegate)
+                        [self.abuseAdDelegate abuseDidFinishLoadingWithData:YES];
+                }
+                else
+                {
+                    CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
+                    [error setDescMessage:statusMessageProcessed];
+                    if (self.abuseAdDelegate)
+                        [self.abuseAdDelegate abuseDidFailLoadingWithError:error];
+                }
+            }
         }
     }
 }

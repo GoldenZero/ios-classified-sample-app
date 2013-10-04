@@ -884,32 +884,38 @@
     [self hideLoadingIndicator];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"الرجاء تزويدنا بالبريد الإلكتروني"
-                                                    message:@"\n\n"
+                                                    message:@""
                                                    delegate:self
                                           cancelButtonTitle:@"موافق"
                                           otherButtonTitles:@"إلغاء", nil];
     
-    self.emailAddress = [[UITextField alloc] initWithFrame:CGRectMake(12, 50, 260, 25)];
-    [self.emailAddress setBackgroundColor:[UIColor whiteColor]];
-    [self.emailAddress setPlaceholder:@"123@eample.com"];
-    [self.emailAddress setTextAlignment:NSTextAlignmentCenter];
-    self.emailAddress.keyboardType = UIKeyboardTypeEmailAddress;
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    //self.emailAddress = [[UITextField alloc] initWithFrame:CGRectMake(12, 50, 260, 25)];
+    //[self.emailAddress setBackgroundColor:[UIColor whiteColor]];
+    //[self.emailAddress setPlaceholder:@"123@eample.com"];
+    //[self.emailAddress setTextAlignment:NSTextAlignmentCenter];
+    //self.emailAddress.keyboardType = UIKeyboardTypeEmailAddress;
     
-    [alert addSubview:self.emailAddress];
+    //[alert addSubview:self.emailAddress];
     
     // show the dialog box
     alert.tag = 4;
     [alert show];
     
     // set cursor and show keyboard
-    [self.emailAddress becomeFirstResponder];
+    //[self.emailAddress becomeFirstResponder];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (alertView.tag == 4){
+        self.emailAddress = [alertView textFieldAtIndex:0];
         if (buttonIndex == 0) {
-        guestEmail = self.emailAddress.text;
+            guestEmail = self.emailAddress.text;
+            if ([self.emailAddress.text length] == 0) {
+                [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء ادخال البريد الالكتروني" delegateVC:self];
+                return;
+            }
         guestCheck = YES;
             [self addBtnprss:self];
            

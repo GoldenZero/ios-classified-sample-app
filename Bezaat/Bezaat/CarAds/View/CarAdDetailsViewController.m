@@ -46,6 +46,8 @@
     float xForShiftingTinyImg;
     BOOL shareBtnDidMoveUp;
     BOOL shareBtnDidMovedown;
+    BOOL isSocialKeyboard;
+
     NSMutableArray * commentsArray;
     
     UIButton * loadMoreCommentsBtn;
@@ -56,6 +58,8 @@
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
+    
+    UIButton * reportBadAdBtn;
     
 }
 
@@ -86,7 +90,7 @@
     interstitial_ = [[DFPInterstitial alloc] init];
     interstitial_.adUnitID = @"a14e1016f9c2470";//@"/1038459/Argaam..App..ios..320x50..news..listing";
     interstitial_.delegate = self;
-    [interstitial_ loadRequest:[GADRequest request]];
+   // [interstitial_ loadRequest:[GADRequest request]];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self setPlacesOfViews];
@@ -122,7 +126,8 @@
         shareBtnDidMoveUp = NO;
         shareBtnDidMovedown = NO;
         postCommentAfterSignIn = NO;
-        
+        isSocialKeyboard = NO;
+
         [editBtn setEnabled:NO];
         [editAdBtn setEnabled:NO];
         [featureBtn setEnabled:NO];
@@ -233,13 +238,56 @@
 - (void) viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPhone){
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    
+    }
     viewIsShown = YES;
     
     if (postCommentAfterSignIn)
         [self postCommentForCurrentAd:nil];
     
 }
+
+
+- (void)keyboardDidShow:(NSNotification *)note
+{
+    if (!isSocialKeyboard) {
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.5];
+        [self.TempCommentTextView setHidden:NO];
+        [self.TempCommentTextView setAlpha:0.7];
+        [UIView commitAnimations];
+        
+        [self.TempTextView becomeFirstResponder];
+    }
+}
+
+- (void)keyboardDidHide:(NSNotification *)note
+{
+    if (!isSocialKeyboard) {
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.5];
+        [self.TempCommentTextView setAlpha:0];
+        [UIView commitAnimations];
+        
+        [self.TempCommentTextView setHidden:YES];
+        self.commentTextView.text = self.TempTextView.text;
+    }
+    isSocialKeyboard = NO;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+        
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+    
+}
+
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -789,7 +837,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 }
 #pragma mark - sharing acions
 - (IBAction)twitterAction:(id)sender {
-    
+    isSocialKeyboard = YES;
+
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker sendEventWithCategory:@"uiAction"
@@ -859,7 +908,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 }
 
 - (IBAction)facebookAction:(id)sender {
-    
+    isSocialKeyboard = YES;
+
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker sendEventWithCategory:@"uiAction"
@@ -930,7 +980,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 }
 
 - (IBAction)mailAction:(id)sender {
-    
+    isSocialKeyboard = YES;
+
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker sendEventWithCategory:@"uiAction"
@@ -965,7 +1016,23 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 }
 
 - (void) reportbadAdAction:(id)sender {
+    AbuseViewController * abuseVC = [[AbuseViewController alloc] initWithNibName:@"AbuseViewController" bundle:nil];
+    abuseVC.AdID = currentDetailsObject.adID;
+    abuseVC.abuseDelegate = self;
+    self.abusePopOver = [[UIPopoverController alloc] initWithContentViewController:abuseVC];
+
+
+    CGRect popOverFrame = self.abusePopOver.contentViewController.view.frame;
+    [self.abusePopOver setPopoverContentSize:popOverFrame.size];
+    [self.abusePopOver presentPopoverFromRect:reportBadAdBtn.frame inView:self.iPad_bottomLeftSideView permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    
+    
     NSLog(@"report the ad.");
+}
+
+-(void)abuseFinishsubmit
+{
+    [self.abusePopOver dismissPopoverAnimated:YES];
 }
 
 #pragma mark - helper methods
@@ -1435,7 +1502,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             [bgImgV setImage:[UIImage imageNamed:@"tb_car_details_box_5.png"]];
             [containerView addSubview:bgImgV];
             
-            UIButton * reportBadAdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            reportBadAdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             [reportBadAdBtn setFrame:CGRectMake(10, 15, 130, 20)];
             [reportBadAdBtn setImage:[UIImage imageNamed:@"tb_car_details_inform_ads_btn.png"] forState:UIControlStateNormal];
             [reportBadAdBtn addTarget:self action:@selector(reportbadAdAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -1780,7 +1847,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [self.detailsLabel setText:currentDetailsObject.title];
         [self.detailsLabel setTextAlignment:SSTextAlignmentRight];
         [self.detailsLabel setTextColor:[UIColor blackColor]];
-        [self.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)? 14.0 : 20.0f)] ];
+        [self.detailsLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)? 14.0 : 18.0f)] ];
         
         
         [self.priceLabel setBackgroundColor:[UIColor clearColor]];
@@ -2504,10 +2571,20 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 - (IBAction) postCommentForCurrentAd:(id)sender {
     UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
     if (savedProfile) {
-        
+        if ([self.commentTextView.text isEqualToString:@"أضف تعليقك"]) {
+            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"" message:@"الرجاء تعبئة الحقل" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+            [alert show];
+            return;
+        }
         postCommentAfterSignIn = NO;
         
         if (self.commentTextView.text.length > 0) {
+            if ([self.commentTextView.text length] < 10) {
+                UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"اكتب ما لا يقل عن 10 احرف ولا يزيد عن 500 حرف" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+                //alert.tag = 4;
+                [alert show];
+                return;
+            }
             [self.commentTextView resignFirstResponder];
             
             if (loadMoreCommentsBtn)
@@ -2515,6 +2592,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             loadMoreCommentsBtn = nil;
             
             [self showLoadingIndicator];
+            
+           
             
             [[CarDetailsManager sharedInstance] postCommentForAd:currentDetailsObject.adID WithText:self.commentTextView.text WithDelegate:self];
         }
@@ -2785,6 +2864,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             //posted on date
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"dd/MM/yyyy HH:mm a"];
+            [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
             
             NSString * postedOnDateFormatted = [formatter stringFromDate:comment.postedOnDate];
             
@@ -2843,7 +2923,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تم إضافة تعليقك بنجاح" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:nil];
     [alert show];
-    
+    self.TempTextView.text = @"";
+
     if (resultComment) {
         self.commentTextView.textColor = [UIColor lightGrayColor];
         self.commentTextView.text = @"أضف تعليقك";
