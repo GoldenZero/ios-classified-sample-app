@@ -1291,7 +1291,7 @@
     else if (savedProfile.hasStores) {
         AddNewStoreAdViewController_iPad *adNewCar=[[AddNewStoreAdViewController_iPad alloc] initWithNibName:@"AddNewStoreAdViewController_iPad" bundle:nil];
         
-        adNewCar.currentStore = store;
+        //adNewCar.currentStore = store;
         [self presentViewController:adNewCar animated:YES completion:nil];
     }
     else {
