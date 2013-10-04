@@ -28,11 +28,20 @@
 - (void) commentsDidFinishLoadingWithData:(NSArray*) resultArray;
 @end
 
+
+@protocol AbuseAdDelegate <NSObject>
+@required
+
+- (void) abuseDidFailLoadingWithError:(NSError *) error;
+- (void) abuseDidFinishLoadingWithData:(BOOL) result;
+@end
+
 @interface CarDetailsManager : NSObject <DataDelegate>
 
 #pragma mark - prperties
 @property (strong, nonatomic) id <CarDetailsManagerDelegate> delegate;
 @property (strong, nonatomic) id <CommentsDelegate> commentsDel;
+@property (strong, nonatomic) id <AbuseAdDelegate> abuseAdDelegate;
 
 @property (nonatomic) NSUInteger commentsPageNumber;
 @property (nonatomic) NSUInteger commentsPageSize;
@@ -57,5 +66,7 @@
 - (void) postCommentForAd:(NSUInteger) adID WithText:(NSString *) commentText WithDelegate:(id <CommentsDelegate>) del;
 
 - (void) getAdCommentsForAd:(NSUInteger) adID OfPage:(NSUInteger) pageNum WithDelegate:(id <CommentsDelegate>) del;
+
+- (void) abuseForAd:(NSUInteger) adID WithReason:(NSInteger) reasonID WithDelegate:(id <AbuseAdDelegate>) del;
 
 @end

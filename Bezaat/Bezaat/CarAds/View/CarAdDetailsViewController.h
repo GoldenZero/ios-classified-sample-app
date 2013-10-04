@@ -24,8 +24,9 @@
 #import "SignInViewController.h"
 #import "SingleCommentView.h"
 #import "ShareView.h"
+#import "AbuseViewController.h"
 
-@interface CarAdDetailsViewController : BaseViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate, UITableViewDataSource, UITableViewDelegate,GADInterstitialDelegate>
+@interface CarAdDetailsViewController : UIViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate, UITableViewDataSource, UITableViewDelegate,GADInterstitialDelegate,AbuseDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) BrowseCarAdsViewController * parentVC;
@@ -91,6 +92,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *iPad_deleteAdBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *iPad_isFeaturedTinyImg;
 @property (weak, nonatomic) IBOutlet UIScrollView *iPad_commentsScrollView;
+
+@property (strong, nonatomic) UIPopoverController * abusePopOver;
+@property (strong, nonatomic) IBOutlet UIView *TempCommentTextView;
+@property (strong, nonatomic) IBOutlet UITextView *TempTextView;
 
 #pragma mark - actions
 - (IBAction)changePage:(id)sender;

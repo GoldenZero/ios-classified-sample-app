@@ -1254,7 +1254,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         
         
-        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@&%i=%@",
+        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@&%i=%@",
                              
                              TITLE_ATTR_ID, aTitle,
                              
@@ -1299,20 +1299,6 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              //SERVICE_NAME_ATTR_ID,aServiceName,
                              
                              //ADCOMMENTS_EMAIL_ATTR_ID,[NSString stringWithFormat:@"%i",aAdcommentsEmail],
-                             
-                             CAR_CONDITION_ATTR_ID,[NSString stringWithFormat:@"%i",aCondition],
-                             
-                             GEAR_TYPE_ATTR_ID,[NSString stringWithFormat:@"%i",aGearType],
-                             
-                             CAR_ENGINE_ATTR_ID,[NSString stringWithFormat:@"%i",aCarEngine],
-                             
-                             CAR_TYPE_ATTR_ID,[NSString stringWithFormat:@"%i",aCarType],
-                             
-                             CAR_BODY_ATTR_ID,[NSString stringWithFormat:@"%i",aCarBody],
-                             
-                             CAR_CD_ATTR_ID,[NSString stringWithFormat:@"%i",aCarCD],
-                             
-                             CAR_HEADS_ATTR_ID,[NSString stringWithFormat:@"%i",aCarHeads],
                              
                              COLOR_ATTR_ID, aColor,
                              
