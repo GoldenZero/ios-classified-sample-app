@@ -151,7 +151,28 @@
     // Add new car ad call this xib
     if (self.tagOfCallXib==2) {
         currentBrands=resultArray;
+        
+        /*
+        //add the all brands cell
+        UIImage * theBrandImage = [[BrandsManager sharedInstance] loadImageOfBrand:-1 imageState:NO];
+        UIImage * theBrandInvertedImage = [[BrandsManager sharedInstance] loadImageOfBrand:-1 imageState:YES];
+        
+        //create brand object
+        Brand * allBrandItem = [[Brand alloc]
+                                initWithBrandIDString:@"-1"
+                                brandNameAr:@""
+                                urlName:@""
+                                brandImage:theBrandImage
+                                brandInvertedImage:theBrandInvertedImage
+                                ];
+        
+        NSMutableArray * tempBrandsArray = [NSMutableArray arrayWithObject:allBrandItem];
+        [tempBrandsArray addObjectsFromArray:resultArray];
+        
+        currentBrands = tempBrandsArray;
+        */
         currentModels=((Brand*)resultArray[0]).models;
+        
         //if (lastBrandSelectedRow > -1)
         //currentModels=((Brand*)resultArray[lastBrandSelectedRow]).models;
         //else
@@ -161,7 +182,25 @@
     // Browse car ads call this xib
     else {
         currentBrands = resultArray;
+        /*
+        //add the all brands cell
+        UIImage * theBrandImage = [[BrandsManager sharedInstance] loadImageOfBrand:-1 imageState:NO];
+        UIImage * theBrandInvertedImage = [[BrandsManager sharedInstance] loadImageOfBrand:-1 imageState:YES];
         
+        //create brand object
+        Brand * allBrandItem = [[Brand alloc]
+                                initWithBrandIDString:@"-1"
+                                brandNameAr:@""
+                                urlName:@""
+                                brandImage:theBrandImage
+                                brandInvertedImage:theBrandInvertedImage
+                                ];
+        
+        NSMutableArray * tempBrandsArray = [NSMutableArray arrayWithObject:allBrandItem];
+        [tempBrandsArray addObjectsFromArray:resultArray];
+        
+        currentBrands = tempBrandsArray;
+        */
         // create an extra item for 'all models'
         Model * allModelsItem = [[Model alloc] init];
         allModelsItem.modelID = -1;
@@ -208,8 +247,10 @@
 
 //This method is called for the first time the popover is created
 - (void) selectFirstBrandCell {
+    
     if (brandCellsArray && brandCellsArray.count) {
         UITapGestureRecognizer * tapOfFirstCell = [(BrandCell *) brandCellsArray[0] gestureRecognizers][0];
+        
         [self didSelectBrandCell:tapOfFirstCell];
     }
     
@@ -297,6 +338,8 @@
     allModelsItem.modelID = -1;
     allModelsItem.brandID = self.chosenBrand.brandID;
     allModelsItem.modelName = ALL_MODELS_TEXT;
+    
+    
     
     //create an array that has the 'all models' item first
     NSMutableArray * tempArray = [NSMutableArray arrayWithObject:allModelsItem];
@@ -502,8 +545,11 @@
         container.view.superview.bounds = containerFrame;
         container.view.superview.center = CGPointMake(roundf(self.view.bounds.size.width / 2), roundf(self.view.bounds.size.height / 2));
         
-
+        
     }
+    
+    
+    
     
 }
 

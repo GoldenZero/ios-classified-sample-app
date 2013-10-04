@@ -39,4 +39,7 @@
 //load years
 - (NSArray *) getYearsArray;
 
+//get the image of a brand
+- (UIImage *) loadImageOfBrand:(NSInteger) aBrandID imageState:(BOOL) inverted;
+
 @end

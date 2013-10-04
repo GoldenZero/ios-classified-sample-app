@@ -50,8 +50,9 @@
          isFavoriteString:(NSString *) aIsFavoriteString
                 storeName:(NSString *) aStoreName
              storeLogoURL:(NSString *) aStoreLogoURLString
-EncryptedEditID: (NSString*)aEncEditID
-countryID:(NSString*)aCountryID
+          EncryptedEditID: (NSString*)aEncEditID
+                countryID:(NSString*)aCountryID
+               categoryID:(NSString *) aCategoryID
 {
     
     self = [super init];
@@ -118,6 +119,8 @@ countryID:(NSString*)aCountryID
         self.EncEditID = aEncEditID;
         
         self.countryID = aCountryID.integerValue;
+        
+        self.categoryID = aCategoryID.integerValue;
         
         // storeLogoURL
         if ([aStoreLogoURLString isEqualToString:@""])

@@ -12,7 +12,7 @@
 @interface Brand : NSObject
 
 #pragma mark - properties
-@property (nonatomic) NSUInteger brandID;
+@property (nonatomic) NSInteger brandID;
 @property (strong, nonatomic) NSString * brandNameAr;
 @property (strong, nonatomic) NSString * urlName;//EN name
 @property (strong, nonatomic) UIImage * brandImage;

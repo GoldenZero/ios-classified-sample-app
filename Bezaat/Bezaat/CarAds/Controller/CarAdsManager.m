@@ -2031,6 +2031,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                      storeLogoURL:[adDict objectForKey:LISTING_STORE_LOGO_URL_JKEY]
                      EncryptedEditID:[adDict objectForKey:@"EncEditID"]
                      countryID:[adDict objectForKey:@"CountryID"]
+                     categoryID:[adDict objectForKey:@"CategoryID"]
                      ];
                     
                     [adsArray addObject:ad];

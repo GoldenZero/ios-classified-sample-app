@@ -361,7 +361,7 @@
     return fileDocumentPath;
 }
 
-- (UIImage *) loadImageOfBrand:(NSUInteger) aBrandID imageState:(BOOL) inverted {
+- (UIImage *) loadImageOfBrand:(NSInteger) aBrandID imageState:(BOOL) inverted {
     
     NSString * imageFileName;
     if (inverted)

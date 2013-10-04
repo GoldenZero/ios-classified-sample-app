@@ -1464,11 +1464,26 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage setClipsToBounds:YES];
         }
+        
+        else {
+            [cell.carImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%i.png", carAdObject.categoryID]]];
+            [cell.carImage setBackgroundColor:[UIColor whiteColor]];
+            [cell.carImage setContentMode:UIViewContentModeScaleAspectFit];
+            [cell.carImage setClipsToBounds:YES];
+        }
+        
+        /*
         else if (self.currentBrand) {
             [cell.carImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"tb_default_%i.png", self.currentBrand.brandID]]];
             [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage setClipsToBounds:YES];
         }
+        else { //for "all cars"
+            [cell.carImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%i.png", carAdObject.categoryID]]];
+            [cell.carImage setContentMode:UIViewContentModeScaleAspectFit];
+            [cell.carImage setClipsToBounds:YES];
+        }
+         */
         
         //customize storeName
         cell.storeNameLabel.text = carAdObject.storeName;
@@ -2550,7 +2565,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                   forBrand:-1
                      Model:-1
                     InCity:[[SharedUser sharedInstance] getUserCityID]
-                  textTerm:self.carNameText.text
+                  textTerm:(self.carNameText.text.length > 0 ? self.carNameText.text : @"")
                   minPrice:currentMinPriceString
                   maxPrice:currentMaxPriceString
            distanceRangeID:currentDistanceRangeID
@@ -2627,7 +2642,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         
         self.iPad_modelYearSlider.minimumRange = 0;
         
-        self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
+        if (self.iPad_modelYearSlider.lowerValue < 2003)
+            //self.iPad_minYearLabel.text = @"قبل ٢٠٠٣";
+            self.iPad_minYearLabel.text = (NSString *) fromYearArray[fromYearArray.count - 1];
+        else
+            self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
         self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
         
         
@@ -3373,16 +3392,24 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     fromYearArray = [[BrandsManager sharedInstance] getYearsArray];
     toYearArray = [[BrandsManager sharedInstance] getYearsArray];
     
-    int indexBeforeLast = fromYearArray.count - 2;
-    self.iPad_modelYearSlider.minimumValue = [(NSString *)fromYearArray[indexBeforeLast] integerValue];
+    //int indexBeforeLast = fromYearArray.count - 2;
+    
+    //self.iPad_modelYearSlider.minimumValue = [(NSString *)fromYearArray[indexBeforeLast] integerValue];
+    
+    self.iPad_modelYearSlider.minimumValue = 2002;
     self.iPad_modelYearSlider.maximumValue = [(NSString *)fromYearArray[0] integerValue];
     
-    self.iPad_modelYearSlider.lowerValue = [(NSString *)fromYearArray[indexBeforeLast] integerValue];
+    //self.iPad_modelYearSlider.lowerValue = [(NSString *)fromYearArray[indexBeforeLast] integerValue];
+    self.iPad_modelYearSlider.lowerValue = 2002;
     self.iPad_modelYearSlider.upperValue = [(NSString *)fromYearArray[0] integerValue];
     
     self.iPad_modelYearSlider.minimumRange = 0;
     
-    self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
+    if (self.iPad_modelYearSlider.lowerValue < 2003)
+        //self.iPad_minYearLabel.text = @"قبل ٢٠٠٣";
+        self.iPad_minYearLabel.text = (NSString *) fromYearArray[fromYearArray.count - 1];
+    else
+        self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
     self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
     
     
@@ -3409,9 +3436,16 @@ didFailToReceiveAdWithError:(GADRequestError *)error
      ];
 }
 
-- (void) dismissBrandsPopOver {
+- (void) dismissBrandsPopOver:(id) sender {
     if (self.brandsPopOver)
         [self.brandsPopOver dismissPopoverAnimated:YES];
+}
+
+- (void) loadAllCarsBtnPressed:(id) sender {
+    [self dismissBrandsPopOver:nil];
+    
+    currentModel = nil;
+    [self refreshAds:nil];
 }
 
 - (void) dismissDistancePopOver {
@@ -3467,11 +3501,16 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 - (IBAction)iPad_chooseBrandBtnPressed:(id)sender {
     if (!self.brandsPopOver) {
         ModelsViewController_iPad * modelsVC = [[ModelsViewController_iPad alloc] initWithNibName:@"ModelsPopOver_iPad" bundle:nil];
-        [modelsVC.closeBtn addTarget:self action:@selector(dismissBrandsPopOver) forControlEvents:UIControlEventTouchUpInside];
+        
         modelsVC.displayedAsPopOver = YES;
         modelsVC.choosingDelegate = self;
         self.brandsPopOver = [[UIPopoverController alloc] initWithContentViewController:modelsVC];
         [modelsVC setFirstAppearance:YES];
+        
+        [modelsVC.closeBtn addTarget:self action:@selector(dismissBrandsPopOver:) forControlEvents:UIControlEventTouchUpInside];
+        
+       [modelsVC.allCarsBtn addTarget:self action:@selector(loadAllCarsBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+        
     }
     else
         [(ModelsViewController_iPad *) self.brandsPopOver.contentViewController setFirstAppearance:NO];
@@ -3480,6 +3519,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
     [self.brandsPopOver setPopoverContentSize:popOverFrame.size];
     [self.brandsPopOver presentPopoverFromRect:self.iPad_chooseBrandBtn.frame inView:self.iPad_searchSideMenuView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    
+    
 }
 
 - (IBAction)iPad_chooseDistanceRangeBtnPressed:(id)sender {
@@ -3507,8 +3548,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     self.iPad_modelYearSlider.lowerValue = (int)self.iPad_modelYearSlider.lowerValue;
     self.iPad_modelYearSlider.upperValue = (int)self.iPad_modelYearSlider.upperValue;
     
-    
-    self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
+    if (self.iPad_modelYearSlider.lowerValue < 2003)
+        //self.iPad_minYearLabel.text = @"قبل ٢٠٠٣";
+        self.iPad_minYearLabel.text = (NSString *) fromYearArray[fromYearArray.count - 1];
+    else
+        self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
     self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
     
     fromYearString=self.iPad_minYearLabel.text;
@@ -3581,7 +3625,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 
 - (void) didChooseModel:(Model *)model {
     //dismissPopOver
-    [self dismissBrandsPopOver];
+    [self dismissBrandsPopOver:nil];
     
     //reload data
     currentModel = model;
@@ -3589,6 +3633,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     if(self.iPad_contentView.frame.origin.x != 0)
         [self iPad_hideSideMenu];
     
+    [carAdsArray removeAllObjects];
     [self loadFirstData];
     //NSLog(@"reloading data ...");
 }
@@ -3596,8 +3641,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 #pragma mark - DistanceRangeChoosing Delegate method
 - (void) didChooseDistanceRangeWithObject:(DistanceRange *)obj {
     
-    NSLog(@"user chose distance: %@", obj.rangeName);
+    //NSLog(@"user chose distance: %@", obj.rangeName);
     distanceObj=obj;
+    [self dismissDistancePopOver];
 }
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {

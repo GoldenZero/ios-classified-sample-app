@@ -115,4 +115,7 @@
 - (void) updateFavStateForAdID:(NSUInteger) adID withState:(BOOL) favState;
 - (void) removeAdWithAdID:(NSUInteger) adID;
 
+
+- (void) dismissBrandsPopOver:(id) sender;
+- (void) loadAllCarsBtnPressed:(id) sender;
 @end
