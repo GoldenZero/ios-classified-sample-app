@@ -1022,7 +1022,16 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 }
 
 - (void)globeAction:(id)sender {
-    [[UIApplication sharedApplication] openURL:[currentDetailsObject adURL]];
+    ExternalBrowserVC *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        vc=[[ExternalBrowserVC alloc] initWithNibName:@"ExternalBrowserVC" bundle:nil];
+    }
+    else {
+        vc=[[ExternalBrowserVC alloc] initWithNibName:@"ExternalBrowserVC_iPad" bundle:nil];
+    }
+    vc.externalLink = [currentDetailsObject adURL];
+    
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void) reportbadAdAction:(id)sender {
@@ -2199,15 +2208,27 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     else if (alertView.tag == 11){
         if (buttonIndex == 0) {
             // sign in
-            //SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-            SignInViewController *vc;
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            if ([[UIScreen mainScreen] bounds].size.height == 568)
+            {
+                //SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+                SignInViewController *vc;
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                    vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+                else
+                    vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
+                [self presentViewController:vc animated:YES completion:nil];
+            }
             else
-                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
+            {
+                SignInViewController *vc;
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                    vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+                else
+                    vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
             vc.returnPage = YES;
             [self presentViewController:vc animated:YES completion:nil];
             
+        }
         }else if (buttonIndex == 1)
         {
             // ignore
@@ -2480,7 +2501,18 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 
 #pragma mark -  open browser
 - (void) openInBrowser{
-    [[UIApplication sharedApplication] openURL:[currentDetailsObject adURL]];
+    ExternalBrowserVC *vc;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        vc=[[ExternalBrowserVC alloc] initWithNibName:@"ExternalBrowserVC" bundle:nil];
+    }
+    else {
+        vc=[[ExternalBrowserVC alloc] initWithNibName:@"ExternalBrowserVC_iPad" bundle:nil];
+    }
+        vc.externalLink = [currentDetailsObject adURL];
+        
+        [self presentViewController:vc animated:YES completion:nil];
+
+   // [[UIApplication sharedApplication] openURL:[currentDetailsObject adURL]];
     
 }
 

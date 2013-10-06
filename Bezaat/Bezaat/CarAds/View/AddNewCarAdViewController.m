@@ -925,15 +925,25 @@
        
     }else if (alertView.tag == 5){
         //SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-        SignInViewController *vc;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-            vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
-        else
-            vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
+        if ([[UIScreen mainScreen] bounds].size.height == 568){
+            //SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+            SignInViewController *vc;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+            else
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        }else {
+            //SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            SignInViewController *vc;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            else
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
         vc.returnPage = YES;
         [self presentViewController:vc animated:YES completion:nil];
     }
-    else if (alertView.tag == 6)
+    }else if (alertView.tag == 6)
     {
         labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
         vc.currentAdID = myAdID;

@@ -111,10 +111,10 @@
                 [exihibiButton setImage:[UIImage imageNamed:@"iPhone5_Exhimenu.png"] forState:UIControlStateNormal];
                 
                 BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
-                [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
+                [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
                 
                 AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x, AddCarButton.frame.origin.y, AddCarButton.frame.size.width, AddCarButton.frame.size.height + 30);
-                [AddCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
+                [AddCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
                 
             }else
             {
@@ -145,10 +145,10 @@
                 
                 
                 BuyCarButton.frame = CGRectMake(BuyCarButton.frame.origin.x, BuyCarButton.frame.origin.y, BuyCarButton.frame.size.width, BuyCarButton.frame.size.height + 30);
-                [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
+                [BuyCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
                 
                 AddCarButton.frame = CGRectMake(AddCarButton.frame.origin.x, AddCarButton.frame.origin.y, AddCarButton.frame.size.width, AddCarButton.frame.size.height + 30);
-                [AddCarButton setImage:[UIImage imageNamed:@"iphone5_buycar.png"] forState:UIControlStateNormal];
+                [AddCarButton setImage:[UIImage imageNamed:@"iphone5_addcar.png"] forState:UIControlStateNormal];
             }else
             {
                 AddStoreButton.frame = CGRectMake(AddStoreButton.frame.origin.x, AddStoreButton.frame.origin.y + 7, AddStoreButton.frame.size.width, AddStoreButton.frame.size.height);
@@ -414,7 +414,11 @@
 - (IBAction)iPad_signInBtnPressed:(id)sender {
     SignInViewController *vc;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+        if ([[UIScreen mainScreen] bounds].size.height == 568)
+            vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+        else
+             vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            
         vc.returnPage = YES;
         [self presentViewController:vc animated:YES completion:nil];
     }
@@ -525,6 +529,7 @@
             }
         }
     }
+    cell.backgroundColor = [UIColor clearColor];
     cell.cellImage.image=[UIImage imageNamed:[custoIconMenuArray objectAtIndex:indexPath.row]];
     [cell.titleLable setText:[custoMenuArray objectAtIndex:indexPath.row]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -719,7 +724,7 @@
                     //SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
                     SignInViewController *vc;
                     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-                        vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+                        vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
                     else
                         vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
                     [self presentViewController:vc animated:YES completion:nil];

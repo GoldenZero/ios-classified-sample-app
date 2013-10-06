@@ -25,6 +25,7 @@
 #import "SingleCommentView.h"
 #import "ShareView.h"
 #import "AbuseViewController.h"
+#import "ExternalBrowserVC.h"
 
 @interface CarAdDetailsViewController : UIViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate, UITableViewDataSource, UITableViewDelegate,GADInterstitialDelegate,AbuseDelegate>
 

@@ -949,6 +949,9 @@
 		844F1E1D174B3C240026AE32 /* Listing3_bottom_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 844F1E1B174B3C240026AE32 /* Listing3_bottom_bg@2x.png */; };
 		844F1E20174B41940026AE32 /* Details_bg_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 844F1E1E174B41940026AE32 /* Details_bg_blue.png */; };
 		844F1E21174B41940026AE32 /* Details_bg_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 844F1E1F174B41940026AE32 /* Details_bg_blue@2x.png */; };
+		8456B825180149FF0082BD40 /* ExternalBrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8456B824180149FF0082BD40 /* ExternalBrowserVC.m */; };
+		8456B82718014A260082BD40 /* ExternalBrowserVC_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8456B82618014A260082BD40 /* ExternalBrowserVC_iPad.xib */; };
+		8456B82918014A590082BD40 /* ExternalBrowserVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8456B82818014A590082BD40 /* ExternalBrowserVC.xib */; };
 		845D8CCC172C154900C37217 /* bezaat_flag_129.png in Resources */ = {isa = PBXBuildFile; fileRef = 845D8CCA172C154900C37217 /* bezaat_flag_129.png */; };
 		845D8CCD172C154900C37217 /* bezaat_flag@2x_129.png in Resources */ = {isa = PBXBuildFile; fileRef = 845D8CCB172C154900C37217 /* bezaat_flag@2x_129.png */; };
 		8460C3CC174A4602006ABE3B /* SendEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8460C3CA174A4602006ABE3B /* SendEmailViewController.m */; };
@@ -3235,6 +3238,10 @@
 		844F1E1B174B3C240026AE32 /* Listing3_bottom_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Listing3_bottom_bg@2x.png"; sourceTree = "<group>"; };
 		844F1E1E174B41940026AE32 /* Details_bg_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Details_bg_blue.png; sourceTree = "<group>"; };
 		844F1E1F174B41940026AE32 /* Details_bg_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Details_bg_blue@2x.png"; sourceTree = "<group>"; };
+		8456B823180149FF0082BD40 /* ExternalBrowserVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExternalBrowserVC.h; sourceTree = "<group>"; };
+		8456B824180149FF0082BD40 /* ExternalBrowserVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalBrowserVC.m; sourceTree = "<group>"; };
+		8456B82618014A260082BD40 /* ExternalBrowserVC_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExternalBrowserVC_iPad.xib; sourceTree = "<group>"; };
+		8456B82818014A590082BD40 /* ExternalBrowserVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExternalBrowserVC.xib; sourceTree = "<group>"; };
 		845D8CCA172C154900C37217 /* bezaat_flag_129.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bezaat_flag_129.png; sourceTree = "<group>"; };
 		845D8CCB172C154900C37217 /* bezaat_flag@2x_129.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bezaat_flag@2x_129.png"; sourceTree = "<group>"; };
 		8460C3C9174A4602006ABE3B /* SendEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SendEmailViewController.h; path = Bezaat/CarAds/View/SendEmailViewController.h; sourceTree = SOURCE_ROOT; };
@@ -7173,6 +7180,10 @@
 		9E78A7F116E35556000CA790 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				8456B823180149FF0082BD40 /* ExternalBrowserVC.h */,
+				8456B824180149FF0082BD40 /* ExternalBrowserVC.m */,
+				8456B82818014A590082BD40 /* ExternalBrowserVC.xib */,
+				8456B82618014A260082BD40 /* ExternalBrowserVC_iPad.xib */,
 				8408319C17EEBB4F008A2E1D /* WalkThroughVC_iPad.xib */,
 				8408319D17EEBB4F008A2E1D /* WalkThroughVC.h */,
 				8408319E17EEBB4F008A2E1D /* WalkThroughVC.m */,
@@ -9123,6 +9134,7 @@
 				9E03807817C0C4EC00380B28 /* tb_choose_brand_search_btn.png in Resources */,
 				9E03807917C0C4EC00380B28 /* tb_choose_brand_search_btn@2x.png in Resources */,
 				9E03807A17C0C4EC00380B28 /* tb_choose_brand_top_box.png in Resources */,
+				8456B82718014A260082BD40 /* ExternalBrowserVC_iPad.xib in Resources */,
 				9E03807B17C0C4EC00380B28 /* tb_choose_brand_top_box@2x.png in Resources */,
 				9E03807C17C0C4EC00380B28 /* tb_choose_brand_white_box.png in Resources */,
 				9E03807D17C0C4EC00380B28 /* tb_choose_brand_white_box@2x.png in Resources */,
@@ -9397,6 +9409,7 @@
 				9E6AB1D417D4AC9D001050B0 /* tb_default_319.png in Resources */,
 				9E6AB1D517D4AC9D001050B0 /* tb_default_331.png in Resources */,
 				9E6AB1D617D4AC9D001050B0 /* tb_default_363.png in Resources */,
+				8456B82918014A590082BD40 /* ExternalBrowserVC.xib in Resources */,
 				9E6AB1D717D4AC9D001050B0 /* tb_default_364.png in Resources */,
 				9E6AB1D817D4AC9D001050B0 /* tb_default_365.png in Resources */,
 				9E6AB1D917D4AC9D001050B0 /* tb_default_366.png in Resources */,
@@ -10090,6 +10103,7 @@
 				843748251797E16C00B97816 /* UICustomDatePicker.m in Sources */,
 				9E39543F179BF4BE00FC22B5 /* ShareView.m in Sources */,
 				9E03804817C0AFCC00380B28 /* ModelsViewController_iPad.m in Sources */,
+				8456B825180149FF0082BD40 /* ExternalBrowserVC.m in Sources */,
 				9E03808417C0D7F900380B28 /* ChooseModelView_iPad.m in Sources */,
 				9E570F0B17C3845E00D5019D /* NMRangeSlider.m in Sources */,
 				9E90815B17C4E51400F6BD9D /* TableInPopUpTableViewController.m in Sources */,
