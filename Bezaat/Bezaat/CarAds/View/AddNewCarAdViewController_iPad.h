@@ -12,8 +12,9 @@
 #import "FeaturingManager.h"
 #import "GAI.h"
 #import "XCDFormInputAccessoryView.h"
+#import "TableInPopUpTableViewController.h"
 
-@interface AddNewCarAdViewController_iPad : BaseViewController <UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,PricingOptionsDelegate,BrandManagerDelegate, UIPopoverControllerDelegate>
+@interface AddNewCarAdViewController_iPad : BaseViewController <UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,PricingOptionsDelegate,BrandManagerDelegate, UIPopoverControllerDelegate, TableInPopUpChoosingDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
@@ -62,7 +63,8 @@
 
 @property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
 @property (strong, nonatomic) UIPopoverController * iPad_countryPopOver;
-
+@property (strong, nonatomic) UIPopoverController * iPad_modelYearPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_currencyPopOver;
 
 
 #pragma mark - actions
@@ -89,5 +91,6 @@
 - (void) dismissSelfAfterFeaturing;
 
 - (void) iPad_userDidEndChoosingCountryFromPopOver;
+
 
 @end

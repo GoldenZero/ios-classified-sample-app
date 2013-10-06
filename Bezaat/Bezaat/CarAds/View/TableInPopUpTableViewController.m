@@ -6,13 +6,14 @@
 //  Copyright (c) 2013 Syrisoft. All rights reserved.
 //
 
-#import "distanceRangeTableViewController.h"
+#import "TableInPopUpTableViewController.h"
+#import "StaticAttrsLoader.h"
 
-@interface DistanceRangeTableViewController ()
+@interface TableInPopUpTableViewController ()
 
 @end
 
-@implementation DistanceRangeTableViewController
+@implementation TableInPopUpTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,7 +35,7 @@
     self.tableView.bounces = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"DistanceRangeCell"];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"ValueInPopupCell"];
     
     [self.tableView reloadData];
 }
@@ -54,29 +55,37 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.distanceRangeValues && self.distanceRangeValues.count)
-        return self.distanceRangeValues.count;
+    if (self.arrayValues && self.arrayValues.count)
+        return self.arrayValues.count;
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"DistanceRangeCell";
+    static NSString *CellIdentifier = @"ValueInPopupCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     if (!cell)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-    if (self.distanceRangeValues && self.distanceRangeValues) {
-        
-        
-        DistanceRange * item = self.distanceRangeValues[indexPath.row];
+    if (self.arrayValues && self.arrayValues) {
         cell.textLabel.textColor = [UIColor colorWithRed:39.0f/255.0f green:132.0f/255.0f blue:195.0f/255.0f alpha:1.0f];
         cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0f];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        cell.textLabel.text = item.rangeName;
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.accessoryType = UITableViewCellAccessoryNone;
+        
+        if (self.showingDistanceRangeObjects) {
+            DistanceRange * item = self.arrayValues[indexPath.row];
+            cell.textLabel.text = item.rangeName;
+        }
+        else if (self.showingSingleValueObjects) {
+            //This is used for currency, moedl years, and body options
+            SingleValue * item = self.arrayValues[indexPath.row];
+            cell.textLabel.text = item.valueString.description;
+        }
+
     }
     
     return cell;
@@ -91,8 +100,19 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     
-    DistanceRange * item = self.distanceRangeValues[indexPath.row];
-    [self.choosingDelegate didChooseDistanceRangeWithObject:item];
+    /*
+    if (self.showingDistanceRangeObjects) {
+        DistanceRange * item = self.arrayValues[indexPath.row];
+        [self.choosingDelegate didChooseTableItemWithObject:item];
+    }
+    else if (self.showingSingleValueObjects) {
+        SingleValue * item = self.arrayValues[indexPath.row];
+        [self.choosingDelegate didChooseTableItemWithObject:item];
+    }
+     */
+    
+    id item = self.arrayValues[indexPath.row];
+    [self.choosingDelegate didChooseTableItemWithObject:item];
     
 
 }

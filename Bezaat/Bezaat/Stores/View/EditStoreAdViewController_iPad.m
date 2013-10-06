@@ -204,7 +204,7 @@
     [self.iPad_titleLabel setTextAlignment:SSTextAlignmentCenter];
     [self.iPad_titleLabel setTextColor:[UIColor whiteColor]];
     [self.iPad_titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:26.0] ];
-    [self.iPad_titleLabel setText:@"إضافة إعلان"];
+    //[self.iPad_titleLabel setText:@"إضافة إعلان"];
     
     //title label
     [self.iPad_uploadImagesTitleLabel setBackgroundColor:[UIColor clearColor]];

@@ -10,8 +10,9 @@
 #import "CarAdsManager.h"
 #import "CarDetails.h"
 #import "GAI.h"
+#import "TableInPopUpTableViewController.h"
 
-@interface EditCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate, BrandManagerDelegate, UIPopoverControllerDelegate>
+@interface EditCarAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate, BrandManagerDelegate, UIPopoverControllerDelegate, TableInPopUpChoosingDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
@@ -59,6 +60,8 @@
 
 @property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
 @property (strong, nonatomic) UIPopoverController * iPad_countryPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_modelYearPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_currencyPopOver;
 
 #pragma mark - actions
 - (IBAction)doneBtnPrss:(id)sender;

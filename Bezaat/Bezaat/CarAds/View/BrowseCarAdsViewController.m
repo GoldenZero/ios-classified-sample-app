@@ -3539,13 +3539,16 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 - (IBAction)iPad_chooseDistanceRangeBtnPressed:(id)sender {
     
     if (!self.distanceRangePopOver) {
-        DistanceRangeTableViewController * distanceRangeVC = [[DistanceRangeTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        TableInPopUpTableViewController * distanceRangeVC = [[TableInPopUpTableViewController alloc] initWithStyle:UITableViewStylePlain];
         
         
         distanceRangeVC.choosingDelegate = self;
         if (!distanceRangeArray)
             distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
-        distanceRangeVC.distanceRangeValues = [NSArray arrayWithArray:distanceRangeArray];
+        distanceRangeVC.arrayValues = [NSArray arrayWithArray:distanceRangeArray];
+        
+        distanceRangeVC.showingDistanceRangeObjects = YES;
+        distanceRangeVC.showingSingleValueObjects = NO;
         
         self.distanceRangePopOver = [[UIPopoverController alloc] initWithContentViewController:distanceRangeVC];
     }
@@ -3680,11 +3683,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     //NSLog(@"reloading data ...");
 }
 
-#pragma mark - DistanceRangeChoosing Delegate method
-- (void) didChooseDistanceRangeWithObject:(DistanceRange *)obj {
+#pragma mark - TableInPopUpChoosingDelegate method
+- (void) didChooseTableItemWithObject:(id) obj {
     
     //NSLog(@"user chose distance: %@", obj.rangeName);
-    distanceObj=obj;
+    distanceObj= (DistanceRange *)obj;
     [self dismissDistancePopOver];
 }
 

@@ -158,7 +158,7 @@
     [self.iPad_titleLabel setTextAlignment:SSTextAlignmentCenter];
     [self.iPad_titleLabel setTextColor:[UIColor whiteColor]];
     [self.iPad_titleLabel setFont:[[GenericFonts sharedInstance] loadFont:@"HelveticaNeueLTArabic-Roman" withSize:26.0] ];
-    [self.iPad_titleLabel setText:@"إضافة إعلان"];
+    [self.iPad_titleLabel setText:@"بيع سيارتك"];
     
     //title label
     [self.iPad_uploadImagesTitleLabel setBackgroundColor:[UIColor clearColor]];
@@ -740,11 +740,13 @@
 - (IBAction)chooseProductionYear:(id)sender {
     [self dismissKeyboard];
     self.pickerView.hidden=NO;
-    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
-    [productionYear setTitle:temp forState:UIControlStateNormal];
+    
+    //NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
+    //[productionYear setTitle:temp forState:UIControlStateNormal];
 
     // fill picker with production year
     globalArray=productionYearArray;
+    /*
     [self.pickerView reloadAllComponents];
     if (!yearBtnPressedOnce)
     {
@@ -754,6 +756,25 @@
     }
     
     [self showPicker];
+     */
+    
+    [self iPad_dismissPopOvers];
+    
+    if (!self.iPad_modelYearPopOver) {
+        TableInPopUpTableViewController * modelYearVC = [[TableInPopUpTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        modelYearVC.choosingDelegate = self;
+        modelYearVC.arrayValues = globalArray;
+        
+        modelYearVC.showingDistanceRangeObjects = NO;
+        modelYearVC.showingSingleValueObjects = YES;
+        
+        self.iPad_modelYearPopOver = [[UIPopoverController alloc] initWithContentViewController:modelYearVC];
+    }
+    
+    CGRect popOverFrame = self.iPad_modelYearPopOver.contentViewController.view.frame;
+    [self.iPad_modelYearPopOver setPopoverContentSize:popOverFrame.size];
+    [self.iPad_modelYearPopOver presentPopoverFromRect:[(UIButton *)sender frame] inView:[(UIButton *)sender superview] permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 
 }
 
@@ -766,6 +787,7 @@
     [currency setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=currencyArray;
+    /*
     [self.pickerView reloadAllComponents];
     if (!currencyBtnPressedOnce)
     {
@@ -775,6 +797,25 @@
     }
     
     [self showPicker];
+     */
+    
+    [self iPad_dismissPopOvers];
+    
+    if (!self.iPad_currencyPopOver) {
+        TableInPopUpTableViewController * currencyVC = [[TableInPopUpTableViewController alloc] initWithStyle:UITableViewStylePlain];
+
+        currencyVC.choosingDelegate = self;
+        currencyVC.arrayValues = globalArray;
+        
+        currencyVC.showingDistanceRangeObjects = NO;
+        currencyVC.showingSingleValueObjects = YES;
+        
+        self.iPad_currencyPopOver = [[UIPopoverController alloc] initWithContentViewController:currencyVC];
+    }
+    
+    CGRect popOverFrame = self.iPad_currencyPopOver.contentViewController.view.frame;
+    [self.iPad_currencyPopOver setPopoverContentSize:popOverFrame.size];
+    [self.iPad_currencyPopOver presentPopoverFromRect:[(UIButton *)sender frame] inView:[(UIButton *)sender superview] permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
 
 - (IBAction)chooseCountryCity:(id)sender{
@@ -1535,6 +1576,33 @@
 }
 
 //------------------------------- END OF LEVEL1: CHOOSING THE BRAND -------------------------------
+#pragma mark - TableInPopUpChoosingDelegate method
+- (void) didChooseTableItemWithObject:(id) obj {
+    
+    //NSLog(@"user chose distance: %@", obj.rangeName);
+    if (globalArray == productionYearArray) {
+        chosenYear = (SingleValue *) obj;
+        [productionYear setTitle:[NSString stringWithFormat:@"%@",chosenYear.valueString] forState:UIControlStateNormal];
+        yearBtnPressedOnce = YES;
+    }
+    else if (globalArray == currencyArray) {
+        chosenCurrency = (SingleValue *) obj;
+        [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
+        currencyBtnPressedOnce = YES;
+    }
+    
+    //distanceObj= (DistanceRange *)obj;
+    [self iPad_dismissPopOvers];
+}
+
+- (void) iPad_dismissPopOvers {
+    if (self.iPad_modelYearPopOver)
+        [self.iPad_modelYearPopOver dismissPopoverAnimated:YES];
+    
+    if (self.iPad_currencyPopOver)
+        [self.iPad_currencyPopOver dismissPopoverAnimated:YES];
+}
+
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     
     if ((toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) ||
