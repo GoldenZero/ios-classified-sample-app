@@ -67,22 +67,30 @@
                         <rect key="frame" x="214" y="60" width="14" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <view alpha="0.40000000596046448" contentMode="scaleToFill" id="38">
+                    <view contentMode="scaleToFill" id="38">
                         <rect key="frame" x="0.0" y="0.0" width="780" height="84"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="لم يتم اكمال الدفع" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="39">
-                                <rect key="frame" x="580" y="26" width="155" height="32"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="store_list_box_above.png" id="gag-NK-eZx">
+                                <rect key="frame" x="0.0" y="0.0" width="780" height="84"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="tb_store_list_icon3.png" id="xuU-nl-KTR">
+                                <rect key="frame" x="694" y="12" width="72" height="59"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="لم يتم اكمال الدفع" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="39">
+                                <rect key="frame" x="503" y="26" width="155" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="40">
-                                <rect key="frame" x="20" y="26" width="113" height="32"/>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="40">
+                                <rect key="frame" x="20" y="26" width="161" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="اكمال عملية الدفع" backgroundImage="AddStore_cancel.png">
+                                <state key="normal" backgroundImage="tb_store_list_pay_btn.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -94,7 +102,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
             </tableViewCellContentView>
@@ -109,9 +117,11 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="AddStore_cancel.png" width="109" height="32"/>
+        <image name="store_list_box_above.png" width="777" height="108"/>
         <image name="tb_store_list_ads_ico.png" width="19" height="18"/>
         <image name="tb_store_list_box.png" width="780" height="108"/>
+        <image name="tb_store_list_icon3.png" width="93" height="93"/>
+        <image name="tb_store_list_pay_btn.png" width="184" height="32"/>
         <image name="tb_store_list_photo_box.png" width="93" height="93"/>
         <image name="tb_store_list_rest_date_ico.png" width="19" height="18"/>
         <image name="tb_store_list_special_ad_ico.png" width="19" height="18"/>

@@ -324,12 +324,12 @@ static NSString *storeTableCellIdentifier = @"storeTableCellIdentifier";
         [self presentViewController:vc animated:YES completion:nil];
 
     }else if (cell.myTag == 0){
-        FeatureStoreAdViewController *vc = [[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+        FeatureStoreAdViewController *vc = [[FeatureStoreAdViewController alloc] initWithNibName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"FeatureStoreAdViewController" : @"FeatureStoreAdViewController_iPad") bundle:nil];
         vc.storeID = allUserStores[indexPath.row];
         [_tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self presentViewController:vc animated:YES completion:nil];
     }else if (cell.myTag == 5){
-        FeatureStoreAdViewController *vc = [[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+        FeatureStoreAdViewController *vc = [[FeatureStoreAdViewController alloc] initWithNibName:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"FeatureStoreAdViewController" : @"FeatureStoreAdViewController_iPad") bundle:nil];
         vc.storeID = allUserStores[indexPath.row];
         [_tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self presentViewController:vc animated:YES completion:nil];
