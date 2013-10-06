@@ -139,12 +139,8 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-                
-        if (self.delegate)
-            [self.delegate userFailLoginWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- start the request
@@ -181,12 +177,8 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate userFailLoginWithTwitterError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- start the request
@@ -223,12 +215,8 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate userFailLoginWithFacebookError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- start the request
@@ -266,13 +254,8 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:200 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        [error setCode:200];
-        
-        if (self.RegisterDelegate)
-            [self.RegisterDelegate userFailRegisterWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- start the request
@@ -308,12 +291,8 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.deviceDelegate)
-            [self.deviceDelegate deviceFailRegisterWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //4- detect device data
@@ -373,12 +352,8 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.favDelegate)
-            [self.favDelegate FavoriteFailAddingWithError:error forAdID:adID];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = add_to_fav_url;
@@ -452,12 +427,8 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.favDelegate)
-            [self.favDelegate FavoriteFailRemovingWithError:error forAdID:adID];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     //3- set the url string
     NSString * fullURLString = remove_from_fav_url;
@@ -531,12 +502,8 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.favDelegate)
-            [self.favDelegate AdFailRemovingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     //3- set the url string
     NSString * fullURLString = remove_from_ad_url;
@@ -677,12 +644,8 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.updateDelegate)
-            [self.updateDelegate userFailUpdateWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = update_user_url;

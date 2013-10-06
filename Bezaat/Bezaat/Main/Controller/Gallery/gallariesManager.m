@@ -173,12 +173,16 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
+        /*
         CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
         [error setDescMessage:@"فشل الاتصال بالإنترنت"];
         
         if (self.galleriesDel)
             [self.galleriesDel galleriesDidFailLoadingWithError:error];
         return;
+         */
     }
     
     //3- set the url string
@@ -224,11 +228,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.carsDel)
-            [self.carsDel carsDidFailLoadingWithError:error];
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
         return;
     }
     

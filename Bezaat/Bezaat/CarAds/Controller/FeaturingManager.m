@@ -102,12 +102,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.pricingDelegate)
-            [self.pricingDelegate optionsDidFailLoadingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- check if valid country
@@ -178,12 +174,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.pricingDelegate)
-            [self.pricingDelegate storeOptionsDidFailLoadingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- check if valid country
@@ -254,12 +246,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.orderDelegate)
-            [self.orderDelegate orderDidFailCreationWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = create_order_url;
@@ -341,12 +329,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.orderDelegate)
-            [self.orderDelegate StoreOrderDidFailCreationWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = create_store_order_url;
@@ -428,12 +412,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.orderDelegate)
-            [self.orderDelegate BankOrderDidFailCreationWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = create_bank_order_url;
@@ -514,12 +494,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.orderDelegate)
-            [self.orderDelegate BankStoreOrderDidFailCreationWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = create_store_order_url;
@@ -604,12 +580,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.orderDelegate)
-            [self.orderDelegate orderDidFailConfirmingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = confirm_order_url;
@@ -684,12 +656,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.orderDelegate)
-            [self.orderDelegate StoreOrderDidFailConfirmingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = confirm_store_order_url;
@@ -762,12 +730,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.orderDelegate)
-            [self.orderDelegate orderDidFailCancellingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = cancel_order_url;

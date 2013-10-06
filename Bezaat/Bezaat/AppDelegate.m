@@ -25,6 +25,7 @@
 
 #import "iRate.h"
 
+
 @implementation AppDelegate
 
 + (void)initialize
@@ -187,6 +188,18 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self.window makeKeyAndVisible];
 }
 
+- (void) onErrorScreen {
+    //[self.errorPageVC.view removeFromSuperview];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        self.errorPageVC=[[ErrorPageVC alloc] initWithNibName:@"ErrorPageVC" bundle:nil];
+    else
+        self.errorPageVC=[[ErrorPageVC alloc] initWithNibName:@"ErrorPageVC_iPad" bundle:nil];
+    
+    self.window.rootViewController = self.errorPageVC;
+    
+    [self.window makeKeyAndVisible];
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -207,6 +220,8 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    [FBSettings setDefaultAppID:@"558206657568754"];
+    [FBAppEvents activateApp];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     //check if facebook token is saved

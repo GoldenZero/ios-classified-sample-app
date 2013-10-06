@@ -554,11 +554,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
 - (BOOL) checkConnectivity {
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate storeCreationDidFailWithError:error];
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
         return NO;
     }
     return YES;

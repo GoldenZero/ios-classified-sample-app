@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Facebook
+ * Copyright 2010-present Facebook.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,6 +71,25 @@
 /*!
  @method
  
+ @abstract Creates an FBAccessTokenData from existing information or returns nil if required data is missing.
+ 
+ @param accessToken The token string. If nil or empty, this method will return nil.
+ @param permissions The permissions set. A value of nil indicates basic permissions.
+ @param expirationDate The expiration date. A value of nil defaults to `[NSDate distantFuture]`.
+ @param loginType The login source of the token.
+ @param refreshDate The date that token was last refreshed. A value of nil defaults to `[NSDate date]`.
+ @param permissionsRefreshDate The date the permissions were last refreshed. A value of nil defaults to `[NSDate distantPast]`.
+ */
++ (FBAccessTokenData *) createTokenFromString:(NSString *)accessToken
+                                  permissions:(NSArray *)permissions
+                               expirationDate:(NSDate *)expirationDate
+                                    loginType:(FBSessionLoginType)loginType
+                                  refreshDate:(NSDate *)refreshDate
+                       permissionsRefreshDate:(NSDate *)permissionsRefreshDate;
+
+/*!
+ @method
+ 
  @abstract Returns a dictionary representation of this instance.
  
  @discussion This is provided for backwards compatibility with previous
@@ -111,5 +130,10 @@
  @abstract returns the date the token was last refreshed.
 */
 @property (readonly, nonatomic, copy) NSDate *refreshDate;
+
+/*!
+ @abstract returns the date the permissions were last refreshed.
+*/
+@property (readonly, nonatomic, copy) NSDate *permissionsRefreshDate;
 
 @end

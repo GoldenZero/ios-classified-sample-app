@@ -158,12 +158,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate adsDidFailLoadingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- set the url string
@@ -240,12 +236,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate RequestToEditFailWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- set the url string
@@ -306,12 +298,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate RequestToEditStoreFailWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- set the url string
@@ -373,12 +361,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate adsDidFailLoadingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- set the url string
@@ -442,12 +426,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.EmailSendingDelegate)
-            [self.EmailSendingDelegate EmailDidFailSendingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = sending_email_id_url;
@@ -739,12 +719,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate adsDidFailLoadingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- set the url string
@@ -822,12 +798,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.imageDelegate)
-            [self.imageDelegate imageDidFailUploadingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     // the boundary string : a random string, that will not repeat in post data, to separate post data fields.
     NSString *boundary = @"----------V2ymHFg03ehbqgZCaKO6jy";
@@ -944,12 +916,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.adPostingDelegate)
-            [self.adPostingDelegate adDidFailPostingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //brandId=%@&cityId=%@&fromPhone=%i&userEmail=%@&collection=%@";
@@ -1079,12 +1047,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.adPostingDelegate)
-            [self.adPostingDelegate adDidFailEditingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //brandId=%@&cityId=%@&fromPhone=%i&userEmail=%@&collection=%@;
@@ -1231,12 +1195,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.storeaAdPostingDelegate)
-            [self.storeaAdPostingDelegate storeAdDidFailEditingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //brandId=%@&cityId=%@&fromPhone=%i&userEmail=%@&collection=%@;
@@ -1464,12 +1424,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.storeaAdPostingDelegate)
-            [self.storeaAdPostingDelegate storeAdDidFailPostingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //brandId=%@&cityId=%@&fromPhone=%i&userEmail=%@&collection=%@";

@@ -952,6 +952,15 @@
 		8456B825180149FF0082BD40 /* ExternalBrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8456B824180149FF0082BD40 /* ExternalBrowserVC.m */; };
 		8456B82718014A260082BD40 /* ExternalBrowserVC_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8456B82618014A260082BD40 /* ExternalBrowserVC_iPad.xib */; };
 		8456B82918014A590082BD40 /* ExternalBrowserVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8456B82818014A590082BD40 /* ExternalBrowserVC.xib */; };
+		8456B832180162740082BD40 /* ErrorPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8456B830180162740082BD40 /* ErrorPageVC.m */; };
+		8456B833180162740082BD40 /* ErrorPageVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8456B831180162740082BD40 /* ErrorPageVC.xib */; };
+		8456B835180162B00082BD40 /* ErrorPageVC_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8456B834180162B00082BD40 /* ErrorPageVC_iPad.xib */; };
+		8456B838180164000082BD40 /* NoInternet.png in Resources */ = {isa = PBXBuildFile; fileRef = 8456B836180164000082BD40 /* NoInternet.png */; };
+		8456B839180164000082BD40 /* NoInternet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8456B837180164000082BD40 /* NoInternet@2x.png */; };
+		8456B83D18016ECB0082BD40 /* errorMas.png in Resources */ = {isa = PBXBuildFile; fileRef = 8456B83A18016ECB0082BD40 /* errorMas.png */; };
+		8456B83E18016ECB0082BD40 /* errorMas@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8456B83B18016ECB0082BD40 /* errorMas@2x.png */; };
+		8456B83F18016ECB0082BD40 /* errorMasIph5.png in Resources */ = {isa = PBXBuildFile; fileRef = 8456B83C18016ECB0082BD40 /* errorMasIph5.png */; };
+		8456B841180186830082BD40 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8456B840180186830082BD40 /* FacebookSDK.framework */; };
 		845D8CCC172C154900C37217 /* bezaat_flag_129.png in Resources */ = {isa = PBXBuildFile; fileRef = 845D8CCA172C154900C37217 /* bezaat_flag_129.png */; };
 		845D8CCD172C154900C37217 /* bezaat_flag@2x_129.png in Resources */ = {isa = PBXBuildFile; fileRef = 845D8CCB172C154900C37217 /* bezaat_flag@2x_129.png */; };
 		8460C3CC174A4602006ABE3B /* SendEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8460C3CA174A4602006ABE3B /* SendEmailViewController.m */; };
@@ -1256,7 +1265,6 @@
 		9E198E8017096E8F002CECCE /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E198E7F17096E8F002CECCE /* libz.1.2.5.dylib */; };
 		9E1A1E97174917E800E00B26 /* FBPhotoBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1A1E95174917E800E00B26 /* FBPhotoBrowserViewController.m */; };
 		9E1A1E98174917E800E00B26 /* FBPhotoBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E1A1E96174917E800E00B26 /* FBPhotoBrowserViewController.xib */; };
-		9E1CA1F016F54E4F001A7DA1 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */; };
 		9E1CA1F316F54E8D001A7DA1 /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA1F216F54E8D001A7DA1 /* FacebookSDKResources.bundle */; };
 		9E1CA1F516F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9E1CA1F416F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle */; };
 		9E1CA1F716F54EE6001A7DA1 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */; };
@@ -3242,6 +3250,16 @@
 		8456B824180149FF0082BD40 /* ExternalBrowserVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExternalBrowserVC.m; sourceTree = "<group>"; };
 		8456B82618014A260082BD40 /* ExternalBrowserVC_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExternalBrowserVC_iPad.xib; sourceTree = "<group>"; };
 		8456B82818014A590082BD40 /* ExternalBrowserVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExternalBrowserVC.xib; sourceTree = "<group>"; };
+		8456B82F180162740082BD40 /* ErrorPageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorPageVC.h; sourceTree = "<group>"; };
+		8456B830180162740082BD40 /* ErrorPageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorPageVC.m; sourceTree = "<group>"; };
+		8456B831180162740082BD40 /* ErrorPageVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ErrorPageVC.xib; sourceTree = "<group>"; };
+		8456B834180162B00082BD40 /* ErrorPageVC_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ErrorPageVC_iPad.xib; sourceTree = "<group>"; };
+		8456B836180164000082BD40 /* NoInternet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NoInternet.png; sourceTree = "<group>"; };
+		8456B837180164000082BD40 /* NoInternet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NoInternet@2x.png"; sourceTree = "<group>"; };
+		8456B83A18016ECB0082BD40 /* errorMas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = errorMas.png; sourceTree = "<group>"; };
+		8456B83B18016ECB0082BD40 /* errorMas@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "errorMas@2x.png"; sourceTree = "<group>"; };
+		8456B83C18016ECB0082BD40 /* errorMasIph5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = errorMasIph5.png; sourceTree = "<group>"; };
+		8456B840180186830082BD40 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		845D8CCA172C154900C37217 /* bezaat_flag_129.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bezaat_flag_129.png; sourceTree = "<group>"; };
 		845D8CCB172C154900C37217 /* bezaat_flag@2x_129.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bezaat_flag@2x_129.png"; sourceTree = "<group>"; };
 		8460C3C9174A4602006ABE3B /* SendEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SendEmailViewController.h; path = Bezaat/CarAds/View/SendEmailViewController.h; sourceTree = SOURCE_ROOT; };
@@ -3625,7 +3643,6 @@
 		9E1A1E94174917E800E00B26 /* FBPhotoBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBPhotoBrowserViewController.h; sourceTree = "<group>"; };
 		9E1A1E95174917E800E00B26 /* FBPhotoBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBPhotoBrowserViewController.m; sourceTree = "<group>"; };
 		9E1A1E96174917E800E00B26 /* FBPhotoBrowserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FBPhotoBrowserViewController.xib; sourceTree = "<group>"; };
-		9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		9E1CA1F216F54E8D001A7DA1 /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKResources.bundle; sourceTree = "<group>"; };
 		9E1CA1F416F54EA5001A7DA1 /* FBUserSettingsViewResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBUserSettingsViewResources.bundle; sourceTree = "<group>"; };
 		9E1CA1F616F54EE6001A7DA1 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -4594,8 +4611,8 @@
 				9EDF783616F1E57600FB3BDD /* Social.framework in Frameworks */,
 				9EDF783716F1E57B00FB3BDD /* Accounts.framework in Frameworks */,
 				9E1CA1F716F54EE6001A7DA1 /* AdSupport.framework in Frameworks */,
-				9E1CA1F016F54E4F001A7DA1 /* FacebookSDK.framework in Frameworks */,
 				9E1CA31316F854F9001A7DA1 /* SystemConfiguration.framework in Frameworks */,
+				8456B841180186830082BD40 /* FacebookSDK.framework in Frameworks */,
 				9E4315BA16EDFEEF0040359E /* libAubadaLibrary.a in Frameworks */,
 				9E1CA2DA16F62AC0001A7DA1 /* libAURosetteViewLib.a in Frameworks */,
 				9E64FB19172AFF31007883F4 /* libsheenfigure.a in Frameworks */,
@@ -6953,6 +6970,7 @@
 		9E78A7B516E34BA2000CA790 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8456B840180186830082BD40 /* FacebookSDK.framework */,
 				84274D1317E0362400AADFD1 /* TestFlightSDK2.0.0 */,
 				8438B88617A5218200EA1146 /* Parse.framework */,
 				06F9B4EA174C80D900A49648 /* CoreTelephony.framework */,
@@ -6964,7 +6982,6 @@
 				9E64FB11172AFF13007883F4 /* SheenFigureCG.xcodeproj */,
 				9E1CA2CF16F62A95001A7DA1 /* AURosetteView.xcodeproj */,
 				9E4315B216EDFEE30040359E /* AubadaLibrary.xcodeproj */,
-				9E1CA1EF16F54E4F001A7DA1 /* FacebookSDK.framework */,
 				9E10F484172184EE006F54BE /* StoreKit.framework */,
 				9E198E7D17096E79002CECCE /* MobileCoreServices.framework */,
 				9E198E7B17096E70002CECCE /* Security.framework */,
@@ -7180,6 +7197,10 @@
 		9E78A7F116E35556000CA790 /* Actions */ = {
 			isa = PBXGroup;
 			children = (
+				8456B82F180162740082BD40 /* ErrorPageVC.h */,
+				8456B830180162740082BD40 /* ErrorPageVC.m */,
+				8456B831180162740082BD40 /* ErrorPageVC.xib */,
+				8456B834180162B00082BD40 /* ErrorPageVC_iPad.xib */,
 				8456B823180149FF0082BD40 /* ExternalBrowserVC.h */,
 				8456B824180149FF0082BD40 /* ExternalBrowserVC.m */,
 				8456B82818014A590082BD40 /* ExternalBrowserVC.xib */,
@@ -7337,6 +7358,11 @@
 		9E9F082F16E4AFCF000E8471 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8456B83A18016ECB0082BD40 /* errorMas.png */,
+				8456B83B18016ECB0082BD40 /* errorMas@2x.png */,
+				8456B83C18016ECB0082BD40 /* errorMasIph5.png */,
+				8456B836180164000082BD40 /* NoInternet.png */,
+				8456B837180164000082BD40 /* NoInternet@2x.png */,
 				9E52CFB517FC8DE00069E58F /* Coach */,
 				8408316E17EEBA92008A2E1D /* Walkthrough */,
 				9E2558B717B8C2C4005CC915 /* Tablet resources */,
@@ -8158,6 +8184,7 @@
 				24DC0384170068C40012D3E5 /* 1_country@2x.png in Resources */,
 				24DC0387170068C40012D3E5 /* 213_country@2x.png in Resources */,
 				24DC0388170068C40012D3E5 /* 218_country.png in Resources */,
+				8456B83E18016ECB0082BD40 /* errorMas@2x.png in Resources */,
 				24DC0389170068C40012D3E5 /* 218_country@2x.png in Resources */,
 				24DC038A170068C40012D3E5 /* 228_country.png in Resources */,
 				24DC038B170068C40012D3E5 /* 228_country@2x.png in Resources */,
@@ -8170,6 +8197,7 @@
 				24DC0392170068C40012D3E5 /* 51_country@2x.png in Resources */,
 				24DC0393170068C40012D3E5 /* 6_country.png in Resources */,
 				9EC88A9B17FDE07E005C3E86 /* -1_inverted.png.png in Resources */,
+				8456B83D18016ECB0082BD40 /* errorMas.png in Resources */,
 				24DC0394170068C40012D3E5 /* 6_country@2x.png in Resources */,
 				24DC0395170068C40012D3E5 /* 80_country.png in Resources */,
 				24DC0396170068C40012D3E5 /* 80_country@2x.png in Resources */,
@@ -8522,6 +8550,7 @@
 				8439FDE41727F4CD00CB1939 /* arrow@2x.png in Resources */,
 				8439FDE51727F4CD00CB1939 /* arrow_down.png in Resources */,
 				8439FDE61727F4CD00CB1939 /* arrow_down@2x.png in Resources */,
+				8456B838180164000082BD40 /* NoInternet.png in Resources */,
 				8439FDE71727F4CD00CB1939 /* arrow_up.png in Resources */,
 				8439FDE81727F4CD00CB1939 /* arrow_up@2x.png in Resources */,
 				8439FDE91727F4CD00CB1939 /* bahrain.png in Resources */,
@@ -8987,6 +9016,7 @@
 				246F3BEB178C27CA00AEBD07 /* Next_btn.png in Resources */,
 				246F3BEC178C27CA00AEBD07 /* Sms_icon.png in Resources */,
 				246F3BED178C27CA00AEBD07 /* Tel_icon.png in Resources */,
+				8456B833180162740082BD40 /* ErrorPageVC.xib in Resources */,
 				246F3BEE178C27CA00AEBD07 /* Text_icon.png in Resources */,
 				246F3BF0178C27D900AEBD07 /* Next_btn@2X.png in Resources */,
 				9E5936C11793E781001A50A3 /* background_top.png in Resources */,
@@ -9008,6 +9038,7 @@
 				841950F21796C11E0026163E /* anotherBaymentMethod.png in Resources */,
 				841950F31796C11E0026163E /* anotherBaymentMethod@2x.png in Resources */,
 				841950F41796C11E0026163E /* bkgorderlist.png in Resources */,
+				8456B835180162B00082BD40 /* ErrorPageVC_iPad.xib in Resources */,
 				841950F51796C11E0026163E /* bkgorderlist@2x.png in Resources */,
 				841950F61796C11E0026163E /* enterBankTransfer.png in Resources */,
 				841950F71796C11E0026163E /* enterBankTransfer@2x.png in Resources */,
@@ -9338,6 +9369,7 @@
 				9ECB644817CF2AE100ED15EC /* tb_car_details_call_btn.png in Resources */,
 				9ECB644917CF2AE100ED15EC /* tb_car_details_call_btn@2x.png in Resources */,
 				9ECB644A17CF2AE100ED15EC /* tb_car_details_car_ico.png in Resources */,
+				8456B839180164000082BD40 /* NoInternet@2x.png in Resources */,
 				9ECB644B17CF2AE100ED15EC /* tb_car_details_car_ico@2x.png in Resources */,
 				9ECB644C17CF2AE100ED15EC /* tb_car_details_car_img.png in Resources */,
 				9ECB644D17CF2AE100ED15EC /* tb_car_details_car_img@2x.png in Resources */,
@@ -9805,6 +9837,7 @@
 				9E52B0E817E1A2FB00BD451C /* StoreCreatedTableViewCell_iPad.xib in Resources */,
 				9E52B0EA17E1A31100BD451C /* StoreRejectedTableViewCell_iPad.xib in Resources */,
 				9E52B10617E1E23200BD451C /* tb_add_individual2_ads_close_btn@2x.png in Resources */,
+				8456B83F18016ECB0082BD40 /* errorMasIph5.png in Resources */,
 				9E52B10717E1E23300BD451C /* tb_add_individual2_ads_close_btn.png in Resources */,
 				9E52B11C17E5AC7900BD451C /* BankTransferDatePicker_view.xib in Resources */,
 				9E52B12117E5B35200BD451C /* SendEmailViewController_iPad.xib in Resources */,
@@ -10027,6 +10060,7 @@
 				9E198E6A17096BFA002CECCE /* ASINetworkQueue.m in Sources */,
 				9E198E6B17096BFA002CECCE /* Reachability.m in Sources */,
 				9E198E6C17096BFA002CECCE /* Base64Transcoder.c in Sources */,
+				8456B832180162740082BD40 /* ErrorPageVC.m in Sources */,
 				84AEFE9E17FED95F00206FAD /* AbuseViewController.m in Sources */,
 				9E198E6D17096BFA002CECCE /* hmac.c in Sources */,
 				9E198E6E17096BFA002CECCE /* OAHMAC_SHA1SignatureProvider.m in Sources */,
@@ -10219,7 +10253,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"/Users/admin/Documents/GitHub/Bezaat-iOS/Bezaat",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bezaat/Bezaat-Prefix.pch";
@@ -10257,7 +10292,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Danat FZ LLC (SP4DDPB4S7)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"/Users/admin/Documents/GitHub/Bezaat-iOS/Bezaat",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bezaat/Bezaat-Prefix.pch";

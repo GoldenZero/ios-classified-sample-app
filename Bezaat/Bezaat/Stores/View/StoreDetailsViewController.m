@@ -82,13 +82,21 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     [super viewDidLoad];
     
     
-    bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeFullBanner];
-    bannerView.adUnitID = BANNER_HALFBANNER;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+        bannerView.adUnitID = BANNER_IPHONE_LISTING;
+    }
+    else
+    {
+        bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeFullBanner];
+        bannerView.adUnitID = BANNER_HALFBANNER;
+        bannerView.frame = CGRectMake(bannerView.frame.origin.x + 106, bannerView.frame.origin.y, bannerView.frame.size.width, bannerView.frame.size.height);
+    }
     bannerView.rootViewController = self;
     bannerView.delegate = self;
     [bannerView loadRequest:[GADRequest request]];
     
-    bannerView.frame = CGRectMake(bannerView.frame.origin.x + 106, bannerView.frame.origin.y, bannerView.frame.size.width, bannerView.frame.size.height);
     
     iPad_buyCarSegmentBtnChosen = YES;
     iPad_addCarSegmentBtnChosen = NO;

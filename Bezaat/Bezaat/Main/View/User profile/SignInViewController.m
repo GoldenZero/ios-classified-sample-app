@@ -124,7 +124,7 @@
     // check for internet connectivity
     if (![GenericMethods connectedToInternet])
     {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل الاتصال بالإنترنت" delegateVC:self];
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
         return;
     }
     
@@ -137,7 +137,7 @@
     // check for internet connectivity
     if (![GenericMethods connectedToInternet])
     {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"فشل الاتصال بالإنترنت" delegateVC:self];
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
         return;
     }
     

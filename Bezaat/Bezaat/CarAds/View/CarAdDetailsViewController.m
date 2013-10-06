@@ -95,7 +95,10 @@
         
         bannerAppearCounter = [tempAppear integerValue];
         interstitial_ = [[DFPInterstitial alloc] init];
-        interstitial_.adUnitID = BANNER_FULLSCREEN;//@"a14e1016f9c2470";
+         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+             interstitial_.adUnitID = BANNER_FULLSCREEN_IPHONE;//@"a14e1016f9c2470";
+        else
+            interstitial_.adUnitID = BANNER_FULLSCREEN;
         interstitial_.delegate = self;
         [interstitial_ loadRequest:[GADRequest request]];
         

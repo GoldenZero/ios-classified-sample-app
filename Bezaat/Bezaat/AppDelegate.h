@@ -10,12 +10,15 @@
 #import <UIKit/UIKit.h>
 #import "GAI.h"
 #import "WalkThroughVC.h"
+#import "ErrorPageVC.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @class ChooseLocationViewController;
 @class SplashViewController;
 @class ChooseActionViewController;
 @class ChooseLocationVC;
 @class WalkThroughVC;
+@class ErrorPageVC;
 
 //@class FriendsListViewController;
 
@@ -28,6 +31,7 @@
 @property (strong, nonatomic) SplashViewController *splashVC;
 @property (strong, nonatomic) ChooseActionViewController *homeVC;
 @property (strong, nonatomic) WalkThroughVC *walkThroughVC;
+@property (strong, nonatomic) ErrorPageVC *errorPageVC;
 //@property (strong, nonatomic) FriendsListViewController *friendVC;
 @property(nonatomic, retain) id<GAITracker> tracker;
 @property (nonatomic) BOOL showingFBBrowserView;
@@ -36,4 +40,6 @@
 
 - (void) onSplashScreenDone;
 - (void) onWalkthroughScreenDone;
+- (void) onErrorScreen;
+
 @end

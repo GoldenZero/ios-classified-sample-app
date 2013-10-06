@@ -155,12 +155,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.delegate)
-            [self.delegate detailsDidFailLoadingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- set the url string
@@ -264,12 +260,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.commentsDel)
-            [self.commentsDel commentsDidFailPostingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     NSString * fullURLString = post_comment_url;
@@ -342,12 +334,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.commentsDel)
-            [self.commentsDel commentsDidFailLoadingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- set the url string
@@ -410,12 +398,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     //2- check connectivity
     if (![GenericMethods connectedToInternet])
     {
-        CustomError * error = [CustomError errorWithDomain:@"" code:-1 userInfo:nil];
-        [error setDescMessage:@"فشل الاتصال بالإنترنت"];
-        
-        if (self.abuseAdDelegate)
-            [self.abuseAdDelegate abuseDidFailLoadingWithError:error];
-        return ;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] onErrorScreen];
+        return;
     }
     
     //3- set the url string

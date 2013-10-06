@@ -87,6 +87,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    @try {
     if (self.ButtonCheck) {
         [self.backBtn setImage:[UIImage imageNamed:@"buttons_back.png"] forState:UIControlStateNormal];
     }
@@ -111,8 +112,14 @@
     }
     
 }
+@catch (NSException *exception) {
+    [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+}
+
+}
 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
+    @try {
     countriesArray = resultArray;
     for (int i =0; i <= [countriesArray count] - 1; i++) {
         chosenCountry=[countriesArray objectAtIndex:i];
@@ -138,20 +145,33 @@
         vc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:vc animated:YES completion:nil];
     }
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
     
 }
 - (void) userDidLoginWithData:(UserProfile *)resultProfile {
-    
+    @try {
     //save user's data
     [[ProfileManager sharedInstance] storeUserProfile:resultProfile];
     [self hideLoadingIndicator];
     [self.profileTable setNeedsDisplay];
     [self.profileTable reloadData];
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
 }
 
 - (void) userFailLoginWithError:(NSError *)error {
+    @try {
     [self hideLoadingIndicator];
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
     
 }
 
@@ -182,6 +202,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    @try {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (tableView == self.profileTable)
             return 3;
@@ -193,10 +214,15 @@
         else
             return [countriesArray count];
     }
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    @try {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         // Return the number of rows in the section.
         switch (section) {
@@ -427,11 +453,15 @@
             }
         }
     }
-    
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    @try {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (tableView == self.profileTable) {
             static NSString *CellIdentifier = @"Cell";
@@ -876,12 +906,17 @@
         }
     }
     return nil;
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
 }
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    @try {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (tableView == self.profileTable) {
             switch ([indexPath section]) {
@@ -1144,9 +1179,14 @@
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
     }
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
 }
 
 - (void) tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    @try {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         if (tableView == self.profileTable) {
             switch ([indexPath section]) {
@@ -1199,6 +1239,10 @@
             }
         }
     }
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1208,6 +1252,7 @@
 
 -(void)logout
 {
+    @try {
     [self showLoadingIndicator];
     //[[LocationManager locationKeyChainItemSharedInstance] resetKeychainItem];
     [FBSession.activeSession closeAndClearTokenInformation];
@@ -1219,10 +1264,15 @@
     [self hideLoadingIndicator];
     [alert show];
     return;
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
     
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    @try {
     if (alertView.tag == 0) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
             //[self dismissViewControllerAnimated:YES completion:nil];
@@ -1244,7 +1294,10 @@
             }
         }
     }
-    
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
 }
 
 - (void) showLoadingIndicator {
@@ -1386,18 +1439,23 @@
 //-------------------------------------------- COUNTRY LIST -------------------------------------
 -(void)getThingsDone
 {
+    @try {
     if (citiesArray) {
         if ([CityIndex section] > 10) {
             [self.iPad_countriesTable scrollToRowAtIndexPath:CityIndex atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
         }
         [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(getTheIndexDraw) userInfo:nil repeats:NO];
     }
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
     
 }
 
 -(void)getTheIndexDraw
 {
-    
+    @try {
     DropDownCell *Cell = (DropDownCell*) [self.iPad_countriesTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[CityIndex row] inSection:[CityIndex section]]];
     
     if (Cell == nil){
@@ -1468,7 +1526,10 @@
     
     [self.iPad_countriesTable selectRowAtIndexPath:[NSIndexPath indexPathForRow:[CityIndex row] + 1 inSection:[CityIndex section]] animated:YES scrollPosition:UITableViewScrollPositionBottom];
     [self.iPad_countriesTable scrollToRowAtIndexPath:CityIndex atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
 }
 //-----------------------------------------------------------------------------------------------
 
