@@ -279,6 +279,8 @@
         [self.iPad_collectionView registerNib:[UINib nibWithNibName:@"CarAdCell_iPad" bundle:nil] forCellWithReuseIdentifier:@"CarAdCell_iPad"];
         [self.iPad_collectionView registerNib:[UINib nibWithNibName:@"CarAdWithStoreCell_iPad" bundle:nil] forCellWithReuseIdentifier:@"CarAdWithStoreCell_iPad"];
         
+        [self.iPad_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Banner_Cell"];
+        
         //GA
         [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
         [TestFlight passCheckpoint:@"Browse Ads screen"];
@@ -1365,6 +1367,21 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    static NSString *CellIdentifierAdBanner = @"Banner_Cell";
+    if (indexPath.item == 2) {
+        
+        UICollectionViewCell *cell = [self.iPad_collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifierAdBanner forIndexPath:indexPath];
+        //UICollectionViewCell *cell = [[UICollectionViewCell alloc] initWithFrame:CGRectMake(0, 0,315, 337)];
+        
+        if (!cell){
+            cell = [[UICollectionViewCell alloc] init];
+        }
+        
+        cell.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:bannerView];
+        return cell;
+        
+    }
     
     xForShiftingTinyImg = 0;
     CarAd * carAdObject;
