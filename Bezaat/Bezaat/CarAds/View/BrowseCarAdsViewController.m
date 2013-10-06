@@ -1499,7 +1499,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         }
         
         else {
-            [cell.carImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%i.png", carAdObject.categoryID]]];
+            [cell.carImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"tb_default_%i.png", carAdObject.categoryID]]];
             [cell.carImage setBackgroundColor:[UIColor whiteColor]];
             [cell.carImage setContentMode:UIViewContentModeScaleAspectFit];
             [cell.carImage setClipsToBounds:YES];
