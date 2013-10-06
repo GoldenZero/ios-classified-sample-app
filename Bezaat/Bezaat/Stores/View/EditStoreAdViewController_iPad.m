@@ -978,15 +978,15 @@
     self.storePickerView.hidden = NO;
     [self dismissKeyboard];
     
-    [self.storePickerView selectRow:defaultStoreIndex inComponent:0 animated:YES];
+    //[self.storePickerView selectRow:defaultStoreIndex inComponent:0 animated:YES];
     
-    NSString *temp= [NSString stringWithFormat:@"%@",[(Store*)[allUserStore objectAtIndex:0] name]];
-    [theStore setTitle:temp forState:UIControlStateNormal];
+    //NSString *temp= [NSString stringWithFormat:@"%@",[(Store*)[allUserStore objectAtIndex:0] name]];
+    //[theStore setTitle:temp forState:UIControlStateNormal];
     
     // fill picker with production year
     globalArray=allUserStore;
     //[self.pickerView reloadAllComponents];
-    [self.storePickerView reloadAllComponents];
+    //[self.storePickerView reloadAllComponents];
     if (!storeBtnPressedOnce)
     {
         if (globalArray && globalArray.count)
@@ -995,7 +995,31 @@
     
     
     storeBtnPressedOnce = YES;
-    [self showPicker];
+    //[self showPicker];
+    
+    NSString *temp= [NSString stringWithFormat:@"%@",myStore.name];
+    [theStore setTitle:temp forState:UIControlStateNormal];
+    
+    [self iPad_dismissPopOvers];
+    
+    if (!self.iPad_storePopOver) {
+        TableInPopUpTableViewController * storeVC = [[TableInPopUpTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        storeVC.choosingDelegate = self;
+        storeVC.arrayValues = globalArray;
+        
+        storeVC.showingDistanceRangeObjects = NO;
+        storeVC.showingSingleValueObjects = NO;
+        storeVC.showingStores = YES;
+        
+        self.iPad_storePopOver = [[UIPopoverController alloc] initWithContentViewController:storeVC];
+        storeBtnPressedOnce = YES;
+    }
+    
+    CGRect popOverFrame = self.iPad_storePopOver.contentViewController.view.frame;
+    [self.iPad_storePopOver setPopoverContentSize:popOverFrame.size];
+    [self.iPad_storePopOver presentPopoverFromRect:[(UIButton *)sender frame] inView:[(UIButton *)sender superview] permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    
 }
 
 
@@ -1007,12 +1031,12 @@
     self.pickerView.hidden=NO;
     [self dismissKeyboard];
     
-    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
-    [productionYear setTitle:temp forState:UIControlStateNormal];
+    //NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
+    //[productionYear setTitle:temp forState:UIControlStateNormal];
     
     // fill picker with production year
     globalArray=productionYearArray;
-    [self.pickerView reloadAllComponents];
+    //[self.pickerView reloadAllComponents];
     if (!yearBtnPressedOnce)
     {
         if (globalArray && globalArray.count)
@@ -1020,9 +1044,33 @@
     }
     
     yearBtnPressedOnce = YES;
-    [self.pickerView selectRow:0 inComponent:0 animated:YES];
     
-    [self showPicker];
+    NSString *temp= [NSString stringWithFormat:@"%@",chosenYear.valueString];
+    [productionYear setTitle:temp forState:UIControlStateNormal];
+    
+    //[self.pickerView selectRow:0 inComponent:0 animated:YES];
+    
+    //[self showPicker];
+    
+    [self iPad_dismissPopOvers];
+    
+    if (!self.iPad_modelYearPopOver) {
+        TableInPopUpTableViewController * modelYearVC = [[TableInPopUpTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        modelYearVC.choosingDelegate = self;
+        modelYearVC.arrayValues = globalArray;
+        
+        modelYearVC.showingDistanceRangeObjects = NO;
+        modelYearVC.showingSingleValueObjects = YES;
+        modelYearVC.showingStores = NO;
+        
+        self.iPad_modelYearPopOver = [[UIPopoverController alloc] initWithContentViewController:modelYearVC];
+        yearBtnPressedOnce = YES;
+    }
+    
+    CGRect popOverFrame = self.iPad_modelYearPopOver.contentViewController.view.frame;
+    [self.iPad_modelYearPopOver setPopoverContentSize:popOverFrame.size];
+    [self.iPad_modelYearPopOver presentPopoverFromRect:[(UIButton *)sender frame] inView:[(UIButton *)sender superview] permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
     
     
 }
@@ -1035,8 +1083,8 @@
     self.pickerView.hidden=NO;
     [self dismissKeyboard];
     
-    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)chosenCurrency valueString]];
-    [currency setTitle:temp forState:UIControlStateNormal];
+    //NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)chosenCurrency valueString]];
+    //[currency setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=currencyArray;
     if (!currencyBtnPressedOnce)
@@ -1045,12 +1093,35 @@
             chosenCurrency = (SingleValue *)[globalArray objectAtIndex:0];
     }
     
-    [self.pickerView reloadAllComponents];
-    [self.pickerView selectRow:defaultcurrecncyIndex inComponent:0 animated:YES];
+    //[self.pickerView reloadAllComponents];
+    //[self.pickerView selectRow:defaultcurrecncyIndex inComponent:0 animated:YES];
     
     currencyBtnPressedOnce = YES;
     
-    [self showPicker];
+    //[self showPicker];
+    
+    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)chosenCurrency valueString]];
+    [currency setTitle:temp forState:UIControlStateNormal];
+    
+    [self iPad_dismissPopOvers];
+    
+    if (!self.iPad_currencyPopOver) {
+        TableInPopUpTableViewController * currencyVC = [[TableInPopUpTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        currencyVC.choosingDelegate = self;
+        currencyVC.arrayValues = globalArray;
+        
+        currencyVC.showingDistanceRangeObjects = NO;
+        currencyVC.showingSingleValueObjects = YES;
+        currencyVC.showingStores = NO;
+        
+        self.iPad_currencyPopOver = [[UIPopoverController alloc] initWithContentViewController:currencyVC];
+        currencyBtnPressedOnce = YES;
+    }
+    
+    CGRect popOverFrame = self.iPad_currencyPopOver.contentViewController.view.frame;
+    [self.iPad_currencyPopOver setPopoverContentSize:popOverFrame.size];
+    [self.iPad_currencyPopOver presentPopoverFromRect:[(UIButton *)sender frame] inView:[(UIButton *)sender superview] permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
     
 }
 
@@ -1151,8 +1222,8 @@
     self.bodyPickerView.hidden = NO;
     [self dismissKeyboard];
     
-    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[carBodyArray objectAtIndex:0] valueString]];
-    [body setTitle:temp forState:UIControlStateNormal];
+    //NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[carBodyArray objectAtIndex:0] valueString]];
+    //[body setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=carBodyArray;
     if (!bodyBtnPressedOnce)
@@ -1161,10 +1232,33 @@
             chosenBody = (SingleValue *)[globalArray objectAtIndex:0];
     }
     
-    [self.bodyPickerView reloadAllComponents];
+    //[self.bodyPickerView reloadAllComponents];
     bodyBtnPressedOnce = YES;
     
-    [self showPicker];
+    //[self showPicker];
+    
+    NSString *temp= [NSString stringWithFormat:@"%@",chosenBody.valueString];
+    [body setTitle:temp forState:UIControlStateNormal];
+    
+    [self iPad_dismissPopOvers];
+    
+    if (!self.iPad_bodyPopOver) {
+        TableInPopUpTableViewController * bodyVC = [[TableInPopUpTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        bodyVC.choosingDelegate = self;
+        bodyVC.arrayValues = globalArray;
+        
+        bodyVC.showingDistanceRangeObjects = NO;
+        bodyVC.showingSingleValueObjects = YES;
+        bodyVC.showingStores = NO;
+        
+        self.iPad_bodyPopOver = [[UIPopoverController alloc] initWithContentViewController:bodyVC];
+        bodyBtnPressedOnce = YES;
+    }
+    
+    CGRect popOverFrame = self.iPad_bodyPopOver.contentViewController.view.frame;
+    [self.iPad_bodyPopOver setPopoverContentSize:popOverFrame.size];
+    [self.iPad_bodyPopOver presentPopoverFromRect:[(UIButton *)sender frame] inView:[(UIButton *)sender superview] permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
 
 - (IBAction) iPad_closeBtnPrss:(id) sender {
@@ -1944,6 +2038,44 @@
 }
 
 //------------------------------- END OF LEVEL1: CHOOSING THE BRAND -------------------------------
+#pragma mark - TableInPopUpChoosingDelegate method
+- (void) didChooseTableItemWithObject:(id) obj {
+    
+    //NSLog(@"user chose distance: %@", obj.rangeName);
+    if (globalArray == productionYearArray) {
+        chosenYear = (SingleValue *) obj;
+        [productionYear setTitle:[NSString stringWithFormat:@"%@",chosenYear.valueString] forState:UIControlStateNormal];
+    }
+    else if (globalArray == currencyArray) {
+        chosenCurrency = (SingleValue *) obj;
+        [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
+    }
+    else if (globalArray == carBodyArray) {
+        chosenBody = (SingleValue *) obj;
+        [body setTitle:chosenBody.valueString forState:UIControlStateNormal];
+    }
+    else if (globalArray == allUserStore) {
+        myStore = (Store *) obj;
+        [theStore setTitle:myStore.name forState:UIControlStateNormal];
+    }
+    //distanceObj= (DistanceRange *)obj;
+    [self iPad_dismissPopOvers];
+}
+
+
+- (void) iPad_dismissPopOvers {
+    if (self.iPad_modelYearPopOver)
+        [self.iPad_modelYearPopOver dismissPopoverAnimated:YES];
+    
+    if (self.iPad_currencyPopOver)
+        [self.iPad_currencyPopOver dismissPopoverAnimated:YES];
+    
+    if (self.iPad_bodyPopOver)
+        [self.iPad_bodyPopOver dismissPopoverAnimated:YES];
+    
+    if (self.iPad_storePopOver)
+        [self.iPad_storePopOver dismissPopoverAnimated:YES];
+}
 
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 

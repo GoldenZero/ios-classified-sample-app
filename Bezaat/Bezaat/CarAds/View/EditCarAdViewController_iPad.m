@@ -763,21 +763,22 @@
     [self dismissKeyboard];
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
-    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
-    [productionYear setTitle:temp forState:UIControlStateNormal];
+    //NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[productionYearArray objectAtIndex:0] valueString]];
+    //[productionYear setTitle:temp forState:UIControlStateNormal];
     
     // fill picker with production year
     globalArray=productionYearArray;
-    /*
-    [self.pickerView reloadAllComponents];
+    
+    //[self.pickerView reloadAllComponents];
     if (!yearBtnPressedOnce)
     {
         if (globalArray && globalArray.count)
             chosenYear = (SingleValue *)[globalArray objectAtIndex:0];
     }
     
-    [self showPicker];
-     */
+    //[self showPicker];
+    NSString *temp= [NSString stringWithFormat:@"%@",chosenYear.valueString];
+    [productionYear setTitle:temp forState:UIControlStateNormal];
     
     [self iPad_dismissPopOvers];
     
@@ -789,8 +790,10 @@
         
         modelYearVC.showingDistanceRangeObjects = NO;
         modelYearVC.showingSingleValueObjects = YES;
+        modelYearVC.showingStores = NO;
         
         self.iPad_modelYearPopOver = [[UIPopoverController alloc] initWithContentViewController:modelYearVC];
+        yearBtnPressedOnce = YES;
     }
     
     CGRect popOverFrame = self.iPad_modelYearPopOver.contentViewController.view.frame;
@@ -802,20 +805,22 @@
     [self dismissKeyboard];
     self.locationPickerView.hidden=YES;
     self.pickerView.hidden=NO;
-    NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[currencyArray objectAtIndex:0] valueString]];
-    [currency setTitle:temp forState:UIControlStateNormal];
+    //NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)[currencyArray objectAtIndex:0] valueString]];
+    //[currency setTitle:temp forState:UIControlStateNormal];
     // fill picker with currency options
     globalArray=currencyArray;
-    /*
-    [self.pickerView reloadAllComponents];
+    
+    //[self.pickerView reloadAllComponents];
     if (!currencyBtnPressedOnce)
     {
         if (globalArray && globalArray.count)
             chosenCurrency = (SingleValue *)[globalArray objectAtIndex:0];
     }
     
-    [self showPicker];
-     */
+    //[self showPicker];
+    
+    NSString *temp= [NSString stringWithFormat:@"%@",chosenCurrency.valueString];
+    [currency setTitle:temp forState:UIControlStateNormal];
     
     [self iPad_dismissPopOvers];
     
@@ -827,8 +832,11 @@
         
         currencyVC.showingDistanceRangeObjects = NO;
         currencyVC.showingSingleValueObjects = YES;
+        currencyVC.showingStores = NO;
         
         self.iPad_currencyPopOver = [[UIPopoverController alloc] initWithContentViewController:currencyVC];
+        
+        currencyBtnPressedOnce = YES;
     }
     
     CGRect popOverFrame = self.iPad_currencyPopOver.contentViewController.view.frame;
@@ -1478,12 +1486,10 @@
     if (globalArray == productionYearArray) {
         chosenYear = (SingleValue *) obj;
         [productionYear setTitle:[NSString stringWithFormat:@"%@",chosenYear.valueString] forState:UIControlStateNormal];
-        yearBtnPressedOnce = YES;
     }
     else if (globalArray == currencyArray) {
         chosenCurrency = (SingleValue *) obj;
         [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
-        currencyBtnPressedOnce = YES;
     }
     
     //distanceObj= (DistanceRange *)obj;

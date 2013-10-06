@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DistanceRange.h"
+
 
 
 @protocol TableInPopUpChoosingDelegate <NSObject>
@@ -21,5 +21,6 @@
 
 @property (nonatomic) BOOL showingDistanceRangeObjects;
 @property (nonatomic) BOOL showingSingleValueObjects;
+@property (nonatomic) BOOL showingStores;
 
 @end

@@ -16,8 +16,9 @@
 #import "CarAdDetailsViewController.h"
 #import "GAI.h"
 #import "XCDFormInputAccessoryView.h"
+#import "TableInPopUpTableViewController.h"
 
-@interface AddNewStoreAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, StoreManagerDelegate,StorePostAdDelegate,PricingOptionsDelegate,LocationManagerDelegate, BrandManagerDelegate, UIPopoverControllerDelegate>
+@interface AddNewStoreAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, StoreManagerDelegate,StorePostAdDelegate,PricingOptionsDelegate,LocationManagerDelegate, BrandManagerDelegate, UIPopoverControllerDelegate, TableInPopUpChoosingDelegate>
 {
     
 }
@@ -92,6 +93,10 @@
 
 @property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
 @property (strong, nonatomic) UIPopoverController * iPad_countryPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_modelYearPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_currencyPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_bodyPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_storePopOver;
 
 
 #pragma mark - actions

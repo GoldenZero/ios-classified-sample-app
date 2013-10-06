@@ -27,8 +27,6 @@
                 <outlet property="iPad_uploadImagesTitleLabel" destination="443" id="498"/>
                 <outlet property="iPad_uploadPhotosView" destination="441" id="600"/>
                 <outlet property="mobileNum" destination="641" id="655"/>
-                <outlet property="pickerView" destination="632" id="633"/>
-                <outlet property="pickersView" destination="625" id="631"/>
                 <outlet property="productionYear" destination="643" id="657"/>
                 <outlet property="view" destination="1" id="25"/>
             </connections>
@@ -563,34 +561,6 @@
                         <action selector="iPad_chooseBrandBtnPrss:" destination="-1" eventType="touchUpInside" id="434"/>
                     </connections>
                 </button>
-                <view hidden="YES" contentMode="scaleToFill" id="625">
-                    <rect key="frame" x="0.0" y="508" width="1024" height="260"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="626">
-                            <rect key="frame" x="0.0" y="0.0" width="1024" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            <items>
-                                <barButtonItem style="plain" systemItem="flexibleSpace" id="627"/>
-                                <barButtonItem title="Done" id="628">
-                                    <color key="tintColor" red="0.039215687659999998" green="0.52549022440000004" blue="0.97254908080000002" alpha="1" colorSpace="deviceRGB"/>
-                                    <connections>
-                                        <action selector="doneBtnPrss:" destination="-1" id="629"/>
-                                    </connections>
-                                </barButtonItem>
-                            </items>
-                        </toolbar>
-                        <pickerView hidden="YES" contentMode="scaleToFill" id="632">
-                            <rect key="frame" x="0.0" y="44" width="1024" height="216"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <connections>
-                                <outlet property="dataSource" destination="-1" id="634"/>
-                                <outlet property="delegate" destination="-1" id="635"/>
-                            </connections>
-                        </pickerView>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>

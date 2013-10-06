@@ -7,7 +7,9 @@
 //
 
 #import "TableInPopUpTableViewController.h"
+#import "DistanceRange.h"
 #import "StaticAttrsLoader.h"
+#import "Store.h"
 
 @interface TableInPopUpTableViewController ()
 
@@ -84,6 +86,10 @@
             //This is used for currency, moedl years, and body options
             SingleValue * item = self.arrayValues[indexPath.row];
             cell.textLabel.text = item.valueString.description;
+        }
+        else if (self.showingStores) {
+            Store * item = self.arrayValues[indexPath.row];
+            cell.textLabel.text = item.name;
         }
 
     }

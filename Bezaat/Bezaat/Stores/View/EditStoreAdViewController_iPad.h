@@ -16,9 +16,10 @@
 #import "FeaturingManager.h"
 #import "Store.h"
 #import "CarAdDetailsViewController.h"
+#import "TableInPopUpTableViewController.h"
 
 
-@interface EditStoreAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,StorePostAdDelegate,StoreManagerDelegate, BrandManagerDelegate, UIPopoverControllerDelegate>
+@interface EditStoreAdViewController_iPad : BaseViewController<UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UploadImageDelegate, PostAdDelegate,CLLocationManagerDelegate,LocationManagerDelegate,StorePostAdDelegate,StoreManagerDelegate, BrandManagerDelegate, UIPopoverControllerDelegate, TableInPopUpChoosingDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
@@ -90,6 +91,10 @@
 
 @property (strong, nonatomic) UIPopoverController * iPad_cameraPopOver;
 @property (strong, nonatomic) UIPopoverController * iPad_countryPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_modelYearPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_currencyPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_bodyPopOver;
+@property (strong, nonatomic) UIPopoverController * iPad_storePopOver;
 
 
 #pragma mark - actions
