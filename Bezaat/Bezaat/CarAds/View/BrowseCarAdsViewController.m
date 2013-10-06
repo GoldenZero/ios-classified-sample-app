@@ -3559,6 +3559,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         
         distanceRangeVC.showingDistanceRangeObjects = YES;
         distanceRangeVC.showingSingleValueObjects = NO;
+        distanceRangeVC.showingStores = NO;
         
         self.distanceRangePopOver = [[UIPopoverController alloc] initWithContentViewController:distanceRangeVC];
     }
