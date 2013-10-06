@@ -897,14 +897,21 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         {
             //CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreNoImageCell" owner:self options:nil] objectAtIndex:0];
             
-            CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdWithStoreNoImageCell"];
+            //CarAdWithStoreNoImageCell * cell = (CarAdWithStoreNoImageCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdWithStoreNoImageCell"];
+            CarAdWithStoreCell * cell = (CarAdWithStoreCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdWithStoreCell"];
             if (!cell)
-                cell = (CarAdWithStoreNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreNoImageCell" owner:self options:nil] objectAtIndex:0];
+                //cell = (CarAdWithStoreNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreNoImageCell" owner:self options:nil] objectAtIndex:0];
+                
+                cell = (CarAdWithStoreCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdWithStoreCell" owner:self options:nil] objectAtIndex:0];
             
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            
+
+            [cell.carImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"tb_default_%i.png", carAdObject.categoryID]]];
+            [cell.carImage setContentMode:UIViewContentModeScaleAspectFit];
+            [cell.carImage setClipsToBounds:YES];
+
+        
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
@@ -1099,11 +1106,17 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         {
             //CarAdNoImageCell * cell = (CarAdNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdNoImageCell" owner:self options:nil] objectAtIndex:0];
             
-            CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdNoImageCell"];
+            //CarAdNoImageCell * cell = (CarAdNoImageCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdNoImageCell"];
+            CarAdCell * cell = (CarAdCell *)[self.tableView dequeueReusableCellWithIdentifier:@"CarAdCell"];
             if (!cell)
-                cell = (CarAdNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdNoImageCell" owner:self options:nil] objectAtIndex:0];
+                //cell = (CarAdNoImageCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdNoImageCell" owner:self options:nil] objectAtIndex:0];
+                cell = (CarAdCell *)[[[NSBundle mainBundle] loadNibNamed:@"CarAdCell" owner:self options:nil] objectAtIndex:0];
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            [cell.carImage setImage:[UIImage imageNamed:[NSString stringWithFormat:@"tb_default_%i.png", carAdObject.categoryID]]];
+            [cell.carImage setContentMode:UIViewContentModeScaleAspectFit];
+            [cell.carImage setClipsToBounds:YES];
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
@@ -2371,10 +2384,12 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             {
                 //store ad - no image
                 if (carAdObject.storeID > 0)
-                    [rowHeightsArray addObject:[NSNumber numberWithInt:(150 + separatorHeight)]];
+                    //[rowHeightsArray addObject:[NSNumber numberWithInt:(150 + separatorHeight)]];
+                    [rowHeightsArray addObject:[NSNumber numberWithInt:(270 + separatorHeight)]];
                 //individual - no image
                 else
-                    [rowHeightsArray addObject:[NSNumber numberWithInt:(110 + separatorHeight)]];
+                    //[rowHeightsArray addObject:[NSNumber numberWithInt:(110 + separatorHeight)]];
+                    [rowHeightsArray addObject:[NSNumber numberWithInt:(270 + separatorHeight)]];
             }
         }
         
