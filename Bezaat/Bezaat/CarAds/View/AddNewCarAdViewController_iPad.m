@@ -43,6 +43,13 @@
     MBProgressHUD2 *loadingHUD;
     MBProgressHUD2 *imgsLoadingHUD;
     int chosenImgBtnTag;
+    UIButton * recentUploadedImageDelBtn;
+    
+    //int chosenRemoveImgBtnTag;
+    //int removeCounter;
+    //BOOL firstRemove;
+    
+    
     UIImage * currentImageToUpload;
     LocationManager * locationMngr;
     CLLocationManager * deviceLocationDetector;
@@ -122,6 +129,9 @@
 
     // Set the image piacker
     chosenImgBtnTag = -1;
+    //chosenRemoveImgBtnTag = -1;
+    //removeCounter = 1;
+    
     currentImageToUpload = nil;
     currentImgsUploaded = [NSMutableArray new];
     
@@ -190,6 +200,13 @@
     self.distance.rightView = paddingView4;
     self.distance.rightViewMode = UITextFieldViewModeAlways;
     
+    
+    for (int i =0; i < 6; i++) {
+        UIButton * delBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:((i+1) * 100)];
+        [delBtn setHidden:YES];
+    }
+    
+    recentUploadedImageDelBtn = nil;
     //choose brand view:
     //------------------
     brandCellsArray = [NSMutableArray new];
@@ -1065,6 +1082,7 @@
         }
        
     }else if (alertView.tag == 5){
+        /*
         //SignInViewController *vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
         SignInViewController *vc;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -1073,6 +1091,26 @@
             vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
         vc.returnPage = YES;
         [self presentViewController:vc animated:YES completion:nil];
+         */
+        
+        if ([[UIScreen mainScreen] bounds].size.height == 568){
+            //SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+            SignInViewController *vc;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+            else
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
+            [self presentViewController:vc animated:YES completion:nil];
+        }else {
+            //SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            SignInViewController *vc;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            else
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
+            vc.returnPage = YES;
+            [self presentViewController:vc animated:YES completion:nil];
+        }
     }
 }
 
@@ -1113,7 +1151,18 @@
     tappedBtn.layer.cornerRadius = 10.0f;
     
     [tappedBtn setImage:[GenericMethods imageWithImage:img scaledToSize:tappedBtn.frame.size] forState:UIControlStateNormal];
+    [tappedBtn setUserInteractionEnabled:NO];
 
+    UIButton * delBtn;// = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:(chosenImgBtnTag * 10)];
+    
+    for (UIView * subView in tappedBtn.superview.subviews) {
+        if (([subView class] == [UIButton class]) && (subView.tag != tappedBtn.tag))
+            delBtn = (UIButton *) subView;
+    }
+    
+    [delBtn setHidden:NO];
+    recentUploadedImageDelBtn = delBtn;
+    
     [self useImage:img];
     if (self.iPad_cameraPopOver)
         [self.iPad_cameraPopOver dismissPopoverAnimated:YES];
@@ -1152,6 +1201,8 @@
     
     //add image data to this ad
     [currentImgsUploaded addObject:[NSNumber numberWithInteger:ID]];
+    
+    recentUploadedImageDelBtn.tag = ID;
     
     //reset 'current' data
     chosenImgBtnTag = -1;
@@ -1324,9 +1375,62 @@
 }
 
 - (IBAction)iPad_deleteUploadedImage:(id)sender {
-    NSLog(@"No api method provided for deleting an uploaded image");
+    //NSLog(@"No api method provided for deleting an uploaded image");
+    
+    if (iPad_imgsLoadingView) {
+        [GenericMethods throwAlertWithTitle:@"" message:@"الرجاء الانتظار حتى انتهاء رفع الصور السابقة" delegateVC:nil];
+        return;
+    }
+    UIButton* senderBtn = (UIButton *)sender;
+    UIButton * originalImgBtn;
+    for (UIView * subView in senderBtn.superview.subviews) {
+        if (([subView class] == [UIButton class]) && (subView.tag != senderBtn.tag))
+            originalImgBtn = (UIButton *) subView;
+    }
+    [originalImgBtn setImage:[UIImage imageNamed:@"tb_add_individual3_add_image_btn.png"] forState:UIControlStateNormal];
+    [originalImgBtn setUserInteractionEnabled:YES];
+    
+    [self ImageDelete:sender];
 }
 
+
+-(IBAction) ImageDelete:(id)sender {
+    
+    UIButton* senderBtn = (UIButton *)sender;
+    //chosenRemoveImgBtnTag = senderBtn.tag / 10;
+    //chosenRemoveImgBtnTag = senderBtn.tag;
+    
+    [senderBtn setHidden:YES];
+    int index = -1;
+    for (int i = 0; i < currentImgsUploaded.count; i++) {
+        if (senderBtn.tag == [(NSNumber *) currentImgsUploaded[i] integerValue])
+            index  =i;
+    }
+    
+    if (index != -1)
+        [currentImgsUploaded removeObjectAtIndex:index];
+    /*
+    if (firstRemove) {
+        
+        if (chosenRemoveImgBtnTag/10 - removeCounter <= 0) {
+            removeCounter--;
+            while (chosenRemoveImgBtnTag/10 - removeCounter < 0) {
+                removeCounter--;
+            }
+            
+        }
+        
+    }
+    if ([currentImgsUploaded count] == 1)
+        [currentImgsUploaded removeObjectAtIndex:0];
+    else
+        [currentImgsUploaded removeObjectAtIndex:chosenRemoveImgBtnTag/10 - removeCounter];
+    
+    firstRemove = YES;
+
+    removeCounter++;
+     */
+}
 
 #pragma mark - iPad helper methods
 

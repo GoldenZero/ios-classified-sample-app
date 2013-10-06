@@ -43,9 +43,11 @@
     MBProgressHUD2 *loadingHUD;
     MBProgressHUD2 *imgsLoadingHUD;
     int chosenImgBtnTag;
-    int chosenRemoveImgBtnTag;
-    int removeCounter;
-    BOOL firstRemove;
+    UIButton * recentUploadedImageDelBtn;
+    
+    //int chosenRemoveImgBtnTag;
+    //int removeCounter;
+    //BOOL firstRemove;
     
     UIImage * currentImageToUpload;
     LocationManager * locationMngr;
@@ -157,8 +159,8 @@
     
     // Set the image piacker
     chosenImgBtnTag = -1;
-    chosenRemoveImgBtnTag = -1;
-    removeCounter = 1;
+    //chosenRemoveImgBtnTag = -1;
+    //removeCounter = 1;
     
     currentImageToUpload = nil;
     currentImgsUploaded = [NSMutableArray new];
@@ -235,7 +237,7 @@
     self.distance.rightView = paddingView4;
     self.distance.rightViewMode = UITextFieldViewModeAlways;
 
-    
+    recentUploadedImageDelBtn = nil;
     //choose brand view:
     //------------------
     brandCellsArray = [NSMutableArray new];
@@ -371,12 +373,19 @@
     for (int i=0; i<6; i++) {
         if ([self.myImageIDArray count] == 0 || remainingImg == 0) {
             
-            UIButton * temp = (UIButton *)[self.iPad_setPhotoView viewWithTag:((i+1) *10)];
+            UIButton * temp = (UIButton *)[self.iPad_uploadPhotosView viewWithTag:((i+1) *10)];
             [temp setImage:[UIImage imageNamed:@"tb_add_individual3_add_image_btn.png"] forState:UIControlStateNormal];
+            
+            UIButton * delBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:((i+1) *100)];
+            [delBtn setHidden:YES];
+            
         }else{
             cardADS = (CarAd*)[self.myImageIDArray objectAtIndex:i];
             
-            UIButton * temp = (UIButton *)[self.iPad_setPhotoView viewWithTag:((i+1) *10)];
+            UIButton * delBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:((i+1) *100)];
+            [delBtn setHidden:YES];
+            
+            UIButton * temp = (UIButton *)[self.iPad_uploadPhotosView viewWithTag:((i+1) *10)];
             [temp setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:cardADS.ImageURL]]] forState:UIControlStateNormal];
             
             remainingImg-=1;
@@ -399,32 +408,6 @@
     [actionSheet showFromRect:senderBtn.frame inView:senderBtn animated:YES];
 }
 
--(IBAction) ImageDelete:(id)sender {
-    UIButton* senderBtn = (UIButton *)sender;
-    chosenRemoveImgBtnTag = senderBtn.tag / 10;
-    
-    UIButton * tappedBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:chosenRemoveImgBtnTag];
-    //[tappedBtn setImage:[UIImage imageNamed:@"AddCar_Car_logo.png"] forState:UIControlStateNormal];
-    if (firstRemove) {
-        
-        if (chosenRemoveImgBtnTag/10 - removeCounter <= 0) {
-            removeCounter--;
-            while (chosenRemoveImgBtnTag/10 - removeCounter < 0) {
-                removeCounter--;
-            }
-            
-        }
-        
-    }
-    if ([currentImgsUploaded count] == 1)
-        [currentImgsUploaded removeObjectAtIndex:0];
-    else
-        [currentImgsUploaded removeObjectAtIndex:chosenRemoveImgBtnTag/10 - removeCounter];
-    
-    firstRemove = YES;
-    [senderBtn setHidden:YES];
-    removeCounter++;
-}
 
 -(void) TakePhotoWithCamera {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
@@ -953,6 +936,65 @@
 }
 
 #pragma mark - Buttons Actions
+
+- (IBAction)iPad_deleteUploadedImage:(id)sender {
+    //NSLog(@"No api method provided for deleting an uploaded image");
+    
+    if (iPad_imgsLoadingView) {
+        [GenericMethods throwAlertWithTitle:@"" message:@"الرجاء الانتظار حتى انتهاء رفع الصور السابقة" delegateVC:nil];
+        return;
+    }
+    UIButton* senderBtn = (UIButton *)sender;
+    UIButton * originalImgBtn;
+    for (UIView * subView in senderBtn.superview.subviews) {
+        if (([subView class] == [UIButton class]) && (subView.tag != senderBtn.tag))
+            originalImgBtn = (UIButton *) subView;
+    }
+    [originalImgBtn setImage:[UIImage imageNamed:@"tb_add_individual3_add_image_btn.png"] forState:UIControlStateNormal];
+    [originalImgBtn setUserInteractionEnabled:YES];
+    
+    [self ImageDelete:sender];
+}
+
+
+-(IBAction) ImageDelete:(id)sender {
+    
+    UIButton* senderBtn = (UIButton *)sender;
+    //chosenRemoveImgBtnTag = senderBtn.tag / 10;
+    //chosenRemoveImgBtnTag = senderBtn.tag;
+    
+    [senderBtn setHidden:YES];
+    int index = -1;
+    for (int i = 0; i < currentImgsUploaded.count; i++) {
+        if (senderBtn.tag == [(NSNumber *) currentImgsUploaded[i] integerValue])
+            index  =i;
+    }
+    
+    if (index != -1)
+        [currentImgsUploaded removeObjectAtIndex:index];
+    /*
+     if (firstRemove) {
+     
+     if (chosenRemoveImgBtnTag/10 - removeCounter <= 0) {
+     removeCounter--;
+     while (chosenRemoveImgBtnTag/10 - removeCounter < 0) {
+     removeCounter--;
+     }
+     
+     }
+     
+     }
+     if ([currentImgsUploaded count] == 1)
+     [currentImgsUploaded removeObjectAtIndex:0];
+     else
+     [currentImgsUploaded removeObjectAtIndex:chosenRemoveImgBtnTag/10 - removeCounter];
+     
+     firstRemove = YES;
+     
+     removeCounter++;
+     */
+}
+
 
 - (IBAction)iPad_kiloBtnPrss:(id)sender {
     [self dismissKeyboard];
@@ -1487,6 +1529,18 @@
     
     [tappedBtn setImage:[GenericMethods imageWithImage:img scaledToSize:tappedBtn.frame.size] forState:UIControlStateNormal];
     
+    [tappedBtn setUserInteractionEnabled:NO];
+    
+    UIButton * delBtn;// = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:(chosenImgBtnTag * 10)];
+    
+    for (UIView * subView in tappedBtn.superview.subviews) {
+        if (([subView class] == [UIButton class]) && (subView.tag != tappedBtn.tag))
+            delBtn = (UIButton *) subView;
+    }
+    
+    [delBtn setHidden:NO];
+    recentUploadedImageDelBtn = delBtn;
+    
     [self useImage:img];
     [picker dismissViewControllerAnimated:YES completion:nil];
     
@@ -1528,6 +1582,7 @@
     {
         
         UIButton * tappedBtn = (UIButton *) [self.iPad_uploadPhotosView viewWithTag:chosenImgBtnTag];
+        recentUploadedImageDelBtn.tag = ID;
         int indexOfBtn = tappedBtn.tag / 10 - 1;
         if (indexOfBtn >= [CopyImageArr count]) {
             CarAd* adTest = [[CarAd alloc]initWithImageID:[NSString stringWithFormat:@"%i",ID] andImageURL:[url absoluteString]];
