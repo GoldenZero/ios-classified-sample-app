@@ -1526,16 +1526,14 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         {
             [cell.storeImage setHidden:NO];
             
-            UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            activityIndicator.hidesWhenStopped = YES;
-            activityIndicator.hidden = NO;
-            activityIndicator.center = CGPointMake(cell.storeImage.frame.size.width /2, cell.storeImage.frame.size.height/2);
+            //UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            //activityIndicator.hidesWhenStopped = YES;
+            //activityIndicator.hidden = NO;
+            //activityIndicator.center = CGPointMake(cell.storeImage.frame.size.width /2, cell.storeImage.frame.size.height/2);
             
-            [cell.storeImage addSubview:activityIndicator];
-            [activityIndicator startAnimating];
-            [cell.storeImage setImageWithURL:carAdObject.storeLogoURL completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType){  [activityIndicator stopAnimating];
-                [activityIndicator removeFromSuperview];}
-             ];
+            //[cell.storeImage addSubview:activityIndicator];
+            //[activityIndicator startAnimating];
+            [cell.storeImage setImageWithURL:carAdObject.storeLogoURL];
             
             [cell.storeImage setContentMode:UIViewContentModeScaleToFill];
             [cell.storeImage setClipsToBounds:YES];
