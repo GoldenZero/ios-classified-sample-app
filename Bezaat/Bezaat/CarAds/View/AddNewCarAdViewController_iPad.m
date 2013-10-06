@@ -1264,6 +1264,13 @@
 
 - (IBAction) iPad_setPhotosBtnPrss:(id) sender {
     [self dismissKeyboard];
+    
+    if (!_currentModel)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار نوع السيارة" delegateVC:self];
+        return;
+    }
+    
     [self.iPad_chooseBrandBtn setBackgroundImage:iPad_chooseBrandBtnImgOn forState:UIControlStateNormal];
     [self.iPad_setPhotosBtn setBackgroundImage:iPad_setPhotosBtnImgOn forState:UIControlStateNormal];
     [self.iPad_setDetailsBtn setBackgroundImage:iPad_setDetailsBtnImgOff forState:UIControlStateNormal];
@@ -1273,6 +1280,41 @@
 
 - (IBAction) iPad_setDetailsBtnPrss:(id) sender {
     [self dismissKeyboard];
+    
+    //check country & city
+    if (!locationBtnPressedOnce)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بلد ومدينة مناسبين" delegateVC:self];
+        return;
+    }
+    
+    if ((!chosenCountry) || (!chosenCity))
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار بيانات المكان صحيحة" delegateVC:self];
+        return;
+    }
+    
+    //check title
+    if ([carAdTitle.text length] == 0)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال عنوان صحيح للإعلان" delegateVC:self];
+        return;
+    }
+    
+    //check description
+    if ([carDetails.text length] == 0)
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال تفاصيل للإعلان" delegateVC:self];
+        return;
+    }
+    
+    if ([[mobileNum.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
+    {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
+        return;
+    }
+    
+    
     [self.iPad_chooseBrandBtn setBackgroundImage:iPad_chooseBrandBtnImgOn forState:UIControlStateNormal];
     [self.iPad_setPhotosBtn setBackgroundImage:iPad_setPhotosBtnImgOn forState:UIControlStateNormal];
     [self.iPad_setDetailsBtn setBackgroundImage:iPad_setDetailsBtnImgOn forState:UIControlStateNormal];
@@ -1473,9 +1515,10 @@
         return ;
     
     int indexOfCurrentModel = -1;
-    if (!self.currentModel)
-        self.currentModel = currentModels[0]; //initially, the selected model is the first
-    else {
+    //if (!self.currentModel)
+        //self.currentModel = currentModels[0]; //initially, the selected model is the first
+    //else {
+    if (self.currentModel) {
         for (int i = 0; i < currentModels.count; i++) {
             if ([(Model *)currentModels[i] modelID] == self.currentModel.modelID) {
                 indexOfCurrentModel = i;
@@ -1483,7 +1526,8 @@
             }
         }
     }
-    [dropDownView drawModels:currentModels withIndexOfSelectedModel:(indexOfCurrentModel == -1 ? 0 : indexOfCurrentModel)];
+    //[dropDownView drawModels:currentModels withIndexOfSelectedModel:(indexOfCurrentModel == -1 ? 0 : indexOfCurrentModel)];
+    [dropDownView drawModels:currentModels withIndexOfSelectedModel:indexOfCurrentModel];
     [self setModelsTapGestures];
     
     

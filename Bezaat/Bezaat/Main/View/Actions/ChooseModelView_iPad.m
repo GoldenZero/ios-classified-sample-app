@@ -62,7 +62,7 @@
         ModelCell* modelCell = (ModelCell*)[[NSBundle mainBundle] loadNibNamed:@"ModelCell_iPad" owner:self options:nil][0];;
         [modelCell reloadInformation:currentItem];
         
-        if (i == index)
+        if ((i == index) && (index != -2))
             [modelCell setSelected:YES];
         
         if (i != 0) {
