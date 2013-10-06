@@ -47,6 +47,7 @@
     BOOL shareBtnDidMoveUp;
     BOOL shareBtnDidMovedown;
     BOOL isSocialKeyboard;
+    int bannerAppearCounter;
 
     NSMutableArray * commentsArray;
     
@@ -86,11 +87,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    bannerAppearCounter = 0;
+
+    NSNumber* tempAppear = [GenericMethods getCachedBannerAppearsForListing];
     
-    interstitial_ = [[DFPInterstitial alloc] init];
-    interstitial_.adUnitID = @"a14e1016f9c2470";//@"/1038459/Argaam..App..ios..320x50..news..listing";
-    interstitial_.delegate = self;
-   // [interstitial_ loadRequest:[GADRequest request]];
+    if (!tempAppear || [tempAppear integerValue] < 1) {
+        
+        bannerAppearCounter = [tempAppear integerValue];
+        interstitial_ = [[DFPInterstitial alloc] init];
+        interstitial_.adUnitID = BANNER_FULLSCREEN;//@"a14e1016f9c2470";
+        interstitial_.delegate = self;
+        [interstitial_ loadRequest:[GADRequest request]];
+        
+    }
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self setPlacesOfViews];
@@ -307,10 +316,11 @@
 }
 
 #pragma mark - Banner Ad handlig
-
 - (void)interstitialDidReceiveAd:(GADInterstitial *)ad
 {
     
+    bannerAppearCounter++;
+    [GenericMethods cacheBannerAppearsForListingFromCounter:[NSNumber numberWithInt:bannerAppearCounter]];
     [interstitial_ presentFromRootViewController:self];
 }
 

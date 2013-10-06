@@ -27,7 +27,8 @@
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
     BOOL dataLoadedFromCache;
     BOOL isRefreshing;
-    
+    DFPBannerView* bannerView;
+
     CarAd * myAdObject;
     float xForShiftingTinyImg;
     
@@ -67,6 +68,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeFullBanner];
+    bannerView.adUnitID = BANNER_HALFBANNER;
+    bannerView.rootViewController = self;
+    bannerView.delegate = self;
+    [bannerView loadRequest:[GADRequest request]];
+
+    bannerView.frame = CGRectMake(bannerView.frame.origin.x + 106, bannerView.frame.origin.y, bannerView.frame.size.width, bannerView.frame.size.height);
     [self.filterAllBtn setHighlighted:YES];
     //[self.noAdsLbl setHidden:YES];
     [self.noAdsImage setHidden:YES];
@@ -447,9 +456,16 @@
 
 #pragma mark - tableView handlig
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CarAd * carAdObject;
+    if ([carAdsArray count] != 0) {
+    if (indexPath.row >= 1)
+        carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row - 1];
+    else
+        carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
     
-    CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
-    
+    if (indexPath.row == 1) {
+        return 60;
+    }
     //ad with image
     int separatorHeight = 6;//extra value for separating
     if (carAdObject.thumbnailURL)
@@ -473,14 +489,17 @@
         else
             return 105 + separatorHeight;
     }
+    }
+    else
+        return 0;
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (carAdsArray)
+    if ([carAdsArray count] != 0)
     {
         //[self scrollToTheBottom];
-        return carAdsArray.count;
+        return carAdsArray.count + 1;
     }
     return 0;
 }
@@ -491,11 +510,28 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    static NSString *CellIdentifierAdBanner = @"Banner_Cell";
+    
+    if (indexPath.row == 1) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierAdBanner];
+        if (!cell){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifierAdBanner];
+        }
+        cell.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:bannerView];
+        return cell;
+
+    }
     xForShiftingTinyImg = 0;
     CarAd * carAdObject;
     if ((carAdsArray) && (carAdsArray.count)){
-        carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
-        myAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+        if (indexPath.row >= 1) {
+            carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row - 1];
+            myAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row - 1];
+        }else{
+            carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+            myAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+        }
     }
     else
         return [UITableViewCell new];
@@ -1071,7 +1107,13 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    CarAd * carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+    
+    CarAd * carAdObject;
+    if (indexPath.row >= 1)
+        carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row - 1];
+    else
+        carAdObject = (CarAd *)[carAdsArray objectAtIndex:indexPath.row];
+    
     CarAdDetailsViewController * vc;
     
     if (carAdObject.thumbnailURL) {   //ad with image

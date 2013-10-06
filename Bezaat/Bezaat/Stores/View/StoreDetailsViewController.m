@@ -20,7 +20,8 @@
 @interface StoreDetailsViewController () {
     StoreManager *storeStatusManager;
     StoreManager *advFeatureManager;
-    
+    DFPBannerView* bannerView;
+
     MBProgressHUD2 *loadingHUD;
     IBOutlet UIToolbar *toolBar;
     IBOutlet UITableView *tableView;
@@ -79,6 +80,15 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeFullBanner];
+    bannerView.adUnitID = BANNER_HALFBANNER;
+    bannerView.rootViewController = self;
+    bannerView.delegate = self;
+    [bannerView loadRequest:[GADRequest request]];
+    
+    bannerView.frame = CGRectMake(bannerView.frame.origin.x + 106, bannerView.frame.origin.y, bannerView.frame.size.width, bannerView.frame.size.height);
     
     iPad_buyCarSegmentBtnChosen = YES;
     iPad_addCarSegmentBtnChosen = NO;
@@ -378,12 +388,38 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
 
 #pragma mark - UITableViewDataSource Methods
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 1) {
+        return 60;
+    }else
+        return 85;
+}
+
 - (NSInteger)tableView:(UITableView *)_tableView numberOfRowsInSection:(NSInteger)section {
-    return [currentStoreAds count];
+    if ([currentStoreAds count] != 0) {
+            return [currentStoreAds count] + 1;
+    }else
+        return 0;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)_tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    static NSString *CellIdentifierAdBanner = @"Banner_Cell";
+    
+    if (indexPath.row == 1) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierAdBanner];
+        if (!cell){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifierAdBanner];
+        }
+        cell.backgroundColor = [UIColor clearColor];
+        [cell.contentView addSubview:bannerView];
+        return cell;
+        
+    }
+    
     StoreAdvTableViewCell *cell = (StoreAdvTableViewCell *)[_tableView dequeueReusableCellWithIdentifier:storeAdsTableCellIdentifier];
     if (cell == nil)
     {
@@ -393,7 +429,12 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
         cell.delegate = self;
     }
     
-    CarAd *adv = currentStoreAds[indexPath.row];
+    CarAd *adv;
+    if (indexPath.row >= 1)
+        adv = currentStoreAds[indexPath.row - 1];
+    else
+        adv = currentStoreAds[indexPath.row];
+    
     cell.advID = adv.adID;
     cell.imageURL = adv.thumbnailURL;
     
@@ -429,8 +470,12 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
     //CarAdDetailsViewController *vc = [[CarAdDetailsViewController alloc] initWithNibName:@"CarAdDetailsViewController" bundle:nil];
     CarAdDetailsViewController *vc;
-    CarAd *adv = currentStoreAds[indexPath.row];
-    
+    CarAd * adv;
+    if (indexPath.row >= 1)
+        adv = currentStoreAds[indexPath.row - 1];
+    else
+        adv = currentStoreAds[indexPath.row];
+
     if (adv.thumbnailURL) {   //ad with image
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
             vc = [[CarAdDetailsViewController alloc]initWithNibName:@"CarAdDetailsViewController" bundle:nil];

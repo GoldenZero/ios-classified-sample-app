@@ -593,4 +593,92 @@ static NSString * documentsDirectoryPath;
     
     return minutesBetweenDates;
 }
+
++ (BOOL) cacheBannerAppearsForListingFromCounter:(NSNumber *) NumberOfAppear {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [self getCacheFileNameForBannerAppearsForListing];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    //2- check if file exists
+    //BOOL cahcedFileExists = [GenericMethods fileExistsInDocuments:cacheFileName];
+    
+    //3- create the dictionary to be serialized to JSON
+    NSMutableDictionary * dictToBeWritten = [NSMutableDictionary new];
+    [dictToBeWritten setObject:NumberOfAppear forKey:@"BannerAppearsForMarket"];
+    
+    //4- convert dictionary to NSData
+    NSError  *error;
+    NSData * dataToBeWritten = [NSKeyedArchiver archivedDataWithRootObject:dictToBeWritten];
+    if (![dataToBeWritten writeToFile:cacheFilePath options:NSDataWritingAtomic error:&error])
+        return NO;
+    else
+        return YES;
+    
+}
+
++ (NSNumber *) getCachedBannerAppearsForListing {
+    
+    //1- get the file name same as request url
+    NSString * cacheFileName = [self getCacheFileNameForBannerAppearsForListing];
+    
+    //2- get cache file path
+    NSString * cacheFilePath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], cacheFileName];
+    
+    //check if the file expiration date
+    NSFileManager* fm = [NSFileManager defaultManager];
+    NSDictionary* attrs = [fm attributesOfItemAtPath:cacheFilePath error:nil];
+    
+    if (attrs) {
+        
+        NSDate * today = [NSDate date];
+        //NSDate * fileCreationDate = (NSDate*)[attrs objectForKey: NSFileCreationDate];
+        NSDate * fileModificationDate = [attrs fileModificationDate];
+        
+        NSInteger minutesDiff = [GenericMethods dateDifferenceInMinutesFrom:fileModificationDate To:today];
+        
+        /*
+         NSLog(@"File last modified on: %@", fileModificationDate);
+         NSLog(@"today is: %@", today);
+         NSLog(@"difference in minutes is: %i", minutesDiff);
+         */
+        
+        if (minutesDiff > 1440) {
+            NSError *error;
+            if ([fm removeItemAtPath:cacheFilePath error:&error] == YES)
+                //NSLog(@"File exceeded expiration limit, file has bee deleted");
+                
+                return nil;
+        }
+        
+    }
+    
+    NSData *archiveData = [NSData dataWithContentsOfFile:cacheFilePath];
+    if (!archiveData)
+        return nil;
+    
+    NSDictionary * dataDict = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:archiveData];
+    
+    if (!dataDict)
+        return nil;
+    
+    NSNumber * resultNum = [dataDict objectForKey:@"BannerAppearsForMarket"];
+    return resultNum;
+}
+
+
++ (NSString *) getCacheFileNameForBannerAppearsForListing
+{
+    
+    //the file name is the string of listing URL without the page number and page size
+    NSString * fullURLString = @"/CurrentAppearsForMarket";
+    
+    NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:"];
+    
+    return [[correctURLstring componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+}
+
 @end

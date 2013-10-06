@@ -119,15 +119,25 @@
 
 - (void)viewDidLoad
 {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
     bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-    bannerView.adUnitID = @"/5245337/Bezaat..car..app..ios..Ads..listing..320x50";
+    bannerView.adUnitID = BANNER_IPHONE_LISTING;
     bannerView.rootViewController = self;
     bannerView.delegate = self;
     
     [bannerView loadRequest:[GADRequest request]];
     
     [self.adBannerView addSubview:bannerView];
-
+    }
+    else
+    {
+        bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
+        bannerView.adUnitID = BANNER_MPU;
+        bannerView.rootViewController = self;
+        bannerView.delegate = self;
+        
+        [bannerView loadRequest:[GADRequest request]];
+    }
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];

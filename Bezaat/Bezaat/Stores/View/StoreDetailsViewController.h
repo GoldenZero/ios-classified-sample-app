@@ -12,7 +12,7 @@
 #import "GAI.h"
 #import "labelAdViewController.h"
 
-@interface StoreDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,StoreManagerDelegate,FeatureingDelegate>
+@interface StoreDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,StoreManagerDelegate,FeatureingDelegate,GADBannerViewDelegate>
 
 @property (nonatomic, strong) Store *currentStore;
 @property (nonatomic) BOOL fromSubscribtion;

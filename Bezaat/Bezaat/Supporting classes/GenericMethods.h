@@ -56,4 +56,13 @@
 
 // This method gets date difference in minutes
 + (NSInteger) dateDifferenceInMinutesFrom:(NSDate *) dateFrom To:(NSDate *) dateTo ;
+
+
+//CACHE FOR THE AD BANNER for Listing
++ (BOOL) cacheBannerAppearsForListingFromCounter:(NSNumber *) NumberOfAppear;
+
++ (NSNumber *) getCachedBannerAppearsForListing;
+
++ (NSString *) getCacheFileNameForBannerAppearsForListing;
+
 @end

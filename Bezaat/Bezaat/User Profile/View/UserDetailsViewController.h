@@ -14,7 +14,7 @@
 #import "AddNewCarAdViewController.h"
 #import "GAI.h"
 
-@interface UserDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarAdsManagerDelegate,LocationManagerDelegate>
+@interface UserDetailsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,CarAdsManagerDelegate,LocationManagerDelegate,GADBannerViewDelegate>
 {
     UserProfile* CurrentUser;
     LocationManager * locationMngr;
