@@ -435,6 +435,7 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
      */
     
     if (alertView.tag == 100) {   //cannot feature the ad due to remaining days
+        if (self.isReturn)
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else if (alertView.tag == 3)

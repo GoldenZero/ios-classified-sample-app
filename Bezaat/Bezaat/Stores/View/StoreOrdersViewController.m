@@ -279,7 +279,10 @@
     [cell.bankTransferBtn addTarget:self action:@selector(bankPayment:) forControlEvents:UIControlEventTouchUpInside];
     [cell.proceedBtn addTarget:self action:@selector(ProceedInvoked:) forControlEvents:UIControlEventTouchUpInside];
     
-            return cell;
+    cell.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor =[UIColor clearColor];
+
+    return cell;
         
     
 }

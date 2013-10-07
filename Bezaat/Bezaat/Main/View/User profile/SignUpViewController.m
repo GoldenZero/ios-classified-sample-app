@@ -438,7 +438,12 @@
 -(void)userDidRegisterWithData:(UserProfile *)resultProfile
 {
     [self hideLoadingIndicator];
-    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"Success"
+                         withLabel:@"Register User"
+                         withValue:[NSNumber numberWithInt:100]];
     //save user's data
     [[ProfileManager sharedInstance] storeUserProfile:resultProfile];
     

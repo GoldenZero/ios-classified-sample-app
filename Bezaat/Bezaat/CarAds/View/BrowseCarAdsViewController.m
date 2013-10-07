@@ -131,12 +131,15 @@
     }
     else
     {
+        
         bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
         bannerView.adUnitID = BANNER_MPU;
         bannerView.rootViewController = self;
         bannerView.delegate = self;
-        
+        bannerView.frame = CGRectMake(bannerView.frame.origin.x, bannerView.frame.origin.y + 18, bannerView.frame.size.width, bannerView.frame.size.height);
+
         [bannerView loadRequest:[GADRequest request]];
+        
     }
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {

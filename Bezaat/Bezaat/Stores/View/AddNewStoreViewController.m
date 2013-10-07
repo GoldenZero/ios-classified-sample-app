@@ -566,6 +566,15 @@
     NSLog(@"%s", __PRETTY_FUNCTION__);
     [self hideLoadingIndicator];
    // myStore = storeID;
+    
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"Success"
+                         withLabel:@"Create Store"
+                         withValue:[NSNumber numberWithInt:100]];
+    
+    
     store.identifier = storeID;
     UserProfile* newUser = theUser;
     //save user's data

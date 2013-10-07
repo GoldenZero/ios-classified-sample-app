@@ -1530,6 +1530,12 @@
     [self hideLoadingIndicator];
     
     myAdID = adID;
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"Success"
+                         withLabel:@"Post Store Car Ad"
+                         withValue:[NSNumber numberWithInt:100]];
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
     if (adID != 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"شكرا"

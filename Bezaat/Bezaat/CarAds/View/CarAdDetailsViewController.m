@@ -2327,6 +2327,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             vc.countryAdID = currentStore.countryID;
             vc.iPad_currentStore = currentStore;
             vc.currentAdHasImages = NO;
+            vc.isReturn = YES;
             if (currentDetailsObject.adImages && currentDetailsObject.adImages.count)
                 vc.currentAdHasImages = YES;
             
