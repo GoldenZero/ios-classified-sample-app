@@ -19,6 +19,7 @@
                 <outlet property="detailsLabel" destination="1319" id="1353"/>
                 <outlet property="detailsTextLabel" destination="1830" id="1839"/>
                 <outlet property="distinguishingImage" destination="1329" id="1366"/>
+                <outlet property="favoriteButton" destination="246" id="j01-0c-pXc"/>
                 <outlet property="iPad_bottomLeftSideView" destination="2150" id="2162"/>
                 <outlet property="iPad_commentsScrollView" destination="2185" id="2386"/>
                 <outlet property="iPad_deleteAdBtn" destination="2147" id="2165"/>
@@ -152,7 +153,7 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1211">
                                     <rect key="frame" x="60" y="5" width="53" height="53"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" backgroundImage="7787ABC7-9E5B-4FA0-80C3-A9707B5AE160">
+                                    <state key="normal" backgroundImage="8698E813-D05D-4F55-A7DF-E36E65B380BD">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -233,43 +234,43 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1321">
-                                    <rect key="frame" x="563" y="44" width="78" height="21"/>
+                                    <rect key="frame" x="563" y="49" width="78" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1324">
-                                    <rect key="frame" x="471" y="44" width="60" height="21"/>
+                                    <rect key="frame" x="471" y="49" width="60" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1327">
-                                    <rect key="frame" x="205" y="44" width="97" height="21"/>
+                                    <rect key="frame" x="205" y="49" width="97" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="13"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1322">
-                                    <rect key="frame" x="336" y="44" width="101" height="21"/>
+                                    <rect key="frame" x="336" y="49" width="101" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="13"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </label>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="tb_car_details_watch_ico.png" id="1326">
-                                    <rect key="frame" x="310" y="47" width="18" height="16"/>
+                                    <rect key="frame" x="310" y="52" width="18" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="tb_car_details_date_ico.png" id="1323">
-                                    <rect key="frame" x="539" y="47" width="16" height="16"/>
+                                    <rect key="frame" x="539" y="52" width="16" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="tb_car_details_car_ico.png" id="1325">
-                                    <rect key="frame" x="445" y="47" width="18" height="16"/>
+                                    <rect key="frame" x="445" y="52" width="18" height="16"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </imageView>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="tb_car_details_boxes_blue3.png" id="1328">
@@ -380,7 +381,7 @@
         </view>
     </objects>
     <resources>
-        <image name="7787ABC7-9E5B-4FA0-80C3-A9707B5AE160" width="53" height="53">
+        <image name="8698E813-D05D-4F55-A7DF-E36E65B380BD" width="53" height="53">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

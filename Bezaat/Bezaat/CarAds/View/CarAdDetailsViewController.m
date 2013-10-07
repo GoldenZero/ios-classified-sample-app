@@ -1691,7 +1691,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             
             // Check favorite
             if (currentDetailsObject.isFavorite) {
-                [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+                [self.favoriteButton setImage:[UIImage imageNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"Details_navication_2_hart.png" : @"tb_car_details_like_orange.png")] forState:UIControlStateNormal];
             }
             
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
@@ -1983,7 +1983,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 - (void) FavoriteFailAddingWithError:(NSError*) error forAdID:(NSUInteger)adID {
     
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
-    [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
+    [self.favoriteButton setImage:[UIImage imageNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"Details_gray_heart.png" : @"tb_car_details_like.png")] forState:UIControlStateNormal];
 }
 
 - (void) FavoriteDidAddWithStatus:(BOOL) resultStatus forAdID:(NSUInteger)adID {
@@ -2003,7 +2003,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         if (self.userDetailsParentVC)
             [self.userDetailsParentVC updateFavStateForAdID:currentAdID withState:YES];
         
-        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+        [self.favoriteButton setImage:[UIImage imageNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"Details_navication_2_hart.png" : @"tb_car_details_like_orange.png")] forState:UIControlStateNormal];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [GenericMethods throwAlertWithTitle:@"" message:@"تمت اضافة الإعلان إلى قائمة المفضلة بنجاح" delegateVC:self];
+        }
     }
     else
     {
@@ -2020,7 +2024,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         if (self.userDetailsParentVC)
             [self.userDetailsParentVC updateFavStateForAdID:currentAdID withState:NO];
         
-        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
+        [self.favoriteButton setImage:[UIImage imageNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"Details_gray_heart.png" : @"tb_car_details_like.png")] forState:UIControlStateNormal];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [GenericMethods throwAlertWithTitle:@"" message:@"تعذر عملية الإضافة، الرجاء المحاولة لاحقاً" delegateVC:self];
+        }
         
     }
 }
@@ -2028,7 +2036,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 - (void) FavoriteFailRemovingWithError:(NSError*) error forAdID:(NSUInteger)adID {
     
     [GenericMethods throwAlertWithTitle:@"خطأ" message:[error description] delegateVC:self];
-    [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+    [self.favoriteButton setImage:[UIImage imageNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"Details_navication_2_hart.png" : @"tb_car_details_like_orange.png")] forState:UIControlStateNormal];
     
 }
 
@@ -2049,7 +2057,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         if (self.userDetailsParentVC)
             [self.userDetailsParentVC updateFavStateForAdID:currentAdID withState:NO];
         
-        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_gray_heart.png"] forState:UIControlStateNormal];
+        [self.favoriteButton setImage:[UIImage imageNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"Details_gray_heart.png" : @"tb_car_details_like.png")] forState:UIControlStateNormal];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [GenericMethods throwAlertWithTitle:@"" message:@"تم حذف الإعلان من قائمة المفضلة بنجاح" delegateVC:self];
+        }
     }
     else
     {
@@ -2066,7 +2078,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         if (self.userDetailsParentVC)
             [self.userDetailsParentVC updateFavStateForAdID:currentAdID withState:YES];
         
-        [self.favoriteButton setImage:[UIImage imageNamed:@"Details_navication_2_hart.png"] forState:UIControlStateNormal];
+        [self.favoriteButton setImage:[UIImage imageNamed:(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? @"Details_navication_2_hart.png" : @"tb_car_details_like_orange.png")] forState:UIControlStateNormal];
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [GenericMethods throwAlertWithTitle:@"" message:@"تعذر عملية الحذف، الرجاء المحاولة لاحقاً" delegateVC:self];
+        }
     }
     
 }
