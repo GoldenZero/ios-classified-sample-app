@@ -1564,6 +1564,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             [cell.distingushingImage setHidden:NO];
             [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
         }
+        else
+            [cell.distingushingImage setHidden:YES];
         
         //check owner
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
@@ -1719,10 +1721,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         if (carAdObject.isFeatured)
         {
             [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"tb_car_brand_orange_box.png"]];
+            [cell.distingushingImage setHidden:NO];
             [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
             [cell.favoriteButton setHidden:NO];
             
         }
+        else
+            [cell.distingushingImage setHidden:YES];
         
         //check owner
         UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];

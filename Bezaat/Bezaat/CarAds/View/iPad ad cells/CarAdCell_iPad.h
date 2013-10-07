@@ -14,7 +14,7 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *cellBackgoundImage;
 @property (strong, nonatomic) IBOutlet UIImageView *carImage;
-//@property (strong, nonatomic) IBOutlet UIImageView *distingushingImage;
+@property (strong, nonatomic) IBOutlet UIImageView *distingushingImage;
 @property (strong, nonatomic) IBOutlet SSLabel *detailsLabel;
 @property (strong, nonatomic) IBOutlet SSLabel *carPriceLabel;
 @property (strong, nonatomic) IBOutlet UILabel *addTimeLabel;
