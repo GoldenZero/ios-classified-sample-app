@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1552</int>
+		<int key="IBDocument.SystemTarget">1792</int>
 		<string key="IBDocument.SystemVersion">12F45</string>
 		<string key="IBDocument.InterfaceBuilderVersion">4510</string>
 		<string key="IBDocument.AppKitVersion">1187.40</string>
@@ -391,7 +391,7 @@
 								<reference key="IBUINormalTitleColor" ref="398153039"/>
 								<reference key="IBUIHighlightedTitleColor" ref="141370292"/>
 								<reference key="IBUINormalTitleShadowColor" ref="647077680"/>
-								<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="347479909">
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">tb_sim_home_twitter_btn.png</string>
 								</object>
@@ -413,7 +413,10 @@
 								<reference key="IBUINormalTitleColor" ref="398153039"/>
 								<reference key="IBUIHighlightedTitleColor" ref="141370292"/>
 								<reference key="IBUINormalTitleShadowColor" ref="647077680"/>
-								<reference key="IBUINormalBackgroundImage" ref="347479909"/>
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">headerEmail.png</string>
+								</object>
 								<reference key="IBUIFontDescription" ref="962106233"/>
 								<reference key="IBUIFont" ref="624667309"/>
 							</object>
@@ -7480,7 +7483,7 @@
 		<bool key="IBDocument.previouslyAttemptedUpgradeToXcode5">YES</bool>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1552" key="NS.object.0"/>
+			<real value="1792" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.InterfaceBuilder3</string>
@@ -7489,6 +7492,7 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="headerEmail.png">{44, 44}</string>
 			<string key="tb_all_right_reserved.png">{348, 40}</string>
 			<string key="tb_bar.png">{1024, 42}</string>
 			<string key="tb_bar_line.png">{2, 37}</string>
