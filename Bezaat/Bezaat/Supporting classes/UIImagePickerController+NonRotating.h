@@ -14,4 +14,6 @@
 
 - (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation;
 
+- (NSUInteger) supportedInterfaceOrientations;
+
 @end

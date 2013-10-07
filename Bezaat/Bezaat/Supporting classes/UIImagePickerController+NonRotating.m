@@ -30,4 +30,13 @@
     }
 }
 
+- (NSUInteger)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        return UIInterfaceOrientationMaskPortrait;
+    else
+        //return (UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight);
+        //return (UIInterfaceOrientationMaskLandscape | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight | UIInterfa);
+        return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
 @end
