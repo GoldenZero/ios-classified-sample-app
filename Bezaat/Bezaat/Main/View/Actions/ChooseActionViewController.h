@@ -17,7 +17,7 @@
 #import "GAITrackedViewController.h"
 #import "GAI.h"
 
-@interface ChooseActionViewController : GAITrackedViewController<UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate>
+@interface ChooseActionViewController : GAITrackedViewController<UITableViewDataSource,UITableViewDelegate,LocationManagerDelegate,MFMailComposeViewControllerDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIButton *AddStoreButton;
@@ -49,6 +49,7 @@
 - (IBAction)iPad_aboutAppBtnPressed:(id)sender;
 - (IBAction)iPad_facebookBtnPressed:(id)sender;
 - (IBAction)iPad_twitterBtnPressed:(id)sender;
+- (IBAction)iPad_contactUsPressed:(id)sender;
 
 - (void) iPad_userDidEndChoosingCountryFromPopOver;
 

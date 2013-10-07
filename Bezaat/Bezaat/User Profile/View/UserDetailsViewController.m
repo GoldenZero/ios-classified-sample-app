@@ -684,7 +684,9 @@
                 [self.favouriteBtn setHidden:YES];
             }
             
-            
+            cell.backgroundColor = [UIColor clearColor];
+            cell.contentView.backgroundColor =[UIColor clearColor];
+
             return cell;
         }
         
@@ -827,8 +829,8 @@
             if(!savedProfile){
                 [self.favouriteBtn setHidden:YES];
             }
-            
-            
+            cell.backgroundColor = [UIColor clearColor];
+            cell.contentView.backgroundColor =[UIColor clearColor];
             return cell;
         }
         
@@ -969,7 +971,9 @@
             if(!savedProfile){
                 [self.favouriteBtn setHidden:YES];
             }
-            
+            cell.backgroundColor = [UIColor clearColor];
+            cell.contentView.backgroundColor =[UIColor clearColor];
+
             return cell;
             
         }
@@ -1106,7 +1110,8 @@
             if(!savedProfile){
                 [self.favouriteBtn setHidden:YES];
             }
-            
+            cell.backgroundColor = [UIColor clearColor];
+            cell.contentView.backgroundColor =[UIColor clearColor];
             return cell;
             
         }

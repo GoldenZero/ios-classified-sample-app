@@ -1873,6 +1873,12 @@
     [self hideLoadingIndicator];
     
     myAdID = adID;
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"Success"
+                         withLabel:@"Post Store Car Ad"
+                         withValue:[NSNumber numberWithInt:100]];
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
     if (adID != 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"شكرا"
@@ -2103,6 +2109,7 @@
         vc.countryAdID = chosenCountry.countryID;
         vc.iPad_currentStore = myStore;
         vc.currentAdHasImages = NO;
+        vc.isReturn = NO;
         if (currentImgsUploaded && currentImgsUploaded.count)
             vc.currentAdHasImages = YES;
         
@@ -2270,12 +2277,12 @@
         return;
     }
     
-    if ([[mobileNum.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
+   /* if ([[mobileNum.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
     {
         [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
         return;
     }
-    
+    */
     [self.iPad_chooseBrandBtn setBackgroundImage:iPad_chooseBrandBtnImgOn forState:UIControlStateNormal];
     [self.iPad_setPhotosBtn setBackgroundImage:iPad_setPhotosBtnImgOn forState:UIControlStateNormal];
     [self.iPad_setDetailsBtn setBackgroundImage:iPad_setDetailsBtnImgOn forState:UIControlStateNormal];

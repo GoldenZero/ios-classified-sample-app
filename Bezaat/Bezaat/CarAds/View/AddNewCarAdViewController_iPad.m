@@ -264,6 +264,11 @@
     [self.pickersView setHidden:YES];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+}
+
 #pragma mark - location handler.
 
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
@@ -366,6 +371,11 @@
         [self.iPad_cameraPopOver presentPopoverFromRect:self.view.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         
     }
+}
+
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 - (void) useImage:(UIImage *) image {
@@ -1227,6 +1237,12 @@
 - (void) adDidFinishPostingWithAdID:(NSInteger)adID {
     
     myAdID = adID;
+    //Event Tracker
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker sendEventWithCategory:@"uiAction"
+                        withAction:@"Success"
+                         withLabel:@"Post Car Ad"
+                         withValue:[NSNumber numberWithInt:100]];
     [[FeaturingManager sharedInstance] loadPricingOptionsForCountry:chosenCountry.countryID withDelegate:self];
     //[GenericMethods throwAlertWithTitle:@"خطأ" message:@"تمت إضافة إعلانك بنجاج" delegateVC:self];
     

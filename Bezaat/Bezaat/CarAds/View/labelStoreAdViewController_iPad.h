@@ -38,7 +38,7 @@
 @property (strong, nonatomic) AddNewCarAdViewController * parentNewCarVC;
 @property (strong, nonatomic) AddNewCarAdViewController_iPad * iPad_parentNewCarVC;
 @property (nonatomic) BOOL currentAdHasImages;
-
+@property BOOL isReturn;
 #pragma mark - iPad properties
 @property (weak, nonatomic) IBOutlet SSLabel *iPad_titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *iPad_storeDetailsView;

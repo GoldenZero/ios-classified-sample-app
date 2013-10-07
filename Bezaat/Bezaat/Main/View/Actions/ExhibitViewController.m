@@ -215,7 +215,7 @@
 }
 
 - (CGSize) collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(320.0, 110.0);
+    return CGSizeMake(468.0, 230.0);
 }
 
 - (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -241,11 +241,11 @@
         
         if (gallery.StoreImageURL) {
             [cell.exhibImage setImageWithURL:gallery.StoreImageURL];
-            [cell.exhibImage setContentMode:UIViewContentModeScaleAspectFill];
-            [cell.exhibImage setClipsToBounds:YES];
+            //[cell.exhibImage setContentMode:UIViewContentModeScaleAspectFill];
+            //[cell.exhibImage setClipsToBounds:YES];
         }
         
-        
+        cell.backgroundColor = [UIColor whiteColor];
         return cell;
     }
     
@@ -253,6 +253,7 @@
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     CarsInGalleryViewController *vc;
     vc=[[CarsInGalleryViewController alloc] initWithNibName:@"CarsInGalleryViewController_iPad" bundle:nil];
     vc.gallery=(CarsGallery*)[galleriesArray objectAtIndex:indexPath.row];

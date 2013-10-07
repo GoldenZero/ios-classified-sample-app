@@ -352,6 +352,7 @@
                 }
             }
         }
+        cell.backgroundColor = [UIColor clearColor];
         return cell;
     }
     return [UITableViewCell new];

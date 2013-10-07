@@ -945,6 +945,13 @@
     }
     }else if (alertView.tag == 6)
     {
+        //Event Tracker
+        id tracker = [[GAI sharedInstance] defaultTracker];
+        [tracker sendEventWithCategory:@"uiAction"
+                            withAction:@"Success"
+                             withLabel:@"Post Car Ad"
+                             withValue:[NSNumber numberWithInt:100]];
+        
         labelAdViewController *vc=[[labelAdViewController alloc] initWithNibName:@"labelAdViewController" bundle:nil];
         vc.currentAdID = myAdID;
         vc.countryAdID = chosenCountry.countryID;

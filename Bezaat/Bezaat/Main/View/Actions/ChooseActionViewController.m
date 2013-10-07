@@ -489,6 +489,27 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/bezaaty"]];
 }
 
+- (IBAction)iPad_contactUsPressed:(id)sender {
+    if ([MFMailComposeViewController canSendMail])
+    {
+        MFMailComposeViewController *mailer = [[MFMailComposeViewController alloc] init];
+        mailer.mailComposeDelegate = self;
+        
+        [mailer setSubject:@"Feedback"];
+        [mailer setToRecipients:@[@"mobile@bezaat.com"]];
+        
+        mailer.modalPresentationStyle = UIModalPresentationPageSheet;
+        [self presentViewController:mailer animated:YES completion:nil];
+    }
+    else {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"لا يوجد بريد إلكتروني مسجل على هذا الجهاز" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    
+
+}
+
 - (void) prepareImages {
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
 }

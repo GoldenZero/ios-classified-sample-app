@@ -401,7 +401,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     if (indexPath.row == 1) {
         return 60;
     }else
-        return 85;
+        return 110;
 }
 
 - (NSInteger)tableView:(UITableView *)_tableView numberOfRowsInSection:(NSInteger)section {
@@ -460,6 +460,9 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
     cell.isFeatured = adv.isFeatured;
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor =[UIColor clearColor];
+
     return cell;
 }
 
@@ -559,6 +562,7 @@ static NSString *StoreAdsStatusFeaturedAds = @"featured-ads";
         vc.currentAdID = currentAdvID;
         vc.countryAdID = currentStore.countryID;
         vc.iPad_currentStore = currentStore;
+        vc.isReturn = YES;
         vc.currentAdHasImages = NO;
         int index = -1;
         for (int i =0; i < currentStoreAds.count; i++) {
