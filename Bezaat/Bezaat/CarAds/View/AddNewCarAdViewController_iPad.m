@@ -123,6 +123,7 @@
     [super viewDidLoad];
     //self.inputAccessoryView = [XCDFormInputAccessoryView new];
     
+    
     locationMngr = [LocationManager sharedInstance];
     
     [self loadData];
@@ -262,11 +263,18 @@
     [timer invalidate];
     [self closePicker];
     [self.pickersView setHidden:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
 }
 
 #pragma mark - location handler.
@@ -369,6 +377,7 @@
         self.iPad_cameraPopOver = [[UIPopoverController alloc] initWithContentViewController:picker];
         self.iPad_cameraPopOver.delegate = self;
         [self.iPad_cameraPopOver presentPopoverFromRect:self.view.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        
         
     }
 }
@@ -1176,7 +1185,10 @@
     [self useImage:img];
     if (self.iPad_cameraPopOver)
         [self.iPad_cameraPopOver dismissPopoverAnimated:YES];
+    
+
     [picker dismissViewControllerAnimated:YES completion:nil];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
 
 }
 

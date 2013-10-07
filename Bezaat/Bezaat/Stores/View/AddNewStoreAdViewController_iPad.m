@@ -344,7 +344,21 @@
     [timer invalidate];
     [self closePicker];
     [self.pickersView setHidden:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+}
+
+
 -(void)indicator:(BOOL)animated{
     
     [self.horizontalScrollView flashScrollIndicators];
@@ -551,6 +565,11 @@
         [self.iPad_cameraPopOver presentPopoverFromRect:self.view.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         
     }
+}
+
+-(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 - (void) useImage:(UIImage *) image {
@@ -1800,7 +1819,8 @@
     if (self.iPad_cameraPopOver)
         [self.iPad_cameraPopOver dismissPopoverAnimated:YES];
     [picker dismissViewControllerAnimated:YES completion:nil];
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

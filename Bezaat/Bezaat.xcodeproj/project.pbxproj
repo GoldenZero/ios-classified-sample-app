@@ -1062,6 +1062,7 @@
 		84E12F691749018A008BC631 /* flag_border.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E12F681749018A008BC631 /* flag_border.png */; };
 		84F0272C175622CB008E4764 /* Listing_special_bg_store.png in Resources */ = {isa = PBXBuildFile; fileRef = 84F0272A175622CB008E4764 /* Listing_special_bg_store.png */; };
 		84F0272D175622CB008E4764 /* Listing_special_bg_store@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84F0272B175622CB008E4764 /* Listing_special_bg_store@2x.png */; };
+		84FD348B1802E03800F92E84 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84FD348A1802E03800F92E84 /* Images.xcassets */; };
 		84FF1CC9173661E2004F860D /* StoreExpiredTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF1CC8173661E2004F860D /* StoreExpiredTableViewCell.m */; };
 		84FF1CCD17366217004F860D /* StoreExpiredTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FF1CCC17366216004F860D /* StoreExpiredTableViewCell.xib */; };
 		9E01ACF017649F5C008CDA79 /* btn_done.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E01ACEE17649F5C008CDA79 /* btn_done.png */; };
@@ -3414,6 +3415,7 @@
 		84E12F681749018A008BC631 /* flag_border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flag_border.png; sourceTree = "<group>"; };
 		84F0272A175622CB008E4764 /* Listing_special_bg_store.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Listing_special_bg_store.png; sourceTree = "<group>"; };
 		84F0272B175622CB008E4764 /* Listing_special_bg_store@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Listing_special_bg_store@2x.png"; sourceTree = "<group>"; };
+		84FD348A1802E03800F92E84 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		84FF1CC7173661E1004F860D /* StoreExpiredTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreExpiredTableViewCell.h; sourceTree = "<group>"; };
 		84FF1CC8173661E2004F860D /* StoreExpiredTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreExpiredTableViewCell.m; sourceTree = "<group>"; };
 		84FF1CCC17366216004F860D /* StoreExpiredTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreExpiredTableViewCell.xib; sourceTree = "<group>"; };
@@ -7075,6 +7077,7 @@
 				9E78A7DF16E34CE9000CA790 /* Stores */,
 				8439FDAA1727F4CD00CB1939 /* User Profile */,
 				9E78A85516E4930F000CA790 /* Supporting classes */,
+				84FD348A1802E03800F92E84 /* Images.xcassets */,
 				9E78A7BD16E34BA3000CA790 /* Supporting Files */,
 			);
 			path = Bezaat;
@@ -9832,6 +9835,7 @@
 				9E52B01617DF957F00BD451C /* tb_banner_box.png in Resources */,
 				9E52B01717DF957F00BD451C /* tb_banner_box@2x.png in Resources */,
 				9E52B01817DF957F00BD451C /* tb_car_brand_bg.png in Resources */,
+				84FD348B1802E03800F92E84 /* Images.xcassets in Resources */,
 				9E52B01917DF957F00BD451C /* tb_effective_ads_off.png in Resources */,
 				9E52B01A17DF957F00BD451C /* tb_effective_ads_off@2x.png in Resources */,
 				9E52B01B17DF957F00BD451C /* tb_effective_ads_on.png in Resources */,
@@ -10333,6 +10337,7 @@
 		9E78A7D716E34BA3000CA790 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -10372,6 +10377,7 @@
 		9E78A7D816E34BA3000CA790 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Danat FZ LLC (SP4DDPB4S7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Danat FZ LLC (SP4DDPB4S7)";
 				FRAMEWORK_SEARCH_PATHS = (

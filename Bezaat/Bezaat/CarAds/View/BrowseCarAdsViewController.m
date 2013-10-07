@@ -2651,8 +2651,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     if ( ([aFromYearString isEqualToString:(NSString *)fromYearArray[fromYearArray.count - 1]])//before 2003
         && ([aToYearString isEqualToString:(NSString *)fromYearArray[0]])//2013
         ) {
-        aFromYearString = @"";
-        aToYearString = @"";
+        aFromYearString = @"2000";
+        aToYearString = @"2013";
+    }
+    
+    if ([fromYearString isEqualToString:@"قبل 2003"]) {
+        fromYearString = @"2000";
+        aFromYearString = @"2000";
     }
     
     [[CarAdsManager sharedInstance] searchCarAdsOfPage:page

@@ -2611,9 +2611,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
     if([text isEqualToString:@"\n"]) {
-        [self.commentTextView resignFirstResponder];
+        [textView resignFirstResponder];
         
-        if(self.commentTextView.text.length == 0){
+        /*if(self.commentTextView.text.length == 0){
             self.commentTextView.textColor = [UIColor lightGrayColor];
             self.commentTextView.text = @"أضف تعليقك";
             self.commentTextView.textAlignment = NSTextAlignmentRight;
@@ -2621,6 +2621,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         }
         else
             [self postCommentForCurrentAd:nil];
+         */
         return NO;
     }
     
