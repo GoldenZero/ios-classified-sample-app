@@ -151,11 +151,11 @@
         postCommentAfterSignIn = NO;
         isSocialKeyboard = NO;
 
-        [editBtn setEnabled:NO];
-        [editAdBtn setEnabled:NO];
-        [featureBtn setEnabled:NO];
+        [editBtn setHidden:YES];
+        [editAdBtn setHidden:YES];
+        [featureBtn setHidden:YES];
         
-        [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+        //[self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
         
         pageControlUsed=NO;
         
@@ -213,7 +213,7 @@
         [self.iPad_editAdBtn setEnabled:NO];
         [self.iPad_featureBtn setEnabled:NO];
         
-        [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+       // [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
         
         pageControlUsed=NO;
         
@@ -1670,6 +1670,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
     if (currentDetailsObject)
     {
+        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
         if ((currentDetailsObject.mobileNumber) && (![currentDetailsObject.mobileNumber isEqualToString:@""]))
             [self.phoneNumberButton setEnabled:YES];
         else
@@ -1681,32 +1682,36 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                 if (currentStore && (currentDetailsObject.storeID == currentStore.identifier))
                 {
                     //set the design to deleted $;
-                    [self.featureBtn setEnabled:YES];
-                    [self.featureBtn setImage:[UIImage imageNamed:@"buttons_dollar_deleted.png"]];
+                    [self.featureBtn setHidden:NO];
+                    [self.featureBtn setBackgroundImage:[UIImage imageNamed:@"buttons_dollar_deleted.png"] forState:UIControlStateNormal];
                 }
                 else
-                    [self.featureBtn setEnabled:NO];
+                    [self.featureBtn setHidden:YES];
             }
             else
             {
-                [self.featureBtn setImage:[UIImage imageNamed:@"buttons_ok.png"]];
-                [self.featureBtn setEnabled:YES];
+                [self.featureBtn setBackgroundImage:[UIImage imageNamed:@"buttons_ok.png"] forState:UIControlStateNormal];
+                if (savedProfile.userID == currentDetailsObject.ownerID)
+                [self.featureBtn setHidden:NO];
+                else
+                    [self.featureBtn setHidden:YES];
+                    
             }
         }
         else {
             if (currentDetailsObject.isFeatured)
             {
-                [self.iPad_featureBtn setEnabled:NO];
+                [self.iPad_featureBtn setHidden:YES];
                 [self.iPad_isFeaturedTinyImg setHidden:NO];
             }
             else
             {
-                [self.iPad_featureBtn setEnabled:YES];
+                [self.iPad_featureBtn setHidden:NO];
                 [self.iPad_isFeaturedTinyImg setHidden:YES];
             }
         }
         
-        UserProfile * savedProfile = [[SharedUser sharedInstance] getUserProfileData];
+        
         
         if(savedProfile){
             [self.favoriteButton setEnabled:YES];
@@ -1719,11 +1724,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
                 // check if he own the Ad
                 if (savedProfile.userID == currentDetailsObject.ownerID){
-                    [self.editBtn setEnabled:YES];
-                    [self.editAdBtn setEnabled:YES];
+                    [self.editBtn setHidden:NO];
+                    [self.editAdBtn setHidden:NO];
+                    [self.featureBtn setHidden:NO];
                 } else {
-                    [self.editBtn setEnabled:NO];
-                    [self.editAdBtn setEnabled:NO];
+                    [self.editBtn setHidden:YES];
+                    [self.editAdBtn setHidden:YES];
+                    [self.featureBtn setHidden:YES];
                 }
             }
             else {
@@ -1745,14 +1752,14 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         
         if ((!savedProfile) || ((savedProfile) && (savedProfile.userID != currentDetailsObject.ownerID)))
         {
-            NSMutableArray * newItems = [NSMutableArray new];
+           /* NSMutableArray * newItems = [NSMutableArray new];
             for (UIBarButtonItem * item in self.topMostToolbar.items)
             {
                 // the edit button is marked by tag = 1
                 if ((item.tag != 1)&&(item.tag!=2))
                     [newItems addObject:item];
             }
-            [self.topMostToolbar setItems:newItems];
+            [self.topMostToolbar setItems:newItems];*/
         }
 
         // Check labeld ad

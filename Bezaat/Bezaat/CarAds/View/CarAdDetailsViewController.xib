@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1552" identifier="iOS"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <objects>
@@ -20,10 +20,10 @@
                 <outlet property="detailsTextLabel" destination="940" id="954"/>
                 <outlet property="detailsView" destination="938" id="944"/>
                 <outlet property="distinguishingImage" destination="354" id="537"/>
-                <outlet property="editAdBtn" destination="949" id="951"/>
-                <outlet property="editBtn" destination="29" id="534"/>
+                <outlet property="editAdBtn" destination="UDx-yh-1OW" id="j9H-y9-A2r"/>
+                <outlet property="editBtn" destination="LFt-LV-ekd" id="G4d-zW-xog"/>
                 <outlet property="favoriteButton" destination="303" id="532"/>
-                <outlet property="featureBtn" destination="31" id="533"/>
+                <outlet property="featureBtn" destination="Qgn-E0-iLW" id="4dj-EQ-NHv"/>
                 <outlet property="kiloMiniImg" destination="209" id="956"/>
                 <outlet property="kiloMiniLabel" destination="205" id="260"/>
                 <outlet property="labelsScrollView" destination="124" id="135"/>
@@ -33,8 +33,8 @@
                 <outlet property="priceLabel" destination="863" id="864"/>
                 <outlet property="scrollView" destination="354" id="394"/>
                 <outlet property="storeView" destination="545" id="556"/>
-                <outlet property="toolBar" destination="24" id="36"/>
-                <outlet property="topMostToolbar" destination="24" id="535"/>
+                <outlet property="toolBar" destination="3Su-zM-zKM" id="IgN-ch-6Wu"/>
+                <outlet property="topMostToolbar" destination="3Su-zM-zKM" id="cr8-6l-4Xh"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="viewInStoreLabel" destination="857" id="942"/>
                 <outlet property="watchingCountLabel" destination="206" id="259"/>
@@ -51,37 +51,76 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="24">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <items>
-                        <barButtonItem image="buttons_back.png" width="30" style="plain" id="25">
-                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-2.5"/>
+                <view autoresizesSubviews="NO" contentMode="scaleAspectFit" id="3Su-zM-zKM">
+                    <rect key="frame" x="0.0" y="-3" width="320" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Nav_bar.png" id="pfa-pk-5Ns">
+                            <rect key="frame" x="-2" y="0.0" width="324" height="50"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WRP-iB-fZe">
+                            <rect key="frame" x="5" y="0.0" width="57" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" image="buttons_back.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
                             <connections>
-                                <action selector="backBtnPrss:" destination="-1" id="35"/>
+                                <action selector="backBtnPrss:" destination="-1" eventType="touchUpInside" id="6dk-lB-Yxb"/>
                             </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="32"/>
-                        <barButtonItem tag="1" enabled="NO" image="buttons_edit.png" style="plain" id="949">
-                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-2.5"/>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qgn-E0-iLW">
+                            <rect key="frame" x="280" y="4" width="34" height="41"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="buttons_ok.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
                             <connections>
-                                <action selector="modifyAdBtnPrss:" destination="-1" id="952"/>
+                                <action selector="labelAdBtnPrss:" destination="-1" eventType="touchUpInside" id="rf6-AP-awD"/>
                             </connections>
-                        </barButtonItem>
-                        <barButtonItem tag="1" enabled="NO" image="buttons_delete.png" style="plain" id="29">
-                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-2.5"/>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LFt-LV-ekd">
+                            <rect key="frame" x="237" y="5" width="40" height="41"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="buttons_delete.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
                             <connections>
-                                <action selector="editAdBtnPrss:" destination="-1" id="34"/>
+                                <action selector="editAdBtnPrss:" destination="-1" eventType="touchUpInside" id="7iu-y9-RFd"/>
                             </connections>
-                        </barButtonItem>
-                        <barButtonItem tag="2" enabled="NO" image="buttons_ok.png" style="plain" id="31">
-                            <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-2.5"/>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="UDx-yh-1OW">
+                            <rect key="frame" x="184" y="5" width="51" height="41"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                            <state key="normal" backgroundImage="buttons_edit.png">
+                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
                             <connections>
-                                <action selector="labelAdBtnPrss:" destination="-1" id="33"/>
+                                <action selector="modifyAdBtnPrss:" destination="-1" eventType="touchUpInside" id="pJp-rJ-eia"/>
                             </connections>
-                        </barButtonItem>
-                    </items>
-                </toolbar>
+                        </button>
+                    </subviews>
+                </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="124">
                     <rect key="frame" x="0.0" y="44" width="320" height="436"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -354,6 +393,7 @@
         <image name="Listing_icon_car.png" width="21" height="20"/>
         <image name="Listing_icon_date.png" width="41" height="39"/>
         <image name="Listing_icon_eye.png" width="21" height="20"/>
+        <image name="Nav_bar.png" width="320" height="41"/>
         <image name="Sms_icon.png" width="44" height="44"/>
         <image name="Tel_icon.png" width="44" height="44"/>
         <image name="buttons_back.png" width="51" height="41"/>
