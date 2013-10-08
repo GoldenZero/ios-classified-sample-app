@@ -958,7 +958,7 @@ static NSString * updateMngrTempFileName = @"updmngrTmp";
     NSMutableDictionary * dataDict = [NSMutableDictionary new];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-mm-dd 'at' HH:mm:ss"];
+    [formatter setDateFormat:@"yyyy-MM-dd 'at' HH:mm:ss"];
     
     NSString * dateString = [formatter stringFromDate:devRegObject.registeredOn];
 
