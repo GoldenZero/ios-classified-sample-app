@@ -236,6 +236,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             cell.transform = CGAffineTransformMakeRotation(M_PI_2);
         }
+        cell.backgroundColor = [UIColor clearColor];
         return cell;
     }
     return [UITableViewCell new];

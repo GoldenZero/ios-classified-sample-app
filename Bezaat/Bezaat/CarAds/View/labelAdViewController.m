@@ -240,6 +240,7 @@ static NSString * product_id_form = @"com.bezaat.cars.c.%i";
             cell.transform = CGAffineTransformMakeRotation(M_PI_2);
             //cell.frame = CGRectMake(0, 0, 172.0, 213.0);
         }
+        cell.backgroundColor = [UIColor clearColor];
         return cell;
     }
     return [UITableViewCell new];
