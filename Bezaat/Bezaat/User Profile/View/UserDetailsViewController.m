@@ -677,6 +677,20 @@
                 }
                 
             }
+            else
+            {
+                if (cell.isFeatured) {
+                    [cell.featureButton setHidden:YES];
+                    
+                }
+                else {
+                    if (carAdObject.ownerID == savedProfile.userID)
+                        [cell.featureButton setHidden:NO];
+                    else
+                        [cell.featureButton setHidden:YES];
+                    
+                }
+            }
             
             
             // Not logged in
@@ -824,6 +838,20 @@
                 }
                 
             }
+            else
+            {
+                if (cell.isFeatured) {
+                    [cell.featureButton setHidden:YES];
+                    
+                }
+                else {
+                    if (carAdObject.ownerID == savedProfile.userID)
+                        [cell.featureButton setHidden:NO];
+                    else
+                        [cell.featureButton setHidden:YES];
+                    
+                }
+            }
             
             // Not logged in
             if(!savedProfile){
@@ -965,6 +993,20 @@
                 }
                 
             }
+            else
+            {
+                if (cell.isFeatured) {
+                    [cell.featureButton setHidden:YES];
+                    
+                }
+                else {
+                    if (carAdObject.ownerID == savedProfile.userID)
+                        [cell.featureButton setHidden:NO];
+                    else
+                        [cell.featureButton setHidden:YES];
+                    
+                }
+            }
            
             
             // Not logged in
@@ -1102,6 +1144,20 @@
                     
                 }
                 
+            }
+            else
+            {
+                if (cell.isFeatured) {
+                    [cell.featureButton setHidden:YES];
+                    
+                }
+                else {
+                    if (carAdObject.ownerID == savedProfile.userID)
+                        [cell.featureButton setHidden:NO];
+                    else
+                        [cell.featureButton setHidden:YES];
+                    
+                }
             }
             
             

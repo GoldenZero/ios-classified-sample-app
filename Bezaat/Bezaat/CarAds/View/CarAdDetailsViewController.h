@@ -38,7 +38,7 @@
 //@property (strong, nonatomic) UIViewController * parentVC;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
-@property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (strong, nonatomic) IBOutlet UIView *toolBar;
 @property (strong, nonatomic) IBOutlet UIScrollView *labelsScrollView;
 @property (strong, nonatomic) IBOutlet SSLabel *detailsLabel;
 @property (strong, nonatomic) IBOutlet SSLabel *priceLabel;
@@ -51,10 +51,10 @@
 @property (strong, nonatomic) IBOutlet UIImageView *kiloMiniImg;
 @property (weak, nonatomic) IBOutlet UIButton *phoneNumberButton;
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *featureBtn;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *editBtn;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *editAdBtn;
-@property (weak, nonatomic) IBOutlet UIToolbar *topMostToolbar;
+@property (weak, nonatomic) IBOutlet UIButton *featureBtn;
+@property (weak, nonatomic) IBOutlet UIButton *editBtn;
+@property (strong, nonatomic) IBOutlet UIButton *editAdBtn;
+@property (weak, nonatomic) IBOutlet UIView *topMostToolbar;
 @property (strong, nonatomic) IBOutlet UIScrollView *distinguishingImage;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (strong, nonatomic) IBOutlet UIImageView *countOfViewsTinyImg;

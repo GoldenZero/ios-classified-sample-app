@@ -14,8 +14,8 @@
 //plist file names
 #define CAR_MODELS_PLIST_FILE_NAME  @"CarModels"
 #define LOCATIONS_PLIST_FILE_NAME   @"Locations"
-//#define API_MAIN_URL                @"http://gfctest.edanat.com/v1.1"
-#define API_MAIN_URL                @"http://carsapi.bezaat.com/v1.1"
+#define API_MAIN_URL                @"http://gfctest.edanat.com/v1.1"
+//#define API_MAIN_URL                @"http://carsapi.bezaat.com/v1.1"
 
 #define BANNER_FULLSCREEN       @"/5245337/Bezaat..Car..IPAD..Application..Fullscreen..1024x768"
 #define BANNER_MPU              @"/5245337/Bezaat..Car..IPAD..Application..MPU..300x250"

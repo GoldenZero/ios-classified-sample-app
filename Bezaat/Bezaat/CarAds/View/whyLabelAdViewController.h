@@ -13,7 +13,7 @@
 #pragma mark - properties
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (strong, nonatomic) IBOutlet UIView *toolBar;
 
 #pragma mark - actions
 

@@ -28,7 +28,7 @@
 - (void)viewDidLoad
 {
     pageControlUsed=NO;
-    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
+   // [self.toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
    
     CGSize result = [[UIScreen mainScreen] bounds].size;
     
