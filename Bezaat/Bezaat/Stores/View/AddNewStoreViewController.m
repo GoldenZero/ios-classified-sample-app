@@ -779,6 +779,8 @@
         {
             [self dismissKeyboard];
             self.iPad_cameraPopOver = [[UIPopoverController alloc] initWithContentViewController:picker];
+            CGRect popOverFrame = self.iPad_cameraPopOver.contentViewController.view.frame;
+            [self.iPad_cameraPopOver setPopoverContentSize:popOverFrame.size];
             self.iPad_cameraPopOver.delegate = self;
             [self.iPad_cameraPopOver presentPopoverFromRect:self.iPad_chooseImageBtn.frame inView:self.iPad_chooseImageBtn permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
             
