@@ -645,7 +645,7 @@ static NSString * documentsDirectoryPath;
          NSLog(@"difference in minutes is: %i", minutesDiff);
          */
         
-        if (minutesDiff > 1440) {
+        if (minutesDiff > 1) {
             NSError *error;
             if ([fm removeItemAtPath:cacheFilePath error:&error] == YES)
                 //NSLog(@"File exceeded expiration limit, file has bee deleted");

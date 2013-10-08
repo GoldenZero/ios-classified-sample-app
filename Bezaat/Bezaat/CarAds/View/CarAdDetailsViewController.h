@@ -27,7 +27,7 @@
 #import "AbuseViewController.h"
 #import "ExternalBrowserVC.h"
 
-@interface CarAdDetailsViewController : UIViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate, UITableViewDataSource, UITableViewDelegate,GADInterstitialDelegate,AbuseDelegate>
+@interface CarAdDetailsViewController : UIViewController <UIScrollViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate, CarDetailsManagerDelegate, FavoritesDelegate,CarAdsManagerDelegate, StoreManagerDelegate,MFMessageComposeViewControllerDelegate, UITextViewDelegate, CommentsDelegate, UITableViewDataSource, UITableViewDelegate,GADInterstitialDelegate,AbuseDelegate,GADBannerViewDelegate>
 
 #pragma mark - properties
 @property (strong, nonatomic) BrowseCarAdsViewController * parentVC;
@@ -98,6 +98,7 @@
 @property (strong, nonatomic) IBOutlet UIView *TempCommentTextView;
 @property (strong, nonatomic) IBOutlet UITextView *TempTextView;
 
+@property (strong, nonatomic) IBOutlet UIView *mpuBannerView;
 #pragma mark - actions
 - (IBAction)changePage:(id)sender;
 - (IBAction)labelAdBtnPrss:(id)sender;

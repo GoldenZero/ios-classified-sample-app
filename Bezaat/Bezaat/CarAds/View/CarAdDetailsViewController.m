@@ -41,6 +41,7 @@
     StoreManager *advFeatureManager;
     BOOL viewIsShown;
     DFPInterstitial *interstitial_;
+    DFPBannerView* bannerView;
 
     FBPhotoBrowserViewController * galleryView;
     float xForShiftingTinyImg;
@@ -87,11 +88,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPhone) {
+        bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
+        bannerView.adUnitID = BANNER_MPU;
+        bannerView.rootViewController = self;
+        bannerView.delegate = self;
+        
+        [bannerView loadRequest:[GADRequest request]];
+        
+        [self.mpuBannerView addSubview:bannerView];
+    }
     bannerAppearCounter = 0;
 
     NSNumber* tempAppear = [GenericMethods getCachedBannerAppearsForListing];
     
-    if (!tempAppear || [tempAppear integerValue] < 1) {
+    if (!tempAppear || [tempAppear integerValue] < 2) {
         
         bannerAppearCounter = [tempAppear integerValue];
         interstitial_ = [[DFPInterstitial alloc] init];
@@ -332,6 +343,17 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 {
     NSLog(@"fail with error :%@",error);
     //[interstitial_ presentFromRootViewController:self];
+}
+
+- (void)adViewDidReceiveAd:(GADBannerView *)view
+{
+    NSLog(@"recieved AD");
+}
+
+- (void)adView:(GADBannerView *)view
+didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    NSLog(@"error Ad : %@",error);
 }
 
 
@@ -2855,7 +2877,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
     
     if (resultArray && resultArray.count) {
-        
+        [self.mpuBannerView setHidden:YES];
         [commentsArray addObjectsFromArray:resultArray];
         
         if (commentsArray.count > resultArray.count) {
@@ -2968,6 +2990,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         
         [containerScrollView setContentSize:CGSizeMake(containerScrollView.frame.size.width, totalHeight)];
     }
+    else
+        [self.mpuBannerView setHidden:NO];
     
     [self hideLoadingIndicator];
 }
@@ -2983,6 +3007,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 
 - (void) commentsDidPostWithData:(CommentOnAd *)resultComment {
     [self hideLoadingIndicator];
+    [self.mpuBannerView setHidden:YES];
     
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"" message:@"تم إضافة تعليقك بنجاح" delegate:nil cancelButtonTitle:@"موافق" otherButtonTitles:nil];
     [alert show];
