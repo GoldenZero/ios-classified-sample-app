@@ -484,7 +484,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         
         return [UITableViewCell new];
     }
-    
+
     //ad with image
     if (carAdObject.thumbnailURL)
     {
@@ -1039,7 +1039,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             //check featured
             if (carAdObject.isFeatured)
             {
-                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
+                //[cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
+                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing_special_bg_store.png"]];
+                [cell.storeHeaderImg setImage:[UIImage imageNamed:@"Listing2_top_bg.png"]];
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
@@ -1205,7 +1207,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             if (carAdObject.isFeatured)
             {
                 
-                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
+                //[cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing2_nonphoto_bg_Sp.png"]];
+                [cell.cellBackgoundImage setImage:[UIImage imageNamed:@"Listing_special_bg.png"]];
+                cell.cellBackgoundImage.frame = CGRectMake(cell.cellBackgoundImage.frame.origin.x, cell.cellBackgoundImage.frame.origin.y, cell.cellBackgoundImage.frame.size.width, cell.cellBackgoundImage.frame.size.height);
                 [cell.helpButton setHidden:NO];
                 [cell.distingushingImage setHidden:NO];
                 [cell.carPriceLabel setTextColor:[UIColor orangeColor]];
@@ -2380,11 +2384,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             {
                 //store ad - with image
                 if (carAdObject.storeID > 0)
-                    [rowHeightsArray addObject:[NSNumber numberWithInt:(270 + separatorHeight)]];
+                    [rowHeightsArray addObject:[NSNumber numberWithInt:(275 + separatorHeight)]];
                 
                 //individual ad - with image
                 else
-                    [rowHeightsArray addObject:[NSNumber numberWithInt:(270 + separatorHeight)]];
+                    [rowHeightsArray addObject:[NSNumber numberWithInt:(277 + separatorHeight)]];
                 
             }
             //ad with no image
@@ -2392,12 +2396,12 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             {
                 //store ad - no image
                 if (carAdObject.storeID > 0)
-                    //[rowHeightsArray addObject:[NSNumber numberWithInt:(150 + separatorHeight)]];
-                    [rowHeightsArray addObject:[NSNumber numberWithInt:(270 + separatorHeight)]];
+                    //[rowHeightsArray addObject:[NSNumber numberWithInt:(147 + separatorHeight)]];
+                    [rowHeightsArray addObject:[NSNumber numberWithInt:(275 + separatorHeight)]];
                 //individual - no image
                 else
                     //[rowHeightsArray addObject:[NSNumber numberWithInt:(110 + separatorHeight)]];
-                    [rowHeightsArray addObject:[NSNumber numberWithInt:(270 + separatorHeight)]];
+                    [rowHeightsArray addObject:[NSNumber numberWithInt:(277 + separatorHeight)]];
             }
         }
         
