@@ -49,7 +49,9 @@
     BOOL shareBtnDidMovedown;
     BOOL isSocialKeyboard;
     int bannerAppearCounter;
-
+    BOOL isBannerDismissed;
+    BOOL firstTimeBanner;
+    
     NSMutableArray * commentsArray;
     
     UIButton * loadMoreCommentsBtn;
@@ -88,32 +90,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPhone) {
-        bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
-        bannerView.adUnitID = BANNER_MPU;
-        bannerView.rootViewController = self;
-        bannerView.delegate = self;
-        
-        [bannerView loadRequest:[GADRequest request]];
-        
-        [self.mpuBannerView addSubview:bannerView];
-    }
+    isBannerDismissed = YES;
+    firstTimeBanner = YES;
     bannerAppearCounter = 0;
 
-    NSNumber* tempAppear = [GenericMethods getCachedBannerAppearsForListing];
-    
-    if (!tempAppear || [tempAppear integerValue] < 2) {
-        
-        bannerAppearCounter = [tempAppear integerValue];
-        interstitial_ = [[DFPInterstitial alloc] init];
-         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-             interstitial_.adUnitID = BANNER_FULLSCREEN_IPHONE;//@"a14e1016f9c2470";
-        else
-            interstitial_.adUnitID = BANNER_FULLSCREEN;
-        interstitial_.delegate = self;
-        [interstitial_ loadRequest:[GADRequest request]];
-        
-    }
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self setPlacesOfViews];
@@ -274,6 +254,42 @@
     
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    if (firstTimeBanner) {
+        firstTimeBanner = NO;
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPhone) {
+        bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeMediumRectangle];
+        bannerView.adUnitID = BANNER_MPU;
+        bannerView.rootViewController = self;
+        bannerView.delegate = self;
+        
+        [bannerView loadRequest:[GADRequest request]];
+        NSLog(@"banner request");
+        [self.mpuBannerView addSubview:bannerView];
+    }
+    
+    NSNumber* tempAppear = [GenericMethods getCachedBannerAppearsForListing];
+    
+    if (!tempAppear || [tempAppear integerValue] < 2) {
+        
+        bannerAppearCounter = [tempAppear integerValue];
+        interstitial_ = [[DFPInterstitial alloc] init];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            interstitial_.adUnitID = BANNER_FULLSCREEN_IPHONE;//@"a14e1016f9c2470";
+        else
+            interstitial_.adUnitID = BANNER_FULLSCREEN;
+        interstitial_.delegate = self;
+        [interstitial_ loadRequest:[GADRequest request]];
+        NSLog(@"interstitial request");
+        
+        
+    }
+    }
+}
+
 
 - (void)keyboardDidShow:(NSNotification *)note
 {
@@ -304,16 +320,10 @@
 
 -(void)viewDidDisappear:(BOOL)animated
 {
-        
+    isBannerDismissed = YES;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
-    
-}
-
-
-- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     
 }
 
@@ -335,15 +345,18 @@
     
     bannerAppearCounter++;
     [GenericMethods cacheBannerAppearsForListingFromCounter:[NSNumber numberWithInt:bannerAppearCounter]];
+    isBannerDismissed = NO;
     [interstitial_ presentFromRootViewController:self];
 }
 
 - (void)interstitial:(GADInterstitial *)ad
 didFailToReceiveAdWithError:(GADRequestError *)error
 {
+    isBannerDismissed = YES;
     NSLog(@"fail with error :%@",error);
     //[interstitial_ presentFromRootViewController:self];
 }
+
 
 - (void)adViewDidReceiveAd:(GADBannerView *)view
 {
@@ -650,7 +663,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 }
 
 - (IBAction)labelAdBtnPrss:(id)sender {
-    
+    if (isBannerDismissed) {
+        
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker sendEventWithCategory:@"uiAction"
@@ -682,6 +696,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             [self presentViewController:vc animated:YES completion:nil];
         }
     }
+    }
 }
 
 - (IBAction)editAdBtnPrss:(id)sender {//this is deletion
@@ -701,7 +716,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 - (IBAction)modifyAdBtnPrss:(id)sender {
     
     [self showLoadingIndicator];
-    
+    if (isBannerDismissed) {
+
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker sendEventWithCategory:@"uiAction"
@@ -717,11 +733,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         // Request To Edit Ad
         [[CarAdsManager sharedInstance] requestToEditAdsOfEditID:currentDetailsObject.EncEditID WithDelegate:self];
     }
+    }
 }
 
 
 
 - (IBAction)backBtnPrss:(id)sender {
+    if (isBannerDismissed) {
     if (self.checkPage) {
         ChooseActionViewController *vc;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -731,6 +749,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [self presentViewController:vc animated:YES completion:nil];
     }else
         [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }
 }
 
 - (IBAction)sendMailBtnPrss:(id)sender {

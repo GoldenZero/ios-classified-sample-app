@@ -945,6 +945,7 @@
                 vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
             else
                 vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
+            vc.returnPage = YES;
             [self presentViewController:vc animated:YES completion:nil];
         }else {
             //SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
