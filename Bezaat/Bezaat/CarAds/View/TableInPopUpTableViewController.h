@@ -14,12 +14,24 @@
 - (void) didChooseTableItemWithObject:(id) obj;
 @end
 
+@protocol TableInPopUpChoosingYearFromDelegate <NSObject>
+- (void) didChooseYearFromTableItemWithObject:(NSString*) obj;
+@end
+
+@protocol TableInPopUpChoosingYearToDelegate <NSObject>
+- (void) didChooseYearToTableItemWithObject:(NSString*) obj;
+@end
+
 @interface TableInPopUpTableViewController : UITableViewController
 
 @property (strong, nonatomic) NSArray * arrayValues;
 @property (strong, nonatomic) id <TableInPopUpChoosingDelegate> choosingDelegate;
+@property (strong, nonatomic) id <TableInPopUpChoosingYearFromDelegate> choosingYearFromDelegate;
+@property (strong, nonatomic) id <TableInPopUpChoosingYearToDelegate> choosingYearToDelegate;
 
 @property (nonatomic) BOOL showingDistanceRangeObjects;
+@property (nonatomic) BOOL showingFromYearObjects;
+@property (nonatomic) BOOL showingToYearObjects;
 @property (nonatomic) BOOL showingSingleValueObjects;
 @property (nonatomic) BOOL showingStores;
 

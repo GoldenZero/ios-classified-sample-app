@@ -82,6 +82,12 @@
             DistanceRange * item = self.arrayValues[indexPath.row];
             cell.textLabel.text = item.rangeName;
         }
+        else if (self.showingFromYearObjects) {
+            cell.textLabel.text = self.arrayValues[indexPath.row];
+        }
+        else if (self.showingToYearObjects) {
+            cell.textLabel.text = self.arrayValues[indexPath.row];
+        }
         else if (self.showingSingleValueObjects) {
             //This is used for currency, moedl years, and body options
             SingleValue * item = self.arrayValues[indexPath.row];
@@ -116,10 +122,19 @@
         [self.choosingDelegate didChooseTableItemWithObject:item];
     }
      */
-    
+    if (self.showingFromYearObjects) {
+        NSString* item = self.arrayValues[indexPath.row];
+        [self.choosingYearFromDelegate didChooseYearFromTableItemWithObject:item];
+    }
+    if (self.showingToYearObjects) {
+        NSString* item = self.arrayValues[indexPath.row];
+        [self.choosingYearToDelegate didChooseYearToTableItemWithObject:item];
+
+    }
+    if (self.showingDistanceRangeObjects) {
     id item = self.arrayValues[indexPath.row];
     [self.choosingDelegate didChooseTableItemWithObject:item];
-    
+    }
 
 }
 

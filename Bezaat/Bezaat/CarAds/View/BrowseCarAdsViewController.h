@@ -26,7 +26,7 @@
 #import "TableInPopUpTableViewController.h"
 #import "AdsCell.h"
 
-@interface BrowseCarAdsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate, brandChoosingDelegate, TableInPopUpChoosingDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,GADInterstitialDelegate,GADBannerViewDelegate>
+@interface BrowseCarAdsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, CarAdsManagerDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate, brandChoosingDelegate, TableInPopUpChoosingDelegate,TableInPopUpChoosingYearFromDelegate,TableInPopUpChoosingYearToDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,GADInterstitialDelegate,GADBannerViewDelegate>
 
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -44,6 +44,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *higherPriceText;
 @property (strong, nonatomic) IBOutlet UIImageView *searchImageButton;
 
+@property (weak, nonatomic) IBOutlet UIView *yearView;
 @property (strong, nonatomic) IBOutlet UIButton *distanceButton;
 @property (strong, nonatomic) IBOutlet UIButton *fromYearButton;
 @property (strong, nonatomic) IBOutlet UIButton *toYearButton;
@@ -73,6 +74,7 @@
 @property (weak, nonatomic) IBOutlet NMRangeSlider *iPad_modelYearSlider;
 @property (weak, nonatomic) IBOutlet UILabel *iPad_minYearLabel;
 @property (weak, nonatomic) IBOutlet UILabel *iPad_maxYearLabel;
+@property (weak, nonatomic) IBOutlet UILabel *iPad_distanceLabel;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *iPad_collectionView;
 
@@ -81,11 +83,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *iPad_browseGalleriesSegmentBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_addStoreSegmentBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_searchPanelBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_chooseYearFromBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_chooseYearToBtn;
 
 @property (strong, nonatomic) IBOutlet UIView *adBannerView;
 
 @property (strong, nonatomic) UIPopoverController * brandsPopOver;
 @property (strong, nonatomic) UIPopoverController * distanceRangePopOver;
+@property (strong, nonatomic) UIPopoverController * yearFromRangePopOver;
+@property (strong, nonatomic) UIPopoverController * yearToRangePopOver;
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;
@@ -105,6 +111,8 @@
 - (IBAction)iPad_chooseBrandBtnPressed:(id)sender;
 - (IBAction)iPad_chooseDistanceRangeBtnPressed:(id)sender;
 - (IBAction)iPad_modelYearSliderValueChanged:(id)sender;
+- (IBAction)iPad_chooseYearFromBtnPressed:(id)sender;
+- (IBAction)iPad_chooseYearToBtnPressed:(id)sender;
 
 - (IBAction)iPad_buyCarSegmentBtnPressed:(id)sender;
 - (IBAction)iPad_addCarSegmentBtnPressed:(id)sender;
