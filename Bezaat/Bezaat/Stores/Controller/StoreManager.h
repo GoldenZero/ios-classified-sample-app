@@ -60,7 +60,7 @@
 
 - (void)featureAdv:(NSInteger)advID inStore:(NSInteger)storeID featureDays:(NSInteger)featureDays;
 
--(void)postBankPaymentWithOrderID:(NSInteger)orderID andName:(NSString*)senderName andBankTransactionNum:(NSInteger)bankTransactionID andTransactionDate:(NSString*)transactionDate;
+-(void)postBankPaymentWithOrderID:(NSInteger)orderID andName:(NSString*)senderName andBankTransactionNum:(NSInteger)bankTransactionID andTransactionDate:(NSString*)transactionDate orPromoCode:(NSString*)promo;
 
 
 @end

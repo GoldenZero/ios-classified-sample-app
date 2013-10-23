@@ -91,7 +91,7 @@
             if (savedProfile.hasStores)
                 [self.iPad_storeOrdersBtn setEnabled:YES];
             else
-                [self.iPad_storeOrdersBtn setEnabled:NO];
+                [self.iPad_storeOrdersBtn setEnabled:YES];
         }
         else {
             //self.iPad_signInBtn.enabled = YES;
@@ -190,7 +190,7 @@
             if (savedProfile.hasStores)
                 [self.iPad_storeOrdersBtn setEnabled:YES];
             else
-                [self.iPad_storeOrdersBtn setEnabled:NO];
+                [self.iPad_storeOrdersBtn setEnabled:YES];
         }
         else {
             //self.iPad_signInBtn.enabled = YES;

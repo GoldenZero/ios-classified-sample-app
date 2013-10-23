@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IBOutlet UICustomDatePicker *DatePicker;
 @property (strong, nonatomic) IBOutlet UITextField *senderText;
 @property (strong, nonatomic) IBOutlet UITextField *transferNumText;
+@property (strong, nonatomic) IBOutlet UITextField *promoCodeText;
 @property (strong, nonatomic) IBOutlet UIButton *transferDateBtn;
 @property (strong, nonatomic) StoreOrder* currentOrder;
 

@@ -71,6 +71,8 @@
 
 @end
 
+CGFloat animatedDistance;
+
 @implementation CarAdDetailsViewController
 @synthesize pageControl,scrollView, phoneNumberButton, favoriteButton, featureBtn, editBtn, topMostToolbar,editAdBtn, currentStore;
 @synthesize currentAdID,parentVC, secondParentVC, storeParentVC, userDetailsParentVC;
@@ -861,7 +863,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
 	if([MFMessageComposeViewController canSendText])
 	{
-		controller.body = @"Hello";
+		controller.body = @"شاهدت اعلانك على تطبيق سيارات بيزات";
 		controller.recipients = [NSArray arrayWithObjects:currentDetailsObject.mobileNumber, nil];
 		controller.messageComposeDelegate = self;
 		[self presentViewController:controller animated:YES completion:nil];
@@ -2623,6 +2625,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
 }
 
+#pragma mark UITextField Delegate
+
 
 #pragma mark - UITextView delegate methods
 
@@ -2676,6 +2680,62 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
     return YES;
     
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    CGRect textViewRect = [self.view.window convertRect:textView.bounds fromView:textView];
+    CGRect viewRect = [self.view.window convertRect:self.view.bounds fromView:self.view];
+    CGFloat midline = textViewRect.origin.y + 0.5 * textViewRect.size.height;
+    CGFloat numerator = midline - viewRect.origin.y - 0.1 * viewRect.size.height;
+    CGFloat denominator = (0.9 - 0.1) * viewRect.size.height;
+    CGFloat heightFraction = numerator / denominator;
+    
+    if (heightFraction < 0.0)
+    {
+        heightFraction = 0.0;
+    }
+    else if (heightFraction > 1.0)
+    {
+        heightFraction = 1.0;
+    }
+    
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (orientation == UIInterfaceOrientationPortrait ||
+        orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            animatedDistance = floor(216 * heightFraction);
+    }
+    else {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            animatedDistance = floor(140 * heightFraction);
+    }
+    
+    CGRect viewFrame = self.view.frame;
+    viewFrame.origin.y -= animatedDistance;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:0.3];
+    
+    [self.view setFrame:viewFrame];
+    
+    [UIView commitAnimations];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    
+    CGRect viewFrame = self.view.frame;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    viewFrame.origin.y += animatedDistance;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:0.3];
+    
+    [self.view setFrame:viewFrame];
+    
+    [UIView commitAnimations];
 }
 
 #pragma mark - comments methods

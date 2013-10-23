@@ -123,43 +123,54 @@
     [self.senderText resignFirstResponder];
     [self.transferNumText resignFirstResponder];
     
-    
+    NSString* promo = self.promoCodeText.text;
     NSString* senderName = self.senderText.text;
     NSString* transferNum = self.transferNumText.text;
     
-    
-    if ([senderName length] < 1) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من تعبئة جميع الحقول"
-                                                       delegate:nil cancelButtonTitle:@"موافق"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-    }
-    
-    if ([transferNum length] < 1) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من تعبئة جميع الحقول"
-                                                       delegate:nil cancelButtonTitle:@"موافق"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-
+    if ([promo length] == 0) {
+        if ([senderName length] < 1) {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من تعبئة جميع الحقول"
+                                                           delegate:nil cancelButtonTitle:@"موافق"
+                                                  otherButtonTitles:nil, nil];
+            [alert show];
+            return;
+        }
         
+        else if ([transferNum length] < 1) {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من تعبئة جميع الحقول"
+                                                           delegate:nil cancelButtonTitle:@"موافق"
+                                                  otherButtonTitles:nil, nil];
+            [alert show];
+            return;
+            
+            
+        }
+        else if ([transferDate length] < 1) {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من تعبئة جميع الحقول"
+                                                           delegate:nil cancelButtonTitle:@"موافق"
+                                                  otherButtonTitles:nil, nil];
+            [alert show];
+            return;
+            
+            
+        }
+        else if([transferNum length] == 0 || [senderName length] == 0 || [transferDate length] < 1)
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من تعبئة الرمز الترويجي"
+                                                        delegate:nil cancelButtonTitle:@"موافق"
+                                               otherButtonTitles:nil, nil];
+            [alert show];
+            return;
+            
+        }
     }
-    if ([transferDate length] < 1) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"خطأ" message:@"الرجاء التأكد من تعبئة جميع الحقول"
-                                                       delegate:nil cancelButtonTitle:@"موافق"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-        return;
-
-        
-    }
-       
     [self showLoadingIndicator];
 
+    NSDateFormatter* df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"MM/dd/yyyy"];
     
     [StoreManager sharedInstance].delegate = self;
-    [[StoreManager sharedInstance] postBankPaymentWithOrderID:self.currentOrder.OrderID andName:self.senderText.text andBankTransactionNum:[self.transferNumText.text integerValue] andTransactionDate:transferDate];
+    [[StoreManager sharedInstance] postBankPaymentWithOrderID:self.currentOrder.OrderID andName:self.senderText.text andBankTransactionNum:[self.transferNumText.text integerValue] andTransactionDate:(!transferDate ? [df stringFromDate:[NSDate date]] : transferDate) orPromoCode:(!self.promoCodeText.text ? @"" :self.promoCodeText.text)];
 }
 
 - (IBAction)dateInvoked:(id)sender {

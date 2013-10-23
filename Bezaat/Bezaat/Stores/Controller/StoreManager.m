@@ -469,7 +469,7 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
                        ];
 }
 
--(void)postBankPaymentWithOrderID:(NSInteger)orderID andName:(NSString*)senderName andBankTransactionNum:(NSInteger)bankTransactionID andTransactionDate:(NSString*)transactionDate {
+-(void)postBankPaymentWithOrderID:(NSInteger)orderID andName:(NSString*)senderName andBankTransactionNum:(NSInteger)bankTransactionID andTransactionDate:(NSString*)transactionDate orPromoCode:(NSString*)promo{
     requestInProgress = RequestInProgressPostBankPayment;
     
     //1- check connectivity
@@ -488,11 +488,12 @@ static NSString *unfeature_adv_temp_file = @"UnfeatureAdvTmpFile";
     [request setURL:[NSURL URLWithString:bank_transfer_url]];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     
-    NSString * post =[NSString stringWithFormat:@"%@=%d&%@=%@&%@=%d&%@=%@"
+    NSString * post =[NSString stringWithFormat:@"%@=%d&%@=%@&%@=%d&%@=%@&%@=%@"
                       ,@"OrderID",orderID
                       ,@"SenderName", senderName
                       ,@"BankTransNo", bankTransactionID,
-                      @"BankTransDate",transactionDate
+                      @"BankTransDate",transactionDate,
+                      @"PromotionCode",promo
                       ];
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
