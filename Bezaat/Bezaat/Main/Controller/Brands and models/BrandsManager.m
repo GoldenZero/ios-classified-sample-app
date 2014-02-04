@@ -321,7 +321,7 @@
     [formatter setDateFormat:@"yyyy"];
     NSString *yearString = [formatter stringFromDate:[NSDate date]];
     NSInteger currentYear = [yearString integerValue];
-    NSInteger year = currentYear;
+    NSInteger year = currentYear + 1;
     
     while (year > 2002) {
         [resultArray addObject:[NSString stringWithFormat:@"%i", year]];

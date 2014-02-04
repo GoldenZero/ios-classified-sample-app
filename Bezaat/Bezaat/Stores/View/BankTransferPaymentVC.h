@@ -12,7 +12,7 @@
 #import "UICustomDatePicker.h"
 #import "XCDFormInputAccessoryView.h"
 
-@interface BankTransferPaymentVC : UIViewController<StoreManagerDelegate,UICustomDatePickerDelegate>
+@interface BankTransferPaymentVC : BaseViewController<StoreManagerDelegate,UICustomDatePickerDelegate>
 
 @property (strong, nonatomic) IBOutlet UICustomDatePicker *DatePicker;
 @property (strong, nonatomic) IBOutlet UITextField *senderText;

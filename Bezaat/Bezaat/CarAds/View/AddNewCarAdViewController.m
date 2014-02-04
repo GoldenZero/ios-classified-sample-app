@@ -166,6 +166,10 @@
     kiloChoosen=true;
     // Setting default country
     //defaultIndex= [locationMngr getDefaultSelectedCountryIndex];
+    int checkCountry = [[SharedUser sharedInstance] getUserCountryID];
+    if (checkCountry == -1)
+            [[LocationManager sharedInstance] storeDataOfCountry:1 city:17];
+
     defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
     if  (defaultIndex!= -1){
         chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country

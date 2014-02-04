@@ -2665,7 +2665,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         && ([aToYearString isEqualToString:(NSString *)fromYearArray[0]])//2013
         ) {
         aFromYearString = @"2000";
-        aToYearString = @"2013";
+        aToYearString = @"2014";
     }
     
     if ([fromYearString isEqualToString:@"قبل 2003"]) {
@@ -2727,7 +2727,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         else
             self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
         //self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
-        self.iPad_maxYearLabel.text = @"2013";
+        self.iPad_maxYearLabel.text = @"2014";
         
         //need this call to set the slider intial data to right values.
         [self iPad_modelYearSliderValueChanged:self.iPad_modelYearSlider];
@@ -3490,7 +3490,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     else
         self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
     //self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
-    self.iPad_maxYearLabel.text = @"2013";
+    self.iPad_maxYearLabel.text = @"2014";
 
     
     self.iPad_modelYearSlider.transform = CGAffineTransformRotate(self.iPad_modelYearSlider.transform, M_PI);
@@ -3650,7 +3650,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     else
         self.iPad_minYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.lowerValue];
     //self.iPad_maxYearLabel.text = [NSString stringWithFormat:@"%i", (int) self.iPad_modelYearSlider.upperValue];
-    self.iPad_maxYearLabel.text = @"2013";
+    self.iPad_maxYearLabel.text = @"2014";
 
     fromYearString=self.iPad_minYearLabel.text;
     toYearString=self.iPad_maxYearLabel.text;

@@ -940,7 +940,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         
         
         //post keys
-        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@",
+        NSString * prePost =[NSString stringWithFormat:@"%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%i=%@&%@=%@",
                              TITLE_ATTR_ID, aTitle,
                              DESCRIPTION_ATTR_ID, aDescription,
                              PRICE_ATTR_ID, aPrice,
@@ -950,7 +950,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                              SERVICE_NAME_ATTR_ID, [NSString stringWithFormat:@"%i",aServiceValueID],
                              MANUFACTURE_YEAR_ATTR_ID, [NSString stringWithFormat:@"%i",aModelYearValueID],
                              DISTANCE_VALUE_ATTR_ID, aDistance,
-                             COLOR_ATTR_ID, aColor,
+                             //COLOR_ATTR_ID, aColor,
                              PHONE_NUMBER_ATTR_ID, usermail,
                              ADCOMMENTS_EMAIL_ATTR_ID, [NSString stringWithFormat:@"%i",aAdCommentsEmail],
                              KM_MILES_ATTR_ID, [NSString stringWithFormat:@"%i",aKmVSmilesValueID],

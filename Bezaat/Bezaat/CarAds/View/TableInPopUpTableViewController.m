@@ -112,7 +112,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryCheckmark;
     
-    /*
+    
     if (self.showingDistanceRangeObjects) {
         DistanceRange * item = self.arrayValues[indexPath.row];
         [self.choosingDelegate didChooseTableItemWithObject:item];
@@ -121,7 +121,7 @@
         SingleValue * item = self.arrayValues[indexPath.row];
         [self.choosingDelegate didChooseTableItemWithObject:item];
     }
-     */
+     
     if (self.showingFromYearObjects) {
         NSString* item = self.arrayValues[indexPath.row];
         [self.choosingYearFromDelegate didChooseYearFromTableItemWithObject:item];

@@ -145,12 +145,13 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         {
             self.window.rootViewController = self.chooseLocationVC1;
-        }else
+        }
+        else
         {
-            self.walkThroughVC =[[WalkThroughVC alloc]initWithNibName:@"WalkThroughVC_iPad" bundle:nil];
-
-        self.window.rootViewController = self.walkThroughVC;
-    }
+            //self.walkThroughVC =[[WalkThroughVC alloc]initWithNibName:@"WalkThroughVC_iPad" bundle:nil];
+            //self.window.rootViewController = self.walkThroughVC;
+            self.window.rootViewController = self.chooseLocationVC1;
+        }
         //self.window.rootViewController = self.chooseLocationVC1;
     }
     else{
