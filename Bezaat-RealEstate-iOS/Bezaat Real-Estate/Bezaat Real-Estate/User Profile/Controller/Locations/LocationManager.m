@@ -1,0 +1,321 @@
+//
+//  LocationManager.m
+//  Bezaat
+//
+//  Created by Roula Misrabi on 3/24/13.
+//  Copyright (c) 2013 Syrisoft. All rights reserved.
+//
+
+#import "LocationManager.h"
+
+#pragma mark - file names
+#define COUNTRIES_FILE_NAME         @"Countries.json"
+#define CITIES_FILE_NAME            @"Cities.json"
+
+#pragma mark - Country json keys
+#define COUNTRY_ID_JSONK            @"CountryID"
+#define COUNTRY_NAME_JSONK          @"CountryName"
+#define COUNTRY_NAME_EN_JSONK       @"CountryNameEn"
+#define COUNTRY_CURRENCY_ID_JSONK   @"CurrencyID"
+#define COUNTRY_DISPLAY_ORDER_JSONK @"DisplayOrder"
+#define COUNTRY_CODE_JSONK          @"CountryCode"
+
+#pragma mark - City json keys
+#define CITY_ID_JSONK            @"CityID"
+#define CITY_NAME_JSONK          @"CityName"
+#define CITY_NAME_EN_JSONK       @"CityNameEn"
+#define CITY_COUNTRY_ID_JSONK    @"CountryID"
+#define CITY_DISPLAY_ORDER_JSONK @"DisplayOrder"
+
+#pragma mark - Map_X_Y json keys
+#define MAP_X_Y_COUNTRY_ID_JSONK    @"CountryID"
+#define MAP_X_Y_COUNTRY_X_JSONK    @"X"
+#define MAP_X_Y_COUNTRY_Y_JSONK    @"Y"
+
+
+#pragma mark - keychain dictionary keys
+
+#define KEYCHAIN_DICT_COUNTRY_KEY   @"countryID"
+#define KEYCHAIN_DICT_CITY_KEY      @"cityID"
+
+#pragma mark - CountryMapCoordinates struct definition
+// This struct is used to store temporal x, y coordinates data after parsing
+@interface CountryMapCoordinates : NSObject
+@property (nonatomic) int x;
+@property (nonatomic) int y;
+@end
+
+@implementation CountryMapCoordinates
+@synthesize x, y;
+@end
+
+#pragma mark -
+
+@interface LocationManager ()
+{
+    CLLocationManager * cllocationMngr;
+    NSArray * sortedCountryiesArray;
+}
+@end
+
+
+@implementation LocationManager
+@synthesize delegate;
+@synthesize deviceLocationCountryCode;
+
+
+static NSString * location_key_chain_identifier = @"Bezaat_RE_Location";
+
+- (id) init {
+    
+    self = [super init];
+    if (self) {
+        
+        //deviceLocationCountryCode: This string is kept empty if no country code
+        //could be detected for the device
+        deviceLocationCountryCode = @"";
+        
+        sortedCountryiesArray = nil;
+    }
+    return self;
+}
+
++ (LocationManager *) sharedInstance {
+    static LocationManager * instance = nil;
+    if (instance == nil) {
+        instance = [[LocationManager alloc] init];
+    }
+    return instance;
+}
+
++ (KeychainItemWrapper *) locationKeyChainItemSharedInstance {
+    static KeychainItemWrapper * wrapperInstance = nil;
+    if (wrapperInstance == nil) {
+        wrapperInstance = [[KeychainItemWrapper alloc] initWithIdentifier:location_key_chain_identifier accessGroup:nil];
+        
+    }
+    
+    return wrapperInstance;
+}
+
+- (void) loadCountriesAndCitiesWithDelegate:(id <LocationManagerDelegate>) del {
+    
+    self.delegate = del;
+    
+    if (!sortedCountryiesArray)
+    {
+        //1- load cities
+        NSData * citiesData = [NSData dataWithContentsOfFile:[[StaticAttrsLoader sharedInstance] getJsonFilePathInDocumentsForFile:CITIES_FILE_NAME]];
+        
+        NSArray * citiesParsedArray = [[JSONParser sharedInstance] parseJSONData:citiesData];
+        
+        //2- store cities in a dictionary with countryID as key
+        NSString * countryIdKey;
+        NSMutableDictionary * citiesDictionary = [NSMutableDictionary new];
+        for (NSDictionary * cityDict in citiesParsedArray)
+        {
+            //create city object
+            City * city = [[City alloc] initWithCityIDString:[cityDict objectForKey:CITY_ID_JSONK]
+                                                    cityName:[cityDict objectForKey:CITY_NAME_JSONK]
+                                                  cityNameEn:[cityDict objectForKey:CITY_NAME_EN_JSONK]
+                                             countryIDString:[cityDict objectForKey:CITY_COUNTRY_ID_JSONK]
+                                          displayOrderString:[cityDict objectForKey:CITY_DISPLAY_ORDER_JSONK]
+                           ];
+            countryIdKey = [NSString stringWithFormat:@"%i", city.countryID];
+            
+            //add city to cities dictionary
+            if (![citiesDictionary objectForKey:countryIdKey])
+                [citiesDictionary setObject:[NSMutableArray new] forKey:countryIdKey];
+            [(NSMutableArray *)[citiesDictionary objectForKey:countryIdKey] addObject:city];
+            
+        }
+        
+        //4- load countries
+        NSData * countriesData = [NSData dataWithContentsOfFile:[[StaticAttrsLoader sharedInstance] getJsonFilePathInDocumentsForFile:COUNTRIES_FILE_NAME]];
+        
+        NSArray * countriesParsedArray = [[JSONParser sharedInstance] parseJSONData:countriesData];
+        
+        //5- store countries in array (This array holds countries and their cities **INSIDE**)
+        NSMutableArray * resultCountries = [NSMutableArray new];
+        for (NSDictionary * countryDict in countriesParsedArray)
+        {
+            //create country object
+            Country * country = [[Country alloc]
+                                 initWithCountryIDString:[countryDict objectForKey:COUNTRY_ID_JSONK]
+                                 countryName:[countryDict objectForKey:COUNTRY_NAME_JSONK]
+                                 countryNameEn:[countryDict objectForKey:COUNTRY_NAME_EN_JSONK]
+                                 currencyIDString:[countryDict objectForKey:COUNTRY_CURRENCY_ID_JSONK]
+                                 displayOrderString:[countryDict objectForKey:COUNTRY_DISPLAY_ORDER_JSONK]
+                                 countryCodeString:[countryDict objectForKey:COUNTRY_CODE_JSONK]
+                                 ];
+            countryIdKey = [NSString stringWithFormat:@"%i", country.countryID];
+            //get array of cities
+            NSArray * citiesOfCountry = [NSArray arrayWithArray:[citiesDictionary objectForKey:countryIdKey]];
+            
+            //sort cities and add them to country
+            country.cities = [self sortCitiesArray:citiesOfCountry];
+            
+            //add country
+            [resultCountries addObject:country];
+        }
+        
+        NSArray * countriesSorted = [self sortCountriesArray:resultCountries];
+        
+        sortedCountryiesArray = countriesSorted;
+    }
+    [self.delegate didFinishLoadingWithData:sortedCountryiesArray];
+}
+
+- (NSUInteger) getDefaultSelectedCountryIndex {
+    
+    if ([deviceLocationCountryCode isEqualToString:@""])
+        return 0;
+    
+    for (int index = 0; index < sortedCountryiesArray.count; index++) {
+        
+        if ([[(Country *) sortedCountryiesArray[index] countryCode]
+             isEqualToString:deviceLocationCountryCode])
+            return index;
+    }
+    
+    return 0;
+}
+
+- (NSUInteger) getDefaultSelectedCityIndexForCountry:(NSUInteger) countryID {
+    return 0;
+}
+
+
+- (void) storeDataOfCountry:(NSUInteger) countryID city:(NSUInteger) cityID {
+    
+    NSNumber * countryNum = [NSNumber numberWithUnsignedInteger:countryID];
+    NSNumber * cityNum = [NSNumber numberWithUnsignedInteger:cityID];
+    
+    
+    NSMutableDictionary * dataDict = [NSMutableDictionary new];
+    [dataDict setObject:countryNum forKey:COUNTRY_ID_JSONK];
+    [dataDict setObject:cityNum forKey:CITY_ID_JSONK];
+    
+    //NSLog(@"%@", dataDict.description);
+    [[LocationManager locationKeyChainItemSharedInstance] setObject:dataDict.description forKey:(__bridge id)(kSecAttrAccount)];
+}
+
+- (NSInteger) getSavedUserCountryID {
+    
+    NSString * str = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
+    
+    if ([str isEqualToString:@""])
+        return -1;
+    
+    NSDictionary * dataDict = [str propertyList];
+    
+    if (!dataDict)
+        return -1;
+    
+    return (((NSNumber *)[dataDict objectForKey:COUNTRY_ID_JSONK]).integerValue);
+}
+
+- (NSInteger) getSavedUserCityID {
+    
+    NSString * str = [[LocationManager locationKeyChainItemSharedInstance] objectForKey:(__bridge id)(kSecAttrAccount)];
+    
+    if ([str isEqualToString:@""])
+        return -1;
+    
+    NSDictionary * dataDict = [str propertyList];
+    
+    if (!dataDict)
+        return -1;
+    
+    return (((NSNumber *)[dataDict objectForKey:CITY_ID_JSONK]).integerValue);
+}
+
+
+- (Country *) getCountryByID:(NSInteger) cID {
+    
+    if (!sortedCountryiesArray)
+        return nil;
+    
+    if (sortedCountryiesArray.count == 0)
+        return nil;
+    
+    for (int index = 0; index < sortedCountryiesArray.count; index++) {
+        Country * ctr = (Country *) sortedCountryiesArray[index];
+        if (ctr.countryID == cID)
+            return ctr;
+    }
+    
+    //Not found
+    return nil;
+}
+
+
+- (NSInteger) getIndexOfCountry:(NSInteger) cID {
+    if (!sortedCountryiesArray)
+        return -1;
+    
+    if (sortedCountryiesArray.count == 0)
+        return -1;
+    
+    for (int index = 0; index < sortedCountryiesArray.count; index++) {
+        Country * ctr = (Country *) sortedCountryiesArray[index];
+        if (ctr.countryID == cID)
+            return index;
+    }
+    
+    return -1;
+    
+}
+
+- (NSInteger) getIndexOfCity:(NSInteger) cID inCountry:(Country *) country {
+    NSArray * cities = country.cities;
+    
+    if (!cities)
+        return -1;
+    
+    if (cities.count == 0)
+        return -1;
+    
+    for (int index = 0; index < cities.count; index++) {
+        City * ct = (City *) cities[index];
+        if (ct.cityID == cID)
+            return index;
+    }
+    
+    return -1;
+}
+
+
+- (NSArray *) getTotalCountries {
+    return sortedCountryiesArray;
+}
+#pragma mark - helper methods
+
+- (NSArray *) sortCountriesArray:(NSArray *) countriesArray {
+    
+    NSArray * sortedArray;
+    sortedArray = [countriesArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSInteger first = [(Country *)a displayOrder];
+        NSInteger second = [(Country *)b displayOrder];
+        return (first >= second);
+    }];
+    
+    return sortedArray;
+}
+
+- (NSArray *) sortCitiesArray:(NSArray *) citiesArray {
+    
+    NSArray * sortedArray;
+    sortedArray = [citiesArray sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSInteger first = [(City *)a displayOrder];
+        NSInteger second = [(City *)b displayOrder];
+        return (first >= second);
+    }];
+    
+    return sortedArray;
+}
+
+
+
+@end
+

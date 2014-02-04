@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AdNoImageCell" rowHeight="224" id="2" customClass="PlainAdCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2" id="AlM-Em-DOp">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="149"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="apartments_viewed_white_rectangle.png" translatesAutoresizingMaskIntoConstraints="NO" id="1293">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="apartments_viewed_line.png" translatesAutoresizingMaskIntoConstraints="NO" id="1294">
+                        <rect key="frame" x="0.0" y="97" width="320" height="1"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="1318"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="apartments_viewed_bedroom_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="1295">
+                        <rect key="frame" x="242" y="102" width="13" height="13"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="13" id="1317"/>
+                        </constraints>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1296" customClass="SSLabel">
+                        <rect key="frame" x="20" y="10" width="280" height="44"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="1316"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1574">
+                        <rect key="frame" x="20" y="54" width="280" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="1786"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="قبل ١٥ ساعة" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1298">
+                        <rect key="frame" x="260" y="96" width="54" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="54" id="1314"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text=" (١٠٠) غرف" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1299">
+                        <rect key="frame" x="188" y="96" width="53" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="53" id="1891"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="apartments_viewed_area_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="1300">
+                        <rect key="frame" x="175" y="102" width="13" height="13"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="13" id="1312"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="4578 قدم مربع" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1301">
+                        <rect key="frame" x="108" y="96" width="66" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="1768"/>
+                            <constraint firstAttribute="width" constant="66" id="1868"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="apartments_viewed_views_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="1302">
+                        <rect key="frame" x="96" y="102" width="13" height="13"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="13" id="1309"/>
+                            <constraint firstAttribute="height" constant="13" id="1310"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1500" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1303">
+                        <rect key="frame" x="66" y="98" width="29" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="1308"/>
+                            <constraint firstAttribute="width" constant="29" id="1767"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </label>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1304">
+                        <rect key="frame" x="5" y="100" width="17" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="17" id="1719"/>
+                            <constraint firstAttribute="height" constant="15" id="1720"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <state key="normal" backgroundImage="apartments_viewed_like_icon.png">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1724">
+                        <rect key="frame" x="26" y="86" width="30" height="35"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="1812"/>
+                            <constraint firstAttribute="height" constant="35" id="1813"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <state key="normal" backgroundImage="featuersIcons.png">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1592">
+                        <rect key="frame" x="0.0" y="120" width="320" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="apartments_viewed_thin_gray_rectangle.png" translatesAutoresizingMaskIntoConstraints="NO" id="1603">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="31"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="الإمارات" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1609">
+                                <rect key="frame" x="20" y="0.0" width="276" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="1611"/>
+                                    <constraint firstAttribute="width" constant="276" id="1699"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="apartments_viewed_place_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="1659">
+                                <rect key="frame" x="304" y="3" width="9" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1603" firstAttribute="leading" secondItem="1592" secondAttribute="leading" id="1604"/>
+                            <constraint firstItem="1603" firstAttribute="top" secondItem="1592" secondAttribute="top" id="1607"/>
+                            <constraint firstItem="1603" firstAttribute="centerY" secondItem="1592" secondAttribute="centerY" id="1608"/>
+                            <constraint firstItem="1659" firstAttribute="leading" secondItem="1609" secondAttribute="trailing" constant="8" symbolic="YES" id="1698"/>
+                            <constraint firstItem="1609" firstAttribute="leading" secondItem="1592" secondAttribute="leading" constant="20" symbolic="YES" id="1700"/>
+                            <constraint firstItem="1609" firstAttribute="top" secondItem="1592" secondAttribute="top" id="1856"/>
+                            <constraint firstItem="1659" firstAttribute="top" secondItem="1592" secondAttribute="top" constant="3" id="1857"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </tableViewCellContentView>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="1724" secondAttribute="bottom" constant="29" id="16b-hP-oRi"/>
+                <constraint firstItem="1298" firstAttribute="baseline" secondItem="1299" secondAttribute="baseline" id="1Tl-nz-7Dq"/>
+                <constraint firstItem="1299" firstAttribute="baseline" secondItem="1301" secondAttribute="baseline" id="1zc-3n-TLZ"/>
+                <constraint firstItem="1296" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="52E-x1-wTo"/>
+                <constraint firstItem="1295" firstAttribute="leading" secondItem="1299" secondAttribute="trailing" constant="1" id="60f-91-OAl"/>
+                <constraint firstItem="1302" firstAttribute="top" secondItem="1300" secondAttribute="top" id="ARN-fM-hqB"/>
+                <constraint firstAttribute="bottom" secondItem="1301" secondAttribute="bottom" constant="33" id="CuI-R8-DY6"/>
+                <constraint firstAttribute="bottom" secondItem="1294" secondAttribute="bottom" constant="52" id="DHU-on-Rry"/>
+                <constraint firstItem="1300" firstAttribute="bottom" secondItem="1302" secondAttribute="bottom" id="Efh-pb-Nph"/>
+                <constraint firstItem="1295" firstAttribute="bottom" secondItem="1300" secondAttribute="bottom" id="FBc-4h-IVc"/>
+                <constraint firstAttribute="trailing" secondItem="1298" secondAttribute="trailing" constant="6" id="HJc-ju-idF"/>
+                <constraint firstItem="1295" firstAttribute="top" secondItem="1300" secondAttribute="top" id="Hvm-9p-Sxj"/>
+                <constraint firstItem="1293" firstAttribute="bottom" secondItem="2" secondAttribute="bottom" id="HxA-aj-uPX"/>
+                <constraint firstItem="1294" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="Otr-F1-feR"/>
+                <constraint firstItem="1293" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="QKg-jM-41E"/>
+                <constraint firstItem="1592" firstAttribute="trailing" secondItem="2" secondAttribute="trailing" id="REe-zt-BB1"/>
+                <constraint firstAttribute="trailing" secondItem="1295" secondAttribute="trailing" constant="65" id="Sak-ch-snH"/>
+                <constraint firstItem="1592" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="Tpb-Zg-txT"/>
+                <constraint firstItem="1304" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="5" id="WAx-YA-eJx"/>
+                <constraint firstAttribute="bottom" secondItem="1303" secondAttribute="bottom" constant="31" id="WBJ-UN-7fD"/>
+                <constraint firstAttribute="trailing" secondItem="1296" secondAttribute="trailing" constant="20" id="Wqj-lh-QNG"/>
+                <constraint firstItem="1298" firstAttribute="top" secondItem="1299" secondAttribute="top" id="auC-QJ-gnY"/>
+                <constraint firstItem="1293" firstAttribute="top" secondItem="2" secondAttribute="top" id="bKC-v8-YRD"/>
+                <constraint firstItem="1299" firstAttribute="top" secondItem="1301" secondAttribute="top" id="cMr-VR-alh"/>
+                <constraint firstItem="1296" firstAttribute="top" secondItem="2" secondAttribute="top" constant="10" id="cTS-ba-YtE"/>
+                <constraint firstAttribute="trailing" secondItem="1574" secondAttribute="trailing" constant="20" id="eYK-zk-0ye"/>
+                <constraint firstItem="1303" firstAttribute="centerY" secondItem="1302" secondAttribute="centerY" id="enq-Ki-1aj"/>
+                <constraint firstItem="1302" firstAttribute="leading" secondItem="1303" secondAttribute="trailing" constant="1" id="gZd-T4-X7G"/>
+                <constraint firstItem="1300" firstAttribute="leading" secondItem="1301" secondAttribute="trailing" constant="1" id="gxk-Lp-5V9"/>
+                <constraint firstItem="1574" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="iEA-pK-XFo"/>
+                <constraint firstItem="1301" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="108" id="ks5-Jy-2lV"/>
+                <constraint firstItem="1302" firstAttribute="bottom" secondItem="1304" secondAttribute="bottom" id="kxj-RX-o49"/>
+                <constraint firstItem="1303" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="66" id="rZO-Sr-E0Q"/>
+                <constraint firstItem="1724" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="26" id="u1l-1c-4og"/>
+                <constraint firstItem="1592" firstAttribute="bottom" secondItem="2" secondAttribute="bottom" id="ugP-lE-kRM"/>
+                <constraint firstItem="1574" firstAttribute="top" secondItem="1296" secondAttribute="bottom" id="vXw-NR-5tU"/>
+            </constraints>
+            <connections>
+                <outlet property="areaLabel" destination="1301" id="1707"/>
+                <outlet property="areaTinyImg" destination="1300" id="1860"/>
+                <outlet property="backgoundImage" destination="1293" id="1701"/>
+                <outlet property="detailsLabel" destination="1296" id="1703"/>
+                <outlet property="favoriteBtn" destination="1304" id="1709"/>
+                <outlet property="locationLabel" destination="1609" id="1918"/>
+                <outlet property="priceLabel" destination="1574" id="1704"/>
+                <outlet property="roomsLabel" destination="1299" id="1706"/>
+                <outlet property="roomsTinyImg" destination="1295" id="1859"/>
+                <outlet property="separatorLine" destination="1294" id="1702"/>
+                <outlet property="timeLabel" destination="1298" id="1705"/>
+                <outlet property="viewCountLabel" destination="1303" id="1708"/>
+                <outlet property="viewCountTinyImg" destination="1302" id="1861"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="apartments_viewed_area_icon.png" width="20" height="16"/>
+        <image name="apartments_viewed_bedroom_icon.png" width="20" height="16"/>
+        <image name="apartments_viewed_like_icon.png" width="39" height="32"/>
+        <image name="apartments_viewed_line.png" width="320" height="1"/>
+        <image name="apartments_viewed_place_icon.png" width="9" height="16"/>
+        <image name="apartments_viewed_thin_gray_rectangle.png" width="320" height="31"/>
+        <image name="apartments_viewed_views_icon.png" width="20" height="16"/>
+        <image name="apartments_viewed_white_rectangle.png" width="320" height="85"/>
+        <image name="featuersIcons.png" width="34" height="37"/>
+    </resources>
+</document>

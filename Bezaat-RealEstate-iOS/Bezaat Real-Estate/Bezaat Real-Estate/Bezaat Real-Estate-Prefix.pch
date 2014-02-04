@@ -1,0 +1,65 @@
+//
+// Prefix header for all source files of the 'Bezaat Real-Estate' target in the 'Bezaat Real-Estate' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import "AubadaLibrary.h"
+    #import "Constants.h"
+    #import "GenericMethods.h"
+    #import "GenericFonts.h"
+    #import "SharedUser.h"
+    #import "Reachability.h"
+    #import "LocationManager.h"
+    #import "ProfileManager.h"
+    #import "AdsManager.h"
+    #import "StaticAttrsLoader.h"
+    #import "AppDelegate.h"
+#import "DFPInterstitial.h"
+#import "DFPBannerView.h"
+
+#import "BrowseAdsViewController_iPad.h"
+
+    //#import "BrandsManager.h"
+//#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+
+
+#ifdef USE_FREETYPE
+
+#define FT2_BUILD_LIBRARY
+#define DARWIN_NO_CARBON
+#define SF_IOS
+
+#else
+
+#define SF_IOS_CG
+
+#endif
+
+#if __has_feature(objc_arc) && __clang_major__ >= 3
+#define SF_ARC_ENABLED
+#endif
+
+#ifdef SF_ARC_ENABLED
+#define SF_RETAIN(xx)           (xx)
+#define SF_RELEASE(xx)          (xx = nil)
+#define SF_AUTORELEASE(xx)      (xx)
+#define SF_BRIDGE               __bridge
+#define SF_WEAK                 __weak
+#else
+#define SF_RETAIN(xx)           [xx retain]
+#define SF_RELEASE(xx)          [xx release], xx = nil
+#define SF_AUTORELEASE(xx)      [xx autorelease]
+#define SF_BRIDGE
+#define SF_WEAK
+#endif
+
+
+#endif
