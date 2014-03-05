@@ -63,7 +63,7 @@
     
     NSString* defaultCityName;
     AdDetails* myAdInfo;
-
+    
     float longitude;
     float latittude;
     
@@ -75,14 +75,14 @@
     int chosenRemoveImgBtnTag;
     int removeCounter;
     BOOL firstRemove;
-
+    
     
     BOOL guestCheck;
     NSString* guestEmail;
     
     NSMutableArray * currentImgsUploaded;
     NSMutableArray* CopyImageArr;
-
+    
     BOOL locationBtnPressedOnce;
     BOOL currencyBtnPressedOnce;
     BOOL roomsBtnPressedOnce;
@@ -115,7 +115,7 @@
     [super viewDidLoad];
     self.inputAccessoryView = [XCDFormInputAccessoryView new];
     myAdInfo = [[AdDetails alloc]init];
-
+    
     locationMngr = [LocationManager sharedInstance];
     
     [self loadData];
@@ -189,7 +189,7 @@
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
     countryArray=resultArray;
     [self hideLoadingIndicator];
-   
+    
     defaultIndex = [locationMngr getIndexOfCountry:self.myDetails.countryID];
     if  (defaultIndex!= -1){
         chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
@@ -214,7 +214,7 @@
         chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex];
     }
     
-    /* 
+    /*
      defaultIndex = [locationMngr getIndexOfCountry:self.myDetails.countryID];
      if  (defaultIndex!= -1){
      chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
@@ -234,7 +234,7 @@
      }
      [self.locationPickerView reloadAllComponents];
      }
-*/
+     */
     
 }
 
@@ -316,34 +316,34 @@
 - (void) setImagesArray{
     
     
-     Ad* ADS;
-     int remainingImg = [self.myImageIDArray count];
-     for (int i=0; i<6; i++) {
-     if ([self.myImageIDArray count] == 0 || remainingImg == 0) {
-     UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 15, 77, 70)];
-     [temp setImage:[UIImage imageNamed:@"takePhotobkg.png"] forState:UIControlStateNormal];
-     
-     temp.tag = (i+1) * 10;
-     [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
-     [self.horizontalScrollView addSubview:temp];
-     }else{
-     ADS = (Ad*)[self.myImageIDArray objectAtIndex:i];
-     UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 15, 77, 70)];
-     [temp setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:ADS.ImageURL]]] forState:UIControlStateNormal];
-     temp.tag = (i+1) * 10;
-     [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
-     [self.horizontalScrollView addSubview:temp];
-     remainingImg-=1;
-     
-     UIButton* removeImg = [[UIButton alloc] initWithFrame:CGRectMake(20+(104*i), 85, 79, 25)];
-     [removeImg setImage:[UIImage imageNamed:@"list_remove.png"] forState:UIControlStateNormal];
-     removeImg.tag = (i+1) * 100;
-     [removeImg addTarget:self action:@selector(ImageDelete:) forControlEvents:UIControlEventTouchUpInside];
-     [self.horizontalScrollView addSubview:removeImg];
-     }
-     }
-
-
+    Ad* ADS;
+    int remainingImg = [self.myImageIDArray count];
+    for (int i=0; i<6; i++) {
+        if ([self.myImageIDArray count] == 0 || remainingImg == 0) {
+            UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 15, 77, 70)];
+            [temp setImage:[UIImage imageNamed:@"takePhotobkg.png"] forState:UIControlStateNormal];
+            
+            temp.tag = (i+1) * 10;
+            [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
+            [self.horizontalScrollView addSubview:temp];
+        }else{
+            ADS = (Ad*)[self.myImageIDArray objectAtIndex:i];
+            UIButton *temp=[[UIButton alloc]initWithFrame:CGRectMake(20+(104*i), 15, 77, 70)];
+            [temp setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:ADS.ImageURL]]] forState:UIControlStateNormal];
+            temp.tag = (i+1) * 10;
+            [temp addTarget:self action:@selector(uploadImage:) forControlEvents:UIControlEventTouchUpInside];
+            [self.horizontalScrollView addSubview:temp];
+            remainingImg-=1;
+            
+            UIButton* removeImg = [[UIButton alloc] initWithFrame:CGRectMake(20+(104*i), 85, 79, 25)];
+            [removeImg setImage:[UIImage imageNamed:@"list_remove.png"] forState:UIControlStateNormal];
+            removeImg.tag = (i+1) * 100;
+            [removeImg addTarget:self action:@selector(ImageDelete:) forControlEvents:UIControlEventTouchUpInside];
+            [self.horizontalScrollView addSubview:removeImg];
+        }
+    }
+    
+    
 }
 
 - (void) uploadImage: (id)sender{
@@ -488,7 +488,7 @@
     
     roomsNum=[[UIButton alloc] initWithFrame:CGRectMake(30,100 ,260 ,30)];
     [roomsNum setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
-    [roomsNum setTitle:@"عدد الغرف" forState:UIControlStateNormal];
+    [roomsNum setTitle:myAdInfo.Rooms forState:UIControlStateNormal];
     [roomsNum setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [roomsNum addTarget:self action:@selector(chooseRoomsNum) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:roomsNum];
@@ -556,7 +556,7 @@
     [propertyPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [propertyPrice setTextAlignment:NSTextAlignmentRight];
     [propertyPrice setPlaceholder:@"السعر (اختياري)"];
-    [propertyPrice setText:[NSString stringWithFormat:@"%f",myAdInfo.price]];
+    [propertyPrice setText:[NSString stringWithFormat:@"%0.1f",myAdInfo.price]];
     [propertyPrice setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:propertyPrice];
     propertyPrice.delegate=self;
@@ -571,7 +571,7 @@
         }
         defaultcurrecncyIndex1++;
     }
-
+    
     
     currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 410, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"fieldSmallWithDownArrow.png"] forState:UIControlStateNormal];
@@ -579,8 +579,8 @@
     if (chosenCurrency)
         [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
     else
-        [currency setTitle:@"إختر العملة" forState:UIControlStateNormal];
-
+        [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
+    
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
@@ -644,7 +644,7 @@
     
     adPeriod =[[UIButton alloc] initWithFrame:CGRectMake(30, 570, 260, 30)];
     [adPeriod setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
-    [adPeriod setTitle:chosenPeriod.valueString forState:UIControlStateNormal];
+    [adPeriod setTitle:@"فترة الاعلان" forState:UIControlStateNormal];
     [adPeriod setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [adPeriod addTarget:self action:@selector(choosePeriod) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:adPeriod];
@@ -1127,14 +1127,14 @@
     if (self.browsingForSale) {
         // post for sale
         //[[CarAdsManager sharedInstance] editAdOfEditadID:self.myDetails.EncEditID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:carAdTitle.text description:carDetails.text price:carPrice.text periodValueID:AD_PERIOD_2_MONTHS_VALUE_ID mobile:mobileNum.text currencyValueID:chosenCurrency.valueID serviceValueID:SERVICE_FOR_SALE_VALUE_ID modelYearValueID:chosenYear.valueID  distance:distance.text color:@"" phoneNumer:@"" adCommentsEmail:YES kmVSmilesValueID:distanceUnitID nine52:(!myAdInfo.nine52 ? 0 :myAdInfo.nine52) five06:(!myAdInfo.five06 ? 0 :myAdInfo.five06) five02:(!myAdInfo.five02 ? 0 :myAdInfo.five02) nine06:(!myAdInfo.nine06 ? 0 :myAdInfo.nine06) one01:(!myAdInfo.one01 ? 0 :myAdInfo.one01) ninty8:(!myAdInfo.ninty8 ? 0 :myAdInfo.ninty8) imageIDs:currentImgsUploaded withDelegate:self];
-        [[AdsManager sharedInstance] editAdForSaleOfEditadID:self.myDetails.EncEditID OfCategory:self.myDetails.CategoryID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:AdTitle.text description:adDetailLabel.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:chosenRoom.valueString space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
-
+        [[AdsManager sharedInstance] editAdForSaleOfEditadID:self.myDetails.EncEditID OfCategory:self.myDetails.CategoryID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:AdTitle.text description:adDetailLabel.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : chosenRoom.valueString) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
+        
         
     }else
     {
         //post for rent
-       [[AdsManager sharedInstance] editAdForRentOfEditadID:self.myDetails.EncEditID OfCategory:self.myDetails.CategoryID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:AdTitle.text description:adDetailLabel.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:chosenRoom.valueString space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
-
+        [[AdsManager sharedInstance] editAdForRentOfEditadID:self.myDetails.EncEditID OfCategory:self.myDetails.CategoryID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:AdTitle.text description:adDetailLabel.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : chosenRoom.valueString) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
+        
     }
 }
 
@@ -1242,7 +1242,7 @@
     //reset 'current' data
     chosenImgBtnTag = -1;
     currentImageToUpload = nil;
-
+    
     
 }
 

@@ -986,7 +986,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 
 - (IBAction)mailAction:(id)sender {
     isSocialKeyboard = YES;
-
+    
     //Event Tracker
     id tracker = [[GAI sharedInstance] defaultTracker];
     [tracker sendEventWithCategory:@"uiAction"
@@ -1004,7 +1004,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             
             [mailer setSubject:currentDetailsObject.title];
             
-            NSString * mailBody = currentDetailsObject.description;
+            NSString * mailBody = [NSString stringWithFormat:@"%@ \n %@",currentDetailsObject.description,[currentDetailsObject.adURL absoluteString]];
             
             [mailer setMessageBody:mailBody isHTML:NO];
             mailer.modalPresentationStyle = UIModalPresentationPageSheet;
