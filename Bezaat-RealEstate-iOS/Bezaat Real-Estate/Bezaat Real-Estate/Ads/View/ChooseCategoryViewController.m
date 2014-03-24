@@ -107,7 +107,7 @@
         CategoryCell * cell = [self.categoriesTableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
         if (!cell)
             cell = (CategoryCell *)[[[NSBundle mainBundle] loadNibNamed:@"CategoryCell" owner:self options:nil] objectAtIndex:0];
-        [cell.catImageView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"small_default-Cat-%i",cat.categoryID]]];
+        [cell.catImageView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"small_default-Cat-%lu",(unsigned long)cat.categoryID]]];
         
         NSString* temp;
         if (self.browsingForSale)
@@ -115,7 +115,7 @@
         else
             temp = [cat.categoryName stringByReplacingOccurrencesOfString:@"للإيجار" withString:@""];
         cell.catNameLabel.text = temp;
-        cell.numberLabel.text = [NSString stringWithFormat:@"%i",cat.ActiveAdsCount];
+        cell.numberLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)cat.ActiveAdsCount];
         return cell;
     }
     return [UITableViewCell new];
@@ -140,6 +140,7 @@
             AddNewCarAdViewController *adNewCar=[[AddNewCarAdViewController alloc] initWithNibName:@"AddNewCarAdViewController" bundle:nil];
             adNewCar.currentSubCategoryID=cat.categoryID;
             adNewCar.browsingForSale = self.browsingForSale;
+            adNewCar.isOffered = offeredSegmentBtnChosen;
             [self presentViewController:adNewCar animated:YES completion:nil];
             
         }

@@ -377,7 +377,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     transaction.shippingMicros = (int64_t)(0);
     transaction.revenueMicros = (int64_t)(option.price * 1000000);
     
-    [transaction addItemWithCode:[NSString stringWithFormat:@"%i_%i",self.storeID.countryID,option.pricingID]
+    [transaction addItemWithCode:[NSString stringWithFormat:@"%li_%i",(long)self.storeID.countryID,option.pricingID]
                             name:option.pricingName
                         category:@"Store Subscribtion"
                      priceMicros:(int64_t)(option.price * 1000000)
@@ -397,7 +397,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     transaction.shippingMicros = (int64_t)(0);
     transaction.revenueMicros = (int64_t)(option.price * 1000000);
     
-    [transaction addItemWithCode:[NSString stringWithFormat:@"%i_%i",self.storeID.countryID,option.pricingID]
+    [transaction addItemWithCode:[NSString stringWithFormat:@"%li_%i",(long)self.storeID.countryID,option.pricingID]
                             name:option.pricingName
                         category:@"Store Subscribtion"
                      priceMicros:(int64_t)(option.price * 1000000)
@@ -568,7 +568,7 @@ NSString *const MyStorePurchasedNotification = @"MyProductPurchasedNotification"
     NSLog(@"%@",OrderID);
     PricingOption * option = (PricingOption *)[pricingOptions objectAtIndex:choosenCell];
     
-    [self purchaseProductWithIdentifier:[NSString stringWithFormat:@"com.bezaat.rs.ns.%i",option.pricingTierID]];
+    [self purchaseProductWithIdentifier:[NSString stringWithFormat:@"com.bezaat.rs.ns.%li",(long)option.pricingTierID]];
 }
 
 -(void)BankStoreOrderDidFailCreationWithError:(NSError *)error

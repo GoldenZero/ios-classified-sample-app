@@ -381,7 +381,11 @@
     serviceReq = [[UISegmentedControl alloc] initWithItems:serviceReqArray];
     serviceReq.frame = CGRectMake(30, 60, 260, 30);
     serviceReq.segmentedControlStyle = UISegmentedControlStylePlain;
-    serviceReq.selectedSegmentIndex = 0;
+    if (self.isOffered)
+        serviceReq.selectedSegmentIndex = 0;
+    else
+        serviceReq.selectedSegmentIndex = 1;
+    
     [serviceReq addTarget:self action:@selector(chooseServiceReq) forControlEvents: UIControlEventValueChanged];
     [self.verticalScrollView addSubview:serviceReq];
     

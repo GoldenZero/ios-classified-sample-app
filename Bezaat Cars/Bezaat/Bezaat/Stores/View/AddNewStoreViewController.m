@@ -16,6 +16,7 @@
 #import "AddNewCarAdViewController_iPad.h"
 #import "ExhibitViewController.h"
 #import "BrowseCarAdsViewController.h"
+#import "StoreContactViewController.h"
 
 @interface AddNewStoreViewController () {
     Store *store;
@@ -431,18 +432,18 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     if (alertView.tag == 5) {
-        FeatureStoreAdViewController *vc;
+        StoreContactViewController *vc;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         {
-            vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+            vc=[[StoreContactViewController alloc] initWithNibName:@"StoreContactViewController" bundle:nil];
         }
         else
         {
-            vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController_iPad" bundle:nil];
+            vc=[[StoreContactViewController alloc] initWithNibName:@"StoreContactViewController" bundle:nil];
         }
         
         //vc.currentAdID = adID;
-        vc.storeID = store;
+        //vc.storeID = store;
         [self presentViewController:vc animated:YES completion:nil];
     }else if (alertView.tag == 4){
         if (buttonIndex == 0) {

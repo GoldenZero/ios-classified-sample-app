@@ -41,6 +41,7 @@
 @property (strong, nonatomic) IBOutlet  UIButton *adPeriod;
 @property (strong, nonatomic) IBOutlet  UIButton *currency;
 @property (strong, nonatomic) IBOutlet  UISegmentedControl *serviceReq;
+
 @property (strong, nonatomic) IBOutlet  UIButton *countryCity;
 @property (strong, nonatomic) IBOutlet  UIButton *roomsNum;
 @property (strong, nonatomic) IBOutlet  UIButton *mapLocation;
@@ -48,6 +49,7 @@
 
 @property (strong, nonatomic) UITextField *emailAddress;
 @property (nonatomic) BOOL browsingForSale;
+@property (nonatomic) BOOL isOffered;
 
 @property (nonatomic, strong) XCDFormInputAccessoryView *inputAccessoryView;
 

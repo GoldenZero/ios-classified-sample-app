@@ -12,6 +12,7 @@
 #import "FeatureStoreAdViewController.h"
 #import "WhyFeatureStoreAdViewController.h"
 #import "CountryListViewController.h"
+#import "StoreContactViewController.h"
 
 @interface AddNewStoreViewController () {
     Store *store;
@@ -79,20 +80,6 @@
     [toolBar setBackgroundImage:[UIImage imageNamed:@"Nav_bar.png"] forToolbarPosition:0 barMetrics:UIBarMetricsDefault];
     
     self.mainScrollView.contentSize = CGSizeMake(278, 418);
-    /*
-    if (currentUser) {
-        [self.passwordField setHidden:YES];
-        self.phoneField.frame = CGRectMake(self.phoneField.frame.origin.x, 235, self.phoneField.frame.size.width, self.phoneField.frame.size.height);
-        //self.countryCity.frame = CGRectMake(self.countryCity.frame.origin.x, 235, self.countryCity.frame.size.width, self.countryCity.frame.size.height);
-        self.saveBtn.frame = CGRectMake(self.saveBtn.frame.origin.x, 273, self.saveBtn.frame.size.width, self.saveBtn.frame.size.height);
-        self.cancelBtn.frame = CGRectMake(self.cancelBtn.frame.origin.x, 273, self.cancelBtn.frame.size.width, self.cancelBtn.frame.size.height);
-        self.whatIsStoreBtn.frame = CGRectMake(self.whatIsStoreBtn.frame.origin.x, 313, self.whatIsStoreBtn.frame.size.width, self.whatIsStoreBtn.frame.size.height);
-        self.whatIsStoreImg.frame = CGRectMake(self.whatIsStoreImg.frame.origin.x, 321, self.whatIsStoreImg.frame.size.width, self.whatIsStoreImg.frame.size.height);
-       self.mainScrollView.contentSize = CGSizeMake(278, 388);
-        
-    }
-    
-    */
    
     tap = [[UITapGestureRecognizer alloc]
            initWithTarget:self
@@ -472,18 +459,18 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     if (alertView.tag == 5) {
-        FeatureStoreAdViewController *vc;
+        StoreContactViewController *vc;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         {
-            vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController" bundle:nil];
+            vc=[[StoreContactViewController alloc] initWithNibName:@"StoreContactViewController" bundle:nil];
         }
         else
         {
-            vc=[[FeatureStoreAdViewController alloc] initWithNibName:@"FeatureStoreAdViewController_iPad" bundle:nil];
+            vc=[[StoreContactViewController alloc] initWithNibName:@"StoreContactViewController" bundle:nil];
         }
         
         //vc.currentAdID = adID;
-        vc.storeID = store;
+        //vc.storeID = store;
         [self presentViewController:vc animated:YES completion:nil];
     }else if (alertView.tag == 4){
         if (buttonIndex == 0) {

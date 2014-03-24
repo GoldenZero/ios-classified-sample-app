@@ -386,7 +386,7 @@ static NSString * product_id_form = @"com.bezaat.rs.c.%i";
     transaction.shippingMicros = (int64_t)(0);
     transaction.revenueMicros = (int64_t)(chosenPricingOption.price * 1000000);
     
-    [transaction addItemWithCode:[NSString stringWithFormat:@"%i_%i",self.countryAdID,chosenPricingOption.pricingID]
+    [transaction addItemWithCode:[NSString stringWithFormat:@"%li_%i",(long)self.countryAdID,chosenPricingOption.pricingID]
                             name:chosenPricingOption.pricingName
                         category:@"Featured Ads"
                      priceMicros:(int64_t)(chosenPricingOption.price * 1000000)
