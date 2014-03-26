@@ -343,7 +343,7 @@
 //upload image
 - (void) uploadImage:(UIImage *) image WithDelegate:(id <UploadImageDelegate>) del;
 
--(void) GetSubCategoriesCountForCategory:(NSString*)categoryName andCity:(NSInteger)cityID WithDelegate:(id <CategoriesCountDelegate>) del;
+-(void) GetSubCategoriesCountForCategory:(NSString*)categoryName andCity:(NSInteger)cityID andServiceType:(NSString*)serviceType WithDelegate:(id <CategoriesCountDelegate>) del;
 
 //cache
 - (BOOL) cacheDataFromArray:(NSArray *) dataArr forSubCategory:(NSInteger) subCatID InCity:(NSUInteger) cityID  tillPageNum:(NSUInteger) tillPageNum forPageSize:(NSUInteger) pSize ;

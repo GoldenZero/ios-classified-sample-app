@@ -59,6 +59,9 @@
 		8477B00D189A79BD0053539B /* circle_heard.png in Resources */ = {isa = PBXBuildFile; fileRef = 8477B009189A79BD0053539B /* circle_heard.png */; };
 		8477B00E189A79BD0053539B /* circle_heard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8477B00A189A79BD0053539B /* circle_heard@2x.png */; };
 		8477B010189A7ABC0053539B /* circle_email@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8477B00F189A7ABC0053539B /* circle_email@2x.png */; };
+		8478CE0F18E0114400596BA3 /* StoreContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8478CE0D18E0114400596BA3 /* StoreContactViewController.m */; };
+		8478CE1018E0114400596BA3 /* StoreContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8478CE0E18E0114400596BA3 /* StoreContactViewController.xib */; };
+		8478CE1218E028B000596BA3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8478CE1118E028B000596BA3 /* AVFoundation.framework */; };
 		848097A7183A1E5200838325 /* default-Cat-636.png in Resources */ = {isa = PBXBuildFile; fileRef = 84809773183A1E5200838325 /* default-Cat-636.png */; };
 		848097A8183A1E5200838325 /* default-Cat-636@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84809774183A1E5200838325 /* default-Cat-636@2x.png */; };
 		848097A9183A1E5200838325 /* default-Cat-637.png in Resources */ = {isa = PBXBuildFile; fileRef = 84809775183A1E5200838325 /* default-Cat-637.png */; };
@@ -1666,6 +1669,10 @@
 		8477B009189A79BD0053539B /* circle_heard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle_heard.png; sourceTree = "<group>"; };
 		8477B00A189A79BD0053539B /* circle_heard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle_heard@2x.png"; sourceTree = "<group>"; };
 		8477B00F189A7ABC0053539B /* circle_email@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle_email@2x.png"; sourceTree = "<group>"; };
+		8478CE0C18E0114400596BA3 /* StoreContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreContactViewController.h; sourceTree = "<group>"; };
+		8478CE0D18E0114400596BA3 /* StoreContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreContactViewController.m; sourceTree = "<group>"; };
+		8478CE0E18E0114400596BA3 /* StoreContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreContactViewController.xib; sourceTree = "<group>"; };
+		8478CE1118E028B000596BA3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		84809773183A1E5200838325 /* default-Cat-636.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-Cat-636.png"; sourceTree = "<group>"; };
 		84809774183A1E5200838325 /* default-Cat-636@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-Cat-636@2x.png"; sourceTree = "<group>"; };
 		84809775183A1E5200838325 /* default-Cat-637.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-Cat-637.png"; sourceTree = "<group>"; };
@@ -3371,9 +3378,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8478CE1218E028B000596BA3 /* AVFoundation.framework in Frameworks */,
+				9E70BEDA17AA78FC002605C7 /* AudioToolbox.framework in Frameworks */,
 				9E6F573A179D59E8006AF6F0 /* Social.framework in Frameworks */,
 				84A73FF818348DD600780492 /* libz.1.1.3.dylib in Frameworks */,
-				9E70BEDA17AA78FC002605C7 /* AudioToolbox.framework in Frameworks */,
 				9E6F5750179D5B14006AF6F0 /* CoreData.framework in Frameworks */,
 				9E6F574E179D5B0A006AF6F0 /* ImageIO.framework in Frameworks */,
 				9E6F5742179D5A10006AF6F0 /* CoreTelephony.framework in Frameworks */,
@@ -3520,6 +3528,9 @@
 				84E3C9A6182F72D000C39269 /* AddNewStoreViewController.m */,
 				84E3C9A7182F72D000C39269 /* AddNewStoreViewController.xib */,
 				849DB3A4185730F80000B2CF /* AddNewStoreViewController_iPad.xib */,
+				8478CE0C18E0114400596BA3 /* StoreContactViewController.h */,
+				8478CE0D18E0114400596BA3 /* StoreContactViewController.m */,
+				8478CE0E18E0114400596BA3 /* StoreContactViewController.xib */,
 				84E3C9BC182F89AE00C39269 /* BrowseStoresViewController.h */,
 				84E3C9BD182F89AE00C39269 /* BrowseStoresViewController.m */,
 				84E3C9BE182F89AE00C39269 /* BrowseStoresViewController.xib */,
@@ -4946,6 +4957,7 @@
 		9E6F56BB179D4F8F006AF6F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8478CE1118E028B000596BA3 /* AVFoundation.framework */,
 				8438A2E71846345A00B1EFBC /* GA */,
 				84A73FF718348DD600780492 /* libz.1.1.3.dylib */,
 				9EF5A25E17A9455D00694DB9 /* SheenFigureCG.xcodeproj */,
@@ -6497,6 +6509,7 @@
 				84B6E7B51847188400B5AF1D /* small_default-Cat-594.png in Resources */,
 				84BE6C56185D93C400888CFB /* StoreAdvTableViewCell_iPad.xib in Resources */,
 				84ACE8C7182B578000E8CC50 /* fieldWithArrowMap.png in Resources */,
+				8478CE1018E0114400596BA3 /* StoreContactViewController.xib in Resources */,
 				84C6CD2018546FD1004AAD0C /* iPad_feature_continue.png in Resources */,
 				9E70BF0B17AA88D7002605C7 /* qatar.png in Resources */,
 				9E70BF0C17AA88D7002605C7 /* setting_changecity@2x.png in Resources */,
@@ -7245,6 +7258,7 @@
 				9E66F32717A7ADCE008B3CC6 /* LocationManager.m in Sources */,
 				84957CFD1833673400D407AA /* SingleCommentView.m in Sources */,
 				9E66F33217A7B902008B3CC6 /* SideMenuCell.m in Sources */,
+				8478CE0F18E0114400596BA3 /* StoreContactViewController.m in Sources */,
 				8484E723182E7F2800D1B2A2 /* FeatutreOrder.m in Sources */,
 				9EF5A27517A945B000694DB9 /* SSFont.m in Sources */,
 				9EF5A27617A945B000694DB9 /* SSLabel.m in Sources */,
@@ -7319,6 +7333,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -7343,6 +7358,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv7s armv7";
 			};
 			name = Debug;
 		};
@@ -7350,6 +7366,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -7365,9 +7382,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7s armv7";
 			};
 			name = Release;
 		};
@@ -7391,20 +7410,17 @@
 				INFOPLIST_FILE = "Bezaat Real-Estate/Bezaat Real-Estate-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"\\\"$(SRCROOT)/../Libraries/GA\\\"",
-					"/Users/admin/Documents/GitHub/Bezaat-RealEstate-iOS/Bezaat\\ Real-Estate/Bezaat\\ Real-Estate/Supporting\\ classes/AdMobile",
-					"/Users/admin/Documents/GitHub/Bezaat-RealEstate-iOS/Bezaat\\ Real-Estate/GA",
+					"$(SRCROOT)/Bezaat\\ Real-Estate/Supporting\\ classes/AdMobile",
+					"$(SRCROOT)/GA",
 				);
 				OTHER_LDFLAGS = (
 					"-lsqlite3.0",
-					"-DSF_IOS_CG",
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "89145B8A-BA8D-4F30-BEC2-9AD31836559D";
+				PROVISIONING_PROFILE = "D2B3714F-E4B9-4E0F-AE82-183081204253";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -7429,20 +7445,17 @@
 				INFOPLIST_FILE = "Bezaat Real-Estate/Bezaat Real-Estate-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-					"\\\"$(SRCROOT)/../Libraries/GA\\\"",
-					"/Users/admin/Documents/GitHub/Bezaat-RealEstate-iOS/Bezaat\\ Real-Estate/Bezaat\\ Real-Estate/Supporting\\ classes/AdMobile",
-					"/Users/admin/Documents/GitHub/Bezaat-RealEstate-iOS/Bezaat\\ Real-Estate/GA",
+					"$(SRCROOT)/Bezaat\\ Real-Estate/Supporting\\ classes/AdMobile",
+					"$(SRCROOT)/GA",
 				);
 				OTHER_LDFLAGS = (
 					"-lsqlite3.0",
-					"-DSF_IOS_CG",
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "89145B8A-BA8D-4F30-BEC2-9AD31836559D";
+				PROVISIONING_PROFILE = "D2B3714F-E4B9-4E0F-AE82-183081204253";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

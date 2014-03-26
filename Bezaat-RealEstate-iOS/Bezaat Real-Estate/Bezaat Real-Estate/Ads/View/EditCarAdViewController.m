@@ -484,7 +484,7 @@
     serviceReq.segmentedControlStyle = UISegmentedControlStylePlain;
     serviceReq.selectedSegmentIndex = 0;
     [serviceReq addTarget:self action:@selector(chooseServiceReq) forControlEvents: UIControlEventValueChanged];
-    [self.verticalScrollView addSubview:serviceReq];
+    //[self.verticalScrollView addSubview:serviceReq];
     
     roomsNum=[[UIButton alloc] initWithFrame:CGRectMake(30,100 ,260 ,30)];
     [roomsNum setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];

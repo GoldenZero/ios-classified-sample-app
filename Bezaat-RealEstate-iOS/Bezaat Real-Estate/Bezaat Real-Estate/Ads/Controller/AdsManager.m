@@ -111,7 +111,7 @@ static NSString * edit_rent_id_url = @"/json/update-ad-rent?country=%@&city=%@&e
 static NSString * edit_store_sale_ad_id_url = @"/json/update-store-ad-sale?encEditID=%@&storeId=%@&noOfRooms=%@";
 static NSString * edit_store_rent_ad_id_url = @"/json/update-store-ad-rent?encEditID=%@&storeId=%@&noOfRooms=%@";
 static NSString * sending_email_id_url = @"/json/send-an-email";
-static NSString * categories_count_id_url = @"/json/getsubcategoriesadscount?parentCategoryName=%@&cityID=%i";
+static NSString * categories_count_id_url = @"/json/getsubcategoriesadscount?parentCategoryName=%@&cityID=%i&servicetype=%@";
 
 static NSString * internetMngrTempFileName = @"mngrTmp";
 
@@ -1783,7 +1783,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
 }
 
--(void) GetSubCategoriesCountForCategory:(NSString*)categoryName andCity:(NSInteger)cityID WithDelegate:(id <CategoriesCountDelegate>) del{
+-(void) GetSubCategoriesCountForCategory:(NSString*)categoryName andCity:(NSInteger)cityID andServiceType:(NSString*)serviceType WithDelegate:(id <CategoriesCountDelegate>) del{
     
     //1- set the delegate
     self.categoriesCountDelegate = del;
@@ -1797,7 +1797,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
     
     //3- set the url string
     NSString * fullURLString = [NSString stringWithFormat:categories_count_id_url,
-                                categoryName,cityID];
+                                categoryName,cityID,serviceType];
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     

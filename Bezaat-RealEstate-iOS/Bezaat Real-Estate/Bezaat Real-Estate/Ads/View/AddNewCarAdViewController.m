@@ -371,7 +371,7 @@
     [numberToolbar sizeToFit];
     
     
-    countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,20 ,260 ,30)];
+    countryCity=[[UIButton alloc] initWithFrame:CGRectMake(30,60 ,260 ,30)];
     [countryCity setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
     [countryCity setTitle:@"اختر البلد" forState:UIControlStateNormal];
     [countryCity setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -387,7 +387,7 @@
         serviceReq.selectedSegmentIndex = 1;
     
     [serviceReq addTarget:self action:@selector(chooseServiceReq) forControlEvents: UIControlEventValueChanged];
-    [self.verticalScrollView addSubview:serviceReq];
+   // [self.verticalScrollView addSubview:serviceReq];
     
     roomsNum=[[UIButton alloc] initWithFrame:CGRectMake(30,100 ,260 ,30)];
     [roomsNum setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
@@ -1002,12 +1002,12 @@
     
     if (self.browsingForSale) {
         // post for sale
-        [[AdsManager sharedInstance] postAdForSaleOfCategory:self.currentSubCategoryID InCity:(chosenCity.cityID ? chosenCity.cityID : 12) userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:AdTitle.text description:propertyDetails.text adPeriod:(chosenPeriod.valueID ? chosenPeriod.valueID : 2308) requireService:RequiredService price:propertyPrice.text currencyValueID:(chosenCurrency.valueID ? chosenCurrency.valueID : 2312) unitPrice:unitPrice.text unitType:(chosenUnit.valueID ? chosenUnit.valueID : 2319) imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.currentSubCategoryID == 338 ? @"" : chosenRoom.valueString) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] postAdForSaleOfCategory:self.currentSubCategoryID InCity:(chosenCity.cityID ? chosenCity.cityID : 12) userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:AdTitle.text description:propertyDetails.text adPeriod:(chosenPeriod.valueID ? chosenPeriod.valueID : 2308) requireService:RequiredService price:propertyPrice.text currencyValueID:(chosenCurrency.valueID ? chosenCurrency.valueID : 2312) unitPrice:unitPrice.text unitType:([unitPrice.text length] > 0 ? chosenUnit.valueID : 0) imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.currentSubCategoryID == 338 ? @"" : chosenRoom.valueString) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
         
     }else
     {
         //post for rent
-        [[AdsManager sharedInstance] postAdForRentOfCategory:self.currentSubCategoryID InCity:chosenCity.cityID userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:AdTitle.text description:propertyDetails.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.currentSubCategoryID == 338 || self.currentSubCategoryID == 648 ? @"" : chosenRoom.valueString) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] postAdForRentOfCategory:self.currentSubCategoryID InCity:chosenCity.cityID userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:AdTitle.text description:propertyDetails.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:([unitPrice.text length] > 0 ? chosenUnit.valueID : 0) imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.currentSubCategoryID == 338 || self.currentSubCategoryID == 648 ? @"" : chosenRoom.valueString) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
     }
 }
 

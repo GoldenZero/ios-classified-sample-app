@@ -25,9 +25,12 @@
     
     MBProgressHUD2 * loadingHUD;
     DropDownView *dropDownRoom;
+    DropDownView *dropDownCurrency;
 
     NSMutableArray * adsArray;
     NSMutableArray *roomsArray;
+    NSArray *currunciesArray;
+
     NSMutableArray * rowHeightsArray;
 
     BOOL dataLoadedFromCache;
@@ -37,6 +40,7 @@
     NSString *currentMinPriceString;
     NSString *currentMaxPriceString;
     NSString *currentroomsCountString;
+    NSString *currentCurrenciesCountString;
     
     // Gestures
     UISwipeGestureRecognizer *rightRecognizer;
@@ -48,6 +52,7 @@
     BOOL isSearching;
     BOOL roomsBtnPressedOnce;
     bool dropDownRoomFlag;
+    bool dropDoownCurrencyFlag;
 
     ODRefreshControl *refreshControl;
 
@@ -91,6 +96,7 @@
     
     roomsBtnPressedOnce = NO;
     dropDownRoomFlag = NO;
+    dropDoownCurrencyFlag = NO;
     isSearching = NO;
     [self prepareDropDown];
     
@@ -120,8 +126,19 @@
     [roomsArray addObject:@"6"];
     [roomsArray addObject:@"+6"];
     
+    currunciesArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
+    NSMutableArray* temp = [NSMutableArray new];
+    for (SingleValue* currDict in currunciesArray) {
+        NSString* value = currDict.valueString;
+        [temp addObject:value];
+    }
     dropDownRoom=[[DropDownView alloc] initWithArrayData:roomsArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:0 paddingLeft:0 paddingRight:0 refView:self.roomsNumBtn animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:1];
 	dropDownRoom.delegate = self;
+    
+    dropDownCurrency=[[DropDownView alloc] initWithArrayData:temp imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:0 paddingLeft:0 paddingRight:0 refView:self.currencyBtn animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:2];
+	dropDownCurrency.delegate = self;
+    
+	[self.view addSubview:dropDownCurrency.view];
 	[self.view addSubview:dropDownRoom.view];
 }
 
@@ -133,6 +150,15 @@
             currentroomsCountString = [roomsArray objectAtIndex:returnIndex];
             [dropDownRoom closeAnimation];
             dropDownRoomFlag = false;
+            break;
+        }
+        case 2:
+        {
+            
+            currentCurrenciesCountString = [(SingleValue*)[currunciesArray objectAtIndex:returnIndex] valueString];
+            [self.currencyBtn setTitle:currentCurrenciesCountString forState:UIControlStateNormal];
+            [dropDownCurrency closeAnimation];
+            dropDoownCurrencyFlag = false;
             break;
         }
         default:
@@ -194,6 +220,8 @@
                     forPageSize: [[AdsManager sharedInstance] getCurrentPageSize]];
         }
     }*/
+    [dropDownCurrency closeAnimation];
+    dropDoownCurrencyFlag = false;
     [dropDownRoom closeAnimation];
     dropDownRoomFlag = false;
     [super viewWillDisappear:animated];
@@ -1185,6 +1213,8 @@
 - (IBAction)searchBtnPressed:(id)sender {
     [dropDownRoom closeAnimation];
     dropDownRoomFlag = false;
+    [dropDownCurrency closeAnimation];
+    dropDoownCurrencyFlag = false;
     //show the search side menu
     if(self.contentView.frame.origin.x == 0) //only show the menu if it is not already shown
         [self showMenu];
@@ -1206,6 +1236,8 @@
 - (IBAction)performSearchBtnPressed:(id)sender {
     [dropDownRoom closeAnimation];
     dropDownRoomFlag = false;
+    [dropDownCurrency closeAnimation];
+    dropDoownCurrencyFlag = false;
     [self.searchTextField resignFirstResponder];
     [self.minPriceTextField resignFirstResponder];
     [self.maxPriceTextField resignFirstResponder];
@@ -1221,9 +1253,6 @@
         currentMaxPriceString = self.maxPriceTextField.text;
     else
         currentMaxPriceString = [NSString stringWithFormat:@"%i", self.maxPriceTextField.text.integerValue];
-    
-    if ([currentroomsCountString isEqualToString:@""])
-        currentroomsCountString = @"1";
     
     //1- reset the pageNumber to 0 to start a new search
     [[AdsManager sharedInstance] setCurrentPageNum:0];
@@ -1248,7 +1277,11 @@
         [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
     }
     
-
+    currentroomsCountString = @"";
+    currentCurrenciesCountString = @"";
+    [self.roomsNumBtn setTitle:@"" forState:UIControlStateNormal];
+    
+    
 }
 
 - (void) searchOfPage:(NSInteger) page
@@ -1318,12 +1351,33 @@
     if (dropDownRoomFlag==false) {
         dropDownRoomFlag=true;
         [dropDownRoom openAnimation];
+        [dropDownCurrency closeAnimation];
+        dropDoownCurrencyFlag = false;
     }
     else{
         dropDownRoomFlag=false;
         [dropDownRoom closeAnimation];
     }
 }
+
+- (IBAction)currencyBtnPressed:(id)sender {
+    [self.searchTextField resignFirstResponder];
+    [self.minPriceTextField resignFirstResponder];
+    [self.maxPriceTextField resignFirstResponder];
+    [self.areaTextField resignFirstResponder];
+    
+    if (dropDoownCurrencyFlag==false) {
+        dropDoownCurrencyFlag=true;
+        [dropDownCurrency openAnimation];
+        [dropDownRoom closeAnimation];
+        dropDownRoomFlag = false;
+    }
+    else{
+        dropDoownCurrencyFlag=false;
+        [dropDownCurrency closeAnimation];
+    }
+}
+
 
 - (void) addToFavoritePressed:(id)sender event:(id)event {
     //get the tapping position on table to determine the tapped cell

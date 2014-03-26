@@ -3000,7 +3000,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     totalHeight = totalHeight + loadMoreCommentsBtn.frame.size.height;
     
     
-    [containerScrollView setContentSize:CGSizeMake(containerScrollView.frame.size.width, totalHeight)];
+    [self.labelsScrollView setContentSize:CGSizeMake(containerScrollView.frame.size.width, totalHeight * 4)];
     
 }
 
@@ -3145,7 +3145,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         
         totalHeight = totalHeight + loadMoreCommentsBtn.frame.size.height;
         
-        [containerScrollView setContentSize:CGSizeMake(containerScrollView.frame.size.width, totalHeight)];
+        [containerScrollView setContentSize:CGSizeMake(containerScrollView.frame.size.width, totalHeight *2)];
     }
     else
         [self.mpuBannerView setHidden:NO];

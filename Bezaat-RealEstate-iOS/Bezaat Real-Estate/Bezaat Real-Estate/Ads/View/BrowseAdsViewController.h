@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UITextField * areaTextField;
 @property (weak, nonatomic) IBOutlet UITextField * roomsCountTextField;
 @property (strong, nonatomic) IBOutlet UIButton *roomsNumBtn;
+@property (strong, nonatomic) IBOutlet UIButton *currencyBtn;
 
 @property (weak, nonatomic) IBOutlet UIButton * searchWithImagesBtn;
 @property (weak, nonatomic) IBOutlet UIButton * searchWithPriceBtn;
@@ -57,6 +58,7 @@
 - (IBAction)performSearchBtnPressed:(id)sender;
 - (IBAction)cancelSearchBtnPressed:(id)sender;
 - (IBAction)roomsBtnPressed:(id)sender;
+- (IBAction)currencyBtnPressed:(id)sender;
 
 
 - (void) loadAllCarsBtnPressed:(id) sender;
