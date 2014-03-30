@@ -101,6 +101,11 @@
             SingleValue * item = self.arrayValues[indexPath.row];
             cell.textLabel.text = item.valueString.description;
         }
+        else if (self.showingCurrencyValueObjects) {
+            //This is used for currency, moedl years, and body options
+            SingleValue * item = self.arrayValues[indexPath.row];
+            cell.textLabel.text = item.valueString.description;
+        }
         else if (self.showingStores) {
             Store * item = self.arrayValues[indexPath.row];
             cell.textLabel.text = item.name;
@@ -136,6 +141,10 @@
     else if (self.showingSingleValueObjects) {
         SingleValue * item = self.arrayValues[indexPath.row];
         [self.choosingDelegate didChooseTableItemWithObject:item];
+    }
+    else if (self.showingCurrencyValueObjects) {
+        SingleValue * item = self.arrayValues[indexPath.row];
+        [self.choosingCurrencyDelegate didChooseCurrencyItemWithObject:item];
     }
      
     if (self.showingFromYearObjects) {

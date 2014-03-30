@@ -466,7 +466,7 @@
         }
         else
         {
-            vc=[[StoreContactViewController alloc] initWithNibName:@"StoreContactViewController" bundle:nil];
+            vc=[[StoreContactViewController alloc] initWithNibName:@"StoreContactViewController_iPad" bundle:nil];
         }
         
         //vc.currentAdID = adID;

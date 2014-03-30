@@ -37,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UIButton * searchWithImagesBtn;
 @property (weak, nonatomic) IBOutlet UIButton * searchWithPriceBtn;
 
+@property (strong, nonatomic) IBOutlet UIButton *adWithPriceButton;
 
 @property (strong, nonatomic) IBOutlet UIView *adBannerView;
 @property (strong, nonatomic) IBOutlet UIImageView *nocarImg;
@@ -59,6 +60,7 @@
 - (IBAction)cancelSearchBtnPressed:(id)sender;
 - (IBAction)roomsBtnPressed:(id)sender;
 - (IBAction)currencyBtnPressed:(id)sender;
+- (IBAction)adWithPriceBtnPress:(id)sender;
 
 
 - (void) loadAllCarsBtnPressed:(id) sender;

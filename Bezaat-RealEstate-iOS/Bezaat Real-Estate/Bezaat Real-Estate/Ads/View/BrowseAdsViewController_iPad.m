@@ -44,7 +44,13 @@
     DropDownView *dropDowntoYear;
     bool dropDowntoYearFlag;
     
+    DropDownView *dropDownCurrency;
+    bool dropDoownCurrencyFlag;
+
+    
     SingleValue* roomObject;
+    SingleValue* currencyObject;
+    
     Category1* searchedCategory;
     //DFPInterstitial *interstitial_;
     DFPBannerView* bannerView;
@@ -57,8 +63,10 @@
     bool searchWithImage;
     bool searchWithPrice;
     NSMutableArray *roomsArray;
+    NSMutableArray* currunciesArray;
     NSString *fromYearString;
     NSString *toYearString;
+    NSString* currentCurrenciesCountString;
     NSString *currentMinPriceString;
     NSString *currentMaxPriceString;
     NSInteger currentDistanceRangeID;
@@ -111,6 +119,7 @@
         
         // Set the flags of the dropdown
         dropDownRoomFlag=false;
+        dropDoownCurrencyFlag = false;
         dropDownfromYearFlag=false;
         dropDowntoYearFlag=false;
         self.searchPanelView.frame = CGRectMake(0,-self.searchPanelView.frame.size.height,self.searchPanelView.frame.size.width,self.searchPanelView.frame.size.height);
@@ -145,7 +154,7 @@
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
-        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
+        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"WithOutBut.png"] forState:UIControlStateNormal];
         [self.tableView setSeparatorColor:[UIColor clearColor]];
         [self.tableView setBackgroundColor:[UIColor clearColor]];
         
@@ -217,6 +226,9 @@
     else { //iPad
         [super viewDidLoad];
         
+        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"WithOutBut.png"] forState:UIControlStateNormal];
+
+        
         self.iPad_searchSideMenuBtn.layer.zPosition = 1; //bring to front
         
         //customize SSLabels
@@ -240,6 +252,7 @@
         
         self.brandsPopOver = nil;
         self.distanceRangePopOver = nil;
+        self.currencyRangePopOver = nil;
         self.yearFromRangePopOver = nil;
         self.yearToRangePopOver = nil;
         
@@ -260,6 +273,7 @@
         searchWithImage=false;
         searchWithPrice = false;
         roomObject=nil;
+        currencyObject = nil;
         fromYearString=@"";
         toYearString=@"";
         
@@ -1327,7 +1341,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [carAdsArray removeAllObjects];
         [self showLoadingIndicator];
         
-        [self searchOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:@""];
+        [self searchOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currencyObject.valueString adsWithPrice:searchWithPrice];
     }
     else
     {
@@ -1335,7 +1349,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [carAdsArray removeAllObjects];
         [self showLoadingIndicator];
         
-        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:@""];
+        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currencyObject.valueString adsWithPrice:searchWithPrice];
     }
     
 
@@ -1499,9 +1513,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [self.lowerPriceText resignFirstResponder];
         [self.higherPriceText resignFirstResponder];
         [dropDownRoom closeAnimation];
+        [dropDownCurrency closeAnimation];
         [dropDownfromYear closeAnimation];
         [dropDowntoYear closeAnimation];
         dropDownRoomFlag=false;
+        dropDoownCurrencyFlag = false;
         dropDownfromYearFlag=false;
         dropDowntoYearFlag=false;
     }
@@ -1511,6 +1527,9 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         
         if (self.distanceRangePopOver)
             [self.distanceRangePopOver dismissPopoverAnimated:YES];
+        
+        if (self.currencyRangePopOver)
+            [self.currencyRangePopOver dismissPopoverAnimated:YES];
         
         if (self.yearFromRangePopOver)
             [self.yearFromRangePopOver dismissPopoverAnimated:YES];
@@ -1556,9 +1575,11 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 
 - (void) hideSearchPanel{
     [dropDownRoom closeAnimation];
+    [dropDownCurrency closeAnimation];
     [dropDownfromYear closeAnimation];
     [dropDowntoYear closeAnimation];
     dropDownRoomFlag=false;
+    dropDoownCurrencyFlag = false;
     dropDownfromYearFlag=false;
     dropDowntoYearFlag=false;
     [UIView animateWithDuration:.5
@@ -1577,9 +1598,12 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 
 - (void) hideSearchPanelAndShowLoading{
     [dropDownRoom closeAnimation];
+    [dropDownCurrency closeAnimation];
+
     [dropDownfromYear closeAnimation];
     [dropDowntoYear closeAnimation];
     dropDownRoomFlag=false;
+    dropDoownCurrencyFlag = false;
     dropDownfromYearFlag=false;
     dropDowntoYearFlag=false;
     [UIView animateWithDuration:.5
@@ -1686,7 +1710,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [self showLoadingIndicator];
         
         //[self searchOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
-        [self searchOfPage:page forSubCategory:searchedCategory.categoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:@""];
+        [self searchOfPage:page forSubCategory:searchedCategory.categoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currencyObject.valueString adsWithPrice:searchWithPrice];
 
     }
     else
@@ -1696,7 +1720,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [self showLoadingIndicator];
         
         //[self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
-        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:@""];
+        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currencyObject.valueString adsWithPrice:searchWithPrice];
 
     }
 
@@ -1715,11 +1739,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
               orderby:(NSString *) orderByString
         lastRefreshed:(NSString *) lasRefreshedString
              currency:(NSString *) aCurrency
+         adsWithPrice:(BOOL) aAdsWithPrice
+
 {
     
     [self iPad_hideSideMenu];
     
-    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:@"" minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:true area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:@"" withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
+    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:@"" minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:searchWithPrice area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:@"" withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
     
     
 }
@@ -1738,7 +1764,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [self.fromYearLabel setText:@"من سنة "];
         [self.toYearLabel setText:@"إلى سنة"];
         [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg4.png"] forState:UIControlStateNormal];
-        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
+        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"WithOutBut.png"] forState:UIControlStateNormal];
     }
     else {
         [self.lowerPriceText resignFirstResponder];
@@ -1749,7 +1775,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [self.higherPriceText setText:@""];
         
         [self.adWithImageButton setBackgroundImage:[UIImage imageNamed:@"tb_car_brand_sidemenu_with_pic_btn_uncheck.png"] forState:UIControlStateNormal];
-        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"tb_car_brand_sidemenu_with_price_btn_uncheck.png"] forState:UIControlStateNormal];
+        [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"WithOutBut.png"] forState:UIControlStateNormal];
     }
     
     // Init search panels attributes
@@ -2110,6 +2136,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     [roomsArray addObject:@"5"];
     [roomsArray addObject:@"6"];
     [roomsArray addObject:@"+6"];
+    
+    currunciesArray = [NSMutableArray new];
     /*for (int i=0; i<distanceRangeArray.count; i++) {
         [distanseArray addObject:[[distanceRangeArray objectAtIndex:i] rangeName]];
         
@@ -2117,10 +2145,17 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     fromYearArray = [[BrandsManager sharedInstance] getYearsArray];
     toYearArray = [[BrandsManager sharedInstance] getYearsArray];*/
     
+    
+    currunciesArray= [[NSMutableArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
+    
     dropDownRoom=[[DropDownView alloc] initWithArrayData:roomsArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.distanceButton animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:1];
 	dropDownRoom.delegate = self;
 	[self.view addSubview:dropDownRoom.view];
 	//[self.distanceButton setTitle:[dataArray objectAtIndex:0] forState:UIControlStateNormal];
+    
+    dropDownCurrency=[[DropDownView alloc] initWithArrayData:currunciesArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.iPad_chooseCurrencyBtn animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:4];
+	dropDownCurrency.delegate = self;
+	[self.view addSubview:dropDownCurrency.view];
     
     
     dropDownfromYear=[[DropDownView alloc] initWithArrayData:fromYearArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:43 paddingLeft:0 paddingRight:0 refView:self.fromYearButton animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:2];
@@ -2157,6 +2192,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                           [toYearArray objectAtIndex:returnIndex ]];
             break;
         }
+        case 4:{
+            currentCurrenciesCountString = [(SingleValue*)[currunciesArray objectAtIndex:returnIndex] valueString];
+            [self.iPad_chooseCurrencyBtn setTitle:currentCurrenciesCountString forState:UIControlStateNormal];
+            [dropDownCurrency closeAnimation];
+            dropDoownCurrencyFlag = false;
+            break;
+        }
         default:
             break;
     }
@@ -2185,6 +2227,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                          [self.iPad_contentView setFrame:CGRectMake(0, self.iPad_contentView.frame.origin.y, self.iPad_contentView.frame.size.width, self.iPad_contentView.frame.size.height)];
                      }
      ];
+
 }
 
 - (void) dismissBrandsPopOver:(id) sender {
@@ -2211,6 +2254,12 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 - (void) dismissYearToPopOver {
     if (self.yearToRangePopOver)
         [self.yearToRangePopOver dismissPopoverAnimated:YES];
+}
+
+-(void) dismissCurrencyPopOver
+{
+    if (self.currencyRangePopOver)
+        [self.currencyRangePopOver dismissPopoverAnimated:YES];
 }
 
 - (void) iPad_updateSegmentButtons {
@@ -2303,6 +2352,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         roomsRangeVC.showingRoomsObjects = YES;
        // distanceRangeVC.showingDistanceRangeObjects = YES;
         roomsRangeVC.showingSingleValueObjects = NO;
+        roomsRangeVC.showingCurrencyValueObjects = NO;
         roomsRangeVC.showingStores = NO;
         
         self.distanceRangePopOver = [[UIPopoverController alloc] initWithContentViewController:roomsRangeVC];
@@ -2314,6 +2364,36 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
 }
 
+- (IBAction)iPad_chooseCurrencyBtnPressed:(id)sender {
+    currunciesArray=[[NSMutableArray alloc]init];
+    currunciesArray= [[NSMutableArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
+    
+    if (!self.currencyRangePopOver) {
+        TableInPopUpTableViewController * currencyRangeVC = [[TableInPopUpTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        
+        
+        currencyRangeVC.choosingCurrencyDelegate = self;
+        //        if (!distanceRangeArray)
+        //          distanceRangeArray =  [[BrandsManager sharedInstance] getDistanceRangesArray];
+        
+        currencyRangeVC.arrayValues = [NSArray arrayWithArray:currunciesArray];
+        
+        currencyRangeVC.showingFromYearObjects = NO;
+        currencyRangeVC.showingToYearObjects = NO;
+        currencyRangeVC.showingRoomsObjects = NO;
+        // distanceRangeVC.showingDistanceRangeObjects = YES;
+        currencyRangeVC.showingSingleValueObjects = NO;
+        currencyRangeVC.showingCurrencyValueObjects = YES;
+        currencyRangeVC.showingStores = NO;
+        
+        self.currencyRangePopOver = [[UIPopoverController alloc] initWithContentViewController:currencyRangeVC];
+    }
+    
+    CGRect popOverFrame = self.currencyRangePopOver.contentViewController.view.frame;
+    [self.currencyRangePopOver setPopoverContentSize:popOverFrame.size];
+    [self.currencyRangePopOver presentPopoverFromRect:self.iPad_chooseCurrencyBtn.frame inView:self.iPad_searchSideMenuView permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+    
+}
 
 - (IBAction)iPad_chooseYearFromBtnPressed:(id)sender {
     
@@ -2329,7 +2409,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         yearFromRangeVC.showingFromYearObjects = YES;
         yearFromRangeVC.showingToYearObjects = NO;
         yearFromRangeVC.showingRoomsObjects = NO;
-
+        yearFromRangeVC.showingCurrencyValueObjects = NO;
         //yearFromRangeVC.showingDistanceRangeObjects = NO;
         yearFromRangeVC.showingSingleValueObjects = NO;
         yearFromRangeVC.showingStores = NO;
@@ -2358,7 +2438,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         yearToRangeVC.showingRoomsObjects = NO;
         yearToRangeVC.showingSingleValueObjects = NO;
         yearToRangeVC.showingStores = NO;
-        
+        yearToRangeVC.showingCurrencyValueObjects = NO;
         self.yearToRangePopOver = [[UIPopoverController alloc] initWithContentViewController:yearToRangeVC];
     }
     
@@ -2475,9 +2555,15 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 }
 */
 #pragma mark - TableInPopUpChoosingDelegate method
+-(void)didChooseCurrencyItemWithObject:(id) obj{
+    
+    currencyObject = (SingleValue*)obj;
+    [self.iPad_chooseCurrencyBtn setTitle:currencyObject.valueString forState:UIControlStateNormal];
+    [self dismissCurrencyPopOver];
+}
+
 - (void) didChooseTableItemWithObject:(id) obj {
     
-    //NSLog(@"user chose distance: %@", obj.rangeName);
     roomObject= (SingleValue *)obj;
     self.iPad_distanceLabel.text = roomObject.valueString;
     [self dismissDistancePopOver];

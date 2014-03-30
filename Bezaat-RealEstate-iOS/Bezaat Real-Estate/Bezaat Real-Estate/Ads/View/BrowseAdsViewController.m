@@ -81,6 +81,8 @@
     
     [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
     
+     [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
+    
     locationMngr = [LocationManager sharedInstance];
 
     [locationMngr loadCountriesAndCitiesWithDelegate:self];
@@ -126,8 +128,8 @@
     adsArray = [NSMutableArray new];
     
     //search parameters
-    searchWithImages = YES;
-    searchWithPrice = YES;
+    searchWithImages = NO;
+    searchWithPrice = NO;
     
     //temporary
     //self.currentSubCategoryID = -1;
@@ -1302,7 +1304,7 @@
         isSearching = YES;
         [self showLoadingIndicator];
         
-        [self searchOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currentCurrenciesCountString];
+        [self searchOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currentCurrenciesCountString adsWithPrice:searchWithPrice];
     }
     else
     {
@@ -1312,7 +1314,7 @@
         isSearching = YES;
         [self showLoadingIndicator];
         
-        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currentCurrenciesCountString];
+        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currentCurrenciesCountString adsWithPrice:searchWithPrice];
     }
     
     currentroomsCountString = @"";
@@ -1333,11 +1335,12 @@
               orderby:(NSString *) orderByString
         lastRefreshed:(NSString *) lasRefreshedString
              currency:(NSString *) aCurrency
+         adsWithPrice:(BOOL) aAdsWithPrice
 {
     
     [self hideMenu];
     
-    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:@"" minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:true area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:@"" withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
+    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:@"" minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:aAdsWithPrice area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:@"" withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
     
 
 }
@@ -1377,8 +1380,10 @@
     [self.maxPriceTextField setText:@""];
     [self.areaTextField setText:@""];
     [self.roomsCountTextField setText:@""];
+    [self.adWithPriceButton setBackgroundImage:[UIImage imageNamed:@"searchView_text_bg6.png"] forState:UIControlStateNormal];
     
     [self hideMenu];
+    searchWithPrice = NO;
     
 }
 
@@ -1416,6 +1421,34 @@
         dropDoownCurrencyFlag=false;
         [dropDownCurrency closeAnimation];
     }
+}
+
+- (IBAction)adWithPriceBtnPress:(id)sender {
+    
+    UIImage * bgUncheckedImg;
+    UIImage * bgCheckedImg;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        bgCheckedImg = [UIImage imageNamed:@"searchView_text_bg5.png"];
+        bgUncheckedImg = [UIImage imageNamed:@"searchView_text_bg6.png"];
+    }
+    else {
+        bgCheckedImg = [UIImage imageNamed:@"WithBut.png"];
+        bgUncheckedImg = [UIImage imageNamed:@"WithOutBut.png"];
+    }
+    
+    if(searchWithPrice==false){
+        [self.adWithPriceButton setBackgroundImage:bgCheckedImg forState:UIControlStateNormal];
+        searchWithPrice=true;
+        
+    }
+    else{
+        [self.adWithPriceButton setBackgroundImage:bgUncheckedImg forState:UIControlStateNormal];
+        searchWithPrice=false;
+        
+    }
+    
+    
 }
 
 

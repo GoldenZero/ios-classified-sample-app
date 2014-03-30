@@ -526,7 +526,7 @@
     AdTitle.delegate=self;
     
     adDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 295, 260, 20)];
-    [adDetailLabel setText:@"تفاصيل الإعلان:"];
+    [adDetailLabel setText:myAdInfo.description];
     [adDetailLabel setTextAlignment:NSTextAlignmentRight];
     [adDetailLabel setTextColor:[UIColor blackColor]];
     [adDetailLabel setFont:[UIFont systemFontOfSize:17]];
@@ -556,7 +556,7 @@
     [propertyPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [propertyPrice setTextAlignment:NSTextAlignmentRight];
     [propertyPrice setPlaceholder:@"السعر (اختياري)"];
-    [propertyPrice setText:[NSString stringWithFormat:@"%0.1f",myAdInfo.price]];
+    [propertyPrice setText:[NSString stringWithFormat:@"%i",(int)myAdInfo.price]];
     [propertyPrice setKeyboardType:UIKeyboardTypeNumberPad];
     [self.verticalScrollView addSubview:propertyPrice];
     propertyPrice.delegate=self;

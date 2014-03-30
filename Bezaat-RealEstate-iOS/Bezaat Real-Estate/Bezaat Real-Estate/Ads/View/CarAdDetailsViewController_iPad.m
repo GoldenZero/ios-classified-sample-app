@@ -1058,7 +1058,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             
             [mailer setSubject:currentDetailsObject.title];
             
-            NSString * mailBody = currentDetailsObject.description;
+            NSString * mailBody = [NSString stringWithFormat:@"%@ \n %@",currentDetailsObject.description,[currentDetailsObject.adURL absoluteString]];
             
             [mailer setMessageBody:mailBody isHTML:NO];
             mailer.modalPresentationStyle = UIModalPresentationPageSheet;

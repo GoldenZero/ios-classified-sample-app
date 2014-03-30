@@ -19,7 +19,7 @@
 #import "CategoriesPopOver_iPad.h"
 //#import "AdsCell.h"
 
-@interface BrowseAdsViewController_iPad : UIViewController<UITableViewDataSource, UITableViewDelegate, BrowseAdsDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate, TableInPopUpChoosingDelegate,TableInPopUpChoosingYearFromDelegate,TableInPopUpChoosingYearToDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,categoryChoosingDelegate,GADBannerViewDelegate>
+@interface BrowseAdsViewController_iPad : UIViewController<UITableViewDataSource, UITableViewDelegate, BrowseAdsDelegate, FavoritesDelegate,UITextFieldDelegate,DropDownViewDelegate, TableInPopUpChoosingDelegate,TableInPopUpChoosingYearFromDelegate,TableInPopUpChoosingYearToDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate,categoryChoosingDelegate,GADBannerViewDelegate,TableInPopUpChoosingCurrencyDelegate>
 
 
 @property (nonatomic) NSInteger currentSubCategoryID;
@@ -66,6 +66,8 @@
 @property (weak, nonatomic) IBOutlet SSLabel * iPad_startSearchTitleLabel;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_chooseBrandBtn;
 @property (weak, nonatomic) IBOutlet UIButton *iPad_chooseDistanceRangeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *iPad_chooseCurrencyBtn;
+
 @property (weak, nonatomic) IBOutlet SSLabel *iPad_modelYearTitleLabel;
 @property (weak, nonatomic) IBOutlet SSLabel *iPad_priceTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *iPad_minYearLabel;
@@ -89,6 +91,8 @@
 @property (strong, nonatomic) UIPopoverController * distanceRangePopOver;
 @property (strong, nonatomic) UIPopoverController * yearFromRangePopOver;
 @property (strong, nonatomic) UIPopoverController * yearToRangePopOver;
+@property (strong, nonatomic) UIPopoverController * currencyRangePopOver;
+
 
 #pragma mark - actions
 - (IBAction)homeBtnPress:(id)sender;
@@ -107,6 +111,7 @@
 - (IBAction)iPad_searchSideMenuBtn:(id)sender;
 - (IBAction)iPad_chooseBrandBtnPressed:(id)sender;
 - (IBAction)iPad_chooseDistanceRangeBtnPressed:(id)sender;
+- (IBAction)iPad_chooseCurrencyBtnPressed:(id)sender;
 - (IBAction)iPad_modelYearSliderValueChanged:(id)sender;
 - (IBAction)iPad_chooseYearFromBtnPressed:(id)sender;
 - (IBAction)iPad_chooseYearToBtnPressed:(id)sender;

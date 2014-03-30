@@ -14,6 +14,10 @@
 - (void) didChooseTableItemWithObject:(id) obj;
 @end
 
+@protocol TableInPopUpChoosingCurrencyDelegate <NSObject>
+- (void) didChooseCurrencyItemWithObject:(id) obj;
+@end
+
 @protocol TableInPopUpChoosingYearFromDelegate <NSObject>
 - (void) didChooseYearFromTableItemWithObject:(NSString*) obj;
 @end
@@ -26,6 +30,8 @@
 
 @property (strong, nonatomic) NSArray * arrayValues;
 @property (strong, nonatomic) id <TableInPopUpChoosingDelegate> choosingDelegate;
+@property (strong, nonatomic) id <TableInPopUpChoosingCurrencyDelegate> choosingCurrencyDelegate;
+
 @property (strong, nonatomic) id <TableInPopUpChoosingYearFromDelegate> choosingYearFromDelegate;
 @property (strong, nonatomic) id <TableInPopUpChoosingYearToDelegate> choosingYearToDelegate;
 
@@ -35,6 +41,7 @@
 @property (nonatomic) BOOL showingFromYearObjects;
 @property (nonatomic) BOOL showingToYearObjects;
 @property (nonatomic) BOOL showingSingleValueObjects;
+@property (nonatomic) BOOL showingCurrencyValueObjects;
 @property (nonatomic) BOOL showingStores;
 
 @end

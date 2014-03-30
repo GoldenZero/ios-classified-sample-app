@@ -812,7 +812,7 @@
     [self dismissKeyboard];
     self.pickerView.hidden=NO;
     
-    // fill picker with room
+    // fill picker with preiod
     globalArray=periodsArray;
     
     if (!periodBtnPressedOnce)
@@ -987,32 +987,7 @@
         return;
     }
 
-    if ([[mobileNum.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
-        return;
-    }
-
-    /*
-    //check price
-    if ( ([[carPrice.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
-        ||
-        ([[carPrice.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] integerValue] == 0) )
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيمة سعر صحيحة للإعلان" delegateVC:self];
-        return;
-    }
-    
-    //check distance
-    if ( ([[distance.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqual:@""])
-        ||
-        ([[distance.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] integerValue] == 0) )
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال قيمة مسافة صحيحة للإعلان" delegateVC:self];
-        return;
-    }
-    */
-    //check currency
+       //check currency
     if (!chosenCurrency)
     {
         //check price
@@ -1024,23 +999,10 @@
         }
     }
     
- /*   //check year
-    if (!yearBtnPressedOnce)
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء اختيار تاريخ للصنع" delegateVC:self];
+    if (!chosenPeriod) {
+        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إختيار فترة للإعلان" delegateVC:self];
         return;
     }
-   */
-    //check phone number
-    if (!mobileNum.text)
-    {
-        [GenericMethods throwAlertWithTitle:@"خطأ" message:@"الرجاء إدخال رقم هاتف" delegateVC:self];
-        return;
-    }
-    
-       
-
-    
     
     
     [self showLoadingIndicator];
@@ -1084,12 +1046,12 @@
     
     if (self.browsingForSale) {
         // post for sale
-        [[AdsManager sharedInstance] postAdForSaleOfCategory:self.currentSubCategoryID InCity:chosenCity.cityID userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:carAdTitle.text description:carDetails.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:carPrice.text currencyValueID:chosenCurrency.valueID unitPrice:_unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:chosenRoom.valueString space:_propertySpace.text area:_propertyArea.text mobile:mobileNum.text phoneNumer:_phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] postAdForSaleOfCategory:self.currentSubCategoryID InCity:chosenCity.cityID userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:carAdTitle.text description:carDetails.text adPeriod:(chosenPeriod.valueID ? chosenPeriod.valueID : 1001982) requireService:RequiredService price:carPrice.text currencyValueID:(chosenCurrency.valueID ? chosenCurrency.valueID : 2312) unitPrice:_unitPrice.text unitType:([_unitPrice.text length] > 0 ? chosenUnit.valueID : 0) imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.currentSubCategoryID == 338 ? @"" : chosenRoom.valueString) space:_propertySpace.text area:_propertyArea.text mobile:mobileNum.text phoneNumer:_phoneNum.text withDelegate:self];
         
     }else
     {
         //post for rent
-        [[AdsManager sharedInstance] postAdForRentOfCategory:self.currentSubCategoryID InCity:chosenCity.cityID userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:carAdTitle.text description:carDetails.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:carPrice.text currencyValueID:chosenCurrency.valueID unitPrice:_unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:chosenRoom.valueString space:_propertySpace.text area:_propertyArea.text mobile:mobileNum.text phoneNumer:_phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] postAdForRentOfCategory:self.currentSubCategoryID InCity:chosenCity.cityID userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:carAdTitle.text description:carDetails.text adPeriod:(chosenPeriod.valueID ? chosenPeriod.valueID : 1001990) requireService:RequiredService price:carPrice.text currencyValueID:(chosenCurrency.valueID ? chosenCurrency.valueID : 2312) unitPrice:_unitPrice.text unitType:([_unitPrice.text length] > 0 ? chosenUnit.valueID : 0) imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.currentSubCategoryID == 338 || self.currentSubCategoryID == 648 ? @"" : chosenRoom.valueString) space:_propertySpace.text area:_propertyArea.text mobile:mobileNum.text phoneNumer:_phoneNum.text withDelegate:self];
     }
 
 
