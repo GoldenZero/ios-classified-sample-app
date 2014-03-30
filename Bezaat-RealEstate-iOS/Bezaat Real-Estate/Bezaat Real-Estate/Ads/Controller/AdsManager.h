@@ -140,6 +140,7 @@
                  longitute:(NSString *) aLongitute
                   latitute:(NSString *) aLatitute
                      radius:(NSString *) aRadius
+                   currency:(NSString *) aCurrency
                WithDelegate:(id <BrowseAdsDelegate>) del;
 
 //post an ad

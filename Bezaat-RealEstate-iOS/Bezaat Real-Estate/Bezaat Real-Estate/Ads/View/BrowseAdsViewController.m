@@ -15,6 +15,7 @@
 #import "CarAdDetailsViewController.h"
 #import "TableInPopUpTableViewController.h"
 #import "ODRefreshControl.h"
+#import "LocationManager.h"
 
 @interface BrowseAdsViewController ()
 {
@@ -26,10 +27,13 @@
     MBProgressHUD2 * loadingHUD;
     DropDownView *dropDownRoom;
     DropDownView *dropDownCurrency;
+    LocationManager * locationMngr;
 
     NSMutableArray * adsArray;
     NSMutableArray *roomsArray;
     NSArray *currunciesArray;
+    NSArray * countriesArray;
+    Country* chosenCountry;
 
     NSMutableArray * rowHeightsArray;
 
@@ -53,6 +57,7 @@
     BOOL roomsBtnPressedOnce;
     bool dropDownRoomFlag;
     bool dropDoownCurrencyFlag;
+    DFPBannerView* bannerView;
 
     ODRefreshControl *refreshControl;
 
@@ -75,7 +80,21 @@
     [super viewDidLoad];
     
     [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
+    
+    locationMngr = [LocationManager sharedInstance];
 
+    [locationMngr loadCountriesAndCitiesWithDelegate:self];
+    chosenCountry = (Country*)[countriesArray objectAtIndex:0];
+
+    
+    bannerView = [[DFPBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    bannerView.adUnitID = BANNER_IPHONE_LISTING;
+    bannerView.rootViewController = self;
+    bannerView.delegate = self;
+    
+    [bannerView loadRequest:[GenericMethods createRequestWithCountry:chosenCountry.countryNameEn andSection:@"Browse Ads"]];
+    [self.adBannerView addSubview:bannerView];
+    
     //customize category label:
     [self.categoryTitleLabel setBackgroundColor:[UIColor clearColor]];
     [self.categoryTitleLabel setTextAlignment:SSTextAlignmentCenter];
@@ -166,6 +185,19 @@
     }
     
 }
+
+#pragma mark - LocationMGR delegate
+
+- (void) didFinishLoadingWithData:(NSArray*) resultArray{
+    countriesArray = resultArray;
+    NSInteger defaultIndex;
+    
+    defaultIndex = [locationMngr getIndexOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
+    chosenCountry = [countriesArray objectAtIndex:defaultIndex];
+
+    
+}
+
 
 - (void) refreshAds:(ODRefreshControl *)refreshControl {
     
@@ -604,12 +636,13 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSLog(@"index row :%i /table row :%i",indexPath.row,[self.tableView numberOfRowsInSection:0] - 1);
     if ((indexPath.row == ([self.tableView numberOfRowsInSection:0] - 1)))
     {
         if (adsArray && adsArray.count)
         {
             CGFloat heightDiff = self.tableView.contentSize.height - self.tableView.frame.size.height;
-            Ad * carAdObject = (Ad *)[adsArray objectAtIndex:indexPath.row];
+            //Ad * carAdObject = (Ad *)[adsArray objectAtIndex:indexPath.row];
             
             CGFloat minDiff;
             //ad with image
@@ -1254,27 +1287,32 @@
     else
         currentMaxPriceString = [NSString stringWithFormat:@"%i", self.maxPriceTextField.text.integerValue];
     
+    if (!isSearching) {
     //1- reset the pageNumber to 0 to start a new search
     [[AdsManager sharedInstance] setCurrentPageNum:0];
     [[AdsManager sharedInstance] setPageSizeToDefault];
-    
+    }
     NSInteger page = [[AdsManager sharedInstance] nextPage];
     //2- load search data
     if (self.currentSubCategoryID != -1)
     {
+        if (!isSearching)
+            [adsArray removeAllObjects];
+
         isSearching = YES;
-        [adsArray removeAllObjects];
         [self showLoadingIndicator];
         
-        [self searchOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
+        [self searchOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currentCurrenciesCountString];
     }
     else
     {
+        if (!isSearching)
+            [adsArray removeAllObjects];
+
         isSearching = YES;
-        [adsArray removeAllObjects];
         [self showLoadingIndicator];
         
-        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
+        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currentCurrenciesCountString];
     }
     
     currentroomsCountString = @"";
@@ -1293,11 +1331,13 @@
           roomCountID:(NSString *) aRoomCount
                  area:(NSString *) aArea
               orderby:(NSString *) orderByString
-        lastRefreshed:(NSString *) lasRefreshedString {
+        lastRefreshed:(NSString *) lasRefreshedString
+             currency:(NSString *) aCurrency
+{
     
     [self hideMenu];
     
-    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:@"" minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:true area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:@"" withGeo:@"" longitute:@"" latitute:@"" radius:@"" WithDelegate:self];
+    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:@"" minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:true area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:@"" withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
     
 
 }

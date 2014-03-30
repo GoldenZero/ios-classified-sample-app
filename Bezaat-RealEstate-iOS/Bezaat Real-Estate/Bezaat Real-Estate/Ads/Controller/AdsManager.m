@@ -95,7 +95,7 @@
 
 @implementation AdsManager
 
-static NSString * ads_url = @"/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&subcatId=%@&serviceType=%@&minPrice=%@&maxPrice=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@&noofroomsid=%@&purpose=%@&withGeo=%@&longituted=%@&latituted=%@&radius=%@";
+static NSString * ads_url = @"/json/searchads?pageNo=%@&pageSize=%@&cityId=%i&textTerm=%@&subcatId=%@&serviceType=%@&minPrice=%@&maxPrice=%@&adsWithImages=%@&adsWithPrice=%@&area=%@&orderby=%@&lastRefreshed=%@&noofroomsid=%@&purpose=%@&withGeo=%@&longituted=%@&latituted=%@&radius=%@&currency=%@";
 
 static NSString * upload_image_url = @"/json/upload-image?theFile=";
 static NSString * post_sale_ad_url = @"/json/post-an-ad-sale?subcatid=%@&cityId=%@&fromPhone=%i&userEmail=%@&noOfRooms=%@&collection=%@";
@@ -226,7 +226,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 @"",
                                 @"",
                                 @"",
-                                @""];
+                                @"",@""];
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
@@ -436,6 +436,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                   longitute:(NSString *) aLongitute
                    latitute:(NSString *) aLatitute
                      radius:(NSString *) aRadius
+                   currency:(NSString *) aCurrency
                WithDelegate:(id <BrowseAdsDelegate>) del {
     
     //1- set the delegate
@@ -473,7 +474,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
      aWithGeo,
      aLongitute,
      aLatitute,
-     aRadius
+     aRadius,aCurrency
      ];
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -2777,7 +2778,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 @"",
                                 @"",
                                 @"",
-                                @""];
+                                @"",@""];
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:"];

@@ -12,6 +12,18 @@
 
 static NSString * documentsDirectoryPath;
 
+
++ (GADRequest *)createRequestWithCountry:(NSString*)Country andSection:(NSString*)section {
+    GADRequest *request = [GADRequest request];
+    
+    // Don't use autorelease if you are using ARC in your project
+    DFPExtras *extras = [[DFPExtras alloc] init];
+    extras.additionalParameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   Country,@"country",section,@"section",nil];
+    [request registerAdNetworkExtras:extras];
+    return request;
+}
+
 + (BOOL) boolValueOfString:(NSString *) str {
     
     NSString * _true = @"true";

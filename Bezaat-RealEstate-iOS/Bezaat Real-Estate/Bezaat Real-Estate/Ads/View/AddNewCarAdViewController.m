@@ -686,6 +686,10 @@
         }
         else if ([periodsArray containsObject:choosen]){
             chosenPeriod=[globalArray objectAtIndex:row];
+            if (chosenPeriod.valueID == 1001982)
+                if (!self.browsingForSale) {
+                    chosenPeriod.valueID = 1001990;
+                }
             [adPeriod setTitle:[NSString stringWithFormat:@"%@",choosen.valueString] forState:UIControlStateNormal];
             periodBtnPressedOnce = YES;
         }

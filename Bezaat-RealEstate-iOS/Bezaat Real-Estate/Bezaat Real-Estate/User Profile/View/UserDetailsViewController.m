@@ -24,6 +24,7 @@
     UITapGestureRecognizer *tap;
     MBProgressHUD2 * loadingHUD;
     NSMutableArray * carAdsArray;
+
     HJObjManager* asynchImgManager;   //asynchronous image loading manager
     BOOL dataLoadedFromCache;
     BOOL isRefreshing;
@@ -31,7 +32,7 @@
     UIView* myBannerView;
     Ad * myAdObject;
     float xForShiftingTinyImg;
-    
+
     UIActivityIndicatorView * iPad_activityIndicator;
     UIView * iPad_loadingView;
     UILabel *iPad_loadingLabel;
@@ -69,6 +70,9 @@
 {
     [super viewDidLoad];
     
+    [[LocationManager sharedInstance] loadCountriesAndCitiesWithDelegate:self];
+    chosenCountry = (Country*)[countriesArray objectAtIndex:0];
+    
     myBannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
     myBannerView.backgroundColor = [UIColor clearColor];
      if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
@@ -83,7 +87,7 @@
     }
     bannerView.rootViewController = self;
     bannerView.delegate = self;
-    [bannerView loadRequest:[GADRequest request]];
+    [bannerView loadRequest:[GenericMethods createRequestWithCountry:chosenCountry.countryNameEn andSection:@"User Ads"]];
 
     [myBannerView addSubview:bannerView];
     
@@ -141,6 +145,28 @@
     [self.adsTable reloadData];
     self.adsTable.contentSize=CGSizeMake(320, self.adsTable.contentSize.height);
 }
+
+
+#pragma mark - Banner Ad handlig
+
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
+{
+    @try {
+        //[interstitial_ presentFromRootViewController:self];
+    }
+    @catch (NSException *exception) {
+        [[GAI sharedInstance].defaultTracker sendException:NO withNSException:exception];
+    }
+}
+
+- (void)interstitial:(GADInterstitial *)ad
+didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    NSLog(@"fail with error :%@",error);
+    //[interstitial_ presentFromRootViewController:self];
+}
+
+
 
 - (void) loadFirstDataOfStatus:(NSString*)status andPage:(NSInteger)pageNumb {
     

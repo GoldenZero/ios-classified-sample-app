@@ -26,7 +26,8 @@
 #define BANNER_FULLSCREEN       @"/5245337/Bezaat..Car..IPAD..Application..Fullscreen..1024x768"
 #define BANNER_MPU              @"/5245337/Bezaat..Car..IPAD..Application..MPU..300x250"
 #define BANNER_HALFBANNER       @"/5245337/Bezaat..Car..IPAD..Application..Halfbanner..468x60"
-#define BANNER_IPHONE_LISTING   @"/5245337/Bezaat..car..app..ios..Ads..listing..320x50"
+//#define BANNER_IPHONE_LISTING   @"/5245337/Bezaat..car..app..ios..Ads..listing..320x50"
+#define BANNER_IPHONE_LISTING   @"/5245337/Bezaat..Properties..ios..App..320x50"
 #define BANNER_FULLSCREEN_IPHONE       @"/5245337/Bezaat..car..app..ios..Ads..details..320x450"
 
 #endif

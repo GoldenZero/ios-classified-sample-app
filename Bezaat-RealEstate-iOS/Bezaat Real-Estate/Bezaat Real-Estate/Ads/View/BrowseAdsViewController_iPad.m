@@ -126,7 +126,7 @@
         bannerView.rootViewController = self;
         bannerView.delegate = self;
         
-        [bannerView loadRequest:[GADRequest request]];
+        [bannerView loadRequest:[GenericMethods createRequestWithCountry:@"" andSection:@"Browse Ads"]];
         
         [self.adBannerView addSubview:bannerView];
     }
@@ -1327,7 +1327,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [carAdsArray removeAllObjects];
         [self showLoadingIndicator];
         
-        [self searchOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
+        [self searchOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:@""];
     }
     else
     {
@@ -1335,7 +1335,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [carAdsArray removeAllObjects];
         [self showLoadingIndicator];
         
-        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
+        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:@""];
     }
     
 
@@ -1686,7 +1686,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [self showLoadingIndicator];
         
         //[self searchOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
-        [self searchOfPage:page forSubCategory:searchedCategory.categoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
+        [self searchOfPage:page forSubCategory:searchedCategory.categoryID InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:@""];
 
     }
     else
@@ -1696,7 +1696,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         [self showLoadingIndicator];
         
         //[self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
-        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@""];
+        [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:@"" minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:roomObject.valueString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:@""];
 
     }
 
@@ -1713,11 +1713,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
           roomCountID:(NSString *) aRoomCount
                  area:(NSString *) aArea
               orderby:(NSString *) orderByString
-        lastRefreshed:(NSString *) lasRefreshedString {
+        lastRefreshed:(NSString *) lasRefreshedString
+             currency:(NSString *) aCurrency
+{
     
     [self iPad_hideSideMenu];
     
-    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:@"" minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:true area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:@"" withGeo:@"" longitute:@"" latitute:@"" radius:@"" WithDelegate:self];
+    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:@"" minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:true area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:@"" withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
     
     
 }

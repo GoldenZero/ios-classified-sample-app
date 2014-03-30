@@ -58,9 +58,9 @@
         //self.categoriesTableView.frame = CGRectMake(self.categoriesTableView.frame.origin.x, self.categoriesTableView.frame.origin.y + 50, self.categoriesTableView.frame.size.width, self.categoriesTableView.frame.size.height - 50);
     }
     if (self.browsingForSale)
-        [[AdsManager sharedInstance] GetSubCategoriesCountForCategory:@"properties-for-sale" andCity:[[SharedUser sharedInstance] getUserCityID] WithDelegate:self];
+        [[AdsManager sharedInstance] GetSubCategoriesCountForCategory:@"properties-for-sale" andCity:[[SharedUser sharedInstance] getUserCityID] andServiceType:@"معروض" WithDelegate:self];
     else
-        [[AdsManager sharedInstance] GetSubCategoriesCountForCategory:@"properties-for-rent" andCity:[[SharedUser sharedInstance] getUserCityID] WithDelegate:self];
+        [[AdsManager sharedInstance] GetSubCategoriesCountForCategory:@"properties-for-rent" andCity:[[SharedUser sharedInstance] getUserCityID] andServiceType:@"معروض" WithDelegate:self];
     
     //customize category label:
     [self.titleLabel setBackgroundColor:[UIColor clearColor]];
@@ -183,6 +183,13 @@
     UIImage * wantedImg;
     
     if (self.browsingForSale) {
+        
+         if (offeredSegmentBtnChosen) {
+            [[AdsManager sharedInstance] GetSubCategoriesCountForCategory:@"properties-for-sale" andCity:[[SharedUser sharedInstance] getUserCityID] andServiceType:@"معروض" WithDelegate:self];
+         }else{
+             [[AdsManager sharedInstance] GetSubCategoriesCountForCategory:@"properties-for-sale" andCity:[[SharedUser sharedInstance] getUserCityID] andServiceType:@"مطلوب" WithDelegate:self];
+         }
+        
         offeredImg = [UIImage imageNamed:
                       [NSString stringWithFormat:@"%@",
                        (offeredSegmentBtnChosen ? @"select_rea_estate_offered_sell_btn1.png" :
@@ -196,6 +203,11 @@
                       ]];
     }
     else { //browsing for rent
+        if (offeredSegmentBtnChosen) {
+             [[AdsManager sharedInstance] GetSubCategoriesCountForCategory:@"properties-for-rent" andCity:[[SharedUser sharedInstance] getUserCityID] andServiceType:@"معروض" WithDelegate:self];
+        }else{
+        [[AdsManager sharedInstance] GetSubCategoriesCountForCategory:@"properties-for-rent" andCity:[[SharedUser sharedInstance] getUserCityID] andServiceType:@"مطلوب" WithDelegate:self];
+        }
         offeredImg = [UIImage imageNamed:
                       [NSString stringWithFormat:@"%@",
                        (offeredSegmentBtnChosen ? @"select_rea_estate_offered_rent_btn1.png" :

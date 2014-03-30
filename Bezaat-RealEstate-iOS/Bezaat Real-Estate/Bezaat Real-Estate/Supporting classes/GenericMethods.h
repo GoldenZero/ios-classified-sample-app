@@ -10,8 +10,11 @@
 #import <Foundation/Foundation.h>
 #import "Constants.h"
 #import <sys/utsname.h>
+#import "GADRequest.h"
 
 @interface GenericMethods : NSObject
+
++ (GADRequest *)createRequestWithCountry:(NSString*)Country andSection:(NSString*)section;
 
 //This method takes a "true/false" string and returns YES/No
 + (BOOL) boolValueOfString:(NSString *) str;
