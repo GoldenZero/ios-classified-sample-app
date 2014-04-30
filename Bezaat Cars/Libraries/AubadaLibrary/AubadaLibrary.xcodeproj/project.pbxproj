@@ -1064,6 +1064,7 @@
 		B6C66943164D58CD00FADEBC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/AubadaLibrary.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AubadaLibrary/AubadaLibrary-Prefix.pch";
@@ -1085,6 +1086,7 @@
 		B6C66944164D58CD00FADEBC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				DSTROOT = /tmp/AubadaLibrary.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AubadaLibrary/AubadaLibrary-Prefix.pch";
