@@ -506,10 +506,14 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             // cell.storeHeaderImg.frame = CGRectMake(-1, 4, 324, 61);
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.favoriteButton.frame=CGRectMake(12, 223, 39, 34);
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.specailButton.frame=CGRectMake(12, 223, 39, 34);
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
+            cell.helpButton.frame=CGRectMake(12, 223, 39, 34);
             [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            
+            cell.favoriteBtn.frame=CGRectMake(48, 218, 41, 35);
+
             
             cell.detailsLabel.text = carAdObject.title;
             
@@ -593,7 +597,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
              [asynchImgManager manage:cell.carImage];
              */
             NSString* temp = [carAdObject.thumbnailURL absoluteString];
-            
+            CGRect frame=cell.carImage.frame;
             if ([temp isEqualToString:@"UseAwaitingApprovalImage"]) {
                 cell.carImage.image = [UIImage imageNamed:@"waitForApprove.png"];
             }else{
@@ -604,7 +608,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             
             [cell.carImage setContentMode:UIViewContentModeScaleAspectFill];
             [cell.carImage setClipsToBounds:YES];
-            
+            cell.carImage.frame=frame;
             //customize storeName
             [cell.showInStoreLabel setBackgroundColor:[UIColor clearColor]];
             [cell.showInStoreLabel setTextAlignment:SSTextAlignmentRight];
@@ -727,14 +731,16 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             
             
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            
+           
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.favoriteButton.frame=CGRectMake(10, 222.5, 39, 34);
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.specailButton.frame=CGRectMake(10, 222.5, 39, 34);
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
-            [cell.favoriteBtn  addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
-            
-            cell.detailsLabel.text = carAdObject.title;
+            cell.helpButton.frame=CGRectMake(10, 222.5, 39, 34);
+            [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.favoriteBtn.frame=CGRectMake(45, 222, 39, 34);
+
             
             NSString * priceStr = [GenericMethods formatPrice:carAdObject.price];
             if ([priceStr isEqualToString:@""])
@@ -918,9 +924,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 
         
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.favoriteButton.frame=CGRectMake(10, 222.5, 39, 34);
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.specailButton.frame=CGRectMake(10, 222.5, 39, 34);
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
+            cell.helpButton.frame=CGRectMake(10, 222.5, 39, 34);
             [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.favoriteBtn.frame=CGRectMake(45, 222, 39, 34);
             
             cell.detailsLabel.text = carAdObject.title;
             
@@ -1126,9 +1136,13 @@ didFailToReceiveAdWithError:(GADRequestError *)error
             [cell.carImage setClipsToBounds:YES];
             
             [cell.favoriteButton addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.favoriteButton.frame=CGRectMake(10, 222.5, 39, 34);
             [cell.specailButton addTarget:self action:@selector(distinguishButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.specailButton.frame=CGRectMake(10, 222.5, 39, 34);
             [cell.helpButton addTarget:self action:@selector(featureAdSteps) forControlEvents:UIControlEventTouchUpInside];
+            cell.helpButton.frame=CGRectMake(10, 222.5, 39, 34);
             [cell.favoriteBtn addTarget:self action:@selector(addToFavoritePressed:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.favoriteBtn.frame=CGRectMake(45, 222, 39, 34);
             
             cell.detailsLabel.text = carAdObject.title;
             
