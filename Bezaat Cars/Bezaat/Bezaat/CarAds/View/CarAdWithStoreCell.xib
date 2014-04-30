@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -110,7 +110,7 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </label>
-                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19">
                         <rect key="frame" x="10" y="212" width="33" height="35"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
@@ -169,8 +169,8 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
-                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="563">
-                        <rect key="frame" x="10" y="212" width="33" height="35"/>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="563">
+                        <rect key="frame" x="11" y="212" width="33" height="35"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                         <state key="normal" image="Listing_special_help.png">
@@ -191,6 +191,11 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="1037" secondAttribute="trailing" constant="18" id="Xn4-VL-P1S"/>
+                    <constraint firstItem="1037" firstAttribute="leading" secondItem="yII-Xl-7tF" secondAttribute="leading" constant="18" id="c2q-OB-8jC"/>
+                    <constraint firstItem="563" firstAttribute="leading" secondItem="yII-Xl-7tF" secondAttribute="leading" constant="12" id="jYa-X4-j2x"/>
+                </constraints>
             </tableViewCellContentView>
             <constraints>
                 <constraint firstItem="1289" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="12" id="01G-O7-zqr"/>
@@ -210,7 +215,6 @@
                 <constraint firstItem="1037" firstAttribute="trailing" secondItem="1224" secondAttribute="trailing" id="HEQ-qN-2rm"/>
                 <constraint firstItem="1037" firstAttribute="top" secondItem="1051" secondAttribute="bottom" constant="8" symbolic="YES" id="HhW-pM-YWa"/>
                 <constraint firstItem="1271" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="216" id="IRC-T7-rCo"/>
-                <constraint firstItem="563" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="10" id="JY6-iF-Z9F"/>
                 <constraint firstAttribute="trailing" secondItem="14" secondAttribute="trailing" constant="76" id="MBP-KJ-Mah"/>
                 <constraint firstItem="15" firstAttribute="baseline" secondItem="10" secondAttribute="baseline" id="PlG-bX-wte"/>
                 <constraint firstItem="1817" firstAttribute="top" secondItem="19" secondAttribute="top" id="S6l-BU-9Kh"/>
