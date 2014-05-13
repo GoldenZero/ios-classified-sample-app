@@ -420,6 +420,7 @@ static NSString * documentsDirectoryPath;
 }
 
 + (NSString *) getDocumentsDirectoryPath {
+    documentsDirectoryPath = nil;
     if (!documentsDirectoryPath)
     {
         NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

@@ -15,7 +15,7 @@
 #define DISTANCE_RANGES_FILE_NAME @"DistanceRanges.json"
 
 //the file which should be loaded for brands UI
-#define POST_MODELS_FILE_NAME       @"post_models.json"
+#define POST_MODELS_FILE_NAME       @"post_Models.json"
 
 #pragma mark - Brand json keys
 
@@ -114,6 +114,7 @@
         self.delegate = del;
     
     //check if brands has been loaded before
+    totalBrands = nil;
     if (!totalBrands)
     {
         //1- load models
@@ -197,6 +198,7 @@
     if (del)
         self.delegate = del;
     
+    totalBrandsForPostAd = nil;
     //check if brands has been loaded before
     if (!totalBrandsForPostAd)
     {
@@ -345,10 +347,12 @@
     BOOL fileExistInDocs = [GenericMethods fileExistsInDocuments:aFileName];
     
     NSString * fileDocumentPath = [NSString stringWithFormat:@"%@/%@", [GenericMethods getDocumentsDirectoryPath], aFileName];
-    
+    [self deleteManager];
     //2- if not found: --> copy initial to documents
+    fileExistInDocs = NO;
     if (!fileExistInDocs)
     {
+        
         NSString * file = [aFileName stringByReplacingOccurrencesOfString:@".json" withString:@""];
         
         NSString * sourcePath =  [[NSBundle mainBundle] pathForResource:file ofType:@"json"];
@@ -359,6 +363,39 @@
     
     //3- return the path
     return fileDocumentPath;
+}
+
+-(void)deleteManager
+{
+    /*
+    NSString * aFileName = @"Models.json";
+    NSString * file = [aFileName stringByReplacingOccurrencesOfString:@".json" withString:@""];
+    NSString * path =  [[NSBundle mainBundle] pathForResource:file ofType:@"json"];
+
+    
+    NSError *error;
+    if ([fileMngr isDeletableFileAtPath:path]) {
+        BOOL success = [fileMngr removeItemAtPath:path error:&error];
+        if (!success) {
+            NSLog(@"Error removing file at path: %@", error.localizedDescription);
+        }
+    }
+     */
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *dataFilePath = [basePath stringByAppendingPathComponent:@"Models.json"];
+    NSError *error;
+    BOOL deletable = [[NSFileManager defaultManager] isDeletableFileAtPath:dataFilePath];
+    if ([[NSFileManager defaultManager] isDeletableFileAtPath:dataFilePath]) {
+        BOOL success = [[NSFileManager defaultManager] removeItemAtPath:dataFilePath error:&error];
+        if (success) {
+            NSLog(@"file deleted ");
+        }else
+        {
+            NSLog(@"file not deleted ");
+        }
+    }
 }
 
 - (UIImage *) loadImageOfBrand:(NSInteger) aBrandID imageState:(BOOL) inverted {
