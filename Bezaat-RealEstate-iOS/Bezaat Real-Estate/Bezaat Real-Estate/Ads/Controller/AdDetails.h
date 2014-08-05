@@ -81,6 +81,7 @@
 @property (strong, nonatomic) NSString * UnitPriceString;
 @property (strong, nonatomic) NSString * RoomsString;
 @property (strong, nonatomic) NSString * SpaceString;
+@property (strong, nonatomic) NSString * PeriodString;
 
 
 // Ad estate details

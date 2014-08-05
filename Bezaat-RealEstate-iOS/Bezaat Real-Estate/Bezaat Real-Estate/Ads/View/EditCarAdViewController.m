@@ -452,7 +452,11 @@
         for (City* cit in citiesArray) {
             if (cit.cityID == myAdInfo.cityID)
             {
-                defaultCityName = cit.cityName;
+                locationBtnPressedOnce = YES;
+                chosenCity=cit;
+                chosenCountry=(Country*)[countryArray objectAtIndex:i];
+                defaultCityName= [NSString stringWithFormat:@"%@ :%@", chosenCountry.countryName , chosenCity.cityName];
+
                 break;
                 //return;
             }
@@ -479,28 +483,42 @@
     [countryCity addTarget:self action:@selector(chooseCountryCity) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:countryCity];
     
-    serviceReq = [[UISegmentedControl alloc] initWithItems:serviceReqArray];
-    serviceReq.frame = CGRectMake(30, 60, 260, 30);
-    serviceReq.segmentedControlStyle = UISegmentedControlStylePlain;
-    serviceReq.selectedSegmentIndex = 0;
-    [serviceReq addTarget:self action:@selector(chooseServiceReq) forControlEvents: UIControlEventValueChanged];
+//    serviceReq = [[UISegmentedControl alloc] initWithItems:serviceReqArray];
+//    serviceReq.frame = CGRectMake(30, 60, 260, 30);
+//    serviceReq.segmentedControlStyle = UISegmentedControlStylePlain;
+//    serviceReq.selectedSegmentIndex = 0;
+//    [serviceReq addTarget:self action:@selector(chooseServiceReq) forControlEvents: UIControlEventValueChanged];
     //[self.verticalScrollView addSubview:serviceReq];
     
-    roomsNum=[[UIButton alloc] initWithFrame:CGRectMake(30,100 ,260 ,30)];
+    roomsNum=[[UIButton alloc] initWithFrame:CGRectMake(30,60 ,260 ,30)];
     [roomsNum setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
-    [roomsNum setTitle:myAdInfo.Rooms forState:UIControlStateNormal];
+    roomsBtnPressedOnce = YES;
+
+    if (myAdInfo.Rooms.length!=0) {
+        [roomsNum setTitle:myAdInfo.Rooms forState:UIControlStateNormal];
+    }
+    else{
+        [roomsNum setTitle:@"عدد الغرف" forState:UIControlStateNormal];
+
+    }
     [roomsNum setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [roomsNum addTarget:self action:@selector(chooseRoomsNum) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:roomsNum];
     
-    propertySpace=[[UITextField alloc] initWithFrame:CGRectMake(30,140 ,260 ,30)];
+    propertySpace=[[UITextField alloc] initWithFrame:CGRectMake(30,100 ,260 ,30)];
     [propertySpace setBorderStyle:UITextBorderStyleRoundedRect];
     [propertySpace setTextAlignment:NSTextAlignmentRight];
-    [propertySpace setText:myAdInfo.SpaceString];
+    if (myAdInfo.SpaceString.length!=0) {
+        [propertySpace setText:myAdInfo.SpaceString];
+
+    }
+    else{
+        propertySpace.placeholder=@"المساحة";
+    }
     [self.verticalScrollView addSubview:propertySpace];
     propertySpace.delegate=self;
     
-    mapLocation=[[UIButton alloc] initWithFrame:CGRectMake(30,172 ,260 ,43)];
+    mapLocation=[[UIButton alloc] initWithFrame:CGRectMake(30,132 ,260 ,43)];
     [mapLocation setBackgroundImage:[UIImage imageNamed: @"fieldWithArrowMap.png"] forState:UIControlStateNormal];
     [mapLocation setTitle:@"الموقع على الخريطة" forState:UIControlStateNormal];
     PropertyLocation = [[CLLocation alloc] initWithLatitude:myAdInfo.latitude longitude:myAdInfo.longitude];
@@ -509,15 +527,20 @@
     
     [self.verticalScrollView addSubview:mapLocation];
     
-    propertyArea=[[UITextField alloc] initWithFrame:CGRectMake(30,220 ,260 ,30)];
+    propertyArea=[[UITextField alloc] initWithFrame:CGRectMake(30,180 ,260 ,30)];
     [propertyArea setBorderStyle:UITextBorderStyleRoundedRect];
     [propertyArea setTextAlignment:NSTextAlignmentRight];
-    //[propertyArea setPlaceholder:myAdInfo.area];
-    [propertyArea setText:myAdInfo.area];
+    if (myAdInfo.area.length!=0) {
+        [propertyArea setText:myAdInfo.area];
+    }
+    else {
+        [propertyArea setPlaceholder:@"المنطقة/ الحي"];
+
+    }
     [self.verticalScrollView addSubview:propertyArea];
     propertyArea.delegate=self;
     
-    AdTitle=[[UITextField alloc] initWithFrame:CGRectMake(30, 260,260 ,30)];
+    AdTitle=[[UITextField alloc] initWithFrame:CGRectMake(30, 225,260 ,30)];
     [AdTitle setBorderStyle:UITextBorderStyleRoundedRect];
     [AdTitle setTextAlignment:NSTextAlignmentRight];
     [AdTitle setPlaceholder:@"عنوان الاعلان"];
@@ -525,7 +548,7 @@
     [self.verticalScrollView addSubview:AdTitle];
     AdTitle.delegate=self;
     
-    adDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 295, 260, 20)];
+    adDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 258, 260, 20)];
     [adDetailLabel setText:myAdInfo.description];
     [adDetailLabel setTextAlignment:NSTextAlignmentRight];
     [adDetailLabel setTextColor:[UIColor blackColor]];
@@ -534,7 +557,7 @@
     [self.verticalScrollView addSubview:adDetailLabel];
     
     
-    propertyDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,320 ,260 ,80 )];
+    propertyDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,280 ,260 ,80 )];
     [propertyDetails setTextAlignment:NSTextAlignmentRight];
     [propertyDetails setKeyboardType:UIKeyboardTypeDefault];
     [propertyDetails setBackgroundColor:[UIColor whiteColor]];
@@ -542,7 +565,7 @@
     [propertyDetails setText:myAdInfo.description];
     propertyDetails.delegate =self;
     
-    placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,320 ,260 ,30)];
+    placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,280 ,260 ,30)];
     [placeholderTextField setTextAlignment:NSTextAlignmentRight];
     [placeholderTextField setBorderStyle:UITextBorderStyleRoundedRect];
     CGRect frame = placeholderTextField.frame;
@@ -552,7 +575,7 @@
     //[self.verticalScrollView addSubview:placeholderTextField];
     [self.verticalScrollView addSubview:propertyDetails];
     
-    propertyPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,410 ,160 ,30)];
+    propertyPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,370 ,160 ,30)];
     [propertyPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [propertyPrice setTextAlignment:NSTextAlignmentRight];
     [propertyPrice setPlaceholder:@"السعر (اختياري)"];
@@ -563,17 +586,21 @@
     
     
     NSInteger defaultCurrencyID1 = myAdInfo.currencyString.integerValue;
+    NSLog(@"Currency default %i",defaultCurrencyID1);
     NSInteger defaultcurrecncyIndex1=0;
     while (defaultcurrecncyIndex1<currencyArray.count) {
+
         if (defaultCurrencyID1==[(SingleValue*)[currencyArray objectAtIndex:defaultcurrecncyIndex1] valueID]) {
             chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex1];
+            currencyBtnPressedOnce = YES;
+
             break;
         }
         defaultcurrecncyIndex1++;
     }
     
     
-    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 410, 80, 30)];
+    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 370, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"fieldSmallWithDownArrow.png"] forState:UIControlStateNormal];
     //[currency setTitle:@"العملة   " forState:UIControlStateNormal];
     if (chosenCurrency)
@@ -585,7 +612,7 @@
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
     
-    unitPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,450 ,160 ,30)];
+    unitPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,410 ,160 ,30)];
     [unitPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [unitPrice setTextAlignment:NSTextAlignmentRight];
     [unitPrice setPlaceholder:@"سعر الوحدة"];
@@ -600,19 +627,21 @@
     while (defaultunitIndex<unitsArray.count) {
         if (defaultUnitID==[(SingleValue*)[unitsArray objectAtIndex:defaultunitIndex] valueID]) {
             chosenUnit=[currencyArray objectAtIndex:defaultunitIndex];
+            unitsBtnPressedOnce = YES;
+
             break;
         }
         defaultunitIndex++;
     }
     
-    units =[[UIButton alloc] initWithFrame:CGRectMake(30, 450, 80, 30)];
+    units =[[UIButton alloc] initWithFrame:CGRectMake(30, 410, 80, 30)];
     [units setBackgroundImage:[UIImage imageNamed: @"fieldSmallWithDownArrow.png"] forState:UIControlStateNormal];
     [units setTitle:chosenUnit.valueString forState:UIControlStateNormal];
     [units addTarget:self action:@selector(chooseUnits) forControlEvents:UIControlEventTouchUpInside];
     [units setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:units];
     
-    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,490 ,260 ,30)];
+    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,450 ,260 ,30)];
     [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
     [mobileNum setTextAlignment:NSTextAlignmentRight];
     [mobileNum setPlaceholder:@"رقم الجوال"];
@@ -622,7 +651,7 @@
     //mobileNum.inputAccessoryView = numberToolbar;
     mobileNum.delegate=self;
     
-    phoneNum=[[UITextField alloc] initWithFrame:CGRectMake(30,530 ,260 ,30)];
+    phoneNum=[[UITextField alloc] initWithFrame:CGRectMake(30,490 ,260 ,30)];
     [phoneNum setBorderStyle:UITextBorderStyleRoundedRect];
     [phoneNum setTextAlignment:NSTextAlignmentRight];
     [phoneNum setPlaceholder:@"رقم الهاتف"];
@@ -632,19 +661,26 @@
     //mobileNum.inputAccessoryView = numberToolbar;
     phoneNum.delegate=self;
     
-    NSInteger defaultPeriodID = myAdInfo.UnitTypeString.integerValue;
+    NSInteger defaultPeriodID = myAdInfo.PeriodString.integerValue;
     NSInteger defaultperiodIndex=0;
     while (defaultperiodIndex<periodsArray.count) {
         if (defaultPeriodID==[(SingleValue*)[periodsArray objectAtIndex:defaultperiodIndex] valueID]) {
             chosenPeriod=[periodsArray objectAtIndex:defaultperiodIndex];
+            periodBtnPressedOnce = YES;
+
             break;
         }
         defaultperiodIndex++;
     }
-    
-    adPeriod =[[UIButton alloc] initWithFrame:CGRectMake(30, 570, 260, 30)];
+    if (defaultperiodIndex==periodsArray.count) {
+        chosenPeriod=[periodsArray objectAtIndex:0];
+        periodBtnPressedOnce = NO;
+
+
+    }
+    adPeriod =[[UIButton alloc] initWithFrame:CGRectMake(30, 530, 260, 30)];
     [adPeriod setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
-    [adPeriod setTitle:@"فترة الاعلان" forState:UIControlStateNormal];
+    [adPeriod setTitle:chosenPeriod.valueString forState:UIControlStateNormal];
     [adPeriod setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [adPeriod addTarget:self action:@selector(choosePeriod) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:adPeriod];

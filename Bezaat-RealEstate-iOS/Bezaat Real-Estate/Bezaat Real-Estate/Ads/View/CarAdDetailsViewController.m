@@ -68,6 +68,7 @@
     UILabel *iPad_loadingLabel;
     
     UIButton * reportBadAdBtn;
+
     
 }
 
@@ -100,7 +101,6 @@ CGFloat animatedDistance;
     firstTimeBanner = YES;
     bannerAppearCounter = 0;
 
-    
         [self setPlacesOfViews];
         
         //customize the comments view positioning

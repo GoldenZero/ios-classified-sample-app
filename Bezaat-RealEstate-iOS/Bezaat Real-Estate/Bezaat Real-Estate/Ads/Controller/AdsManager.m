@@ -2034,8 +2034,8 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                 ad.SpaceString = [adDict objectForKey:@"1049"];
                 if (!ad.SpaceString)
                     ad.SpaceString = [adDict objectForKey:@"1050"];
-                
-                
+                ad.currencyString=[adDict objectForKey:@"1014"];
+                ad.PeriodString=[adDict objectForKey:@"1005"];
                 ad.cityID = [[adDict objectForKey:@"-99"] integerValue];
                 ad.CategoryID = [[adDict objectForKey:@"-98"] integerValue];
                 ad.emailAddress = [adDict objectForKey:@"-100"];
