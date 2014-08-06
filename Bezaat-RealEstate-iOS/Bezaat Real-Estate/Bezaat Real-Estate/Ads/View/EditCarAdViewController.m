@@ -147,7 +147,7 @@
     mapLocationBtnPressedOnce = NO;
     unitsBtnPressedOnce = NO;
     
-    [self loadDataArray];
+   // [self loadDataArray];
     [self addButtonsToXib];
     [self setImagesArray];
     [self setImagesToXib];
@@ -189,7 +189,8 @@
 - (void) didFinishLoadingWithData:(NSArray*) resultArray{
     countryArray=resultArray;
     [self hideLoadingIndicator];
-    
+    [self loadDataArray];
+
     defaultIndex = [locationMngr getIndexOfCountry:self.myDetails.countryID];
     if  (defaultIndex!= -1){
         chosenCountry =[countryArray objectAtIndex:defaultIndex];//set initial chosen country
@@ -204,14 +205,22 @@
         }
         [self.locationPickerView reloadAllComponents];
         defaultCurrencyID=[[StaticAttrsLoader sharedInstance] getCurrencyIdOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
+        NSLog(@"currency ID %i",defaultCurrencyID);
         defaultcurrecncyIndex=0;
         while (defaultcurrecncyIndex<currencyArray.count) {
+            NSLog(@"default currency ID %i",[(SingleValue*)[currencyArray objectAtIndex:defaultcurrecncyIndex] valueID]);
             if (defaultCurrencyID==[(SingleValue*)[currencyArray objectAtIndex:defaultcurrecncyIndex] valueID]) {
+                chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex];
+
                 break;
             }
             defaultcurrecncyIndex++;
         }
-        chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex];
+        if (defaultcurrecncyIndex==currencyArray.count) {
+            chosenCurrency=[currencyArray objectAtIndex:0];
+
+        }
+
     }
     
     /*
@@ -492,12 +501,20 @@
     
     roomsNum=[[UIButton alloc] initWithFrame:CGRectMake(30,60 ,260 ,30)];
     [roomsNum setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
-    roomsBtnPressedOnce = YES;
 
-    if (myAdInfo.Rooms.length!=0) {
-        [roomsNum setTitle:myAdInfo.Rooms forState:UIControlStateNormal];
+    if (self.myDetails.Rooms.length!=0) {
+        for (int i=0; i<roomsArray.count; i++) {
+            if ([self.myDetails.Rooms isEqualToString:[(SingleValue*)[roomsArray objectAtIndex:i] valueString]]) {
+                chosenRoom=[roomsArray objectAtIndex:i];
+                roomsBtnPressedOnce = YES;
+                break;
+            }
+        }
+
+        [roomsNum setTitle:chosenRoom.valueString forState:UIControlStateNormal];
     }
     else{
+        chosenRoom=[roomsArray objectAtIndex:0];
         [roomsNum setTitle:@"عدد الغرف" forState:UIControlStateNormal];
 
     }
@@ -549,7 +566,7 @@
     AdTitle.delegate=self;
     
     adDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 258, 260, 20)];
-    [adDetailLabel setText:myAdInfo.description];
+    [adDetailLabel setText:@"تفاصيل الإعلان:"];
     [adDetailLabel setTextAlignment:NSTextAlignmentRight];
     [adDetailLabel setTextColor:[UIColor blackColor]];
     [adDetailLabel setFont:[UIFont systemFontOfSize:17]];
@@ -588,26 +605,23 @@
     NSInteger defaultCurrencyID1 = myAdInfo.currencyString.integerValue;
     NSLog(@"Currency default %i",defaultCurrencyID1);
     NSInteger defaultcurrecncyIndex1=0;
+    currencyBtnPressedOnce = YES;
+
     while (defaultcurrecncyIndex1<currencyArray.count) {
 
         if (defaultCurrencyID1==[(SingleValue*)[currencyArray objectAtIndex:defaultcurrecncyIndex1] valueID]) {
             chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex1];
-            currencyBtnPressedOnce = YES;
 
             break;
         }
         defaultcurrecncyIndex1++;
     }
-    
-    
+
+
     currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 370, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"fieldSmallWithDownArrow.png"] forState:UIControlStateNormal];
     //[currency setTitle:@"العملة   " forState:UIControlStateNormal];
-    if (chosenCurrency)
-        [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
-    else
-        [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
-    
+    [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
     [currency addTarget:self action:@selector(chooseCurrency) forControlEvents:UIControlEventTouchUpInside];
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
@@ -675,18 +689,14 @@
     if (defaultperiodIndex==periodsArray.count) {
         chosenPeriod=[periodsArray objectAtIndex:0];
         periodBtnPressedOnce = NO;
-
-
     }
+    
     adPeriod =[[UIButton alloc] initWithFrame:CGRectMake(30, 530, 260, 30)];
     [adPeriod setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
     [adPeriod setTitle:chosenPeriod.valueString forState:UIControlStateNormal];
     [adPeriod setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [adPeriod addTarget:self action:@selector(choosePeriod) forControlEvents:UIControlEventTouchUpInside];
     [self.verticalScrollView addSubview:adPeriod];
-    
-    
-    
     
     
 }
@@ -1163,13 +1173,13 @@
     if (self.browsingForSale) {
         // post for sale
         //[[CarAdsManager sharedInstance] editAdOfEditadID:self.myDetails.EncEditID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:carAdTitle.text description:carDetails.text price:carPrice.text periodValueID:AD_PERIOD_2_MONTHS_VALUE_ID mobile:mobileNum.text currencyValueID:chosenCurrency.valueID serviceValueID:SERVICE_FOR_SALE_VALUE_ID modelYearValueID:chosenYear.valueID  distance:distance.text color:@"" phoneNumer:@"" adCommentsEmail:YES kmVSmilesValueID:distanceUnitID nine52:(!myAdInfo.nine52 ? 0 :myAdInfo.nine52) five06:(!myAdInfo.five06 ? 0 :myAdInfo.five06) five02:(!myAdInfo.five02 ? 0 :myAdInfo.five02) nine06:(!myAdInfo.nine06 ? 0 :myAdInfo.nine06) one01:(!myAdInfo.one01 ? 0 :myAdInfo.one01) ninty8:(!myAdInfo.ninty8 ? 0 :myAdInfo.ninty8) imageIDs:currentImgsUploaded withDelegate:self];
-        [[AdsManager sharedInstance] editAdForSaleOfEditadID:self.myDetails.EncEditID OfCategory:self.myDetails.CategoryID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:AdTitle.text description:adDetailLabel.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : chosenRoom.valueString) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] editAdForSaleOfEditadID:self.myDetails.EncEditID OfCategory:self.myDetails.CategoryID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:AdTitle.text description:adDetailLabel.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : (roomsBtnPressedOnce==YES?chosenRoom.valueString:@"")) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
         
         
     }else
     {
         //post for rent
-        [[AdsManager sharedInstance] editAdForRentOfEditadID:self.myDetails.EncEditID OfCategory:self.myDetails.CategoryID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:AdTitle.text description:adDetailLabel.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : chosenRoom.valueString) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] editAdForRentOfEditadID:self.myDetails.EncEditID OfCategory:self.myDetails.CategoryID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:AdTitle.text description:adDetailLabel.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : (roomsBtnPressedOnce==YES?chosenRoom.valueString:@"")) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
         
     }
 }
