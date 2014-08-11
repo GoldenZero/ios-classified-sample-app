@@ -1062,7 +1062,7 @@
         if ([[UIScreen mainScreen] bounds].size.height == 568){
             SignInViewController *vc;
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
             else
                 vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
             vc.returnPage = YES;
@@ -1204,7 +1204,7 @@
         UIAlertView* alert =[ [UIAlertView alloc]initWithTitle:@"" message:@"البريد الإلكنروني مسجل لدينا يرجى تسجيل الدخول" delegate:self cancelButtonTitle:@"موافق" otherButtonTitles:nil, nil];
         alert.tag = 5;
         [alert show];
-        return;
+     //   return;
     }else
         [GenericMethods throwAlertWithCode:error.code andMessageStatus:[error description] delegateVC:self];
     

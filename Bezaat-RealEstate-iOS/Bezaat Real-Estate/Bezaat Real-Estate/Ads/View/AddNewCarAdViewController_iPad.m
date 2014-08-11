@@ -1117,7 +1117,7 @@
             //SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
             SignInViewController *vc;
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+                vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
             else
                 vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
             [self presentViewController:vc animated:YES completion:nil];

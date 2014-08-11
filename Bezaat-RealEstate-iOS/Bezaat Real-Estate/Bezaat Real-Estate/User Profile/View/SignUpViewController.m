@@ -422,7 +422,7 @@
         
         //present the next view controller
         if ([[UIScreen mainScreen] bounds].size.height == 568){
-            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController5" bundle:nil];
+            SignInViewController *vc = [[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
             [self presentViewController:vc animated:YES completion:nil];
         }
         else {
