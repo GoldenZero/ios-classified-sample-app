@@ -1173,13 +1173,56 @@
     if (self.browsingForSale) {
         // post for sale
         //[[CarAdsManager sharedInstance] editAdOfEditadID:self.myDetails.EncEditID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:carAdTitle.text description:carDetails.text price:carPrice.text periodValueID:AD_PERIOD_2_MONTHS_VALUE_ID mobile:mobileNum.text currencyValueID:chosenCurrency.valueID serviceValueID:SERVICE_FOR_SALE_VALUE_ID modelYearValueID:chosenYear.valueID  distance:distance.text color:@"" phoneNumer:@"" adCommentsEmail:YES kmVSmilesValueID:distanceUnitID nine52:(!myAdInfo.nine52 ? 0 :myAdInfo.nine52) five06:(!myAdInfo.five06 ? 0 :myAdInfo.five06) five02:(!myAdInfo.five02 ? 0 :myAdInfo.five02) nine06:(!myAdInfo.nine06 ? 0 :myAdInfo.nine06) one01:(!myAdInfo.one01 ? 0 :myAdInfo.one01) ninty8:(!myAdInfo.ninty8 ? 0 :myAdInfo.ninty8) imageIDs:currentImgsUploaded withDelegate:self];
-        [[AdsManager sharedInstance] editAdForSaleOfEditadID:self.myDetails.EncEditID OfCategory:self.myDetails.CategoryID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:AdTitle.text description:adDetailLabel.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : (roomsBtnPressedOnce==YES?chosenRoom.valueString:@"")) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
+        
+        [[AdsManager sharedInstance] editAdForSaleOfEditadID:self.myDetails.EncEditID
+                                                  OfCategory:self.myDetails.CategoryID
+                                                 inCountryID:chosenCountry.countryID
+                                                      InCity:chosenCity.cityID
+                                                   userEmail:savedProfile.emailAddress
+                                                       title:AdTitle.text
+                                                 description:propertyDetails.text
+                                                    adPeriod:chosenPeriod.valueID
+                                              requireService:RequiredService
+                                                       price:propertyPrice.text
+                                             currencyValueID:chosenCurrency.valueID
+                                                   unitPrice:unitPrice.text
+                                                    unitType:chosenUnit.valueID
+                                                    imageIDs:currentImgsUploaded
+                                                   longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude]
+                                                    latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude]
+                                                  roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : (roomsBtnPressedOnce==YES?chosenRoom.valueString:@""))
+                                                       space:propertySpace.text
+                                                        area:propertyArea.text
+                                                      mobile:mobileNum.text
+                                                  phoneNumer:phoneNum.text
+                                                withDelegate:self];
         
         
     }else
     {
         //post for rent
-        [[AdsManager sharedInstance] editAdForRentOfEditadID:self.myDetails.EncEditID OfCategory:self.myDetails.CategoryID inCountryID:chosenCountry.countryID InCity:chosenCity.cityID userEmail:savedProfile.emailAddress title:AdTitle.text description:adDetailLabel.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:chosenUnit.valueID imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : (roomsBtnPressedOnce==YES?chosenRoom.valueString:@"")) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] editAdForRentOfEditadID:self.myDetails.EncEditID
+                                                  OfCategory:self.myDetails.CategoryID
+                                                 inCountryID:chosenCountry.countryID
+                                                      InCity:chosenCity.cityID
+                                                   userEmail:savedProfile.emailAddress
+                                                       title:AdTitle.text
+                                                 description:propertyDetails.text
+                                                    adPeriod:chosenPeriod.valueID
+                                              requireService:RequiredService
+                                                       price:propertyPrice.text
+                                             currencyValueID:chosenCurrency.valueID
+                                                   unitPrice:unitPrice.text
+                                                    unitType:chosenUnit.valueID
+                                                    imageIDs:currentImgsUploaded
+                                                   longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude]
+                                                    latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude]
+                                                  roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : (roomsBtnPressedOnce==YES?chosenRoom.valueString:@""))
+                                                       space:propertySpace.text
+                                                        area:propertyArea.text
+                                                      mobile:mobileNum.text
+                                                  phoneNumer:phoneNum.text
+                                                withDelegate:self];
         
     }
 }
