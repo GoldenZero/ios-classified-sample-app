@@ -169,7 +169,7 @@ static NSArray * EditableTextInputsInView(UIView *view)
 	[self willChangeValueForKey:@"hasDoneButton"];
 	_hasDoneButton = hasDoneButton;
 	[self didChangeValueForKey:@"hasDoneButton"];
-	UIBarButtonItem *sendItem = [[UIBarButtonItem alloc] initWithTitle:@"إرسال" style:UIBarButtonItemStylePlain target:self action:@selector(done)];
+	UIBarButtonItem *sendItem = [[UIBarButtonItem alloc] initWithTitle:@"تم" style:UIBarButtonItemStylePlain target:self action:@selector(done)];
     sendItem.tintColor = [UIColor blackColor];
     
 	NSArray *items;

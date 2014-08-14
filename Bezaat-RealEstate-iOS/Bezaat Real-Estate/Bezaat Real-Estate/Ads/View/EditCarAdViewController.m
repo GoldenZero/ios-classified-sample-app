@@ -100,7 +100,7 @@
 @end
 
 @implementation EditCarAdViewController
-@synthesize AdTitle,mobileNum,unitPrice,propertyDetails,propertyPrice,countryCity,currency,serviceReq,adPeriod,adDetailLabel,roomsNum,propertySpace,propertyArea,mapLocation,phoneNum,units;
+@synthesize AdTitle,mobileNum,unitPrice,propertyDetails,propertyPrice,countryCity,currency,serviceReq,adPeriod,adDetailLabel,propertySpace,propertyArea,mapLocation,phoneNum,units;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -205,10 +205,8 @@
         }
         [self.locationPickerView reloadAllComponents];
         defaultCurrencyID=[[StaticAttrsLoader sharedInstance] getCurrencyIdOfCountry:[[SharedUser sharedInstance] getUserCountryID]];
-        NSLog(@"currency ID %i",defaultCurrencyID);
         defaultcurrecncyIndex=0;
         while (defaultcurrecncyIndex<currencyArray.count) {
-            NSLog(@"default currency ID %i",[(SingleValue*)[currencyArray objectAtIndex:defaultcurrecncyIndex] valueID]);
             if (defaultCurrencyID==[(SingleValue*)[currencyArray objectAtIndex:defaultcurrecncyIndex] valueID]) {
                 chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex];
 
@@ -471,7 +469,7 @@
             }
         }
     }
-    [self.verticalScrollView setContentSize:CGSizeMake(320 , 670)];
+    [self.verticalScrollView setContentSize:CGSizeMake(320 , 600)];
     [self.verticalScrollView setScrollEnabled:YES];
     [self.verticalScrollView setShowsVerticalScrollIndicator:YES];
     
@@ -499,30 +497,30 @@
 //    [serviceReq addTarget:self action:@selector(chooseServiceReq) forControlEvents: UIControlEventValueChanged];
     //[self.verticalScrollView addSubview:serviceReq];
     
-    roomsNum=[[UIButton alloc] initWithFrame:CGRectMake(30,60 ,260 ,30)];
-    [roomsNum setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
-
-    if (self.myDetails.Rooms.length!=0) {
-        for (int i=0; i<roomsArray.count; i++) {
-            if ([self.myDetails.Rooms isEqualToString:[(SingleValue*)[roomsArray objectAtIndex:i] valueString]]) {
-                chosenRoom=[roomsArray objectAtIndex:i];
-                roomsBtnPressedOnce = YES;
-                break;
-            }
-        }
-
-        [roomsNum setTitle:chosenRoom.valueString forState:UIControlStateNormal];
-    }
-    else{
-        chosenRoom=[roomsArray objectAtIndex:0];
-        [roomsNum setTitle:@"عدد الغرف" forState:UIControlStateNormal];
-
-    }
-    [roomsNum setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [roomsNum addTarget:self action:@selector(chooseRoomsNum) forControlEvents:UIControlEventTouchUpInside];
-    [self.verticalScrollView addSubview:roomsNum];
+//    roomsNum=[[UIButton alloc] initWithFrame:CGRectMake(30,60 ,260 ,30)];
+//    [roomsNum setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
+//
+//    if (self.myDetails.Rooms.length!=0) {
+//        for (int i=0; i<roomsArray.count; i++) {
+//            if ([self.myDetails.Rooms isEqualToString:[(SingleValue*)[roomsArray objectAtIndex:i] valueString]]) {
+//                chosenRoom=[roomsArray objectAtIndex:i];
+//                roomsBtnPressedOnce = YES;
+//                break;
+//            }
+//        }
+//
+//        [roomsNum setTitle:chosenRoom.valueString forState:UIControlStateNormal];
+//    }
+//    else{
+//        chosenRoom=[roomsArray objectAtIndex:0];
+//        [roomsNum setTitle:@"عدد الغرف" forState:UIControlStateNormal];
+//
+//    }
+//    [roomsNum setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+//    [roomsNum addTarget:self action:@selector(chooseRoomsNum) forControlEvents:UIControlEventTouchUpInside];
+//    [self.verticalScrollView addSubview:roomsNum];
     
-    propertySpace=[[UITextField alloc] initWithFrame:CGRectMake(30,100 ,260 ,30)];
+    propertySpace=[[UITextField alloc] initWithFrame:CGRectMake(30,60 ,260 ,30)];
     [propertySpace setBorderStyle:UITextBorderStyleRoundedRect];
     [propertySpace setTextAlignment:NSTextAlignmentRight];
     if (myAdInfo.SpaceString.length!=0) {
@@ -535,7 +533,7 @@
     [self.verticalScrollView addSubview:propertySpace];
     propertySpace.delegate=self;
     
-    mapLocation=[[UIButton alloc] initWithFrame:CGRectMake(30,132 ,260 ,43)];
+    mapLocation=[[UIButton alloc] initWithFrame:CGRectMake(30,96 ,260 ,43)];
     [mapLocation setBackgroundImage:[UIImage imageNamed: @"fieldWithArrowMap.png"] forState:UIControlStateNormal];
     [mapLocation setTitle:@"الموقع على الخريطة" forState:UIControlStateNormal];
     PropertyLocation = [[CLLocation alloc] initWithLatitude:myAdInfo.latitude longitude:myAdInfo.longitude];
@@ -544,7 +542,7 @@
     
     [self.verticalScrollView addSubview:mapLocation];
     
-    propertyArea=[[UITextField alloc] initWithFrame:CGRectMake(30,180 ,260 ,30)];
+    propertyArea=[[UITextField alloc] initWithFrame:CGRectMake(30,140 ,260 ,30)];
     [propertyArea setBorderStyle:UITextBorderStyleRoundedRect];
     [propertyArea setTextAlignment:NSTextAlignmentRight];
     if (myAdInfo.area.length!=0) {
@@ -557,7 +555,7 @@
     [self.verticalScrollView addSubview:propertyArea];
     propertyArea.delegate=self;
     
-    AdTitle=[[UITextField alloc] initWithFrame:CGRectMake(30, 225,260 ,30)];
+    AdTitle=[[UITextField alloc] initWithFrame:CGRectMake(30, 185,260 ,30)];
     [AdTitle setBorderStyle:UITextBorderStyleRoundedRect];
     [AdTitle setTextAlignment:NSTextAlignmentRight];
     [AdTitle setPlaceholder:@"عنوان الاعلان"];
@@ -565,7 +563,7 @@
     [self.verticalScrollView addSubview:AdTitle];
     AdTitle.delegate=self;
     
-    adDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 258, 260, 20)];
+    adDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 225, 260, 20)];
     [adDetailLabel setText:@"تفاصيل الإعلان:"];
     [adDetailLabel setTextAlignment:NSTextAlignmentRight];
     [adDetailLabel setTextColor:[UIColor blackColor]];
@@ -574,7 +572,7 @@
     [self.verticalScrollView addSubview:adDetailLabel];
     
     
-    propertyDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,280 ,260 ,80 )];
+    propertyDetails=[[UITextView alloc] initWithFrame:CGRectMake(30,258 ,260 ,80 )];
     [propertyDetails setTextAlignment:NSTextAlignmentRight];
     [propertyDetails setKeyboardType:UIKeyboardTypeDefault];
     [propertyDetails setBackgroundColor:[UIColor whiteColor]];
@@ -582,7 +580,7 @@
     [propertyDetails setText:myAdInfo.description];
     propertyDetails.delegate =self;
     
-    placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,280 ,260 ,30)];
+    placeholderTextField=[[UITextField alloc] initWithFrame:CGRectMake(30,258 ,260 ,30)];
     [placeholderTextField setTextAlignment:NSTextAlignmentRight];
     [placeholderTextField setBorderStyle:UITextBorderStyleRoundedRect];
     CGRect frame = placeholderTextField.frame;
@@ -592,7 +590,7 @@
     //[self.verticalScrollView addSubview:placeholderTextField];
     [self.verticalScrollView addSubview:propertyDetails];
     
-    propertyPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,370 ,160 ,30)];
+    propertyPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,350 ,160 ,30)];
     [propertyPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [propertyPrice setTextAlignment:NSTextAlignmentRight];
     [propertyPrice setPlaceholder:@"السعر (اختياري)"];
@@ -618,7 +616,7 @@
     }
 
 
-    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 370, 80, 30)];
+    currency =[[UIButton alloc] initWithFrame:CGRectMake(30, 350, 80, 30)];
     [currency setBackgroundImage:[UIImage imageNamed: @"fieldSmallWithDownArrow.png"] forState:UIControlStateNormal];
     //[currency setTitle:@"العملة   " forState:UIControlStateNormal];
     [currency setTitle:chosenCurrency.valueString forState:UIControlStateNormal];
@@ -626,7 +624,7 @@
     [currency setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:currency];
     
-    unitPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,410 ,160 ,30)];
+    unitPrice=[[UITextField alloc] initWithFrame:CGRectMake(130,390 ,160 ,30)];
     [unitPrice setBorderStyle:UITextBorderStyleRoundedRect];
     [unitPrice setTextAlignment:NSTextAlignmentRight];
     [unitPrice setPlaceholder:@"سعر الوحدة"];
@@ -640,7 +638,7 @@
     NSInteger defaultunitIndex=0;
     while (defaultunitIndex<unitsArray.count) {
         if (defaultUnitID==[(SingleValue*)[unitsArray objectAtIndex:defaultunitIndex] valueID]) {
-            chosenUnit=[currencyArray objectAtIndex:defaultunitIndex];
+            chosenUnit=[unitsArray objectAtIndex:defaultunitIndex];
             unitsBtnPressedOnce = YES;
 
             break;
@@ -648,14 +646,14 @@
         defaultunitIndex++;
     }
     
-    units =[[UIButton alloc] initWithFrame:CGRectMake(30, 410, 80, 30)];
+    units =[[UIButton alloc] initWithFrame:CGRectMake(30, 390, 80, 30)];
     [units setBackgroundImage:[UIImage imageNamed: @"fieldSmallWithDownArrow.png"] forState:UIControlStateNormal];
     [units setTitle:chosenUnit.valueString forState:UIControlStateNormal];
     [units addTarget:self action:@selector(chooseUnits) forControlEvents:UIControlEventTouchUpInside];
     [units setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.verticalScrollView addSubview:units];
     
-    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,450 ,260 ,30)];
+    mobileNum=[[UITextField alloc] initWithFrame:CGRectMake(30,430 ,260 ,30)];
     [mobileNum setBorderStyle:UITextBorderStyleRoundedRect];
     [mobileNum setTextAlignment:NSTextAlignmentRight];
     [mobileNum setPlaceholder:@"رقم الجوال"];
@@ -665,7 +663,7 @@
     //mobileNum.inputAccessoryView = numberToolbar;
     mobileNum.delegate=self;
     
-    phoneNum=[[UITextField alloc] initWithFrame:CGRectMake(30,490 ,260 ,30)];
+    phoneNum=[[UITextField alloc] initWithFrame:CGRectMake(30,470 ,260 ,30)];
     [phoneNum setBorderStyle:UITextBorderStyleRoundedRect];
     [phoneNum setTextAlignment:NSTextAlignmentRight];
     [phoneNum setPlaceholder:@"رقم الهاتف"];
@@ -691,7 +689,7 @@
         periodBtnPressedOnce = NO;
     }
     
-    adPeriod =[[UIButton alloc] initWithFrame:CGRectMake(30, 530, 260, 30)];
+    adPeriod =[[UIButton alloc] initWithFrame:CGRectMake(30, 510, 260, 30)];
     [adPeriod setBackgroundImage:[UIImage imageNamed: @"fieldWithDownArrow.png"] forState:UIControlStateNormal];
     [adPeriod setTitle:chosenPeriod.valueString forState:UIControlStateNormal];
     [adPeriod setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -880,7 +878,7 @@
         }
         else if ([roomsArray containsObject:choosen]){
             chosenRoom=[globalArray objectAtIndex:row];
-            [roomsNum setTitle:[NSString stringWithFormat:@"%@",chosenRoom.valueString] forState:UIControlStateNormal];
+       //     [roomsNum setTitle:[NSString stringWithFormat:@"%@",chosenRoom.valueString] forState:UIControlStateNormal];
             roomsBtnPressedOnce = YES;
         }
         else {
@@ -1026,7 +1024,7 @@
     self.pickerView.hidden=NO;
     
     NSString *temp= [NSString stringWithFormat:@"%@",[(SingleValue*)chosenRoom valueString]];
-    [roomsNum setTitle:temp forState:UIControlStateNormal];
+    //[roomsNum setTitle:temp forState:UIControlStateNormal];
     
     // fill picker with currency options
     globalArray=roomsArray;
@@ -1182,7 +1180,7 @@
                                                        title:AdTitle.text
                                                  description:propertyDetails.text
                                                     adPeriod:chosenPeriod.valueID
-                                              requireService:RequiredService
+                                              requireService:(requiredChoosen?1257:1256)
                                                        price:propertyPrice.text
                                              currencyValueID:chosenCurrency.valueID
                                                    unitPrice:unitPrice.text
@@ -1190,7 +1188,7 @@
                                                     imageIDs:currentImgsUploaded
                                                    longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude]
                                                     latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude]
-                                                  roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : (roomsBtnPressedOnce==YES?chosenRoom.valueString:@""))
+                                                  roomNumber:self.myDetails.Rooms
                                                        space:propertySpace.text
                                                         area:propertyArea.text
                                                       mobile:mobileNum.text
@@ -1209,7 +1207,7 @@
                                                        title:AdTitle.text
                                                  description:propertyDetails.text
                                                     adPeriod:chosenPeriod.valueID
-                                              requireService:RequiredService
+                                              requireService:(requiredChoosen?938:937)
                                                        price:propertyPrice.text
                                              currencyValueID:chosenCurrency.valueID
                                                    unitPrice:unitPrice.text
@@ -1217,7 +1215,7 @@
                                                     imageIDs:currentImgsUploaded
                                                    longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude]
                                                     latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude]
-                                                  roomNumber:(self.myDetails.CategoryID == 338 || self.myDetails.CategoryID == 648 ? @"" : (roomsBtnPressedOnce==YES?chosenRoom.valueString:@""))
+                                                  roomNumber:self.myDetails.Rooms
                                                        space:propertySpace.text
                                                         area:propertyArea.text
                                                       mobile:mobileNum.text

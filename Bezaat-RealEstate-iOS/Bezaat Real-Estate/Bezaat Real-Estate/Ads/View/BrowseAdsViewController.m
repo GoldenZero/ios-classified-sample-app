@@ -736,7 +736,7 @@
         purpose = @"rent";
     
     int page = [[AdsManager sharedInstance] nextPage];
-    [[AdsManager sharedInstance] loadAdsOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] andPurpose:purpose WithDelegate:self];
+    [[AdsManager sharedInstance] loadAdsOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] andPurpose:purpose WithServiceType:(self.browsingForSale?(self.offeredSegmentBtnChosen?@"1848":@"1849"):(self.offeredSegmentBtnChosen?@"2594":@"2593"))  WithDelegate:self];
 }
 
 
@@ -1337,10 +1337,15 @@
              currency:(NSString *) aCurrency
          adsWithPrice:(BOOL) aAdsWithPrice
 {
+    NSString *purpose=@"";
+    if (self.browsingForSale)
+        purpose = @"sale";
+    else
+        purpose = @"rent";
     
     [self hideMenu];
-    
-    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:@"" minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:aAdsWithPrice area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:@"" withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
+    //)self.browsingForSale?(self.offeredSegmentBtnChosen?@"1848":@"1849"):(self.offeredSegmentBtnChosen?@"2593":@"2594"))
+    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:(self.browsingForSale?(self.offeredSegmentBtnChosen?@"1848":@"1849"):(self.offeredSegmentBtnChosen?@"2593":@"2594")) minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:aAdsWithPrice area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:@"" purpose:purpose withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
     
 
 }

@@ -1006,12 +1006,50 @@
     
     if (self.browsingForSale) {
         // post for sale
-        [[AdsManager sharedInstance] postAdForSaleOfCategory:self.currentSubCategoryID InCity:(chosenCity.cityID ? chosenCity.cityID : 12) userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:AdTitle.text description:propertyDetails.text adPeriod:(chosenPeriod.valueID ? chosenPeriod.valueID : 2308) requireService:RequiredService price:propertyPrice.text currencyValueID:(chosenCurrency.valueID ? chosenCurrency.valueID : 2312) unitPrice:unitPrice.text unitType:([unitPrice.text length] > 0 ? chosenUnit.valueID : 0) imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.currentSubCategoryID == 338 ? @"" : chosenRoom.valueString) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] postAdForSaleOfCategory:self.currentSubCategoryID
+                                                      InCity:(chosenCity.cityID ? chosenCity.cityID : 12)
+                                                   userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail)
+                                                       title:AdTitle.text
+                                                 description:propertyDetails.text
+                                                    adPeriod:(chosenPeriod.valueID ? chosenPeriod.valueID : 2308)
+                                              requireService:(self.isOffered?937:938)
+                                                       price:propertyPrice.text
+                                             currencyValueID:(chosenCurrency.valueID ? chosenCurrency.valueID : 2312)
+                                                   unitPrice:unitPrice.text
+                                                    unitType:([unitPrice.text length] > 0 ? chosenUnit.valueID : 0)
+                                                    imageIDs:currentImgsUploaded
+                                                   longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude]
+                                                    latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude]
+                                                  roomNumber:(self.currentSubCategoryID == 338 ? @"" : chosenRoom.valueString)
+                                                       space:propertySpace.text
+                                                        area:propertyArea.text
+                                                      mobile:mobileNum.text
+                                                  phoneNumer:phoneNum.text
+                                                withDelegate:self];
         
     }else
     {
         //post for rent
-        [[AdsManager sharedInstance] postAdForRentOfCategory:self.currentSubCategoryID InCity:chosenCity.cityID userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:AdTitle.text description:propertyDetails.text adPeriod:chosenPeriod.valueID requireService:RequiredService price:propertyPrice.text currencyValueID:chosenCurrency.valueID unitPrice:unitPrice.text unitType:([unitPrice.text length] > 0 ? chosenUnit.valueID : 0) imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.currentSubCategoryID == 338 || self.currentSubCategoryID == 648 ? @"" : chosenRoom.valueString) space:propertySpace.text area:propertyArea.text mobile:mobileNum.text phoneNumer:phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] postAdForRentOfCategory:self.currentSubCategoryID
+                                                      InCity:chosenCity.cityID
+                                                   userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail)
+                                                       title:AdTitle.text
+                                                 description:propertyDetails.text
+                                                    adPeriod:chosenPeriod.valueID
+                                              requireService:(self.isOffered?2306:2305)
+                                                       price:propertyPrice.text
+                                             currencyValueID:chosenCurrency.valueID
+                                                   unitPrice:unitPrice.text
+                                                    unitType:([unitPrice.text length] > 0 ? chosenUnit.valueID : 0)
+                                                    imageIDs:currentImgsUploaded
+                                                   longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude]
+                                                    latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude]
+                                                  roomNumber:(self.currentSubCategoryID == 338 || self.currentSubCategoryID == 648 ? @"" : chosenRoom.valueString)
+                                                       space:propertySpace.text
+                                                        area:propertyArea.text
+                                                      mobile:mobileNum.text
+                                                  phoneNumer:phoneNum.text
+                                                withDelegate:self];
     }
 }
 
@@ -1063,9 +1101,12 @@
             SignInViewController *vc;
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
                 vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController" bundle:nil];
+            
             else
                 vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
             vc.returnPage = YES;
+            vc.userEmail=guestEmail;
+
             [self presentViewController:vc animated:YES completion:nil];
         }else {
             SignInViewController *vc;
@@ -1074,6 +1115,8 @@
             else
                 vc=[[SignInViewController alloc] initWithNibName:@"SignInViewController_iPad" bundle:nil];
             vc.returnPage = YES;
+            vc.userEmail=guestEmail;
+
             [self presentViewController:vc animated:YES completion:nil];
         }
     }else if (alertView.tag == 6)

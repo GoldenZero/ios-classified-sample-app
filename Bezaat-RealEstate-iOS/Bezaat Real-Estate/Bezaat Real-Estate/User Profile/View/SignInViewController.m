@@ -43,6 +43,9 @@
            action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
     
+    if (self.userEmail!=nil) {
+        self.userNameText.text=self.userEmail;
+    }
     //GA
     [[GAI sharedInstance].defaultTracker  sendView:@"Login screen"];
     // end GA

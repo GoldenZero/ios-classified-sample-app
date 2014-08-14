@@ -114,7 +114,7 @@
 - (void) setPageSizeToDefault;
 
 //load
-- (void) loadAdsOfPage:(NSUInteger) pageNum forSubCategory:(NSInteger) subCatID InCity:(NSUInteger) cityID andPurpose:(NSString*)purpose WithDelegate:(id <BrowseAdsDelegate>) del;
+- (void) loadAdsOfPage:(NSUInteger) pageNum forSubCategory:(NSInteger) subCatID InCity:(NSUInteger) cityID andPurpose:(NSString*)purpose WithServiceType:(NSString*)serviceType WithDelegate:(id <BrowseAdsDelegate>) del;
 
 - (void) loadUserAdsOfStatus:(NSString*) status forPage:(NSUInteger) pageNum andSize:(NSInteger) pageSize WithDelegate:(id <BrowseAdsDelegate>) del;
 

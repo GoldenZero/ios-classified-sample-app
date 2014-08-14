@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditCarAdViewController_iPad">
@@ -32,7 +32,6 @@
                 <outlet property="phoneNum" destination="647" id="0fn-Wo-z6N"/>
                 <outlet property="propertyArea" destination="Nd0-Yk-jLe" id="O33-8a-IAe"/>
                 <outlet property="propertySpace" destination="5sL-gB-7er" id="hRp-0u-pID"/>
-                <outlet property="roomNum" destination="jBo-g6-mfi" id="dPY-ni-Wpi"/>
                 <outlet property="unitPrice" destination="F1b-Hd-dJL" id="j5q-5C-FXt"/>
                 <outlet property="units" destination="IM4-ML-wRe" id="uCD-5t-HMF"/>
                 <outlet property="view" destination="1" id="25"/>
@@ -158,20 +157,8 @@
                                                 <action selector="choosePeriod:" destination="-1" eventType="touchUpInside" id="EDZ-N1-CkM"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jBo-g6-mfi">
-                                            <rect key="frame" x="16" y="78" width="393" height="38"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <inset key="titleEdgeInsets" minX="200" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            <state key="normal" title="عدد الغرف" backgroundImage="iPad_add_field_down_Arrow.png">
-                                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="chooseRoomsNum:" destination="-1" eventType="touchUpInside" id="j1i-MZ-Y1h"/>
-                                            </connections>
-                                        </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IM4-ML-wRe">
-                                            <rect key="frame" x="16" y="136" width="105" height="38"/>
+                                            <rect key="frame" x="16" y="78" width="105" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" backgroundImage="iPad_add_field_smallArrow.png">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -181,7 +168,7 @@
                                             </connections>
                                         </button>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="   سعر الوحدة" textAlignment="right" minimumFontSize="17" background="iPad_browse_emptyField.png" id="F1b-Hd-dJL">
-                                            <rect key="frame" x="129" y="136" width="280" height="38"/>
+                                            <rect key="frame" x="129" y="78" width="280" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -190,7 +177,7 @@
                                             </connections>
                                         </textField>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="   المساحة" textAlignment="right" minimumFontSize="17" background="iPad_add_field.png" id="5sL-gB-7er">
-                                            <rect key="frame" x="16" y="194" width="393" height="38"/>
+                                            <rect key="frame" x="16" y="137" width="393" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <textInputTraits key="textInputTraits" keyboardType="phonePad"/>

@@ -84,6 +84,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *iPad_requireBtn3;
 
 @property (nonatomic) BOOL browsingForSale;
+@property (nonatomic) BOOL isOffered;
 
 
 #pragma mark - actions

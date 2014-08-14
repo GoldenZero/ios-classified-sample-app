@@ -1373,7 +1373,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     else
         purpose = @"rent";
     
-    [[AdsManager sharedInstance] loadAdsOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] andPurpose:purpose WithDelegate:self];
+    [[AdsManager sharedInstance] loadAdsOfPage:page forSubCategory:self.currentSubCategoryID InCity:[[SharedUser sharedInstance] getUserCityID] andPurpose:purpose WithServiceType:(self.browsingForSale?(self.offeredSegmentBtnChosen?@"1848":@"1849"):(self.offeredSegmentBtnChosen?@"2593":@"2594"))  WithDelegate:self];
     
     
 }
@@ -1745,7 +1745,14 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     
     [self iPad_hideSideMenu];
     
-    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:@"" minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:searchWithPrice area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:@"" withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
+    NSString *purpose=@"";
+    if (self.browsingForSale)
+        purpose = @"sale";
+    else
+        purpose = @"rent";
+    
+
+    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:(self.browsingForSale?(self.offeredSegmentBtnChosen?@"1848":@"1849"):(self.offeredSegmentBtnChosen?@"2593":@"2594")) minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:searchWithPrice area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:(aRoomCount) ? aRoomCount : @"" purpose:purpose withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
     
     
 }

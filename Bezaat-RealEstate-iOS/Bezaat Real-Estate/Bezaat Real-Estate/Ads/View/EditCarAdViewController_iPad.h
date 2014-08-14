@@ -36,7 +36,7 @@
 @property (strong, nonatomic) IBOutlet  UITextField *propertySpace;
 @property (strong, nonatomic) IBOutlet  UITextField *carPrice;
 @property (strong, nonatomic) IBOutlet  UITextView *carDetails;
-@property (strong, nonatomic) IBOutlet  UIButton *roomNum;
+//@property (strong, nonatomic) IBOutlet  UIButton *roomNum;
 @property (strong, nonatomic) IBOutlet  UIButton *currency;
 @property (strong, nonatomic) IBOutlet  UISegmentedControl *kiloMile;
 @property (strong, nonatomic) IBOutlet  UIButton *countryCity;

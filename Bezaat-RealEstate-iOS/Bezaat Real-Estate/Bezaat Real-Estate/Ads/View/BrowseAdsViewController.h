@@ -13,7 +13,7 @@
 
 
 @property (nonatomic) BOOL browsingForSale;
-
+@property (nonatomic) BOOL offeredSegmentBtnChosen;
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UIView * contentView;
 

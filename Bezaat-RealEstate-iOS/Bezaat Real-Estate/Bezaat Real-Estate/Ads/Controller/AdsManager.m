@@ -189,7 +189,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
 }
 
 //load
-- (void) loadAdsOfPage:(NSUInteger) pageNum forSubCategory:(NSInteger) subCatID InCity:(NSUInteger) cityID andPurpose:(NSString*)purpose WithDelegate:(id <BrowseAdsDelegate>) del
+- (void) loadAdsOfPage:(NSUInteger) pageNum forSubCategory:(NSInteger) subCatID InCity:(NSUInteger) cityID andPurpose:(NSString*)purpose WithServiceType:(NSString*)serviceType WithDelegate:(id <BrowseAdsDelegate>) del
 {
     
     //1- set the delegate
@@ -213,7 +213,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                 cityID,
                                 @"",
                                 [NSString stringWithFormat:@"%@", (subCatID == -1 ? @"" : [NSString stringWithFormat:@"%i", subCatID])],
-                                @"",
+                                serviceType,
                                 @"",
                                 @"",
                                 @"",

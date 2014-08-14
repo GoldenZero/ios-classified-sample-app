@@ -33,6 +33,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *passwordText;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (strong, nonatomic) UITextField* twitterEmail;
+@property (strong, nonatomic) NSString * userEmail;
 
 @property (nonatomic) BOOL returnPage;
 

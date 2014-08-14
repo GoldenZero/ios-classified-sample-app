@@ -5763,6 +5763,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Syrisoft;
+				TargetAttributes = {
+					9E6F56B8179D4F8F006AF6F0 = {
+						DevelopmentTeam = SP4DDPB4S7;
+					};
+				};
 			};
 			buildConfigurationList = 9E6F56B4179D4F8F006AF6F0 /* Build configuration list for PBXProject "Bezaat Real-Estate" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -7445,7 +7450,8 @@
 		9E6F56DD179D4F8F006AF6F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: TARIQ ALASIRI (862C89FZ7B)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -7480,7 +7486,8 @@
 		9E6F56DE179D4F8F006AF6F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: TARIQ ALASIRI (862C89FZ7B)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",

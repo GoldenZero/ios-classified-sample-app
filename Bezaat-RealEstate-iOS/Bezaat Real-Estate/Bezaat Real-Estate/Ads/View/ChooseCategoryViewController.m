@@ -154,6 +154,7 @@
             browseAdsVC_iPad = [[BrowseAdsViewController_iPad alloc] initWithNibName:@"BrowseAdsViewController_iPad" bundle:nil];
             browseAdsVC_iPad.currentSubCategoryID = cat.categoryID;
             browseAdsVC_iPad.browsingForSale = self.browsingForSale;
+            browseAdsVC_iPad.offeredSegmentBtnChosen=offeredSegmentBtnChosen;
             browseAdsVC_iPad.modalPresentationStyle = UIModalPresentationCurrentContext;
             [self presentViewController:browseAdsVC_iPad animated:YES completion:nil];
         }else
@@ -161,6 +162,7 @@
         browseAdsVC = [[BrowseAdsViewController alloc] initWithNibName:@"BrowseAdsViewController" bundle:nil];
         browseAdsVC.currentSubCategoryID = cat.categoryID;
         browseAdsVC.browsingForSale = self.browsingForSale;
+        browseAdsVC.offeredSegmentBtnChosen=offeredSegmentBtnChosen;
             if (offeredSegmentBtnChosen)
                 browseAdsVC.currentTitle = [NSString stringWithFormat:@"معروض/%@",cat.categoryName];
             else

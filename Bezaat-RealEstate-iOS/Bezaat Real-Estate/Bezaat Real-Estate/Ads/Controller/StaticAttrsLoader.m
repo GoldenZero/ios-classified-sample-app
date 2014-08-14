@@ -246,6 +246,7 @@
                                  ];
             [result addObject:val];
         }
+        
         NSArray * temp = [self sortValuesArray:result];
         currencyValues = temp;
     }
@@ -506,6 +507,16 @@
         NSInteger second = [(SingleValue *)b displayOrder];
         return (first >= second);
     }];
+    
+    NSMutableArray *result=[[NSMutableArray alloc] initWithArray:sortedArray];
+    SingleValue * val = [[SingleValue alloc]
+                         initWithValueIDString:@""
+                         valueString:@""
+                         displayOrderString:@""
+                         ];
+    [result addObject:val];
+    
+    sortedArray=[[NSArray alloc] initWithArray:result];
     
     return sortedArray;
 }

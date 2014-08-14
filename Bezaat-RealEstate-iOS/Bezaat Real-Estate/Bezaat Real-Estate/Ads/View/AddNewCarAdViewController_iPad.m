@@ -325,6 +325,7 @@
             defaultcurrecncyIndex++;
         }
         chosenCurrency=[currencyArray objectAtIndex:defaultcurrecncyIndex];
+        
     }
    
 }
@@ -1046,12 +1047,50 @@
     
     if (self.browsingForSale) {
         // post for sale
-        [[AdsManager sharedInstance] postAdForSaleOfCategory:self.currentSubCategoryID InCity:chosenCity.cityID userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:carAdTitle.text description:carDetails.text adPeriod:(chosenPeriod.valueID ? chosenPeriod.valueID : 1001982) requireService:RequiredService price:carPrice.text currencyValueID:(chosenCurrency.valueID ? chosenCurrency.valueID : 2312) unitPrice:_unitPrice.text unitType:([_unitPrice.text length] > 0 ? chosenUnit.valueID : 0) imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.currentSubCategoryID == 338 ? @"" : chosenRoom.valueString) space:_propertySpace.text area:_propertyArea.text mobile:mobileNum.text phoneNumer:_phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] postAdForSaleOfCategory:self.currentSubCategoryID
+                                                      InCity:chosenCity.cityID
+                                                   userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail)
+                                                       title:carAdTitle.text
+                                                 description:carDetails.text
+                                                    adPeriod:(chosenPeriod.valueID ? chosenPeriod.valueID : 1001982)
+                                              requireService:(self.isOffered?937:938)
+                                                       price:carPrice.text
+                                             currencyValueID:(chosenCurrency.valueID ? chosenCurrency.valueID : 2312)
+                                                   unitPrice:_unitPrice.text
+                                                    unitType:([_unitPrice.text length] > 0 ? chosenUnit.valueID : 0)
+                                                    imageIDs:currentImgsUploaded
+                                                   longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude]
+                                                    latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude]
+                                                  roomNumber:(self.currentSubCategoryID == 338 ? @"" : chosenRoom.valueString)
+                                                       space:_propertySpace.text
+                                                        area:_propertyArea.text
+                                                      mobile:mobileNum.text
+                                                  phoneNumer:_phoneNum.text
+                                                withDelegate:self];
         
     }else
     {
         //post for rent
-        [[AdsManager sharedInstance] postAdForRentOfCategory:self.currentSubCategoryID InCity:chosenCity.cityID userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail) title:carAdTitle.text description:carDetails.text adPeriod:(chosenPeriod.valueID ? chosenPeriod.valueID : 1001990) requireService:RequiredService price:carPrice.text currencyValueID:(chosenCurrency.valueID ? chosenCurrency.valueID : 2312) unitPrice:_unitPrice.text unitType:([_unitPrice.text length] > 0 ? chosenUnit.valueID : 0) imageIDs:currentImgsUploaded longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude] latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude] roomNumber:(self.currentSubCategoryID == 338 || self.currentSubCategoryID == 648 ? @"" : chosenRoom.valueString) space:_propertySpace.text area:_propertyArea.text mobile:mobileNum.text phoneNumer:_phoneNum.text withDelegate:self];
+        [[AdsManager sharedInstance] postAdForRentOfCategory:self.currentSubCategoryID
+                                                      InCity:chosenCity.cityID
+                                                   userEmail:(savedProfile ? savedProfile.emailAddress : guestEmail)
+                                                       title:carAdTitle.text
+                                                 description:carDetails.text
+                                                    adPeriod:(chosenPeriod.valueID ? chosenPeriod.valueID : 1001990)
+                                              requireService:(self.isOffered?2306:2305)
+                                                       price:carPrice.text
+                                             currencyValueID:(chosenCurrency.valueID ? chosenCurrency.valueID : 2312)
+                                                   unitPrice:_unitPrice.text
+                                                    unitType:([_unitPrice.text length] > 0 ? chosenUnit.valueID : 0)
+                                                    imageIDs:currentImgsUploaded
+                                                   longitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.longitude]
+                                                    latitude:[NSString stringWithFormat:@"%f",PropertyLocation.coordinate.latitude]
+                                                  roomNumber:(self.currentSubCategoryID == 338 || self.currentSubCategoryID == 648 ? @"" : chosenRoom.valueString)
+                                                       space:_propertySpace.text
+                                                        area:_propertyArea.text
+                                                      mobile:mobileNum.text
+                                                  phoneNumer:_phoneNum.text
+                                                withDelegate:self];
     }
 
 

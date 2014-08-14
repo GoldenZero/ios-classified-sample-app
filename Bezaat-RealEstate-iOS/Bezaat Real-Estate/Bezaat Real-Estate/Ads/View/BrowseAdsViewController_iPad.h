@@ -24,6 +24,8 @@
 
 @property (nonatomic) NSInteger currentSubCategoryID;
 @property (nonatomic) BOOL browsingForSale;
+@property (nonatomic) BOOL offeredSegmentBtnChosen;
+
 @property (nonatomic, strong) NSString* currentTitle;
 
 #pragma mark - properties
