@@ -1260,12 +1260,15 @@
 
 - (IBAction)chooseCategoryBtnPressed:(id)sender {
     
+    /*
     ChooseCategoryViewController * chooseCategoryVc = [[ChooseCategoryViewController alloc] initWithNibName:@"ChooseCategoryViewController" bundle:nil];
     
     chooseCategoryVc.browsingForSale = self.browsingForSale;
     chooseCategoryVc.tagOfCallXib = 1;
     chooseCategoryVc.modalPresentationStyle = UIModalPresentationCurrentContext;
     [self presentViewController:chooseCategoryVc animated:YES completion:nil];
+     */
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)performSearchBtnPressed:(id)sender {
