@@ -12,6 +12,7 @@
 
 #define ADD_PERIOD_FILE_NAME        @"add_period.json"
 #define ADD_ROOMS_FILE_NAME        @"rooms.json"
+#define ADD_ROOMS_SALE_FILE_NAME   @"rooms_sale.json"
 #define BRAND_MODELS_FILE_NAME      @"brand_models_key.json" //The arrtibute key for chosen brand.
 #define CAT_ATTRS_FILE_NAME         @"category_attributes.json"
 #define CURRENCY_FILE_NAME          @"currency.json"
@@ -136,6 +137,7 @@
     NSFileManager * fileMngr;
     NSArray * addPeriodValues;
     NSArray * roomsValues;
+    NSArray * roomsForSaleValues;
     NSArray * currencyValues;
     NSArray * distanceValues;
     NSArray * modelYearValues;
@@ -158,6 +160,7 @@
         fileMngr = [NSFileManager defaultManager];
         addPeriodValues = nil;
         roomsValues = nil;
+        roomsForSaleValues= nil;
         currencyValues = nil;
         distanceValues = nil;
         modelYearValues = nil;
@@ -222,10 +225,35 @@
                                  ];
             [result addObject:val];
         }
-        NSArray * temp = [self sortValuesArray:result];
-        roomsValues = temp;
+        //NSArray * temp = [self sortValuesArray:result];
+        roomsValues = result;
     }
     return roomsValues;
+}
+
+- (NSArray *) loadRoomsValuesForSale
+{
+    
+    if (!roomsForSaleValues)
+    {
+        NSData * data = [NSData dataWithContentsOfFile:[self getJsonFilePathInDocumentsForFile:ADD_ROOMS_SALE_FILE_NAME]];
+        
+        NSArray * parsedArray = [[JSONParser sharedInstance] parseJSONData:data];
+        NSMutableArray * result = [NSMutableArray new];
+        for (NSDictionary * dict in parsedArray)
+        {
+            //create value object
+            SingleValue * val = [[SingleValue alloc]
+                                 initWithValueIDString:[dict objectForKey:ADD_PERIOD_CAT_ATTR_MASTER_VALUE_ID_JKEY]
+                                 valueString:[dict objectForKey:ADD_PERIOD_MASTER_VALUE_JKEY]
+                                 displayOrderString:[dict objectForKey:ADD_PERIOD_DISPLAY_ORDER_JKEY]
+                                 ];
+            [result addObject:val];
+        }
+        //NSArray * temp = [self sortValuesArray:result];
+        roomsForSaleValues = result;
+    }
+    return roomsForSaleValues;
 }
 
 - (NSArray *) loadCurrencyValues {
@@ -247,8 +275,8 @@
             [result addObject:val];
         }
         
-        NSArray * temp = [self sortValuesArray:result];
-        currencyValues = temp;
+        //NSArray * temp = [self sortValuesArray:result];
+        currencyValues = result;
     }
     return currencyValues;
 }

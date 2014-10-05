@@ -122,6 +122,7 @@
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UserProfile* myStore = [[SharedUser sharedInstance] getUserProfileData];
     if (self.tagOfCallXib==2) {
         if (myStore.hasStores) {
@@ -163,6 +164,7 @@
         browseAdsVC.currentSubCategoryID = cat.categoryID;
         browseAdsVC.browsingForSale = self.browsingForSale;
         browseAdsVC.offeredSegmentBtnChosen=offeredSegmentBtnChosen;
+            browseAdsVC.categoryHasRoom = cat.hasRooms;
             if (offeredSegmentBtnChosen)
                 browseAdsVC.currentTitle = [NSString stringWithFormat:@"معروض/%@",cat.categoryName];
             else

@@ -74,6 +74,9 @@
 //load PERIOD_file file
 - (NSArray *) loadRoomsValues;
 
+- (NSArray *) loadRoomsValuesForSale;
+
+
 //load SERVICE file (No need to load them in UI)
 - (NSArray *) loadServiceValues;
 

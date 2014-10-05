@@ -55,6 +55,10 @@
 		8438A2C61845CED900B1EFBC /* fourTab_screenNoAd.png in Resources */ = {isa = PBXBuildFile; fileRef = 8438A2C41845CED900B1EFBC /* fourTab_screenNoAd.png */; };
 		8438A2C71845CED900B1EFBC /* fourTab_screenNoAd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8438A2C51845CED900B1EFBC /* fourTab_screenNoAd@2x.png */; };
 		8438A2CC1845EF6200B1EFBC /* aboutApp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8438A2CB1845EF6200B1EFBC /* aboutApp@2x.png */; };
+		843EECB019ADA75C000D8BFE /* EnhancedKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 843EECAF19ADA75C000D8BFE /* EnhancedKeyboard.m */; };
+		843EECB219ADB72C000D8BFE /* rooms_sale.json in Resources */ = {isa = PBXBuildFile; fileRef = 843EECB119ADB72C000D8BFE /* rooms_sale.json */; };
+		843EECB919ADB962000D8BFE /* SBPickerSelector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 843EECB519ADB962000D8BFE /* SBPickerSelector.xib */; };
+		843EECBA19ADB962000D8BFE /* SBPickerSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 843EECB819ADB962000D8BFE /* SBPickerSelector.m */; };
 		8464BC32186310A2006CAB42 /* iPad_listing_fbShare.png in Resources */ = {isa = PBXBuildFile; fileRef = 8464BC2E186310A2006CAB42 /* iPad_listing_fbShare.png */; };
 		8464BC33186310A2006CAB42 /* iPad_listing_fbShare@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8464BC2F186310A2006CAB42 /* iPad_listing_fbShare@2x.png */; };
 		8464BC34186310A2006CAB42 /* iPad_listing_TwShare.png in Resources */ = {isa = PBXBuildFile; fileRef = 8464BC30186310A2006CAB42 /* iPad_listing_TwShare.png */; };
@@ -1676,6 +1680,12 @@
 		8438A2EB1846345A00B1EFBC /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransaction.h; sourceTree = "<group>"; };
 		8438A2EC1846345A00B1EFBC /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransactionItem.h; sourceTree = "<group>"; };
 		8438A2ED1846345A00B1EFBC /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
+		843EECAE19ADA75C000D8BFE /* EnhancedKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnhancedKeyboard.h; sourceTree = "<group>"; };
+		843EECAF19ADA75C000D8BFE /* EnhancedKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnhancedKeyboard.m; sourceTree = "<group>"; };
+		843EECB119ADB72C000D8BFE /* rooms_sale.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = rooms_sale.json; sourceTree = "<group>"; };
+		843EECB519ADB962000D8BFE /* SBPickerSelector.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SBPickerSelector.xib; sourceTree = "<group>"; };
+		843EECB719ADB962000D8BFE /* SBPickerSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBPickerSelector.h; sourceTree = "<group>"; };
+		843EECB819ADB962000D8BFE /* SBPickerSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBPickerSelector.m; sourceTree = "<group>"; };
 		8464BC2E186310A2006CAB42 /* iPad_listing_fbShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPad_listing_fbShare.png; sourceTree = "<group>"; };
 		8464BC2F186310A2006CAB42 /* iPad_listing_fbShare@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPad_listing_fbShare@2x.png"; sourceTree = "<group>"; };
 		8464BC30186310A2006CAB42 /* iPad_listing_TwShare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPad_listing_TwShare.png; sourceTree = "<group>"; };
@@ -3498,6 +3508,41 @@
 			path = GA;
 			sourceTree = "<group>";
 		};
+		843EECAD19ADA75C000D8BFE /* Enhanced Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				843EECAE19ADA75C000D8BFE /* EnhancedKeyboard.h */,
+				843EECAF19ADA75C000D8BFE /* EnhancedKeyboard.m */,
+			);
+			path = "Enhanced Keyboard";
+			sourceTree = "<group>";
+		};
+		843EECB319ADB962000D8BFE /* SBPickerSelector */ = {
+			isa = PBXGroup;
+			children = (
+				843EECB419ADB962000D8BFE /* Resources */,
+				843EECB619ADB962000D8BFE /* Source */,
+			);
+			path = SBPickerSelector;
+			sourceTree = "<group>";
+		};
+		843EECB419ADB962000D8BFE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				843EECB519ADB962000D8BFE /* SBPickerSelector.xib */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		843EECB619ADB962000D8BFE /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				843EECB719ADB962000D8BFE /* SBPickerSelector.h */,
+				843EECB819ADB962000D8BFE /* SBPickerSelector.m */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		8484E6AA182E589300D1B2A2 /* Stores */ = {
 			isa = PBXGroup;
 			children = (
@@ -4562,6 +4607,7 @@
 		84ACE9A1182B664400E8CC50 /* attributes json files */ = {
 			isa = PBXGroup;
 			children = (
+				843EECB119ADB72C000D8BFE /* rooms_sale.json */,
 				84A1A7FA183C932500C1954A /* rooms.json */,
 				84ACE9C0182B95A700E8CC50 /* units.json */,
 				84ACE9A2182B664400E8CC50 /* add_period.json */,
@@ -5374,6 +5420,8 @@
 		9EDCB7B6179E770700F270D8 /* Supporting classes */ = {
 			isa = PBXGroup;
 			children = (
+				843EECB319ADB962000D8BFE /* SBPickerSelector */,
+				843EECAD19ADA75C000D8BFE /* Enhanced Keyboard */,
 				8438A2D41846324F00B1EFBC /* AdMobile */,
 				9EDCB7B7179E770700F270D8 /* Custom Controls */,
 				9EDCB7D3179E770700F270D8 /* CustomError.h */,
@@ -6135,6 +6183,7 @@
 				84FB8AC1184B4E870009DC3C /* iPad_browseShare@2x.png in Resources */,
 				84C6CD1E18546FD1004AAD0C /* iPad_feature_bkgOn.png in Resources */,
 				84ACE8E7182B578000E8CC50 /* headerIconsHome@2x.png in Resources */,
+				843EECB919ADB962000D8BFE /* SBPickerSelector.xib in Resources */,
 				9E658F9F17A660370095A504 /* real_estate_financeimage@2x.png in Resources */,
 				84B6E7651847188400B5AF1D /* small_default-Cat-646.png in Resources */,
 				84ACE95F182B578100E8CC50 /* smallshopIocn@2x.png in Resources */,
@@ -7081,6 +7130,7 @@
 				84A935261840FA19005BCB69 /* iPad_sell_estate@2x.png in Resources */,
 				9E25596617BA36E2005CC915 /* select_rea_estate_list@2x.png in Resources */,
 				9E25596717BA36E2005CC915 /* select_rea_estate_offered_rent_btn1.png in Resources */,
+				843EECB219ADB72C000D8BFE /* rooms_sale.json in Resources */,
 				84ACE8A6182B578000E8CC50 /* ColorCircle_02.png in Resources */,
 				84A6DE4D184F5CE200782D6E /* default-Cat-594@2x.png in Resources */,
 				84C6CCE31854436E004AAD0C /* iPad_add_option3_on.png in Resources */,
@@ -7231,11 +7281,13 @@
 				9EDCB872179E8C8900F270D8 /* FacebookManager.m in Sources */,
 				9EDCB873179E8C8900F270D8 /* ProfileManager.m in Sources */,
 				84A95A971838977700BD68F8 /* carInGalleryCell.m in Sources */,
+				843EECBA19ADB962000D8BFE /* SBPickerSelector.m in Sources */,
 				9EDCB874179E8C8900F270D8 /* DeviceRegistration.m in Sources */,
 				84932CE71832106400F641F2 /* StoreAdsCell.m in Sources */,
 				9EDCB875179E8C8900F270D8 /* SharedUser.m in Sources */,
 				9EDCB876179E8C8900F270D8 /* UserProfile.m in Sources */,
 				84A1A807183CDA5600C1954A /* CarAdWithStoreCell_iPad.m in Sources */,
+				843EECB019ADA75C000D8BFE /* EnhancedKeyboard.m in Sources */,
 				8484E728182E808500D1B2A2 /* ErrorPageVC.m in Sources */,
 				849FCF03183B8AB700F8BAFF /* TableInPopUpTableViewController.m in Sources */,
 				84932CE218320FEE00F641F2 /* UserDetailsViewController.m in Sources */,

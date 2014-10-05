@@ -453,6 +453,12 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
         return ;
     }
     
+    if ([aCurrency isEqualToString:@"غير محدد"]) {
+        aCurrency = @"";
+    }
+    if ([aNumOfRoomsIDString isEqualToString:@"غير محدد"]) {
+        aNumOfRoomsIDString = @"";
+    }
     //3- set the url string
     NSString * fullURLString =
     [NSString stringWithFormat:ads_url,
@@ -469,12 +475,12 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
      aArea,
      aOrderby,
      aLastRefreshed,
-     aNumOfRoomsIDString,
+     (aNumOfRoomsIDString) ? aNumOfRoomsIDString : @"",
      aPurpose,
      aWithGeo,
      aLongitute,
      aLatitute,
-     aRadius,aCurrency
+     aRadius,(aCurrency) ? aCurrency : @""
      ];
     
     NSString * correctURLstring = [fullURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -1925,6 +1931,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                     categoryName:[catDict objectForKey:CAT_NAME]
                                     categoryNameEn:[catDict objectForKey:CAT_NAME_EN]
                                   ];
+                cat.hasRooms = [catDict[@"hasRoom"] boolValue];
                 [categoriesForSaleArray addObject:cat];
             }
         }
@@ -1944,6 +1951,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                                   categoryName:[catDict objectForKey:CAT_NAME]
                                   categoryNameEn:[catDict objectForKey:CAT_NAME_EN]
                                   ];
+                cat.hasRooms = [catDict[@"hasRoom"] boolValue];
                 [categoriesForRentArray addObject:cat];
             }
         }
@@ -2615,6 +2623,7 @@ static NSString * internetMngrTempFileName = @"mngrTmp";
                     cat.categoryID = [[adDict objectForKey:@"CategoryID"] integerValue];
                     cat.categoryNameEn = [adDict objectForKey:@"CategoryName"];
                     cat.ActiveAdsCount = [[adDict objectForKey:@"ActiveAdsCount"] integerValue];
+                    //cat.hasRooms = [[adDict objectForKey:@"hasRoom"] boolValue];
                     [adsArray addObject:cat];
                     
                 }

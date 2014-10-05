@@ -19,18 +19,21 @@
 
 @interface BrowseAdsViewController ()
 {
+    EnhancedKeyboard *enhancedKeyboard;
+
     bool searchBtnFlag;
     float lastContentOffset;
     UITapGestureRecognizer *tap;
     UITapGestureRecognizer *tapCloseSearch;
     
     MBProgressHUD2 * loadingHUD;
-    DropDownView *dropDownRoom;
-    DropDownView *dropDownCurrency;
+    SBPickerSelector *dropDownRoomPicker;
+    SBPickerSelector *dropDownCurrencyPicker;
     LocationManager * locationMngr;
 
     NSMutableArray * adsArray;
     NSMutableArray *roomsArray;
+    NSMutableArray* roomStrings;
     NSArray *currunciesArray;
     NSArray * countriesArray;
     Country* chosenCountry;
@@ -54,6 +57,7 @@
     BOOL searchWithImages;
     BOOL searchWithPrice;
     BOOL isSearching;
+    BOOL isScrolling;
     BOOL roomsBtnPressedOnce;
     bool dropDownRoomFlag;
     bool dropDoownCurrencyFlag;
@@ -78,6 +82,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    enhancedKeyboard = [[EnhancedKeyboard alloc] init];
+    enhancedKeyboard.delegate = self;
+    if (!self.categoryHasRoom)
+        self.roomsNumBtn.hidden = YES;
+    else
+        self.roomsNumBtn.hidden = NO;
     
     [[GAI sharedInstance].defaultTracker sendView:@"Browse Ads screen"];
     
@@ -139,13 +150,21 @@
 -(void)prepareDropDown
 {
     roomsArray=[[NSMutableArray alloc]init];
-    [roomsArray addObject:@"1"];
-    [roomsArray addObject:@"2"];
-    [roomsArray addObject:@"3"];
-    [roomsArray addObject:@"4"];
-    [roomsArray addObject:@"5"];
-    [roomsArray addObject:@"6"];
-    [roomsArray addObject:@"+6"];
+    roomStrings = [[NSMutableArray alloc]init];
+    [roomStrings addObject:@"غير محدد"];
+    //[roomStrings addObject:@"استديو"];
+    [roomStrings addObject:@"1"];
+    [roomStrings addObject:@"2"];
+    [roomStrings addObject:@"3"];
+    [roomStrings addObject:@"4"];
+    [roomStrings addObject:@"5"];
+    [roomStrings addObject:@"6"];
+    //[roomStrings addObject:@"+6"];
+    
+    if (self.browsingForSale)
+        roomsArray = [[NSMutableArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadRoomsValuesForSale]];
+    else
+        roomsArray = [[NSMutableArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadRoomsValues]];
     
     currunciesArray= [[NSArray alloc] initWithArray:[[StaticAttrsLoader sharedInstance] loadCurrencyValues]];
     NSMutableArray* temp = [NSMutableArray new];
@@ -153,38 +172,50 @@
         NSString* value = currDict.valueString;
         [temp addObject:value];
     }
-    dropDownRoom=[[DropDownView alloc] initWithArrayData:roomsArray imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:0 paddingLeft:0 paddingRight:0 refView:self.roomsNumBtn animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:1];
-	dropDownRoom.delegate = self;
     
-    dropDownCurrency=[[DropDownView alloc] initWithArrayData:temp imageData:nil checkMarkData:-1 cellHeight:30 heightTableView:100 paddingTop:0 paddingLeft:0 paddingRight:0 refView:self.currencyBtn animation:BLENDIN openAnimationDuration:0.2 closeAnimationDuration:0.2 _tag:2];
-	dropDownCurrency.delegate = self;
+    // Set picker view
+    dropDownRoomPicker = [SBPickerSelector picker];
+    dropDownRoomPicker.delegate = self;
+    dropDownRoomPicker.pickerType=SBPickerSelectorTypeText;
+    dropDownRoomPicker.pickerData = roomStrings;
+    dropDownRoomPicker.doneButtonTitle = @"تم";
+    dropDownRoomPicker.cancelButtonTitle = @"إلغاء";
     
-	[self.view addSubview:dropDownCurrency.view];
-	[self.view addSubview:dropDownRoom.view];
+    
+    dropDownCurrencyPicker = [SBPickerSelector picker];
+    dropDownCurrencyPicker.delegate = self;
+    dropDownCurrencyPicker.pickerData = temp;
+    dropDownCurrencyPicker.pickerType=SBPickerSelectorTypeText;
+    dropDownCurrencyPicker.doneButtonTitle = @"تم";
+    dropDownCurrencyPicker.cancelButtonTitle = @"إلغاء";
+
 }
 
--(void)dropDownCellSelected:(NSInteger)returnIndex :(NSInteger)_tag{
-    switch (_tag) {
-        case 1:
-        {
-            [self.roomsNumBtn setTitle:[NSString stringWithFormat:@"  %@  ",[roomsArray objectAtIndex:returnIndex]] forState:UIControlStateNormal];
-            currentroomsCountString = [roomsArray objectAtIndex:returnIndex];
-            [dropDownRoom closeAnimation];
-            dropDownRoomFlag = false;
-            break;
-        }
-        case 2:
-        {
-            
-            currentCurrenciesCountString = [(SingleValue*)[currunciesArray objectAtIndex:returnIndex] valueString];
-            [self.currencyBtn setTitle:currentCurrenciesCountString forState:UIControlStateNormal];
-            [dropDownCurrency closeAnimation];
-            dropDoownCurrencyFlag = false;
-            break;
-        }
-        default:
-            break;
+#pragma mark - SBPickerSelectorDelegate
+-(void) SBPickerSelector:(SBPickerSelector *)selector selectedValue:(NSString *)value index:(NSInteger)idx{
+    if (selector == dropDownCurrencyPicker) {
+        currentCurrenciesCountString = [(SingleValue*)[currunciesArray objectAtIndex:idx] valueString];
+        [self.currencyBtn setTitle:currentCurrenciesCountString forState:UIControlStateNormal];
+        [dropDownCurrencyPicker dismissPicker];
+        dropDoownCurrencyFlag = false;
     }
+    else if (selector == dropDownRoomPicker)
+    {
+        [self.roomsNumBtn setTitle:[NSString stringWithFormat:@"  %@  ",[roomStrings objectAtIndex:idx]] forState:UIControlStateNormal];
+        currentroomsCountString = [(SingleValue*)[roomsArray objectAtIndex:idx] valueString];
+        [dropDownRoomPicker dismissPicker];
+        dropDownRoomFlag = false;
+    }
+    
+}
+
+-(void) SBPickerSelector:(SBPickerSelector *)selector cancelPicker:(BOOL)cancel{
+    
+}
+
+-(void) SBPickerSelector:(SBPickerSelector *)selector intermediatelySelectedValue:(id)value atIndex:(NSInteger)idx{
+    
+    //[self SBPickerSelector:selector selectedValue:value index:idx];
     
 }
 
@@ -229,8 +260,10 @@
     
     //4- reload
     isRefreshing = YES;
-    if (isSearching)
+    if (isSearching){
+        isScrolling = NO;
         [self performSearchBtnPressed:nil];
+    }
     else
         [self loadPageOfAds];
 }
@@ -254,9 +287,9 @@
                     forPageSize: [[AdsManager sharedInstance] getCurrentPageSize]];
         }
     }*/
-    [dropDownCurrency closeAnimation];
+    [dropDownCurrencyPicker dismissPicker];
     dropDoownCurrencyFlag = false;
-    [dropDownRoom closeAnimation];
+    [dropDownRoomPicker dismissPicker];
     dropDownRoomFlag = false;
     [super viewWillDisappear:animated];
 }
@@ -654,6 +687,7 @@
             if (heightDiff > minDiff)//to prevent continue loading if the page has returned less than 10 objects
             {
                 if (isSearching) {
+                    isScrolling = YES;
                     [self performSearchBtnPressed:nil];
                 }
                 else {
@@ -703,6 +737,7 @@
         [[AdsManager sharedInstance] setCurrentPageNum:cachedPageNum];
         [[AdsManager sharedInstance] setCurrentPageSize:cachedPageSize];
         [adsArray addObjectsFromArray:cachedArray];
+        isScrolling = NO;
         [self performSearchBtnPressed:nil];
 
             [self.tableView reloadData];
@@ -1246,9 +1281,9 @@
 }
 
 - (IBAction)searchBtnPressed:(id)sender {
-    [dropDownRoom closeAnimation];
+    [dropDownRoomPicker dismissPicker];
     dropDownRoomFlag = false;
-    [dropDownCurrency closeAnimation];
+    [dropDownCurrencyPicker dismissPicker];
     dropDoownCurrencyFlag = false;
     //show the search side menu
     if(self.contentView.frame.origin.x == 0) //only show the menu if it is not already shown
@@ -1272,9 +1307,10 @@
 }
 
 - (IBAction)performSearchBtnPressed:(id)sender {
-    [dropDownRoom closeAnimation];
+    isSearching = YES;
+    [dropDownRoomPicker dismissPicker];
     dropDownRoomFlag = false;
-    [dropDownCurrency closeAnimation];
+    [dropDownCurrencyPicker dismissPicker];
     dropDoownCurrencyFlag = false;
     [self.searchTextField resignFirstResponder];
     [self.minPriceTextField resignFirstResponder];
@@ -1292,16 +1328,17 @@
     else
         currentMaxPriceString = [NSString stringWithFormat:@"%i", self.maxPriceTextField.text.integerValue];
     
-    if (!isSearching) {
-    //1- reset the pageNumber to 0 to start a new search
-    [[AdsManager sharedInstance] setCurrentPageNum:0];
-    [[AdsManager sharedInstance] setPageSizeToDefault];
-    }
     NSInteger page = [[AdsManager sharedInstance] nextPage];
+    if (isSearching && !isScrolling) {
+        //1- reset the pageNumber to 0 to start a new search
+        [[AdsManager sharedInstance] setCurrentPageNum:0];
+        [[AdsManager sharedInstance] setPageSizeToDefault];
+        page = 0;
+    }
     //2- load search data
     if (self.currentSubCategoryID != -1)
     {
-        if (!isSearching)
+        if (isSearching && !isScrolling)
             [adsArray removeAllObjects];
 
         isSearching = YES;
@@ -1311,7 +1348,7 @@
     }
     else
     {
-        if (!isSearching)
+        if (isSearching && !isScrolling)
             [adsArray removeAllObjects];
 
         isSearching = YES;
@@ -1320,9 +1357,9 @@
         [self searchOfPage:page forSubCategory:-1 InCity:[[SharedUser sharedInstance] getUserCityID] textTerm:(self.searchTextField.text.length > 0 ? self.searchTextField.text : @"")minPrice:currentMinPriceString maxPrice:currentMaxPriceString roomCountID:currentroomsCountString area:(self.areaTextField.text.length > 0 ? self.areaTextField.text : @"") orderby:@"" lastRefreshed:@"" currency:currentCurrenciesCountString adsWithPrice:searchWithPrice];
     }
     
-    currentroomsCountString = @"";
-    currentCurrenciesCountString = @"";
-    [self.roomsNumBtn setTitle:@"" forState:UIControlStateNormal];
+    //currentroomsCountString = @"";
+    //currentCurrenciesCountString = @"";
+    //[self.roomsNumBtn setTitle:@"" forState:UIControlStateNormal];
     
     
 }
@@ -1348,7 +1385,7 @@
     
     [self hideMenu];
     //)self.browsingForSale?(self.offeredSegmentBtnChosen?@"1848":@"1849"):(self.offeredSegmentBtnChosen?@"2593":@"2594"))
-    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:(self.browsingForSale?(self.offeredSegmentBtnChosen?@"1848":@"1849"):(self.offeredSegmentBtnChosen?@"2593":@"2594")) minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:true adsWithPrice:aAdsWithPrice area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:@"" purpose:purpose withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:aCurrency WithDelegate:self];
+    [[AdsManager sharedInstance] searchCarAdsOfPage:page forSubCategory:subCategoryID InCity:cityID textTerm:aTextTerm serviceType:(self.browsingForSale?(self.offeredSegmentBtnChosen?@"1848":@"1849"):(self.offeredSegmentBtnChosen?@"2594":@"2593")) minPrice:aMinPriceString maxPrice:aMaxPriceString adsWithImages:false adsWithPrice:aAdsWithPrice area:aArea orderby:orderByString lastRefreshed:lasRefreshedString numOfRoomsID:aRoomCount purpose:purpose withGeo:@"" longitute:@"" latitute:@"" radius:@"" currency:(aCurrency) ? aCurrency : @"" WithDelegate:self];
     
 
 }
@@ -1403,13 +1440,13 @@
 
     if (dropDownRoomFlag==false) {
         dropDownRoomFlag=true;
-        [dropDownRoom openAnimation];
-        [dropDownCurrency closeAnimation];
+        [dropDownRoomPicker showPickerOver:self];
+        [dropDownCurrencyPicker dismissPicker];
         dropDoownCurrencyFlag = false;
     }
     else{
         dropDownRoomFlag=false;
-        [dropDownRoom closeAnimation];
+        [dropDownRoomPicker dismissPicker];
     }
 }
 
@@ -1421,13 +1458,13 @@
     
     if (dropDoownCurrencyFlag==false) {
         dropDoownCurrencyFlag=true;
-        [dropDownCurrency openAnimation];
-        [dropDownRoom closeAnimation];
+        [dropDownCurrencyPicker showPickerOver:self];
+        [dropDownRoomPicker dismissPicker];
         dropDownRoomFlag = false;
     }
     else{
         dropDoownCurrencyFlag=false;
-        [dropDownCurrency closeAnimation];
+        [dropDownCurrencyPicker dismissPicker];
     }
 }
 
@@ -1630,4 +1667,53 @@
         [[ProfileManager sharedInstance] removeCarAd:carAdObject.adID fromFavoritesWithDelegate:self];
     }
 }
+
+
+#pragma mark - UITextFieldDelegate protocol
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    return YES;
+}
+// --------------------------------------------------------------------
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    
+}
+// --------------------------------------------------------------------
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+// --------------------------------------------------------------------
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [textField setInputAccessoryView:[enhancedKeyboard getToolbarWithDoneEnabled:YES]];
+}
+
+#pragma mark - KSEnhancedKeyboardDelegate Protocol
+
+- (void)doneDidTouchDown
+{
+    if ([self.searchTextField isEditing]) {
+        [self.searchTextField resignFirstResponder];
+    }
+    else if ([self.minPriceTextField isEditing]) {
+        [self.minPriceTextField resignFirstResponder];
+    }
+    else if ([self.maxPriceTextField isEditing]) {
+        [self.maxPriceTextField resignFirstResponder];
+    }
+    else if ([self.areaTextField isEditing]) {
+        [self.areaTextField resignFirstResponder];
+    }
+    else if ([self.roomsCountTextField isEditing]) {
+        [self.roomsCountTextField resignFirstResponder];
+    }
+    
+}
+
 @end

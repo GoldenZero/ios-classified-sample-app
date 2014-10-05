@@ -15,6 +15,7 @@
 @property (nonatomic) NSUInteger categoryID;
 @property (strong, nonatomic) NSString * categoryName;
 @property (strong, nonatomic) NSString * categoryNameEn;
+@property  BOOL hasRooms;
 @property (nonatomic) NSUInteger ActiveAdsCount;
 
 #pragma mark - methods

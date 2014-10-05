@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "DropDownView.h"
+#import "EnhancedKeyboard.h"
+#import "SBPickerSelector.h"
 
-@interface BrowseAdsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BrowseAdsDelegate,FavoritesDelegate,DropDownViewDelegate,UITextFieldDelegate,TableInPopUpChoosingDelegate>
+@interface BrowseAdsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, BrowseAdsDelegate,FavoritesDelegate,DropDownViewDelegate,UITextFieldDelegate,TableInPopUpChoosingDelegate,EnhancedKeyboardDelegate,SBPickerSelectorDelegate>
 
 
 @property (nonatomic) BOOL browsingForSale;
 @property (nonatomic) BOOL offeredSegmentBtnChosen;
+@property (nonatomic) BOOL categoryHasRoom;
 #pragma mark - properties
 @property (weak, nonatomic) IBOutlet UIView * contentView;
 
