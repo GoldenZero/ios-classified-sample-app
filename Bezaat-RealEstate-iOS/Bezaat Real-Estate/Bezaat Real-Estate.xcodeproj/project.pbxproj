@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		112EFBB81ACD3DFE0035E220 /* CLLocationManager+blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 112EFBB71ACD3DFE0035E220 /* CLLocationManager+blocks.m */; };
 		8423E7B018E8030300B915BD /* Vector-Smart-Object.png in Resources */ = {isa = PBXBuildFile; fileRef = 8423E7AC18E8030300B915BD /* Vector-Smart-Object.png */; };
 		8423E7B118E8030300B915BD /* Vector-Smart-Object@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8423E7AD18E8030300B915BD /* Vector-Smart-Object@2x.png */; };
 		8423E7B218E8030300B915BD /* Vector-Smart-ObjectBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 8423E7AE18E8030300B915BD /* Vector-Smart-ObjectBtn.png */; };
@@ -1603,6 +1604,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		112EFBB61ACD3DFE0035E220 /* CLLocationManager+blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+blocks.h"; sourceTree = "<group>"; };
+		112EFBB71ACD3DFE0035E220 /* CLLocationManager+blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+blocks.m"; sourceTree = "<group>"; };
 		8423E7AC18E8030300B915BD /* Vector-Smart-Object.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Vector-Smart-Object.png"; sourceTree = "<group>"; };
 		8423E7AD18E8030300B915BD /* Vector-Smart-Object@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Vector-Smart-Object@2x.png"; sourceTree = "<group>"; };
 		8423E7AE18E8030300B915BD /* Vector-Smart-ObjectBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Vector-Smart-ObjectBtn.png"; sourceTree = "<group>"; };
@@ -5137,6 +5140,8 @@
 		9E6F56E1179D504F006AF6F0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				112EFBB61ACD3DFE0035E220 /* CLLocationManager+blocks.h */,
+				112EFBB71ACD3DFE0035E220 /* CLLocationManager+blocks.m */,
 				9E70BECA17AA72FA002605C7 /* ChooseLocationViewController.h */,
 				9E70BECB17AA72FA002605C7 /* ChooseLocationViewController.m */,
 				9E70BECC17AA72FA002605C7 /* ChooseLocationViewController.xib */,
@@ -5811,11 +5816,6 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Syrisoft;
-				TargetAttributes = {
-					9E6F56B8179D4F8F006AF6F0 = {
-						DevelopmentTeam = SP4DDPB4S7;
-					};
-				};
 			};
 			buildConfigurationList = 9E6F56B4179D4F8F006AF6F0 /* Build configuration list for PBXProject "Bezaat Real-Estate" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -7396,6 +7396,7 @@
 				84B6E7D1184770D400B5AF1D /* CarAdDetailsViewController_iPad.m in Sources */,
 				84274D2317E05A3200AADFD1 /* ProfileDetailsViewController.m in Sources */,
 				84274D2817E05BAF00AADFD1 /* CountryListViewController.m in Sources */,
+				112EFBB81ACD3DFE0035E220 /* CLLocationManager+blocks.m in Sources */,
 				84A95A85183894E000BD68F8 /* ExhibitViewController.m in Sources */,
 				84AA215B1858366200B11C85 /* exhibitCell_iPad.m in Sources */,
 				849FCEFC183B7A4400F8BAFF /* AddNewCarAdViewController_iPad.m in Sources */,
@@ -7451,6 +7452,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -7484,6 +7486,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -7502,8 +7505,8 @@
 		9E6F56DD179D4F8F006AF6F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: TARIQ ALASIRI (862C89FZ7B)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: TARIQ ALASIRI (862C89FZ7B)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -7528,7 +7531,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D2B3714F-E4B9-4E0F-AE82-183081204253";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -7538,8 +7541,8 @@
 		9E6F56DE179D4F8F006AF6F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Danat FZ LLC (SP4DDPB4S7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Danat FZ LLC (SP4DDPB4S7)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -7564,7 +7567,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7B776CE4-DE6A-4B91-A2AF-4E321282D225";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
