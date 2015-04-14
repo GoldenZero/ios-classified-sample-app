@@ -11,6 +11,7 @@
 #import "GenericFonts.h"
 #import "Country.h"
 #import "SignInViewController.h"
+#import "CLLocationManager+blocks.h"
 
 @interface ChooseLocationVC : UIViewController<UITableViewDelegate,UITableViewDataSource,LocationManagerDelegate,CLLocationManagerDelegate>
 {
@@ -68,7 +69,8 @@
     NSString* eLongtude;
     
 }
-@property (weak, nonatomic) IBOutlet UITableView *countriesTable;
 
+@property (weak, nonatomic) IBOutlet UITableView *countriesTable;
+@property (nonatomic, strong) CLLocationManager *manager;
 
 @end

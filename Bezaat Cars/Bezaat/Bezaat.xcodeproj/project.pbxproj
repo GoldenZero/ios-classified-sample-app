@@ -201,6 +201,7 @@
 		069B5015178BDC8200DA4616 /* Untitled-1_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 069B4F59178BDC8200DA4616 /* Untitled-1_03.png */; };
 		06F9B4E9174C80AC00A49648 /* NewRelicAgent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F9B4E8174C80AC00A49648 /* NewRelicAgent.framework */; };
 		06F9B4EB174C80D900A49648 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F9B4EA174C80D900A49648 /* CoreTelephony.framework */; };
+		1124DCE21ADCE79200FF0E39 /* CLLocationManager+blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 1124DCE11ADCE79200FF0E39 /* CLLocationManager+blocks.m */; };
 		2417C99817048D450066E4F5 /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2417C99717048D450066E4F5 /* FriendCell.m */; };
 		2417C99A17048D5E0066E4F5 /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2417C99917048D5E0066E4F5 /* FriendCell.xib */; };
 		243084AD16F609750050CDFF /* FriendsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 243084AB16F609750050CDFF /* FriendsListViewController.m */; };
@@ -2423,6 +2424,8 @@
 		069B4F59178BDC8200DA4616 /* Untitled-1_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Untitled-1_03.png"; sourceTree = "<group>"; };
 		06F9B4E8174C80AC00A49648 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NewRelicAgent.framework; sourceTree = "<group>"; };
 		06F9B4EA174C80D900A49648 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		1124DCE01ADCE79200FF0E39 /* CLLocationManager+blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+blocks.h"; sourceTree = "<group>"; };
+		1124DCE11ADCE79200FF0E39 /* CLLocationManager+blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+blocks.m"; sourceTree = "<group>"; };
 		2417C99617048D450066E4F5 /* FriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendCell.h; sourceTree = "<group>"; };
 		2417C99717048D450066E4F5 /* FriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCell.m; sourceTree = "<group>"; };
 		2417C99917048D5E0066E4F5 /* FriendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendCell.xib; sourceTree = "<group>"; };
@@ -7124,8 +7127,6 @@
 		9E78A7AA16E34BA2000CA790 = {
 			isa = PBXGroup;
 			children = (
-				8438B88A17A5222800EA1146 /* libz.1.1.3.dylib */,
-				8438B88817A521FE00EA1146 /* AudioToolbox.framework */,
 				6149EF2E17357E6D0088FDBB /* Headers */,
 				9E78A7BC16E34BA2000CA790 /* Bezaat */,
 				9E9F082F16E4AFCF000E8471 /* Resources */,
@@ -7145,6 +7146,8 @@
 		9E78A7B516E34BA2000CA790 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8438B88A17A5222800EA1146 /* libz.1.1.3.dylib */,
+				8438B88817A521FE00EA1146 /* AudioToolbox.framework */,
 				8456B840180186830082BD40 /* FacebookSDK.framework */,
 				84274D1317E0362400AADFD1 /* TestFlightSDK2.0.0 */,
 				8438B88617A5218200EA1146 /* Parse.framework */,
@@ -7389,6 +7392,8 @@
 				9E2B622416FCA16500A0981F /* SplashViewController.m */,
 				9E2B621B16FC9EAC00A0981F /* SplashViewController.xib */,
 				9E2558B517B8C15F005CC915 /* SplashViewController_iPad.xib */,
+				1124DCE01ADCE79200FF0E39 /* CLLocationManager+blocks.h */,
+				1124DCE11ADCE79200FF0E39 /* CLLocationManager+blocks.m */,
 				9E78A7F516E35556000CA790 /* ChooseLocationViewController.h */,
 				9E78A7F616E35556000CA790 /* ChooseLocationViewController.m */,
 				9E78A7F716E35556000CA790 /* ChooseLocationViewController.xib */,
@@ -10352,6 +10357,7 @@
 				9EE86C4B172D473000C1A013 /* SSLabel.m in Sources */,
 				9EE86C4C172D473000C1A013 /* SSText.m in Sources */,
 				61713F95172D7CF500BB256D /* StoreAdvTableViewCell.m in Sources */,
+				1124DCE21ADCE79200FF0E39 /* CLLocationManager+blocks.m in Sources */,
 				84D84BC9173008E100ADDF8F /* AddNewStoreAdViewController.m in Sources */,
 				84D84BCB173008E100ADDF8F /* FeatureAdCell.m in Sources */,
 				84D84BCD173008E100ADDF8F /* FeatureStoreAdViewController.m in Sources */,

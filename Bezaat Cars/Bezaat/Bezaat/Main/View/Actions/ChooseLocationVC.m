@@ -48,32 +48,62 @@
         return;
     }
     
-    if ([CLLocationManager locationServicesEnabled])
+//    if ([CLLocationManager locationServicesEnabled])
+//    {
+//        if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
+//            ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized))
+//        {
+//            if (!_locationManager)
+//                _locationManager = [[CLLocationManager alloc] init];
+//            
+//            [self showLoadingIndicator];
+//            _locationManager.delegate = self;
+//            _locationManager.distanceFilter = 500;
+//            _locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+//            _locationManager.pausesLocationUpdatesAutomatically = YES;
+//            
+//            [_locationManager startUpdatingLocation];
+//        }
+//        else
+//        {
+//            [LocationManager sharedInstance].deviceLocationCountryCode = @"2";
+//            [locationMngr loadCountriesAndCitiesWithDelegate:self];
+//        }
+//    }
+//    else
+//    {
+//        [LocationManager sharedInstance].deviceLocationCountryCode = @"2";
+//        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+//    }
+    
+    if(!self.manager)
+        self.manager = [[CLLocationManager alloc] init];
+    
+    self.manager.delegate = self;
+    self.manager.distanceFilter = 500;
+    self.manager.desiredAccuracy = kCLLocationAccuracyKilometer;
+    self.manager.pausesLocationUpdatesAutomatically = YES;
+    [self showLoadingIndicator];
+    
+    
+    if ([CLLocationManager isLocationUpdatesAvailable])
     {
-        if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) ||
-            ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized))
-        {
-            if (!_locationManager)
-                _locationManager = [[CLLocationManager alloc] init];
-            
-            [self showLoadingIndicator];
-            _locationManager.delegate = self;
-            _locationManager.distanceFilter = 500;
-            _locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
-            _locationManager.pausesLocationUpdatesAutomatically = YES;
-            
-            [_locationManager startUpdatingLocation];
-        }
-        else
-        {
-            [LocationManager sharedInstance].deviceLocationCountryCode = @"2";
-            [locationMngr loadCountriesAndCitiesWithDelegate:self];
-        }
-    }
-    else
-    {
-        [LocationManager sharedInstance].deviceLocationCountryCode = @"2";
-        [locationMngr loadCountriesAndCitiesWithDelegate:self];
+        [self.manager startUpdatingLocationWithUpdateBlock:^(CLLocationManager *manager, CLLocation *location, NSError *error, BOOL *stopUpdating)
+         {
+             if(error != nil)
+             {
+                 [LocationManager sharedInstance].deviceLocationCountryCode = @"2";
+                 [locationMngr loadCountriesAndCitiesWithDelegate:self];
+             }
+             else
+             {
+                 *stopUpdating = YES;
+                 [self.manager stopUpdatingLocation];
+                 
+                 [LocationManager sharedInstance].deviceLocationCountryCode = @"2";
+                 [locationMngr loadCountriesAndCitiesWithDelegate:self];
+             }
+         }];
     }
 }
 

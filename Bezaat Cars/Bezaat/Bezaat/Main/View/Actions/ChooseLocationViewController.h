@@ -13,13 +13,15 @@
 
 #import <UIKit/UIKit.h>
 #import "SignInViewController.h"
+#import "CLLocationManager+blocks.h"
 
-@interface ChooseLocationViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate, CLLocationManagerDelegate, LocationManagerDelegate>
+@interface ChooseLocationViewController : UIViewController <UIPickerViewDataSource,UIPickerViewDelegate, CLLocationManagerDelegate, LocationManagerDelegate, CLLocationManagerDelegate>
 
 #pragma mark - properties
 
 @property (strong, nonatomic) IBOutlet UIButton *nextBtn;
 @property (strong, nonatomic) IBOutlet UIImageView *backgroungImageView;
+@property (nonatomic, strong) CLLocationManager *manager;
 
 #pragma mark - actions
 - (IBAction)nextBtnPressed:(id)sender;
